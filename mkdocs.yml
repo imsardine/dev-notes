@@ -1,0 +1,8 @@
+site_name: 在電梯裡遇見雙胞胎
+site_url: https://imsardine.github.io/dev-notes
+repo_url: https://github.com/imsardine/dev-notes
+repo_name: imsardine/dev-notes
+theme: material
+dev_addr: 0.0.0.0:8000
+nav:
+  - README.md
