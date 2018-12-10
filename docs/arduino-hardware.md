@@ -45,3 +45,4 @@
   - [Arduino UNO](arduino-uno.md)
   - [AVR Microcontroller](avr.md) - 多數 Arduino 板子都採用 ATmega 系列 microcontroller
   - [ESP8266 Arduino Core](arduino-esp8266.md)
+  - [ESP32 Arduino Core](arduino-esp32.md)

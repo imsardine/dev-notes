@@ -4,7 +4,7 @@
 
 ### 新手上路
 
-對照 [Wikipedia](https://en.wikipedia.org/wiki/HMAC) 上的範例，我們試著用 Python 算出相同的 HMAC。
+對照 [Wikipedia](https://en.wikipedia.org/wiki/HMAC) 上的範例，我們試著用 Python 算出相同的 [HMAC](hmac.md)。
 
 ```
 HMAC_MD5("key", "The quick brown fox jumps over the lazy dog") = 0x80070713463e7749b90c2dc24911e275
@@ -65,3 +65,13 @@ Python 跟 HMAC 相關的 modules 有 `hmac` 跟 `hashlib`。下面用 HMAC-MD5 
   - [hmac — Keyed\-Hashing for Message Authentication — Python 3\.7\.1 documentation](https://docs.python.org/3/library/hmac.html) #ril
   - [hashlib — Secure hashes and message digests — Python 3\.7\.1 documentation](https://docs.python.org/3/library/hashlib.html) #ril
 
+## 參考資料
+
+### 相關
+
+  - [HMAC](hmac)
+
+### 手冊
+
+  - [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
+  - [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)

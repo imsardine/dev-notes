@@ -212,7 +212,7 @@ deploy:
 
   - [Travis CI User Documentation](https://docs.travis-ci.com/)
 
-手冊：
+### 手冊
 
   - [Travis CI Changelog](https://changelog.travis-ci.com/)
   - [Languages - Travis CI](https://docs.travis-ci.com/user/languages/)

@@ -1,11 +1,15 @@
 # HMAC (Hash-based Message Authentication Code)
 
+## 基礎
+
+### 新手上路
+
 HMAC 可以用來驗證訊息是否可靠 (authentic)，包括：
 
   - Authentication - 出自可靠人士。
   - Integrity - 內容沒有遭到竄改。
 
-屬於對稱加密(symmetric-key algorithm) - 加解密都用同一把 key。原理很簡單，只要用相同的 key、相同的演算法，雙方根據同一個 message 計算出來的 HMAC 就應該要一樣。
+屬於對稱加密(symmetric-key algorithm) - 加解密都用同一把 key。原理很簡單，只要用相同的 key、相同的演算法，雙方根據同一個 message 計算出來的 HMAC (keyed) hash 就應該要一樣。
 
 假設 X 先生跟 A、B 等不同人約定好，以後交換 message (包括 data 跟 metadata) 時，必須同時附上 message 的 HMAC。也就是雙方約定好要保密的事項有：
 
@@ -15,7 +19,7 @@ HMAC 可以用來驗證訊息是否可靠 (authentic)，包括：
   - Data 跟多個 metadata 之間要怎麼串接？串接的順序為何？
   - 至於 data 本身要不要加密則視需求而定，如果需要加密，摘要值就必須是根據加密過後的版本。
 
-TIP: 通常不會把整個 data 丟進去計算 HMAC，而是取 data 的摘要值，例如 MD5 digest。
+TIP: 通常不會把整個 data 丟進去計算 HMAC hash，而是取 data 的摘要值，例如 MD5 digest。
 
 下面用一個簡單的例子做說明：
 
@@ -26,12 +30,10 @@ TIP: 通常不會把整個 data 丟進去計算 HMAC，而是取 data 的摘要�
 
  3. A 把時間跟 HMAC-SHA1 都寫在一張小紙條上，跟資料本身一起放到信封裡，並在信封外頭署名 A。
  4. 時間來到 2012-12-31 23:59:30，X 收到一份外頭署名 A 的信件。
- 5. X 從保險箱裡找出之前跟 A 約定好的 "secret-a"，按照相同的方式對資料本身、MD5 digest、紙條上寫的時間計算出 HMAC-SHA1，發現結果跟 A 在紙條上寫的 HMAC 相符。
+ 5. X 從保險箱裡找出之前跟 A 約定好的 "secret-a"，按照相同的方式對資料本身、MD5 digest、紙條上寫的時間計算出 HMAC-SHA1，發現結果跟 A 在紙條上寫的 HMAC hash 相符。
  6. 雖然時間已經超過 2 分鐘，但至少可以確認兩件事－訊息是 A 傳的，資料本身沒有被竄改過（MD5），而且紙條上面寫的時間點也沒問題。
 
 各語言對 HMAC 都有不同程度的支援。
-
-  - [Python](python-hmac.md)
 
 參考資料：
 
@@ -48,6 +50,10 @@ TIP: 通常不會把整個 data 丟進去計算 HMAC，而是取 data 的摘要�
 
   - [Free Online HMAC Generator / Checker Tool (MD5, SHA-256, SHA-512) - FreeFormatter.com](https://www.freeformatter.com/hmac-generator.html)
 
-手冊：
+### 相關
+
+  - [Python](python-hmac.md)
+
+### 手冊
 
   - [RFC 2104 - HMAC: Keyed-Hashing for Message Authentication](https://tools.ietf.org/html/rfc2104.html)
