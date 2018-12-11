@@ -1,8 +1,6 @@
 # HMAC (Hash-based Message Authentication Code)
 
-## 基礎
-
-### 新手上路
+## 新手上路
 
 HMAC 可以用來驗證訊息是否可靠 (authentic)，包括：
 
@@ -50,10 +48,10 @@ TIP: 通常不會把整個 data 丟進去計算 HMAC hash，而是取 data 的�
 
   - [Free Online HMAC Generator / Checker Tool (MD5, SHA-256, SHA-512) - FreeFormatter.com](https://www.freeformatter.com/hmac-generator.html)
 
-### 相關
+相關：
 
   - [Python](python-hmac.md)
 
-### 手冊
+手冊：
 
   - [RFC 2104 - HMAC: Keyed-Hashing for Message Authentication](https://tools.ietf.org/html/rfc2104.html)

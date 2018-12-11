@@ -3,9 +3,7 @@
   - [espressif/esptool: ESP8266 and ESP32 serial bootloader utility](https://github.com/espressif/esptool) #ril
       - A Python-based, open source, platform independent, utility to communicate with the ROM bootloader in Espressif ESP8266 & ESP32 chips.
 
-## 基礎
-
-### Bootloader Mode ??
+## Bootloader Mode ??
 
   - [ESP8266 Boot Mode Selection · espressif/esptool Wiki](https://github.com/espressif/esptool/wiki/ESP8266-Boot-Mode-Selection) 什麼是 pull high/low?? #ril
 
@@ -25,6 +23,6 @@
 
   - [espressif/esptool - GitHub](https://github.com/espressif/esptool) #ril
 
-### 相關
+相關：
 
   - [ESP8266](esp8266.md)

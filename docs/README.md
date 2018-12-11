@@ -15,6 +15,10 @@
   - [ESP8266](esp8266.md)
   - [esptool](esptool.md)
 
+## F
+
+  - [Fire (Python)](python-fire.md)
+
 ## H
 
   - [HMAC](hmac.md)
@@ -27,6 +31,7 @@
 
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
+  - [MIME Type](mime-type.md)
   - [Multimeter 三用電表](multimeter.md)
 
 ## N
@@ -36,6 +41,7 @@
 ## P
 
   - [Pipenv](pipenv.md)
+  - [python-magic](python-magic.md)
 
 ## T
 

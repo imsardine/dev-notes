@@ -1,8 +1,6 @@
-# Python HMAC
+# [Python](python.md) / HMAC
 
-## 基礎
-
-### 新手上路
+## 新手上路
 
 對照 [Wikipedia](https://en.wikipedia.org/wiki/HMAC) 上的範例，我們試著用 Python 算出相同的 [HMAC](hmac.md)。
 
@@ -67,11 +65,11 @@ Python 跟 HMAC 相關的 modules 有 `hmac` 跟 `hashlib`。下面用 HMAC-MD5 
 
 ## 參考資料
 
-### 相關
+相關：
 
   - [HMAC](hmac)
 
-### 手冊
+手冊：
 
   - [hmac — Keyed-Hashing for Message Authentication](https://docs.python.org/3/library/hmac.html)
   - [hashlib — Secure hashes and message digests](https://docs.python.org/3/library/hashlib.html)

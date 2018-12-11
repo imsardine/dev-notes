@@ -1,4 +1,4 @@
-# ESP8266 Arduino Core
+# [Ardunio](arduino.md) / ESP8266 Arduino Core
 
   - [Arduino on ESP8266 - esp8266/Arduino: ESP8266 core for Arduino](https://github.com/esp8266/Arduino#arduino-on-esp8266) 這專案相當活躍，有 303 個 contributor、5824 個 fork，星星數也高達 8404!! #ril
       - This project brings support for ESP8266 chip to the Arduino environment. It lets you write SKETCHES using familiar Arduino functions and libraries, and run them directly on ESP8266, no external microcontroller required. 在 ESP8266 上執行 Arduino 的程式。
@@ -43,7 +43,7 @@ error: espcomm_upload_mem failed
 
   - [ESP8266 Arduino Core - Read the Docs](https://arduino-esp8266.readthedocs.io/en/latest/)
 
-### 相關
+相關：
 
   - [Arduino Hardware](arduino-hardware.md)
   - [esptool](esptool.md)

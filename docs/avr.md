@@ -14,7 +14,7 @@
 
   - [AVR Freaks | Atmel Community](https://www.avrfreaks.net/)
 
-### 相關
+相關：
 
   - [Microcontroller 微處理器](microcontroller.md)
   - [Arduino Hardware](arduino-hardware.md) - Arduino 的版本幾乎都用 ATmega 系列做為 microcontroller

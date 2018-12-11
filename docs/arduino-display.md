@@ -1,8 +1,6 @@
-# Arduino Display
+# [Arduino](arduino.md) / Display
 
-## 基礎
-
-### 新手上路 ??
+## 新手上路 ??
 
   - [Arduino \- HelloWorld](https://www.arduino.cc/en/Tutorial/HelloWorld) #ril
   - [Arduino LCD Tutorial \| How To Connect an LCD to Arduino](https://howtomechatronics.com/tutorials/arduino/lcd-tutorial/) #ril

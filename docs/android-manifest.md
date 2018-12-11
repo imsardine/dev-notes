@@ -1,10 +1,8 @@
-# Android Manifest
+# [Android](android.md) / Manifest
 
   - [App Manifest Overview  \|  Android Developers](https://developer.android.com/guide/topics/manifest/manifest-intro) #ril
 
-## 基礎
-
-### versionCode, versionName ??
+## versionCode, versionName ??
 
   - [<manifest>  \|  Android Developers](https://developer.android.com/guide/topics/manifest/manifest-element) #ril
       - `android:versionCode="integer"` 與 `android:versionName="string"` 明顯不同。

@@ -2,7 +2,11 @@
 
   - [Arduino \- Introduction](https://www.arduino.cc/en/Guide/Introduction) #ril
 
-### Genuino ??
+## 新手上路 ??
+
+  - [Arduino \- FAQ](https://www.arduino.cc/en/Main/FAQ) #ril
+
+## Genuino ??
 
   - [Arduino \- Getting Started](https://www.arduino.cc/en/Guide/HomePage) 抬頭寫著 "Getting Started with Arduino and Genuino products"，什麼是 Genuino?
   - [Arduino Day and Genuino Day 2016 \- Message From Arduino Co\-Founders \- YouTube](https://www.youtube.com/watch?v=7KfC3aSuyiQ) 創辦人之一的 Massimo Banzi 將 Genuino 唸做 "gen-nu-ino"
@@ -11,13 +15,7 @@
   - [Arduino與Adafruit聯手製造產品，發表新品牌Genuino \- Make 國際中文版](http://www.makezine.com.tw/arduinoadafruitgenuino/) (2015-06-01) Arduino.cc 與昔日開發板製造商分裂之後，找美國曼哈頓的 Adafruit 合作製造開發板，並推出姊妹品牌 Genuino (將義大利文的 genuin (真品) 加上後綴詞 -uino 組合而成)，知名的 UNO 板也會有 Genuino UNO；不懂之後為何還會有 Arduino Zero? Arduino 這名字還能用嗎??
   - [1 認識Arduino](https://openhome.cc/Gossip/Books/mBlockArduino1-1and1-2.html) 之前原廠控制板正反面都會印 MADE IN ITALY，但 2015/05 時 arduino.cc 與 Adafruit (美國) 擴大合作，也就是說之後原廠控制板可能會出現 MADE IN USA；在美國以外地區銷售的的 Arduino，將採用 Genuino 這個姐妹品牌；為什麼不全改用 Genuino??
 
-## 基礎
-
-### 新手上路 ??
-
-  - [Arduino \- FAQ](https://www.arduino.cc/en/Main/FAQ) #ril
-
-### Arduino Create
+## Arduino Create
 
   - Arduino - Create https://www.arduino.cc/en/Main/Create #ril
   - Arduino Web Editor 的 code 是怎麼送到板子上的? => 透過 Arduino Web Editor Plugin，所以並非完全不用安裝。
@@ -49,16 +47,19 @@
   - [葉難: Arduino](http://yehnan.blogspot.com/search/label/Arduino)
   - [Cooper Maa: Arduino 教學系列](http://coopermaa2nd.blogspot.com/2011/05/arduino.html#)
 
-### 相關
+更多：
 
   - [Arduino Software (IDE)](arduino-software.md)
   - [Arduino Hardware](arduino-hardware.md)
   - [Arduino Programming](arduino-programming.md)
   - [Arduino Education](arduino-education.md)
+
+相關：
+
   - [Electronic Circuit 電路](circuit.md)
   - [Electronics 電子學](electronics.md)
 
-### 手冊
+手冊：
 
   - [Arduino Glossary](https://www.arduino.cc/glossary/en/)
 

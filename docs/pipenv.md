@@ -9,11 +9,7 @@
       - 而 application 會被佈署到特定的環境，所以 dependencies 及 subdependencies 的版本都要固定下來 (concrete)，而這正是 Pipenv 要解決的問題。
       - The decision of which version exactly to be installed and WHERE to obtain that dependency is not yours to make! 為什麼要強調 where? 莫非 `Pipfile`/`Pipfile.lock` 裡可以宣告位置??
 
-## 基礎
-
-### Hello, World! ??
-
-### 新手上路 ??
+## 新手上路 ??
 
   - [Kenneth Reitz \- Pipenv: The Future of Python Dependency Management \- PyCon 2018 \- YouTube](https://www.youtube.com/watch?v=GBQAKldqgZs) (2018-05-13) #ril
   - [Example Pipenv Workflow - Basic Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/basics/#example-pipenv-workflow) #ril
@@ -26,7 +22,7 @@
   - [Specifying Package Indexes - Advanced Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/#specifying-package-indexes) 可以指定每個 dependncy 的 source/index #ril
   - [Advanced Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/) #ril
 
-### pyenv ??
+## pyenv ??
 
   - 當 Pipenv 要求的 Python version 不存在時，若環境內有 pyenv，會問要不要自動安裝該版的 Python：
 
@@ -35,7 +31,7 @@
         Would you like us to install CPython 3.5.6 with pyenv? [Y/n]: Y
         Installing CPython 3.5.6 with pyenv (this may take a few minutes)…
 
-### 搭配 tox 使用 ??
+## 搭配 tox 使用 ??
 
   - [Tox Automation Project - Advanced Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/#tox-automation-project) #ril
   - [tox\-dev/tox\-pipenv: A pipenv plugin for Tox](https://github.com/tox-dev/tox-pipenv) #ril
@@ -53,7 +49,7 @@
 
   - [Pipenv Documentation - Read the Docs](https://pipenv.readthedocs.io/)
 
-### 手冊
+手冊：
 
   - [`pipenv` CLI Options](https://pipenv.readthedocs.io/en/latest/#pipenv-usage)
   - [Environment Variables](https://pipenv.readthedocs.io/en/latest/advanced/#configuration-with-environment-variables)

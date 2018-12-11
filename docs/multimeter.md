@@ -4,9 +4,7 @@
   - 英文 multimeter 翻做 "多功(能)電表" 或 "萬用電表"，而 Digital Multimeter (DMM) 則是 "數位電表"，相對於指針式的。
   - 以前叫做 "三用電表" 是哪三用?? => 電流、電壓、電阻?
 
-## 基礎
-
-### 新手上路 ??
+## 新手上路 ??
 
   - [三用電表怎麼用 How to use MultiMeter \- YouTube](https://www.youtube.com/watch?v=BpRD_r4hlhI) (2017-11-10) #ril
       - 下方的旋鈕可以切換不同的 "檔位"，提供不同的功能，常用的有 V (電壓)、A (電流)、Ω (電阻)，另外可能還可以量電容、電感、電晶體、頻率等。

@@ -1,4 +1,4 @@
-# Arduino Software (IDE)
+# [Arduino](arduino.md) Software (IDE)
 
   - 官方將 IDE 稱做 "Arduino Software" (相對於 hardware)，所以 IDE 有 Arduino IDE 與 Arduino Software 兩種說法。但 [Arduino Software](https://www.arduino.cc/en/Main/Software) 頁面又有 Access the Online IDE 與 Download the Arduino IDE 兩個選項，廣義地來說這些都是 Arduino Software (IDE)，若要區分的話可以說 Arduino Web Editor 與 Arduino Desktop IDE，前者是 Arduino Create 的一員。
 
@@ -6,9 +6,7 @@
 
   - [Arduino \- Getting Started](https://www.arduino.cc/en/Guide/HomePage) 明確指出 Arduino Software (IDE) 有兩種選項 If you have a reliable Internet connection, you should use the online IDE (Arduino Web Editor). It will allow you to save your sketches in the cloud, having them available from any device and backed up. If you would rather work offline, you should use the latest version of the desktop IDE. 推薦用 Arduino Web Editor (要裝 plugin)，體驗不輸 Desktop IDE
 
-## 基礎
-
-### Arduino Web Editor, Desktop IDE ??
+## Arduino Web Editor, Desktop IDE ??
 
 參考資料：
 
@@ -16,7 +14,7 @@
   - [Getting Started with Arduino Web Editor on Various Platforms \- Arduino Project Hub](https://create.arduino.cc/projecthub/Arduino_Genuino/getting-started-with-arduino-web-editor-on-various-platforms-4b3e4a) #ril
   - [Arduino Playground \- DevelopmentTools](http://playground.arduino.cc/Main/DevelopmentTools) 除了 Arduino IDE 還有許多選擇 #ril
 
-### Sketch, Shetchbook
+## Sketch, Shetchbook
 
   - Sketch 是 Arduino Software 提出的觀念，若直接用 AVR-C 撰寫，就有機會跳脫 `setup()` 與 `loop()` 的框架??
 
@@ -74,7 +72,7 @@
             return 0;
         }
 
-### Build Process ??
+## Build Process ??
 
   - 比對 `/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/*.h` 與 Sketch > Include Library 下的內容，才發現多數選項來自 `/Applications/Arduino.app//Contents/Java/hardware/arduino/avr/librariesls` 與 `/Applications/Arduino.app//Contents/Java/libraries`，但不一定跟 AVR 有關?
 
@@ -94,7 +92,7 @@
   - [Arduino \- Libraries](https://www.arduino.cc/en/Reference/Libraries) 好多 library 可以用!! #ril
   - [Writing a Library for Arduino - Arduino \- LibraryTutorial](https://www.arduino.cc/en/Hacking/LibraryTutorial) #ril
 
-### Serial Monitor ??
+## Serial Monitor ??
 
   - [Serial Monitor - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#serialmonitor) #ril
       - This displays SERIAL sent from the Arduino or Genuino board over USB or serial connector. To send data to the board, enter text and click on the "send" button or press enter. 既可以讀取 board 送出來的資料，也可以送資料進去。
@@ -122,7 +120,7 @@
   - [arduino/arduino-builder - GitHub](https://github.com/arduino/arduino-builder)
   - [Arduino Web Editor](https://create.arduino.cc/editor/)
 
-### 相關
+相關：
 
   - [Arduino Hardware](arduino-hardware.md) - 上傳的程式會由 bootloader 執行，而 bootloader 可以用 programmer 覆寫
   - [Arduino Programming](arduino-programming.md) - Arduino Software 是官方相對於 hardware 所提供的 toolset (主要是編譯、上傳)，除了 sketch 要求的 `setup()` 跟 `loop()`，只是多了 Arduino 相關的 API 可以調用而已

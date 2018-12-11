@@ -1,15 +1,13 @@
-# Arduino Hardware
+# [Arduino](arduino.md) / Hardware
 
   - [Hardware - Arduino \- Hacking](https://www.arduino.cc/en/Hacking/HomePage) #ril
 
-## 基礎
-
-### 新手上路 ??
+## 新手上路 ??
 
   - [Boards - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#boards) #ril
   - [葉難: Arduino與AVR微控制器相關詞彙](http://yehnan.blogspot.com/2013/01/arduinoterms.html) (2013-01-21) #ril
 
-### Core ??
+## Core ??
 
   - [Third-Party Hardware - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#thirdpartyhardware) #ril
       - Support for third-party hardware can be added to the `hardware` directory of your sketchbook directory. PLATFORMS installed there may include board definitions (which appear in the board menu), CORE LIBRARIES, bootloaders, and programmer definitions. 把 core 想成是在某個 hardware platform 上增加對 Arduino enviroment 的支援。
@@ -18,7 +16,7 @@
   - [Arduino \- Cores](https://www.arduino.cc/en/Guide/Cores) #ril
   - [Arduino IDE 1\.5 3rd party Hardware specification · arduino/Arduino Wiki](https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5-3rd-party-Hardware-specification) #ril
 
-### Bootloader ??
+## Bootloader ??
 
   - [Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment) #ril
       - Tools > Burn Bootloader - The items in this menu allow you to burn a bootloader onto the microcontroller on an Arduino board. 透過 Arduino 燒錄上面插著的 microcontroller。
@@ -29,7 +27,7 @@
       - Microcontrollers are usually programmed through a programmer unless you have a piece of FIRMWARE in your microcontroller that allows installing NEW FIRMWARE without the need of an external programmer. This is called a bootloader. 有點繞口? 先用 programmer 燒錄 firmware/bootloader，就可以透過它安裝其他 firmware 而不用透過 programmer
       - 燒錄 bootloader 需將 programmer (AVR-ISP 或 USBtinyISP 等) 接到 2 x 3 的 ICSP 腳位；Tool > Burn Bootloader 的過程約 15 秒。
 
-### Hardware Programmer ??
+## Hardware Programmer ??
 
   - [Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment)
       - If you are using an external programmer with your board, you can hold down the "shift" key on your computer when using this icon. The text will change to "Upload using Programmer" 指 toolbar 上的 upload icon，搭配 Shift 會變成 Upload Using Programmer。
@@ -40,7 +38,7 @@
 
 ## 參考資料
 
-### 相關
+相關：
 
   - [Arduino UNO](arduino-uno.md)
   - [AVR Microcontroller](avr.md) - 多數 Arduino 板子都採用 ATmega 系列 microcontroller

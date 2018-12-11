@@ -7,9 +7,7 @@
   - [Getting Started with ESP8266 Development on the Mac \| lost\+found](http://blog.dushin.net/2016/07/getting-started-with-esp8266-development-on-the-mac/) (2016-07) Hardware 提到 There are a lot of development boards out there that intend to be mostly PLUG AND PLAY, and I am interested in playing with some of them. See, for example, the NodeMCU or the WeMOS D1. 內建 USB to UART 比較容易上手
   - [NodeMCU \- Wikipedia](https://en.wikipedia.org/wiki/NodeMCU) #ril
 
-## 基礎
-
-### 新手上路 ??
+## 新手上路 ??
 
   - [Comparison of ESP8266 NodeMCU development boards • my2cents](https://frightanic.com/iot/comparison-of-esp8266-nodemcu-development-boards/) (2015-09-28) #ril
 
@@ -22,6 +20,6 @@
 
   - [NodeMCU Documentation](https://nodemcu.readthedocs.io/)
 
-### 相關
+相關：
 
   - [ESP8266](esp8266.md) - NodeMCU 採用的微處理器

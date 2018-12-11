@@ -15,9 +15,7 @@
   - [Profile \- Travis CI](https://travis-ci.org/account/repositories) 在 profile 頁看到 "We're only showing your public repositories. You can find your private projects on travis-ci.com." 原來 travis-ci.org 跟 travis-ci.com 是根據 public/private repo 區分的。
   - [Travis CI \- Wikipedia](https://en.wikipedia.org/wiki/Travis_CI) #ril
 
-## 基礎
-
-### Hello, World!
+## Hello, World!
 
 這裡用 GitHub project pages site 來示範。
 
@@ -38,7 +36,7 @@ deploy:
 
 就可在 https://<username>.github.io/hello-travis 看到內容。
 
-### 新手上路 ??
+## 新手上路 ??
 
   - [Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/)
       - Continuous Integration is the practice of merging in SMALL CODE CHANGES FREQUENTLY - rather than merging in a large change at the end of a development cycle. The goal is to build healthier software by developing and testing in SMALLER INCREMENTS.
@@ -53,7 +51,7 @@ deploy:
       - Trigger your first build - 接著推一個新的 commit 到 GitHub，就會觸發 CI build。
   - [Travis CI Tutorial \- Travis CI](https://docs.travis-ci.com/user/tutorial/) #ril
 
-### Phase, Job, Build, Stage ??
+## Phase, Job, Build, Stage ??
 
   - [Builds, Jobs, Stages and Phases - Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/#builds-jobs-stages-and-phases) 常見的用詞有 job、phase、build、stage；很明顯 build > job > phase，但 build 跟 stage 的關係是什麼??
       - job - an automated process that clones your repository into a virtual environment and then carries out a series of PHASES such as compiling your code, running tests, etc. A job fails if the RETURN CODE of the `script` PHASE is non zero. 一個 job 一連串的 phase 組成，依序執行；注意一個 phase 不一定由多個 commands 組成，`install` 跟 `script` 是一連串的 commands，但 `deploy` 通常就是設定 deployment provider，而非自訂 commands。
@@ -65,13 +63,13 @@ deploy:
   - [Build Stages \- Travis CI](https://docs.travis-ci.com/user/build-stages/) #ril
   - [Conditional Builds, Stages, and Jobs \- Travis CI](https://docs.travis-ci.com/user/conditional-builds-stages-jobs/) #ril
 
-### .travis.yml ??
+## .travis.yml ??
 
   - [Customizing the Build \- Travis CI](https://docs.travis-ci.com/user/customizing-the-build/) #ril
   - [Language\-specific Guides \- Travis CI](https://docs.travis-ci.com/user/language-specific/) #ril
   - [Community\-Supported Languages \- Travis CI](https://docs.travis-ci.com/user/languages/community-supported-languages/) #ril
 
-### Environment Variable ??
+## Environment Variable ??
 
   - [Environment Variables \- Travis CI](https://docs.travis-ci.com/user/environment-variables) #ril
       - 環境變數是自訂 build process 常見的方式，只是該宣告在哪裡，會依資料本身的性質不同 -- 敏感? or 每個 branch 不同?
@@ -79,7 +77,7 @@ deploy:
       - 如果含有敏感資訊，最好是由環境變數提供 (Repository Settings)，但如果每個 branch 有不同的值，就只能加進 `.travis.yml` 裡，但必須要加密過；沒有被解密的風險??
   - [Defining encrypted variables in .travis.yml - Environment Variables \- Travis CI](https://docs.travis-ci.com/user/environment-variables#defining-encrypted-variables-in-travisyml) #ril
 
-### Build Environment ??
+## Build Environment ??
 
   - [Infrastructure and environment notes - Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/#infrastructure-and-environment-notes) 提供了一些 infrastructure environment 供選擇，大致分為 container-based、sudo-enabled 及 OS X：
       - Container-based (預設) - a Linux Ubuntu environment running in a container，啟動比 sudo-enable 還快，但可用的 resource 較少，也沒有 `sudo`、`setuid` 或 `setgid` 可用 ??
@@ -87,18 +85,18 @@ deploy:
       - OS X - 提供不同版本的 OS X，適用於建構 OS X 的軟體；跟 iOS 無關??
   - [Build Environment Overview \- Travis CI](https://docs.travis-ci.com/user/reference/overview/) 其實也有 Windows #ril
 
-### Docker ??
+## Docker ??
 
   - [Infrastructure and environment notes - Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/#infrastructure-and-environment-notes) 預設是 container-based。
   - [Using Docker in Builds \- Travis CI](https://docs.travis-ci.com/user/docker/) #ril
 
-### Deployment ??
+## Deployment ??
 
   - [Deployment \- Travis CI](https://docs.travis-ci.com/user/deployment/) 內建支援許多不同 service 的 (deployment) provider #ril
   - [Script deployment \- Travis CI](https://docs.travis-ci.com/user/deployment/script/) 還是可以透過 script 自訂 #ril
   - [Uploading Artifacts on Travis CI \- Travis CI](https://docs.travis-ci.com/user/uploading-artifacts/) 單純上傳 build artifact 到 S3 #ril
 
-### GitHub Pages
+## GitHub Pages
 
 官方的範例完全沒提到 source 在哪? 是如何產生 website 的? 雖然 generator 各有不同，但整個 workflow 還是有些共通點，以 Hexo 產生 user/organization site 為例：
 
@@ -173,6 +171,7 @@ deploy:
           - `target-branch` 預設是 `gh-pages`，這只適用於 project page，若是 user/organization site 的話，則要改用 `master`。
           - 另外可以用 `keep-history` 來控制要不要保留 `target-branch` 的 history，而 `fqdn` 大概是決定要不要在 `local-dir` 多放一支 `CNAME` 的檔案??
       - `name` 跟 `email` 用來識別 commiter，預設分別是 `Deployment Bot` 與 `deploy@travis-ci.org`；若 `committer-from-gh` 設為 `true`，就會採用 personal access token 的 owner。
+
   - [What's the meaning of on: branch of GitHub Pages Deployment ? · Issue \#1091 · travis\-ci/docs\-travis\-ci\-com](https://github.com/travis-ci/docs-travis-ci-com/issues/1091)
       - danielo515: 範例提到 `deploy: on: branch: master` 的用法，但完全沒有解釋? 跟 target branch 無關 (因為下面有 `target-branch`)，但它跟 `branches: only:` 又是什麼關係?
       - plaindocs: (contributor) `on:` 指的是 "conditional deployment FROM the specific branch"，在官方的文件有說明 (雖然沒有連結)，之後會修文件。
@@ -181,15 +180,15 @@ deploy:
   - [Skipping deployment because this branch is not permitted · Issue \#8289 · travis\-ci/travis\-ci](https://github.com/travis-ci/travis-ci/issues/8289) #ril
   - [Deploying your Angular app to Github Pages using Travis\-CI](https://medium.com/angularmedellin/deploying-your-angular-app-to-github-pages-using-travis-ci-baca2e1c30e7) (2018-06-05) #ril
 
-### Notification ??
+## Notification ??
 
   - [Configuring Build Notifications \- Travis CI](https://docs.travis-ci.com/user/notifications/) #ril
 
-### iOS ??
+## iOS ??
 
   - [Travis CI for iOS · objc\.io](https://www.objc.io/issues/6-build-tools/travis-ci/) (2013-11) #ril
 
-### CLI ??
+## CLI ??
 
   - [travis\-ci/travis\.rb: Travis CI Client \(CLI and Ruby library\)](https://github.com/travis-ci/travis.rb#readme) #ril
 
@@ -212,7 +211,7 @@ deploy:
 
   - [Travis CI User Documentation](https://docs.travis-ci.com/)
 
-### 手冊
+手冊：
 
   - [Travis CI Changelog](https://changelog.travis-ci.com/)
   - [Languages - Travis CI](https://docs.travis-ci.com/user/languages/)

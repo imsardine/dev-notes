@@ -1,4 +1,4 @@
-# Android Vitals
+# [Android](android.md) / Vitals
 
   - [Android vitals  \|  Android Developers](https://developer.android.com/topic/performance/vitals/) #ril
       - Android vitals is an initiative by Google to improve the stability and performance of Android devices. When an OPTED-IN user runs your app, their Android device logs various metrics, including data about app stability, app startup time, battery usage, render time, and permission denials.
@@ -8,4 +8,4 @@
 
 ## 參考資料
 
-  - [Android vitals | Android Developers](https://developer.android.com/topic/performance/vitals/) #ril
+  - [Android vitals | Android Developers](https://developer.android.com/topic/performance/vitals/)
