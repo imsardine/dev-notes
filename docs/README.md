@@ -8,12 +8,14 @@
 
 ## D
 
+  - [Deterministic Build](reproducible-build.md)
   - [DFPLayer Mini](dfplayer.md)
 
 ## E
 
   - [ESP8266](esp8266.md)
   - [esptool](esptool.md)
+  - [.env](dotenv.md)
 
 ## F
 
@@ -41,10 +43,16 @@
 ## P
 
   - [Pipenv](pipenv.md)
+  - [pyenv](pyenv.md)
   - [python-magic](python-magic.md)
+
+## R
+
+  - [Reproducible Build](reproducible-build.md)
 
 ## T
 
+  - [tox](tox.md)
   - [Travis CI](travis-ci.md)
   - [Tutorial Video](tutorial-video.md)
 

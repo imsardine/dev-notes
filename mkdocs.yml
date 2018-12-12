@@ -4,5 +4,8 @@ repo_url: https://github.com/imsardine/dev-notes
 repo_name: imsardine/dev-notes
 theme: cinder
 dev_addr: 0.0.0.0:8000
+markdown_extensions:
+  - toc:
+      permalink: ' #'
 nav:
   - README.md
