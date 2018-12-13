@@ -6,7 +6,7 @@
   - [Arduino/core\_esp8266\_main\.cpp at 2\.4\.2 · esp8266/Arduino](https://github.com/esp8266/Arduino/blob/2.4.2/cores/esp8266/core_esp8266_main.cpp#L117) 看起來跟 AVR Core 一樣有 `setup()` 與 `loop()`。
   - [ESP8266 Arduino Core - NodeMCU \- Wikipedia](https://en.wikipedia.org/wiki/NodeMCU#ESP8266_Arduino_Core) #ril
 
-## 疑難排解
+## 疑難排解 {: #troubleshooting }
 
 ### espcomm_sync failed ??
 
@@ -23,7 +23,7 @@ error: espcomm_upload_mem failed
       - Example boards with USB to serial converter build in, that will make your initial project development easier. 圖片沒有標示型號，看起來像是 NodeMCU 與 WeMOS D1
       - If you are using a Generic ESP8266 module, separate USB to serial converter and connect them by yourself, please make sure you have the following three things right: 1. Module is provided with enough power, 2. GPIO0, GPIO15 and CH_PD are connected using pull up / pull down resistors, 3. Module is put into boot loader mode. 重點還是要進 boot loader mode!!
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
   - [esp8266/Arduino: ESP8266 core for Arduino](https://github.com/esp8266/Arduino#installing-with-boards-manager) #ril
       - Starting with 1.6.4, Arduino allows installation of third-party platform packages using Boards Manager.
@@ -35,7 +35,7 @@ error: espcomm_upload_mem failed
       - nerdralph: There really isn't any point to the burn bootloader function. When you hold GPIO0 low during reset, it enters the ROM bootloader which can't be replaced. The upload button uses esptool to upload the sketch code to 0x0001000 and the espressif sdk lib to 0x0004000. It would be nice if the burn bootloader function was used to flash the sdk libs, and then the upload would only have to flash the sketch, saving ~145KB on each upload. ??
   - [arduino ide \- Wiring when burning the bootloader of esp8266 \- Arduino Stack Exchange](https://arduino.stackexchange.com/questions/45717/) 不用刷 bootloader? #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [esp8266/Arduino - GitHub](https://github.com/esp8266/Arduino)
 

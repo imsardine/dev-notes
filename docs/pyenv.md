@@ -15,7 +15,7 @@
 
 ## Hello, World! ??
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Using version managers – Sagar Rakshe – Medium](https://medium.com/@sagarrakshe2/using-version-managers-e2c626b3bb50) (2017-09-10) #ril
   - [Managing Multiple Python Versions with pyenv](http://akbaribrahim.com/managing-multiple-python-versions-with-pyenv/) (2016-01-11) #ril
@@ -25,7 +25,7 @@
   - [Basic GitHub Checkout - pyenv/pyenv: Simple Python version management](https://github.com/pyenv/pyenv#basic-github-checkout) #ril
   - [How It Works - pyenv/pyenv: Simple Python version management](https://github.com/pyenv/pyenv#how-it-works) #ril
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
 ```
 $ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
@@ -46,7 +46,7 @@ eval "$(pyenv virtualenv-init -)"
       - macOS 上建議用 `brew install pyenv` 安裝，之後昇級用 `brew upgrade pyenv`；但還是要用動做 Add `pyenv init` to your shell to enable shims and autocompletion
       - 作者自己寫了個 [automatic installer](https://github.com/pyenv/pyenv-installer)，執行 `curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash`，會安裝到 `~/.pyenv`。
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [pyenv/pyenv - GitHub](https://github.com/pyenv/pyenv)
 

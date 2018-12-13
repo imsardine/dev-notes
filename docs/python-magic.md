@@ -4,7 +4,7 @@
       - A python wrapper for libmagic -- file type identification library
       - libmagic identifies file types by checking their HEADERs according to a predefined list of file types. This functionality is exposed to the command line by the Unix command `file`. 跟 Unix `file` 指令一樣用 `libmagic`。
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Usage - ahupp/python\-magic: A python wrapper for libmagic](https://github.com/ahupp/python-magic#usage)
       - 直接調用 `magic.from_file()`、`magic.from_buffer()` 即可，搭配 `mime=True` 可以傳回 MIME type：
@@ -31,13 +31,13 @@
             >>> m.from_file('index.html')
             'text/html; charset=utf-8'
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
   - [Installation - ahupp/python\-magic: A python wrapper for libmagic](https://github.com/ahupp/python-magic#installation)
       - 用 Pip 安裝 `python-magic` 套件
       - macOS 要另外用 Homebrew 安裝 `libmagic` 套件；不過 macOS 上也有 `file`，為什麼還要另外裝 `libmagic`?
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [ahupp/python-magic - GitHub](https://github.com/ahupp/python-magic)
   - [python-magic - PyPI](https://pypi.org/project/python-magic/)

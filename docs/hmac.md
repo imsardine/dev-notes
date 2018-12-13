@@ -1,6 +1,6 @@
 # HMAC (Hash-based Message Authentication Code)
 
-## 新手上路
+## 新手上路 {: #getting-started }
 
 HMAC 可以用來驗證訊息是否可靠 (authentic)，包括：
 
@@ -42,7 +42,7 @@ TIP: 通常不會把整個 data 丟進去計算 HMAC hash，而是取 data 的�
      - HMAC does NOT ENCRYPT THE MESSAGE. Instead, the message (encrypted or not) must be sent alongside the HMAC hash. Parties with the secret key will hash the message again themselves, and if it is AUTHENTIC, the received and computed has hes will match. HMAC 的重點是算出來的 hash 要一樣，至於 message 是否要多一層加密，則視情況而定。
   - [Verifying requests from Slack \| Slack](https://api.slack.com/docs/verifying-requests-from-slack) ... we're sending using a standard HMAC-SHA256 keyed hash. 這裡 "keyed hash" 的說法，更能強調 hash 的計算過程中混入了 secret key。
 
-## 參考資料
+## 參考資料 {: #reference }
 
 工具：
 

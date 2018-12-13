@@ -6,7 +6,7 @@
       - 下面 LOLIN D1 mini 大大的抬頭下面說 Wifi boards based ESP-8266EX, include D1 mini, D1 mini Pro, D1 mini Lite. ... 所以 LOLIN D1 mini 跟 WEMOS D1 mini 是什麼關係? [WEMOS wiki \[WEMOS Electronics\]](https://wiki.wemos.cc/start) 發現 LOLIN32 Boards 已經被標示為，有 D1 mini，但沒標示 WEMOS 或 LILON? 
   - [WEMOS wiki \[WEMOS Electronics\]](https://wiki.wemos.cc/doku.php) #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [WEMOS](https://www.wemos.cc/)
   - [WEMOS Electronics - GitHub](https://github.com/wemos)

@@ -2,7 +2,7 @@
 
   - [Hardware - Arduino \- Hacking](https://www.arduino.cc/en/Hacking/HomePage) #ril
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Boards - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#boards) #ril
   - [葉難: Arduino與AVR微控制器相關詞彙](http://yehnan.blogspot.com/2013/01/arduinoterms.html) (2013-01-21) #ril
@@ -36,7 +36,7 @@
   - [Arduino \- Programmer](https://www.arduino.cc/en/Hacking/Programmer) #ril
   - [Arduino \- ArduinoISP](https://www.arduino.cc/en/Tutorial/ArduinoISP) 把 Arduino 當做 ISP，搭配另一個 Arduino 做燒錄 #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
 相關：
 

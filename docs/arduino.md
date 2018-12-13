@@ -2,7 +2,7 @@
 
   - [Arduino \- Introduction](https://www.arduino.cc/en/Guide/Introduction) #ril
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Arduino \- FAQ](https://www.arduino.cc/en/Main/FAQ) #ril
 
@@ -22,15 +22,15 @@
       - 第一次登入 Arduino Create 時會提示要安裝 Arduino Web Editor Plugin；Mac 上要下載 `ArduinoCreateAgent-xxx-installer.dmg` 安裝才行，預設會裝到 `~/Applications/Arduino`，桌面就會多了一個 tray icon，在 Launchpad 裡是 ArduinoCreateAgent。
   - 若 Arduino Web Editor Plugin 安裝在 `~/Applications/Arduino`，同一台電腦的其他使用者怎麼辦??
 
-## 疑難排解
+## 疑難排解 {: #troubleshooting }
 
   - [Arduino \- Troubleshooting](https://www.arduino.cc/en/Guide/Troubleshooting) #ril
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
   - [Uploading - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#uploading) 在不同 OS 下對應到不同的 device，都不需要 driver?? #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [Arduino](https://www.arduino.cc/)
   - [Arduino Blog](https://blog.arduino.cc/)

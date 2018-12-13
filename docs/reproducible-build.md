@@ -11,6 +11,6 @@
         else:
             self.update_date = datetime.datetime.now().strftime("%Y-%m-%d")
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [reproducible-builds.org](https://reproducible-builds.org/)

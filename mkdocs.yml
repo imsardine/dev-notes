@@ -7,5 +7,6 @@ dev_addr: 0.0.0.0:8000
 markdown_extensions:
   - toc:
       permalink: ' #'
+  - attr_list
 nav:
   - README.md

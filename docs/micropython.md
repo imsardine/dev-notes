@@ -14,12 +14,12 @@
   - [MicroPython \| CircuitPython Hardware: SSD1306 OLED Display \| Adafruit Learning System](https://learn.adafruit.com/micropython-hardware-ssd1306-oled-display/micropython) #ril
       - In addition to CircuitPython there's an OLDER MicroPython version of the SSD1306 library that you can use with some MicroPython boards. 意思 MicroPython 與 CircuitPython 的 library 不相容? 而且 MicroPython 的版本不再更新??
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - 很多元件都只提供 C library，若是用 MicroPython，可能得自己用 ctypes 包裝過??
   - [Writing fast and efficient MicroPython \- YouTube](https://www.youtube.com/watch?time_continue=5&v=hHec4qL00x0) (2018-08-24) MicroPython 的開發者 Damien George 現身說法 #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [MicroPython](https://micropython.org/)
   - [micropython/micropython - GitHub](https://github.com/micropython/micropython)

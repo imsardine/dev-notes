@@ -12,7 +12,7 @@
   - [Using the GNU Compiler Collection \(GCC\): AVR Options](https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html) #ril
   - [GCC \- \- AVR Libc Reference Manual](https://www.microchip.com/webdoc/AVRLibcReferenceManual/overview_1overview_gcc.html) #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [AVR Libc](https://www.nongnu.org/avr-libc/)
 

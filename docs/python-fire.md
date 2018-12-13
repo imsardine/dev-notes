@@ -13,17 +13,17 @@
   - [Why is it called Fire? - google/python\-fire: Python Fire is a library for automatically generating command line interfaces \(CLIs\) from absolutely any Python object\.](https://github.com/google/python-fire#why-is-it-called-fire) When you call `Fire`, it FIRES OFF (executes) your command.
   - [Introducing Python Fire, a library for automatically generating command line interfaces \| Google Open Source Blog](https://opensource.googleblog.com/2017/03/python-fire-command-line.html) (2017-03-02) #ril
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Basic Usage - google/python\-fire: Python Fire is a library for automatically generating command line interfaces \(CLIs\) from absolutely any Python object\.](https://github.com/google/python-fire#basic-usage) #ril
   - [The Python Fire Guide \- Python Fire](https://google.github.io/python-fire/guide/) #ril
   - [Using a CLI \- Python Fire](https://google.github.io/python-fire/using-cli/) #ril
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
   - [Installation - google/python\-fire: Python Fire is a library for automatically generating command line interfaces \(CLIs\) from absolutely any Python object\.](https://github.com/google/python-fire#installation) 用 Pip 安裝 `fire` 套件即可。
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [Python Fire](https://google.github.io/python-fire/)
   - [google/python-fire - GitHub](https://github.com/google/python-fire)

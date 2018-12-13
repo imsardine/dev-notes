@@ -223,7 +223,7 @@ deps =
   - [python \- How can I combine coverage results with tox? \- Stack Overflow](https://stackoverflow.com/questions/50895525/)
       - Tim Martin: 假設有安裝 `pytest-coverage`，可以在 `[tool:pytest].addopts` 加上 `--cov-append` (其實就是為 `pytest` 加上 `--cov-append` 參數)，這會合併多次 test run 的結果，有助於把拆分 integration/unit tests。但後來提問的 Martin Thoma 說這並沒有解決問題 XD
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
   - 在 virtualenv 下用 `pip install tox` 安裝，就會有 `tox` 與 `tox-quickstart` 指令可用。
 
@@ -231,7 +231,7 @@ deps =
 
   - [tox installation — tox 3\.0\.0rc3\.dev10 documentation](https://tox.readthedocs.io/en/latest/install.html) "It is fine to install tox itself into a virtualenv environment" 不是 test environment，而是另外一個 virtual environment 裝 tox。
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [tox automation project](https://tox.readthedocs.io/)
   - [tox - PyPI](https://pypi.python.org/pypi/tox)

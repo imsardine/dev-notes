@@ -6,6 +6,6 @@
       - Exhibiting bad behavior in vitals will negatively affect the user experience in your app and is likely to result in BAD RATINGS and POOR DISCOVERABILITY on the Play Store. 會影響在 Play Store 的排名，不過這功能也要使用者 opt-in 不是?
   - [Monitor your app's technical performance with Android vitals \- Play Console Help](https://support.google.com/googleplay/android-developer/answer/7385505) #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [Android vitals | Android Developers](https://developer.android.com/topic/performance/vitals/)

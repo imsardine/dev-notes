@@ -36,7 +36,7 @@ deploy:
 
 就可在 https://<username>.github.io/hello-travis 看到內容。
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/)
       - Continuous Integration is the practice of merging in SMALL CODE CHANGES FREQUENTLY - rather than merging in a large change at the end of a development cycle. The goal is to build healthier software by developing and testing in SMALLER INCREMENTS.
@@ -192,11 +192,11 @@ deploy:
 
   - [travis\-ci/travis\.rb: Travis CI Client \(CLI and Ruby library\)](https://github.com/travis-ci/travis.rb#readme) #ril
 
-## 疑難排解
+## 疑難排解 {: #troubleshooting }
 
   - [Common Build Problems \- Travis CI](https://docs.travis-ci.com/user/common-build-problems/) #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [Travis CI](https://travis-ci.org/)
   - [Travis CI Blog](https://blog.travis-ci.com/)

@@ -1,6 +1,6 @@
 # [Arduino](arduino.md) / Programming
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Arduino \- Foundations](https://www.arduino.cc/en/Tutorial/Foundations) #ril
   - [Built-In Examples - Arduino \- BuiltInExamples](https://www.arduino.cc/en/Tutorial/BuiltInExamples) 所有內建在 Arduino Software 的範例，值得全部做過!! #ril
@@ -31,7 +31,7 @@
   - [Serial Monitor - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#serialmonitor) 提到 You can also talk to the board from Processing, Flash, MaxMSP, etc (see the interfacing page for details). 原來要從外面跟板子溝通有很多方式，都是走 serial ??
   - [Arduino Playground \- Interfacing](http://playground.arduino.cc/Main/Interfacing) 許多語言、平台，都可以跟 Arduino 溝通 #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
 相關：
 

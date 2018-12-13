@@ -6,7 +6,7 @@
       - Pipenv is primarily meant to provide USERS and DEVELOPERS of applications with an easy method to setup a working environment. 兼顧 user 與 developer，呼應 `pipenv install` 與 `pip --env install` 的用法。
   - [Installing Pipenv - Pipenv & Virtual Environments — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv) Pipenv is a DEPENDENCY MANAGER for Python projects. If you’re familiar with Node.js’ npm or Ruby’s bundler, it is similar in spirit to those tools. While pip can install Python packages, Pipenv is recommended as it’s a HIGHER-LEVEL TOOL that simplifies dependency management for common use cases. 說明了 pip 與 Pipenv 的關係 -- Pipenv 是 pip 的高階應用。
 
-## 新手上路 ??
+## 新手上路 ?? {: #getting-started }
 
   - [Kenneth Reitz \- Pipenv: The Future of Python Dependency Management \- PyCon 2018 \- YouTube](https://www.youtube.com/watch?v=GBQAKldqgZs) (2018-05-13) #ril
   - [Example Pipenv Workflow - Basic Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/basics/#example-pipenv-workflow) #ril
@@ -77,13 +77,13 @@
   - [Tox Automation Project - Advanced Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/#tox-automation-project) #ril
   - [tox\-dev/tox\-pipenv: A pipenv plugin for Tox](https://github.com/tox-dev/tox-pipenv) #ril
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
   - [Pipenv: Python Dev Workflow for Humans — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/#install-pipenv-today) 提到 `brew install pipenv` 與 `sudo dnf install pipenv`，就是沒提到 `pip install pipenv`?
   - [How to keep setup\.py install\_requires and Pipfile in sync · Issue \#1263 · pypa/pipenv](https://github.com/pypa/pipenv/issues/1263) uranusjr: Pipenv should only be installed once (usually globally), and is used outside the project’s virtualenv to manage it, not inside the project’s virtualenv.
   - [Installing Pipenv - Pipenv & Virtual Environments — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv) 提到 `brew install pipenv` 與 `pip install pipenv` 兩種方式 #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [pypa/pipenv - GitHub](https://github.com/pypa/pipenv)
   - [pipenv - PyPI](https://pypi.org/project/pipenv/)

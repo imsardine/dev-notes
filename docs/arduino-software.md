@@ -99,7 +99,7 @@
       - Choose the baud rate from the drop-down menu that matches the rate passed to `Serial.begin` in your sketch. 板子內外的 baud rate 要一致，聽起來其他程式也可以透過 serial 跟板子溝通。
       - The Serial Monitor does not process control characters; if your sketch needs a complete management of the serial communication with control characters, you can use an EXTERNAL TERMINAL PROGRAM and connect it to the COM port assigned to your Arduino board. 怎麼做??
 
-## 安裝設定
+## 安裝設定 {: #installation }
 
 ### Arduino Web Editor (Plugin)
 
@@ -114,7 +114,7 @@
 
   - [Arduino \- MacOSX](https://www.arduino.cc/en/Guide/MacOSX) 從 [Arduino \- Software](https://www.arduino.cc/en/Main/Software) 下載 `arduino-1.8.8-macosx.zip` (約 190 MB)，解開後將 `Arduino.app` 拖進 `/Applications` 即可。
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [arduino/Arduino - GitHub](https://github.com/arduino/Arduino/)
   - [arduino/arduino-builder - GitHub](https://github.com/arduino/arduino-builder)

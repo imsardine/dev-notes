@@ -31,7 +31,7 @@
   - [mimetypes — Map filenames to MIME types — Python 3\.7\.1 documentation](https://docs.python.org/3/library/mimetypes.html) #ril
   - [filetype · PyPI](https://pypi.org/project/filetype/) #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
 手冊：
 

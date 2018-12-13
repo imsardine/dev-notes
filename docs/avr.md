@@ -6,7 +6,7 @@
       - AVR microcontrollers find many applications as EMBEDDED SYSTEMS. They are especially common in hobbyist and educational embedded applications, popularized by their inclusion in many of the Arduino line of open hardware development boards. 這一點可以從 [Arduino Boards](https://www.arduino.cc/en/Guide/Environment#boards) 幾乎全部採用 ATmega* 得到印證。
   - [AVR32 \- Wikipedia](https://en.wikipedia.org/wiki/AVR32) #ril
 
-## 參考資料
+## 參考資料 {: #reference }
 
   - [AVR MCUs | Microchip Technology](https://www.microchip.com/design-centers/8-bit/avr-mcus)
 
