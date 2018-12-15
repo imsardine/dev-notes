@@ -1,7 +1,5 @@
 # pyenv
 
-## pyenv ??
-
   - [pyenv/pyenv: Simple Python version management](https://github.com/pyenv/pyenv)
       - Simple Python version management，可以在不同版本的 Python 間切換；源自 rbenv、ruby-build，像是 nvm (Node)、rvm (Ruby) 這類的工具。
       - 從 `pyenv global pypy-2.6.0` 與 `miniconda3-3.16.0 (set by /Volumes/treasuredata/.python-version)` 看來，pyenv 支援 CPython、PyPy、Conda 等，有 global Python version 的概念 (per-user basis)，也支援 per-project Python version。
@@ -12,8 +10,6 @@
       - Olivier Verdier: 原先講 virtualenv，後來修正為 pyenv；但就 scientific computing 而言，建議用 Anaconda。
       - hytdsh: 原先講 Pythonbrew，後來也轉向 pyenv。
       - Yuu Yamashita: 仿 rbenv 寫了 pyenv，也支援 Stackless、PyPy 及 Jython。
-
-## Hello, World! ??
 
 ## 新手上路 ?? {: #getting-started }
 

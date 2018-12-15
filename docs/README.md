@@ -1,5 +1,9 @@
 # 開發筆記
 
+## 7
+
+  - [74HC595](74hc595.md)
+
 ## A
 
   - [Arduino](arduino.md)
@@ -8,6 +12,11 @@
   - [Amazon ECS (Elastic Container Service)](aws-ecs.md)
   - [Amazon VPC (Virtual Private Cloud)](aws-vpc.md)
   - [AWS (Amazon Web Services)](aws.md)
+  - [AWS IoT](aws-iot.md)
+
+## B
+
+  - [Barcode Scanner](barcode-scanner.md)
 
 ## D
 
@@ -29,6 +38,10 @@
 
   - [HMAC](hmac.md)
 
+## I
+
+  - [IoT](iot.md)
+
 ## L
 
   - [LED 發光二極體](led.md)
@@ -45,9 +58,14 @@
 
   - [NodeMCU](nodemcu.md)
 
+## O
+
+  - [OV7670](ov7670.md)
+
 ## P
 
   - [Pipenv](pipenv.md)
+  - [PlatformIO](platformio.md)
   - [pyenv](pyenv.md)
   - [python-magic](python-magic.md)
 
@@ -57,10 +75,15 @@
 
 ## T
 
+  - [ThingSpeak](thingspeak.md)
   - [tox](tox.md)
   - [transfer.sh](transfer.sh.md)
   - [Travis CI](travis-ci.md)
   - [Tutorial Video](tutorial-video.md)
+
+## U
+
+  - [UART](uart.md)
 
 ## V
 
@@ -70,3 +93,6 @@
 
   - [WEMOS](wemos.md)
 
+## X
+
+  - [Xively](xively.md)

@@ -41,18 +41,19 @@
 
   - [Arduino Forum](http://forum.arduino.cc/)
   - [Arduino Project Hub](https://create.arduino.cc/projecthub)
+  - [Arduino 中文社区](https://www.arduino.cn/)
 
 學習資源：
 
   - [葉難: Arduino](http://yehnan.blogspot.com/search/label/Arduino)
-  - [Cooper Maa: Arduino 教學系列](http://coopermaa2nd.blogspot.com/2011/05/arduino.html#)
+  - [Cooper Maa: Arduino](http://coopermaa2nd.blogspot.com/search/label/Arduino)
 
 更多：
 
   - [Arduino Software (IDE)](arduino-software.md)
-  - [Arduino Hardware](arduino-hardware.md)
-  - [Arduino Programming](arduino-programming.md)
-  - [Arduino Education](arduino-education.md)
+  - [Hardware](arduino-hardware.md)
+  - [Programming](arduino-programming.md)
+  - [Education](arduino-education.md)
 
 相關：
 
@@ -61,5 +62,5 @@
 
 手冊：
 
-  - [Arduino Glossary](https://www.arduino.cc/glossary/en/)
+  - [Glossary](https://www.arduino.cc/glossary/en/)
 

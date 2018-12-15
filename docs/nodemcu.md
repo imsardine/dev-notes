@@ -9,6 +9,8 @@
       - The firmware was initially developed as is a companion project to the popular ESP8266-based NodeMCU development modules, but the project is now community-supported, and the firmware can now be run on any ESP module.
   - [Getting Started with ESP8266 Development on the Mac \| lost\+found](http://blog.dushin.net/2016/07/getting-started-with-esp8266-development-on-the-mac/) (2016-07) Hardware 提到 There are a lot of development boards out there that intend to be mostly PLUG AND PLAY, and I am interested in playing with some of them. See, for example, the NodeMCU or the WeMOS D1. 內建 USB to UART 比較容易上手
   - [NodeMCU \- Wikipedia](https://en.wikipedia.org/wiki/NodeMCU) It is based on the [eLua](http://www.eluaproject.net/) project #ril
+  - [Internet of Home Things » 4 reasons I abandoned NodeMCU/Lua for ESP8266](https://internetofhomethings.com/homethings/?p=424) #ril
+      - [小狐狸事務所: 拋棄 NodeMCU 的四個理由](http://yhhuang1966.blogspot.com/2017/06/nodemcu.html) (2017-06-05) 記憶體常不夠用、做為 HTTP 伺服器常無回應、常當機要 restart，但 2017 年的現在應該改進不少?
 
 ## 新手上路 ?? {: #getting-started }
 

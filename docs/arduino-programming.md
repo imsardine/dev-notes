@@ -33,11 +33,14 @@
 
 ## 參考資料 {: #reference }
 
+更多：
+
+  - [Audio](arduino-audio.md)
+  - [Display](arduino-display.md)
+
 相關：
 
   - [AVR Libc](avr-libc.md)
-  - [Audio](arduino-audio.md)
-  - [Display](arduino-display.md)
   - [Fritzing](fritzing.md) - 程式通常必須搭配特定的線路配置
 
 手冊：

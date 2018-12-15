@@ -4,11 +4,13 @@
       - Easy file sharing from the command line 簡單明瞭!
 
             # Upload using cURL
-            $ curl --upload-file ./hello.txt https://transfer.sh/hello.txt https://transfer.sh/66nb8/hello.txt
+            $ curl --upload-file ./hello.txt https://transfer.sh/hello.txt
+            https://transfer.sh/66nb8/hello.txt
 
             # Using the alias
             $ transfer hello.txt
-            ##################################################### 100.0% https://transfer.sh/eibhM/hello.txt
+            ##################################################### 100.0%
+            https://transfer.sh/eibhM/hello.txt
 
             # Upload from web 有機會整合到自己的 UI 嗎??
             Drag your files here, or click to browse.
