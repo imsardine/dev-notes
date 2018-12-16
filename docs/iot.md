@@ -1,4 +1,4 @@
-# IoT (Internet of Things)
+# IoT (Internet of Things) 物聯網
 
 ## 開發環境 {: #dev }
 

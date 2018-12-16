@@ -162,6 +162,7 @@
 
   - [Can I pass through a USB device to a container? - Frequently asked questions \(FAQ\) \| Docker Documentation](https://docs.docker.com/docker-for-mac/faqs/#can-i-pass-through-a-usb-device-to-a-container) Unfortunately it is not possible to pass through a USB device (or a serial port) to a container.
   - [Docker image \- MicroPython Forum](https://forum.micropython.org/viewtopic.php?f=16&t=1880) (2016-05-08) #ril
+  - [adafruit/esp8266\-micropython\-vagrant: Vagrant file to build a virtual machine that can compile the ESP8266 open SDK & MicroPython firmware\.](https://github.com/adafruit/esp8266-micropython-vagrant) #ril
   - [Code chronicle: Connect a Usb device through Vagrant](http://code-chronicle.blogspot.com/2014/08/connect-usb-device-through-vagrant.html) #ril
   - [Connect USB from Virtual Machine using Vagrant and Virtual Box \- Nguyen Sy Thanh Son](https://sonnguyen.ws/connect-usb-from-virtual-machine-using-vagrant-and-virtualbox/) #ril
   - [Getting a USB device to show up in a Docker container on OS X](https://gist.github.com/stonehippo/e33750f185806924f1254349ea1a4e68) #ril

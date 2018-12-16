@@ -9,14 +9,19 @@
   - [Arduino](arduino.md)
   - [AVR Microcontroller](avr.md)
   - [AVR Libc](avr-libc.md)
-  - [Amazon ECS (Elastic Container Service)](aws-ecs.md)
-  - [Amazon VPC (Virtual Private Cloud)](aws-vpc.md)
-  - [AWS (Amazon Web Services)](aws.md)
+  - [Amazon ECS](aws-ecs.md)
+  - [Amazon VPC](aws-vpc.md)
+  - [AWS](aws.md)
   - [AWS IoT](aws-iot.md)
 
 ## B
 
   - [Barcode Scanner](barcode-scanner.md)
+
+## C
+
+  - [Circuit 電路](circuit.md)
+  - [Circuit Diagram 電路圖](circuit-diagram.md)
 
 ## D
 
@@ -33,6 +38,7 @@
 ## F
 
   - [Fire (Python)](python-fire.md)
+  - [Fritzing](fritzing.md)
 
 ## H
 
@@ -40,7 +46,7 @@
 
 ## I
 
-  - [IoT](iot.md)
+  - [IoT 物聯網](iot.md)
 
 ## L
 
@@ -73,12 +79,17 @@
 
   - [Reproducible Build](reproducible-build.md)
 
+## S
+
+  - [SchemDraw](schemdraw.md)
+
 ## T
 
   - [ThingSpeak](thingspeak.md)
   - [tox](tox.md)
   - [transfer.sh](transfer.sh.md)
   - [Travis CI](travis-ci.md)
+  - [TUI](tui.md)
   - [Tutorial Video](tutorial-video.md)
 
 ## U
