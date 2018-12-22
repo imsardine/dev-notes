@@ -1,3 +1,6 @@
+---
+title: MicroPython / Networking
+---
 # [MicroPython](micropython.md) / Networking
 
 ## 新手上路 ?? {: #getting-started }

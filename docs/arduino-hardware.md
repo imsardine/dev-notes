@@ -1,3 +1,6 @@
+---
+title: Arduino / Hardware
+---
 # [Arduino](arduino.md) / Hardware
 
   - [Hardware - Arduino \- Hacking](https://www.arduino.cc/en/Hacking/HomePage) #ril

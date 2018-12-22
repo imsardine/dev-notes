@@ -1,3 +1,6 @@
+---
+title: Git / Commit History
+---
 # [Git](git.md) / Commit History
 
 ## 新手上路 {: #getting-started }

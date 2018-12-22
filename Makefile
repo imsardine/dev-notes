@@ -1,4 +1,5 @@
 MAKEFLAGS=--warn-undefined-variables
+PORT ?= 5000
 
 # Internal Variables
 docker_image = dev-notes.local
@@ -14,10 +15,11 @@ endef
 setup:
 	docker build -t $(docker_image) .
 
+shell: docker_opts += --publish $(PORT):8000
 shell:
 	$(call docker_run,)
 
-preview: docker_opts += --publish 8000:8000
+preview: docker_opts += --publish $(PORT):8000
 preview:
 	$(call docker_run,pipenv run mkdocs serve)
 

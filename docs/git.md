@@ -5,12 +5,6 @@
   - [Git \- About Version Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control) #ril
   - [A Visual Git Reference](https://marklodato.github.io/visual-git-guide/index-en.html#rebase) #ril
 
-## 工具 {: #tools }
-
-  - [jonas/tig: Text\-mode interface for git](https://github.com/jonas/tig) #ril
-  - [jesseduffield/lazygit: simple terminal UI for git commands](https://github.com/jesseduffield/lazygit) #ril
-  - [tj/git\-extras: GIT utilities \-\- repo summary, repl, changelog population, author commit percentages and more](https://github.com/tj/git-extras) #ril
-
 ## Diff ??
 
   - 搭配 `git config --global alias.vimdiff "difftool --tool=vimdiff --no-prompt"`，就可以視情況選用 `gif diff [--cached]` 或 `git vimdiff [--cached]`；後者會調用 Vim 的 diff mode，處理複雜的 diff 時很方便。
@@ -42,6 +36,12 @@
   - [Git \- git\-format\-patch Documentation](https://git-scm.com/docs/git-format-patch) Prepare patches for e-mail submission #ril
       - Prepare EACH COMMIT WITH ITS PATCH IN ONE FILE per commit, formatted to resemble UNIX mailbox format. The output of this command is convenient for e-mail submission or for use with `git am`.
   - [Git \- git\-am Documentation](https://git-scm.com/docs/git-am) Apply a series of patches from a mailbox #ril
+
+## 工具 {: #tools }
+
+  - [jonas/tig: Text\-mode interface for git](https://github.com/jonas/tig) #ril
+  - [jesseduffield/lazygit: simple terminal UI for git commands](https://github.com/jesseduffield/lazygit) #ril
+  - [tj/git\-extras: GIT utilities \-\- repo summary, repl, changelog population, author commit percentages and more](https://github.com/tj/git-extras) #ril
 
 ## 參考資料 {: #reference }
 

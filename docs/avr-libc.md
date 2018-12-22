@@ -1,3 +1,6 @@
+---
+title: AVR / Libc
+---
 # [AVR](avr.md) / Libc
 
   - [AVR Libc Home Page](https://www.nongnu.org/avr-libc/) AVR Libc is a Free Software project whose goal is to provide a high quality C library for use with GCC on Atmel AVR microcontrollers. 對照 [Library Reference](https://www.nongnu.org/avr-libc/user-manual/modules.html)，除了實現 Standard C Library 外，另外也提供不少 AVR 專有的 libraries。

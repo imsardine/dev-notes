@@ -1,3 +1,6 @@
+---
+title: Android / Vitals
+---
 # [Android](android.md) / Vitals
 
   - [Android vitals  \|  Android Developers](https://developer.android.com/topic/performance/vitals/) #ril

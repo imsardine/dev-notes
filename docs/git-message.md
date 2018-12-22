@@ -1,3 +1,6 @@
+---
+title: Git / Commit Message
+---
 # [Git](git.md) / Commit Message
 
 ## 工具 {: #tools }

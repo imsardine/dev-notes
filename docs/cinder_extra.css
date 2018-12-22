@@ -1,0 +1,8 @@
+@media (min-width: 992px) {
+  .bs-sidebar.affix {
+    overflow: auto;
+  }
+}
+.bs-sidenav {
+  font-size: inherit;
+}

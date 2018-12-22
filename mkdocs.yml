@@ -1,14 +1,14 @@
 site_name: 在電梯裡遇見雙胞胎
 site_url: https://imsardine.github.io/dev-notes
 repo_url: https://github.com/imsardine/dev-notes
+edit_uri: blob/master/docs/
 repo_name: imsardine/dev-notes
 theme: cinder
+extra_css: ['cinder_extra.css']
 dev_addr: 0.0.0.0:8000
 markdown_extensions:
   - toc:
       permalink: ' #'
-  - codehilite:
-      guess_lang: false
   - attr_list
 nav:
   - README.md

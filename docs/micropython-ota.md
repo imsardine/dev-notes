@@ -1,3 +1,6 @@
+---
+title: MicroPython / OTA (Over-the-Air) Update
+---
 # [MicroPython](micropython.md) / OTA (Over-the-Air) Update
 
 ## 新手上路 ?? {: #getting-started }

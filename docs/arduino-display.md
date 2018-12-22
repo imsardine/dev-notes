@@ -1,3 +1,6 @@
+---
+title: Arduino / Display
+---
 # [Arduino](arduino.md) / Display
 
 ## 新手上路 ?? {: #getting-started }

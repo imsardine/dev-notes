@@ -1,3 +1,6 @@
+---
+title: Circuit / Diagram 電路圖
+---
 # [Circuit](circuit.md) / Diagram 電路圖
 
   - [Circuit diagram \- Wikipedia](https://en.wikipedia.org/wiki/Circuit_diagram) #ril

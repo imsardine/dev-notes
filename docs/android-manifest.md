@@ -1,3 +1,6 @@
+---
+title: Android / Manifest
+---
 # [Android](android.md) / Manifest
 
   - [App Manifest Overview  \|  Android Developers](https://developer.android.com/guide/topics/manifest/manifest-intro) #ril

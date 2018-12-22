@@ -1,3 +1,6 @@
+---
+title: Arduino / ESP32 Arduino Core
+---
 # [Arduino](ardunio.md) / ESP32 Arduino Core
 
 ## 參考資料 {: #reference }

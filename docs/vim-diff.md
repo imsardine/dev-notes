@@ -1,3 +1,6 @@
+---
+title: Vim / Diff
+---
 # [Vim](vim.md) / Diff
 
 ## 新手上路 {: #getting-started }

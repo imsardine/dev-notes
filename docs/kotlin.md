@@ -18,7 +18,7 @@
   - [Comparison to Java \- Kotlin Programming Language](https://kotlinlang.org/docs/reference/comparison-to-java.html) #ril
       - What Java has that Kotlin does not 提到 checked exceptions!? 另外為什麼把 Ternary-operator a ? b : c 拿掉?
 
-## 新手上路 ?? {: getting-started }
+## 新手上路 ?? {: #getting-started }
 
   - [Is Kotlin hard? - FAQ \- Kotlin Programming Language](https://kotlinlang.org/docs/reference/faq.html#is-kotlin-hard) Kotlin 受到 Java、C#、Scala 及 Groovy 等語言的影響，雖然 idiomatic Kotlin 跟進階的用法要花一些時日，但整體而言它不是個複雜的語言。
   - [Tutorials \- Kotlin Programming Language](https://kotlinlang.org/docs/tutorials/index.html) #ril

@@ -1,3 +1,6 @@
+---
+title: Git / Rebasing
+---
 # [Git](git.md) / Rebasing
 
 ## 新手上路 ?? {: #getting-started }

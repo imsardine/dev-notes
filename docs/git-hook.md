@@ -1,3 +1,6 @@
+---
+title: Git / Hook
+---
 # [Git](git.md) / Hook
 
 ## 新手上路 ?? {: #getting-started }

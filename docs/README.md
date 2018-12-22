@@ -31,6 +31,7 @@
 
 ## E
 
+  - [Emoji](emoji.md)
   - [ESP8266](esp8266.md)
   - [ESPlorer](esplorer.md)
   - [esptool](esptool.md)
@@ -73,6 +74,7 @@
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
   - [MIME Type](mime-type.md)
+  - [MkDocs](mkdocs.md)
   - [Multimeter 三用電表](multimeter.md)
 
 ## N
@@ -85,10 +87,13 @@
 
 ## P
 
+  - [PDB (Python Debugger)](python-pdb.md)
   - [Pipenv](pipenv.md)
   - [PlatformIO](platformio.md)
   - [pyenv](pyenv.md)
+  - [Python](python.md)
   - [python-magic](python-magic.md)
+  - [Python-Markdown](python-markdown.md)
 
 ## R
 

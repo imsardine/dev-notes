@@ -1,4 +1,7 @@
-# [AWS](aws.md) / [IoT](iot.md)
+---
+title: AWS / IoT
+---
+# [AWS](aws.md) / IoT
 
   - [IoT Applications & Solutions \| What is the Internet of Things \(IoT\)? \| AWS](https://aws.amazon.com/iot/) #ril
 

@@ -1,4 +1,7 @@
-# [Arduino](arduino.md) Software (IDE)
+---
+title: Arduino / Software (IDE)
+---
+# [Arduino](arduino.md) / Software (IDE)
 
   - 官方將 IDE 稱做 "Arduino Software" (相對於 hardware)，所以 IDE 有 Arduino IDE 與 Arduino Software 兩種說法。但 [Arduino Software](https://www.arduino.cc/en/Main/Software) 頁面又有 Access the Online IDE 與 Download the Arduino IDE 兩個選項，廣義地來說這些都是 Arduino Software (IDE)，若要區分的話可以說 Arduino Web Editor 與 Arduino Desktop IDE，前者是 Arduino Create 的一員。
 

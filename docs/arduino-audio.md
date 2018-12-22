@@ -1,3 +1,6 @@
+---
+title: Arduino / Audio
+---
 # [Arduino](ardunio.md) / Audio
 
 ## 新手上路 ?? {: #getting-started }
