@@ -49,6 +49,11 @@
   - [第36回 「SINK、SOURCE是什麼呢？」](https://www.orientalmotor.com.tw/teruyo_det/teruyo_36/) #ril
   - [半工室 Arduino Python NodeMCU: 《進階※電子電路篇》寫程式Arduino教學 \- 03：MCU I/O Sink current & Source current 是什麼? Arduino 總電流最大?](http://wyj-learning.blogspot.com/2017/11/arduino-05mcu-io-sink-current-source.html) (2017-11-01) #ril
 
+## Common Ground 共同接地 ??
+
+  - [The Importance of Sharing Grounds \| Majenko's Hardware Hacking Blog](https://hackingmajenkoblog.wordpress.com/2016/12/06/the-importance-of-sharing-grounds/) (2016-12-06) 有多個電源供應時，就要注意有共同接地，因為電壓是相對的 #ril
+  - Arduino Project Book #9 Motorized Pinwheel 馬達由外部 9V 電池提供動力，跟 Arduino 自己的電源之間用一條導線，將兩邊的 GND 連接起來 #ril
+
 ## 參考資料 {: #reference }
 
 更多：

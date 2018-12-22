@@ -35,6 +35,10 @@
   - [\[錦囊一\] 從選料開始該注意啥 \(以ESP\-01S為例\) \- iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10201776) #ril
   - [\[錦囊二\] 燒錄的時候會遇到大魔王嗎? \[硬體篇\] \- iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天](https://ithelp.ithome.com.tw/articles/10202399) #ril
 
+## GPIO ??
+
+  - [MicroPython: GPIO Pins · lvidarte/esp8266 Wiki](https://github.com/lvidarte/esp8266/wiki/MicroPython:-GPIO-Pins) #ril
+
 ## Wi-Fi ??
 
   - [WiFi - 1\. Getting started with MicroPython on the ESP8266 — MicroPython 1\.9\.4 documentation](http://docs.micropython.org/en/latest/esp8266/tutorial/intro.html#wifi)

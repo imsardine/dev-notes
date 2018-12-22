@@ -21,9 +21,16 @@
 
 ## Pipfile, Pipfile.lock ??
 
-  - [General Recommendations & Version Control - Basic Usage of Pipenv — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/basics/#general-recommendations-version-control) #ril
+  - 若在 Docker image 裡佈署，建議 `pip install --deploy [--system]`，好處是檢查到 `Pipfile.lock` 與 `Pipfile` 失去同步時會噴錯，而且可以搭配 `--system` 直接裝到系統。
+
+參考資料：
+
+  - [General Recommendations & Version Control - Basic Usage of Pipenv — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/basics/#general-recommendations-version-control)
       - Generally, keep both `Pipfile` and `Pipfile.lock` in version control. Do not keep `Pipfile.lock` in version control if multiple versions of Python are being targeted. 後者通常指的是 library。
-      - Specify your target Python version in your Pipfile’s `[requires]` section. Ideally, you should only have one target Python version, as this is a DEPLOYMENT tool. 不是 development tool??
+      - Specify your target Python version in your Pipfile’s `[requires]` section. Ideally, you should only have one target Python version, as this is a DEPLOYMENT tool. 不是 development tool?
+ - [Using pipenv for Deployments - pipenv/advanced\.rst at master · pypa/pipenv](https://github.com/pypa/pipenv/blob/master/docs/advanced.rst#-using-pipenv-for-deployments)
+     - You may want to use `pipenv` as part of a deployment process. You can enforce that your `Pipfile.lock` is up to date using the `--deploy` flag: `pipenv install --deploy`. This will fail a build if the `Pipfile.lock` is out–of–date, instead of generating a new one. ... `pipenv install` by default does attempt to RE-LOCK unless using the `--deploy` flag 原來 `pipenv install` 本來就會檢查 `Pipfile.lock` 是否跟 `Pipfile` 一致，遇到不一致時會 "自動更新" `Pipfile.lock` (這就是所謂的 re-lock)，加了 `--deploy` 在檢查到不一致時就會停下來。
+     - Or you can install packages exactly as specified in `Pipfile.lock` using the `sync` command. 不加以說明還以為是 sync `Pipfile` 與 `Pipfile.lock`，它的行為跟 `--ignore-pipfile` 接近；可以解釋成 "sync `Pipfile.lock` 與 virtualenv，別管 `Pipfile` 了"，但實在很難跟 sync 連結在一起。
 
 ## Pipfile 與 setup.py
 

@@ -1,10 +1,12 @@
 # TUI (Text-based User Interface)
 
   - [Text\-based user interface \- Wikipedia](https://en.wikipedia.org/wiki/Text-based_user_interface) #ril
+  - [jroimartin/gocui: Minimalist Go package aimed at creating Console User Interfaces\.](https://github.com/jroimartin/gocui) CUI (Console User Interface) 是另一種說法。
+  - [Topic: cui](https://github.com/topics/cui)、[Topic: tui](https://github.com/topics/tui) 有些專案同時標示 tui 與 cui，甚至是 cli。
   - [gui \- Is it crazy to develop a TUI today? \- Software Engineering Stack Exchange](https://softwareengineering.stackexchange.com/questions/213826/) #ril
   - [command line \- Are there differences between cli and tui? \- Ask Ubuntu](https://askubuntu.com/questions/867416/) #ril
 
-## 範例 {: #examples }
+## 應用實例 {: #showcase }
 
   - [Ask HN: Good examples of interactive command\-line user experience? \| Hacker News](https://news.ycombinator.com/item?id=14401057) #ril
   - [asciinema \- Record and share your terminal sessions, the right way](https://asciinema.org/) -- asciicasts 下應該找到不錯的應用，例如 mapscii #ril

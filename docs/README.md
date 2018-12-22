@@ -2,7 +2,7 @@
 
 ## 7
 
-  - [74HC595](74hc595.md)
+  - [74HC595 Shift Register](74hc595.md)
 
 ## A
 
@@ -17,6 +17,7 @@
 ## B
 
   - [Barcode Scanner](barcode-scanner.md)
+  - [bumpversion](bumpversion.md)
 
 ## C
 
@@ -40,6 +41,12 @@
   - [Fire (Python)](python-fire.md)
   - [Fritzing](fritzing.md)
 
+## G
+
+  - [Git](git.md)
+  - [GitBook](gitbook.md)
+  - [Gunicorn](gunicorn.md)
+
 ## H
 
   - [HMAC](hmac.md)
@@ -47,6 +54,14 @@
 ## I
 
   - [IoT 物聯網](iot.md)
+
+## J
+
+  - [JaCoCo](jacoco.md)
+
+## K
+
+  - [Kotlin](kotlin.md)
 
 ## L
 
@@ -78,10 +93,13 @@
 ## R
 
   - [Reproducible Build](reproducible-build.md)
+  - [Resistor 電阻](resistor.md)
 
 ## S
 
   - [SchemDraw](schemdraw.md)
+  - [Semantic Versioning](semver.md)
+  - [Statuspage](statuspage.md)
 
 ## T
 
@@ -98,6 +116,7 @@
 
 ## V
 
+  - [Vim](vim.md)
   - [VLC Media Player](vlc.md)
 
 ## W
