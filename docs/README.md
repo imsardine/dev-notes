@@ -94,6 +94,7 @@
   - [Python](python.md)
   - [python-magic](python-magic.md)
   - [Python-Markdown](python-markdown.md)
+  - [PyYAML](pyyaml.md)
 
 ## R
 
@@ -131,3 +132,7 @@
 ## X
 
   - [Xively](xively.md)
+
+## Y
+
+  - [YAML](yaml.md)

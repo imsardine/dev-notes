@@ -10,7 +10,7 @@ title: Python > PDB (Python Debugger)
   - [Python Debugging With Pdb – Real Python](https://realpython.com/python-debugging-pdb/) (2018-04-09)
       - pdb, and other debuggers, are indispensable tools. When you need a debugger, there’s no substitute. You really need it. 這句話有點奇妙
       - Sometimes, stepping through code in pdb and seeing how values change can be a real eye-opener and lead to “aha” moments, along with the occasional “face palm”.
-      - pdb is part of Python’s standard library, so it’s always there and available for use. This can be a LIFE SAVER if you need to debug code in an environment where you don’t have access to the GUI debugger you’re familiar with. 雖然 GUI debugger 很誘人，但 pdb 還是得學。
+      - pdb is part of Python’s standard library, so it’s ALWAYS THERE and available for use. This can be a life saver if you need to debug code in an environment where you don’t have access to the GUI debugger you’re familiar with. 雖然 GUI debugger 很誘人，但 pdb 還是得學。
 
 ## 新手上路 {: #getting-started }
 
@@ -41,7 +41,7 @@ title: Python > PDB (Python Debugger)
 
   - [Getting Started: Printing a Variable’s Value - Python Debugging With Pdb – Real Python](https://realpython.com/python-debugging-pdb/#getting-started-printing-a-variables-value) (2018-04-09) #ril
       - Insert the following code at the location where you want to BREAK INTO THE DEBUGGER: `import pdb; pdb.set_trace()` When the line above is executed, Python stops and waits for you to tell it what to do next. You’ll see a (Pdb) prompt. 如果在 GUI debugger 裡安插 breakopoint 一樣。
-      - You can also break into the debugger, without modifying the source and using `pdb.set_trace()` or `breakpoint()`, by running Python directly from the command-line and passing the option `-m pdb`. 例如 `python3 -m pdb app.py arg1 arg2`，一開始停在那裡??
+      - You can also break into the debugger, without modifying the source and using `pdb.set_trace()` or `breakpoint()`, by running Python directly from the command-line and passing the option `-m pdb`. 例如 `python3 -m pdb app.py arg1 arg2`，一開始停在那裡? => 第 1 行之前
 
   - [Dropping to PDB (Python Debugger) on failures - Usage and Invocations — pytest documentation](https://docs.pytest.org/en/latest/usage.html#dropping-to-pdb-python-debugger-on-failures) #ril
   - [Debug: drop into pdb on errors or failures — nose 1\.3\.7 documentation](https://nose.readthedocs.io/en/latest/plugins/debug.html) #ril
@@ -73,7 +73,7 @@ title: Python > PDB (Python Debugger)
 
 ## `breakpoint()` Built-In ??
 
-  - [Getting Started: Printing a Variable’s Value - Python Debugging With Pdb – Real Python](https://realpython.com/python-debugging-pdb/#getting-started-printing-a-variables-value) (2018-04-09) Python 3.7 新加入了 `breakpoint()` built-in，只要在 code 裡面安插 `breakpoint()` 即可，效果跟上面 `import pdb; pdb.set_trace()` 一樣，但可以進一步透過 `PYTHONBREAKPOINT` 環境變數來控制要不要作用，例如 `PYTHONBREAKPOINT=1` 可以停用 debugging (所以 `breakpoint()` 可以留在 source code 裡)；作者建議 Python 3.7 用 `breakpoint()` 來取代 `pdb.set_trace()`。
+  - [Getting Started: Printing a Variable’s Value - Python Debugging With Pdb – Real Python](https://realpython.com/python-debugging-pdb/#getting-started-printing-a-variables-value) (2018-04-09) Python 3.7 新加入了 `breakpoint()` built-in，只要在 code 裡面安插 `breakpoint()` 即可，效果跟上面 `import pdb; pdb.set_trace()` 一樣，但可以進一步透過 `PYTHONBREAKPOINT` 環境變數來控制要不要作用，例如 `PYTHONBREAKPOINT=0` 可以停用 debugging (所以 `breakpoint()` 可以留在 source code 裡)；作者建議 Python 3.7 用 `breakpoint()` 來取代 `pdb.set_trace()`。
   - [The breakpoint() Built-In - Cool New Features in Python 3\.7 – Real Python](https://realpython.com/python37-new-features/#the-breakpoint-built-in) (2018-06-27) #ril
   - [Python 3\.7’s new builtin breakpoint — a quick tour – Hacker Noon](https://hackernoon.com/python-3-7s-new-builtin-breakpoint-a-quick-tour-4f1aebc444c) (2018-05-17) #ril
   - [breakpoint() - Built\-in Functions — Python 3\.7\.2rc1 documentation](https://docs.python.org/3/library/functions.html#breakpoint) #ril

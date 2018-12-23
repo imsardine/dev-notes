@@ -12,6 +12,7 @@
 
   - [python\-fire/mkdocs\.yml at master · google/python\-fire](https://github.com/google/python-fire/blob/master/mkdocs.yml) => [Using a CLI \- Python Fire](https://google.github.io/python-fire/using-cli/)
   - [pinax/mkdocs\.yml at master · pinax/pinax](https://github.com/pinax/pinax/blob/master/mkdocs.yml) => [Pinax Moves from Sphinx to MkDocs \| The Pinax Project Blog](http://blog.pinaxproject.com/2015/10/19/pinax-moves-sphinx-mkdocs/) (2015-10-19) 從 Sphinx 遷移到 MkDocs，因為寫了許多年的 reStructuredText，還是很常需要查詢語法；[Pinax](http://pinaxproject.com/) 在 Django 上發展出許多 starter projects。
+  - [markdown/mkdocs\.yml at master · Python\-Markdown/markdown](https://github.com/Python-Markdown/markdown/blob/master/mkdocs.yml)
   - [Swap out Sphinx for mkdocs · Issue \#7 · drivendata/cookiecutter\-data\-science](https://github.com/drivendata/cookiecutter-data-science/issues/7) #ril
   - [nodemcu\-firmware/mkdocs\.yml at master · nodemcu/nodemcu\-firmware](https://github.com/nodemcu/nodemcu-firmware/blob/master/mkdocs.yml)
   - [Search · filename:mkdocs\.yml](https://github.com/search?q=filename%3Amkdocs.yml) 更多 ...
@@ -221,6 +222,86 @@ site_name: Hello, World!
   - [MkDocs](https://www.mkdocs.org/#deploying) 把 `site/` 的內容上傳，這裡提到 GitHub project pages、Amazon S3。
 
 ## Syntax Highlighting ??
+
+  - 拿 `mkdocs new .` 產生的 `docs/index.md` 來測試，先改寫裡面只有 code block，再觀察搭配不同設定所產生的 HTML。
+
+        # Welcome to MkDocs
+
+            from __future__ import print_function
+            print("Hello, World!") # Python 2-3 compatible code
+
+    在沒有自訂其他 extension 的情況下，產生的 HTML source 為：
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
+        <pre><code>from __future__ import print_function
+        print("Hello, World!") # Python 2-3 compatible code
+        </code></pre>
+
+    DOM 會被加工成：(針對 `<code>`)
+
+        <pre><code class="hljs coffeescript"><span class="hljs-keyword">from</span> __future__ <span class="hljs-keyword">import</span> print_function
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"Hello, World!"</span>) <span class="hljs-comment"># Python 2-3 compatible code</span>
+        </code></pre>
+
+    由 `class="hljs coffeescript"` 看來，highlight.js 判斷失準。改寫成 fenced code block 並提示 language：
+
+        ```python
+        from __future__ import print_function
+        print("Hello, World!") # Python 2-3 compatible code
+        ```
+
+    HTML source 帶有 `python` 的提示：
+
+        <pre><code class="python">from __future__ import print_function
+        print(&quot;Hello, World!&quot;) # Python 2-3 compatible code
+        </code></pre>
+
+    DOM 會被加工成：
+
+        <pre><code class="python hljs"><span class="hljs-keyword">from</span> __future__ <span class="hljs-keyword">import</span> print_function
+        print(<span class="hljs-string">"Hello, World!"</span>) <span class="hljs-comment"># Python 2-3 compatible code</span>
+        </code></pre>
+
+    但 indented code block 如何提示 langage??
+
+  - 重複上面的實驗 (回到 indented code block)，試試加入 `codehilite` markdown extension 後，會起什麼變化? HTML source 變成：
+
+        <pre class="codehilite"><code>from __future__ import print_function
+        print(&quot;Hello, World!&quot;) # Python 2-3 compatible code</code></pre>
+
+    從 `<pre class="codehilite">` 看到 `codehilite` extension 開始作用。由於這時候 highlight.js 的程式都還在，所以 DOM 還是會被加工：
+
+        <pre class="codehilite"><code class="hljs coffeescript"><span class="hljs-keyword">from</span> __future__ <span class="hljs-keyword">import</span> print_function
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">"Hello, World!"</span>) <span class="hljs-comment"># Python 2-3 compatible code</span></code></pre>
+
+    事實上，因為還沒裝 Pygments 套件的關係，所以 `codehilite` extension 等同沒有效果 (`use_pygments: false`)。安裝 Pygments 套件後，HTML source 變成：
+
+        <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span> <span class="c1"># Python 2-3 compatible code</span>
+        </pre></div>
+
+    很明顯地 `<pre class="codehilite">` 變成 `<div class="codehilite">`，而且 `<pre>` 底下沒有 `<code>` 了，也之所以雖然 highlight.js 的程式都還在，但 DOM 不會被加工，但為何 `class="kn"`、`class="nn"` 等都沒有效果？
+
+    但因為沒有 Pygments CSS 的關係，不會有 highlighting 的效果。按照 [CodeHilite — Python\-Markdown 3\.0\.1 documentation](https://python-markdown.github.io/extensions/code_hilite/#step-2-add-css-classes) 的說法：
+
+    > You will need to define the appropriate CSS classes with appropriate rules. The CSS rules either need to be defined in or linked from the header of your HTML templates. Pygments can generate CSS rules for you. Just run the following command from the command line:
+    >
+    > `pygmentize -S default -f html -a .codehilite > styles.css`
+
+    也就是 Pygments 的 CSS 要自己安排：
+
+        pygmentize -S default -f html -a .codehilite > docs/pygments.css
+
+    然後在 `mkdocs.yml` 增加 `extra_css: ["pygments.css"]`，就可以看到 highlighting 的效果：
+
+        <link href="pygments.css" rel="stylesheet">
+
+        <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span> <span class="c1"># Python 2-3 compatible code</span>
+        </pre></div>
 
   - [Fenced code blocks - Writing Your Docs \- MkDocs](https://www.mkdocs.org/user-guide/writing-your-docs/#fenced-code-blocks) 提到 syntax highlighter #ril
   - [CodeHilite \- Material for MkDocs](https://squidfunk.github.io/mkdocs-material/extensions/codehilite/) Syntax highlighting 是 theme 的功能? #ril

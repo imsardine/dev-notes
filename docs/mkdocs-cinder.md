@@ -27,7 +27,7 @@ title: MkDocs / Cinder Theme
 
 `docs/cinder_extra.css`:
 
-```
+```css
 @media (min-width: 992px) {
   .bs-sidebar.affix {
     overflow: auto;   // TOC 過長時看不到後面的項目
@@ -36,11 +36,43 @@ title: MkDocs / Cinder Theme
 .bs-sidenav {
   font-size: inherit; // TOC 原先固定 12px 太小
 }
+
+/* 減少內縮，清單的內層項目才有顯示空間 */
+div.container {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+div[role="main"] {
+  padding: 0;
+}
+
+div[role="main"] > ul {
+  list-style-type: square;
+  padding-left: 1.5em;
+}
+
+div[role="main"] > ul ul {
+  border-left: 2px dashed grey;
+  list-style-type: square;
+  padding-left: 1.5em;
+}
+
+/* 原引用字體放大覺得不必要，左側色條也太窄 */
+blockquote {
+  border-color: grey;
+  border-left-width: 5px;
+}
+
+blockquote p {
+  font: inherit;
+  line-height: inherit;
+}
 ```
 
 `mkdocs.yml`:
 
-```
+```yaml
 theme: cinder
 extra_css: ['cinder_extra.css']
 markdown_extensions:
@@ -53,3 +85,4 @@ markdown_extensions:
 ## 參考資料 {: #reference }
 
   - [Cinder](https://sourcefoundry.org/cinder/)
+  - [chrissimpkins/cinder - GitHub](https://github.com/chrissimpkins/cinder)
