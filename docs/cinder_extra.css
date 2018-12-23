@@ -6,3 +6,38 @@
 .bs-sidenav {
   font-size: inherit;
 }
+
+div.container {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+div[role="main"] {
+  padding: 0;
+}
+
+div[role="main"] ul {
+  list-style-type: square;
+}
+
+div[role="main"] > ul, div[role="main"] > ol {
+  padding-left: 1.5em;
+}
+
+div[role="main"] > ul ul,
+div[role="main"] > ol ol,
+div[role="main"] > ul ol,
+div[role="main"] > ol ul {
+  border-left: 2px dashed grey;
+  padding-left: 1.5em;
+}
+
+blockquote {
+  border-color: grey;
+  border-left-width: 5px;
+}
+
+blockquote p {
+  font: inherit;
+  line-height: inherit;
+}

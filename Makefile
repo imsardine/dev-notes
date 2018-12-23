@@ -2,7 +2,7 @@ MAKEFLAGS=--warn-undefined-variables
 PORT ?= 5000
 
 # Internal Variables
-docker_image = dev-notes.local
+docker_image = note-taking.local
 docker_opts =
 
 define docker_run
