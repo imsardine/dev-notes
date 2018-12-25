@@ -71,7 +71,7 @@
       - The configuration file should be a valid Python source file. It only needs to be readable from the file system. More specifically, it does not need to be IMPORTABLE. Any Python is valid. Just consider that this will be run every time you start Gunicorn (including when you signal Gunicorn to reload). 重新執行，實際上會有什麼影響嗎?
   - [Settings — Gunicorn 19\.9\.0 documentation](http://docs.gunicorn.org/en/latest/settings.html) #ril
       - This is an exhaustive list of settings for Gunicorn. Some settings are only able to be set from a configuration file. The setting name is what should be used in the configuration file. 以 `preload_app`、`--preload`、`False` 為例，在 config file 裡要用 `preload_app` 設定，在 command line 要用 `--preload`，但預設值都是 `False`，另外 `default_proc_name`、`gunicorn` 沒有提示 `--xxx`，表示只能用在 config file 裡。
-      - `raw_env`, `-e ENV, --env ENV`, `[]` -- Set environment variable (`key=value`). PASS variables to the execution environment. Ex.: `$ gunicorn -b 127.0.0.1:8000 --env FOO=1 test:app` 原來要特別指定，環境變數才進得去，跟 Docker 有點像。
+      - `raw_env`, `-e ENV, --env ENV`, `[]` -- Set environment variable (`key=value`). PASS variables to the execution environment. Ex.: `$ gunicorn -b 127.0.0.1:8000 --env FOO=1 test:app` 原來要特別指定，環境變數才進得去，跟 Docker、tox 的做法一樣，預設不會 pass all。
 
 ## Deployment ??
 

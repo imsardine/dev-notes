@@ -53,6 +53,7 @@
 ## H
 
   - [HMAC](hmac.md)
+  - [htop](htop.md)
 
 ## I
 
@@ -81,10 +82,13 @@
 
 ## N
 
+  - [ncurses](ncurses.md)
+  - [Neovim](neovim.md)
   - [NodeMCU](nodemcu.md)
 
 ## O
 
+  - [Oh My Zsh](oh-my-zsh.md)
   - [OV7670](ov7670.md)
 
 ## P
@@ -92,6 +96,7 @@
   - [PDB (Python Debugger)](python-pdb.md)
   - [Pipenv](pipenv.md)
   - [PlatformIO](platformio.md)
+  - [Powerlevel9k](powerlevel9k.md)
   - [pyenv](pyenv.md)
   - [Python](python.md)
   - [python-magic](python-magic.md)
@@ -107,10 +112,12 @@
 
   - [SchemDraw](schemdraw.md)
   - [Semantic Versioning](semver.md)
+  - [spf13-vim](spf13-vim.md)
   - [Statuspage](statuspage.md)
 
 ## T
 
+  - [Text Mode](text-mode.md)
   - [ThingSpeak](thingspeak.md)
   - [tox](tox.md)
   - [transfer.sh](transfer.sh.md)
@@ -138,3 +145,7 @@
 ## Y
 
   - [YAML](yaml.md)
+
+## Z
+
+  - [Zsh](zsh.md)

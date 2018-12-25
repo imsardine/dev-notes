@@ -21,3 +21,9 @@
   - [I'm trying to make a fancy CLI interface in python\. Curses is very confusing \(and I can't find a good tutorial\!\) Any suggestions? : Python](https://www.reddit.com/r/Python/comments/1132ct/) #ril
   - [Create TUI on Python – Valery Krasnoselsky – Medium](https://medium.com/@bad_day/create-tui-on-python-71377849879d) (2018-04-21) 用 `npyscreen` #ril
   - [tehmaze/diagram: Text mode diagrams using UTF\-8 characters and fancy colors](https://github.com/tehmaze/diagram) #ril
+
+## 參考資料
+
+相關：
+
+  - [Text Mode](text-mode.md)
