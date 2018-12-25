@@ -57,14 +57,15 @@ title: Python > PDB (Python Debugger)
       - `c(ont(inue))` - Continue execution, only stop when a breakpoint is encountered. 直到下一個 breakpoint。
       - `p expression` - Evaluate the expression in the current context and print its value.
       - `pp expression` - Like the `p` command, except the value of the expression is pretty-printed using the `pprint` module.
+      - `unt(il)` - Continue execution until the line with the line number greater than the current one is reached or when returning from current frame.
       - `q(uit)` - Quit from the debugger. The program being executed is ABORTED. 不單純只是離開 debugger
   - [Stack Frame - Debugger Commands - 26\.2\. pdb — The Python Debugger — Python 2\.7\.15 documentation](https://docs.python.org/2/library/pdb.html#debugger-commands) 整理出跟 stack frame、function call 相關的 commands #ril
       - `w(here)` - Print a stack trace, with the most recent frame at the bottom. An arrow indicates the current frame, which determines the CONTEXT of most commands. 印出一路執行到這裡的路徑
-      - `s(tep)` - Execute the current line, stop at the first possible occasion (either in a function that is called or on the next line in the current function). 近似於 `next` (stop over)??
-      - `n(ext)` - Continue execution until the next line in the current function is reached or it returns. (The difference between `next` and `step` is that step stops INSIDE a called function, while `next` executes called functions at (nearly) full speed, only stopping at the next line in the current function.) 傳統 debugger 的 step over
+      - `s(tep)` - Execute the current line, stop at the first possible occasion (either in a function that is called or on the next line in the current function). 類 GUI debugger 的 Step Into
+      - `n(ext)` - Continue execution until the next line in the current function is reached or it returns. (The difference between `next` and `step` is that step stops INSIDE a called function, while `next` executes called functions at (nearly) full speed, only stopping at the next line in the current function.) 類 GUI debugger 的 Step Over
       - `d(own)` - Move the current frame one level down in the stack trace (to a newer frame). 搭配 `w(here)` 使用比較清楚；可以在 stack frame 間游走，有點神奇!!
       - `u(p)` - Move the current frame one level up in the stack trace (to an older frame).
-      - `r(eturn)` - Continue execution until the current function returns. 直到離開所在的 function。
+      - `r(eturn)` - Continue execution until the current function returns. 直到離開所在的 function；類 GUI debugger 的 Step Out
 
 ## `.pdbrc` ??
 

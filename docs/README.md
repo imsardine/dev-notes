@@ -23,6 +23,7 @@
 
   - [Circuit 電路](circuit.md)
   - [Circuit Diagram 電路圖](circuit-diagram.md)
+  - [Configuration](configuration.md)
 
 ## D
 
@@ -39,6 +40,7 @@
 
 ## F
 
+  - [Favicon](favicon.md)
   - [Fire (Python)](python-fire.md)
   - [Fritzing](fritzing.md)
 
