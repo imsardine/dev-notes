@@ -55,7 +55,7 @@ deploy:
 
   - [Builds, Jobs, Stages and Phases - Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/#builds-jobs-stages-and-phases) 常見的用詞有 job、phase、build、stage；很明顯 build > job > phase，但 build 跟 stage 的關係是什麼??
       - job - an automated process that clones your repository into a virtual environment and then carries out a series of PHASES such as compiling your code, running tests, etc. A job fails if the RETURN CODE of the `script` PHASE is non zero. 一個 job 一連串的 phase 組成，依序執行；注意一個 phase 不一定由多個 commands 組成，`install` 跟 `script` 是一連串的 commands，但 `deploy` 通常就是設定 deployment provider，而非自訂 commands。
-      - phase - the SEQUENTIAL steps of a job. For example, the `install` phase, comes before the `script` phase, which comes before the OPTIONAL `deploy` phase. 也就是 install -> script -> (deploy)，其中 `install` phase 用來準備測試環境??
+      - phase - the SEQUENTIAL steps of a job. For example, the `install` phase, comes before the `script` phase, which comes before the OPTIONAL `deploy` phase. 也就是 install --> script --> (deploy)，其中 `install` phase 用來準備測試環境??
       - build - a GROUP OF JOBS. For example, a build might have two jobs, each of which tests a project with a different version of a programming language. A build finishes when all of its jobs are finished. 分不同的 configuration/matrix ??
       - stage - a group of jobs that run in PARALLEL as part of sequential build process composed of multiple stages.
   - [Job Lifecycle \- Travis CI](https://docs.travis-ci.com/user/job-lifecycle/) #ril
@@ -165,7 +165,7 @@ deploy:
 
       - Deploying to GitHub Pages uses `git push --force` to overwrite the history on the target branch (跟 `keep-history` 預設是 `false` 有關), so make sure you only deploy to a branch used for that specific purpose, such as `gh-pages`. 由於這個動作有危險性，要確保 `target-branch` (預設是 `gh-pages`) 真的是用來存放產出的結果。
       - Make sure you have `skip-cleanup` set to `true`, otherwise Travis CI will DELETE ALL THE FILES CREATED DURING THE BUILD, which will probably delete what you are trying to upload. 不太懂為什麼在 `deploy` phase 預設要重置 working directory?
-      - `local-dir` -> `repo` + `target-branch` (`keep-history`, `fqdn`)，這幾個 option 的關係可以讀做 "將 `local-dir` 的內容上傳到 `repo` 的 `target-branch`"。
+      - `local-dir` --> `repo` + `target-branch` (`keep-history`, `fqdn`)，這幾個 option 的關係可以讀做 "將 `local-dir` 的內容上傳到 `repo` 的 `target-branch`"。
           - `local-dir` 預設是當前的目錄，可以用 absoulte/relative 表示；這會依 generator 不同，例如 MkDocs 慣用 `site`，而 Hexo 則慣用 `public`。
           - `repo` 預設是當前的 repo，通常不需要調整，因為不論是 user/organization 或 project site 都可以把 source 跟 generated HTML 存在同一個 repo 的不同 branch。
           - `target-branch` 預設是 `gh-pages`，這只適用於 project page，若是 user/organization site 的話，則要改用 `master`。

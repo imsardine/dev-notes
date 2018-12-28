@@ -5,6 +5,10 @@
       - There are a number of Powerline ZSH themes available, now. The developers of this theme focus on four primary goals: 1. Give users a great out-of-the-box configuration with no additional configuration required. 2. Make customization easy for users who do want to tweak their prompt. 開箱即用，但又方便客製。
       - There are two installation steps to go from a vanilla terminal to a PL9k terminal. 意外出現 PL9k 的說法。
 
+## 新手上路 {: #getting-started }
+
+  - [Get PowerLevel9k — The Most Cool Linux Shell EVER\! – alex285 – Medium](https://medium.com/@alex285/get-powerlevel9k-the-most-cool-linux-shell-ever-1c38516b0caa) (2018-04-06) #ril
+
 ## Prompt, Segment ??
 
   - [bhilburn/powerlevel9k: The most awesome Powerline theme for ZSH around\!](https://github.com/bhilburn/powerlevel9k) #ril

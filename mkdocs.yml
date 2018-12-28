@@ -10,5 +10,7 @@ markdown_extensions:
   - toc:
       permalink: ' #'
   - attr_list
+  - smarty
+  - pymdownx.smartsymbols
 nav:
   - README.md

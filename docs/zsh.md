@@ -12,7 +12,7 @@
 
 ## 新手上路 ?? {: #getting-started }
 
-  - [ZSH \- THE Z SHELL](http://zsh.sourceforge.net/) 比較了 introductory document、manual 與 user guide 的差別，其中 introductory document 假設已經會一種 Unix shell，因此只強調 Zsh 特別的地方，而 manual 最冗長 (很細，但少有例子)，最後 user guide 則用文字詳細解說各項功能；學習路徑可以是 introductory document -> user guide -> manual。
+  - [ZSH \- THE Z SHELL](http://zsh.sourceforge.net/) 比較了 introductory document、manual 與 user guide 的差別，其中 introductory document 假設已經會一種 Unix shell，因此只強調 Zsh 特別的地方，而 manual 最冗長 (很細，但少有例子)，最後 user guide 則用文字詳細解說各項功能；學習路徑可以是 introductory document --> user guide --> manual。
   - [An Introduction to the Z Shell \- Table of Contents](http://zsh.sourceforge.net/Intro/intro_toc.html) #ril
   - [Bash, Zsh and Fish: The awesomeness of Linux Shells](http://davidokwii.com/bash-zsh-and-fish-the-awesomeness-of-linux-shells/#zsh) #ril
 
@@ -29,40 +29,6 @@
   - [denysdovhan/spaceship\-prompt: A Zsh prompt for Astronauts](https://github.com/denysdovhan/spaceship-prompt) #ril
 
 ## 安裝設定 {: #installation }
-
-```
-$ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-Cloning Oh My Zsh...
-Cloning into '/Users/jeremykao/.oh-my-zsh'...
-...
-Looking for an existing zsh config...
-Found ~/.zshrc. Backing up to ~/.zshrc.pre-oh-my-zsh
-Using the Oh My Zsh template file and adding it to ~/.zshrc
-Time to change your default shell to zsh!
-Changing shell for jeremykao.
-Password for jeremykao:
-         __                                     __
-  ____  / /_     ____ ___  __  __   ____  _____/ /_
- / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \
-/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / /
-\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/
-                        /____/                       ....is now installed!
-
-
-Please look over the ~/.zshrc file to select plugins, themes, and options.
-
-p.s. Follow us at https://twitter.com/ohmyzsh.
-
-p.p.s. Get stickers and t-shirts at https://shop.planetargon.com.
-
-➜  ~ git:(master) ✗
-```
-
----
-
-參考資料：
-
-  - [Oh My Zsh \- a delightful & open source framework for Z\-Shell](https://ohmyz.sh/) 執行 `$ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"` 即可完成安裝，還會自動換掉預設的 shell。
 
   - [zsh \- How can I make tmux use my default shell? \- Super User](https://superuser.com/questions/253786/)
       - Alex Hammel: tmux 要加 `set-option -g default-shell /bin/zsh` 的設定，可能要用 `killall tmux; tmux` 重啟 tmux。

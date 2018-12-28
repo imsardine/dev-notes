@@ -32,6 +32,8 @@
 
 ## E
 
+  - [Elasticsearch](elasticsearch.md)
+  - [ElasticSearch Head](elasticsearch-head.md)
   - [Emoji](emoji.md)
   - [ESP8266](esp8266.md)
   - [ESPlorer](esplorer.md)
@@ -42,12 +44,14 @@
 
   - [Favicon](favicon.md)
   - [Fire (Python)](python-fire.md)
+  - [Firebase Analytics](firebase-analytics.md)
   - [Fritzing](fritzing.md)
 
 ## G
 
   - [Git](git.md)
   - [GitBook](gitbook.md)
+  - [Google Analytics](google-analytics.md)
   - [Gunicorn](gunicorn.md)
 
 ## H
@@ -57,6 +61,7 @@
 
 ## I
 
+  - [IK Analysis for Elasticsearch](elasticsearch-analysis-ik.md)
   - [IoT 物聯網](iot.md)
 
 ## J
@@ -65,6 +70,7 @@
 
 ## K
 
+  - [Kibana](kibana.md)
   - [Kotlin](kotlin.md)
 
 ## L
@@ -96,6 +102,7 @@
   - [PDB (Python Debugger)](python-pdb.md)
   - [Pipenv](pipenv.md)
   - [PlatformIO](platformio.md)
+  - [Postman](postman.md)
   - [Powerlevel9k](powerlevel9k.md)
   - [pyenv](pyenv.md)
   - [Python](python.md)
@@ -131,12 +138,14 @@
 
 ## V
 
+  - [Vega Grammar](vega-grammar.md)
   - [Vim](vim.md)
   - [VLC Media Player](vlc.md)
 
 ## W
 
   - [WEMOS](wemos.md)
+  - [wuzz](wuzz.md)
 
 ## X
 
