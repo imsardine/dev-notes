@@ -112,6 +112,14 @@ title: Elasticsearch / Query
   - [Theory Behind Relevance Scoring \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/scoring-theory.html) #ril
   - [Customize relevance with Elasticsearch – Sravanthi Naraharisetti – Medium](https://medium.com/@nschsravanthi/customize-relevance-with-elasticsearch-7735a9ac550e) (2018-04-16) #ril
 
+## Suggestion ??
+
+  - [Elasticsearch: Building AutoComplete functionality – Hacker Noon](https://hackernoon.com/elasticsearch-building-autocomplete-functionality-494fcf81a7cf) (2017-12-31) #ril
+  - [Elasticsearch: Using Completion Suggester to build AutoComplete](https://hackernoon.com/elasticsearch-using-completion-suggester-to-build-autocomplete-e9c120cf6d87) (2018-01-26) #ril
+  - [How to Build a “Did You Mean” Feature with Elasticsearch](https://qbox.io/blog/how-to-build-did-you-mean-feature-with-elasticsearch-phrase-suggester) (2018-01-04) #ril
+  - [Suggesters \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html) #ril
+  - [Term suggester \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-term.html) #ril
+
 ## 工具 {: #tools }
 
   - [5 Best Elasticsearch GUI clients as of 2018 \- Slant](https://www.slant.co/topics/11537/~elasticsearch-gui-clients) Postman 排名第一!? #ril

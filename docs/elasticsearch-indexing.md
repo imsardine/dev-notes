@@ -3,18 +3,125 @@ title: Elasticsearch / Indexing
 ---
 # [Elasticsearch](elasticsearch.md) / Indexing
 
+## 新手上路 ?? {: #getting-started }
+
+  - [Indexing for Beginners, Part 1 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part1) (2013-09-13) #ril
+  - [Indexing for Beginners, Part 2 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part2) (2013-10-08) #ril
+  - [Indexing for Beginners, Part 3 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part3) (2013-10-29) #ril
+
+## Modeling ??
+
+  - [Modeling Your Data \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/modeling-your-data.html) #ril
+  - [Designing for Scale \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/scale.html) #ril
+  - [Practical Considerations \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/parent-child-performance.html) #ril
+
 ## Index ??
 
+  - [Get Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-index.html)
+      - The get index API allows to retrieve information about ONE OR MORE indexes. 例如 `GET /twitter`；先知道如何看 index 的設定、如何刪除 index，再練習建立 index。
+      - Specifying an index, alias or wildcard expression is required. The get index API can also be applied to more than one index, or on all indices by using `_all` or `*` as index. 實驗確認逗號開多個 index 也是可以的，例如 `GET /twitter,test`。
+  - [Delete Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html)
+      - The delete index API allows to delete an existing index. 例如 `DELETE /twitter`。
+      - Specifying an index or a wildcard expression is required. Aliases cannot be used to delete an index. Wildcard expressions are resolved to matching CONCRETE indices only. 這裡 concrete 是相對於 alias 的說法??
+      - The delete index API can also be applied to more than one index, by either using a COMMA SEPARATED list, or on all indices (be careful!) by using `_all` or `*` as index.
+  - [Indices Exists \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html)
+      - Used to check if the index (indices) exists or not. The HTTP status code indicates if the index exists or not. A `404` means it does not exist, and `200` means it does. 例如 `HEAD twitter`。
+      - This request does not distinguish between an index and an alias, i.e. status code 200 is also returned if an alias exists with that name. 這不是很合理嗎? 有可能 alias 背後的 index 已經不在??
   - [Create Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) #ril
-  - [Delete Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html) #ril
-  - [Get Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-index.html) #ril
-  - [Indices Exists \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html) #ril
+      - The most basic command is the following: `PUT twitter` This create an index named `twitter` with all default setting. 這裡的 default setting 指的是 index level setting，至於 mapping type 則要到 index 資料時才會動態產生。
+
+            PUT twitter
+
+            #! Deprecation: the default number of shards will change from [5] to [1] in 7.0.0; if you wish to continue using the default of [5] shards, you must manage this on the create index request or with an index template
+            {
+              "acknowledged" : true,
+              "shards_acknowledged" : true,
+              "index" : "twitter"
+            }
+
+        原有的 default settings 未來將由 index template 提供。用 get index API 檢查剛建立的 index：
+
+            GET twitter
+
+            {
+              "twitter" : {
+                "aliases" : { },
+                "mappings" : { }, <-- 還沒有 mapping type
+                "settings" : {
+                  "index" : {
+                    "creation_date" : "1546072098512",
+                    "number_of_shards" : "5",
+                    "number_of_replicas" : "1",
+                    "uuid" : "It4LvVmnSxmaTp_0ukJ8zA",
+                    "version" : {
+                      "created" : "6050499"
+                    },
+                    "provided_name" : "twitter"
+                  }
+                }
+              }
+            }
+
+      - There are several limitations to what you can name your index. The complete list of limitations are: 1) Lowercase only 2) Cannot include `\`, `/`, `*`, `?`, `"`, `<`, `>`, `|`, ` ` (space character), `,`, `#` 3) Indices prior to 7.0 could contain a colon (`:`), but that’s been deprecated and won’t be supported in 7.0+ 4) Cannot start with -, _, + 5) Cannot be `.` or `..` 6) Cannot be longer than 255 bytes 簡單來說，可以用英數字 (小寫)、`-`、`_`、`.`，但只能以英數字開頭。
+      - 建立 index 的同時，可以提供 index level settings 及 mapping type：
+
+            PUT test
+            {
+                "settings" : {
+                    "number_of_shards" : 3,
+                    "number_of_replicas" : 2
+                },
+                "mappings" : {
+                    "_doc" : { <-- mapping type 的名稱，自動建立的話會與 index 同名??
+                        "properties" : { <-- 定義 properties/fields
+                            "field1" : { "type" : "text" }
+                        }
+                    }
+                }
+            }
+
+        用 get index API 檢查剛建立的 index：
+
+            GET test
+
+            {
+              "test" : {
+                "aliases" : { },
+                "mappings" : { <-- 這次有 mapping type 了
+                  "_doc" : {
+                    "properties" : {
+                      "field1" : {
+                        "type" : "text"
+                      }
+                    }
+                  }
+                },
+                "settings" : {
+                  "index" : {
+                    "creation_date" : "1546072910916",
+                    "number_of_shards" : "3", <-- 預設值也成功覆寫
+                    "number_of_replicas" : "2",
+                    "uuid" : "ooQ4vtBNQBStLEV8bi06RA",
+                    "version" : {
+                      "created" : "6050499"
+                    },
+                    "provided_name" : "test"
+                  }
+                }
+              }
+            }
+
+  - [Index Aliases \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html) #ril
   - [Open / Close Index API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-open-close.html) #ril
 
 ## Mapping ??
 
   - [Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html) #ril
       - Mapping is the process of defining how a document, and the FIELDs it contains, are stored and INDEXed. For instance, use mappings to define: which string fields should be treated as full text fields. (即採用 `text` field type)、which fields contain numbers, dates, or geolocations.、whether the values of all fields in the document should be indexed into the CATCH-ALL `_all` field.、the format of date values.、custom rules to control the mapping for DYNAMICALLY ADDED FIELDs. 可以停用 dynamic mapping 嗎?? 又 `_all` 的使用時機??
+      - Each index has ONE mapping type which determines how the document will be indexed. (7.0 後則完全沒有 mapping 這東西)
+      - Meta-fields - Meta-fields are used to customize how a document’s METADATA associated is treated. Examples of meta-fields include the document’s `_index`, `_type`, `_id`, and `_source` fields.
+      - Fields or properties - A mapping type contains a list of fields or properties PERTINENT to the document. 注意field 跟 property 是通用的說法。
+      - Each field has a data `type` which can be: a simple type like `text`, `keyword`, `date`, `long`, `double`, `boolean` or `ip`. a type which supports the HIERARCHICAL NATURE of JSON such as `object` or `nested`. or a specialised type like `geo_point`, `geo_shape`, or `completion`.
 
   - [Removal of mapping types \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html) #ril
       - Indices created in Elasticsearch 6.0.0 or later may only contain a SINGLE MAPPING TYPE. Indices created in 5.x with multiple mapping types will continue to function as before in Elasticsearch 6.x. Mapping types will be completely removed in Elasticsearch 7.0.0. 以前一個 index 可以有多個 mapping type，但 6.0 開始限定 1 個，到 7.0 就不支援 mapping type 了；少了 mapping type 這一層，往下就直接是 field (type)。
@@ -27,7 +134,14 @@ title: Elasticsearch / Indexing
       - This approach has two benefits: Data is more likely to be DENSE and so benefit from compression techniques used in Lucene. The TERM STATISTICS used for scoring in full text search are more likely to be accurate because all documents in the same index represent a single entity. 不然跨 index 的 scoring 是怎麼計算的??
       - Each index can be sized appropriately for the number of documents it will contain: you can use a smaller number of PRIMARY SHARDs for users and a larger number of primary shards for tweets. 確實總量不多的 document type 若被分散到太多 shard，之後存取的效能會變差??
 
-  - [Dynamic Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-mapping.html)
+  - [Get Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html) #ril
+  - [Get Field Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-field-mapping.html) #ril
+  - [Types Exists \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-types-exists.html) #ril
+  - [Put Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-mapping.html) #ril
+
+## Dynamic Mapping ??
+
+  - [Dynamic Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-mapping.html) #ril
       - One of the most important features of Elasticsearch is that it tries to get out of your way and let you start exploring your data as quickly as possible. To index a document, you DON’T HAVE TO first create an index, define a mapping type, and define your fields — you can just index a document and the index, type, and fields will spring to life automatically: 塞資料就會自動定義 mapping、fields，連 index 都會自動產生
 
             PUT data/_doc/1 <-- 3 個元素依序是 index、mapping type 跟 ID
@@ -35,13 +149,9 @@ title: Elasticsearch / Indexing
 
         Creates the `data` index, the `_doc` mapping type, and a field called `count` with datatype `long`.
 
-      - The automatic detection and addition of new fields is called dynamic mapping. The dynamic mapping rules can be customised to suit your purposes with: 搞得好複雜，回到 dynamic mapping 存在的原因 -- "tries to get out of your way"，確實有助於初期上手，但最好還是明確定義 mapping。
+      - The automatic DETECTION and addition of new fields is called dynamic mapping. The dynamic mapping rules can be customised to suit your purposes with: 搞得好複雜，回到 dynamic mapping 存在的原因 -- "tries to get out of your way"，確實有助於初期上手，但最好還是明確定義 mapping。
 
-## Modeling ??
-
-  - [Modeling Your Data \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/modeling-your-data.html) #ril
-  - [Designing for Scale \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/scale.html) #ril
-  - [Practical Considerations \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/parent-child-performance.html) #ril
+  - [Little Logstash Lessons: Using Logstash to help create an Elasticsearch mapping template \| Elastic](https://www.elastic.co/blog/logstash_lesson_elasticsearch_mapping) (2017-03-30) 似乎 dynamic mapping 在實務上有其必要? #ril
 
 ## Inverted Index ??
 

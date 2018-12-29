@@ -97,8 +97,6 @@
   - [Document - Basic Concepts \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_document)
       - A document is a BASIC UNIT of information that can be indexed. 而這份 document 用 JSON 來表達。
       - Note that although a document physically resides in an index, a document actually must be indexed/assigned to a TYPE inside an index. 看來以前 index 下的 type 是必要的。
-  - [Indexing for Beginners, Part 2 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part2) (2013-10-08) #ril
-  - [Indexing for Beginners, Part 3 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part3) (2013-10-29) #ril
 
 ## Networking, HTTP, Transport ??
 
