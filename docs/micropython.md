@@ -191,6 +191,7 @@
 
 更多：
 
+  - [GPIO](micropython-gpio.md)
   - [Networking](micropython-networking.md)
   - [OTA Update](micropython-ota.md)
 

@@ -17,6 +17,7 @@
 ## B
 
   - [Barcode Scanner](barcode-scanner.md)
+  - [Breadboard 麵包板](breadboard.md)
   - [bumpversion](bumpversion.md)
 
 ## C
@@ -100,6 +101,7 @@
 ## P
 
   - [PDB (Python Debugger)](python-pdb.md)
+  - [Perfboard 洞洞板](perfboard.md)
   - [Pipenv](pipenv.md)
   - [PlatformIO](platformio.md)
   - [Postman](postman.md)
@@ -119,6 +121,7 @@
 
   - [SchemDraw](schemdraw.md)
   - [Semantic Versioning](semver.md)
+  - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)
   - [Statuspage](statuspage.md)
 

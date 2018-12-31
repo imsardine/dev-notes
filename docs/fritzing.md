@@ -5,6 +5,7 @@
   - [Fritzing Fab now powered by AISLER \| Fritzing Blog](http://blog.fritzing.org/2017/02/21/fritzing-fab-now-powered-by-aisler/) (2017-02-21) 宣佈與 AISLER 合作後，至今 (2018 年底) 仍沒有新版釋出，一堆人在問這專案是不是死了...
   - [Fritzing \- Wikipedia](https://en.wikipedia.org/wiki/Fritzing) #ril
   - [Creating A PCB In Everything: Friends Don’t Let Friends Use Fritzing \| Hackaday](https://hackaday.com/2016/10/11/creating-a-pcb-in-everything-friends-dont-let-friends-use-fritzing/) (2016-10-11) #ril
+  - [Arduino \- Blink](https://www.arduino.cc/en/Tutorial/Blink) 電路圖用 Fritzing 畫。
 
 ## 新手上路 {: #getting-started }
 
