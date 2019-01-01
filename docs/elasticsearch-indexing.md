@@ -5,6 +5,224 @@ title: Elasticsearch / Indexing
 
 ## 新手上路 ?? {: #getting-started }
 
+  - [Exploring Your Cluster \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-explore.html) #ril
+  - [Cluster Health \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-cluster-health.html) #ril
+  - [List All Indices \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-list-indices.html) #ril
+  - [Create an Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-create-index.html) #ril
+
+  - [Index and Query a Document \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-query-document.html)
+      - We’ll index a simple customer document into the `customer` index, with an ID of `1` as follows:
+
+            PUT /customer/_doc/1?pretty <-- 依序是 index, mapping type 及 ID，其中 _doc 是慣例?
+            {
+              "name": "John Doe"
+            }
+
+            ---
+
+            {
+              "_index" : "customer",
+              "_type" : "_doc",
+              "_id" : "1",     <-- 自訂 internal ID，注意型態是 string
+              "_version" : 1,
+              "result" : "created",
+              "_shards" : {
+                "total" : 2,
+                "successful" : 1,
+                "failed" : 0
+              },
+              "_seq_no" : 0,
+              "_primary_term" : 1
+            }
+
+      - From the above, we can see that a new customer document was successfully created inside the `customer` index. The document also has an INTERNAL ID of `1` which we specified at INDEX TIME. 為什麼 ID 不是由 Elasticsearch 自己產生? => 後續採相同的 ID 再 index 一次就是 update，若真要由 Elasticsearch 產生 ID，則要改用 `POST` method。
+      - It is important to note that Elasticsearch does not require you to explicitly create an index first before you can index documents into it. In the previous example, Elasticsearch will automatically create the `customer` index if it didn’t already exist beforehand. 連帶地，mapping type 也是自動建立的。
+      - Let’s now retrieve that document that we just indexed:
+
+            GET /customer/_doc/1?pretty
+
+            ---
+
+            {
+              "_index" : "customer",
+              "_type" : "_doc",
+              "_id" : "1",
+              "_version" : 1,
+              "found" : true,
+              "_source" : { "name": "John Doe" }
+            }
+
+      - Nothing out of the ordinary here other than a field, `found`, stating that we found a document with the requested ID `1` and another field, `_source`, which returns the full JSON document that we indexed from the previous step. 原來 index 傳進去的 JSON 整個被視為 `_source`
+
+  - [Delete an Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-delete-index.html) #ril
+
+  - [Modifying Your Data \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-modify-data.html)
+      - Elasticsearch provides data manipulation and search capabilities in NEAR REAL TIME. By default, you can expect a ONE SECOND DELAY (REFRESH interval) from the time you index/update/delete your data until the time that it appears in your search results. This is an important distinction from other platforms like SQL wherein data is IMMEDIATELY available after a transaction is completed. 雖然不能馬上反應，但 1 秒已經很快了，這一段時間花在 source --> inverted index 的轉換；加 `?refresh` 可以要求馬上更新
+      - If we then executed the above command again with a different (or same) document, Elasticsearch will REPLACE (i.e. REINDEX) a new document on top of the existing one with the ID of `1`:
+
+            PUT /customer/_doc/1?pretty
+            {
+              "name": "Jane Doe"
+            }
+
+            ---
+
+            {
+              "_index": "customer",
+              "_type": "_doc",
+              "_id": "1",
+              "_version": 2, <-- 每次 _version 都會 +1，即便整個 input 都沒變
+              "result": "updated",
+              "_shards": {
+                "total": 2,
+                "successful": 1,
+                "failed": 0
+              },
+              "_seq_no": 1,
+              "_primary_term": 1
+            }
+
+        注意是 replace (whole) document -- 如果之前提供 `{"name": "John Doe", "height": 180}`，用 `{"name": "Jane Doe"}` 取代後 `"height": 180` 就不見了 -- 而不單單只是更新 `name` field 而已，所以文件才會說這是 replace/reindex，那麼下一份文件的標題是 "Update Documents" 也就不奇怪了。
+
+      - When indexing, the ID part is OPTIONAL. If not specified, Elasticsearch will generate a random ID and then use it to index the document. The actual ID Elasticsearch generates (or whatever we specified explicitly in the previous examples) is returned as part of the index API call.
+
+            POST /customer/_doc?pretty
+            {
+              "name": "Jane Doe"
+            }
+
+            ---
+
+            {
+              "_index": "customer",
+              "_type": "_doc",
+              "_id": "4HUxCGgBGR3KY_r1S5Vj",
+              "_version": 1,
+              "result": "created",
+              "_shards": {
+                "total": 2,
+                "successful": 1,
+                "failed": 0
+              },
+              "_seq_no": 0,
+              "_primary_term": 1
+            }
+
+        Note that in the above case, we are using the `POST` verb instead of PUT since we didn’t specify an ID. 實務上就必須記錄這份 source 與 generated ID 的對照... 如果可以的話，可以從 source 的某些 field 算出一個 ID，例如 URL 的 SHA256，如果來源本來就有自己的 ID，直接用也無妨，搭配 Index per document type 的策略，也不用擔心 ID 會衝突。
+
+  - [Updating Documents \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-update-documents.html)
+      - In addition to being able to index and REPLACE documents, we can also UPDATE documents. Note though that Elasticsearch does NOT ACTUALLY DO IN-PLACE UPDATES under the hood. Whenever we do an update, Elasticsearch deletes the old document and then indexes a new document with the update applied to it in one shot. 注意 replace 與 update 的不同，雖然 Elasticsearch 底層不支援所謂的 update，但透過 update API 可以做到 "更新 source 部份欄位 + 重新 index 整個 source" 的效果。
+
+            POST /customer/_doc/1/_update?pretty
+            {
+              "doc": { "name": "Jane Doe" } <-- 注意走 POST，在 JSON document 外多了一層 doc
+            }
+
+            ---
+
+            {
+              "_index": "customer",
+              "_type": "_doc",
+              "_id": "1",
+              "_version": 2,
+              "result": "updated", <-- 跟 PUT/replace 一樣
+              "_shards": {
+                "total": 2,
+                "successful": 1,
+                "failed": 0
+              },
+              "_seq_no": 1,
+              "_primary_term": 1
+            }
+
+      - This example shows how to update our previous document (ID of 1) by changing the `name` field to `Jane Doe` and at the same time add an `age` field to it:
+
+            POST /customer/_doc/1/_update?pretty
+            {
+              "doc": { "name": "Jane Doe", "age": 20 }
+            }
+
+      - Updates can also be performed by using simple SCRIPTs. This example uses a script to increment the `age` by 5:
+
+            POST /customer/_doc/1/_update?pretty
+            {
+              "script" : "ctx._source.age += 5"
+            }
+
+        In the above example, `ctx._source` refers to the current source document that is about to be updated. 語法是 Painless，滿直覺的
+
+      - Elasticsearch provides the ability to update multiple documents given a query condition (like an `SQL UPDATE-WHERE` statement). See `docs-update-by-query` API 通常會搭配 script 使用。
+
+  - [Deleting Documents \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-delete-documents.html)
+      - Deleting a document is fairly straightforward. This example shows how to delete our previous customer with the ID of `2`: `DELETE /customer/_doc/2?pretty`
+      - See the `_delete_by_query` API to delete all documents matching a specific query.
+
+  - [Batch Processing \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-batch-processing.html)
+      - In addition to being able to index, update, and delete individual documents, Elasticsearch also provides the ability to perform ANY of the above operations in batches using the `_bulk` API. This functionality is important in that it provides a very efficient mechanism to do multiple operations as fast as possible with as FEW NETWORK ROUNDTRIPS as possible.
+      - The following call indexes two documents (ID 1 - John Doe and ID 2 - Jane Doe) in one bulk operation: 類 JSON Lines 的格式 -- action 與 source 交替出現，可以用來準備測試資料；如何將現有的資料 dump 成這樣的格式??
+
+            POST /customer/_doc/_bulk?pretty
+            {"index":{"_id":"1"}} <-- action / ID
+            {"name": "John Doe" } <-- source
+            {"index":{"_id":"2"}}
+            {"name": "Jane Doe" }
+
+            ---
+
+            {
+              "took" : 17,
+              "errors" : false,
+              "items" : [
+                {
+                  "index" : {
+                    "_index" : "customer",
+                    "_type" : "_doc",
+                    "_id" : "1",
+                    "_version" : 7,
+                    "result" : "updated",
+                    "_shards" : {
+                      "total" : 2,
+                      "successful" : 1,
+                      "failed" : 0
+                    },
+                    "_seq_no" : 6,
+                    "_primary_term" : 1,
+                    "status" : 200
+                  }
+                },
+                {
+                  "index" : {
+                    "_index" : "customer",
+                    "_type" : "_doc",
+                    "_id" : "2",
+                    "_version" : 2,
+                    "result" : "created",
+                    "_shards" : {
+                      "total" : 2,
+                      "successful" : 1,
+                      "failed" : 0
+                    },
+                    "_seq_no" : 1,
+                    "_primary_term" : 1,
+                    "status" : 201
+                  }
+                }
+              ]
+            }
+
+        This example updates the first document (ID of 1) and then deletes the second document (ID of 2) in one bulk operation:
+
+            POST /customer/_doc/_bulk?pretty
+            {"update":{"_id":"1"}}
+            {"doc": { "name": "John Doe becomes Jane Doe" } } <-- 寫法跟 update API 一樣
+            {"delete":{"_id":"2"}}
+
+        Note above that for the delete action, there is no corresponding SOURCE DOCUMENT after it since deletes only require the ID of the document to be deleted. 通常是 action 與 source 交替出現，但是若 action 不需要 document，就不會跟著 document。
+
+      - The Bulk API does NOT FAIL DUE TO FAILURES IN ONE OF THE ACTIONS. If a single action fails for whatever reason, it will continue to process the remainder of the actions after it. When the bulk API returns, it will provide a status for EACH ACTION (in the same order it was sent in) so that you can check if a specific action failed or not. 很彈性的設計，一次回報個別 action 的結果。
+
+  - [?refresh \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html) #ril
+
   - [Indexing for Beginners, Part 1 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part1) (2013-09-13) #ril
   - [Indexing for Beginners, Part 2 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part2) (2013-10-08) #ril
   - [Indexing for Beginners, Part 3 \| Elastic](https://www.elastic.co/blog/found-indexing-for-beginners-part3) (2013-10-29) #ril
@@ -133,6 +351,7 @@ title: Elasticsearch / Indexing
       - The first alternative is to HAVE AN INDEX PER DOCUMENT TYPE. Instead of storing tweets and users in a single `twitter` index, you could store tweets in the `tweets` index and users in the `user` index. Indices are completely independent of each other and so there will be no conflict of field types between indices. 拆 index 會影響到什麼?? relationship 效率變差?
       - This approach has two benefits: Data is more likely to be DENSE and so benefit from compression techniques used in Lucene. The TERM STATISTICS used for scoring in full text search are more likely to be accurate because all documents in the same index represent a single entity. 不然跨 index 的 scoring 是怎麼計算的??
       - Each index can be sized appropriately for the number of documents it will contain: you can use a smaller number of PRIMARY SHARDs for users and a larger number of primary shards for tweets. 確實總量不多的 document type 若被分散到太多 shard，之後存取的效能會變差??
+      - 如果真依 document type 來分 index 的話，將不同 wiki system 的 wiki pages 併到一個 index 也是合理，因為大家都有 title、content、slug 的概念。
 
   - [Get Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html) #ril
   - [Get Field Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-field-mapping.html) #ril
@@ -202,3 +421,9 @@ title: Elasticsearch / Indexing
   - [Index Templates \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html) #ril
       - Index templates allow you to define templates that will automatically be applied when new indices are created. 也就是過往寫在 node level (`elasticsearch.yml`) 但有關 index 的預設值可以先安排在 template 裡。
 
+## Import / Export ??
+
+  - [How to Export Data from Elasticsearch into a CSV File](https://qbox.io/blog/how-to-export-data-elasticsearch-into-csv-file) (2016-11-16) #ril
+  - [Snapshot And Restore \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html) #ril
+  - [What's the easiest way to export ElasticSearch data for later re\-import, say, at a later time on another server? \- Quora](https://www.quora.com/Whats-the-easiest-way-to-export-ElasticSearch-data-for-later-re-import-say-at-a-later-time-on-another-server) #ril
+  - [taskrabbit/elasticsearch\-dump: Import and export tools for elasticsearch](https://github.com/taskrabbit/elasticsearch-dump) #ril

@@ -3,33 +3,71 @@ title: Elasticsearch / Query
 ---
 # [Elasticsearch](elasticsearch.md) / Query
 
-  - [Query and filter context \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/query-filter-context.html) Query 比 filter 的結果多了 `_score` #ril
+## 新手上路 ?? {: #getting-started }
+
+  - [Exploring Your Data \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-explore-data.html)
+      - I’ve prepared a sample of fictitious JSON documents of customer bank account information. Each document has the following SCHEMA: (For the curious, this data was generated using www.json-generator.com/)
+
+            {
+                "account_number": 0,
+                "balance": 16623,
+                "firstname": "Bradshaw",
+                "lastname": "Mckenzie",
+                "age": 29,
+                "gender": "F",
+                "address": "244 Columbus Place",
+                "employer": "Euron",
+                "email": "bradshawmckenzie@euron.com",
+                "city": "Hobucken",
+                "state": "CO"
+            }
+
+      - You can download the sample dataset (`accounts.json`) from here. Extract it to our current directory and let’s load it into our cluster as follows: 走 Bulk API 將 accounts (JSON Lines) 上傳 1000 筆測試用數據。
+
+            $ curl -L -o accounts.json https://github.com/elastic/elasticsearch/blob/master/docs/src/test/resources/accounts.json?raw=true
+            $ head -4 accounts.json
+            {"index":{"_id":"1"}}
+            {"account_number":1,"balance":39225,"firstname":"Amber","lastname":"Duke","age":32,"gender":"M","address":"880 Holmes Lane","employer":"Pyrami","email":"amberduke@pyrami.com","city":"Brogan","state":"IL"}
+            {"index":{"_id":"6"}}
+            {"account_number":6,"balance":5686,"firstname":"Hattie","lastname":"Bond","age":36,"gender":"M","address":"671 Bristol Street","employer":"Netagy","email":"hattiebond@netagy.com","city":"Dante","state":"TN"}
+
+            $ curl -H "Content-Type: application/json" -XPOST "localhost:9200/bank/_doc/_bulk?pretty&refresh" --data-binary "@accounts.json"
+            $ curl "localhost:9200/_cat/indices?v"
+
+            health status index     uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+            yellow open   bank      vA1OFhDGR9GkXDM1EVbZpg   5   1       1000            0    103.8kb        103.8kb
+
+  - [The Search API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search-API.html) #ril
+  - [Introducing the Query Language \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-query-lang.html) #ril
+  - [Executing Searches \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search.html) #ril
+  - [Executing Filters \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-filters.html) #ril
 
 ## Search API ??
 
   - [Search APIs \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html) #ril
+
   - [Search \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html) #ril
-      - The search API allows you to execute a search query and get back SEARCH HITS that match the query. The query can either be provided using a simple QUERY STRING as a parameter (也就是 URI Search), or using a REQUEST BODY.
+      - The search API allows you to execute a search query and get back SEARCH HITS that match the query. The query can either be provided using a simple QUERY STRING as a parameter (也就是 URI Search), or using a REQUEST BODY. 其中 search hits 指的是 match 的筆數。
       - Or we can search across all available indices using `_all`: `GET /_all/_search?q=tag:wow` 若省略 `_all/` 也是代表 all??
+
   - [URI Search \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-uri-request.html) #ril
+
   - [Request Body Search \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html) #ril
       - Both HTTP GET and HTTP POST can be used to execute search with body. Since not all clients support GET with body, POST is allowed as well. 聽起來 POST 就比較合理。
+
   - [Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-query.html) #ril
-  - [From / Size \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-from-size.html) #ril
   - [Sort \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-sort.html) #ril
   - [Source filtering \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-source-filtering.html) #ril
   - [Fields \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-stored-fields.html) #ril
   - [Script Fields \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-script-fields.html) #ril
   - [Doc value Fields \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-docvalue-fields.html) #ril
   - [Post filter \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-post-filter.html) #ril
-  - [Highlighting \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html) #ril
   - [Rescoring \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-rescore.html) #ril
   - [Search Type \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html) #ril
   - [Scroll \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html) #ril
   - [Preference \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-preference.html) #ril
   - [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) #ril
   - [Version \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-version.html) #ril
-  - [Index Boost \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-index-boost.html) #ril
   - [min\_score \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-min-score.html) #ril
 
 ## Query DSL
@@ -105,12 +143,43 @@ title: Elasticsearch / Query
       - While the full text queries will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index, and will normalize terms before executing only for keyword fields with normalizer property.
   - [Keyword datatype \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html) #ril
 
+## Highlighting ??
+
+  - [Highlighting \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html) #ril
+
 ## Scoring/Ranking ??
 
   - [Ranking Evaluation API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-rank-eval.html) #ril
   - [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) 解釋 score 是如何計算的 #ril
   - [Theory Behind Relevance Scoring \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/scoring-theory.html) #ril
   - [Customize relevance with Elasticsearch – Sravanthi Naraharisetti – Medium](https://medium.com/@nschsravanthi/customize-relevance-with-elasticsearch-7735a9ac550e) (2018-04-16) #ril
+
+## Boosting ??
+
+  - [Elasticsearch Query\-Time Strategies and Techniques for Relevance: Part II \- Compose Articles](https://www.compose.com/articles/elasticsearch-query-time-strategies-and-techniques-for-relevance-part-ii/) (2016-03-31) #ril
+  - [Tuning Relevance in Elasticsearch with Custom Boosting – Marco Bonzanini](https://marcobonzanini.com/2015/06/22/tuning-relevance-in-elasticsearch-with-custom-boosting/) (2015-06-22) #ril
+
+  - [Index Boost \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-index-boost.html)
+      - Allows to configure different boost level per index when searching across more than one indices. This is very handy when hits coming from ONE INDEX MATTER MORE than hits coming from another index (think social graph where each user has an index).
+      - You can also specify it as an array to control the order of boosts.
+
+            GET /_search
+            {
+                "indices_boost" : [
+                    { "alias1" : 1.4 },
+                    { "index*" : 1.3 }
+                ]
+            }
+
+      - This is important when you use aliases or wildcard expression. If multiple matches are found, the first match will be used. For example, if an index is included in both `alias1` and `index*`, boost value of `1.4` is applied. 一個 index 最多被 boost 一次。
+      - Boost 的值要怎麼給? 給了 `{ "wiki": 5 }` 結果 score 從 2.96 衝到 14.80，它跟 score 計算式的關係是什麼?? 搭配 index per document type 的策略比較好發揮。
+
+  - [boost \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html) #ril
+  - [Boosting Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-boosting-query.html) #ril
+
+## Pagination ??
+
+  - [From / Size \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-from-size.html) #ril
 
 ## Suggestion ??
 
@@ -119,6 +188,11 @@ title: Elasticsearch / Query
   - [How to Build a “Did You Mean” Feature with Elasticsearch](https://qbox.io/blog/how-to-build-did-you-mean-feature-with-elasticsearch-phrase-suggester) (2018-01-04) #ril
   - [Suggesters \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html) #ril
   - [Term suggester \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-term.html) #ril
+
+## Aggregation ??
+
+  - [Executing Aggregations \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-aggregations.html) #ril
+  - [Aggregations \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html) #ril
 
 ## 工具 {: #tools }
 
