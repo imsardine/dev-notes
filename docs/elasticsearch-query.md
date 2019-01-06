@@ -63,10 +63,8 @@ title: Elasticsearch / Query
   - [Doc value Fields \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-docvalue-fields.html) #ril
   - [Post filter \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-post-filter.html) #ril
   - [Rescoring \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-rescore.html) #ril
-  - [Search Type \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html) #ril
   - [Scroll \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html) #ril
   - [Preference \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-preference.html) #ril
-  - [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) #ril
   - [Version \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-version.html) #ril
   - [min\_score \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-min-score.html) #ril
 
@@ -134,6 +132,26 @@ title: Elasticsearch / Query
 
 ## Full Text Query ??
 
+  - [Full text queries \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html) #ril
+
+  - [Match Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html) #ril
+      - match queries accept text/numerics/dates, analyzes them, and constructs a query. For example:
+
+            GET /_search
+            {
+                "query": {
+                    "match" : {
+                        "message" : "this is a test"
+                    }
+                }
+            }
+
+        Note, `message` is the name of a field, you can substitute the name of any field instead. 但只能有一個 field??
+
+  - [Match Phrase Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase.html) #ril
+  - [Match Phrase Prefix Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase-prefix.html) #ril
+  - [Multi Match Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html) #ril
+  - [Common Terms Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-common-terms-query.html) #ril
   - [Query String Query \| Elasticsearch Reference \[5\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/5.4/query-dsl-query-string-query.html) #ril
   - [Simple Query String Query \| Elasticsearch Reference \[5\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/5.4/query-dsl-simple-query-string-query.html) #ril
 
@@ -147,12 +165,224 @@ title: Elasticsearch / Query
 
   - [Highlighting \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html) #ril
 
-## Scoring/Ranking ??
+## Scoring / Ranking / Relevance ??
 
-  - [Ranking Evaluation API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-rank-eval.html) #ril
-  - [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) 解釋 score 是如何計算的 #ril
+  - [How scoring works in Elasticsearch \- Compose Articles](https://www.compose.com/articles/how-scoring-works-in-elasticsearch/) (2016-02-18) #ril
+
+  - [What Is Relevance? \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/relevance-intro.html) #ril
+
   - [Theory Behind Relevance Scoring \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/scoring-theory.html) #ril
+
+  - [Relevancy looks wrong - Getting consistent scoring \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/consistent-scoring.html#_relevancy_looks_wrong) #ril
+      - If you notice that two documents with the same content get different scores or that an exact match is not ranked first, then the issue might be related to SHARDING. By default, Elasticsearch makes each shard responsible for producing ITS OWN SCORES.
+      - However since index statistics are an important contributor to the scores, this only works well if shards have SIMILAR INDEX STATISTICS. The ASSUMPTION is that since documents are routed EVENLY to shards by default, then index statistics should be very similar and scoring would work as expected. 其中 "routed evenly" 是根據什麼??
+
+  - [Relevance Is Broken\! \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/relevance-is-broken.html) #ril
+      - Don’t use `dfs_query_then_fetch` in production. It really isn’t required. Just HAVING ENOUGH DATA will ensure that your term frequencies are well distributed. There is no reason to add this extra DFS step to every query that you run. 不該用在 production，那這個 parameter 根本就不該存在!! 但初期資料量少時確實會是個問題，等資料量成長到一定再拆 shard??
+
+  - [Search Type \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html) #ril
+
+  - [Understanding "Query Then Fetch" vs "DFS Query Then Fetch" \| Elastic](https://www.elastic.co/blog/understanding-query-then-fetch-vs-dfs-query-then-fetch) (2013-02-10) #ril
+
+  - [Practical BM25 \- Part 1: How Shards Affect Relevance Scoring in Elasticsearch \| Elastic](https://www.elastic.co/blog/practical-bm25-part-1-how-shards-affect-relevance-scoring-in-elasticsearch) (2018-04-19) #ril
+  - [Practical BM25 \- Part 2: The BM25 Algorithm and its Variables \| Elastic](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables) (2018-04-19) #ril
+  - [Practical BM25 \- Part 3: Considerations for Picking b and k1 in Elasticsearch \| Elastic](https://www.elastic.co/blog/practical-bm25-part-3-considerations-for-picking-b-and-k1-in-elasticsearch) (2018-04-19) #ril
+  - [Similarity module \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-similarity.html) #ril
+
+  - [TFIDFSimilarity \(Lucene 6\.0\.1 API\)](https://lucene.apache.org/core/6_0_1/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html#idf-long-long-)
+      - `docFreq` - the number of documents which contain the term
+      - `docCount` - the total number of documents in the collection??
+
+  - [BM25 docFreq, docCount and avgFieldLength seems to be wrong · Issue \#24429 · elastic/elasticsearch](https://github.com/elastic/elasticsearch/issues/24429) (2017-05-02) jimczi: (member)
+      - Don't forget that ES creates an index with 5 shards by default and that `docFreq` and `docCount` are computed PER SHARD.
+      - You can create an index with 1 shard or use the `dfs` mode to compute distributed stats: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html#dfs-query-then-fetch 併成 1 個 shard 未來會有問題吧??
+
+  - [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) #ril
+      - Enables explanation for each hit on how its score was computed.
+
+            GET /_search
+            {
+                "explain": true, <-- 加上這個即可
+                "query" : {
+                    "term" : { "user" : "kimchy" }
+                }
+            }
+
+      - 以 [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) 提供的測試資料為例：
+
+            GET bank/_doc/32
+
+            {
+              "_index": "bank",
+              "_type": "_doc",
+              "_id": "32",
+              "_version": 1,
+              "found": true,
+              "_source": {
+                "account_number": 32,
+                "balance": 48086,
+                "firstname": "Dillard",
+                "lastname": "Mcpherson",
+                "age": 34,
+                "gender": "F",
+                "address": "702 Quentin Street", <-- 先確認待會排名第 1 的資料
+                "employer": "Quailcom",
+                "email": "dillardmcpherson@quailcom.com",
+                "city": "Veguita",
+                "state": "IN"
+              }
+            }
+
+            ---
+
+            POST bank/_search
+            {
+              "explain": true,
+              "query": {
+                "match": {
+                  "address": {
+                    "query": "street quentin",
+                    "operator": "and"
+                  }
+                }
+              }
+            }
+
+            ---
+
+            {
+              ...
+              "_explanation": {
+                "value": 5.9542274, <-- address:street (1.1056647) + address:quentin (4.8485627)
+                "description": "sum of:",
+                "details": [
+                  {
+                    "value": 1.1056647,
+                    "description": "weight(address:street in 0) [PerFieldSimilarity], result of:",
+                    "details": [
+                      {
+                        "value": 1.1056647, <-- idf (1.1064554) x tfNorm (0.99928534)
+                        "description": "score(doc=0,freq=1.0 = termFreq=1.0 ), product of:",
+                        "details": [
+                          {
+                            "value": 1.1064554,
+                            "description": "idf, computed as log(1 + (docCount - docFreq + 0.5) / (docFreq + 0.5)) from:",
+                            "details": [
+                              {
+                                "value": 63, <-- 有出現 street 的有 63 份，辨識度不高
+                                "description": "docFreq",
+                                "details": []
+                              },
+                              {
+                                "value": 191, <-- 所在的 shard 有 191 份文件 (預設有 5 個 shard)
+                                "description": "docCount",
+                                "details": []
+                              }
+                            ]
+                          },
+                          {
+                            "value": 0.99928534,
+                            "description": "tfNorm, computed as (freq * (k1 + 1)) / (freq + k1 * (1 - b + b * fieldLength / avgFieldLength)) from:",
+                            "details": [
+                              {
+                                "value": 1,
+                                "description": "termFreq=1.0",
+                                "details": []
+                              },
+                              {
+                                "value": 1.2,
+                                "description": "parameter k1",
+                                "details": []
+                              },
+                              {
+                                "value": 0.75,
+                                "description": "parameter b",
+                                "details": []
+                              },
+                              {
+                                "value": 2.9947643,
+                                "description": "avgFieldLength",
+                                "details": []
+                              },
+                              {
+                                "value": 3, <-- 幾個 term ??
+                                "description": "fieldLength",
+                                "details": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "value": 4.8485627,
+                    "description": "weight(address:quentin in 0) [PerFieldSimilarity], result of:",
+                    "details": [
+                      {
+                        "value": 4.8485627,
+                        "description": "score(doc=0,freq=1.0 = termFreq=1.0 ), product of:",
+                        "details": [
+                          {
+                            "value": 4.8520303,
+                            "description": "idf, computed as log(1 + (docCount - docFreq + 0.5) / (docFreq + 0.5)) from:",
+                            "details": [
+                              {
+                                "value": 1,
+                                "description": "docFreq",
+                                "details": []
+                              },
+                              {
+                                "value": 191,
+                                "description": "docCount",
+                                "details": []
+                              }
+                            ]
+                          },
+                          {
+                            "value": 0.99928534,
+                            "description": "tfNorm, computed as (freq * (k1 + 1)) / (freq + k1 * (1 - b + b * fieldLength / avgFieldLength)) from:",
+                            "details": [
+                              {
+                                "value": 1,
+                                "description": "termFreq=1.0",
+                                "details": []
+                              },
+                              {
+                                "value": 1.2,
+                                "description": "parameter k1",
+                                "details": []
+                              },
+                              {
+                                "value": 0.75,
+                                "description": "parameter b",
+                                "details": []
+                              },
+                              {
+                                "value": 2.9947643,
+                                "description": "avgFieldLength",
+                                "details": []
+                              },
+                              {
+                                "value": 3,
+                                "description": "fieldLength",
+                                "details": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+
+  - [Explain API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-explain.html) #ril
+
   - [Customize relevance with Elasticsearch – Sravanthi Naraharisetti – Medium](https://medium.com/@nschsravanthi/customize-relevance-with-elasticsearch-7735a9ac550e) (2018-04-16) #ril
+  - [Ranking Evaluation API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-rank-eval.html) #ril
+  - [Scores are not reproducible - Getting consistent scoring \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/consistent-scoring.html#_scores_are_not_reproducible) 跟 replica 有關 #ril
 
 ## Boosting ??
 
@@ -176,6 +406,7 @@ title: Elasticsearch / Query
 
   - [boost \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html) #ril
   - [Boosting Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-boosting-query.html) #ril
+  - [Lucene’s Practical Scoring Function \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/practical-scoring-function.html) #ril
 
 ## Pagination ??
 
@@ -191,6 +422,7 @@ title: Elasticsearch / Query
 
 ## Aggregation ??
 
+  - [Practical guide to grouping results with elasticsearch](https://m.alphasights.com/practical-guide-to-grouping-results-with-elasticsearch-a7e544343d53) (2016-06-06) #ril
   - [Executing Aggregations \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-aggregations.html) #ril
   - [Aggregations \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html) #ril
 

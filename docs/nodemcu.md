@@ -45,7 +45,7 @@
 ## GPIO ??
 
   - [gpio \- NodeMCU Documentation](https://nodemcu.readthedocs.io/en/master/en/modules/gpio/) #ril
-      - All access is based on the I/O index number on the NodeMCU dev kits, not the internal GPIO pin. For example, the D0 pin on the dev kit is mapped to the internal GPIO pin 16. If not using a NodeMCU dev kit, please refer to the below GPIO pin maps for the index↔gpio mapping. 問題是 I/O index 跟 NodeMCU 外觀上沒有 D9 ~ D12??
+      - All access is based on the I/O index number on the NodeMCU dev kits, not the internal GPIO pin. For example, the D0 pin on the dev kit is mapped to the internal GPIO pin 16. If not using a NodeMCU dev kit, please refer to the below GPIO pin maps for the index↔gpio mapping. 如果用 NodeMCU 官方的 firmware 寫程式，要用 I/O index，否則要用 GPIO pin；問題是 I/O index 跟 NodeMCU 外觀上沒有 D9 ~ D12??
 
             IO Index | ESP8266 Pin
             00         GPIO16

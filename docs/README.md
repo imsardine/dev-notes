@@ -22,6 +22,7 @@
 
 ## C
 
+  - [Chrome](chrome.md)
   - [Circuit 電路](circuit.md)
   - [Circuit Diagram 電路圖](circuit-diagram.md)
   - [Configuration](configuration.md)
@@ -96,6 +97,7 @@
 ## O
 
   - [Oh My Zsh](oh-my-zsh.md)
+  - [OpenSearch](opensearch.md)
   - [OV7670](ov7670.md)
 
 ## P
@@ -105,7 +107,9 @@
   - [Pipenv](pipenv.md)
   - [PlatformIO](platformio.md)
   - [Postman](postman.md)
+  - [Potentiometer 電位計](potentiometer.md)
   - [Powerlevel9k](powerlevel9k.md)
+  - [PWM](pwm.md)
   - [pyenv](pyenv.md)
   - [Python](python.md)
   - [python-magic](python-magic.md)
@@ -124,6 +128,7 @@
   - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)
   - [Statuspage](statuspage.md)
+  - [Switch 開關](switch.md)
 
 ## T
 

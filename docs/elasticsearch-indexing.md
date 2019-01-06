@@ -238,13 +238,16 @@ title: Elasticsearch / Indexing
   - [Get Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-index.html)
       - The get index API allows to retrieve information about ONE OR MORE indexes. 例如 `GET /twitter`；先知道如何看 index 的設定、如何刪除 index，再練習建立 index。
       - Specifying an index, alias or wildcard expression is required. The get index API can also be applied to more than one index, or on all indices by using `_all` or `*` as index. 實驗確認逗號開多個 index 也是可以的，例如 `GET /twitter,test`。
+
   - [Delete Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html)
       - The delete index API allows to delete an existing index. 例如 `DELETE /twitter`。
       - Specifying an index or a wildcard expression is required. Aliases cannot be used to delete an index. Wildcard expressions are resolved to matching CONCRETE indices only. 這裡 concrete 是相對於 alias 的說法??
       - The delete index API can also be applied to more than one index, by either using a COMMA SEPARATED list, or on all indices (be careful!) by using `_all` or `*` as index.
+
   - [Indices Exists \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html)
       - Used to check if the index (indices) exists or not. The HTTP status code indicates if the index exists or not. A `404` means it does not exist, and `200` means it does. 例如 `HEAD twitter`。
       - This request does not distinguish between an index and an alias, i.e. status code 200 is also returned if an alias exists with that name. 這不是很合理嗎? 有可能 alias 背後的 index 已經不在??
+
   - [Create Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) #ril
       - The most basic command is the following: `PUT twitter` This create an index named `twitter` with all default setting. 這裡的 default setting 指的是 index level setting，至於 mapping type 則要到 index 資料時才會動態產生。
 
@@ -331,6 +334,19 @@ title: Elasticsearch / Indexing
 
   - [Index Aliases \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html) #ril
   - [Open / Close Index API \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-open-close.html) #ril
+
+## Sharding ??
+
+  - [How many shards should I have in my Elasticsearch cluster? \| Elastic](https://www.elastic.co/blog/how-many-shards-should-i-have-in-my-elasticsearch-cluster) (2017-09-18) #ril
+      - Elasticsearch is a very versatile platform, that supports a variety of use cases, and provides great flexibility around data ORGANISATION and REPLICATION strategies. This flexibility can however sometimes make it hard to DETERMINE UP-FRONT how to best organize your data into INDICES AND SHARDS, especially if you are new to the Elastic Stack. While suboptimal choices  will not necessarily cause problems when first starting out, they have the potential to cause performance problems as data volumes grow over time. The more data the cluster holds, the more difficult it also becomes to correct the problem, as REINDEXING of large amounts of data can sometimes be required. 用法很彈性，若沒在一開始決定好 organization (index/shard) 與 replication strategy，資料量變大時 performance 的問題就會浮現，最糟可能要對巨量的資料做 reindex。
+      - When we come across users that are experiencing performance problems, it is not uncommon that this can be traced back to issues around how data is indexed and NUMBER OF SHARDS in the cluster.
+      - Data in Elasticsearch is organized into indices. Each index is made up of one or more shards. Each shard is an instance of a Lucene index, which you can think of as a SELF-CONTAINED search engine that indexes and handles queries for a subset of the data in an Elasticsearch cluster. As data is written to a shard, it is periodically PUBLISHED into new immutable LUCENE SEGMENTS on disk, and it is at this time it becomes AVAILABLE FOR QUERYING. This is referred to as a REFRESH. 若每個 shard 都是獨立的 search engine，代表計分也是分開的?? 當搜尋結果來自不同 shard 時，計分的基礎是否會造成不公平??
+
+  - [And the big one said "Rollover" — Managing Elasticsearch time\-based indices efficiently \| Elastic](https://www.elastic.co/blog/managing-time-based-indices-efficiently) (2016-07-12) #ril
+  - [Inside a Shard \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/inside-a-shard.html) #ril
+  - [Shrink Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-shrink-index.html) #ril
+  - [Split Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-split-index.html) #ril
+  - [Rollover Index \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-rollover-index.html) #ril
 
 ## Mapping ??
 
@@ -427,3 +443,4 @@ title: Elasticsearch / Indexing
   - [Snapshot And Restore \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html) #ril
   - [What's the easiest way to export ElasticSearch data for later re\-import, say, at a later time on another server? \- Quora](https://www.quora.com/Whats-the-easiest-way-to-export-ElasticSearch-data-for-later-re-import-say-at-a-later-time-on-another-server) #ril
   - [taskrabbit/elasticsearch\-dump: Import and export tools for elasticsearch](https://github.com/taskrabbit/elasticsearch-dump) #ril
+  - [Backing Up Your Cluster \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/backing-up-your-cluster.html) #ril

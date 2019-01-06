@@ -62,8 +62,105 @@ title: Ardunio / Programming
       - In between the on and the off, you want enough time FOR A PERSON TO SEE THE CHANGE, so the `delay()` commands tell the board to do nothing for 1000 milliseconds, or one second. When you use the `delay()` command, nothing else happens for that amount of time. 原本不是沒變化，而是快到肉眼看不出來。
       - Check out the `BlinkWithoutDelay` example to learn how to create a delay WHILE DOING OTHER THINGS. 手動營造出多工的效果...
 
-  - [Arduino \- DigitalReadSerial](https://www.arduino.cc/en/Tutorial/DigitalReadSerial) 認識 pull-down resistor #ril
+  - [Arduino \- DigitalReadSerial](https://www.arduino.cc/en/Tutorial/DigitalReadSerial)
+      - This example shows you how to monitor the state of a switch by establishing SERIAL COMMUNICATION between your Arduino or Genuino and your computer over USB. 當 pushbutton 被按下時，可以從 D2 得知；會用到 pull-down resistor，但不會用到 LED，所以電阻才會用 10k，跟 Blink 的 220 ohm 差很多。
+      - Connect three wires to the board. The first two, red and black, connect to the two long vertical rows on the side of the breadboard to provide access to the 5 volt supply and ground. 跟 Blink 由 GPIO pin 提供電源不同 (但一樣是 5V)，這裡 "provide ground" 的說法很有趣。
+      - The third wire goes from digital pin 2 to one leg of the pushbutton. That same leg (指另一邊永遠連通的接腳) of the button connects through a PULL-DOWN RESISTOR (here 10k ohm) to ground. The other leg of the button connects to the 5 volt supply. 雖然 pushbutton 外觀上有 4 支腳，但其實是兩兩相連的；按下時 "全部" 會連通。
 
+        ![](https://www.arduino.cc/en/uploads/Tutorial/button.png){: width="60%"}
+        ![](https://www.arduino.cc/en/uploads/Tutorial/button_sch.png){: width="30%"}
+
+      - Pushbuttons or switches CONNECT TWO POINTS in a circuit when you press them. When the pushbutton is OPEN (unpressed) there is no connection between the two legs of the pushbutton, so the pin is connected to ground (through the pull-down resistor) and reads as LOW, or 0. When the button is CLOSED (pressed), it makes a connection between its two legs, connecting the pin to 5 volts, so that the pin reads as HIGH, or 1.
+      - If you disconnect the digital i/o pin from everything, the LED may blink erratically. This is because the input is "FLOATING" - that is, it doesn't have a SOLID CONNECTION to voltage or ground, and it will randomly return either HIGH or LOW. That's why you need a pull-down resistor in the circuit. 平時 digital pin 沒有經由 pull-down resistor 連往 GND 的話，讀到的值會在 HIGH 與 LOW 之間跳動 (floating)；這裡沒講清楚的是，雖然 D2-switch-GND 直接連通也可以 (solid connection)，但按下按鈕時為了不讓電流往 GND 去，所以中間才要安排 pull-down resistor。
+      - In the program below, the very first thing that you do will in the setup function is to begin serial communications, at 9600 bits of data per second, between your board and your computer with the line: `Serial.begin(9600);`
+      - 5 volts will freely flow through your circuit, and when it is not pressed, the input pin will be connected to ground through the 10k ohm resistor. This is a DIGITAL Input, meaning that the switch can only be in either an on state (seen by your Arduino as a "1", or HIGH) or an off state (seen by your Arduino as a "0", or LOW), with NOTHING IN BETWEEN.
+      - ... You can accomplish all this with just one line of code: `int sensorValue = digitalRead(2);` Once the bord has read the input, make it print this information BACK TO THE COMPUTER as a decimal value. You can do this with the command `Serial.println()` in our last line of code: `Serial.println(sensorValue);` Now, when you open your Serial Monitor in the Arduino Software (IDE), you will see a stream of "0"s if your switch is open, or "1"s if your switch is closed.
+
+            int pushButton = 2;
+
+            // the setup routine runs once when you press reset:
+            void setup() {
+              // initialize serial communication at 9600 bits per second:
+              Serial.begin(9600);
+              // make the pushbutton's pin an input:
+              pinMode(pushButton, INPUT);
+            }
+
+            // the loop routine runs over and over again forever:
+            void loop() {
+              // read the input pin:
+              int buttonState = digitalRead(pushButton);
+              // print out the state of the button:
+              Serial.println(buttonState);
+              delay(1);        // delay in between reads for stability
+            }
+
+        上面提到的 "LED may blink erratically"，斷掉 D2-GND 的連線，加上下面的邏輯就可以用內建的 LED 觀察：
+
+            digitalWrite(LED_BUILTIN, buttonState == 1 ? HIGH : LOW);
+            delay(100);
+
+  - [Arduino \- AnalogReadSerial](https://www.arduino.cc/en/Tutorial/AnalogReadSerial)
+      - This example shows you how to read ANALOG INPUT from the physical world using a POTENTIOMETER. A potentiometer is a simple mechanical device that provides a varying amount of resistance when its shaft (轉軸) is turned. By passing voltage through a potentiometer and into an analog input on your board, it is possible to measure the AMOUNT OF RESISTANCE produced by a potentiometer (or POT for short) as an analog value.
+      - Connect the three wires from the potentiometer to your board. The first goes from one of the outer pins of the potentiometerto ground. The second goes from the other outer pin of the potentiometer to 5 volts. The third goes from the MIDDLE pin of the potentiometer to the analog pin A0. 外觀有 3 支腳 (2 + 1)，單支腳接往 analog pin (A0)，另外 2 支腳則分別接正負極，本身產生的電阻可以在第 3 支腳 (middle pin) 讀到。
+
+        ![](https://www.arduino.cc/en/uploads/Tutorial/AnalogReadSerial_BB.png)
+        ![](https://www.arduino.cc/en/uploads/Tutorial/AnalogReadSerial_sch.png){: width="35%"}
+
+      - By turning the shaft of the potentiometer, you change the amount of resistance on either side of the WIPER, which is connected to the center pin of the potentiometer. This changes the VOLTAGE AT THE CENTER PIN. When the resistance between the center and the side connected to 5 volts is close to zero (and the resistance on the other side is close to 10k ohm), the voltage at the center pin nears 5 volts. When the resistances are reversed, the voltage at the center pin nears 0 volts, or ground. This voltage is the ANALOG VOLTAGE that you're reading as an input. 可以想成 wiper 就是 5v 與 middle pin 中間的電阻；完全沒電阻時會讀到 5V，電阻全開時會讀到 0V，而 analog input 就是 0 ~ 5V 中間的變化值。
+      - The Arduino and Genuino boards have a circuit inside called an analog-to-digital converter or ADC that reads this changing voltage and converts it to a number between 0 and 1023. When the shaft is turned all the way in one direction, there are 0 volts going to the pin, and the input value is 0. When the shaft is turned all the way in the opposite direction, there are 5 volts going to the pin and the input value is 1023. In between, `analogRead()` returns a number between 0 and 1023 that is proportional to the amount of voltage being applied to the pin. 由於內建 ADC，能將 0 ~ 5V 細分成 1024 階 (0 ~ 1023)，用 `analogRead()` 就能讀到這個值。
+      - The only thing that you do in the setup function is to begin serial communications, at 9600 bits of data per second, between your board and your computer with the command: `Serial.begin(9600);` ... you need to establish a variable to store the resistance value (which will be between 0 and 1023, perfect for an `int` datatype) coming in from your potentiometer: `int sensorValue = analogRead(A0);` 原來 `A0` 被定義在 Arduino Core 裡：
+
+            void setup() {
+              // initialize serial communication at 9600 bits per second:
+              Serial.begin(9600);
+            }
+
+            // the loop routine runs over and over again forever:
+            void loop() {
+              // read the input on analog pin 0:
+              int sensorValue = analogRead(A0);
+              // print out the value you read:
+              Serial.println(sensorValue);
+              delay(1);        // delay in between reads for stability
+            }
+
+      - You should see a STEADY stream of numbers ranging from 0-1023, correlating to the position of the pot. As you turn your potentiometer, these numbers will respond almost instantly.
+
+  - [Arduino \- Fade](https://www.arduino.cc/en/Tutorial/Fade)
+
+        int led = 9;           // the PWM pin the LED is attached to
+        int brightness = 0;    // how bright the LED is
+        int fadeAmount = 5;    // how many points to fade the LED by
+
+        // the setup routine runs once when you press reset:
+        void setup() {
+          // declare pin 9 to be an output:
+          pinMode(led, OUTPUT);
+        }
+
+        // the loop routine runs over and over again forever:
+        void loop() {
+          // set the brightness of pin 9:
+          analogWrite(led, brightness);
+
+          // change the brightness for next time through the loop:
+          brightness = brightness + fadeAmount;
+
+          // reverse the direction of the fading at the ends of the fade:
+          if (brightness <= 0 || brightness >= 255) {
+            fadeAmount = -fadeAmount;
+          }
+          // wait for 30 milliseconds to see the dimming effect
+          delay(30);
+        }
+
+      - This example demonstrates the use of the `analogWrite()` function in fading an LED off and on. AnalogWrite uses pulse width modulation (PWM), turning a digital pin ON AND OFF VERY QUICKLY with different ratio between on and off, to create a fading effect. 所以不是改變輸出的電壓?? 又 A0 ~ A4 只會用在 `analogRead()`?   (因為有 ADC)，而 `analogWrite()` 還是會到 digital pin??
+      - The `analogWrite()` function that you will be using in the main loop of your code requires two arguments: One telling the function which pin to write to, and one indicating what PWM value to write. In order to fade your LED off and on, gradually increase your PWM value from 0 (all the way off) to 255 (all the way on), and then back to 0 once again to complete the cycle. 注意 PWM 的值介於 0 ~ 255，跟上個範例 analog input 由 ADC 轉出的 0 ~ 1024 不同。
+      - `analogWrite()` can change the PWM value very fast, so the delay at the end of the sketch controls the speed of the fade. Try changing the value of the delay and see how it changes the fading effect.
+
+  - [Arduino \- PWM](https://www.arduino.cc/en/Tutorial/PWM) #ril
+  - [Arduino \- ReadAnalogVoltage](https://www.arduino.cc/en/Tutorial/ReadAnalogVoltage) 將 analog input 換算回 voltage，為什麼有這個需求? #ril
   - [Built-In Examples - Arduino \- BuiltInExamples](https://www.arduino.cc/en/Tutorial/BuiltInExamples) 所有內建在 Arduino Software 的範例，值得全部做過!! #ril
   - [Examples from Libraries - Arduino \- LibraryExamples](https://www.arduino.cc/en/Tutorial/LibraryExamples) #ril
 
