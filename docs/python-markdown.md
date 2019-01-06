@@ -14,6 +14,8 @@
 ## Markdown ??
 
   - [Differences - Python\-Markdown — Python\-Markdown 3\.0\.1 documentation](https://python-markdown.github.io/#differences) #ril
+      - While Python-Markdown strives to fully implement markdown as described in the syntax rules, the rules can be interpreted in different ways and different implementations occasionally vary in their behavior (see the [Babelmark FAQ](http://johnmacfarlane.net/babelmark2/faq.html#what-are-some-examples-of-interesting-divergences-between-implementations) for some examples). Known and INTENTIONAL differences found in Python-Markdown are summarized below: 有些部份 Markdown 原作者沒講清楚，衍生出實作上的差異
+      - Middle-Word Emphasis -- Python-Markdown defaults to ignoring MIDDLE-WORD EMPHASIS (and strong emphasis). In other words, `some_long_filename.txt` will not become `some<em>long</em>filename.txt`. This can be switched off if desired. See the Legacy EM Extension for details. 這對中文很重要 (否則要刻意寫成 `用 _底線_ 標示重點`)，啟用 `legacy_em` extension 即可，確認過在 code span 裡的底線不受影響。
 
 ## Extension ??
 
