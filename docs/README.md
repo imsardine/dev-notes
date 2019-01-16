@@ -58,6 +58,8 @@
 
   - [Git](git.md)
   - [GitBook](gitbook.md)
+  - [GitHub](github.md)
+  - [GitHub Pages](github-pages.md)
   - [Google Analytics](google-analytics.md)
   - [Gunicorn](gunicorn.md)
 
@@ -130,6 +132,7 @@
 
   - [SchemDraw](schemdraw.md)
   - [Scrapy](scrapy.md)
+  - [Semantic UI](semantic-ui.md)
   - [Semantic Versioning](semver.md)
   - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)
