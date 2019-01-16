@@ -153,7 +153,48 @@ title: Elasticsearch / Query
   - [Multi Match Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html) #ril
   - [Common Terms Query \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-common-terms-query.html) #ril
   - [Query String Query \| Elasticsearch Reference \[5\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/5.4/query-dsl-query-string-query.html) #ril
+      - A query that uses a QUERY PARSER in order to parse its content. The `query_string` query parses the input and splits text around operators. Each TEXTUAL PART is ANALYZED INDEPENDENTLY of each other. For instance the following query: 其中 textual part 指的是去掉 operator 的結果。
+
+            GET /_search
+            {
+                "query": {
+                    "query_string" : {
+                        "default_field" : "content",
+                        "query" : "(new york city) OR (big apple)"
+                    }
+                }
+            }
+
+        will be split into `new york city` and `big apple` and each part is then analyzed independently by the analyzer configured for the field.
+
+      - Whitespaces are not considered operators, this means that `new york city` will be passed "as is" to the analyzer configured for the field. If the field is a `keyword` field the analyzer will create a SINGLE TERM `new york city` and the QUERY BUILDER will use this term in the query. If you want to query each term separately you need to add explicit operators around the terms (e.g. `new AND york AND city`). 因為放在括號裡的關係?? 因為 `default_operator` 提到 "with a default operator of `OR`, the query `capital of Hungary` is translated to `capital OR of OR Hungary`"
+      - When multiple fields are provided it is also possible to modify how the different field queries are combined inside each textual part using the `type` parameter. The possible modes are described here and the default is `best_fields`. ??
+      - The `query_string` query can also run against multiple fields. Fields can be provided via the `fields` parameter. The idea of running the `query_string` query against multiple fields is to expand each query term to an OR clause like this: `field1:query_term OR field2:query_term | ...` 跟 Multi Match Query 有點像??
+
   - [Simple Query String Query \| Elasticsearch Reference \[5\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/5.4/query-dsl-simple-query-string-query.html) #ril
+      - A query that uses the `SimpleQueryParser` to parse its context. Unlike the regular `query_string` query, the `simple_query_string` query will NEVER THROW AN EXCEPTION, and discards invalid parts of the query. 原來 `query_string` query 會丟錯，以 `(new york city OR (big apple)` 為例 (`new york city` 後少了 `)`)，會得到 HTTP 400：
+
+            {
+              "error": {
+                "root_cause": [
+                  {
+                    "type": "query_shard_exception",
+                    "reason": "Failed to parse query [(new york city OR (big apple)]",
+                    "index_uuid": "yPMioLAkRpaDWxO5aAWvog",
+                    "index": "myindex-1"
+                  },
+                  {
+                    "type": "query_shard_exception",
+                    "reason": "Failed to parse query [(new york city OR (big apple)]",
+                    "index_uuid": "C9qPMmhHQSeCCOfTKivmxw",
+                    "index": "myindex-2"
+                  }
+                ]
+              },
+              ...
+            }
+
+      - Simple Query String Syntax 用 `+`/`|` 來表示 AND/OR，跟 Query String Query 不同??
 
 ## Term Level Query ??
 

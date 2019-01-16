@@ -88,11 +88,64 @@ deploy:
 ## Docker ??
 
   - [Infrastructure and environment notes - Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/#infrastructure-and-environment-notes) 預設是 container-based。
-  - [Using Docker in Builds \- Travis CI](https://docs.travis-ci.com/user/docker/) #ril
+
+  - [Using Docker in Builds \- Travis CI](https://docs.travis-ci.com/user/docker/)
+      - Travis CI builds can run and build Docker images, and can also push images to Docker repositories or other remote storage. To use Docker add the following settings to your `.travis.yml`: 這一點跟 GitLab CI 要加 `services: - docker:dind` 很像。
+
+            services:
+              - docker
+
+      - 以 [example repository](https://github.com/travis-ci/docker-sinatra/blob/master/.travis.yml) 為例：
+
+            language: ruby
+
+            services:
+              - docker
+
+            before_install:
+            - docker pull carlad/sinatra
+            - docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
+            - docker ps -a
+            - docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
+
+            script:
+            - bundle exec rake test <-- 執行在 container 外? 應該只是為了 demo，但實在沒什麼意思 XD
+
+        After specifying in the `.travis.yml` to use Docker (with `services: - docker`) and Ruby (with `language: ruby`) , the `before_install` build step pulls a Docker image from `carlad/sinatra` then runs `cd /root/sinatra; bundle exec foreman start;` 用 Docker 後，`language:` 是什麼並不重要；可以想成類 GitLab CI 的 `image:`，提供 build script 的執行環境
+
+        This example repository runs two Docker containers built from the same image: 1) a Sinatra application 2) the Sinatra application test suite 看來是把 test code 也放進 image 了；不用對應的 `docker rm` 嗎??
+
+  - [Pushing a Docker Image to a Registry - Using Docker in Builds \- Travis CI](https://docs.travis-ci.com/user/docker/#pushing-a-docker-image-to-a-registry) #ril
+      - To push an image to a Docker registry, one must first authenticate via `docker login`. The email, username, and password used for login should be stored in the repository settings environment variables
+      - Within your `.travis.yml` prior to attempting a `docker push` or perhaps before `docker pull` of a private image, e.g.: `echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin`
+      - To push a particular branch of your repository to a remote registry, use the custom deploy section of your `.travis.yml`:
+
+            deploy:
+              provider: script
+              script: bash docker_push
+              on:
+                branch: master
 
 ## Deployment ??
 
   - [Deployment \- Travis CI](https://docs.travis-ci.com/user/deployment/) 內建支援許多不同 service 的 (deployment) provider #ril
+      - Uploading Files and `skip_cleanup` - When deploying files to a provider, prevent Travis CI from resetting your working directory and deleting all changes made during the build (`git stash --all`) by adding `skip_cleanup` to your `.travis.yml`: 用 `git stash --all` 來清 working directory 而非 `git clean`
+
+            deploy:
+              skip_cleanup: true
+
+        曾遇過 Docker 產生的檔案刪不掉的問題 (`git stash --all` 會失敗)，使用 bind mount 時加上 `--user $(id -u)` 就可以避開這個問題。
+
+      - Deploying to Multiple Providers - Deploying to multiple providers is possible by adding the different providers to the `deploy` section AS A LIST. For example, if you want to deploy to both cloudControl and Heroku, your `deploy` section would look something like this:
+
+            deploy:
+              - provider: cloudcontrol
+                email: "YOUR CLOUDCONTROL EMAIL"
+                password: "YOUR CLOUDCONTROL PASSWORD"
+                deployment: "APP_NAME/DEP_NAME"
+              - provider: heroku
+                api_key: "YOUR HEROKU API KEY"
+
   - [Script deployment \- Travis CI](https://docs.travis-ci.com/user/deployment/script/) 還是可以透過 script 自訂 #ril
   - [Uploading Artifacts on Travis CI \- Travis CI](https://docs.travis-ci.com/user/uploading-artifacts/) 單純上傳 build artifact 到 S3 #ril
 

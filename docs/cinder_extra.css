@@ -25,6 +25,11 @@ div[role="main"] ul {
   list-style-type: square;
 }
 
+div[role="main"] li p {
+  margin-top: 10.95px;
+  margin-bottom: 10.95px;
+}
+
 div[role="main"] > ul, div[role="main"] > ol {
   padding-left: 1.5em;
 }

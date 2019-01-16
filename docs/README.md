@@ -11,6 +11,8 @@
   - [AVR Libc](avr-libc.md)
   - [Amazon ECS](aws-ecs.md)
   - [Amazon VPC](aws-vpc.md)
+  - [ATmega328](atmega328.md)
+  - [ATtiny85](attiny85.md)
   - [AWS](aws.md)
   - [AWS IoT](aws-iot.md)
 
@@ -25,10 +27,13 @@
   - [Chrome](chrome.md)
   - [Circuit 電路](circuit.md)
   - [Circuit Diagram 電路圖](circuit-diagram.md)
+  - [Cookiecutter](cookiecutter.md)
   - [Configuration](configuration.md)
+  - [Crystal Oscillator 石英振盪器](crystal-oscillator.md)
 
 ## D
 
+  - [Docker Hub](docker-hub.md)
   - [Deterministic Build](reproducible-build.md)
   - [DFPLayer Mini](dfplayer.md)
 
@@ -124,6 +129,7 @@
 ## S
 
   - [SchemDraw](schemdraw.md)
+  - [Scrapy](scrapy.md)
   - [Semantic Versioning](semver.md)
   - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)

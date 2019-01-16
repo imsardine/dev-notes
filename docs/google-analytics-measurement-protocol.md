@@ -36,6 +36,12 @@ title: Google Analytics / Measurement Protocol
       - Optional. This field is required if User ID (`uid`) is not specified in the request. 有條件的 optional，也就是 `cid` 跟 `uid` 至少要有一個。
       - This ANONYMOUSLY identifies a particular user, device, or browser instance. For the web, this is generally stored as a first-party cookie with a two-year expiration. For mobile apps, this is randomly generated for each particular instance of an APPLICATION INSTALL. The value of this field should be a random UUID (version 4) as described in http://www.ietf.org/rfc/rfc4122.txt. 識別個別的用戶，所謂 anonymous 指的是相對辨識度較高的 User ID?
   - [Hit Builder — Google Analytics Demos & Tools](https://ga-dev-tools.appspot.com/hit-builder/) #ril
+  - [Measurement Protocol Reference  \|  Analytics Measurement Protocol  \|  Google Developers](https://developers.google.com/analytics/devguides/collection/protocol/v1/reference) #ril
+      - For environments where you CAN NOT SEND POST DATA, you can also send HTTP GET requests to the same end point: Where the payload data is sent as URI escaped query parameters. The length of the entire encoded URL must be no longer than 8000 Bytes. 什麼情況不能用 POST? 為什麼要強調 `User-Agent` 這個 header?
+
+            GET /collect?payload_data HTTP/1.1
+            Host: https://www.google-analytics.com
+            User-Agent: user_agent_string
 
 ## Event Tracking ??
 

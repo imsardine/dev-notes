@@ -27,3 +27,7 @@ Chrome 在訪問某些 port 時，會出現 This site can’t be reached (`ERR_U
 
   - [Chrome Web Browser](https://www.google.com/chrome/)
   - [Chrome | Google Blog](https://blog.google/products/chrome/)
+
+更多：
+
+  - [Extension](chrome-extension.md)

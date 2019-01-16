@@ -7,12 +7,13 @@ title: Ardunio / Programming
 
   - [Arduino \- Foundations](https://www.arduino.cc/en/Tutorial/Foundations) #ril
   - [Arduino \- Sketch](https://www.arduino.cc/en/Tutorial/Sketch) 以內建的 Blink 範例說明
-      - A sketch is the name that Arduino uses for a PROGRAM. It's the UNIT OF CODE that is uploaded to and run on an Arduino board.
+      - A sketch is the name that Arduino uses for a PROGRAM. It's the UNIT OF CODE that is uploaded to and run on an Arduino board. Sketch 只是 Ardunio 對於 program 的說法，一樣可以由多支檔案組成。
       - You can call a function that's already been defined (either in your sketch or as part of the Arduino language). There are two special functions that are a part of every Arduino sketch: `setup()` and `loop()`. The `setup()` is called once, when the sketch starts. It's a good place to do SETUP TASKS like setting pin modes or initializing libraries. The `loop()` function is called over and over and is heart of most sketches. You need to include both functions in your sketch, even if you don't need them for anything. 跟一般的 C 程式不同，一定要有 `setup()` 跟 `loop()`，其中 `setup()` 用來做一次性的 setup，接著 `loop()` 會不斷地被執行。
 
             void setup()
             {
               pinMode(ledPin, OUTPUT);      // sets the digital pin as output
+              Serial.begin(9600);           // initializing libraries
             }
 
       - The `pinMode()` function configures a pin as either an input or an output. To use it, you pass it the number of the pin to configure and the constant `INPUT` or `OUTPUT`. When configured as an input, a pin can detect the state of a sensor like a pushbutton.
@@ -101,15 +102,15 @@ title: Ardunio / Programming
             delay(100);
 
   - [Arduino \- AnalogReadSerial](https://www.arduino.cc/en/Tutorial/AnalogReadSerial)
-      - This example shows you how to read ANALOG INPUT from the physical world using a POTENTIOMETER. A potentiometer is a simple mechanical device that provides a varying amount of resistance when its shaft (轉軸) is turned. By passing voltage through a potentiometer and into an analog input on your board, it is possible to measure the AMOUNT OF RESISTANCE produced by a potentiometer (or POT for short) as an analog value.
-      - Connect the three wires from the potentiometer to your board. The first goes from one of the outer pins of the potentiometerto ground. The second goes from the other outer pin of the potentiometer to 5 volts. The third goes from the MIDDLE pin of the potentiometer to the analog pin A0. 外觀有 3 支腳 (2 + 1)，單支腳接往 analog pin (A0)，另外 2 支腳則分別接正負極，本身產生的電阻可以在第 3 支腳 (middle pin) 讀到。
+      - This example shows you how to read ANALOG INPUT from the physical world using a POTENTIOMETER. A potentiometer is a simple mechanical device that provides a varying amount of resistance when its shaft (轉軸) is turned. By passing voltage through a potentiometer and into an analog input on your board, it is possible to measure the AMOUNT OF RESISTANCE produced by a potentiometer (or POT for short) as an analog value. 確實 potentiometer 是個可變電阻，但多了第 3 根腳可以讀到電阻值；正確地來說，是讀到不同的電壓值。
+      - Connect the three wires from the potentiometer to your board. The first goes from one of the OUTER pins of the potentiometerto ground. The second goes from the other outer pin of the potentiometer to 5 volts. The third goes from the MIDDLE pin of the potentiometer to the analog pin A0. 外觀有 3 支腳 (2 + 1)，單支腳接往 analog pin (A0)，另外 2 支腳則分別接正負極，本身產生的電阻可以在第 3 支腳 (middle pin) 讀到。
 
         ![](https://www.arduino.cc/en/uploads/Tutorial/AnalogReadSerial_BB.png)
         ![](https://www.arduino.cc/en/uploads/Tutorial/AnalogReadSerial_sch.png){: width="35%"}
 
       - By turning the shaft of the potentiometer, you change the amount of resistance on either side of the WIPER, which is connected to the center pin of the potentiometer. This changes the VOLTAGE AT THE CENTER PIN. When the resistance between the center and the side connected to 5 volts is close to zero (and the resistance on the other side is close to 10k ohm), the voltage at the center pin nears 5 volts. When the resistances are reversed, the voltage at the center pin nears 0 volts, or ground. This voltage is the ANALOG VOLTAGE that you're reading as an input. 可以想成 wiper 就是 5v 與 middle pin 中間的電阻；完全沒電阻時會讀到 5V，電阻全開時會讀到 0V，而 analog input 就是 0 ~ 5V 中間的變化值。
       - The Arduino and Genuino boards have a circuit inside called an analog-to-digital converter or ADC that reads this changing voltage and converts it to a number between 0 and 1023. When the shaft is turned all the way in one direction, there are 0 volts going to the pin, and the input value is 0. When the shaft is turned all the way in the opposite direction, there are 5 volts going to the pin and the input value is 1023. In between, `analogRead()` returns a number between 0 and 1023 that is proportional to the amount of voltage being applied to the pin. 由於內建 ADC，能將 0 ~ 5V 細分成 1024 階 (0 ~ 1023)，用 `analogRead()` 就能讀到這個值。
-      - The only thing that you do in the setup function is to begin serial communications, at 9600 bits of data per second, between your board and your computer with the command: `Serial.begin(9600);` ... you need to establish a variable to store the resistance value (which will be between 0 and 1023, perfect for an `int` datatype) coming in from your potentiometer: `int sensorValue = analogRead(A0);` 原來 `A0` 被定義在 Arduino Core 裡：
+      - The only thing that you do in the `setup` function is to begin serial communications, at 9600 bits of data per second, between your board and your computer with the command: `Serial.begin(9600);` ... you need to establish a variable to store the resistance value (which will be between 0 and 1023, perfect for an `int` datatype) coming in from your potentiometer: `int sensorValue = analogRead(A0);` 傳送與接收兩端的 baud rate 要一樣；原來 `A0` 被定義在 Arduino Core 裡：
 
             void setup() {
               // initialize serial communication at 9600 bits per second:
@@ -125,7 +126,9 @@ title: Ardunio / Programming
               delay(1);        // delay in between reads for stability
             }
 
-      - You should see a STEADY stream of numbers ranging from 0-1023, correlating to the position of the pot. As you turn your potentiometer, these numbers will respond almost instantly.
+        不用先將 A0 設為 input mode? 猜想板子上寫著 ANALOG IN，這些 pin 固定只用在 input (ADC + `analogRead()`)，而且 Fade 的例子，analog output? 是寫往 digital pin 而非 analog pin。事實上 `pinMode()` 在 Arduino Reference 裡被歸為 Digital I/O。
+
+      - You should see a STEADY stream of numbers ranging from 0-1023, correlating to the position of the pot. As you turn your potentiometer, these numbers will respond almost instantly. 實際上觀察，只要不轉動 potentiometer，用 `analogRead()` 讀到的值是滿固定的。
 
   - [Arduino \- Fade](https://www.arduino.cc/en/Tutorial/Fade)
 
@@ -155,7 +158,7 @@ title: Ardunio / Programming
           delay(30);
         }
 
-      - This example demonstrates the use of the `analogWrite()` function in fading an LED off and on. AnalogWrite uses pulse width modulation (PWM), turning a digital pin ON AND OFF VERY QUICKLY with different ratio between on and off, to create a fading effect. 所以不是改變輸出的電壓?? 又 A0 ~ A4 只會用在 `analogRead()`?   (因為有 ADC)，而 `analogWrite()` 還是會到 digital pin??
+      - This example demonstrates the use of the `analogWrite()` function in fading an LED off and on. AnalogWrite uses pulse width modulation (PWM), turning a digital pin ON AND OFF VERY QUICKLY with different ratio between on and off, to create a fading effect. 不是改變輸出的電壓!! 由於輸出還是 digital (0/1)，只是搭配 PWM 產生不同頻率的訊號，所以還是寫往 digital pin (標示有 PWM~ 者)，還是要先設定 output mode。
       - The `analogWrite()` function that you will be using in the main loop of your code requires two arguments: One telling the function which pin to write to, and one indicating what PWM value to write. In order to fade your LED off and on, gradually increase your PWM value from 0 (all the way off) to 255 (all the way on), and then back to 0 once again to complete the cycle. 注意 PWM 的值介於 0 ~ 255，跟上個範例 analog input 由 ADC 轉出的 0 ~ 1024 不同。
       - `analogWrite()` can change the PWM value very fast, so the delay at the end of the sketch controls the speed of the fade. Try changing the value of the delay and see how it changes the fading effect.
 
@@ -230,6 +233,25 @@ title: Ardunio / Programming
 
             return 0;
         }
+
+## Digital I/O ??
+
+  - [pinMode() - Arduino Reference](https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/) #ril
+  - [digitalRead() - Arduino Reference](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/) #ril
+  - [digitalWrite() - Arduino Reference](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/) #ril
+  - [Defining Pin Levels: HIGH and LOW - Arduino Reference](https://www.arduino.cc/reference/en/language/variables/constants/constants/#_defining_pin_levels_high_and_low) #ril
+  - [Defining Digital Pins modes: INPUT, INPUT_PULLUP, and OUTPUT - Arduino Reference](https://www.arduino.cc/reference/en/language/variables/constants/constants/#_defining_digital_pins_modes_input_input_pullup_and_output) #ril
+  - [Defining built-ins: LED_BUILTIN - Arduino Reference](https://www.arduino.cc/reference/en/language/variables/constants/constants/#_defining_built_ins_led_builtin)
+
+## Analog I/O ??
+
+  - [analogRead() - Arduino Reference](https://www.arduino.cc/reference/en/language/functions/analog-io/analogread/) #ril
+  - [analogWrite() - Arduino Reference](https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/) #ril
+  - [analogReference() - Arduino Reference](https://www.arduino.cc/reference/en/language/functions/analog-io/analogreference/) #ril
+
+## Memory ??
+
+  - [Arduino \- Memory](https://www.arduino.cc/en/tutorial/memory) Flash 放程式，SRAM 放執行期資料，而 EEPROM 則是放長期資料 #ril
 
 ## Library ??
 
