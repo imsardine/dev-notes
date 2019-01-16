@@ -2,7 +2,7 @@ language: python
 python: 3.6
 branches:
   only:
-  - master
+  - source
 before_install:
   - pip install pipenv
   - pipenv install
@@ -15,4 +15,4 @@ deploy:
   local-dir: site
   target-branch: gh-pages
   on:
-    branch: master
+    branch: source
