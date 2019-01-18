@@ -84,6 +84,7 @@
 
 ## L
 
+  - [LDAP](ldap.md)
   - [LED 發光二極體](led.md)
   - [Lua](lua.md)
 
@@ -104,6 +105,7 @@
 ## O
 
   - [Oh My Zsh](oh-my-zsh.md)
+  - [OpenLDAP](openldap.md)
   - [OpenSearch](opensearch.md)
   - [OV7670](ov7670.md)
 

@@ -10,13 +10,13 @@
 
 參考資料：
 
-  - [Modern Day Vim – Hacker Noon](https://hackernoon.com/modern-day-vim-ab4d3aa0cf6b) (2018-09-09) History 提到為什麼 Neovim 會在 2014 冒出來，又為何會假使 Vim 在 10 年後推出 Vim 8 與 Neovim 應戰。
+  - [Modern Day Vim – Hacker Noon](https://hackernoon.com/modern-day-vim-ab4d3aa0cf6b) (2018-09-09) History 提到為什麼 Neovim 會在 2014 冒出來，又為何會促使 Vim 在 10 年後推出 Vim 8 與 Neovim 應戰。
   - [Vim 8\.0 is released \- Laravel News](https://laravel-news.com/vim-8-0-is-released) (2016-09-19) Vim 8 在 10 年後才出現 #ril
 
 ## 新手上路 ?? {: #getting-started }
 
   - [Vim documentation : vim online](https://www.vim.org/docs.php) #ril
-      - Vim's online documentation system, accessible via the `:help` command, is an extensive CROSS-REFERENCED and hyperlinked reference. It's kept up-to-date with the software and can answer almost any question about Vim's functionality. An up-to-date version of the help, with hyperlinks, can be found on [appspot](http://vimhelp.appspot.com/). 後者網頁片方便在文件內引用，官方文件也是用 appspot 在網頁上引用自己的 help 文件。
+      - Vim's online documentation system, accessible via the `:help` command, is an extensive CROSS-REFERENCED and hyperlinked reference. It's kept up-to-date with the software and can answer almost any question about Vim's functionality. An up-to-date version of the help, with hyperlinks, can be found on [appspot](http://vimhelp.appspot.com/). 後者網頁方便在文件內引用，官方文件也是用 appspot 在網頁上引用自己的 help 文件。
       - Especially useful for absolute beginners who fear being bored by learning the basic commands: [Vim Adventure](http://vim-adventures.com/) (用遊戲帶指令). Starts with teaching you h, j, k and l movement commands and practice them in an adventure style interactive play. Less playfull, but a bit faster to go through is the Vim tutor. See `:help tutor` inside Vim. (執行 `vimtutor` 直接在文件內操作)
   - [Vim: vim\_faq\.txt](https://vimhelp.appspot.com/vim_faq.txt.html) #ril
 
@@ -97,6 +97,7 @@ nmap <down> gj
 
 更多：
 
+  - [Visual Mode](vim-visual.md)
   - [Diff](vim-diff.md)
 
 手冊：

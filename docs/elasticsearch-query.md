@@ -238,6 +238,8 @@ title: Elasticsearch / Query
       - Don't forget that ES creates an index with 5 shards by default and that `docFreq` and `docCount` are computed PER SHARD.
       - You can create an index with 1 shard or use the `dfs` mode to compute distributed stats: https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html#dfs-query-then-fetch 併成 1 個 shard 未來會有問題吧??
 
+  - [fieldLength not an integer · Issue \#25916 · elastic/elasticsearch](https://github.com/elastic/elasticsearch/issues/25916) #ril
+
   - [Explain \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html) #ril
       - Enables explanation for each hit on how its score was computed.
 
