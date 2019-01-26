@@ -65,7 +65,7 @@ nmap <down> gj
       - `linebreak` `lbr` - boolean (default off), local to window.
       - If on, Vim will wrap long lines at a character in `breakat` rather than at the last character that fits on the screen. Unlike `wrapmargin` and `textwidth`, this does not insert `<EOL>`s in the file, it only affects the WAY THE FILE IS DISPLAYED, not its contents. If `breakindent` is set, line is VISUALLY INDENTED. Then, the value of `showbreak` is used to put in front of wrapped lines. This option is not used when the `wrap` option is off. 在視窗邊界處折行，搭配 `breakindent` 可以讓拆行跟行首對齊。雖然 `showbreak` 可以在拆行前安插一些字元，但 `breakindentopt` 可以進一步讓折行內縮，效果會更好。
 
-  - [how can i intuitively move cursor in vim?\(not by line\) \- Stack Overflow](https://stackoverflow.com/questions/9713967/)
+  - [how can i intuitively move cursor in vim?(not by line) \- Stack Overflow](https://stackoverflow.com/questions/9713967/)
       - Greg Hewgill: In Vim, the gj and gk commands move by line on the screen rather than by line in the file. 可以考慮重新對應 `j`、`k`:
 
             :map j gj

@@ -31,7 +31,7 @@
 ## 新手上路 ?? {: #getting-started }
 
   - [How to Prototype Without Using Printed Circuit Boards: 8 Steps](https://www.instructables.com/id/How-to-Prototype-Without-Using-Printed-Circuit-Boa/) #ril
-  - [Breadboard to Perfboard: 4 Steps \(with Pictures\)](https://www.instructables.com/id/Breadboard-to-Perfboard/) #ril
+  - [Breadboard to Perfboard: 4 Steps (with Pictures)](https://www.instructables.com/id/Breadboard-to-Perfboard/) #ril
 
 ## Planning ??
 
@@ -51,7 +51,7 @@
   - [How to Prototype Without Using Printed Circuit Boards: 8 Steps](https://www.instructables.com/id/How-to-Prototype-Without-Using-Printed-Circuit-Boa/) Step 1: What You'll Need 邊邊的金手指用金屬線連接起來，電路上的藍線會走過來 (GND)，應該是共同接地 #ril
   - [PCB Prototyping With Verowire: 6 Steps](https://www.instructables.com/id/PCB-Prototyping-With-Verowire/) #ril
   - [BugWorkShop \- 甲蟲工作室: 萬用板繞線專用線（Wire\-wrapping Wire）選擇](http://bugworkshop.blogspot.com/2018/06/wire-wrapping-wire.html) (2018-06-14) 用繞線專用線焊接? #ril
-  - [技术资料：Wire\-wapping 线的使用方法介绍 \(amoBBS 阿莫电子论坛\)](https://www.amobbs.com/thread-681125-1-1.html) (2006-10-22)
+  - [技术资料：Wire\-wapping 线的使用方法介绍 (amoBBS 阿莫电子论坛)](https://www.amobbs.com/thread-681125-1-1.html) (2006-10-22)
       - Wire-wrapping 線也叫 OK 線；Wire Wrapping Hand Tools 具有剝線、繞線、拆線三種功能。
       - 繞接也是一種 "無錫焊接法"。與錫焊相比，繞線具有方便、可靠和經濟等優點 ... 用電動繞接器對單股實心裸導線施加一定的拉力，並按規定的圈數緊密地繞在帶有棱邊的接線柱上，使導線與接線柱形成緊密連接，以達到可靠的電氣連接目的。
 

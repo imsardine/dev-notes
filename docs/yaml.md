@@ -15,7 +15,7 @@
 參考資料：
 
   - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/) 算是 "strict superset of JSON"，跟 Python 一樣看重 newline 與 indentation，但不像 Python 允許 tab。
-  - [1.3. Relation to JSON - YAML Ain’t Markup Language \(YAML™\) Version 1\.2](http://yaml.org/spec/1.2/spec.html#id2759572) #ril
+  - [1.3. Relation to JSON - YAML Ain’t Markup Language (YAML™) Version 1\.2](http://yaml.org/spec/1.2/spec.html#id2759572) #ril
 
 ## Hello, World! ??
 
@@ -34,7 +34,7 @@ greeting: Hello, YAML!
   - [Understanding YAML](https://docs.saltstack.com/en/latest/topics/yaml/) #ril
   - [YAML Syntax — Ansible Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) #ril
   - [YAML Idiosyncrasies](https://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html) #ril
-  - [The YAML Format \(The Yaml Component \- Symfony Docs\)](https://symfony.com/doc/current/components/yaml/yaml_format.html) #ril
+  - [The YAML Format (The Yaml Component \- Symfony Docs)](https://symfony.com/doc/current/components/yaml/yaml_format.html) #ril
 
 ## 慣用的副檔名 {: #file-extension }
 
@@ -64,11 +64,11 @@ greeting: Hello, YAML!
       - Sequences (equivalent to lists or arrays) look like this (note that THE '-' COUNTS AS INDENTATION) 其中 `- ` 也被視為 identation，那麼 key 的 value 是 list 時，為什麼不用再縮一排，就可以解釋了。
   - [Complete idiot's introduction to yaml · Animosity/CraftIRC Wiki](https://github.com/Animosity/CraftIRC/wiki/Complete-idiot%27s-introduction-to-yaml) #ril
   - [YAML Syntax — Ansible Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) Dictionary 跟 list 都有 abbreviated form #ril
-  - [The YAML Format \(The Yaml Component \- Symfony 3\.3 Docs\)](https://symfony.com/doc/3.3/components/yaml/yaml_format.html) #ril
+  - [The YAML Format (The Yaml Component \- Symfony 3\.3 Docs)](https://symfony.com/doc/3.3/components/yaml/yaml_format.html) #ril
 
 ## String ??
 
-  - [Strings - The YAML Format \(The Yaml Component \- Symfony Docs\)](https://symfony.com/doc/current/components/yaml/yaml_format.html#strings) #ril
+  - [Strings - The YAML Format (The Yaml Component \- Symfony Docs)](https://symfony.com/doc/current/components/yaml/yaml_format.html#strings) #ril
       - Strings in YAML can be wrapped both in single and double quotes. In some cases, they can also be UNQUOTED:
 
             A string in YAML

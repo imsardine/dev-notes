@@ -10,7 +10,7 @@
   - [UART \- 維基百科，自由的百科全書](https://zh.wikipedia.org/wiki/UART) #ril
   - [\[通訊技術\]RS232與UART的差別\-最原始的通訊介面原來長這樣 – 實作派電子實驗室](https://www.strongpilab.com/?p=1328) (2017-09-07) 單晶片這邊只有 UART? UART 只有 TX/RX 兩條線，RS-232 其他訊號線都是用來做 handshake 之用，不在晶片的 UART 模組中。
   - [1. UART - 【Maker進階】認識UART、I2C、SPI三介面特性 \| Building Maker Economy：自造達人社群/媒體/平台](https://makerpro.cc/2016/07/learning-interfaces-about-uart-i2c-spi/) (2016-07-12) UART 只是個抽象介面，RS-232 是其中一個具體實現 - 只允許兩個裝置對接，好處是線路簡單 (圖1 把 Tx 與 Rx 兩條線路框起來標示為 UART)，通常最高速為 115.2 kbps。
-  - [Back to Basics: The Universal Asynchronous Receiver/Transmitter \(UART\)](https://www.allaboutcircuits.com/technical-articles/back-to-basics-the-universal-asynchronous-receiver-transmitter-uart/) (2016-12-20) #ril
+  - [Back to Basics: The Universal Asynchronous Receiver/Transmitter (UART)](https://www.allaboutcircuits.com/technical-articles/back-to-basics-the-universal-asynchronous-receiver-transmitter-uart/) (2016-12-20) #ril
 
 ## USB-to-UART ??
 
@@ -24,7 +24,7 @@
   - [Introduction - I am getting “espcomm\_sync failed” error when trying to upload my ESP\. How to resolve this issue? — ESP8266 Arduino Core 2\.4\.0 documentation](https://arduino-esp8266.readthedocs.io/en/latest/faq/a01-espcomm_sync-failed.html#id1) 看起來 NodeMCU V1 用 CP2102 晶片，而 NodeMCU V2 跟 WeMOS D1 都用 CH340G 晶片。
   - [Getting Started with ESP8266 Development on the Mac \| lost\+found](http://blog.dushin.net/2016/07/getting-started-with-esp8266-development-on-the-mac/) 作者採用 [USB to UART Bridge VCP Drivers \| Silicon Labs](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)，尤其 driver 是 sign 過的，值得信任。接上電腦後就能看到 `/dev/tty.SLAB_USBtoUART/`。
   - [adrianmihalko/ch340g\-ch34g\-ch34x\-mac\-os\-x\-driver: CH340G CH34G CH34X Mac OS X driver](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver) OEM driver 連結指向 [江苏沁恒股份有限公司](http://www.wch.cn/)，不過裝置出現在 `/dev/tty.wchusbserial1420` 而非文件上所說的 `/dev/cu.wchusbserial1410` 或 `/dev/cu.wchusbserial1420` #ril
-  - [How to use cheap Chinese Arduinos that come with with CH340G / CH341G Serial/USB chip \(Windows & Mac OS\-X\) · by Konstantin Gredeskoul \(@kig\)](https://kig.re/2014/12/31/how-to-use-arduino-nano-mini-pro-with-CH340G-on-mac-osx-yosemite.html) (2014-12-31) #ril
+  - [How to use cheap Chinese Arduinos that come with with CH340G / CH341G Serial/USB chip (Windows & Mac OS\-X) · by Konstantin Gredeskoul (@kig)](https://kig.re/2014/12/31/how-to-use-arduino-nano-mini-pro-with-CH340G-on-mac-osx-yosemite.html) (2014-12-31) #ril
   - [CH340 Drivers for Windows, Mac and Linux](https://sparks.gogo.co.nz/ch340.html) #ril
 
 ## Adafruit USB to TTL Serial Cable ??

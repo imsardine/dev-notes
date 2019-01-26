@@ -23,7 +23,7 @@
 
   - `curl --upload-file ./hello.txt https://transfer.sh/` 拿到的 URL，在 browser 裡會提供下載檔案的介面 (`type: text/plain; charset=utf-8` 正確)，按 download 即可下載 (但 URL 裡沒有安插 `get/`)。
   - `curl --upload-file ./long.png https://transfer.sh/` 拿到的 URL，在 browser 裡會提供下載檔案的介面 (`type: image/png` 正確)，按 download 即可下載 (但 URL 裡沒有安插 `get/`)；要如何在 browser 裡直接表現?? 因為 inline link 是無效的 (404)
-  - [How to Share Files Online The Geeky Way \(Command Line\)](https://www.hongkiat.com/blog/file-sharing-command-line-transfer-sh/) (2017-11-26) #ril
+  - [How to Share Files Online The Geeky Way (Command Line)](https://www.hongkiat.com/blog/file-sharing-command-line-transfer-sh/) (2017-11-26) #ril
 
 ## Download/Inline Link ??
 

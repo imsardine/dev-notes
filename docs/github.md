@@ -19,7 +19,7 @@
 
 ## Two-Factor Authentication (2FA) ??
 
-  - [Securing your account with two\-factor authentication \(2FA\) \- User Documentation](https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/) #ril
+  - [Securing your account with two\-factor authentication (2FA) \- User Documentation](https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/) #ril
   - [About Two\-Factor Authentication \- User Documentation](https://help.github.com/articles/about-two-factor-authentication/)
       - 2FA 是指除了 password 之外，還要提供另一項資訊；2FA 可以用在 GitHub website、GitHub API 與 GitHub Desktop；跟 SSH key 存取 repo 無關
       - 就 GitHub 而言，另一項資訊可以是由手機上的 app 產生，也可以是透過 SMS 收到。

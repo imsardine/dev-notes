@@ -28,7 +28,7 @@
       - `git-format-patch` exports the commits as patch files, which can then be applied to another branch or cloned repository. The patch files represent a SINGLE COMMIT and Git replays that commit when you IMPORT the patch file. 按照官方文件的說法，確實是一個 commit 一個 patch file。
       - The old style process, when Git was used locally only without a remote repository, was to EMAIL THE PATCHEs to each other. This is handy if you only need to get someone a single commit without the need to merge branches and the overhead that goes with that.
   - [Creating and Applying Patch Files in Git \- Mijingo](https://mijingo.com/blog/creating-and-applying-patch-files-in-git) #ril
-  - [Back to the future with Git’s diff and apply commands \| Oliver Davies \- Full Stack Web Developer \(Drupal, Symfony, Laravel, Linux\)](https://www.oliverdavies.uk/blog/back-to-the-future-git-diff-apply/) (2018-04-23) #ril
+  - [Back to the future with Git’s diff and apply commands \| Oliver Davies \- Full Stack Web Developer (Drupal, Symfony, Laravel, Linux)](https://www.oliverdavies.uk/blog/back-to-the-future-git-diff-apply/) (2018-04-23) #ril
   - [Creating and Applying Git Patch Files](http://nithinbekal.com/posts/git-patch/) (2017-02-12) #ril
   - [Git \- git\-apply Documentation](https://git-scm.com/docs/git-apply) Apply a patch to files and/or to the index #ril
   - [Generating patches with -p - Git \- git\-diff Documentation](https://git-scm.com/docs/git-diff#_generating_patches_with_p) #ril

@@ -1,7 +1,7 @@
 ---
-title: Python / Text
+title: Python / Text Processing
 ---
-# [Python](python.md) / Text
+# [Python](python.md) / Text Processing
 
   - [4\. Text versus Bytes \- Fluent Python \[Book\]](https://www.oreilly.com/library/view/fluent-python/9781491946237/ch04.html) #ril
 

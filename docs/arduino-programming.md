@@ -193,7 +193,7 @@ title: Ardunio / Programming
 
   - [ArduinoCore\-avr/Arduino\.h at master · arduino/ArduinoCore\-avr](https://github.com/arduino/ArduinoCore-avr/blob/master/cores/arduino/Arduino.h) 一開始引入了 `<stdlib.h>`、`<stdbool.h>`、`<string.h>`、`<math.h>`、`<avr/pgmspace.h>`、`<avr/io.h>`、`<avr/interrupt.h>` 等 libraries，定義了 `HIGH`/`LOW`、`INPUT`/`OUTPUT`/`INPUT_PULLUP` 等常數，`pinMode()`、`digitalWrite()`、`digitalWrite()` 等 function，另外宣告了一些 `#define min(a,b) ((a)<(b)?(a):(b))` 這類的 macro，這些林林總總加起來，就形成 [Arduino Reference](https://www.arduino.cc/reference/en/) 所宣稱的 Arduino Programming Language。
 
-  - [Arduino 1\.6\.6 now requires function prototypes in sketches \(preprocessor changed?\) · Issue \#1066 · esp8266/Arduino](https://github.com/esp8266/Arduino/issues/1066)
+  - [Arduino 1\.6\.6 now requires function prototypes in sketches (preprocessor changed?) · Issue \#1066 · esp8266/Arduino](https://github.com/esp8266/Arduino/issues/1066)
       - ladyada: FQA 提到 Your sketch undergoes minor changes (e.g. automatic generation of function prototypes) and then is passed directly to a C/C++ compiler (avr-g++). 現在 sketch 裡沒放 `setup()` 跟 `loop()` 會出錯 -- `undefined reference to 'setup'`
       - ladyada: ok yeah its a thing thats now done with arduino-builder https://github.com/arduino/arduino-builder 專案 README 提到：
 

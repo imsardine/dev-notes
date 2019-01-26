@@ -40,7 +40,7 @@
   - [dcrosta/tox\-docker: A tox plugin to run one or more Docker containers during tests](https://github.com/dcrosta/tox-docker) 在不同 environment 起不同的 container，用在 integration test 好像不錯? #ril
   - [Using Docker to run tox without adding Pythons to your system \- Ideas\.Offby1](https://ideas.offby1.net/posts/docker-runner-for-tox.html) 如何自己準備支援 tox 及不同 Python 版本的環境 #ril
   - [openstack/dox: Run tests in a docker container](https://github.com/openstack/dox) 靈感來自 tox #ril
-  - [Dox a tool that run python \(or others\) tests in a docker container – Chmouel's Blog](https://blog.chmouel.com/2014/09/08/dox-a-tool-that-run-python-or-others-tests-in-a-docker-container/) (2014-09-08) #ril
+  - [Dox a tool that run python (or others) tests in a docker container – Chmouel's Blog](https://blog.chmouel.com/2014/09/08/dox-a-tool-that-run-python-or-others-tests-in-a-docker-container/) (2014-09-08) #ril
   - [Testing Python Packages \| Integration with tox and Travis CI](http://pramodk.net/posts/2017/07/testing-python-packages/) (2017-07-16) #ril
 
 ## 跟 pyenv 的關係 ??

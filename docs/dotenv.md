@@ -10,7 +10,7 @@
 
 ## `.env` 的管理/版本控制 ??
 
-  - [How do you manage \.env \(dotenv\) files? : devops](https://www.reddit.com/r/devops/comments/52pl5c/how_do_you_manage_env_dotenv_files/) #ril
+  - [How do you manage \.env (dotenv) files? : devops](https://www.reddit.com/r/devops/comments/52pl5c/how_do_you_manage_env_dotenv_files/) #ril
       - 最佳實務建議 `.env` 不要放進 VCS 版控，但要如何 track changes?
       - mvarrieur: 會把 `.env.example` 放進版控，若 dev/test credentials 不能存取 sensitive data 也會放進去，方便使用。
       - ztherion: 把 example config 放進版控，並留下 password manager 的連結。

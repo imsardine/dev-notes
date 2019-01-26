@@ -6,7 +6,7 @@
 
 參考資料：
 
-  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters \(project templates\)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter)
+  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter)
       - 從 project template (稱做 cookiecutter) 快速建立專案的 command-line 工具 -- 一個 project/template 裡可以混用多種程式語言 (也不一定要是程式語言)；雖然本身是用 Python 寫的 (支持 Python 2.7+ 及 3.4+)，但不需要會寫 Python
       - Templating 是用 Jinja2 做，所以要會一點點 Jinja2，甚至支援 directory/file names，例如 `{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}.py`。
       - 最後 Similar projects 整理了一些類似的專案，有些只用來產生特定的專案，除了 Yeoman 有 830 個星星外 (但專用於 web apps?)，其他星星都少得可憐。
@@ -24,7 +24,7 @@
 
 參考資料：
 
-  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters \(project templates\)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter)
+  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter)
       - 要從 https://github.com/audreyr/cookiecutter-pypackage 快速建立一個 Python package，執行 `cookiecutter gh:audreyr/cookiecutter-pypackage` (其中 `gh` 是 GitHub 的意思)，會被要求輸入一些值 (template variables)，之後 Cookiecutter 就可以根據那些值在 CWD 建立專案。
       - 也可以用 local template，用 `cookiecutter path/to/cookiecutter-pypackage/` 即可，其中 `cookiecutter-pypackage` 下就是 project template 的結構。
       - Template variables 以 key-value pairs 的型式定義在 `cookiecutter.json` 裡，除非搭配 `--no-input` 使用，否則會被依序提示要提供 `cookiecutter.json` 裡不同 key 的值 (value 做為預設值)。
@@ -63,7 +63,7 @@
 
   - [Getting to Know Cookiecutter — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/tutorial1.html) 一開頭就說 Cookiecutter is a tool for creating projects from cookiecutters (project templates).
 
-  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters \(project templates\)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter) 簡介就提到 cookiecutter 就是 project template 的意思，而這個 template 可以來自本地或遠端，所以有 local/remote cookiecutter 的說法。
+  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter) 簡介就提到 cookiecutter 就是 project template 的意思，而這個 template 可以來自本地或遠端，所以有 local/remote cookiecutter 的說法。
 
   - [Works directly with git and hg (mercurial) repos too & Works with private repos - Usage — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/usage.html#works-directly-with-git-and-hg-mercurial-repos-too)
       - 支援直接從遠端的 Git/Mercurial repository 直接建立專案，以 https://github.com/audreyr/cookiecutter-pypackage 為例，下面 4 種寫法都可以：
@@ -82,11 +82,11 @@
 ## Template Variables, Context ??
 
   - 實驗發現 `cookiecutter.json` 裡的 default value 都必須是字串，寫數字在執行期會出現 `TypeError: must be str, not int` 的錯誤。
-  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters \(project templates\)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter) 提到 template variables、default context、extra context 等，指的都是相同的東西 -- key-value pair，只是由 template 自己提供時習慣稱做 template variable，由 `~/.cookiecutterrc` 提供時稱 default context，由 command line 額外覆寫時稱做 extra context。
+  - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter) 提到 template variables、default context、extra context 等，指的都是相同的東西 -- key-value pair，只是由 template 自己提供時習慣稱做 template variable，由 `~/.cookiecutterrc` 提供時稱 default context，由 command line 額外覆寫時稱做 extra context。
   - [cookiecutter\-pypackage/cookiecutter\.json at master · audreyr/cookiecutter\-pypackage](https://github.com/audreyr/cookiecutter-pypackage/blob/master/cookiecutter.json) 原來 key-value pair 因為 Jinja2 的關係，可以有一些運算在裡面 (例如 `project_slug` 就是從 `project_name` 轉換出來的)，或許 context 的說法會比 variable 更為精確。
-  - [Template Designer Documentation — Jinja2 Documentation \(2\.10\)](http://jinja.pocoo.org/docs/2.10/templates/) Template variables are defined by the context dictionary passed to the template. 原來 context 的說法是來自 Jinja。
-  - [Choice Variables \(1\.1\+\) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/choice_variables.html) #ril
-  - [Dictionary Variables \(1\.5\+\) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/dict_variables.html) 套用時是如何提示預設值的? #ril
+  - [Template Designer Documentation — Jinja2 Documentation (2\.10)](http://jinja.pocoo.org/docs/2.10/templates/) Template variables are defined by the context dictionary passed to the template. 原來 context 的說法是來自 Jinja。
+  - [Choice Variables (1\.1\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/choice_variables.html) #ril
+  - [Dictionary Variables (1\.5\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/dict_variables.html) 套用時是如何提示預設值的? #ril
 
 ## 自製 Cookiecutter ?? {: #create-your-own-cookiecutter }
 
@@ -145,7 +145,7 @@
 
 ## Pre-/Post-generate Hooks ??
 
-  - [Using Pre/Post\-Generate Hooks \(0\.7\.0\+\) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/hooks.html) #ril
+  - [Using Pre/Post\-Generate Hooks (0\.7\.0\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/hooks.html) #ril
   - [cookiecutter\-django/post\_gen\_project\.py at master · pydanny/cookiecutter\-django](https://github.com/pydanny/cookiecutter-django/blob/master/hooks/post_gen_project.py) #ril
 
 ## Conditional Files / Directories ??
@@ -163,7 +163,7 @@
 
 ## User Configuration ??
 
-  - [User Config \(0\.7\.0\+\) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/user_config.html) #ril
+  - [User Config (0\.7\.0\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/user_config.html) #ril
       - 檔名 `my-custom-config.yaml` 首度提到 YAML。
   - [cookiecutter package — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/cookiecutter.html?#cookiecutter.exceptions.InvalidConfiguration) exception `cookiecutter.exceptions.InvalidConfiguration` 提到若 configuration 不是個合法的 YAML，就會丟出錯誤。
 

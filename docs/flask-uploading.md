@@ -1,6 +1,7 @@
-# Flask Uploading & Downloading
-
-## Uploading
+---
+title: Flask / Uploading/Downloading
+---
+# [Flask](flask.md) / Uploading/Downloading
 
 [learning/test\_upload\.py at master · imsardine/learning](https://github.com/imsardine/learning/blob/master/flask/tests/test_upload.py):
 
@@ -92,7 +93,7 @@ $ curl -F 'file1=@logo.png' -F 'file2=@document.txt' http://127.0.0.1:5000/ | jq
   - [files - API — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/api/#flask.Request.files)
       - `MultiDict` object containing all uploaded files. Each key in files is the name from the `<input type="file" name="">`. Each value in `files` is a Werkzeug `FileStorage` object. 基本上它跟 Python 的 file object 很像，有 [`save()`](http://werkzeug.pocoo.org/docs/0.14/datastructures/#werkzeug.datastructures.FileStorage.save) 可以把內容寫到檔案系統；還有其他屬性 -- `name`、`filename`、`content_length`、`content_type`、`mimetype` 等。
       - Note that `files` will only contain data if the request method was POST, PUT or PATCH and the `<form>` that posted to the request had `enctype="multipart/form-data"`. It will be empty otherwise. 上面還有一種使用者沒選檔案就送出表單的狀況，會拿到 file object，但內容是空的。
-  - [FileStorage - Data Structures — Werkzeug Documentation \(0\.14\)](http://werkzeug.pocoo.org/docs/0.14/datastructures/#werkzeug.datastructures.FileStorage)
+  - [FileStorage - Data Structures — Werkzeug Documentation (0\.14)](http://werkzeug.pocoo.org/docs/0.14/datastructures/#werkzeug.datastructures.FileStorage)
       - The `FileStorage` class is a thin wrapper over incoming files. It is used by the request object to represent uploaded files.
       - All the attributes of the wrapper STREAM are proxied by the file storage so it’s possible to do `storage.read()` instead of the long form `storage.stream.read()`. 按 [io — Core tools for working with streams — Python 3\.7\.1 documentation](https://docs.python.org/3/library/io.html) 的說法，stream 就是 file-like object。
       - `stream` - The input stream for the uploaded file. This usually points to an open temporary file. 就當 file-like object 使用，不一定要呼叫 `save()` 存成檔案再讀出來。

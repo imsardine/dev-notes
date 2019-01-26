@@ -2,7 +2,7 @@
 
   - [Lua: about](https://www.lua.org/about.html) #ril
   - [Lua scripting support · Issue \#117 · scrapinghub/splash](https://github.com/scrapinghub/splash/issues/117) Splash 的 scripting language，最後 Lua 勝出 #ril
-  - [Lua \(programming language\) \- Wikipedia](https://en.wikipedia.org/wiki/Lua_(programming_language)) #ril
+  - [Lua (programming language) \- Wikipedia](https://en.wikipedia.org/wiki/Lua_(programming_language)) #ril
 
 ## Embedded ??
 

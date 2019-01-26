@@ -31,7 +31,7 @@ dn:xxx,ou=people,dc=example,dc=com
   - [ldapwhoami](https://www.openldap.org/software/man.cgi?query=ldapwhoami) #ril
       - 連線到 LDAP server、通過 bind operation，再執行 whoami operation -- 應該就是印出自己的 DN?
       - 範例提到 `ldapwhoami -x -D "cn=Manager,dc=example,dc=com" -W`，可以用來確認 LDAP 密碼是否正確。
-  - [RFC 4532 \- Lightweight Directory Access Protocol \(LDAP\) "Who am I?" Operation](https://tools.ietf.org/html/rfc4532) #ril
+  - [RFC 4532 \- Lightweight Directory Access Protocol (LDAP) "Who am I?" Operation](https://tools.ietf.org/html/rfc4532) #ril
 
 ## 安裝設定 {: #installation }
 

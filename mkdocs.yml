@@ -12,6 +12,9 @@ markdown_extensions:
   - attr_list
   - smarty
   - pymdownx.smartsymbols
-  - legacy_em
+  - pymdownx.magiclink
+  - pymdownx.arithmatex
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML
 nav:
   - README.md

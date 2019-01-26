@@ -1,5 +1,9 @@
 # Python
 
+## Underscore ??
+
+  - [The Meaning of Underscores in Python – dbader\.org](https://dbader.org/blog/meaning-of-underscores-in-python) #ril
+
 ## 參考資料 {: #reference }
 
   - [Python.org](https://www.python.org/)
@@ -20,4 +24,6 @@
 
 更多：
 
+  - [Enum](python-enum.md)
+  - [Text Processing](python-text.md)
   - [PDB (Python Debugger)](python-pdb.md)

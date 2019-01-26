@@ -24,8 +24,8 @@
   - [第一次購買 NodeMCU 就上手 \- 妖恫程式部落](https://blog.everlearn.tw/nodemcu/%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%B3%BC%E8%B2%B7-nodemcu-%E5%B0%B1%E4%B8%8A%E6%89%8B) (2018-09-05) #ril
   - [Comparison of ESP8266 NodeMCU development boards • my2cents](https://frightanic.com/iot/comparison-of-esp8266-nodemcu-development-boards/) (2015-09-28) #ril
   - [Comparison of tools and IDEs for NodeMCU • my2cents](https://frightanic.com/iot/tools-ides-nodemcu/) (2017-01-16) #ril
-  - [Tools and Components : 3 Steps \(with Pictures\)](https://www.instructables.com/id/Getting-Started-With-NodeMCU-All-in-One-Guide/) #ril
-  - [Get Started With NodeMCU \(ESP8266\)\.\.\.\.: 3 Steps](https://www.instructables.com/id/Get-Started-With-NodeMCU/) 刷 Arduino Core，把 NodeMCU firmware 蓋掉了；有混淆視聽之嫌 XD #ril
+  - [Tools and Components : 3 Steps (with Pictures)](https://www.instructables.com/id/Getting-Started-With-NodeMCU-All-in-One-Guide/) #ril
+  - [Get Started With NodeMCU (ESP8266)\.\.\.\.: 3 Steps](https://www.instructables.com/id/Get-Started-With-NodeMCU/) 刷 Arduino Core，把 NodeMCU firmware 蓋掉了；有混淆視聽之嫌 XD #ril
 
 ## Lua, Programming ??
 
@@ -88,7 +88,7 @@
 ## V3 與麵包板 {: #v3-breadboard }
 
   - [第一次購買 NodeMCU 就上手 \- 妖恫程式部落](https://blog.everlearn.tw/nodemcu/第一次購買-nodemcu-就上手) (2018-09-05) V3 板子有尺寸過大的問題，剛好插進最邊邊的插孔，無法連接其他元件，而 V2 則沒有這個問題；作者推薦 V2，因為 V3 改良的地方不明確，又有尺寸過大的問題。
-  - [NodeMCU Breadboard Tweak: 7 Steps \(with Pictures\)](https://www.instructables.com/id/NodeMCU-Breadboard-Tweak/) 把麵包板鋸開，量好距離再重組起來。
+  - [NodeMCU Breadboard Tweak: 7 Steps (with Pictures)](https://www.instructables.com/id/NodeMCU-Breadboard-Tweak/) 把麵包板鋸開，量好距離再重組起來。
   - [lucstechblog: NodeMCU breadboard aid](https://lucstechblog.blogspot.com/2015/09/nodemcu-breadboard-aid.html) (2015-09-18) 用洞洞板 + 平面母座 x 4 排，將 NodeMCU 的接腳引出來，這方法比鋸開麵包板好一點。
   - [Comparison of ESP8266 NodeMCU development boards • my2cents](https://frightanic.com/iot/comparison-of-esp8266-nodemcu-development-boards/) (2015-09-28)
       - William Moore: which is just as wide as the LoLin board and is considered by most people as “breadboard unfriendly” because there is no free (available) pin hole in a MB-102 solderless breadboard when you mount these boards

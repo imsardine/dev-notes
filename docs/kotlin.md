@@ -4,7 +4,7 @@
 
 參考資料：
 
-  - [How to Kotlin \- from the Lead Kotlin Language Designer \(Google I/O '18\) \- YouTube](https://www.youtube.com/watch?v=6P20npkvcb8) Kotlin 的發明者 Andrey Breslav 現身說法，可以聽到 Kotlin 標準的唸法。
+  - [How to Kotlin \- from the Lead Kotlin Language Designer (Google I/O '18) \- YouTube](https://www.youtube.com/watch?v=6P20npkvcb8) Kotlin 的發明者 Andrey Breslav 現身說法，可以聽到 Kotlin 標準的唸法。
   - [FAQ \- Kotlin Programming Language](https://kotlinlang.org/docs/reference/faq.html)
       - What is Kotlin? Kotlin is an OSS STATICALLY TYPED programming language that TARGETS the JVM, Android, JavaScript and Native. 2010 開始，直到 2016/02 釋出 v1.0。注意 target 這個用字，感覺 Kotlin 可以轉換成不同的形式，以執行在不同的平台/環境下。
       - Is Kotlin free? Yes. Kotlin is free, has been free and will remain free. 授權採 Apache 2.0

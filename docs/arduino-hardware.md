@@ -54,11 +54,11 @@ title: Arduino / Hardware
       - 把 ATmega328 從 Arduino UNO 上拔下來裝到 breadboard 上，搭配 16 MHz clock crystal 及兩個 22 pF 的電容
   - [Programming ATtiny85 with Arduino Uno \- Arduino Project Hub](https://create.arduino.cc/projecthub/arjun/programming-attiny85-with-arduino-uno-afb829) #ril
       - Uploading program to ATtiny85 提到 Tools -> Clock -> 8 MHz (internal)，這個動作很關鍵
-  - [【Arduino教學】實作15\- arduino最小化\(燒錄至attiny85\) \- YouTube](https://www.youtube.com/watch?v=2nKEA6AUCZM) (2018-07-18) #ril
+  - [【Arduino教學】實作15\- arduino最小化(燒錄至attiny85) \- YouTube](https://www.youtube.com/watch?v=2nKEA6AUCZM) (2018-07-18) #ril
       - 在開發板上將想法實現後，要縮小有幾種選擇 - Arduino Nano、Arduino Mini (沒有 USB，要接 USB-TTL 才能灌程式)、ATtiny85 (最小)；若程式用到的腳位不多，ATtiny85 會是最好的選擇。
       - 很快地用 Fritzing 及 Arduino IDE 帶過三色蛋的電路配置及程式碼，接著用 Arduino 將程式燒錄到 ATtiny85。
   - [用麵包板組裝Arduino微電腦實驗板 \- 網昱多媒體](https://swf.com.tw/?p=264) (2011-07-19) #ril
-  - [Arduino Uno \(ATMEGA328P\) on a breadboard Tutorial DIY project\. Easy guide\. \- YouTube](https://www.youtube.com/watch?v=npc3uzEVvc0) #ril
+  - [Arduino Uno (ATMEGA328P) on a breadboard Tutorial DIY project\. Easy guide\. \- YouTube](https://www.youtube.com/watch?v=npc3uzEVvc0) #ril
   - [Arduino \- Setting up an Arduino on a breadboard](https://www.arduino.cc/en/Main/Standalone) #ril
   - [How do I go from arduino breadboard to creating a real device \- Electrical Engineering Stack Exchange](https://electronics.stackexchange.com/questions/14146/) #ril 提到 "without USB"
   - [Arduino \- Setting up an Arduino on a breadboard](https://www.arduino.cc/en/Main/Standalone) 自製 Arduino 開發板 #ril

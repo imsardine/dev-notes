@@ -196,17 +196,17 @@ title: Elasticsearch / Query
 
       - Simple Query String Syntax 用 `+`/`|` 來表示 AND/OR，跟 Query String Query 不同??
 
+### Phrase Mathing ??
+
+  - [Starts\-With Phrase Matching \| Elastic](https://www.elastic.co/blog/starts-with-phrase-matching) (2013-02-04) #ril
+
 ## Term Level Query ??
 
   - [Term level queries \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html) #ril
       - While the full text queries will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index, and will normalize terms before executing only for keyword fields with normalizer property.
   - [Keyword datatype \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html) #ril
 
-## Highlighting ??
-
-  - [Highlighting \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html) #ril
-
-## Scoring / Ranking / Relevance ??
+## Scoring / Ranking / Relevance / Similarity {: #scoring }
 
   - [How scoring works in Elasticsearch \- Compose Articles](https://www.compose.com/articles/how-scoring-works-in-elasticsearch/) (2016-02-18) #ril
 
@@ -230,7 +230,7 @@ title: Elasticsearch / Query
   - [Practical BM25 \- Part 3: Considerations for Picking b and k1 in Elasticsearch \| Elastic](https://www.elastic.co/blog/practical-bm25-part-3-considerations-for-picking-b-and-k1-in-elasticsearch) (2018-04-19) #ril
   - [Similarity module \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-similarity.html) #ril
 
-  - [TFIDFSimilarity \(Lucene 6\.0\.1 API\)](https://lucene.apache.org/core/6_0_1/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html#idf-long-long-)
+  - [TFIDFSimilarity (Lucene 6\.0\.1 API)](https://lucene.apache.org/core/6_0_1/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html#idf-long-long-)
       - `docFreq` - the number of documents which contain the term
       - `docCount` - the total number of documents in the collection??
 
@@ -455,6 +455,10 @@ title: Elasticsearch / Query
 
   - [From / Size \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-from-size.html) #ril
 
+## Highlighting ??
+
+  - [Highlighting \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html) #ril
+
 ## Suggestion ??
 
   - [Elasticsearch: Building AutoComplete functionality – Hacker Noon](https://hackernoon.com/elasticsearch-building-autocomplete-functionality-494fcf81a7cf) (2017-12-31) #ril
@@ -483,3 +487,4 @@ title: Elasticsearch / Query
   - [sudo\-suhas/elastic\-builder: A Node\.js implementation of the elasticsearch Query DSL](https://github.com/sudo-suhas/elastic-builder) #ril
   - [KunihikoKido/atom\-elasticsearch\-client: elasticsearch\-client](https://github.com/KunihikoKido/atom-elasticsearch-client) #ril
   - [searchkit/searchkit: React UI components / widgets\. The easiest way to build a great search experience with Elasticsearch\.](https://github.com/searchkit/searchkit) 提供前端 search 的 UI 元件 #ril
+

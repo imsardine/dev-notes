@@ -7,6 +7,7 @@
 ## A
 
   - [Arduino](arduino.md)
+  - [AsciiMath](asciimath.md)
   - [AVR Microcontroller](avr.md)
   - [AVR Libc](avr-libc.md)
   - [Amazon ECS](aws-ecs.md)
@@ -19,6 +20,7 @@
 ## B
 
   - [Barcode Scanner](barcode-scanner.md)
+  - [BM25](bm25.md)
   - [Breadboard 麵包板](breadboard.md)
   - [bumpversion](bumpversion.md)
 
@@ -52,6 +54,7 @@
   - [Favicon](favicon.md)
   - [Fire (Python)](python-fire.md)
   - [Firebase Analytics](firebase-analytics.md)
+  - [Flask](flask.md)
   - [Fritzing](fritzing.md)
 
 ## G
@@ -66,6 +69,7 @@
 ## H
 
   - [HMAC](hmac.md)
+  - [HTML](html.md)
   - [htop](htop.md)
 
 ## I
@@ -76,20 +80,26 @@
 ## J
 
   - [JaCoCo](jacoco.md)
+  - [JavaScript](javascript.md)
+  - [Jinja](jinja.md)
+  - [jQuery](jquery.md)
 
 ## K
 
+  - [KaTeX](katex.md)
   - [Kibana](kibana.md)
   - [Kotlin](kotlin.md)
 
 ## L
 
+  - [LaTeX](latex.md)
   - [LDAP](ldap.md)
   - [LED 發光二極體](led.md)
   - [Lua](lua.md)
 
 ## M
 
+  - [MathJax](mathjax.md)
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
   - [MIME Type](mime-type.md)
@@ -119,7 +129,9 @@
   - [Potentiometer 電位計](potentiometer.md)
   - [Powerlevel9k](powerlevel9k.md)
   - [PWM](pwm.md)
+  - [pyelasticsearch](pyelasticsearch.md)
   - [pyenv](pyenv.md)
+  - [Pylint](pylint.md)
   - [Python](python.md)
   - [python-magic](python-magic.md)
   - [Python-Markdown](python-markdown.md)
@@ -143,6 +155,7 @@
 
 ## T
 
+  - [TeX](tex.md)
   - [Text Mode](text-mode.md)
   - [ThingSpeak](thingspeak.md)
   - [tox](tox.md)

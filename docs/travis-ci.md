@@ -243,7 +243,7 @@ deploy:
 
 ## CLI ??
 
-  - [travis\-ci/travis\.rb: Travis CI Client \(CLI and Ruby library\)](https://github.com/travis-ci/travis.rb#readme) #ril
+  - [travis\-ci/travis\.rb: Travis CI Client (CLI and Ruby library)](https://github.com/travis-ci/travis.rb#readme) #ril
 
 ## 疑難排解 {: #troubleshooting }
 

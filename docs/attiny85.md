@@ -17,7 +17,7 @@
 
 ## 應用實例 {: #powered-by }
 
-  - [【Arduino教學】實作15\- arduino最小化\(燒錄至attiny85\) \- YouTube](https://www.youtube.com/watch?v=2nKEA6AUCZM) (2018-07-18) 三色蛋用 ATtiny85 實作，因為它夠小。
+  - [【Arduino教學】實作15\- arduino最小化(燒錄至attiny85) \- YouTube](https://www.youtube.com/watch?v=2nKEA6AUCZM) (2018-07-18) 三色蛋用 ATtiny85 實作，因為它夠小。
 
 ## 參考資料 {: #reference }
 

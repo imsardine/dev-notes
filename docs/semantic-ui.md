@@ -3,11 +3,11 @@
   - [Semantic UI](https://semantic-ui.com/) #ril
       - User Interface is the language of the web
       - Semantic is a development framework that helps create beautiful, RESPONSIVE layouts using human-friendly HTML.
-      - Unbelievable Theming: Semantic comes equipped with an intuitive INHERITANCE system and high level THEMING variables that let you have complete design freedom. 有 theme 可以切換，也可以進一步覆寫；下面更提到 3000+ Theming Variables??
+      - Unbelievable Theming: Semantic comes equipped with an intuitive INHERITANCE system and high level THEMING VARIABLES that let you have complete design freedom. 有 theme 可以切換，也可以透尸卜月月口 theming variables 覆寫。
       - Responsively Designed: Semantic is designed completely with EM (長度的單位) making responsive sizing a breeze. Design variations built into elements allow you to make the choice how content adjusts for tablet and mobile. 有面對不同 screen size 如何反應的選項可以調整。
       - Partners with Libraries You Love: Semantic has integrations with React, Angular, Meteor, Ember and many other frameworks to help organize your UI layer alongside your application logic. 專注在 UI layer，跟其他 framework 不相衝突；另外 Intuitive Javascript 的範例是用 jQuery
 
-  - [Move over Bootstrap and Foundation, welcome Semantic UI \(Example\)](https://coderwall.com/p/ham3gg/move-over-bootstrap-and-foundation-welcome-semantic-ui) (2019-01-08) #ril
+  - [Move over Bootstrap and Foundation, welcome Semantic UI (Example)](https://coderwall.com/p/ham3gg/move-over-bootstrap-and-foundation-welcome-semantic-ui) (2019-01-08) #ril
 
 ## 應用實例 {: #powered-by }
 

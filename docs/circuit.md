@@ -9,22 +9,22 @@
 
 ## Passive Sign Convention (PSC) ??
 
-  - [電路學1：Passive sign convention \(被動符號通則\)講解 \(ZC001\) \- YouTube](https://www.youtube.com/watch?v=mH-XUGkNohM&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) 電流從正極流出為 "供電"，從正極流入為 "用電" #ril
-  - [電路學3：Passive sign convention \(被動符號通則\)講解 2 \(ZC003\) \- YouTube](https://www.youtube.com/watch?v=ISjQ3_-UouY&index=3&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) 用手機簡化的電路說明，為何有越充電量越少的狀況 #ril
+  - [電路學1：Passive sign convention (被動符號通則)講解 (ZC001) \- YouTube](https://www.youtube.com/watch?v=mH-XUGkNohM&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) 電流從正極流出為 "供電"，從正極流入為 "用電" #ril
+  - [電路學3：Passive sign convention (被動符號通則)講解 2 (ZC003) \- YouTube](https://www.youtube.com/watch?v=ISjQ3_-UouY&index=3&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) 用手機簡化的電路說明，為何有越充電量越少的狀況 #ril
   - [Passive sign convention \- Wikipedia](https://en.wikipedia.org/wiki/Passive_sign_convention) #ril
 
 ## Kirchhoff's Circuit Law (KCL) ??
 
-  - [電路學2：KCL克希荷夫電流定律講解\(ZC002\) \- YouTube](https://www.youtube.com/watch?v=5nwpL-qBXXc&index=2&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) 某一節點，流入的總和，等於流出的總和；一個都不能少 #ril
+  - [電路學2：KCL克希荷夫電流定律講解(ZC002) \- YouTube](https://www.youtube.com/watch?v=5nwpL-qBXXc&index=2&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) 某一節點，流入的總和，等於流出的總和；一個都不能少 #ril
   - [Kirchhoff's current law (KCL) - Kirchhoff's circuit laws \- Wikipedia](https://en.wikipedia.org/wiki/Kirchhoff%27s_circuit_laws#Kirchhoff's_current_law_(KCL)) #ril
 
 ## Kirchhoff's Voltage Law (KVL) ??
 
-  - [電路學4：KVL克希荷夫電壓定律1 \(ZC004\) \- YouTube](https://www.youtube.com/watch?v=ZftUPsEx-dw&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79&index=4) #ril
+  - [電路學4：KVL克希荷夫電壓定律1 (ZC004) \- YouTube](https://www.youtube.com/watch?v=ZftUPsEx-dw&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79&index=4) #ril
       - 多次提到 "電壓極性"，每個元件不一定方向相同，這時候 passive sign convention 就能派上用場；當電流由負走到正 (由正極出為供電) 電壓會上昇，反之當電流由正走到負 (由正極入為用電) 電壓會下降；但為什麼電阻會增壓/供電??
       - KVL 從某一節點遶一個迴路 (順時針或逆時針都沒差)，V 昇 == V 降 的關係成立。
       - 12：50 算出元件 -9V，為何可以改變 "電壓極性"，說等同於 +9V ??
-  - [電路學5：KVL克希荷夫電壓定律2 \(ZC005\) \- YouTube](https://www.youtube.com/watch?v=4OjKrM8FxFE&index=5&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) #ril
+  - [電路學5：KVL克希荷夫電壓定律2 (ZC005) \- YouTube](https://www.youtube.com/watch?v=4OjKrM8FxFE&index=5&list=PLpsrnaNcZIbk0I2XP3Tme7_9eH70qnf79) #ril
   - [Kirchhoff's voltage law (KVL) - Kirchhoff's circuit laws \- Wikipedia](https://en.wikipedia.org/wiki/Kirchhoff%27s_circuit_laws#Kirchhoff's_voltage_law_(KVL)) #ril
 
 ## 串聯、並聯 ??

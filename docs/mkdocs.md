@@ -306,6 +306,10 @@ site_name: Hello, World!
   - [Fenced code blocks - Writing Your Docs \- MkDocs](https://www.mkdocs.org/user-guide/writing-your-docs/#fenced-code-blocks) 提到 syntax highlighter #ril
   - [CodeHilite \- Material for MkDocs](https://squidfunk.github.io/mkdocs-material/extensions/codehilite/) Syntax highlighting 是 theme 的功能? #ril
 
+## MathJax ??
+
+  - [python \- MkDocs and MathJax \- Stack Overflow](https://stackoverflow.com/questions/27882261/) #ril
+
 ## Plugin ??
 
   - [Plugins \- MkDocs](https://www.mkdocs.org/user-guide/plugins/) #ril

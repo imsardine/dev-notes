@@ -88,7 +88,7 @@
 
 ## Sharing Data Between Workers ??
 
-  - [Support sharing registry across multiple workers \(where possible\) · Issue \#30 · prometheus/client\_python](https://github.com/prometheus/client_python/issues/30)
+  - [Support sharing registry across multiple workers (where possible) · Issue \#30 · prometheus/client\_python](https://github.com/prometheus/client_python/issues/30)
       - discordianfish: 用 Prometheus Client Library 遇到 Gunicorn/uWSGI 這類會起多個 worker 的 server 時，每次都只會刮取到單一個 worker 的數據 (each scrape it hits only one worker since they can't share state with others)，uWSGI 支援 [sharedarea](http://uwsgi-docs.readthedocs.org/en/latest/SharedArea.html) 可以在 worker 間共享 registry，或許 Gunicorn 也支援類似的機制?
       - brian-brazil: (member) 可能要自己實作 sharing mechanism 才能跨系統使用，僅限於 counter-based metrics 使用? 之後提出 https://github.com/brian-brazil/client_python/commit/d2d88ea1b22dcf96416877a81e0ec31ad999e96f 裡面有 `MultiProcessCollector`。
       - justyns: 跟 brian-brazil 對話看來，`prometheus_multiproc_dir` 環境變數要給，底下會產生 `.db` 共用數據，但 server 停止後不會刪掉。
