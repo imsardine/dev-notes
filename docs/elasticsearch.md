@@ -76,13 +76,29 @@
 ## Node, Cluster ??
 
   - [Elasticsearch: RESTful, Distributed Search & Analytics \| Elastic](https://www.elastic.co/products/elasticsearch) Scalability 提到 you talk to Elasticsearch running on a single node the same way you would in a 300-node cluster.
-  - [Cluster - Basic Concepts \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster)
+
+  - [Cluster - Basic Concepts \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#_cluster)
       - A cluster is a collection of one or more nodes (servers) that together holds your entire data and provides FEDERATED indexing and search capabilities across all nodes. 重點是 cluster 裡的 nodes 從外面看起來像是個整體，內部 nodes 間則相互合作。
-      - 每個 cluster 用不同的名稱識別 (預設是 `elasticsearch`)，如果 node 是透過 cluster name 加入 cluster，這個名字就會重要，因為一個 node 只能屬於一個 cluster (就算 cluster 裡只有 single node 也沒關係)。例如 `logging-dev`、`logging-prod` 把不同環境的 cluster 拆分開來。
-  - [Node - Basic Concepts \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node)
-      - A node is a single server that is part of your cluster, stores your data, and participates in the cluster’s indexing and search capabilities. 看來 node 無論如何都是 cluster 的一員，即便整個 cluster 只有一個 node -- 稱做 "single-node cluster"。
-      - Node 跟 cluster 一樣有名字，可以自訂 node name (預設是 random UUID)。
-      - Node 可以設定要加入哪個 cluster (根據 cluster name)，預設加入 cluster name 為 `elasticsearch` 的 cluster。如果起了多個 node，假設它們間可以互相找到對方 (discover each other)，就會自動形成一個名為 `elasticsearch` 的 cluster。
+      - A cluster is identified by a unique name which by default is "`elasticsearch`". This name is important because a node CAN ONLY BE PART OF A CLUSTER if the node is set up to join the cluster by its name. 每個 cluster 用不同的名稱識別 (預設是 `elasticsearch`)，如果 node 是透過 cluster name 加入 cluster，這個名字就很重要，因為一個 node 只能屬於一個 cluster (就算 cluster 裡只有 single node 也沒關係)。例如 `logging-dev`、`logging-prod` 把不同環境的 cluster 拆分開來。
+      - Make sure that you don’t reuse the same cluster names in different environments, otherwise you might end up with nodes JOINING THE WRONG CLUSTER. For instance you could use `logging-dev`, `logging-stage`, and `logging-prod` for the development, staging, and production clusters. 什麼情況下同名的 cluster 會知道對方的存在??
+      - Note that it is valid and perfectly fine to have a cluster with only a SINGLE NODE in it. Furthermore, you may also have multiple independent clusters each with its own unique cluster name.
+
+  - [Node - Basic Concepts \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#_node)
+      - A node is a single server that is part of your cluster, stores your data, and participates in the cluster’s indexing and search capabilities.
+      - Just like a cluster, a node is identified by a name which by default is a random Universally Unique IDentifier (UUID) that is assigned to the node at startup. You can define any node name you want if you do not want the default. This name is important for administration purposes where you want to identify which servers in your network correspond to which nodes in your Elasticsearch cluster. 什麼情況下會需要知道對應??
+      - A node can be configured to join a specific cluster by the cluster name. By default, each node is set up to join a cluster named `elasticsearch` which means that if you start up a number of nodes on your network and—assuming they can DISCOVER EACH OTHER—they will all automatically form and join a single cluster named `elasticsearch`.
+      - In a single cluster, you can have as many nodes as you want. Furthermore, if there are no other Elasticsearch nodes currently running ON YOUR NETWORK, starting a single node will by default FORM A NEW SINGLE-NODE CLUSTER named `elasticsearch`. 找不到其他人就自立為王了。
+
+  - [Life Inside a Cluster \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/2.x/distributed-cluster.html) #ril
+      - Elasticsearch is built to be always available, and to scale with your needs. Scale can come from buying bigger servers (VERTICAL scale, or SCALING UP) or from buying more servers (HORIZONTAL scale, or SCALING OUT).
+      - While Elasticsearch can benefit from more-powerful hardware, vertical scale HAS ITS LIMITS. Real scalability comes from horizontal scale—the ability to add more nodes to the cluster and to SPREAD LOAD AND RELIABILITY between them. 很重要的觀念!! scale up 並沒有真的提昇 scalability。
+      - With most databases, scaling horizontally usually requires a major OVERHAUL of your application to take advantage of these extra boxes. In contrast, Elasticsearch is distributed BY NATURE: it knows how to manage multiple nodes to provide scale and high availability. This also means that your application doesn’t need to care about it. 就算只有一個 node，面對的也是 (single-node) cluster
+
+  - [An Empty Cluster \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/2.x/_an_empty_cluster.html) #ril
+      - A node is a running instance of Elasticsearch, while a cluster consists of one or more nodes with the same `cluster.name` that are working together to share their DATA AND WORKLOAD. As nodes are added to or removed from the cluster, the cluster reorganizes itself to spread the data EVENLY.
+      - One node in the cluster is ELECTED to be the master node, which is in charge of managing CLUSTER-WIDE CHANGES like creating or deleting an index, or adding or removing a node from the cluster. The master node does not need to be involved in DOCUMENT-LEVEL CHANGES OR SEARCHES, which means that having just one master node will NOT BECOME A BOTTLENECK as traffic grows. Any node can become the master. Our example cluster has only one node, so it performs the master role. 只有 cluster-wide changes 才要經過 master node，所以不會成為瓶頸；由於每個 node 都知道 document 放哪，所以搜尋不一定要透過 master。
+      - As users, we CAN TALK TO ANY NODE in the cluster, including the master node. EVERY NODE KNOWS WHERE EACH DOCUMENT LIVES and can FORWARD our request directly to the nodes that hold the data we are interested in. Whichever node we talk to manages the process of gathering the response from the node or nodes holding the data and returning the final response to the client. It is all managed TRANSPARENTLY by Elasticsearch.
+
   - [Shards & Replicas - Basic Concepts \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#getting-started-shards-and-replicas) #ril
   - [Exploring Your Cluster \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/_exploring_your_cluster.html) #ril
   - [Installation \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html) 看到 "now we are ready to start our node and single cluster" 及 "elected itself as a master in a single cluster" 的說法。

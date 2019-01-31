@@ -138,6 +138,34 @@ title: GitLab / Wiki
 
   - PlantUML & GitLab - GitLab Documentation https://docs.gitlab.com/ee/administration/integration/plantuml.html #ril
 
+## Wiki Link
+
+  - 明確前置 `./`、`../` 或 `/` 的寫法很明確是相對於 current wiki page 或是從 wiki root 起算，這時候寫與不寫 wiki page 的副檔名，結果並無差別。
+  - 否則會因有沒有副檔名而有不同的解讀 -- 無副檔名時視為相對於 wiki root，有副檔名時則是相對於 current wiki page。
+
+---
+
+參考資料：
+
+  - [Wiki-specific Markdown - GitLab Markdown \| GitLab](https://docs.gitlab.com/ee/user/markdown.html#wiki-specific-markdown)
+      - A link which just includes the slug for a page will point to that page (沒有副檔名而言), at the BASE LEVEL of the wiki. This snippet would link to a `documentation` page at the ROOT of your wiki:
+
+            [Link to Documentation](documentation)
+
+      - Links with a FILE EXTENSION point to that file, RELATIVE to the CURRENT PAGE. If this snippet was placed on a page at `<your_wiki>/documentation/related`, it would link to `<your_wiki>/documentation/file.md`:
+
+            [Link to File](file.md)
+
+      - A link can be constructed RELATIVE to the CURRENT WIKI PAGE using `./<page>`, `../<page>`, etc.
+          - If this snippet was placed on a page at `<your_wiki>/documentation/main`, it would link to `<your_wiki>/documentation/related`: `[Link to Related Page](./related)`
+          - If this snippet was placed on a page at `<your_wiki>/documentation/related/content`, it would link to `<your_wiki>/documentation/main`: `[Link to Related Page](../main)`
+          - If this snippet was placed on a page at `<your_wiki>/documentation/main`, it would link to `<your_wiki>/documentation/related.md`: `[Link to Related Page](./related.md)` 看似跟第一個例子沒有差別? 其實是有副檔名的狀況，也間接說明了要連到其他 wiki page，副檔名可以省略。
+          - If this snippet was placed on a page at `<your_wiki>/documentation/related/content`, it would link to `<your_wiki>/documentation/main.md`: `[Link to Related Page](../main.md)`
+
+      - A link starting with a `/` is RELATIVE to the WIKI ROOT.
+          - This snippet links to `<wiki_root>/documentation`: `[Link to Related Page](/documentation)` 搭配上面 "A link which just includes the slug for a page" 的說法，在沒有副檔名的情況下，前面的 `/` 其實是可以省略的。
+          - This snippet links to `<wiki_root>/miscellaneous.md`: `[Link to Related Page](/miscellaneous.md)`
+
 ## 自訂 Sidebar {: #customizing-sidebar }
 
   - Sidebar 的存在會讓人忽視頁面間連結的重要性，希望可以藏起來。

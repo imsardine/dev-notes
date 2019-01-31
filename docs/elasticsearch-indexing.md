@@ -355,11 +355,27 @@ title: Elasticsearch / Indexing
 ## Mapping ??
 
   - [Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html) #ril
-      - Mapping is the process of defining how a document, and the FIELDs it contains, are stored and INDEXed. For instance, use mappings to define: which string fields should be treated as full text fields. (即採用 `text` field type)、which fields contain numbers, dates, or geolocations.、whether the values of all fields in the document should be indexed into the CATCH-ALL `_all` field.、the format of date values.、custom rules to control the mapping for DYNAMICALLY ADDED FIELDs. 可以停用 dynamic mapping 嗎?? 又 `_all` 的使用時機??
+      - Mapping is the process of defining how a document, and the FIELDs it contains, are stored and INDEXed. For instance, use mappings to define:
+          - which string fields should be treated as full text fields. (即採用 `text` field type)
+          - which fields contain numbers, dates, or geolocations.
+          - whether the values of all fields in the document should be indexed into the CATCH-ALL `_all` field. `_all` 的使用時機??
+          - the format of date values.
+          - custom rules to control the mapping for DYNAMICALLY ADDED FIELDs. 可以停用 dynamic mapping 嗎??
       - Each index has ONE mapping type which determines how the document will be indexed. (7.0 後則完全沒有 mapping 這東西)
-      - Meta-fields - Meta-fields are used to customize how a document’s METADATA associated is treated. Examples of meta-fields include the document’s `_index`, `_type`, `_id`, and `_source` fields.
-      - Fields or properties - A mapping type contains a list of fields or properties PERTINENT to the document. 注意field 跟 property 是通用的說法。
-      - Each field has a data `type` which can be: a simple type like `text`, `keyword`, `date`, `long`, `double`, `boolean` or `ip`. a type which supports the HIERARCHICAL NATURE of JSON such as `object` or `nested`. or a specialised type like `geo_point`, `geo_shape`, or `completion`.
+          - Meta-fields - Meta-fields are used to customize how a document’s METADATA associated is treated. Examples of meta-fields include the document’s `_index`, `_type`, `_id`, and `_source` fields.
+          - Fields or properties - A mapping type contains a list of fields or properties PERTINENT to the document. 注意field 跟 property 是通用的說法。
+      - Each field has a data `type` which can be:
+          - a simple type like `text`, `keyword`, `date`, `long`, `double`, `boolean` or `ip`.
+          - a type which supports the HIERARCHICAL NATURE of JSON such as `object` or `nested`.
+          - or a specialised type like `geo_point`, `geo_shape`, or `completion`.
+      - It is often useful to INDEX THE SAME FIELD IN DIFFERENT WAYS FOR DIFFERENT PURPOSES. For instance, a `string` field could be indexed as a `text` field for full-text search, and as a `keyword` field for sorting or aggregations. Alternatively, you could index a `string` field with the `standard` analyzer, the `english` analyzer, and the `french` analyzer. This is the purpose of MULTI-FIELDS. Most datatypes support multi-fields via the `fields` parameter.
+
+        每個 field 對應一個 "主要的" datatype，按最後一句 "most datatypes support multi-fields via the `fields` parameter"，有些 datatype 支援 multi-fields -- 同一份資料以不同的方式 index 多次 -- 也就是同一份資料的不同版本，套用不同的 datatype、搭配不同的 analyzer 等；例如 [Keyword datatype](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html) 的 Parameters for keyword fields 有提到 `fields`，表示支援 multi-fields。
+
+      - Dynamic mapping - Fields and mapping types do not need to be defined before being used. Thanks to dynamic mapping, new field names will be added automatically, just by indexing a document. New fields can be added both to the TOP-LEVEL MAPPING TYPE, and to inner `object` and `nested` fields. 這裡 inner 是指有階層的 datatype??
+      - Explicit mappings - You know more about your data than Elasticsearch can guess, so while dynamic mapping can be useful to get started, at some point you will want to specify your own EXPLICIT MAPPINGS. You can create field mappings when you create an index, and you can add fields to an existing index with the PUT mapping API.
+
+        注意相對於 dynamic mapping 的是 explicit mapping，而非 static mapping!!
 
   - [Removal of mapping types \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html) #ril
       - Indices created in Elasticsearch 6.0.0 or later may only contain a SINGLE MAPPING TYPE. Indices created in 5.x with multiple mapping types will continue to function as before in Elasticsearch 6.x. Mapping types will be completely removed in Elasticsearch 7.0.0. 以前一個 index 可以有多個 mapping type，但 6.0 開始限定 1 個，到 7.0 就不支援 mapping type 了；少了 mapping type 這一層，往下就直接是 field (type)。
@@ -373,6 +389,7 @@ title: Elasticsearch / Indexing
       - Each index can be sized appropriately for the number of documents it will contain: you can use a smaller number of PRIMARY SHARDs for users and a larger number of primary shards for tweets. 確實總量不多的 document type 若被分散到太多 shard，之後存取的效能會變差??
       - 如果真依 document type 來分 index 的話，將不同 wiki system 的 wiki pages 併到一個 index 也是合理，因為大家都有 title、content、slug 的概念。
 
+  - [Multi-fields - fields \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html) #ril
   - [Get Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html) #ril
   - [Get Field Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-field-mapping.html) #ril
   - [Types Exists \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-types-exists.html) #ril
@@ -380,6 +397,7 @@ title: Elasticsearch / Indexing
 
 ## Dynamic Mapping ??
 
+  - [Dynamic mapping - Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html#_dynamic_mapping) #ril
   - [Dynamic Mapping \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-mapping.html) #ril
       - One of the most important features of Elasticsearch is that it tries to get out of your way and let you start exploring your data as quickly as possible. To index a document, you DON’T HAVE TO first create an index, define a mapping type, and define your fields — you can just index a document and the index, type, and fields will spring to life automatically: 塞資料就會自動定義 mapping、fields，連 index 都會自動產生
 

@@ -170,6 +170,7 @@ title: Elasticsearch / Analysis
   - [Dealing with Human Language \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/languages.html) #ril
   - [Elasticsearch analyzer \- Elasticsearch \- Discuss the Elastic Stack](https://discuss.elastic.co/t/elasticsearch-analyzer/76726) (2017-02-28) 資料混著多種語言如何處理? #ril
   - [Mixed\-Language Fields \| Elasticsearch: The Definitive Guide \[2\.x\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/mixed-lang-fields.html) #ril
+  - [Multi-fields with multiple analyzer fields \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html#_multi_fields_with_multiple_analyzers) 示範了 `text` field 主要採用 `standard` analyzer 外，另外衍生 `text.field` 版本採用 `english` analyzer #ril
 
 ## 中文分詞器 {: #chinese }
 

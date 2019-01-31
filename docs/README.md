@@ -121,6 +121,7 @@
 
 ## P
 
+  - [Pandoc](pandoc.md)
   - [PDB (Python Debugger)](python-pdb.md)
   - [Perfboard 洞洞板](perfboard.md)
   - [Pipenv](pipenv.md)
