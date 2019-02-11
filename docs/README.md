@@ -6,6 +6,7 @@
 
 ## A
 
+  - [App Store Connect](app-store-connect.md)
   - [Arduino](arduino.md)
   - [AsciiMath](asciimath.md)
   - [AVR Microcontroller](avr.md)
@@ -35,6 +36,7 @@
 
 ## D
 
+  - [Dart](dart.md)
   - [Docker Hub](docker-hub.md)
   - [Deterministic Build](reproducible-build.md)
   - [DFPLayer Mini](dfplayer.md)
@@ -55,6 +57,8 @@
   - [Fire (Python)](python-fire.md)
   - [Firebase Analytics](firebase-analytics.md)
   - [Flask](flask.md)
+  - [Flutter](flutter.md)
+  - [Fuchsia](fuchsia.md)
   - [Fritzing](fritzing.md)
 
 ## G

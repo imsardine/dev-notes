@@ -28,6 +28,16 @@
   - [What's the best theme for Oh My Zsh? \- Slant](https://www.slant.co/topics/7553/~theme-for-oh-my-zsh) 這些 theme 都不在官方 wiki 裡? #ril
   - [denysdovhan/spaceship\-prompt: A Zsh prompt for Astronauts](https://github.com/denysdovhan/spaceship-prompt) #ril
 
+## Startup File ??
+
+  - [An Introduction to the Z Shell \- Startup Files](http://zsh.sourceforge.net/Intro/intro_3.html) #ril
+
+  - [\.bash\_profile needs to be sourced after oh\-my\-zsh updates · Issue \#3807 · robbyrussell/oh\-my\-zsh](https://github.com/robbyrussell/oh-my-zsh/issues/3807)
+      - mcornella (collaborator): That's not how you should solve it. `.bash_profile` is a file read only by bash, which is not compatible with zsh. If we start sourcing `.bash_profile` BAD THINGS will start to happen. Instead, you should copy those `ENV` vars to the `.zshrc` file, preferably at the end of it.
+      - teledirgido: Just added "`source ~/.bash_profile`" to my `.zshrc` and everything is working fine now even when I open new tabs.
+      - preslavrachev: Perhaps, it is a only short-term solution. Eventually, I think that I will extract the HARMLESS variable and alias statements into a third `.sh` file, which will then be sourced by `.bash_profile` and `.zshrc` respectively. 問題是，哪些 variable/alias 是有害的?
+      - dedalozzo: The best way is source `~/.bash_profile` at the end of your `.zshrc` file. Nothing bad will happen. Copying all the content of `.bash_profile` is not smart, because you have to maintain two file in synch in case you want remove zsh in the future. 確實要維護兩支檔案很麻煩，尤其 Zsh 又強調相容於 Bash?
+
 ## 安裝設定 {: #installation }
 
   - [zsh \- How can I make tmux use my default shell? \- Super User](https://superuser.com/questions/253786/)
