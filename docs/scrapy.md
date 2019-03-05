@@ -193,6 +193,10 @@ $ docker run --rm -it local.scrapy python -c 'import scrapy; print(scrapy.__vers
   - [Learning Scrapy - Packt](https://www.packtpub.com/big-data-and-business-intelligence/learning-scrapy) (2016-01)
   - [Web Scraping with Python - Packt](https://www.packtpub.com/big-data-and-business-intelligence/web-scraping-python) (2015-10)
 
+更多：
+
+  - [Testing](scrapy-testing.md)
+
 手冊：
 
   - [Scrapy Documentation](https://docs.scrapy.org/en/latest/)

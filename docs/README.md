@@ -21,9 +21,12 @@
 ## B
 
   - [Barcode Scanner](barcode-scanner.md)
+  - [Beautiful Soap](beautifulsoap.md)
   - [BM25](bm25.md)
+  - [Bootstrap](bootstrap.md)
   - [Breadboard 麵包板](breadboard.md)
   - [bumpversion](bumpversion.md)
+  - [Builder Pattern](builder-pattern.md)
 
 ## C
 
@@ -68,13 +71,17 @@
   - [GitHub](github.md)
   - [GitHub Pages](github-pages.md)
   - [Google Analytics](google-analytics.md)
+  - [Google Cloud Search](google-cloud-search.md)
+  - [Google Drive](google-drive.md)
   - [Gunicorn](gunicorn.md)
 
 ## H
 
   - [HMAC](hmac.md)
+  - [Hoverfly](hoverfly.md)
   - [HTML](html.md)
   - [htop](htop.md)
+  - [HttpBin](httpbin.md)
 
 ## I
 
@@ -107,6 +114,7 @@
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
   - [MIME Type](mime-type.md)
+  - [mitmproxy](mitmproxy.md)
   - [MkDocs](mkdocs.md)
   - [Multimeter 三用電表](multimeter.md)
 
@@ -149,10 +157,12 @@
 
 ## S
 
+  - [Sass](sass.md)
   - [SchemDraw](schemdraw.md)
   - [Scrapy](scrapy.md)
   - [Semantic UI](semantic-ui.md)
   - [Semantic Versioning](semver.md)
+  - [Slack](slack.md)
   - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)
   - [Statuspage](statuspage.md)
@@ -164,14 +174,17 @@
   - [Text Mode](text-mode.md)
   - [ThingSpeak](thingspeak.md)
   - [tox](tox.md)
+  - [Trac](trac.md)
   - [transfer.sh](transfer.sh.md)
   - [Travis CI](travis-ci.md)
+  - [Trello](trello.md)
   - [TUI](tui.md)
   - [Tutorial Video](tutorial-video.md)
 
 ## U
 
   - [UART](uart.md)
+  - [Ubuntu](ubuntu.md)
 
 ## V
 
@@ -182,11 +195,14 @@
 ## W
 
   - [WEMOS](wemos.md)
+  - [WireMock](wiremock.md)
+  - [WordPress](wordpress.md)
   - [wuzz](wuzz.md)
 
 ## X
 
   - [Xively](xively.md)
+  - [XML-RPC](xml-rpc.md)
 
 ## Y
 

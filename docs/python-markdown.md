@@ -5,7 +5,7 @@
   - [The Basics - Library Reference — Python\-Markdown 3\.0\.1 documentation](https://python-markdown.github.io/reference/#the-basics) #ril
 
         import markdown
-        html = markdown.markdown(your_text_string) # 一個動就把 Markdown 轉 HTML 了
+        html = markdown.markdown(your_text_string) # 一個動作就把 Markdown 轉 HTML 了
 
 ## 應用實例 {: #powered-by }
 

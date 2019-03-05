@@ -168,12 +168,16 @@ title: GitLab / Wiki
 
 ## 自訂 Sidebar {: #customizing-sidebar }
 
-  - Sidebar 的存在會讓人忽視頁面間連結的重要性，希望可以藏起來。
+  - 預設的 sidebar 會無腦地列出所有的 wiki page，它的的存在會讓人忽視頁面間連結的重要性。
+  - 用 `/_sidebar.md` 可以自訂 sidebar，但原本 sidebar 下方 More Pages 的按鈕/連結還是會在。
 
 參考資料：
 
   - [Customizing sidebar - Wiki \| GitLab](https://docs.gitlab.com/ee/user/project/wiki/#customizing-sidebar)
       - By default, the wiki would render a sidebar which lists ALL THE PAGES for the wiki. You could as well provide a `_sidebar` page to replace this default sidebar. When this customized sidebar page is provided, the default sidebar would not be rendered, but the customized one.
+
+        不過下方的 More Pages 還是會在。
+
       - [GitLab releases \| GitLab](https://about.gitlab.com/releases/#gitlab-112) GitLab 11.2 (2018-08-22) Custom Wiki sidebar
 
   - [Introduce sidebar support for Wikis (\#14995) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/14995)
