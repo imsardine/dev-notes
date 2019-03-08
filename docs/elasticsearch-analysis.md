@@ -148,6 +148,7 @@ title: Elasticsearch / Analysis
 ## Normalizer ??
 
   - [Normalizers \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-normalizers.html) #ril
+      - Normalizers are similar to analyzers except that they may only emit a single token. As a consequence, they do not have a tokenizer and only accept a subset of the available char filters and token filters.
 
 ## Tokenizer ??
 

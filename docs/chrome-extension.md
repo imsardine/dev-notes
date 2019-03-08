@@ -130,7 +130,7 @@ title: Chrome / Extension
 ## Updating, Auto-update
 
   - 增加版號並重新包裝 `.zip` 上傳即可，之後會自動更新；使用者完全無感。
-  - Google Chrome 每幾個小時會檢查一次是否有更新，但實際更新的頻率無法掌握。若要馬上更新，可以在 `chrome://extensions` 啟用 Developer Mode，按 Update 可以立即更新所有的 extension。
+  - Google Chrome 每幾個小時會檢查一次是否有更新，但實際更新的頻率無法掌握，若要馬上更新，可以在 `chrome://extensions` 啟用 Developer Mode，按 Update 可以立即更新所有的 extension；實驗發現，重啟 Chrome 也可以觸發更新。
 
 ---
 

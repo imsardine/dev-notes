@@ -230,7 +230,7 @@ $ docker run \
       - Elasticsearch 會從 `/usr/share/elasticsearch/config/` 下面載入 config files；除了提供自訂的 `elasticsearch.yml` 外，image 支援其他方式設定 Elasticsearch。
       - A. Present the parameters via Docker environment variables: 例如 `docker run -e "cluster.name=mynewclustername"`。
       - B. Bind-mounted configuration: 透過 bind mount 把自訂的 `elasticsearch.yml` 掛進 container 裡特定的位置，例如 `-v full_path_to/custom_elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml`。
-      - C. Customized image: 有些情況可以準備自己的 image (`FROM docker.elastic.co/elasticsearch/elasticsearch:6.4.2`)，事先把 `elasticsearch.yml` 及 plugin 安裝進去。
+      - C. Customized image: 有些情況可以準備自己的 image (`FROM docker.elastic.co/elasticsearch/elasticsearch:6.4.2`)，事先把 `elasticsearch.yml` 及 plugin 安裝進去；但要怎麼裝??
       - D. Override the image’s default CMD: 由於 options 可以透過 command-line 傳入，可以用 `docker run ... bin/elasticsearch` 覆寫 `CMD`，後面再串上其他 command-line options，例如 `-Ecluster.name=mynewclustername`。
   - [Encrypting Communications in an Elasticsearch Docker Container \| Elasticsearch Reference \[6\.4\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-tls-docker.html) #ril
   - [Docker for Elasticsearch, Kibana, and Logstash \| Elastic](https://www.elastic.co/elasticon/conf/2017/sf/why-contain-yourself-official-elastic-stack-for-docker) 官方工程師在 Elastic{ON} 2017 上說明 Elastic Docker team 在這方面的努力 #ril

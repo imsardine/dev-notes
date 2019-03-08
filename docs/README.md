@@ -57,6 +57,7 @@
 ## F
 
   - [Favicon](favicon.md)
+  - [Finite State Machine (FSM)](finite-state-machine.md)
   - [Fire (Python)](python-fire.md)
   - [Firebase Analytics](firebase-analytics.md)
   - [Flask](flask.md)
@@ -111,6 +112,7 @@
 ## M
 
   - [MathJax](mathjax.md)
+  - [Mermaid](mermaid.md)
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
   - [MIME Type](mime-type.md)
@@ -137,6 +139,7 @@
   - [PDB (Python Debugger)](python-pdb.md)
   - [Perfboard 洞洞板](perfboard.md)
   - [Pipenv](pipenv.md)
+  - [PlantUML](plantuml.md)
   - [PlatformIO](platformio.md)
   - [Postman](postman.md)
   - [Potentiometer 電位計](potentiometer.md)
@@ -185,6 +188,7 @@
 
   - [UART](uart.md)
   - [Ubuntu](ubuntu.md)
+  - [UML](uml.md)
 
 ## V
 
