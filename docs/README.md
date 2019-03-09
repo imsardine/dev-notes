@@ -149,6 +149,7 @@
   - [pyenv](pyenv.md)
   - [Pylint](pylint.md)
   - [Python](python.md)
+  - [Python Fire](python-fire.md)
   - [python-magic](python-magic.md)
   - [Python-Markdown](python-markdown.md)
   - [PyYAML](pyyaml.md)

@@ -267,6 +267,10 @@
 
         ![](http://s.plantuml.com/imgw/state-diagram-xtzglfer.webp)
 
+## Wireframe (Salt) ??
+
+  - [Draw GUI mockup with Salt](http://plantuml.com/salt) #ril
+
 ## MindMap Diagram ??
 
   - [What's new ?](http://plantuml.com/news) 2019-03-01 開始支援 MindMap diagram
