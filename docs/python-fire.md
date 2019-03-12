@@ -1,5 +1,9 @@
 # Python Fire
 
+  - Python Fire 用來寫給開發人員用的 CLI 是夠用的，但如果要開發 CLI 給其他人用，就不是那麼合適，從 `-- --help` 可以略知一二。
+
+參考資料：
+
   - [google/python\-fire: Python Fire is a library for automatically generating command line interfaces (CLIs) from absolutely any Python object\.](https://github.com/google/python-fire)
       - Python Fire is a library for automatically generating command line interfaces (CLIs) from absolutely any Python object. 從 Python object 產生 CLI，這觀念好特別!!
       - Python Fire is a helpful tool for developing and debugging Python code. 指 REPL 在開發期間方便試東西。

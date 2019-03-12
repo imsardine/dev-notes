@@ -40,6 +40,7 @@
 ## D
 
   - [Dart](dart.md)
+  - [Docker](docker.md)
   - [Docker Hub](docker-hub.md)
   - [Deterministic Build](reproducible-build.md)
   - [DFPLayer Mini](dfplayer.md)
@@ -120,6 +121,7 @@
   - [mitmproxy](mitmproxy.md)
   - [MkDocs](mkdocs.md)
   - [Multimeter 三用電表](multimeter.md)
+  - [MySQL](mysql.md)
 
 ## N
 
@@ -171,6 +173,7 @@
   - [Slack](slack.md)
   - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)
+  - [SQLAlchemy](sqlalchemy.md)
   - [Statuspage](statuspage.md)
   - [Switch 開關](switch.md)
 
@@ -195,6 +198,7 @@
 
 ## V
 
+  - [Vagrant](vagrant.md)
   - [Vega Grammar](vega-grammar.md)
   - [Vim](vim.md)
   - [VLC Media Player](vlc.md)
