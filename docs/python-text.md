@@ -80,7 +80,7 @@ title: Python / Text Processing
   - [More About Unicode in Python 2 and 3 \| Armin Ronacher's Thoughts and Writings](http://lucumr.pocoo.org/2014/1/5/unicode-in-2-and-3/) (2014-01-05) #ril
   - [Python 2\.7\. Unicode Errors Simply Explained](https://gist.github.com/gornostal/1f123aaf838506038710) #ril
 
-### Unicde Sandwich ??
+### Unicode Sandwich ??
 
   - [python \- urllib\.urlencode doesn't like unicode values: how about this workaround? \- Stack Overflow](https://stackoverflow.com/questions/6480723/)
       - John Machin 提到 "decode at input time, work exclusively in unicode, encode at output time"，這話說得真好!! 往外輸出時要用 byte string

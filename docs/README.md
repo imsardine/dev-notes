@@ -108,6 +108,7 @@
   - [LDAP](ldap.md)
   - [LED 發光二極體](led.md)
   - [Lua](lua.md)
+  - [lxml](lxml.md)
 
 ## M
 
@@ -158,6 +159,7 @@
 
   - [Reproducible Build](reproducible-build.md)
   - [Resistor 電阻](resistor.md)
+  - [Responsive Web Design (RWD)](rwd.md)
 
 ## S
 
