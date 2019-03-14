@@ -40,3 +40,10 @@ title: HTML / Form
       - name 跟 value 用 `=` 分開，name/value pairs 間則用 `&` 串起來 (同 HTML 裡出現的順序)。
   - [2.2. URL Character Encoding Issues - RFC 1738 \- Uniform Resource Locators (URL)](https://tools.ietf.org/html/rfc1738#section-2.2) Octet 可以用 `%HH` (character triplet) 編碼；除了英數字 (alphanumerics) 之外，沒有 US-ASCII (20 ~ 7E) 對應、unsafe、reserved 的字元都要做 encode。
 
+## Redirect After Post (RAP) ??
+
+  - 對後端產生異動之後的回應，務必要實現 RAP；除了避免使用者重整頁面造成異動重複發出的問題之外，也讓使用者沒有機會拿到該 URL 去 bookmark 起來，如果被網路機器人拿到更糟, 它會不斷發出不適當的要求，產生一連串不必要的錯誤。
+
+參考資料：
+
+  - [Redirect After Post](http://wiki.c2.com/?RedirectAfterPost) #ril

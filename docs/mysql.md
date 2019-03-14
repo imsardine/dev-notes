@@ -142,7 +142,7 @@ $ docker exec -it mysql mysql -u app_user -p
 用 container 裡的 MySQL client 連到 Docker host 或其他 host 的 MySQL daemon：
 
 ```
-$ alias mysql="docker run -it --rm mysql mysql -h host.docker.internal"
+$ alias mysql="docker run -it --rm mysql mysql -h host.docker.internal --default-character-set=utf8"
 $ mysql -u xxx -p
 $ mysql -h another-host -u xxx -p
 ```

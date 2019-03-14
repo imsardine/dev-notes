@@ -86,9 +86,100 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
         def show(user_id, username='Anonymous'):
             return user_id + ':' + username
 
+## Context Local ??
+
+  - [Context Locals - Quickstart — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/quickstart/#context-locals)
+      - Insider Information: If you want to understand how that works and how you can implement TESTS with context locals, read this section, otherwise just skip it. 跟測試有關??
+      - Certain objects in Flask are GLOBAL objects, but not of the usual kind. These objects are actually PROXIES to objects that are LOCAL TO A SPECIFIC CONTEXT. What a mouthful. But that is actually quite easy to understand.
+      - Imagine the context being the HANDLING THREAD. A request comes in and the web server decides to spawn a new thread (or something else, the underlying object is capable of dealing with concurrency systems other than threads). When Flask starts its internal request handling it figures out that the current thread is the active context and BINDS the current application and the WSGI environments to that context (thread). It does that in an intelligent way so that one application can INVOKE ANOTHER APPLICATION?? without breaking.
+      - So what does this mean to you? Basically you can completely ignore that this is the case unless you are doing something like UNIT TESTING. You will notice that code which depends on a request object will suddenly break because there is no request object. The solution is creating a request object yourself and binding it to the context. The easiest solution for unit testing is to use the `test_request_context()` context manager. In combination with the `with` statement it will bind a test request so that you can interact with it. Here is an example:
+
+            from flask import request
+
+            with app.test_request_context('/hello', method='POST'):
+                # now you can do something with the request until the
+                # end of the with block, such as basic assertions:
+                assert request.path == '/hello'
+                assert request.method == 'POST'
+
+        這跟 `Flask.test_client()` 是什麼關係?? 好像可以不用從 routing 這一層測試? 不過話說回來，離開 routing 這一層還跟 Flask 有相依，也是個問題...
+
+      - The other possibility is passing a whole WSGI environment to the `request_context()` method: 直接模擬環境變數??
+
+            from flask import request
+
+            with app.request_context(environ):
+                assert request.method == 'POST'
+
+  - [Context Locals — Werkzeug Documentation \(0\.14\)](http://werkzeug.pocoo.org/docs/0.14/local/) #ril
+
 ## Request??
 
+  - [Quickstart — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/quickstart/#accessing-request-data)
+      - For web applications it’s crucial to react to the data a client sends to the server. In Flask this information is provided by the GLOBAL `request` object. If you have some experience with Python you might be wondering how that object can be global and how Flask manages to still be THREADSAFE. The answer is CONTEXT LOCALS:
+
+    The Request Object
+
+      - The request object is documented in the API section and we will not cover it here in detail (see `Request`). Here is a broad overview of some of the most common operations. First of all you have to import it from the `flask` module: `from flask import request`
+      - The current request method is available by using the `method` attribute. To access form data (data transmitted in a POST or PUT request) you can use the `form` attribute. Here is a full example of the two attributes mentioned above:
+
+            @app.route('/login', methods=['POST', 'GET'])
+            def login():
+                error = None
+                if request.method == 'POST':
+                    if valid_login(request.form['username'],
+                                   request.form['password']):
+                        return log_the_user_in(request.form['username']) # 裡面應該會實現 Redirect After Post
+                    else:
+                        error = 'Invalid username/password'
+                # the code below is executed if the request method
+                # was GET or the credentials were invalid
+                return render_template('login.html', error=error)
+
+      - What happens if the key does not exist in the `form` attribute? In that case a special `KeyError` is raised. You can catch it like a standard `KeyError` but if you don’t do that, a HTTP 400 Bad Request error page is shown instead. So for many situations you DON’T have to deal with that problem.
+      - To access parameters submitted in the URL (`?key=value`) you can use the `args` attribute:
+
+            searchword = request.args.get('key', '')
+
+      - We recommend accessing URL parameters with `get` or by catching the `KeyError` because users might change the URL and presenting them a 400 bad request page in that case is NOT USER FRIENDLY.
+
+        還是得看情況吧，如果必要的參數沒拿到，又沒有合理的預設值，回 400 也是很合理的?
+
+      - For a full list of methods and attributes of the request object, head over to the `Request` documentation.
+
+  - [The Request Context — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/reqcontext/) #ril
+      - The request context keeps track of the REQUEST-LEVEL data during a request. Rather than passing the request object to each function that runs during a request, the `request` and `session` PROXIES are accessed instead.
+      - This is similar to the The Application Context, which keeps track of the APPLICATION-LEVEL data independent of a request. A corresponding application context is PUSHED when a request context is pushed.
+
+        關於 push/pop, context 要先看過下面 How the Context Works 才會懂，簡單的講 `request`、`session` 這些 proxy object 都參照 request/application context stack 最上方的 context 來決定 current request/application，所以 push/pop 的動作很關鍵。
+
+    Purpose of the Context
+
+      - When the `Flask` application handles a request, it creates a `Request` object based on the environment it received from the WSGI server. Because a WORKER (thread, process, or COROUTINE depending on the server) handles only one request at a time, the request data can be considered GLOBAL TO THAT WORKER during that request. Flask uses the term CONTEXT LOCAL for this.
+
+        原來 worker 是這麼抽象，背後可能有不同的實作方式，但 worker 同時間只會面對一個 reqeust，這一點是肯定的。
+
+      - Flask automatically pushes a request context when handling a request. View functions, error handlers, and other functions that run during a request will have access to the request proxy, which POINTS TO the request object for the current request.
+
+    Lifetime of the Context
+
+      - When a Flask application begins handling a request, it pushes a request context, which also pushes an The Application Context. When the request ends it pops the request context then the application context.
+      - The context is unique to each thread (or other worker type). request cannot be passed to another thread, the other thread will have a different CONTEXT STACK and will not know about the request the PARENT THREAD?? was pointing to.
+      - Context locals are implemented in Werkzeug. See [Context Locals](http://werkzeug.pocoo.org/docs/local/) for more information on how this works internally. 已經有 context，為何又要強調 local??
+
+    ...
+
+    How the Context Works
+
+      - The `Flask.wsgi_app()` method is called to handle each request. It manages the contexts during the request. Internally, the request and application contexts work as STACKS, `_request_ctx_stack` and `_app_ctx_stack`. When contexts are PUSHED onto the stack, the proxies that depend on them are available and point at information from the TOP CONTEXT on the stack.
+
+        難怪會有 push/pop 的說法，而且 request context 跟 application context 是兩個不同的 stack。
+
+      - When the request starts, a `RequestContext` is created and pushed, which creates and pushes an `AppContext` FIRST if a context for that application is not already the top context. While these contexts are pushed, the `current_app`, `g`, `request`, and `session` proxies are available to the ORIGINAL THREAD handling the request.
+      - After the request is dispatched and a response is generated and sent, the request context is popped, which then pops the application context. Immediately before they are popped, the `teardown_request()` and `teardown_appcontext()` functions are are executed. These execute EVEN IF an unhandled exception occurred during dispatch. 這 2 個 callback 都在 `flask.Flask` 上。
+
   - [class flask.request - API — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/api/#flask.request) 透過 `flask.request` (global) 可以拿到 active thread 的 request object (`flask.Request`)，事實上它是個 proxy (`werkzeug.local.LocalProxy`)。
+
   - [class flask.Request - API — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/api/#flask.Request) #ril
       - `form` 可以拿到 POST/PUT 的資料 (`MultiDict`)，但不含上傳的檔案 -- 檔案另外放在 `files`。
       - `args` 可以拿到 query string 的資料 (`MultiDict`)。
@@ -109,6 +200,12 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
       - multithreading - How do I run a long-running job in the background in Python - Stack Overflow http://stackoverflow.com/questions/34321986/ "the route will return a url (using the guid) that the user can use to check progress." 這做法似乎不錯??
       - Celery Based Background Tasks — Flask Documentation http://flask.pocoo.org/docs/latest/patterns/celery/  官方的 pattern 也提到 Celery #ril
 
+## Redirection ??
+
+  - [Redirects and Errors - Quickstart — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/quickstart/#redirects-and-errors) #ril
+  - [The Request Context — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/reqcontext/)
+      - Because the contexts are stacks, other contexts may be pushed to CHANGE THE PROXIES DURING A REQUEST. While this is not a common pattern, it can be used in advanced applications to, for example, do INTERNAL REDIRECTS or chain different applications together. 怎麼達成 internal redirect??
+  - [python \- Flask: redirect to same page after form submission \- Stack Overflow](https://stackoverflow.com/questions/41270855/) #ril
 
 ## Session ??
 
@@ -122,6 +219,10 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
 
   - 可能的方案有 Flask-RESTful、Flask-RESTPlus、Connexion、Flasgger 等。
   - 提供 OAuth 驗證、產生 API 文件等，都是標準配備；目前好像只有 Connexion 內建支援 OAuth?
+
+## Application Context ??
+
+  - [The Application Context — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/appcontext/) #ril
 
 ## Development Server ??
 

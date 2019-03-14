@@ -62,6 +62,7 @@
   - [Fire (Python)](python-fire.md)
   - [Firebase Analytics](firebase-analytics.md)
   - [Flask](flask.md)
+  - [Flask-WTF](flask-wtf.md)
   - [Flutter](flutter.md)
   - [Fuchsia](fuchsia.md)
   - [Fritzing](fritzing.md)
@@ -118,6 +119,7 @@
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
   - [MIME Type](mime-type.md)
+  - [Mind Map](mindmap.md)
   - [mitmproxy](mitmproxy.md)
   - [MkDocs](mkdocs.md)
   - [Multimeter 三用電表](multimeter.md)
@@ -174,7 +176,9 @@
   - [Soldering 焊接](soldering.md)
   - [spf13-vim](spf13-vim.md)
   - [SQLAlchemy](sqlalchemy.md)
+  - [Stackdriver](stackdriver.md)
   - [Statuspage](statuspage.md)
+  - [SVG](svg.md)
   - [Switch 開關](switch.md)
 
 ## T
@@ -208,6 +212,7 @@
   - [WEMOS](wemos.md)
   - [WireMock](wiremock.md)
   - [WordPress](wordpress.md)
+  - [WTForms](wtforms.md)
   - [wuzz](wuzz.md)
 
 ## X
