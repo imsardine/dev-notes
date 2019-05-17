@@ -1,18 +1,15 @@
-language: python
-python: 3.6
+services:
+  - docker
 branches:
   only:
   - source
-before_install:
-  - pip install pipenv
-  - pipenv install
 script:
-  - pipenv run mkdocs build
+  - make build
 deploy:
-  provider: pages
-  github-token: $GITHUB_TOKEN
-  skip-cleanup: true
-  local-dir: site
-  target-branch: gh-pages
-  on:
-    branch: source
+  - provider: pages
+    github-token: $GITHUB_TOKEN
+    skip-cleanup: true
+    local-dir: site
+    target-branch: gh-pages
+    on:
+      branch: source

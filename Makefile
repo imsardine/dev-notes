@@ -1,8 +1,10 @@
 MAKEFLAGS=--warn-undefined-variables
-PORT ?= 5000
+
+# Parameters
+PORT ?= 127.0.0.1:5000
 
 # Internal Variables
-docker_image = note-taking.local
+docker_image = imsardine/docker-mkdocs
 docker_opts =
 
 define docker_run
@@ -13,15 +15,15 @@ define docker_run
 endef
 
 setup:
-	docker build -t $(docker_image) .
+	docker pull $(docker_image)
 
-shell: docker_opts += --publish $(PORT):8000
+build:
+	$(call docker_run,build --clean)
+
+shell: docker_opts += --entrypoint --publish $(PORT):8000
 shell:
-	$(call docker_run,)
+	$(call docker_run,bash)
 
 preview: docker_opts += --publish $(PORT):8000
 preview:
-	$(call docker_run,pipenv run mkdocs serve)
-
-build:
-	$(call docker_run,pipenv run mkdocs build --clean)
+	$(call docker_run,serve)
