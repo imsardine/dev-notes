@@ -19,10 +19,11 @@ title: Python / File I/O
   - [Check if object is file\-like in Python \- Stack Overflow](https://stackoverflow.com/questions/1661262/) 提到 "behave like a real file"，所以 `isinstance(fp, file)` 這樣的檢查不好，但要怎麼檢查 file-like 呢? #ril
   - [15.1.4. Files and Directories - 15\.1\. os — Miscellaneous operating system interfaces — Python 2\.7\.14 documentation](https://docs.python.org/2/library/os.html#os-file-dir) #ril
 
-## open() ??
+## open(), close() ??
 
   - `open().read()` 後沒 close 會怎樣?? 放 context manager 裡最安全
   - [open(name[, mode[, buffering]]) - 2\. Built\-in Functions — Python 2\.7\.14 documentation](https://docs.python.org/2.7/library/functions.html#open) #ril
+  - [python \- Does a File Object Automatically Close when its Reference Count Hits Zero? \- Stack Overflow](https://stackoverflow.com/questions/1834556/) #ril
 
 ## Mode ??
 
@@ -238,7 +239,71 @@ subdir
 
 ## File Descriptor (FD) ??
 
-  - [15.1.3. File Descriptor Operations - 15\.1\. os — Miscellaneous operating system interfaces — Python 2\.7\.14 documentation](https://docs.python.org/2/library/os.html#file-descriptor-operations) #ril
+  - [`os.fdopen(fd[, mode[, bufsize]])` - 15\.1\. os — Miscellaneous operating system interfaces — Python 2\.7\.16 documentation](https://docs.python.org/2/library/os.html#os.fdopen)
+
+      - Return an open file object connected to the file descriptor `fd`. The `mode` and `bufsize` arguments have the same meaning as the corresponding arguments to the built-in `open()` function. If `fdopen()` raises an exception, it leaves `fd` UNTOUCHED (UNCLOSED).
+      - Availability: Unix, Windows.
+      - Changed in version 2.3: When specified, the `mode` argument must now start with one of the letters `'r'`, `'w'`, or `'a'`, otherwise a `ValueError` is raised.
+      - Changed in version 2.5: On Unix, when the `mode` argument starts with `'a'`, the `O_APPEND` flag is set on the file descriptor (which the `fdopen()` implementation already does on most platforms).
+
+    這裡沒提到 `mode` 參數要跟當初 file descriptor 開啟的一樣，否則會丟 `OSError: [Errno 22] Invalid argument`：
+
+        >>> f = open('/tmp/file', 'wb')
+        >>> f.fileno(), os.fstat(f.fileno())
+        (3, posix.stat_result(st_mode=33188, st_ino=8614118475, st_dev=16777220, st_nlink=1, st_uid=502, st_gid=0, st_size=0, st_atime=1557967095, st_mtime=1557967122, st_ctime=1557967122))
+        >>> f2 = os.fdopen(f.fileno())
+        Traceback (most recent call last):
+          File "<stdin>", line 1, in <module>
+        OSError: [Errno 22] Invalid argument
+        >>> f2 = os.fdopen(f.fileno(), 'rb')
+        Traceback (most recent call last):
+          File "<stdin>", line 1, in <module>
+        OSError: [Errno 22] Invalid argument
+        >>> f2 = os.fdopen(f.fileno(), 'wb') # mode 要一樣才不會丟錯
+        >>> assert f.fileno() == f2.fileno()
+        >>> f2.fileno(), os.fstat(f2.fileno())
+        (3, posix.stat_result(st_mode=33188, st_ino=8614118475, st_dev=16777220, st_nlink=1, st_uid=502, st_gid=0, st_size=0, st_atime=1557967095, st_mtime=1557967122, st_ctime=1557967122))
+        >>> del f
+        >>> os.fstat(f2.fileno())
+        Traceback (most recent call last):
+          File "<stdin>", line 1, in <module>
+        OSError: [Errno 9] Bad file descriptor
+
+  - [File Descriptor Operations - 15\.1\. os — Miscellaneous operating system interfaces — Python 2\.7\.16 documentation](https://docs.python.org/2/library/os.html#file-descriptor-operations) #ril
+
+      - These functions operate on I/O streams referenced using file descriptors.
+
+      - File descriptors are small integers corresponding to a file that HAS BEEN OPENED BY THE CURRENT PROCESS.
+
+        For example, standard input is usually file descriptor 0, standard output is 1, and standard error is 2. Further files opened by a process will then be assigned 3, 4, 5, and so forth. The name “file descriptor” is slightly DECEPTIVE; on Unix platforms, sockets and pipes are also referenced by file descriptors.
+
+        例如 Bash redirection 常用的 `2>&1` 就是 file descriptor，因為是針對目前的 process，所以數字都從 0, 1, 2 起算；不過它不只用來表示 file，也可以是 socket 或 pipe。
+
+      - The `fileno()` method can be used to obtain the file descriptor associated with a file object when required. Note that using the file descriptor directly will BYPASS THE FILE OBJECT methods, ignoring aspects such as INTERNAL BUFFERING of data.
+
+        從 file object 可以取得 file descriptor/no：
+
+            >>> f = open('/tmp/file', 'wb')
+            >>> f.fileno()
+            3
+
+        要將 file descriptor 包裝成 file object，則可以用 `os.fdopen()`，例如從 `tempfile.mkstemp()` 拿到 file descriptor 時。
+
+      - `os.close(fd)`
+
+        Close file descriptor fd. Availability: Unix, Windows.
+
+        Note This function is intended for low-level I/O and must be applied to a file descriptor as returned by `os.open()` or `pipe()`. To close a “file object” returned by the built-in function `open()` or by `popen()` or `fdopen()`, use its `close()` method.
+
+      - `os.open(file, flags[, mode])`
+
+        Open the file file and set various flags according to `flags` and possibly its mode according to `mode`. The default mode is `0777` (octal), and the current UMASK VALUE ?? is first masked out. Return the file descriptor for the newly opened file.
+
+        For a description of the flag and mode values, see the C run-time documentation; flag constants (like `O_RDONLY` and `O_WRONLY`) are defined in this module too (see `open()` flag constants). In particular, on Windows adding `O_BINARY` is needed to open files in binary mode.
+
+        Availability: Unix, Windows.
+
+        Note This function is intended for low-level I/O. For normal usage, use the built-in function `open()`, which returns a “file object” with `read()` and `write()` methods (and many more). To wrap a file descriptor in a “file object”, use `fdopen()`.
 
 ## Pathname ??
 
@@ -297,8 +362,64 @@ c:\docume~1\user\locals~1\temp
 
 參考資料：
 
-  - [10\.6\. tempfile — Generate temporary files and directories — Python 2\.7\.15 documentation](https://docs.python.org/2/library/tempfile.html) #ril
-  - [11\.6\. tempfile — Generate temporary files and directories — Python 3\.7\.0 documentation](https://docs.python.org/3/library/tempfile.html) #ril
+  - [10\.6\. tempfile — Generate temporary files and directories — Python 2\.7\.16 documentation](https://docs.python.org/2/library/tempfile.html) #ril
+
+      - This module generates temporary files and directories. It works on all supported platforms.
+
+      - In version 2.3 of Python, this module was overhauled for ENHANCED SECURITY. It now provides three new functions, `NamedTemporaryFile()`, `mkstemp()`, and `mkdtemp()`, which should eliminate all remaining need to use the INSECURE `mktemp()` function.
+
+        Temporary file names created by this module NO LONGER CONTAIN THE PROCESS ID; instead a string of SIX RANDOM CHARACTERS is used.
+
+      - Also, all the user-callable functions now take additional arguments which allow direct control over the location and name of temporary files. It is no longer necessary to use the global `tempdir` and `template` variables. To maintain backward compatibility, the argument order is somewhat odd; it is recommended to USE KEYWORD ARGUMENTS FOR CLARITY.
+
+  - [tempfile — Generate temporary files and directories — Python 3\.7\.3 documentation](https://docs.python.org/3/library/tempfile.html) #ril
+
+      - `TemporaryFile`, `NamedTemporaryFile`, `TemporaryDirectory`, and `SpooledTemporaryFile` are high-level interfaces which provide AUTOMATIC CLEANUP and can be used as CONTEXT MANAGERS. `mkstemp()` and `mkdtemp()` are lower-level functions which require MANUAL CLEANUP.
+
+        這裡 context manager 跟 automatic cleanup 都是 Python 3 才有的。
+
+      - Files names used by this module include a string of random characters which allows those files to be SECURELY CREATED IN SHARED TEMPORARY DIRECTORIES.
+
+        為什麼檔名加進了一些亂數就變安全了? --> 用 `mkstemp()` 產生的檔案只有執行身份的 user ID 可以讀寫。
+
+    `tempfile.mkstemp(suffix=None, prefix=None, dir=None, text=False)`
+
+      - Creates a temporary file in the MOST SECURE manner possible. There are no race conditions in the file’s creation, assuming that the platform properly implements the `os.O_EXCL` flag for `os.open()`.
+
+        The file is READABLE AND WRITABLE ONLY BY THE CREATING USER ID. If the platform uses permission bits to indicate whether a file is executable, the file is executable by no one. The file descriptor is not inherited by child processes.
+
+        用起來像這樣：
+
+            $ python
+            >>> import tempfile
+            >>> tempfile.mkstemp()
+            (3, '/var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ')
+
+            $ ls -l /var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ
+            -rw-------  1 jeremykao  staff  0 May 16 07:27 /var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ
+
+      - Unlike `TemporaryFile()`, the user of `mkstemp()` is responsible for deleting the temporary file when done with it.
+      - If `suffix` is not `None`, the file name will end with that suffix, otherwise there will be no suffix. `mkstemp()` does NOT PUT A DOT between the file name and the suffix; if you need one, put it at the beginning of `suffix`.
+      - If `prefix` is not `None`, the file name will begin with that prefix; otherwise, a default prefix is used. The default is the return value of `gettempprefix()` or `gettempprefixb()`, as appropriate.
+
+      - If `dir` is not `None`, the file will be created in that directory; otherwise, a default directory is used. The default directory is chosen from a platform-dependent list, but the user of the application can control the directory location by setting the `TMPDIR`, `TEMP` or `TMP` environment variables.
+
+        There is thus no guarantee that the generated filename will have any nice properties, such as not requiring quoting when passed to external commands via `os.popen()`.
+
+      - If any of `suffix`, `prefix`, and `dir` are not `None`, they must be the SAME TYPE. If they are bytes, the returned name will be `bytes` instead of `str`. If you want to force a `bytes` return value with otherwise default behavior, pass `suffix=b''`.
+
+        Changed in version 3.5: `suffix`, `prefix`, and `dir` may now be supplied in `bytes` in order to obtain a `bytes` return value. Prior to this, only `str` was allowed. `suffix` and `prefix` now accept and default to `None` to cause an appropriate default value to be used.
+
+      - If `text` is specified, it indicates whether to open the file in BINARY MODE (THE DEFAULT) or text mode. On some platforms, this makes no difference.
+
+        `mkstemp()` returns a TUPLE containing an OS-LEVEL HANDLE to an open file (as would be returned by `os.open()`) and the absolute pathname of that file, in that order.
+
+            $ python
+            >>> import tempfile
+            >>> tempfile.mkstemp()
+            (3, '/var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ')
+
+        只是 file descriptor 要怎麼用? 可以直接用 `os.read()` 跟 `os.write()` 讀寫，要轉成 file object 的話則用 `os.fdopen()` 搭配 mode `wb` 或 `wt`，依 `text=False` (default) 或 `text=True` 而定。
 
 ## 如何操作檔案?
 

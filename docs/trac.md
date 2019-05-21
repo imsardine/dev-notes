@@ -18,6 +18,10 @@
   - [edgewall/trac - GitHub](https://github.com/edgewall/trac)
   - [Trac Hacks - Plugins Macros etc.](https://trac-hacks.org/)
 
+社群：
+
+  - ['trac' Questions - Stack Overflow](https://stackoverflow.com/questions/tagged/trac)
+
 文件：
 
   - [The Trac User and Administration Guide](https://trac.edgewall.org/wiki/TracGuide)

@@ -57,15 +57,34 @@ nmap <down> gj
     With multiple paragraphs <-- 清單的內文與項目的內文對齊
 ```
 
+不過有點兩難的是，加了 `linebreak` 會讓連續的中文字找不到斷點，但不加 `linebreak` 又會讓一個英文單字被斷在中間 ??
+
 ---
 
 參考資料：
 
   - [linebreak - Vim: options\.txt](http://vimhelp.appspot.com/options.txt.html#%27linebreak%27)
+
       - `linebreak` `lbr` - boolean (default off), local to window.
-      - If on, Vim will wrap long lines at a character in `breakat` rather than at the last character that fits on the screen. Unlike `wrapmargin` and `textwidth`, this does not insert `<EOL>`s in the file, it only affects the WAY THE FILE IS DISPLAYED, not its contents. If `breakindent` is set, line is VISUALLY INDENTED. Then, the value of `showbreak` is used to put in front of wrapped lines. This option is not used when the `wrap` option is off. 在視窗邊界處折行，搭配 `breakindent` 可以讓拆行跟行首對齊。雖然 `showbreak` 可以在拆行前安插一些字元，但 `breakindentopt` 可以進一步讓折行內縮，效果會更好。
+
+      - If on, Vim will wrap long lines at a character in `breakat` rather than at the last character that fits on the screen.
+
+        Unlike `wrapmargin` and `textwidth`, this does not insert `<EOL>`s in the file, it only affects the WAY THE FILE IS DISPLAYED, not its contents.
+
+        If `breakindent` is set, line is VISUALLY INDENTED. Then, the value of `showbreak` is used to put in front of wrapped lines. This option is not used when the `wrap` option is off.
+
+        在視窗邊界處折行，搭配 `breakindent` 可以讓拆行跟行首對齊。雖然 `showbreak` 可以在拆行前安插一些字元，但 `breakindentopt` 可以進一步讓折行內縮，效果會更好。
+
+  - [breakat - Vim: options\.txt](https://vimhelp.org/options.txt.html#%27breakat%27)
+
+      - `breakat` `brk` - string  (default `" ^I!@*-+;:,./?"`), global, not available when compiled without the `+linebreak` feature
+
+      - This option lets you choose which characters might cause a line break if `linebreak` is on. Only works for ASCII and also for 8-bit characters when 'encoding' is an 8-bit encoding.
+
+        難怪中文字不會斷；上面 "only works for ASCII ..." 的說法似乎只針對 8-bit encoding ??
 
   - [how can i intuitively move cursor in vim?(not by line) \- Stack Overflow](https://stackoverflow.com/questions/9713967/)
+
       - Greg Hewgill: In Vim, the gj and gk commands move by line on the screen rather than by line in the file. 可以考慮重新對應 `j`、`k`:
 
             :map j gj
@@ -75,6 +94,8 @@ nmap <down> gj
 
             nmap <up> gk
             nmap <down> gj
+
+  - [\[RFC\] vim\-patch:8\.0\.0380,8\.0\.0381,8\.0\.0385,8\.0\.0389,8\.0\.0391,8\.0\.0406 by ckelsel · Pull Request \#7850 · neovim/neovim](https://github.com/neovim/neovim/pull/7850) #ril
 
 ## 參考資料 {: #reference }
 

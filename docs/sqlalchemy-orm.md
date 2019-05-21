@@ -1,9 +1,7 @@
 ---
-title: SQLAlchemy / ORM
+title: SQLAlchemy / ORM (Object Relational Mapper)
 ---
-# [SQLAlchemy](sqlalchemy.md) / ORM
-
-## ORM (Object Relational Mapper) ??
+# [SQLAlchemy](sqlalchemy.md) / ORM (Object Relational Mapper)
 
   - [Object Relational Tutorial — SQLAlchemy 1\.2 Documentation](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html) #ril
       - SQLAlchemy ORM (Object Relational Mapper) 提出一種將 user-defined Python class 跟 database table 聯結 (associate) 起來的方法，也就是每個 instance 都對應到個別的 table row。有個 unit of work 的機制可以自動同步 object 與 row 的改變 (transparently)，也可以用 class 及宣告的 relationship 來表達 database query。

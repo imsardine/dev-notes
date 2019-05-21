@@ -2,10 +2,23 @@
 
   - YAML 唸作 `/ˈjæməl/`
 
+---
+
 參考資料：
 
-  - [The Official YAML Web Site](http://yaml.org/) YAML = YAML Ain't Markup Language，把自己定位成 YAML is a human friendly data serialization standard for all programming languages. 這個網頁就用 YAML 來表現，可讀性還真的滿高的。
-  - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/) 有 "directly writable and readable by humans" 的說法。
+  - [The Official YAML Web Site](http://yaml.org/)
+
+      - YAML: YAML Ain't Markup Language
+      - What It Is: YAML is a human friendly data serialization standard for all programming languages. 這個網頁就用 YAML 來表現，可讀性還真的滿高的。
+
+  - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/)
+
+      - YAML is a data serialisation language designed to be directly writable and readable by humans.
+
+      - It’s a STRICT SUPERSET of JSON, with the addition of SYNTACTICALLY SIGNIFICANT NEWLINES and INDENTATION, like Python. Unlike Python, however, YAML doesn’t allow literal tab characters for indentation.
+
+        這點確實跟 Python 有點像，但不能用 tab 來做縮排；明智的決定。
+
   - [YAML \- Wikipedia](https://en.wikipedia.org/wiki/YAML) #ril
 
 ## 跟 JSON 的關係 ?? {: #json }
@@ -30,13 +43,118 @@ greeting: Hello, YAML!
 
 參考資料：
 
+  - [Getting Started - YAML Ain't Markup Language](https://yaml.org/start.html)
+
+      - Below is an example of an invoice expressed via YAML(tm). STRUCTURE IS SHOWN THROUGH INDENTATION (one or more spaces). SEQUENCE items are denoted by a dash, and KEY VALUE PAIRS within a map are separated by a colon.
+
+            --- !clarkevans.com/^invoice
+            invoice: 34843
+            date   : 2001-01-23 # (1)
+            bill-to: &id001
+                given  : Chris
+                family : Dumars
+                address:
+                    lines: |
+                        458 Walkman Dr.
+                        Suite #292
+                    city    : Royal Oak
+                    state   : MI
+                    postal  : 48046
+            ship-to: *id001
+            product:
+                - sku         : BL394D
+                  quantity    : 4
+                  description : Basketball
+                  price       : 450.00
+                - sku         : BL4438H
+                  quantity    : 1
+                  description : Super Hoop
+                  price       : 2392.00
+            tax  : 251.42
+            total: 4443.52
+            comments: >
+                Late afternoon is best.
+                Backup contact is Nancy
+                Billsmer @ 338-4338.
+
+         1. 空白可以拿來做排版，讓 `:` 對齊。
+
   - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/) #ril
+
+    Start, Comment
+
+        ---  # document start (1) (2)
+
+        # Comments in YAML look like this.
+
+     1. 看來註解 `#` 不一定要出現在行首。
+     2. `---` 是用來隔開 front matter，應該不是必要的 ?? 
+
+    SCALAR TYPES
+
+        # Our root object (which continues for the entire document) will be a map, (1)
+        # which is equivalent to a dictionary, hash or object in other languages.
+        key: value
+        another_key: Another value goes here.
+        a_number_value: 100
+        scientific_notation: 1e+12
+        # The number 1 will be interpreted as a number, not a boolean. if you want
+        # it to be interpreted as a boolean, use true
+        boolean: true          # (2)
+        null_value: null       # (3)
+        key with spaces: value # (4)
+        # Notice that strings don't need to be quoted. However, they can be.
+        however: 'A string, enclosed in quotes.'
+        'Keys can be quoted too.': "Useful if you want to put a ':' in your key."
+        single quotes: 'have ''one'' escape pattern'
+        double quotes: "have many: \", \0, \t, \u263A, \x0d\x0a == \r\n, and more."
+
+        # Multiple-line strings can be written either as a 'literal block' (using |),
+        # or a 'folded block' (using '>').
+        literal_block: | # (5)
+            This entire block of text will be the value of the 'literal_block' key,
+            with line breaks being preserved.
+
+            The literal continues until de-dented, and the leading indentation is
+            stripped.
+
+                Any lines that are 'more-indented' keep the rest of their indentation -
+                these lines will be indented by 4 spaces.
+        folded_style: >
+            This entire block of text will be the value of 'folded_style', but this
+            time, all newlines will be replaced with a single space.
+
+            Blank lines, like above, are converted to a newline character.
+
+                'More-indented' lines keep their newlines, too -
+                this text will appear over two lines.
+
+     1. 事實上，root object 不一定要是 key-value pair，也可以是 sequence，甚至是 scalars，例如 `null`、`true`/`false` 等。
+     2. Boolean 用 `true`/`false` 表示。
+     3. Null 用 `null` 表示。
+     4. Key 跟 value 都可以不加引號，即使含有空白字元；單引號不支援 escape，裡面的單引號用 `''` 表示，雙引號則支援 escape，例如 `\"`、`\t` 等。
+     5. `|` 表示要對齊左側，跟 Python 的 [`textwrap.dedent()`](https://docs.python.org/3/library/textwrap.html#textwrap.dedent) 很像，會保留換行字元 -- 除開頭跟結尾的換行字元以外 ??
+     6. `>` 表示相連的行要串接起來，空白行才會被視為換行，加上 "'More-indented' lines keep their newlines" 類 indented code block 的說法，很像是 Markdown 的解讀方式 ??
+
   - [Understanding YAML](https://docs.saltstack.com/en/latest/topics/yaml/) #ril
   - [YAML Syntax — Ansible Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) #ril
   - [YAML Idiosyncrasies](https://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html) #ril
   - [The YAML Format (The Yaml Component \- Symfony Docs)](https://symfony.com/doc/current/components/yaml/yaml_format.html) #ril
 
-## 慣用的副檔名 {: #file-extension }
+## Boolean ??
+
+  - [Boolean Language\-Independent Type for YAML™ Version 1\.1](https://yaml.org/type/bool.html) 多種寫法可以兼顧可讀性
+
+      - Canonical: `y|n`
+      - Regexp: `y|Y|yes|Yes|YES|n|N|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF`
+
+      - Definition: Mathematical Booleans.
+
+        A Boolean represents a true/false value. Booleans are formatted as English words (“true”/“false”, “yes”/“no” or “on”/“off”) for readability and may be ABBREVIATED as a single character “y”/“n” or “Y”/“N”.
+
+  - [y\|Y\|n\|N not Recognised as Booleans · Issue \#247 · yaml/pyyaml](https://github.com/yaml/pyyaml/issues/247) 實驗確認 3.13 也有這個問題，為什麼這個錯誤在 2019-02-01 才被回報? #ril
+
+## Convention ??
 
   - 雖然[官方 FAQ](http://www.yaml.org/faq.html) 建議使用 `.yaml`，但因為 `.yml` 已經夠清楚、某些早期檔名 8.3 限制的習慣，結果 `.yml` 變成業界標準 (de facto standard)。
 
@@ -46,6 +164,7 @@ greeting: Hello, YAML!
   - [configuration files \- Is it \.yaml or \.yml? \- Stack Overflow](https://stackoverflow.com/questions/21059124/) 雖然官方建議 `.yaml`，但大家普遍還是用 `.yml`? Bandrami: 8.3 的習慣很難拿掉 MarkDBlackwell: `.yml` 已經夠明確，只有少數的副檔名以 Y 開頭，`.yml` 已經成為 de facto standard。
   - [YML \- Wikipedia](https://en.wikipedia.org/wiki/YML) `.yml` 是 YAML 的副檔名
   - [symfony \- What is the difference between YAML vs YML extension? \- Stack Overflow](https://stackoverflow.com/questions/22268952/) 因為歷史因素，Windows 開發人員還是害怕使用 3 個字元以上的副檔名。
+  - [What is the canonical YAML naming style \- Stack Overflow](https://stackoverflow.com/questions/22771226/) camelCase、`-` 或 `_` 都有人用 #ril
 
 ## Comment
 
@@ -106,12 +225,17 @@ greeting: Hello, YAML!
 ## 參考資料 {: #reference }
 
   - [YAML.org](http://yaml.org/)
+  - [yaml/yaml - GitHub](https://github.com/yaml/yaml)
 
 工具：
 
   - [Online YAML Parser](http://yaml-online-parser.appspot.com/) 可以輸出成 JSON 或 Python
   - [YAML Lint - The YAML Validator](http://www.yamllint.com/) 除了檢查，也會將 `[...]` (list) 或 `{...}` (dictionary) 轉換成階層的表示法
   - [Best YAML Validator Online](https://jsonformatter.org/yaml-validator) 同時提供 Validate 與 Format YAML 的功能
+
+書籍：
+
+  - [YAML Cookbook (Ruby)](https://yaml.org/YAML_for_ruby.html)
 
 手冊：
 

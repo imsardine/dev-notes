@@ -90,6 +90,7 @@ deploy:
   - [Infrastructure and environment notes - Core Concepts for Beginners \- Travis CI](https://docs.travis-ci.com/user/for-beginners/#infrastructure-and-environment-notes) 預設是 container-based。
 
   - [Using Docker in Builds \- Travis CI](https://docs.travis-ci.com/user/docker/)
+
       - Travis CI builds can run and build Docker images, and can also push images to Docker repositories or other remote storage. To use Docker add the following settings to your `.travis.yml`: 這一點跟 GitLab CI 要加 `services: - docker:dind` 很像。
 
             services:

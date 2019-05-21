@@ -10,6 +10,41 @@
 ## Custom Dictionary ??
 
   - [Dictionary Configuration - medcl/elasticsearch\-analysis\-ik: The IK Analysis plugin integrates Lucene IK analyzer into elasticsearch, support customized dictionary\.](https://github.com/medcl/elasticsearch-analysis-ik#dictionary-configuration) #ril
+      - `IKAnalyzer.cfg.xml` can be located at `{conf}/analysis-ik/config/IKAnalyzer.cfg.xml` or `{plugins}/elasticsearch-analysis-ik-*/config/IKAnalyzer.cfg.xml`
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+            <properties>
+                <comment>IK Analyzer 扩展配置</comment>
+                <!--用户可以在这里配置自己的扩展字典 -->
+                <entry key="ext_dict">custom/mydict.dic;custom/single_word_low_freq.dic</entry>
+                 <!--用户可以在这里配置自己的扩展停止词字典-->
+                <entry key="ext_stopwords">custom/ext_stopword.dic</entry>
+                <!--用户可以在这里配置远程扩展字典 -->
+                <entry key="remote_ext_dict">location</entry>
+                <!--用户可以在这里配置远程扩展停止词字典-->
+                <entry key="remote_ext_stopwords">http://xxx.com/xxx.dic</entry>
+            </properties>
+
+## 繁體中文 ?? {: #traditional-chinese }
+
+  - [sunghau/elasticsearch\-analysis\-ik\-config\-traditional\-chinese: ik config files for traditional chinese](https://github.com/sunghau/elasticsearch-analysis-ik-config-traditional-chinese) #ril
+      - 主要的差別似乎在於 [elasticsearch\-analysis\-ik\-config\-traditional\-chinese/IKAnalyzer\.cfg\.xml at master · sunghau/elasticsearch\-analysis\-ik\-config\-traditional\-chinese](https://github.com/sunghau/elasticsearch-analysis-ik-config-traditional-chinese/blob/master/config/ik/IKAnalyzer.cfg.xml)，把 `custom/**/*.dic` 引進來：
+
+
+            <?xml version="1.0" encoding="UTF-8"?>
+            <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">  
+            <properties>  
+                <comment>IK Analyzer 扩展配置</comment>
+                <!--用户可以在这里配置自己的扩展字典 -->	
+                <entry key="ext_dict">custom/mydict.dic;custom/single_word_low_freq.dic;custom/zhTW/main.dic;custom/zhTW/preposition.dic;custom/zhTW/quantifier.dic;custom/zhTW/suffix.dic;custom/zhTW/surname.dic</entry> 	
+                 <!--用户可以在这里配置自己的扩展停止词字典-->
+                <entry key="ext_stopwords">custom/ext_stopword.dic;custom/zhTW/stopword.dic</entry>
+                <!--用户可以在这里配置远程扩展字典 -->	
+                <!-- <entry key="remote_ext_dict">words_location</entry> -->
+                <!--用户可以在这里配置远程扩展停止词字典-->
+                <!-- <entry key="remote_ext_stopwords">words_location</entry> -->
+            </properties>
 
 ## 安裝設定 ?? {: #installation }
 

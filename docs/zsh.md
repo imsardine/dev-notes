@@ -1,6 +1,10 @@
 # Zsh (Z shell)
 
-  - [ZSH \- THE Z SHELL](http://zsh.sourceforge.net/) Zsh is a shell designed for interactive use, although it is also a powerful scripting language. Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added. 集各家大成
+  - [ZSH \- THE Z SHELL](http://zsh.sourceforge.net/)
+
+      - Zsh is a shell designed for interactive use, although it is also a powerful SCRIPTING LANGUAGE.
+
+        Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.
 
   - [Z shell \- Wikipedia](https://en.wikipedia.org/wiki/Z_shell) #ril
       - Zsh is an extended Bourne shell with a large number of improvements, including some features of Bash, ksh, and tcsh. 集各家大成
@@ -57,6 +61,8 @@
 文件：
 
   - [A User's Guide to the Z-Shell](http://zsh.sourceforge.net/Guide/zshguide.html)
+  - [An Introduction to the Z Shell](http://zsh.sourceforge.net/Intro/intro_toc.html)
+  - [The Z Shell Manual](http://zsh.sourceforge.net/Doc/Release/zsh_toc.html)
 
 相關：
 
@@ -64,5 +70,4 @@
 
 手冊：
 
-  - [The Z Shell Manual](http://zsh.sourceforge.net/Doc/Release/zsh_toc.html)
   - [Release Notes](http://zsh.sourceforge.net/releases.html) ([history](http://zsh.sourceforge.net/News/))

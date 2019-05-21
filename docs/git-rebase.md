@@ -49,4 +49,4 @@ title: Git / Rebasing
 
 手冊：
 
-  - [`git-rebase`](https://git-scm.com/docs/git-rebase) #ril
+  - [`git-rebase`](https://git-scm.com/docs/git-rebase)

@@ -223,6 +223,30 @@ deps =
   - [python \- How can I combine coverage results with tox? \- Stack Overflow](https://stackoverflow.com/questions/50895525/)
       - Tim Martin: 假設有安裝 `pytest-coverage`，可以在 `[tool:pytest].addopts` 加上 `--cov-append` (其實就是為 `pytest` 加上 `--cov-append` 參數)，這會合併多次 test run 的結果，有助於把拆分 integration/unit tests。但後來提問的 Martin Thoma 說這並沒有解決問題 XD
 
+## 執行速度很慢 ?? {: #slow }
+
+  - [tox startup is very slow due to setup\.py and \.tox virtualenvs · Issue \#293 · tox\-dev/tox](https://github.com/tox-dev/tox/issues/293)
+
+      - spookylukey: It could be considered a performance bug in setuptools, but fixing that is looking quite hard. I'm wondering if fixing it via tox would be better - after all, tox is triggering the really poor performance of `setup.py` by PUTTING THOUSANDS OF FILES IN THE WORKING DIRECTORY, and then suffering from it.
+
+          - Solution 1: specify a toxworkdir outside the package directory - http://tox.readthedocs.org/en/latest/config.html#tox-global-settings
+
+            The problem with this is that it is difficult to find a place which would be appropriate when you consider multiple people working on a project, possibly on different platforms. Also, it needs to be applied in every project that notices the problem.
+
+            但為什麼把 `toxworkdir` 從 `{toxinidir}/.tox` 改到其他地方就會變快?
+
+          - Solution 2: have a different default value for `toxworkdir`, something like `~/.cache/tox/virtualenvs/{project}`, where `{project}` gets substituted by something appropriate, like a mangled version of the working directory, perhaps combined with a platform name or something. This might also address issue #44 https://bitbucket.org/hpk42/tox/issues/44/cant-share-a-tox-directory-between-os-x
+
+      - spookylukey: pypa/setuptools#450 was closed without a patch being merged, but pypa/setuptools#764 was merged, which hopefully addresses this.
+
+      - spookylukey: With my test case, instead of tox having a startup overhead of: 10 minutes (cold start) or 40 seconds (warm start) ...it now has a startup overhead of: 40 seconds (cold start) or 1-2 seconds (warm start). Yay! This makes a world of difference.
+
+        To see these benefits, you will need setuptools 28.5 or later in the virtualenv that has tox in it, and I think also in the virtualenvs that tox builds - so you may need to use `tox --recreate` to force the new version of setuptools to be installed. You also need to avoid use of `global_include` in your `MANIFEST` file, which will force all files to be scanned - and is probably not what you wanted anyway, because it will include files from hidden directories like `.git`, `.hg`, `.tox` etc.
+
+        The tests aren't exact for a bunch of reasons, but should give a rough idea. The speedup I'm seeing is DUE TO TOX HAVING A LARGE NUMBER OF VIRTUALENVS, so in other cases it will be less extreme. The point to note is that you are no longer punished for having a large number of virtualenvs, which were being unnecessarily scanned by setuptools before (due to them being stored within `.tox` in the project directory).
+
+        什麼是 code/warm start ?? 不過把 `.tox` 搬出 project directory 真的變很快!! 跑 `tox --notest` 準備多個 virtualenvs 時就感受得到。
+
 ## 安裝設定 {: #installation }
 
   - 在 virtualenv 下用 `pip install tox` 安裝，就會有 `tox` 與 `tox-quickstart` 指令可用。
@@ -244,4 +268,4 @@ deps =
 手冊：
 
   - [tox configuration specification](https://tox.readthedocs.io/en/latest/config.html)
-
+  - [`tox` CLI](https://tox.readthedocs.io/en/latest/config.html#tox)

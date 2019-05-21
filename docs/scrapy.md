@@ -106,6 +106,74 @@
 
   - [Scrapy Tutorial — Scrapy 1\.5\.0 documentation](https://doc.scrapy.org/en/1.5/intro/tutorial.html) #ril
 
+## Spider ??
+
+  - [Spiders — Scrapy 1\.5\.1 documentation](https://doc.scrapy.org/en/1.5/topics/spiders.html)
+      - Spiders are classes which define how a CERTAIN SITE (or a GROUP OF SITES) will be scraped, including how to perform the crawl (i.e. follow links) and how to extract structured data from their pages (i.e. scraping items). 也就是說 spider 裡實作了 crawling (跟著連結走) 與 scraping (取出頁面資料) 的 HOW；不過 spider 會以 site 做為區分，而非 content 的型態? => 這是下面 `CrawlSpider` rules 給人的錯誤印象? 如何從 URL 就知道要用哪個 callback 做 parsing??
+      - For spiders, the scraping CYCLE goes through something like this:
+          - You start by generating the INITIAL `Request`s to crawl the first URLs, and specify a CALLBACK function to be called with the response downloaded from those requests. `Request` constructor 其中一個參數是 `callback` (callable)
+          - In the callback function, you parse the response (web page) and return either DICTS WITH EXTRACTED DATA, `Item` objects, `Request` objects, or an ITERABLE of these objects. (通常搭配 `yield`，dict/item 往 item pipeline 去，而 request 則進排程繼續 follow) Those `Request`s will also contain a callback (maybe the same) and will then be downloaded by Scrapy and then their response handled by the specified callback.
+          - In callback functions, you parse the page contents, typically using selectors (but you can also use BeautifulSoup, lxml or whatever mechanism you prefer) and generate items with the parsed data. 雖然這裡只提 HTML/XML，但概念上就是從 response 取出資料，而 response 可能是其他的型態。
+          - Finally, the items returned from the spider will be typically persisted to a database (in some ITEM PIPELINE) or written to a file using FEED EXPORTS. 感覺 feed export 像是特化過的 item pipeline。
+
+  - [scrapy.Spider - Spiders — Scrapy 1\.6\.0 documentation](https://docs.scrapy.org/en/1.6/topics/spiders.html#scrapy-spider) #ril
+
+    `class scrapy.spiders.Spider`
+
+      - This is the simplest spider, and the one from which EVERY OTHER SPIDER MUST INHERIT (including spiders that come bundled with Scrapy, as well as spiders that you write yourself).
+
+        It doesn’t provide any special functionality. It just provides a default `start_requests()` implementation which sends requests from the `start_urls` spider attribute and calls the spider’s method `parse` for each of the resulting responses.
+
+    `name`
+
+      - A string which defines the name for this spider. The spider name is how the spider is located (and instantiated) by Scrapy, so it must be UNIQUE. However, nothing prevents you from instantiating more than one instance of the same spider. This is the most important spider attribute and it’s required.
+      - If the spider scrapes a SINGLE DOMAIN, a common practice is to name the spider AFTER THE DOMAIN, with or without the TLD. So, for example, a spider that crawls `mywebsite.com` would often be called `mywebsite`.
+
+    `allowed_domains`
+
+      - An optional list of strings containing domains that this spider is allowed to crawl. Requests for URLs not belonging to the domain names specified in this list (or their subdomains) won’t be followed if `OffsiteMiddleware` is enabled.
+
+        [`OffsiteMiddleware`](https://docs.scrapy.org/en/1.6/topics/spider-middleware.html#scrapy.spidermiddlewares.offsite.OffsiteMiddleware) -- Filters out `Request`s for URLs outside the domains covered by the spider. This middleware filters out every request whose host names aren’t in the spider’s `allowed_domains` attribute. 預設會啟用 ??
+
+      - Let’s say your target url is `https://www.example.com/1.html`, then add `'example.com'` to the list.
+
+    `start_urls`
+
+      - A list of URLs where the spider will begin to crawl from, when NO PARTICULAR URLs ARE SPECIFIED ??. So, the first pages downloaded will be those listed here. The subsequent `Request` will be generated successively from data contained in the start URLs.
+
+    ...
+
+    `start_requests()`
+
+      - This method must return an iterable with the first `Request`s to crawl for this spider. It is called by Scrapy when the spider is OPENED for scraping. Scrapy calls it ONLY ONCE, so it is SAFE to implement `start_requests()` as a GENERATOR.
+
+        但為何寫成 generator 會卡住? [\[bug?\] while True in start\_requests\(self\): make scrapy is unable to consume the yields\. · Issue \#3259 · scrapy/scrapy](https://github.com/scrapy/scrapy/issues/3259)
+
+        > when you yield a request, scrapy will put the request object into a SCHEDULE POOL, and the scheduler will do this request concurrently when there is ENOUGH REQUEST OBJECTS or SOME TINY TIME IS UP.
+
+        因為 Scrapy 呼叫 `generator.next()`，一定要 yield 東西回去 (不能丟 `StopIteration`，否則就不會再來要了)，否則會卡在 while loop 裡；可以考慮丟出沒用的 `Request`，例如 `Request('http://', callback=do_nothing, errback=do_nothing)`。
+
+      - The default implementation generates `Request(url, dont_filter=True)` for each url in `start_urls`.
+      - If you want to change the `Request`s used to start scraping a domain, this is the method to override. For example, if you need to start by logging in using a POST request, you could do:
+
+            class MySpider(scrapy.Spider):
+                name = 'myspider'
+
+                def start_requests(self):
+                    return [scrapy.FormRequest("http://www.example.com/login",
+                                               formdata={'user': 'john', 'pass': 'secret'},
+                                               callback=self.logged_in)]
+
+                def logged_in(self, response):
+                    # here you would extract links to follow and return Requests for
+                    # each of them, with another callback
+                    pass`
+
+      - [scrapy/\_\_init\_\_\.py at 1\.5\.1 · scrapy/scrapy](https://github.com/scrapy/scrapy/blob/1.5.1/scrapy/spiders/__init__.py#L69) 
+      - `start_requests()` - This method must return an iterable with the first `Request`s to crawl for this spider. It is called by Scrapy when the spider is OPENED FOR SCRAPING. Scrapy calls it only once, so it is safe to implement `start_requests()` as a GENERATOR. [預設的實作](https://github.com/scrapy/scrapy/blob/1.5.1/scrapy/spiders/__init__.py#L69)是 `for url in self.start_urls: yield Request(url, dont_filter=True)` -- 都走 GET method；為什麼沒給 `callback` 卻知道要往 `Spider.parse` 去? => `Request` 是由 spider 吐出來的，可以自動將 `Request` 跟 `Spider.parse` 關聯起來也沒什麼好奇怪的。
+      - `parse(response)` - This is the default callback used by Scrapy to process downloaded responses, when their requests don’t specify a callback. This method, as well as any other `Request` callback, must return an iterable of `Request` and/or dicts or `Item` objects.
+      - `allowed_domains` - An optional list of strings containing domains that this spider is allowed to crawl. Requests for URLs not belonging to the domain names specified in this list (or their subdomains) won’t be followed if `OffsiteMiddleware` is enabled. 雖然 request 不帶 spider，系統還是可以把 request 與 spider 關聯起來，回頭來參考 spider 上的設定。
+
 ## Item ??
 
   - [Items — Scrapy 1\.5\.1 documentation](https://doc.scrapy.org/en/1.5/topics/items.html) #ril

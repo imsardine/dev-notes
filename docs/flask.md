@@ -214,6 +214,8 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
   - [Sessions \| Flask (A Python Microframework)](http://flask.pocoo.org/snippets/category/sessions/) #ril
   - [Sessions - Quickstart — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/quickstart/#sessions) #ril
   - [class flask.session - API — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/api/#flask.session) #ril
+  - http://flask.pocoo.org/docs/1.0/quickstart/                  #sessions
+  - [實作 Flask Session Interface 將Session 資料存入資料庫 — 使用 FlaskSession套件](https://medium.com/pyladies-taiwan/95290b80b2ed) 使用 Flask-Session 後，cookie 裡只剩 session ID #ril
 
 ## RESTful ??
 
@@ -244,15 +246,6 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
 
   - [Step 7: The Templates — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/tutorial/templates/) #ril
   - [Templates — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/templating/) #ril
-
-## Blueprint ??
-
-  - [Modular Applications with Blueprints — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/blueprints/) #ril
-      - 跟模組化有關；Flask 用 blueprint 來表現 application components，可以簡化 large application 的架構 -- 將 application 拆解成多個 blueprint；實務上可以生成一個 application object，然後初始化 extensions，再註冊 (register) blueprints。
-      - "supporting common patterns within an application or across applications" 跟 "provide a central means for Flask extensions to register operations on applications" 不知道在說什麼?? 因為 [extensions](http://flask.pocoo.org/docs/1.0/extensions/) 完全沒提到 blueprint? 或許答案在 "Register a blueprint on an application for any of these cases when initializing a Flask extension." 這句話?
-      - `Blueprint` 的運作方式很像 `Flask` (application object)，但並不是一個 application。
-      - 一個 blueprint 可以用來提供 template filter、static files、templates、utilities，不一定要提供 view functions。
-  - [Application Factories — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/patterns/appfactories/) `from yourapplication.views.admin import admin` 這種寫法看來，blueprint 是一種 view，不過這種 by layer 的切法好像不太優?
 
 ## Forms
 
@@ -597,6 +590,7 @@ if os.getenv('UWSGI_DEBUG'):
 
   - [Template](flask-template.md)
   - [Uploading/Downloading](flask-uploading.md)
+  - [Architecture](flask-arch.md)
 
 手冊：
 

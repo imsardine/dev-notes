@@ -181,3 +181,77 @@ title: Semantic UI / Layout
 
   - [Grid \| Semantic UI](https://semantic-ui.com/collections/grid.html) 雖然是 collection，但比較像是 layout；事實上 Layouts 文件裡也提到了 Grid #ril
 
+## Sticky Footer ??
+
+  - [How to keep footer on window bottom when low content \- HTML & CSS \- The SitePoint Forums](https://www.sitepoint.com/community/t/how-to-keep-footer-on-window-bottom-when-low-content/290286) (2018-03-01) #ril
+      - fumeeptc: If content is large i need it to be at bottom of page but when content is not big footer need to be at window end!
+      - PaulOB: What you are looking for is called a STICKY FOOTER and you need to do it like this:
+
+        一開始[示範了 sticky footer](https://codepen.io/paulobrien/pen/FKAxH)) 的用法，但跟 Semantic UI 無關，後來又改了一份：
+
+            <!DOCTYPE HTML>
+            <html>
+            <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Untitled Document</title>
+            <style>
+            html,body{margin:0;padding:0}
+            .sticky-wrap{
+                display:flex;
+                flex-direction:column;
+                min-height:100vh
+            }
+            .sticky-footer{margin-top:auto}
+
+            </style>
+            </head>
+
+            <body>
+            <div class="sticky-wrap">
+              <div class="sticky-content">
+                <h1>Original content goes here</h1>
+              </div>
+              <div class="sticky-footer">
+                <div class="ui inverted vertical footer segment form-page" style="background-color: #00aaff;">
+                  <div class="ui container">
+                    Footer stuff
+                  </div>
+                </div>
+              </div>
+            </div>
+            </body>
+            </html>
+
+          - That means you just need to stick the footer code inside the `sticky-footer` div and the rest of the layout inside the `sticky-content` div. It may be that you could massage your existing structure if it was similar but its best to use the structure I have shown.
+          - Any other method (apart from the `display:table` method I have shown) is going to be too rigid (死板) for a responsive design as you cannot set a footer to 20px height and then allow the text to wrap or be zoomed or spread vertically in smaller viewports etc.
+
+  - [How to Make footer stick to bottom · Issue \#3726 · Semantic\-Org/Semantic\-UI](https://github.com/Semantic-Org/Semantic-UI/issues/3726) (2016-02-21) #ril
+      - Aniel: take a look at this http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/ works for me like a charm. 連結提供的 demo (Sticky Footer) 有個 Toggle Contents 的按鈕，可以觀察到內容少的時候 footer 在 window 下方，內容多的時候則要捲到最下方。
+      - IonutBajescu (Member): Flexbox is the way to go.
+
+  - [Sticky Footer — Solved by Flexbox — Cleaner, hack\-free CSS](https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/)
+      - Getting the footer to stick to the bottom of pages with SPARSE CONTENT is something just about every Web developer has tried to tackle at some point in his or her career. And, for the most part, it’s a SOLVED problem. Yet all the existing solutions have one significant shortcoming — they don’t work if the HEIGHT OF YOUR FOOTER IS UNKNOWN.
+      - Flexbox is a perfect fit for this type of problem. While mostly known for laying out content in the horizontal direction, Flexbox actually works just as well for vertical layout problems. All you have to do is wrap the VERTICAL SECTIONS in a FLEX CONTAINER and choose which ones you want to EXPAND. They’ll automatically take up all the available space in their container.
+      - In the example below, the container is set to the HEIGHT OF THE WINDOW (`100vh`), and the content area is told to EXPAND AS NEEDED. (Note: in the vertical direction you need to specify a height for the container. This is different from the horizontal direction, which automatically expands to fit.)
+
+        HTML
+
+            <body class="Site"> <-- 採垂直走向的 flexbox
+              <header>…</header>
+              <main class="Site-content">…</main> <-- 儘量佔有剩餘的空間
+              <footer>…</footer>
+            </body>
+
+        CSS
+
+            .Site {
+              display: flex;
+              min-height: 100vh;
+              flex-direction: column;
+            }
+
+            .Site-content {
+              flex: 1;
+            }
+

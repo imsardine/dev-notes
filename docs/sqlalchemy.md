@@ -102,7 +102,46 @@
 
 ## Textual SQL ??
 
-  - [Using Texual SQL - SQL Expression Language Tutorial — SQLAlchemy 1\.2 Documentation](http://docs.sqlalchemy.org/en/latest/core/tutorial.html#using-textual-sql) #ril
+  - [Using Textual SQL - SQL Expression Language Tutorial — SQLAlchemy 1\.3 Documentation](https://docs.sqlalchemy.org/en/13/core/tutorial.html#using-textual-sql) #ril
+
+      - Our last example really became a handful to type. Going from what one understands to be a textual SQL expression into a Python construct which groups components together in a programmatic style can be HARD.
+
+            >>> s = select([(users.c.fullname +
+            ...               ", " + addresses.c.email_address).
+            ...                label('title')]).\
+            ...        where(users.c.id == addresses.c.user_id).\
+            ...        where(users.c.name.between('m', 'z')).\
+            ...        where(
+            ...               or_(
+            ...                  addresses.c.email_address.like('%@aol.com'),
+            ...                  addresses.c.email_address.like('%@msn.com')
+            ...               )
+            ...        )
+            >>> conn.execute(s).fetchall()
+
+        確實沒有比較好懂，尤其對寫過 SQL 的人來說。
+
+      - That’s why SQLAlchemy lets you just use strings, for those cases when the SQL is already known and there isn’t a strong need for the statement to support DYNAMIC FEATURES. The `text()` construct is used to compose a TEXTUAL STATEMENT that is passed to the database MOSTLY UNCHANGED. Below, we create a `text()` object and execute it:
+
+            >>> from sqlalchemy.sql import text
+            >>> s = text(
+            ...     "SELECT users.fullname || ', ' || addresses.email_address AS title "
+            ...         "FROM users, addresses "
+            ...         "WHERE users.id = addresses.user_id "
+            ...         "AND users.name BETWEEN :x AND :y "
+            ...         "AND (addresses.email_address LIKE :e1 "
+            ...             "OR addresses.email_address LIKE :e2)")
+            SQL>>> conn.execute(s, x='m', y='z', e1='%@aol.com', e2='%@msn.com').fetchall()
+            [(u'Wendy Williams, wendy@aol.com',)]
+
+        用 `:var` 來替換變數 (bound parameter)。
+
+        上面 "passed to the database mostly unchanged" 的說法，是否意謂著 textual SQL 會綁定特定資料庫 ??
+
+      - Above, we can see that BOUND PARAMETERS are specified in text() using the NAMED COLON FORMAT; this format is consistent REGARDLESS OF DATABASE BACKEND. To send values in for the parameters, we passed them into the `execute()` method as additional arguments.
+
+    用 Textual SQL 就可以與資料庫隔開一層，不一定要包裝 mapping 或 domain model。
+
   - [Using raw SQL with Flask\-SQLAlchemy – neekey](http://neekey.net/2017/05/19/using-raw-sql-with-flask-sqlalchemy/) (2017-05-19) #ril
   - [Raw SQL in SQLAlchemy](http://zetcode.com/db/sqlalchemy/rawsql/) #ril
   - [python \- How to execute raw SQL in SQLAlchemy\-flask app \- Stack Overflow](https://stackoverflow.com/questions/17972020/) jpmc26: 也可搭配 session 使用!? #ril
@@ -122,7 +161,34 @@
 
   - Glossary — SQLAlchemy 1.2 Documentation http://docs.sqlalchemy.org/en/latest/glossary.html#term-unit-of-work 提到 "transparently keeps track of changes to objects and periodically flushes all those pending changes out to the database" 且 SQLAlchemy session 有實作這個 pattern，在使用上會有什麼影響?
   - [Transactions and Connection Management — SQLAlchemy 1\.2 Documentation](http://docs.sqlalchemy.org/en/latest/orm/session_transaction.html) #ril
-  - [Setting Transaction Isolation Levels - Transactions and Connection Management — SQLAlchemy 1\.2 Documentation](http://docs.sqlalchemy.org/en/latest/orm/session_transaction.html#setting-transaction-isolation-levels) #ril
+
+  - [isolation - Glossary — SQLAlchemy 1\.3 Documentation](https://docs.sqlalchemy.org/en/latest/glossary.html#term-isolation)
+
+      - The isolation property of the ACID model ensures that the CONCURRENT EXECUTION of transactions results in a system state that would be obtained if transactions were EXECUTED SERIALLY, i.e. one after the other. Each transaction must execute in total isolation i.e. if T1 and T2 execute concurrently then each should remain independent of the other. (via Wikipedia)
+
+  - [Setting Transaction Isolation Levels - Transactions and Connection Management — SQLAlchemy 1\.3 Documentation](https://docs.sqlalchemy.org/en/latest/orm/session_transaction.html#setting-transaction-isolation-levels) #ril
+
+      - Isolation refers to the behavior of the transaction at the database level in relation to other transactions occurring concurrently. There are four well-known modes of isolation, and typically the Python DBAPI allows these to be set on a PER-CONNECTION BASIS, either through explicit APIs or via database-specific calls.
+
+      - SQLAlchemy’s dialects support SETTABLE ISOLATION MODES on a PER-ENGINE or PER-CONNECTION basis, using flags at both the `create_engine()` level as well as at the `Connection.execution_options()` level.
+
+        預設是什麼??
+
+      - When using the ORM `Session`, it acts as a FACADE for engines and connections, but does NOT EXPOSE transaction isolation directly. So in order to affect transaction isolation level, we need to act upon the `Engine` or `Connection` as appropriate. 下面會說明做法
+
+  - [`isolation_level` - `sqlalchemy.create_engine()` - Engine Configuration — SQLAlchemy 1\.3 Documentation](https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine.params.isolation_level)
+
+      - this string parameter is interpreted by various dialects in order to affect the transaction isolation level of the database connection. The parameter essentially accepts some SUBSET of these string arguments: `"SERIALIZABLE"`, `"REPEATABLE_READ"`, `"READ_COMMITTED"`, `"READ_UNCOMMITTED"` and `"AUTOCOMMIT"`. BEHAVIOR HERE VARIES PER BACKEND, and individual dialects should be consulted directly.
+
+      - Note that the isolation level can also be set on a PER-CONNECTION BASIS as well, using the `Connection.execution_options.isolation_level` feature.
+
+        感覺依 connection 設定 isolation level 比較合理，因為不是每項操作 (或 use case) 都會涉及資料的異動。
+
+  - [Transaction Isolation Level - MySQL — SQLAlchemy 1\.3 Documentation](https://docs.sqlalchemy.org/en/latest/dialects/mysql.html#mysql-isolation-level) #ril
+
+  - [Handling concurrent INSERT with SQLAlchemy](http://rachbelaid.com/handling-race-condition-insert-with-sqlalchemy/) (2015-08-17) #ril
+  - [postgresql \- SqlAlchemy: Table locking with \`get or create\` pattern \- Stack Overflow](https://stackoverflow.com/questions/6091168/) #ril
+  - [Lock table, do things to table, unlock table: Best way? \- Google Groups](https://groups.google.com/forum/#!topic/sqlalchemy/neg7nXagaMQ) #ril
 
 ## 取得背後產生的 SQL 語法??
 
@@ -183,8 +249,13 @@ sql = CreateTable(table).compile(dialect=mysql.dialect())
 
 更多：
 
+  - [Core](sqlalchemy-core.md)
   - [ORM](sqlalchemy-orm.md)
   - [Domain Model](sqlalchemy-domain-model.md)
+
+相關：
+
+  - SQLAlchemy 底層也是透過 [DB-API](dbapi.md) 跟 DB 溝通。
 
 手冊：
 
@@ -201,7 +272,6 @@ from sqlalchemy import Integer
 
   - [`sqlalchemy.create_engine()`](http://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine)
   - [`sqlalchemy.ext.declarative.declarative_base()`](http://docs.sqlalchemy.org/en/latest/orm/extensions/declarative/api.html#sqlalchemy.ext.declarative.declarative_base)
-  - [`sqlalchemy.engine.Engine`](http://docs.sqlalchemy.org/en/latest/core/connections.html#sqlalchemy.engine.Engine)
   - [`sqlalchemy.MetaData`](http://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.MetaData)
   - [`sqlalchemy.orm.Mapper`](http://docs.sqlalchemy.org/en/latest/orm/mapping_api.html#sqlalchemy.orm.mapper.Mapper)
   - [`sqlalchemy.orm.Session`](http://docs.sqlalchemy.org/en/latest/orm/session_api.html#sqlalchemy.orm.session.Session)

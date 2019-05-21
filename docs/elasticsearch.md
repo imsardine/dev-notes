@@ -252,14 +252,15 @@ $ docker run \
   - [Elasticsearch Forum - Elastic Stack](https://discuss.elastic.co/c/elasticsearch)
   - ['elasticsearch' Questions - Stack Overflow](https://stackoverflow.com/questions/tagged/elasticsearch)
 
+文件：
+
+  - [Elasticsearch Reference](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
+
 書籍：
 
   - [Elasticsearch Reference 5.6 | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
   - [The Definitive Guide 2.x | Elastic](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html)
-
-文件：
-
-  - [Elasticsearch Reference](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
+  - [Elasticsearch in Action - Manning](https://www.manning.com/books/elasticsearch-in-action) (2015-11)
 
 更多：
 

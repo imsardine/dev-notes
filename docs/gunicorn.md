@@ -62,6 +62,135 @@
   - [Async Workers - Installation — Gunicorn 19\.8\.1 documentation](http://docs.gunicorn.org/en/latest/install.html#async-workers) "pause for extended periods of time during request processing" 時要採用 async worker，加裝 [Eventlet](http://eventlet.net/) 或 [Gevent](http://www.gevent.org/)。
   - [Understanding gunicorn's async worker concurrency model \| Volant\.is](https://words.volant.is/articles/understanding-gunicorns-async-worker-concurrency-model/) (2014-04-21) #ril
 
+## Log ??
+
+  - [Logging - Settings — Gunicorn 19\.9\.0 documentation](http://docs.gunicorn.org/en/stable/settings.html#logging)
+
+    `accesslog`
+
+      - `--access-logfile FILE` 預設 `None`。
+      - The Access log file to write to. `'-'` means log to stdout.
+
+    `access_log_format`
+
+      - `--access-logformat STRING` 預設 `%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"`
+
+        有點難懂，舉個例子：
+
+            172.17.0.1 -     -     [29/Mar/2019:02:27:46 +0000] "POST / HTTP/1.1" 500   290   "-"     "curl/7.54.0"
+             %(h)s     %(l)s %(u)s %(t)s                        "%(r)s"           %(s)s %(b)s "%(f)s" "%(a)s"
+
+    `errorlog`
+
+      - `--error-logfile FILE`, `--log-file FILE`
+      - The Error log file to write to. Using `'-'` for `FILE` makes gunicorn log to stderr.
+      - Changed in version 19.2: Log to stderr by default.
+
+      - 採用什麼格式? 實際的例子也看不太懂 ...
+
+            [2019-03-29 02:27:46 +0000] [8] [DEBUG] POST /
+
+        從 [Gunicorn default error logging date format is not standard ISO8601 · Issue \#1771 · benoitc/gunicorn](https://github.com/benoitc/gunicorn/issues/1771) 看來，似乎是對應 `r"%(asctime)s [%(process)d] [%(levelname)s] %(message)s"`
+
+    `logger_class`
+
+      - `--logger-class STRING` 預設 `gunicorn.glogging.Logger`
+      - The logger you want to use to log events in Gunicorn. The default class (`gunicorn.glogging.Logge`r) handle most of normal usages in logging. It provides error and access logging.
+      - You can provide your own logger by giving Gunicorn a PYTHON PATH to a subclass like `gunicorn.glogging.Logger`.
+
+        雖然沒有 `--error-logformat` 可用，但繼承 `gunicorn.glogging.Logger` 改寫 log 的處理方式，是有機會將 access & error log 都寫出為 JSON Lines 的；也可以搭配 `--log-config` 使用。由 `--pythonpath STRING` 調整 Python path #ril
+
+    `logconfig`
+
+      - `--log-config FILE` 預設 `None`
+      - The log config file to use. Gunicorn uses the standard Python logging module’s Configuration file format.
+
+  - [python \- How can I configure gunicorn to use a consistent error log format? \- Stack Overflow](https://stackoverflow.com/questions/45088749/)
+
+      - Kris Harper: I am using Gunicorn in front of a Python Flask app. I am able to configure the access log format using the `--access-log-format` command line parameter when I run gunicorn. But I can't figure out how to configure the error logs.
+
+        I would be fine with the default format, except it's not consistent. It looks like Gunicorn status messages have one format, but application exceptions have a different format. This is making it difficult to use log aggregation. 不過若沒有 uncaught exception，就不會有這類問題?
+
+            [2017-07-13 16:33:24 +0000] [15] [INFO] Booting worker with pid: 15
+            [2017-07-13 16:33:24 +0000] [16] [INFO] Booting worker with pid: 16
+            [2017-07-13 16:33:24 +0000] [17] [INFO] Booting worker with pid: 17
+            [2017-07-13 16:33:24 +0000] [18] [INFO] Booting worker with pid: 18
+            [2017-07-13 18:31:11,580] ERROR in app: Exception on /api/users [POST]
+            Traceback (most recent call last):
+              File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1982, in wsgi_app
+                response = self.full_dispatch_request()
+              File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+                rv = self.handle_user_exception(e)
+            ...
+
+      - aramaki: Using this logging config file, I was able to change the error log format
+
+            [loggers]
+            keys=root, gunicorn.error
+
+            [handlers]
+            keys=error_console
+
+            [formatters]
+            keys=generic
+
+            [logger_root]
+            level=INFO
+            handlers=error_console
+
+            [logger_gunicorn.error]
+            level=INFO
+            handlers=error_console
+            propagate=0
+            qualname=gunicorn.error
+
+            [handler_error_console]
+            class=StreamHandler
+            formatter=generic
+            args=(sys.stderr, )
+
+            [formatter_generic]
+            format=%(asctime)s %(levelname)-5s [%(module)s] ~ %(message)s
+            datefmt=%Y-%m-%d %H:%M:%S %Z
+            class=logging.Formatter
+
+        The key is to overwrite the `gunicorn.error` logger config, and the snipped above does exactly that.
+
+        Note the `propagate=0` field, it is important otherwise your log messages will be printed twice (gunicorn always keeps the default logging config).
+
+  - [gunicorn/glogging\.py at 19\.9\.0 · benoitc/gunicorn](https://github.com/benoitc/gunicorn/blob/19.9.0/gunicorn/glogging.py#L171) #ril
+
+        class Logger(object):
+
+            LOG_LEVELS = {
+                "critical": logging.CRITICAL,
+                "error": logging.ERROR,
+                "warning": logging.WARNING,
+                "info": logging.INFO,
+                "debug": logging.DEBUG
+            }
+            loglevel = logging.INFO
+
+            error_fmt = r"%(asctime)s [%(process)d] [%(levelname)s] %(message)s"
+            datefmt = r"[%Y-%m-%d %H:%M:%S %z]"
+
+            access_fmt = "%(message)s"
+            syslog_fmt = "[%(process)d] %(message)s"
+
+            atoms_wrapper_class = SafeAtoms
+
+            def __init__(self, cfg):
+                self.error_log = logging.getLogger("gunicorn.error")
+                self.error_log.propagate = False
+                self.access_log = logging.getLogger("gunicorn.access")
+                self.access_log.propagate = False
+                self.error_handlers = []
+                self.access_handlers = []
+                self.logfile = None
+                self.lock = threading.Lock()
+                self.cfg = cfg
+                self.setup(cfg)
+
 ## Configuration ??
 
   - [Configuration Overview — Gunicorn 19\.9\.0 documentation](http://docs.gunicorn.org/en/latest/configure.html)
@@ -146,4 +275,4 @@ CMD ["--bind=0.0.0.0:8000", "myporject.wsgi:app"]
 手冊：
 
   - [Settings — Gunicorn Documentation](http://docs.gunicorn.org/en/latest/settings.html)
-
+  - [Access Log Format](http://docs.gunicorn.org/en/latest/settings.html#access-log-format)

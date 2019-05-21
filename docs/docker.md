@@ -93,8 +93,200 @@ CMD ["/hello"]
       - 似乎可以從 `docker run hello-world` 開始?
       - 搞清楚 Docker for Mac、Docker Toolbox、Docker Machine、Docker Engine 的不同、關係...
 
-  - [Get Started, Part 1: Orientation and setup \| Docker Documentation](https://docs.docker.com/get-started/) 說明 image、container 及 container 與 VM 的差異
+  - [Get Started, Part 1: Orientation and setup \| Docker Documentation](https://docs.docker.com/get-started/)
+
+    Docker concepts
+
+      - Docker is a platform for developers and sysadmins to develop, deploy, and run applications with containers. The use of Linux containers to deploy applications is called CONTAINERIZATION.
+
+        Containers are not new, but their use for easily DEPLOYING APPLICATIONS is.
+
+      - Containerization is increasingly popular because containers are:
+
+          - Flexible: Even the most complex applications can be containerized.
+          - Lightweight: Containers LEVERAGE AND SHARE THE HOST KERNEL.
+          - Interchangeable: You can deploy updates and upgrades on-the-fly. ??
+          - Portable: You can build locally, deploy to the cloud, and run anywhere.
+          - Scalable: You can increase and automatically distribute CONTAINER REPLICAS.
+          - Stackable: You can STACK SERVICES VERTICALLY and on-the-fly. ??
+
+      - Images and containers
+
+          - A CONTAINER IS LAUNCHED BY RUNNING AN IMAGE. An image is an EXECUTABLE PACKAGE that includes everything needed to run an application--the code, a runtime, libraries, environment variables, and configuration files.
+
+            通常 configuration 會從外面掛進去。
+
+          - A container is a RUNTIME INSTANCE OF AN IMAGE--what the image becomes in memory when executed (that is, an image with state, or a user process). You can see a list of your running containers with the command, `docker ps`, just as you would in Linux.
+
+      - Containers and virtual machines
+
+          - A container runs NATIVELY on Linux and SHARES THE KERNEL OF THE HOST MACHINE with other containers. It runs a discrete process, taking no more memory than any other executable, making it lightweight.
+
+            不用 `docker ps` 的話，用 `ps` 看得到 container 對應的 process 嗎 ??
+
+      - By contrast, a virtual machine (VM) runs a FULL-BLOWN “guest” operating system with VIRTUAL ACCESS TO HOST RESOURCES THROUGH A HYPERVISOR. In general, VMs provide an environment with more resources than most applications need.
+
+        ![](https://docs.docker.com/images/Container%402x.png)
+
+        每個 application 都用個別 VM 佈署的話，會多一層 Guest OS，資源運用上比較沒效率；若多個 application 共用一個 VM，環境會混在一起也不可能。
+
+    Prepare your Docker environment
+
+      - Install a maintained version of Docker Community Edition (CE) or Enterprise Edition (EE) on a supported platform.
+
+      - For full Kubernetes Integration
+
+          - Kubernetes on Docker Desktop for Mac is available in 17.12 Edge (mac45) or 17.12 Stable (mac46) and higher.
+          - Kubernetes on Docker Desktop for Windows is available in 18.02 Edge (win50) and higher edge channels only.
+
+        Docker 不是自己有 Swarm，為什麼也會推 Kubernetes ??
+
+    Test Docker version
+
+      - Run `docker --version` and ensure that you have a supported version of Docker:
+
+            $ docker --version
+            Docker version 17.12.0-ce, build c97c6d6
+
+      - Run `docker info` (or `docker version` without `--`) to view even more details about your Docker installation:
+
+            $ docker info
+            Containers: 0
+             Running: 0
+             Paused: 0
+             Stopped: 0
+            Images: 0
+            Server Version: 17.12.0-ce
+            Storage Driver: overlay2
+            ...
+
+      - To avoid permission errors (and the use of `sudo`), add your user to the `docker` group. Read more.
+
+    Test Docker installation
+
+      - Test that your installation works by running the simple Docker image, `hello-world`:
+
+            $ docker run hello-world
+            Unable to find image 'hello-world:latest' locally
+            latest: Pulling from library/hello-world
+            ca4f61b1923c: Pull complete
+            Digest: sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7
+            Status: Downloaded newer image for hello-world:latest
+
+            Hello from Docker!
+            This message shows that your installation appears to be working correctly.
+            ...
+
+      - List the `hello-world` image that was downloaded to your machine:
+
+            docker image ls
+
+      - List the `hello-world` container (spawned by the image) which exits after displaying its message. If it were STILL RUNNING, you would not need the `--all` option:
+
+            $ docker container ls --all
+            CONTAINER ID     IMAGE           COMMAND      CREATED            STATUS
+            54f4984ed6a8     hello-world     "/hello"     20 seconds ago     Exited (0) 19 seconds ago
+
+    Conclusion of part one
+
+      - Containerization makes CI/CD seamless. For example:
+
+          - applications have NO SYSTEM DEPENDENCIES
+          - updates can be pushed to any part of a distributed application ??
+          - resource density can be optimized.
+
+      - With Docker, scaling your application is a matter of spinning up new executables, not running heavy VM hosts.
+
   - [Get Started, Part 2: Containers \| Docker Documentation](https://docs.docker.com/get-started/part2/) #ril
+
+    Introduction
+
+      - It’s time to begin building an app the Docker way. We start at the bottom of the hierarchy of such app, a container, which this page covers. Above this level is a SERVICE, which defines how containers behave in production, covered in Part 3. Finally, at the top level is the STACK, defining the INTERACTIONS OF ALL THE SERVICES, covered in Part 5.
+
+          - Stack
+          - Services
+          - Container (you are here)
+
+    Your new development environment
+
+      - In the past, if you were to start writing a Python app, your first order of business was to install a Python runtime onto your machine. But, that creates a situation where the environment on your machine needs to be perfect for your app to run as expected, and also needs to MATCH YOUR PRODUCTION ENVIRONMENT.
+      - With Docker, you can just grab a portable Python runtime as an image, no installation necessary. Then, your build can include the base Python image right alongside your app code, ensuring that your app, its dependencies, and the runtime, ALL TRAVEL TOGETHER.
+      - These portable images are defined by something called a `Dockerfile`.
+
+    Define a container with `Dockerfile`
+
+      - `Dockerfile` defines what goes on in the environment inside your container. Access to resources like networking interfaces and disk drives is VIRTUALIZED INSIDE THIS ENVIRONMENT, which is isolated from the rest of your system, so you need to MAP ports to the outside world, and BE SPECIFIC about what files you want to “COPY IN” to that environment.
+
+        However, after doing that, you can expect that the build of your app defined in this `Dockerfile` behaves exactly the same wherever it runs.
+
+      - Create an empty directory on your local machine. Change directories (`cd`) into the new directory, create a file called `Dockerfile`, copy-and-paste the following content into that file, and save it. Take note of the comments that explain each statement in your new Dockerfile.
+
+            # Use an official Python runtime as a parent image
+            FROM python:2.7-slim
+
+            # Set the working directory to /app
+            WORKDIR /app
+
+            # Copy the current directory contents into the container at /app
+            COPY . /app
+
+            # Install any needed packages specified in requirements.txt
+            RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+            # Make port 80 available to the world outside this container
+            EXPOSE 80
+
+            # Define environment variable
+            ENV NAME World
+
+            # Run app.py when the container launches
+            CMD ["python", "app.py"]
+
+      - This `Dockerfile` refers to a couple of files we haven’t created yet, namely `app.py` and `requirements.txt`. Let’s create those next.
+
+    The app itself
+
+      - Create two more files, `requirements.txt` and `app.py`, and put them in the same folder with the `Dockerfile`. This completes our app, which as you can see is quite simple. When the above `Dockerfile` is built into an image, `app.py` and `requirements.txt` is present because of that `Dockerfile`’s `COPY` command, and the output from `app.py` is accessible over HTTP thanks to the `EXPOSE` command.
+
+        `requirements.txt`
+
+            Flask
+            Redis
+
+        `app.py`
+
+            from flask import Flask
+            from redis import Redis, RedisError
+            import os
+            import socket
+
+            # Connect to Redis
+            redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
+
+            app = Flask(__name__)
+
+            @app.route("/")
+            def hello():
+                try:
+                    visits = redis.incr("counter")
+                except RedisError:
+                    visits = "<i>cannot connect to Redis, counter disabled</i>"
+
+                html = "<h3>Hello {name}!</h3>" \
+                       "<b>Hostname:</b> {hostname}<br/>" \
+                       "<b>Visits:</b> {visits}"
+                return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
+
+            if __name__ == "__main__":
+                app.run(host='0.0.0.0', port=80)
+
+Now we see that pip install -r requirements.txt installs the Flask and Redis libraries for Python, and the app prints the environment variable NAME, as well as the output of a call to socket.gethostname(). Finally, because Redis isn’t running (as we’ve only installed the Python library, and not Redis itself), we should expect that the attempt to use it here fails and produces the error message.
+
+Note: Accessing the name of the host when inside a container retrieves the container ID, which is like the process ID for a running executable.
+
+That’s it! You don’t need Python or anything in requirements.txt on your system, nor does building or running this image install them on your system. It doesn’t seem like you’ve really set up an environment with Python and Flask, but you have.
+
+
   - [Get Started, Part 3: Services \| Docker Documentation](https://docs.docker.com/get-started/part3/) #ril
 
   - Get started with Docker for Mac | Docker Documentation https://docs.docker.com/docker-for-mac/ #ril
@@ -186,13 +378,6 @@ CMD ["/hello"]
 ## `docker run` 如何執行多個指令??
 
   - [docker run <IMAGE> <MULTIPLE COMMANDS> \- Stack Overflow](https://stackoverflow.com/questions/28490874/) 用 `docker run IMAGE bash -c 'COMMAND1; COMMAND2 ...'`，切換目錄可以用 `-w, --workdir` 取代 #ril
-
-## Swarm Mode??
-
-  - [Get Started, Part 4: Swarms \| Docker Documentation](https://docs.docker.com/get-started/part4/) #ril
-  - [Getting started with swarm mode \| Docker Documentation](https://docs.docker.com/engine/swarm/swarm-tutorial/) #ril
-  - [Swarm mode overview \| Docker Documentation](https://docs.docker.com/engine/swarm/) #ril
-  - [Deploy services to a swarm \| Docker Documentation](https://docs.docker.com/engine/swarm/services/) #ril
 
 ## 什麼是 service??
 
@@ -549,6 +734,37 @@ $ docker run --rm --tty \
       - Gareth A. Lloyd: 在本地端開發時，可以按 `Ctrl-C` 很方便；用 `test -t 1 && USE_TTY="-t"` 判斷，再用 `docker run ${USE_TTY}` 執行。
   - [gruntjs \- How to workaround "the input device is not a TTY" when using grunt\-shell to invoke a script that calls docker run? \- Stack Overflow](https://stackoverflow.com/questions/40536778/) #ril
 
+## 環境變數 {: #environment-variables }
+
+  - [docker run \| Docker Documentation](https://docs.docker.com/engine/reference/commandline/run/) #ril
+
+      - `--env , -e` -- Set environment variables
+      - `--env-file` -- Read in a file of environment variables
+
+    Set environment variables (`-e`, `--env`, `--env-file`)
+
+        $ docker run -e MYVAR1 --env MYVAR2=foo --env-file ./env.list ubuntu bash
+
+      - Use the `-e`, `--env`, and `--env-file` flags to set simple (non-array) environment variables in the container you’re running, or overwrite variables that are defined in the `Dockerfile` of the image you’re running.
+
+      - You can define the variable and its value when running the container:
+
+            $ docker run --env VAR1=value1 --env VAR2=value2 ubuntu env | grep VAR
+            VAR1=value1
+            VAR2=value2
+
+      - You can also use variables that you’ve EXPORTED to your local environment:
+
+            export VAR1=value1
+            export VAR2=value2
+
+            $ docker run --env VAR1 --env VAR2 ubuntu env | grep VAR
+            VAR1=value1
+            VAR2=value2
+
+      - When running the command, the Docker CLI client checks the value the variable has in your local environment and PASSES IT TO THE CONTAINER. If no `=` is provided and that variable is not exported in your local environment, the variable won’t be set in the container.
+      - You can also load the environment variables from a file. This file should use the syntax `<variable>=value` (which sets the variable to the given value) or `<variable>` (which TAKES THE VALUE FROM THE LOCAL ENVIRONMENT), and `#` for comments.
+
 ## 安裝設定 {: #installation }
 
   - [Docker for Mac Release Notes](https://docs.docker.com/docker-for-mac/release-notes/)
@@ -563,7 +779,21 @@ $ docker run --rm --tty \
 
 參考資料：
 
-  - Install Docker for Mac | Docker Documentation https://docs.docker.com/docker-for-mac/install/
+  - [Install Docker Desktop for Mac \| Docker Documentation](https://docs.docker.com/docker-for-mac/install/) #ril
+
+  - [Docker for Mac doesn't listen on 2375 · Issue \#770 · docker/for\-mac](https://github.com/docker/for-mac/issues/770)
+
+      - Docker for Mac should listen on 2375, providing an HTTP API server.
+      - samoht (contributor): For security reasons, we choose to not expose that port directly. However, as described in our FAQ you can run a SOCAT CONTAINER to redirect the Docker API exposed on the unix domain socket in Linux to the port of your choice on your OSX host:
+
+            $ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 \
+                         bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
+
+        and then:
+
+            export DOCKER_HOST=tcp://localhost:1234
+
+        採慣用的 2375 port 更直覺。
 
 ### Ubuntu
 
@@ -636,6 +866,8 @@ $ newgrp docker # 刷新 login session 的群組，不用重新登入
 更多：
 
   - [Networking](docker-networking.md)
+  - [Compose](docker-compose.md)
+  - [Swarm](docker-swarm.md)
 
 手冊：
 

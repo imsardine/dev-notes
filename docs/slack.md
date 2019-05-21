@@ -62,6 +62,46 @@
 
   - [Call actions - Slack keyboard shortcuts – Slack Help Center](https://get.slack.help/hc/en-us/articles/201374536-Slack-keyboard-shortcuts#-call-actions) #ril
 
+## 安裝設定 {: #installation }
+
+  - Slack 官方除提供 `.deb` 與 `.rpm` 外，也提供了 [Snap](https://snapcraft.io/slack)，因此其他 Linux distro 可以透過 [Snapcrapt](snapcraft.md) 安裝 Slack。
+
+參考資料：
+
+  - [Linux \| Downloads \| Slack](https://slack.com/downloads/linux)
+
+      - 除 `.deb` (64-bit) 跟 `.rpm` (64-bit) 外，還有 Download from the Snap store?
+      - [Install Slack for Linux using the Snap Store \| Snapcraft](https://snapcraft.io/slack) Users by distribution (log) 可以看出 Linux distro. + Snap + Slack 的排名，前面幾名都是 Ubuntu，接著才是 Linux Mint、Fedora 等。
+
+  - [In a Snap, Slack Comes to Linux\. Here's How To Install It](https://www.bleepingcomputer.com/news/security/in-a-snap-slack-comes-to-linux-heres-how-to-install-it/) (2018-01-19)
+      - While binaries for Slack have been available for Ubuntu and Fedora, other Linux operating systems are not so lucky. To overcome this, Canonical has RELEASED SLACK AS A SNAP, which allows Slack to be installed and used on a greater variety of Linux distributions.
+
+      - Snapcraft is a command line tool that allows you to install CONTAINERISED APPLICATIONS called SNAPS on many different Linux distribution. As these Snap containers contain all the required dependencies that a program needs to run, it makes it very easy to create and distribute a single container that works on a variety of Linux versions.
+
+        雖然是 container，發現它跟其他應用程式融合得滿好的，剪貼簿換資料、拖放檔案等都沒有問題。
+
+      - The creation of a Slack Snap is smart move by both the Slack team and Canonical. For Canonical, it provides a greater user base for their Snapcraft service and for Slack, it allows a larger audience to use their service and make upgrading to new Slack versions much easier. According to Jamie Bennett, VP of Engineering, Devices & IoT at Canonical:
+
+        > Slack is helping to transform the modern workplace, and we’re thrilled to welcome them to the snaps ecosystem Today’s announcement is yet another example of PUTTING THE LINUX USER FIRST – Slack’s developers will now be able to push out the latest features straight to the user. By prioritising usability, and with the popularity of open source continuing to grow, the number of snaps is only set to rise in 2018.
+
+    How to install Slack as a Snap
+
+      - Now that we know that Slack is available as a Snap, the next thing we need to do is install it. Installing SNAPCRAFT, the program required to install and run Snaps, is really easy and supported on the Arch Linux, Debian, Fedora, Gentoo, Linux Mint, Manjaro, OpenEmbedded/Yocto, openSUSE, OpenWrt, Solus, & Ubuntu distributions.
+
+      - Simply go to this page and follow the instructions on how to install the Snapcraft snapd service for your Linux distribution.  For example, on Ubuntu you can install Snapcraft simply by using these commands from a terminal: 為什麼 Ubuntu 上也要裝 Snap，Slack 官方不是已經提供有 Ubuntu 與 Fedora 的版本
+
+            sudo apt update
+            sudo apt install snapd
+
+      - Once snapd is installed, you can then install Slack using these commands: (注意 `--classic` 的用法)
+
+            sudo snap find slack
+            sudo snap install slack --classic
+
+      - Once slack is installed, you can launch your desktop and execute the `slack` command from a terminal. Slack will then start and you can use it as normal.
+
+        美中不足的是要下指令，如何讓它出現在選單裡??
+
 ## 參考資料 {: #reference }
 
 社群：

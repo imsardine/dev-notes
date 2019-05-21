@@ -232,6 +232,22 @@ Your code has been rated at -20.00/10 (previous run: -20.00/10, +0.00)
       - Class %r inherits from object, can be safely removed from bases in python3
       - Used when a class inherit from object, which under python3 is implicit, hence can be safely removed from bases. 因此若專案必須相容於 Python 2，就應該停用這項檢查。
 
+## en-as-condition (C1801) ??
+
+  - [Pylint features — Pylint 2\.4\.0\-dev0 documentation](https://pylint.readthedocs.io/en/latest/technical_reference/features.html#refactoring-checker-messages) #ril
+
+    len-as-condition (C1801)
+
+      - Do not use `len(SEQUENCE)` WITHOUT COMPARISON to determine if a sequence is empty.
+
+      - Used when Pylint detects that `len(sequence)` is being used WITHOUT EXPLICIT COMPARISON inside a condition to determine if a sequence is empty. Instead of COERCING THE LENGTH TO A BOOLEAN, either rely on the fact that empty sequences are false or compare the length AGAINST A SCALAR.
+
+        為什麼拿 `len(sequence)` 跟數字比也不行 ??
+
+  - [Allow \`len\-as\-condition\` for explicit comparison · Issue \#2684 · PyCQA/pylint](https://github.com/PyCQA/pylint/issues/2684) #ril
+  - [Add suggestion for \`len\-as\-condition\` message\. · Issue \#1405 · PyCQA/pylint](https://github.com/PyCQA/pylint/issues/1405) #ril
+  - [为什么在Pylint认为不正确的条件值中使用len（SEQUENCE）？ \- 问答 \- 云\+社区 \- 腾讯云](https://cloud.tencent.com/developer/ask/110361) #ril
+
 ## 安裝設定 {: #installation }
 
 ### Pylint 1.x, 2.x ??

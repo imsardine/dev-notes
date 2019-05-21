@@ -10,6 +10,7 @@ title: Google Cloud Search / API
 ## 新手上路 {: #getting-started }
 
   - [Cloud Search  \|  Google Developers](https://developers.google.com/cloud-search/) #ril
+  - [Introduction to Google Cloud Search  \|  Cloud Search  \|  Google Developers](https://developers.google.com/cloud-search/docs/guides/) #ril
 
 ## Custom Search Interface ??
 
@@ -20,6 +21,7 @@ title: Google Cloud Search / API
 
   - [Cloud Search |  Google Developers](https://developers.google.com/cloud-search/) #ril
   - [Cloud Search API](https://console.cloud.google.com/apis/library/cloudsearch.googleapis.com)
+  - [gsuitedevs/cloud-search-samples - GitHub](https://github.com/gsuitedevs/cloud-search-samples)
 
 手冊：
 

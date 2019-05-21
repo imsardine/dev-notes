@@ -28,9 +28,42 @@
   - [General Recommendations & Version Control - Basic Usage of Pipenv — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/basics/#general-recommendations-version-control)
       - Generally, keep both `Pipfile` and `Pipfile.lock` in version control. Do not keep `Pipfile.lock` in version control if multiple versions of Python are being targeted. 後者通常指的是 library。
       - Specify your target Python version in your Pipfile’s `[requires]` section. Ideally, you should only have one target Python version, as this is a DEPLOYMENT tool. 不是 development tool?
+
  - [Using pipenv for Deployments - pipenv/advanced\.rst at master · pypa/pipenv](https://github.com/pypa/pipenv/blob/master/docs/advanced.rst#-using-pipenv-for-deployments)
-     - You may want to use `pipenv` as part of a deployment process. You can enforce that your `Pipfile.lock` is up to date using the `--deploy` flag: `pipenv install --deploy`. This will fail a build if the `Pipfile.lock` is out–of–date, instead of generating a new one. ... `pipenv install` by default does attempt to RE-LOCK unless using the `--deploy` flag 原來 `pipenv install` 本來就會檢查 `Pipfile.lock` 是否跟 `Pipfile` 一致，遇到不一致時會 "自動更新" `Pipfile.lock` (這就是所謂的 re-lock)，加了 `--deploy` 在檢查到不一致時就會停下來。
+
+     - You may want to use `pipenv` as part of a deployment process. You can enforce that your `Pipfile.lock` is up to date using the `--deploy` flag: `pipenv install --deploy`. This will fail a build if the `Pipfile.lock` is out–of–date, instead of generating a new one. ... `pipenv install` by default does attempt to RE-LOCK unless using the `--deploy` flag
+
+        原來 `pipenv install` 本來就會檢查 `Pipfile.lock` 是否跟 `Pipfile` 一致，遇到不一致時會 "自動更新" `Pipfile.lock` (這就是所謂的 re-lock)，加了 `--deploy` 在檢查到不一致時就會停下來。
+
      - Or you can install packages exactly as specified in `Pipfile.lock` using the `sync` command. 不加以說明還以為是 sync `Pipfile` 與 `Pipfile.lock`，它的行為跟 `--ignore-pipfile` 接近；可以解釋成 "sync `Pipfile.lock` 與 virtualenv，別管 `Pipfile` 了"，但實在很難跟 sync 連結在一起。
+
+  - [python \- Why are there two hashes in my Pipfile\.lock for one module? \- Stack Overflow](https://stackoverflow.com/questions/51517500/)
+
+      - Joern Boegeholz: I've started using pipenv and installed the flask package.
+
+        In my Pipfile.lock there is this entry:
+
+             "flask": {
+                        "hashes": [
+                            "sha256:2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48",
+                            "sha256:a080b744b7e345ccfcbc77954861cb05b3c63786e93f2b3875e0913d44b43f05"
+                        ],
+                        "index": "pypi",
+                        "version": "==1.0.2"
+                    },
+
+        I wonder why there are two different hashes. Can anyone elaborate on this? Thanks in advance!
+
+      - user10424986: Just take a look at https://pypi.org/project/Flask/1.0.2/#files
+
+            2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48 is the tar.gz
+            a080b744b7e345ccfcbc77954861cb05b3c63786e93f2b3875e0913d44b43f05 is the wheel-file
+
+        因為 `Pipfile` 裡指定 `flask==1.0.2` 的關係，所以 `Pipfile.lock` 會記錄 v1.0.2 所有 distribution package 的 hash。
+
+  - [pip install — pip 19\.1\.1 documentation](https://pip.pypa.io/en/stable/reference/pip_install/#hash-checking-mode) #ril
+
+      - The ability to use MULTIPLE HASHES is important when a package has both binary and source distributions or when it offers binary distributions for a variety of platforms.
 
 ## Pipfile 與 setup.py
 
@@ -58,13 +91,57 @@
   - [pypa/pipenv: Python Development Workflow for Humans\.](https://github.com/pypa/pipenv) 也同時有 `setup.py` 與 `Pipfile`!! `Pipfile` 裡只用到 `[dev-packages]`，但 `setup.py` 裡用到 `python_requires`、`setup_requires` 與 `install_requires`。
   - [serum/Pipfile at master · suned/serum](https://github.com/suned/serum/blob/master/Pipfile) 沒有相依套件，但開發用套件都宣告在 `Pipfile` 裡 (`[dev-packages]`)，所以 `setup.py` 沒有任何 `*_requires`。
 
-## `pipenv` CLI ??
+## Multiple Indexes ??
+
+  - [Specifying Package Indexes - Advanced Usage of Pipenv — pipenv 2018\.11\.27\.dev0 documentation](https://docs.pipenv.org/en/latest/advanced/#specifying-package-indexes)
+
+      - If you’d like a specific package to be installed with a specific package index, you can do the following:
+
+            [[source]]
+            url = "https://pypi.python.org/simple"
+            verify_ssl = true
+            name = "pypi"
+
+            [[source]]
+            url = "http://pypi.home.kennethreitz.org/simple"
+            verify_ssl = false
+            name = "home"
+
+            [dev-packages]
+
+            [packages]
+            requests = {version="*", index="home"}
+            maya = {version="*", index="pypi"}
+            records = "*"
+
+        雖然從 log 觀察到會先問第一個 index 再問第二個 index，但官方文件沒有講明多個 `[[source]]` 間的順序會造成什麼影響，建議還是將 PyPI 擺在第一位，沒有指明 `index="xxx" 的話，就會找第一個 index。
+
+  - [support for multiple sources · Issue \#716 · pypa/pipenv](https://github.com/pypa/pipenv/issues/716) #ril
 
 ## Virtualenv 的位置 ??
 
   - [Virtualenv mapping caveat - Pipenv & Virtual Environments — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/install/#virtualenv-mapping-caveat) #ril
-      - The virtualenv is stored GLOBALLY with the name of the project’s root directory plus the HASH OF THE FULL PATH to the project’s root (e.g., `my_project-a3de50`). If you change your project’s path, you break such a default mapping and pipenv will no longer be able to find and to use the project’s virtualenv. 這大概是 virtualenv 使用者一開始最不習慣的點
-      - You might want to set export `PIPENV_VENV_IN_PROJECT=1` in your `.bashrc`/`.zshrc` (or any shell configuration file) for creating the virtualenv inside your project’s directory, avoiding problems with subsequent path changes. 實驗發現，virtualenv 會建在 `.venv/`，而且 `pipenv` 若發現 CWD 有 `.venv/`，就算沒有 `PIPENV_VENV_IN_PROJECT=1` 也會以它為 virtualenv。
+
+      - The virtualenv is stored GLOBALLY with the name of the project’s root directory plus the HASH OF THE FULL PATH to the project’s root (e.g., `my_project-a3de50`). If you change your project’s path, you break such a default mapping and pipenv will no longer be able to find and to use the project’s virtualenv.
+
+        這大概是 virtualenv 使用者一開始最不習慣的點
+
+      - You might want to set export `PIPENV_VENV_IN_PROJECT=1` in your `.bashrc`/`.zshrc` (or any shell configuration file) for creating the virtualenv inside your project’s directory, avoiding problems with subsequent path changes.
+
+        實驗發現，virtualenv 會建在 `.venv/`，而且 `pipenv` 若發現 CWD 有 `.venv/`，就算沒有 `PIPENV_VENV_IN_PROJECT=1` 也會以它為 virtualenv。
+
+  - [`PIPENV_VENV_IN_PROJECT` - Advanced Usage of Pipenv — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/#pipenv.environments.PIPENV_VENV_IN_PROJECT)
+
+      - If set, creates `.venv` in your project directory.
+      - Default is to create new virtual environments in a global location.
+
+  - [Custom Virtual Environment Location - Advanced Usage of Pipenv — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/#custom-virtual-environment-location)
+
+      - Pipenv automatically honors the `WORKON_HOME` environment variable, if you have it set — so you can tell pipenv to store your virtual environments wherever you want, e.g.:
+
+        export WORKON_HOME=~/.venvs
+
+        In addition, you can also have Pipenv stick the virtualenv in `project/.venv` by setting the `PIPENV_VENV_IN_PROJECT` environment variable.
 
 ## Packaging ??
 

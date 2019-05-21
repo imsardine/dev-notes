@@ -14,6 +14,22 @@
 
 ## System Variable ??
 
+  - [MySQL :: MySQL 8\.0 Reference Manual :: 5\.1\.8 Server System Variables](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html) #ril
+
+      - The MySQL server maintains many system variables that configure its operation. Each system variable has a default value. System variables can be set at server startup using options on the command line or in an option file.
+
+      - Most of them can be changed dynamically at runtime using the `SET` statement, which enables you to modify operation of the server without having to stop and restart it. You can also use system variable values in expressions.
+
+        例如 `SET GLOBAL variable = value;` 或 `SET SESSION variable = value`。
+
+        At runtime, setting a global system variable value normally requires the `SYSTEM_VARIABLES_ADMIN` or `SUPER` privilege. Setting a session system variable value normally requires no special privileges and can be done by any user, although there are exceptions. For more information, see Section 5.1.9.1, “System Variable Privileges”
+
+      - Some of the following variable descriptions refer to “enabling” or “disabling” a variable. These variables can be enabled with the `SET` statement by setting them to `ON` or `1`, or disabled by setting them to `OFF` or `0`. Boolean variables can be set at startup to the values `ON`, `TRUE`, `OFF`, and `FALSE` (not case sensitive), as well as `1` and `0`. See Section 4.2.6, “Program Option Modifiers”.
+
+        在 command line option 裡 boolean 的字面表示比較多樣，在 `SET` 裡就只能用 `ON`/`1` 跟 `OFF`/`0`。
+
+  - [MySQL :: MySQL 8\.0 Reference Manual :: 5\.1\.9\.1 System Variable Privileges](https://dev.mysql.com/doc/refman/8.0/en/system-variable-privileges.html) #ril
+
   - [MySQL :: MySQL 5\.7 Reference Manual :: 5\.1\.5 Server System Variables](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html)
       - MySQL server 用許多 system variables 來記錄組態。每個 system variable 都有個預設值，可以透過 command-line option 或 option file 設定，大部份也可以在 runtime 透過 `SET` 修改 (通常需要 SUPER privilege，但不用重啟 server)，在 expression 裡也可以引用 system variable。
       - 用 `SHOW VARIABLES` 可以看執行期 system variable 的值。
@@ -127,16 +143,28 @@
 
 ```
 $ docker volume create mysql-data
+$ MYSQL_VERSION = 5 # 8
 $ docker run --rm --name mysql -d \
     -v mysql-data:/var/lib/mysql \
     --env MYSQL_DATABASE=mydb \
     --env MYSQL_USER=appuser \
     --env MYSQL_PASSWORD=secret \
     --env MYSQL_ROOT_PASSWORD=admin \
-    mysql:5.7
-$ until docker logs mysql 2>&1 | grep 'MySQL init process done. Ready for start up.'; do continue; done
+    mysql:$MYSQL_VERSION
+$ until docker logs mysql 2>&1 | grep 'mysqld: ready for connections.'; do continue; done
 
-$ docker exec -it mysql mysql -u app_user -p
+$ docker exec -it mysql mysql -u appuser -p
+```
+
+`Makefile` + Docker Compose 可以這麼用：
+
+```
+up:
+	docker-compose up --detach
+	until docker-compose logs mysql 2>&1 | grep 'mysqld: ready for connections'; do continue; done
+
+down restart:
+	docker-compose $(docker_compose_opts) $@
 ```
 
 用 container 裡的 MySQL client 連到 Docker host 或其他 host 的 MySQL daemon：
@@ -149,16 +177,140 @@ $ mysql -h another-host -u xxx -p
 
 其中 `host.docker.internal` 可以動態對應到 Docker host 的 IP，即便 host 沒有任何網路。
 
+---
+
 參考資料：
 
   - [library/mysql \- Docker Hub](https://hub.docker.com/_/mysql/)
-      - `docker run -e MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD> -d mysql:<MYSQL_VERSION>` 可以啟動 MySQL server，例如 `docker run --name mysql -e MYSQL_ROOT_PASSWORD=secret -d mysql:5.7` 就可執行 MySQL 5.7，而 `root` 的密碼是 `secret`；後來發現 `MYSQL_ROOT_PASSWORD` 沒給的話，container 會起不來直接死掉。
-      - Connect to MySQL from an application in another Docker container: `docker run --name some-app --link some-mysql:mysql -d application-that-uses-mysql` 透過 container linking 是一種方式，也就是在 `some-app` container 裡，可以用 `mysql:3306` 連接到 MySQL server。
-      - Connect to MySQL from the MySQL command line client: 同一個 image 也可以做為 client -- `docker run -it --rm mysql mysql -hsome.mysql.host -usome-mysql-user -p`；如果要連往 MySQL docker instance，搭配 `--link some-mysql:mysql` 即可。
-      - Container shell access and viewing MySQL logs: 直接引 container log 即可，例如 `docker logs some-mysql`
+
+    Start a mysql server instance
+
+      - Starting a MySQL instance is simple:
+
+            $ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+
+        ... where `some-mysql` is the name you want to assign to your container, `my-secret-pw` is the password to be set for the MySQL ROOT USER and `tag` is the tag specifying the MySQL version you want. See the list above for relevant tags.
+
+        其中 `MYSQL_ROOT_PASSWORD` 沒給的話，container 會起不來直接死掉。
+
+            $ docker run --name mysql mysql:5.7
+            error: database is uninitialized and password option is not specified
+              You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD
+
+    Connect to MySQL from the MySQL command line client
+
+      - The following command starts another mysql container instance and runs the mysql command line client against your original mysql container, allowing you to execute SQL statements against your database instance:
+
+            $ docker run -it --network some-network --rm mysql mysql -hsome-mysql -uexample-user -p
+
+        ... where `some-mysql` is the name of your original mysql container (connected to the `some-network` Docker network).
+
+      - This image can also be used as a client for non-Docker or remote instances:
+
+            $ docker run -it --rm mysql mysql -hsome.mysql.host -usome-mysql-user -p
+
+    ... via docker stack deploy or docker-compose
+
+      - Example `stack.yml` for mysql:
+
+            # Use root/example as user/password credentials
+            version: '3.1'
+
+            services:
+
+              db:
+                image: mysql
+                command: --default-authentication-plugin=mysql_native_password
+                restart: always
+                environment:
+                  MYSQL_ROOT_PASSWORD: example
+
+              adminer:
+                image: adminer
+                restart: always
+                ports:
+                  - 8080:8080
+
+      - Run `docker stack deploy -c stack.yml mysql` (or `docker-compose -f stack.yml up`), WAIT FOR IT TO INITIALIZE COMPLETELY, and visit `http://swarm-ip:8080`, `http://localhost:8080`, or `http://host-ip:8080` (as appropriate).
+
+    Container shell access and viewing MySQL logs
+
+      - The `docker exec` command allows you to run commands inside a Docker container. The following command line will give you a bash shell inside your mysql container:
+
+            $ docker exec -it some-mysql bash
+
+      - The log is available through Docker's container log:
+
+            $ docker logs some-mysql
+
+    No connections until MySQL init completes
+
+      - If there is no database initialized when the container starts, then a default database will be created.
+
+        While this is the expected behavior, this means that it will not accept incoming connections UNTIL SUCH INITIALIZATION COMPLETES. This may cause issues when using automation tools, such as `docker-compose`, which start several containers simultaneously.
+
+        原來時間差是因為要初始化資料庫產生的。
+
+      - If the application you're trying to connect to MySQL does not handle MySQL downtime or waiting for MySQL to start gracefully, then a putting a CONNECT-RETRY LOOP before the service starts might be necessary. For an example of such an implementation in the official images, see WordPress or Bonita.
+
+  - [Environment Variables - mysql \- Docker Hub](https://hub.docker.com/_/mysql/#environment-variables)
+
+      - When you start the `mysql` image, you can adjust the configuration of the MySQL instance by passing one or more environment variables on the `docker run` command line. Do note that none of the variables below will have any effect if you start the container with a DATA DIRECTORY that already contains a database: any PRE-EXISTING DATABASE will always be left UNTOUCHED on container startup.
+
+        也就是這些環境變數是專用於初始化資料庫；不過其他 MySQL 本來就會參考的環境變數，應該也會影響現有的 database 才對。
+
+      - See also https://dev.mysql.com/doc/refman/5.7/en/environment-variables.html for documentation of environment variables which MySQL itself respects (especially variables like `MYSQL_HOST`, which is known to cause issues when used with this image).
+
+    `MYSQL_ROOT_PASSWORD`
+
+      - This variable is MANDATORY and specifies the password that will be set for the MySQL root superuser account. In the above example, it was set to `my-secret-pw`.
+
+        用 `MYSQL_USER`/`MYSQL_PASSWORD` 建立另一個使用者時，可以用 `MYSQL_RANDOM_ROOT_PASSWORD` 給一個隨機的密碼，這時候沒給 `MYSQL_ROOT_PASSWORD` 就不會出錯，這樣用也滿合理的。
+
+    `MYSQL_DATABASE`
+
+      - This variable is optional and allows you to specify the name of a database to be created on image startup. If a user/password was supplied (see below) then that user will be GRANTED SUPERUSER ACCESS (corresponding to `GRANT ALL`) to this database.
+
+        沒給 `MYSQL_DATABASE` 的話就不會自動建 database。
+
+    `MYSQL_USER`, `MYSQL_PASSWORD`
+
+      - These variables are optional, used in conjunction to create a new user and to set that user's password. This user will be granted superuser permissions (see above) for the database specified by the `MYSQL_DATABASE` variable. Both variables are required for a user to be created.
+
+      - Do note that there is no need to use this mechanism to create the root superuser, that user gets created by default with the password specified by the `MYSQL_ROOT_PASSWORD` variable.
+
+        `root` 這個使用者本來就會有，`MYSQL_USER`/`MYSQL_PASSWORD` 只是要求建立另一個使用者。
+
+    `MYSQL_ALLOW_EMPTY_PASSWORD`
+
+      - This is an optional variable. Set to `yes` to allow the container to be started with a blank password FOR THE ROOT USER.
+
+        NOTE: Setting this variable to `yes` is not recommended unless you really know what you are doing, since this will leave your MySQL instance completely unprotected, allowing anyone to gain complete superuser access.
+
+    `MYSQL_RANDOM_ROOT_PASSWORD`
+
+      - This is an optional variable. Set to `yes` to generate a random initial password for the root user (using `pwgen`). The generated root password will be printed to stdout (`GENERATED ROOT PASSWORD: .....`).
+
+    `MYSQL_ONETIME_PASSWORD`
+
+      - Sets root (not the user specified in `MYSQL_USER`!) user as EXPIRED ONCE INIT IS COMPLETE, FORCING A PASSWORD CHANGE ON FIRST LOGIN.
+
+        NOTE: This feature is supported on MySQL 5.6+ only. Using this option on MySQL 5.5 will throw an appropriate error during initialization.
+
+        看似 `MYSQL_RANDOM_ROOT_PASSWORD` 的另一種選擇。
+
   - [Initializing a fresh instance - library/mysql \- Docker Hub](https://hub.docker.com/_/mysql/)
-      - 啟動 container 時 "若沒有舊的資料"，會根據 `MYSQL_DATABASE` 建立資料庫，有提供 `MYSQL_USER` 的話，該使用者對該 database 會取得 `GRANT ALL` 的權限 (Host 採 `%` 在開發時很方便)。
-      - 另外它也會執行 `/docker-entrypoint-initdb.d` 看到的 `.sh`、`.sql`、`.sql.gz` (根據檔名英數字的順序)，SQL file 會被匯入 `MYSQL_DATABASE`，可以用 SQL dump 工具來準備。
+
+      - When a container is started FOR THE FIRST TIME, a new database with the specified name will be created and initialized with the provided configuration variables.
+
+        有提供 `MYSQL_USER` 的話，該使用者對該 database 會取得 `GRANT ALL` 的權限 (Host 採 `%` 在開發時很方便)。
+
+      - Furthermore, it will execute files with extensions `.sh`, `.sql` and `.sql.gz` that are found in `/docker-entrypoint-initdb.d`.
+
+        Files will be executed IN ALPHABETICAL ORDER. You can easily POPULATE your `mysql` services by mounting a SQL dump into that directory and provide custom images with contributed data.
+
+        SQL files will be imported by default to the database specified by the `MYSQL_DATABASE` variable.
+
   - [Where to Store Data - library/mysql \- Docker Hub](https://hub.docker.com/_/mysql/) #ril
   - [Using a custom MySQL configuration file - library/mysql \- Docker Hub](https://hub.docker.com/_/mysql/) #ril
   - [mysql/mysql\-server \- Docker Hub](https://hub.docker.com/r/mysql/mysql-server/) 由 [mysql/mysql-docker](https://github.com/mysql/mysql-docker) 產生，但其實是源自 `docker-library/mysql`，該用哪個??
@@ -168,7 +320,11 @@ $ mysql -h another-host -u xxx -p
 
   - [MySQL](https://www.mysql.com/)
 
+更多：
+
+  - [InnoDB Storage Engine](mysql-innodb.md)
+
 手冊：
 
-  - [Keywords and Reserved Words - MySQL](https://dev.mysql.com/doc/refman/5.7/en/keywords.html)
-  - [Server System Variables](https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html)
+  - [Keywords and Reserved Words - MySQL](https://dev.mysql.com/doc/refman/8.0/en/keywords.html)
+  - [Server System Variables](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html) ([Dynamic](https://dev.mysql.com/doc/refman/8.0/en/dynamic-system-variables.html))

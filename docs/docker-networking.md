@@ -25,17 +25,23 @@ title: Docker / Networking
 參考資料：
 
   - [Networking with standalone containers \| Docker Documentation](https://docs.docker.com/network/network-tutorial-standalone/)
-      - 預的 bridge network (network name = `bridge`) 直接可以用，但不要用在 production；建議用自訂的 custom bridge network 去連結多個在同一個 Docker host 的多個 containers。
+
+      - 預設的 bridge network (network name = `bridge`) 直接可以用，但不要用在 production；建議用自訂的 custom bridge network 去連結多個在同一個 Docker host 的多個 containers。
       - `docker network ls` 可以列出所有的 network，至少會有 `bridge`、`host` 跟 `none`。
+
       - Use the default bridge network 試驗連接到 `bridge` network 的多個 container 如何溝通
+
           - `docker run -dit --name alpine1 alpine ash` 跟 `docker run -dit --name alpine2 alpine ash` (省略預設的 `--network bridge`)，用 `docker network inspect bridge`，在 `Containers:` 下可以看到上面兩個 container 以及各自的 IP。
           - 記住 `alpine2` 的 IP，在 `docker attach alpine1` 裡試著 `ping <IP_OF_ALPINE2>` 是可以的，但 `ping alpine2` 會得到 `ping: bad address 'alpine2'`。
+
       - Use user-defined bridge networks 試驗連接到 user-defined network (`alpine-net`)、連接到 `bridge` network、及同時連接 `alpine-net` 及 `bridge` 的 4 個 container 如何溝通
+
           - 首先 `docker network create alpine-net` 建立 user-defined network (省略預設的 `--driver bridge`)。
           - `docker run -dit --name alpineN --network alpine-net aalpine ash` 啟動 3 個 container -- `alpine1`、`alpine2` 跟 `alpine4`，再用 `docker network connect bridge alpine4` 讓 `alpine4` 也同時接到 `bridge` network。
           - `docker run -dit --name alpine3 alpine ash` 啟動 `alpine3`，只接到 `bridge` network；用 `docker network inspect bridge` 確認 `alpine3` 跟 `alpine4` 都接到 `bridge` network，而 `docker network inspect alpine-net` 則可以看到 `alpine1`、`alpine2` 跟 `alpine4`。
           - 在 `apline1` 裡，除可以可用 IP 跟同一個 network 的 `alpine2`、`alpine4` 溝通外，也可以透過 container name (例如 `ping alpine2`)，這項功能叫 "automatic service discovery"，是 `bridge` network 沒有的功能。但 `alpine1` -> `alpine3` 之間，因為沒有共同的 network，無論透過 IP 或 container name 都連接不到 (事實上，`alpine3` 這個名稱也無法解析出 IP)。
           - 在 `alpine4` 裡，跟 `alpine1、`alpine2` 可以用 IP 及 container name 溝通，跟 `alpine3` 還是只能透過 IP 溝通，因為它沒有接到共通的 user-defined bridge network。
+
   - [Use bridge networks \| Docker Documentation](https://docs.docker.com/network/bridge/) #ril
 
 ## Port Mapping ??

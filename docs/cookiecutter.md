@@ -7,13 +7,18 @@
 參考資料：
 
   - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter)
+
       - 從 project template (稱做 cookiecutter) 快速建立專案的 command-line 工具 -- 一個 project/template 裡可以混用多種程式語言 (也不一定要是程式語言)；雖然本身是用 Python 寫的 (支持 Python 2.7+ 及 3.4+)，但不需要會寫 Python
       - Templating 是用 Jinja2 做，所以要會一點點 Jinja2，甚至支援 directory/file names，例如 `{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}.py`。
       - 最後 Similar projects 整理了一些類似的專案，有些只用來產生特定的專案，除了 Yeoman 有 830 個星星外 (但專用於 web apps?)，其他星星都少得可憐。
+
   - [Learn the Basics of Cookiecutter by Creating a Cookiecutter — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/first_steps.html) 有兩句話很貼切
+
       - With Cookiecutter, you can easily bootstrap a new project from a standard form, which means you skip all the usual mistakes when starting a new project.
       - Now if you ever find yourself duplicating effort when starting new projects, you’ll know how to eliminate that duplication using cookiecutter.
+
   - [Cookiecutter: Project Templates Made Easy](https://www.pydanny.com/cookie-project-templates-made-easy.html) (2013-08-17) 實作最難 Creating reusable Python packages has always been annoying. There are no defined/maintained best practices (especially for setup.py), so you end up cutting and pasting hacky, poorly understood, often legacy code from one project to the other. 確實是如此!! 但也不僅止於 Python packages 這類型的專案。
+
   - [New context format by hackebrot · Pull Request \#848 · audreyr/cookiecutter](https://github.com/audreyr/cookiecutter/pull/848) Cookiecutter 要做很多改變，但為何沒有 sponsorship 事情就卡在那裡? #ril
 
 ## 新手上路 {: #getting-started }
@@ -25,6 +30,7 @@
 參考資料：
 
   - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter)
+
       - 要從 https://github.com/audreyr/cookiecutter-pypackage 快速建立一個 Python package，執行 `cookiecutter gh:audreyr/cookiecutter-pypackage` (其中 `gh` 是 GitHub 的意思)，會被要求輸入一些值 (template variables)，之後 Cookiecutter 就可以根據那些值在 CWD 建立專案。
       - 也可以用 local template，用 `cookiecutter path/to/cookiecutter-pypackage/` 即可，其中 `cookiecutter-pypackage` 下就是 project template 的結構。
       - Template variables 以 key-value pairs 的型式定義在 `cookiecutter.json` 裡，除非搭配 `--no-input` 使用，否則會被依序提示要提供 `cookiecutter.json` 裡不同 key 的值 (value 做為預設值)。
@@ -48,10 +54,14 @@
       - 產生 project 時並不是在 CWD 直接放 project template 內的檔案，而是會產生一個 subdir，而 subdir 的名字就是 `{{cookiecutter.xxx}}` 的運算結果。
 
   - [Getting to Know Cookiecutter — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/tutorial1.html) 詳細介紹 Cookiecutter 的運作原理
-      - 一樣以 `cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git` 為例，會先 clone 進 `~/.cookiecutters/`，再 "fill in the blanks for your project"，重點會在 Step 3: Observe How It Was Generated，對照 template 與最後的產出。
-      - This happens in `find.py`, where the `find_template()` method looks for the first jinja-like directory name that starts with cookiecutter. 這裡講的是 Cookiecutter 的內部實作 -- Determine which child directory of repo_dir is the project template. 根據 [source code](https://github.com/audreyr/cookiecutter/blob/master/cookiecutter/find.py#L25) `if 'cookiecutter' in item and '{{' in item and '}}' in item:` 會找有 `cookiecutter`、`{{` 與 `}}` 的目錄，不一定要以 `{{cookiecutter.` 開頭。
 
-  - [Additional Tutorials — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/tutorials.html)
+      - 一樣以 `cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git` 為例，會先 clone 進 `~/.cookiecutters/`，再 "fill in the blanks for your project"，重點會在 Step 3: Observe How It Was Generated，對照 template 與最後的產出。
+
+      - This happens in `find.py`, where the `find_template()` method looks for the first jinja-like directory name that starts with cookiecutter. 這裡講的是 Cookiecutter 的內部實作 -- Determine which child directory of `repo_dir` is the project template.
+
+        根據 [source code](https://github.com/audreyr/cookiecutter/blob/master/cookiecutter/find.py#L25) `if 'cookiecutter' in item and '{{' in item and '}}' in item:` 會找有 `cookiecutter`、`{{` 與 `}}` 的目錄，不一定要以 `{{cookiecutter.` 開頭。
+
+  - [Additional Tutorials — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/tutorials.html) #ril
 
 ## Local/Remote Template/Cookiecutter ??
 
@@ -66,6 +76,7 @@
   - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter) 簡介就提到 cookiecutter 就是 project template 的意思，而這個 template 可以來自本地或遠端，所以有 local/remote cookiecutter 的說法。
 
   - [Works directly with git and hg (mercurial) repos too & Works with private repos - Usage — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/usage.html#works-directly-with-git-and-hg-mercurial-repos-too)
+
       - 支援直接從遠端的 Git/Mercurial repository 直接建立專案，以 https://github.com/audreyr/cookiecutter-pypackage 為例，下面 4 種寫法都可以：
 
             $ cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git # 走帳密
@@ -73,7 +84,7 @@
             $ cookiecutter https://github.com/audreyr/cookiecutter-pypackage # 試過這也可以!
             $ cookiecutter gh:audreyr/cookiecutter-pypackage # 除了 gh: (GitHub)，也支援 bb: (Bitbucket) 與 gl: (GitLab.com)
 
-      - 有趣的是可以搭配 `--checkout <BRANCH>` 指定採用哪個 branch 的 template；擔心 repository 太多?
+      - 有趣的是可以搭配 `--checkout <BRANCH>` 指定採用哪個 branch 的 template；擔心 repository 太多? 不過不管來自哪個 branch，在 cookiecutters dir 下面產生的快取分不出是哪個 branch，會蓋來蓋去。
       - Works with private repos 提到在 repo URL 前加上 `ht+` 或 `git+` 提示 type of repo (例如 `hg+https://example.com/repo`)，但實驗發現不加也可以。
       - 不知道 Works with Zip files 會是什麼情境，竟然還有密碼保護的狀況 XD
 
@@ -98,7 +109,9 @@
 參考資料：
 
   - [Learn the Basics of Cookiecutter by Creating a Cookiecutter — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/first_steps.html)
+
       - 瞭解 Cookiecutter 最簡單的方法是建立一個簡單的 (local) template，看它如何運作 -- 簡單來說：複製 source directory tree，並將 templating tags (`{{...}}`) 取代成 `cookiecutter.json` 裡定義的值。
+
       - 這裡用一個名叫 `HelloCookieCutter1` 的 (local) template 說明 -- 會產生一個 `.py` 檔，執行時會印 `Hello, xxx!`，會詢問 `.py` 的檔名，以及 `xxx` 的值。
 
             HelloCookieCutter/
@@ -120,9 +133,48 @@
 
   - [A Pantry Full of Cookiecutters - audreyr/cookiecutter](https://github.com/audreyr/cookiecutter#a-pantry-full-of-cookiecutters) 社群提供的 remote cookiecutters，通常命名 `cookiecutter-*`。
 
-  - [Replay Project Generation — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/replay.html) replay 在製作 template 好像很方便? #ril
+  - [Replay Project Generation — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/replay.html)
+
+      - On invocation Cookiecutter dumps a json file to `~/.cookiecutter_replay/` which enables you to replay later on.
+
+        In other words, it persists your input for a template and fetches it when you run the SAME TEMPLATE again.
+
+        所以 `~/.cookiecutter_replay/` 底下會分不同的 cookiecutter，例如 `cookiecutter gh:audreyr/cookiecutter-pypackage` 會自動產生 `~/.cookiecutter_replay/cookiecutter-pypackage.json`，不用加其他參數。
+
+      - Example for a replay file (which was created via `cookiecutter gh:hackebrot/cookiedozer`):
+
+            {
+                "cookiecutter": {
+                    "app_class_name": "FooBarApp",
+                    "app_title": "Foo Bar",
+                    "email": "raphael@example.com",
+                    "full_name": "Raphael Pierzina",
+                    "github_username": "hackebrot",
+                    "kivy_version": "1.8.0",
+                    "project_slug": "foobar",
+                    "short_description": "A sleek slideshow app that supports swipe gestures.",
+                    "version": "0.1.0",
+                    "year": "2015"
+                }
+            }
+
+      - To fetch this CONTEXT DATA without being prompted on the command line you can use either of the following methods.
+
+        Pass the according option on the CLI:
+
+            cookiecutter --replay gh:hackebrot/cookiedozer
+
+        Or use the Python API:
+
+            from cookiecutter.main import cookiecutter
+            cookiecutter('gh:hackebrot/cookiedozer', replay=True)
+
+      - This feature is comes in handy if, for instance, you want to create a new project FROM AN UPDATED TEMPLATE.
+
+        由於同一個 template 可能被用來生成多個專案，導致存在 `~/.cookiecutter_replay` 底下的資料會被覆寫，加上 `--replay` 無法指定檔案，使得 replay 只適合用在開發 template 時。
 
   - [Create your own Cookiecutter template](https://raphael.codes/blog/create-your-own-cookiecutter-template/) (2015-01-07) #ril
+
       - Are you doing the same steps over and over again every time you start a new programming project? It prompts users for input and uses the given information to RENDER templates.
       - 這裡以 Android 上的 Kivy app 為例，教大家先做一個 [cookiedozer](https://github.com/hackebrot/cookiedozer) (Cookiecutter for i18n Kivy Apps)。
       - 雖然 Kivy 本身跨平台，但建立 APK 的工具 Buildozr 並不是 (目前 2018-08-11 支援 Linux 與 macOS)，若目的是 debugging 則可以用 Kivy Launcher (Google Play Store)
@@ -157,9 +209,14 @@
 
 ## Conditional Follow-up Questions ??
 
+  - 感覺可以在 variable 名稱後面加上 `_if_xxx` 來識別，例如 `pytest_version_if_use_pytest`；使用者看到 `if_xxx` 不成立時，就可以按 Enter 跳過 (採用預設值)。
+
+---
+
+參考資料：
+
   - [Conditional follow\-up questions based on prior answers · Issue \#913 · audreyr/cookiecutter](https://github.com/audreyr/cookiecutter/issues/913)
       - pydanny: 想加這個功能，但還要考量所有的 platform。目前只能透過 post hook 來做，像 Cookiecutter Django 就是這麼做的。
-  - 感覺可以在 variable 名稱後面加上 `_if_xxx` 來識別，例如 `pytest_version_if_use_pytest`；使用者看到 `if_xxx` 不成立時，就可以按 Enter 跳過 (採用預設值)。
 
 ## User Configuration ??
 
@@ -195,7 +252,6 @@ $ cookiecutter --version
 ## 參考資料 {: #reference }
 
   - [audreyr/cookiecutter - GitHub](https://github.com/audreyr/cookiecutter)
-  - [A Pantry Full of Cookiecutters - audreyr/cookiecutter](https://github.com/audreyr/cookiecutter#a-pantry-full-of-cookiecutters) 社群提供的 remote cookiecutters。
 
 文件：
 
@@ -206,7 +262,13 @@ $ cookiecutter --version
   - [audreyr/cookiecutter - Gitter](https://gitter.im/audreyr/cookiecutter)
   - ['cookiecutter' Questions - Stack Overflow](https://stackoverflow.com/questions/tagged/cookiecutter)
 
+相關：
+
+  - 這類工具稱做 [Scaffolding Tool](scaffolding.md)
+  - 樣板語法採 [Jinja](jinja.md)
+
 手冊：
 
+  - [A Pantry Full of Cookiecutters - audreyr/cookiecutter](https://github.com/audreyr/cookiecutter#a-pantry-full-of-cookiecutters) 社群提供的 remote cookiecutters。
   - [Command Line Options](https://cookiecutter.readthedocs.io/en/latest/advanced/cli_options.html)
 

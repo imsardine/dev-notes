@@ -69,7 +69,7 @@ $ curl https://httpbin.org/anything?key1=value1 --data key2=value2
 
 ## 安裝設定 {: #installation }
 
-### 用 Docker 執行 HttpBin
+### Docker
 
 ```
 $ docker run --rm -d --name httpbin kennethreitz/httpbin
