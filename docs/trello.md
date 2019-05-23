@@ -1,5 +1,19 @@
 # Trello
 
+## Markdown ??
+
+  - [How To Format Your Text in Trello \- Trello Help](https://help.trello.com/article/821-using-markdown-in-trello)
+
+      - Markdown is a simple language used to add formatting to text. Trello uses a MODIFIED VERSION of the Markdown syntax. It allows you to easily add bold, italics, links, lists, paragraphs, headers, and images and code blocks to blocks of texts. You can add markdown to your cards in the card's description, checklists and comments, as well as in your Trello bio.
+
+        看過下面的 Markdown syntax，覺得 Markdown 的用法並沒有什麼特別；若要用其他工具來轉換成 HTML，比較有可能出狀況的是 nested list。
+
+      - Bullet and numbered lists: Preface a series of lines with hyphens or numbers to create a list. Lists will only be formatted if you start a new paragraph (by leaving a blank line before the list). You can add a space before the bullet mark to create NESTED BULLETS.
+
+        To indent within a bulleted or numbered list, start the NEW LINE WITH A SPACE.
+
+        不太懂 new line with a space 的意思，不過文件內也沒有示範。
+
 ## 如何在上傳圖片時不要自動成為 cover?
 
   - 從 Settings > Enable/Disable Card Cover Images 調整。不過一旦停用這個功能，就無法單就某個 card 讓它顯示 cover。
@@ -8,7 +22,7 @@
 
   - Adding attachments to cards - Trello Help http://help.trello.com/article/769-adding-attachments-to-cards 上傳到 Trello card 的圖片，會自動視為 cover；Card cover 可以從 Settings > Card Coverage Images 開關。
 
-## 如何只用鍵盤快速操作?
+## 如何只用鍵盤快速操作? {: #mouseless }
 
   - `?` 調出 Shortcuts Page
   - 方向鍵可以選取不同的 card (灰色)，接下來許多快捷鍵會直接作用在上面。

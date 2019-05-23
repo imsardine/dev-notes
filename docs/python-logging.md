@@ -30,6 +30,48 @@ title: Python / Logging
       - `logging.error()`、`logging.exception()` 跟 `logging.critical()` 都用在錯誤被壓下來 (suppression)，不會往外拋例外 (所以搭配 `raise` 是不好的??)；例如 long-running server process。
       - `logging.error()` 跟 `logging.exception()` 分別用在 application domain 與 specific error；從 `Logger.exception` 的文件看來，總是會把 exception info 加到 logging message 裡，所以只應用在 exception handler 裡。
 
+## `logging.NOTSET` {: #notset }
+
+  - [logging — Logging facility for Python — Python 3\.7\.3 documentation](https://docs.python.org/3/library/logging.html)
+
+    `Logger.setLevel(level)`
+
+      - When a logger is created, the level is set to `NOTSET` (which causes ALL messages to be processed when the logger is the ROOT LOGGER, or DELEGATION TO THE PARENT when the logger is a NON-ROOT LOGGER). Note that the root logger is created with level `WARNING`.
+
+        Level 在 logger 裡的定位 "不完全是" threshold (也難怪在這裡完全沒提到 "threshold")，更重要的是推導該 logger 的 effective level，所以 `NOTSET` 對 non-root logger 在這裡可以解釋成 "不知道，去問上層吧"，對 root logger 則可以解釋成 "別管 level 了"。
+
+      - The term ‘delegation to the parent’ means that if a logger has a level of `NOTSET`, its chain of ancestor loggers is traversed until either an ancestor with a level other than `NOTSET` is found, or the root is reached.
+
+        If an ancestor is found with a level other than `NOTSET`, then that ancestor’s level is treated as the EFFECTIVE LEVEL of the logger WHERE THE ANCESTOR SEARCH BEGAN, and is used to determine how a logging event is handled.
+
+        If the root is reached, and it has a level of `NOTSET`, then all messages will be processed. Otherwise, the root’s level will be used as the effective level.
+
+    `Logger.isEnabledFor(lvl)`
+
+      - Indicates if a message of severity `lvl` would be processed by this logger. This method checks first the module-level level set by logging.disable(lvl) and then the logger’s effective level as determined by getEffectiveLevel().
+
+    `Logger.getEffectiveLevel()`
+
+      - Indicates the effective level for this logger. If a value other than `NOTSET` has been set using `setLevel()`, it is returned. Otherwise, the hierarchy is traversed towards the root until a value other than `NOTSET` is found, and that value is returned.
+
+        The value returned is an integer, typically one of `logging.DEBUG`, `logging.INFO` etc.
+
+    `Handler.setLevel(level)`
+
+      - Sets the THRESHOLD for this handler to `level`. Logging messages which are less severe than level will be ignored. When a handler is created, the level is set to `NOTSET` (which causes ALL MESSAGES TO BE PROCESSED).
+
+        Level 在 handler 裡的定位才是 threshold，而 `NOTSET` 在這裡可以解釋成 "不管 level，都交給我處理吧"。
+
+      - Changed in version 3.2: The `level` parameter now accepts a string representation of the level such as `'INFO'` as an alternative to the integer constants such as `INFO`.
+
+    `logging.disable(lvl=CRITICAL)`
+
+      - Provides an OVERRIDING LEVEL `lvl` for all loggers which takes precedence over the logger’s own level. When the need arises to TEMPORARILY THROTTLE logging output down across the whole application, this function can be useful.
+
+      - If `logging.disable(logging.NOTSET)` is called, it effectively removes this overriding level, so that logging output again depends on the effective levels of individual loggers.
+
+        這時候 `NOTSET` 又有不同的意義了 -- 不 override，參考各 logger 的 effective level。
+
 ## Configuration ??
 
   - STDERR 除了 error message 外，也用於 diagnostics，預設寫往 STDERR 並沒有什麼不對；若要輸出到外部檔，可以用 `> log.txt 2>&1`。

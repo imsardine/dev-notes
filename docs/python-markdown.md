@@ -30,3 +30,6 @@
   - [Python\-Markdown/markdown - GitHub](https://github.com/Python-Markdown/markdown)
   - [Markdown - PyPI](https://pypi.org/project/Markdown/)
 
+手冊：
+
+  - [Library Reference](https://python-markdown.github.io/reference/)

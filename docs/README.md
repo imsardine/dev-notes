@@ -163,6 +163,7 @@
   - [Keras](keras.md)
   - [Kibana](kibana.md)
   - [Kotlin](kotlin.md)
+  - [Kubernetes](kubernetes.md)
 
 ## L
 
@@ -223,6 +224,7 @@
   - [Powerlevel9k](powerlevel9k.md)
   - [PWM](pwm.md)
   - [Puppeteer](puppeteer.md)
+  - [py-trello](py-trello.md)
   - [pyelasticsearch](pyelasticsearch.md)
   - [pyenv](pyenv.md)
   - [Pylint](pylint.md)

@@ -8,16 +8,38 @@ title: Git / Submodule
 
 ## 移除 Submodule {: #remove }
 
+跟 submodule 移除相關的指令有 `git submodule deinit` 與 `git rm`，先做一些實驗：
+
+  - 直接執行 `git rm -f SUBMODULE_PATH`，會將 `SUBMODULE_PATH` 與 `.gitmodules` 裡的設定刪除，但 `.git/config` 裡相關的設定還在。
+
+    之後執行 `git submodule deinit -f SUBMODULE_PATH` 則會出現下面的錯誤：
+
+        error: pathspec '...path/to/submodule' did not match any file(s) known to git
+
+  - 直接執行 `git submodule deinit -f SUBMODULE_PATH`，會將 `SUBMODULE_PATH` 的內容清空 (資料夾留著)，`.git/config` 裡的設定也會清掉，但 `.gitmodules` 的設定還在。
+
+    之後執行 `git rm SUBMODULE_PATH` 可以把 `.gitmodules` 的設定清除。
+
+因此移除 submodule 的標準步驟是 deinit --> rm：
+
+    $ git submodule deinit -f SUBMODULE_PATH && git rm SUBMODULE_PATH
+
+---
+
+參考資料：
+
   - [`deinit` - Git \- git\-submodule Documentation](https://git-scm.com/docs/git-submodule#Documentation/git-submodule.txt-deinit-f--force--all--ltpathgt82308203) #ril
 
         deinit [-f|--force] (--all|[--] <path>…)
 
-      - Unregister the given submodules, i.e. remove the whole `submodule.$name` section from `.git/config` together with their work tree. Further calls to `git submodule update`, `git submodule foreach` and `git submodule sync` will SKIP ANY UNREGISTERED SUBMODULES until they are initialized again, so use this command if you don’t want to have a local checkout of the submodule in your working tree anymore.
+      - UNREGISTER the given submodules, i.e. remove the whole `submodule.$name` section from `.git/config` together with their WORK TREE. Further calls to `git submodule update`, `git submodule foreach` and `git submodule sync` will SKIP ANY UNREGISTERED SUBMODULES until they are INITIALIZED AGAIN, so use this command if you don’t want to have a local checkout of the submodule in your working tree anymore.
+
+        實驗發現 `git submodule deinit` 只會將 submodule path 的內容清空，但資料夾本身會留著。
 
       - When the command is run without pathspec, it errors out, instead of deinit-ing everything, to prevent mistakes.
       - If `--force` is specified, the submodule’s working tree will be removed even if it contains local modifications.
 
-      - If you really want to remove a submodule FROM THE REPOSITORY and commit that use git-rm[1] instead. See gitsubmodules[7] for removal options.
+      - If you really want to remove a submodule FROM THE REPOSITORY and commit that use `git-rm` instead. See gitsubmodules for removal options.
 
   - [FORMS - Git \- gitsubmodules Documentation](https://git-scm.com/docs/gitsubmodules#_forms) #ril
 

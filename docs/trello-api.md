@@ -10,15 +10,25 @@ title: Trello / API
 
 ## Authentication ??
 
+  - API authentication 需要 API Key + Token，其中 API key 可以從 https://trello.com/app-key 取得，而 token 則要透過 authorize 取得 -- 授權特定 application 的存取。
+
+---
+
+參考資料：
+
   - [Authentication - API Introduction](https://developers.trello.com/docs/api-introduction#section--a-name-auth-authentication-and-authorization-a-) #ril
-      - You'll need two things before you and your application can make a call ON BEHALF OF A USER to the Trello API. The first thing you'll need is your API key. Every Trello user gets a single API key; it is used to identify YOU AND YOUR APPLICATIONS to Trello. 注意 API key = user + application。
 
-        You can get your API key by logging into Trello and visiting https://trello.com/app-key. Your API key should be 32 character string comprised of random alphanumeric characters.
+      - You'll need TWO things before you and your application can make a call ON BEHALF OF A USER to the Trello API. The first thing you'll need is your API KEY. Every Trello user gets a single API key; it is used to identify YOU AND YOUR APPLICATIONS to Trello.
 
-        存取上面的網頁會看到 "We're glad you're here! Trello has a rich API that you can use to build awesome Power-Ups and Integrations. To get started, you’ll first need to access your API key and grab a token! 🚀"，按 Show API Keys 可以看到 API key 及一些說明 ...
+        注意 API key = user + application，另一項資訊則是 Token。
+
+      - You can get your API key by logging into Trello and visiting https://trello.com/app-key. Your API key should be 32 character string comprised of random alphanumeric characters.
+
+        存取上面的網頁會看到 "We're glad you're here! Trello has a rich API that you can use to build awesome Power-Ups and Integrations. To get started, you’ll first need to access your API key and grab a TOKEN! 🚀"，按 Show API Keys 可以看到 API key 及一些說明 ...
 
   - [Developer API Keys](https://trello.com/app-key)
-      - Token: Most developers will need to ask each user to authorize your application. If you are looking to build an application for yourself, or are doing local testing, you can manually generate a Token.
+
+      - Token: Most developers will need to ask each user to authorize YOUR APPLICATION. If you are looking to build an application for yourself, or are doing LOCAL TESTING, you can manually generate a Token.
 
         按下 Token 的連結，會開始 Authorize 程序並提示 "Let Server Token use your account?" ... Server Token is not affiliated with Trello in any way, and by permitting access to your content you assume all related risks and liabilities. The app will be able to:
 
@@ -36,15 +46,17 @@ title: Trello / API
 
             abcdef...xyz
 
-        試過重新 connect 產生的 token 也不會變。
+        試過重新 connect 產生的 token 也不會變。如果要為不同的 application 提供不同的 token 要怎麼做 ??
 
       - You can learn more about the Trello API at http://developers.trello.com This developer site has examples, information on getting started with the API, a SANDBOX to try out API calls, and the full reference documentation.
 
         按 Try our Developer Sandbox 會開窗導到 [Sandbox](https://developers.trello.com/page/sandbox/)，提供自己的 API key 後，按 Connect 會在網頁加上 [client.js](https://developers.trello.com/docs/clientjs)，按 Authenticate 拿到 token 後，就可以直接在 browser 以自己的身份測試 RESTful API。
 
+        注意這時候 Authorize 的程式提示的是 "Let Trello Sandbox use your account?"，跟上面 local testing 用的 "Server Token" 不同。
+
       - Trello supports OAuth 1 authorization, if you would like to use this, you will need your Secret.
 
-        Please keep your API Secret safe. Because your API Key is public for any client-side applications, we do not currently offer a way to reset it. 不過重開這個 URL 時還可以看到。
+        Please keep your API Secret safe. Because your API Key is public for any client-side applications, we do not currently offer a way to reset it. 不過重開這個 URL 時還可以看到；為什麼不是 OAuth 2 ??
 
   - [Authorization](https://developers.trello.com/page/authorization) #ril
 

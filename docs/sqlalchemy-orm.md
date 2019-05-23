@@ -115,6 +115,81 @@ title: SQLAlchemy / ORM (Object Relational Mapper)
 
 ## Relationship ??
 
+日前重新看過 SQLAlchemy Core & ORM 的文件，覺得 SQLAlchemy 的 metadata 主要是跟 SQL DDL (`CREATE XXX`) 有關，跟 SQL DML (`SELECT`, `UPDATE`, `DELETE` 等) 應該沒有關係才對。
+
+這樣的想法透過下面的實驗得到證實；注意 `ForeignKey()` 跟 `relationship()` 都是一般的用法：
+
+```
+class User(Base):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    addresses = relationship('Address', order_by='Address.id', back_populates='user')
+
+class Address(Base):
+    __tablename__ = 'address'
+    id = Column(Integer, primary_key=True)
+    email_address = Column(String, nullable=False)
+    _user_id = Column('user_id', Integer, ForeignKey('user.id'))
+    user = relationship('User', back_populates='addresses')
+
+def test_orm_without_fk_constraints__mysql(mysql_engine):
+    conn = mysql_engine.connect()
+    trans = conn.begin()
+    try:
+        # 刻意用單純的 SQL 來建立 table (而非 Metadata.create_all())，確認 DB 裡沒有 FK constraints
+        conn.execute("CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT, name CHAR(20) NOT NULL, PRIMARY KEY (id));")
+        conn.execute("CREATE TABLE address (id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, email_address VARCHAR(50), PRIMARY KEY (id));")
+        conn.execute("INSERT INTO user (id, name) VALUES (1, 'Jeremy');")
+        conn.execute("INSERT INTO address (id, user_id, email_address) VALUES (1, 1, 'imsardine@gmail.com'), (2, 1, 'jeremykao@kkbox.com')")
+        trans.commit()
+    except:
+        trans.rollback()
+        raise
+
+    # Start a new transaction implicitly
+    Session = sessionmaker(bind=mysql_engine)
+    session = Session()
+
+    try:
+        # Test ORM querying 讀取沒問題
+        jeremy = session.query(User).filter_by(id=1).one()
+        assert jeremy.name == 'Jeremy'
+        assert [addr.email_address for addr in jeremy.addresses] == \
+                ['imsardine@gmail.com', 'jeremykao@kkbox.com']
+
+        judy = User(name='Judy')
+        judy.addresses.append(Address(email_address='imjudykao@gmail.com'))
+        session.add(judy)
+        session.commit()
+
+        # Test ORM writing 寫入也沒問題
+        judy = session.query(User).filter_by(name='Judy').one()
+        assert [addr.email_address for addr in judy.addresses] == ['imjudykao@gmail.com']
+        assert judy.addresses[0].user is judy # backref
+    finally:
+        session.close()
+```
+
+**過去我們對 "MySQL Cluster 不支援 FK constraints" 這句話可能有誤解**，所以一開始就把 `_user_id = Column('user_id', Integer, ForeignKey('user.id'))` 中的 `ForeignKey` construct 拿掉，但根據 API 文件的說法，那是 `relationship()` 推導 table 間關聯方式的根據，結果就變成要手動在 `relationship()` 裡明確給定 `foreign_keys`、`primaryjoin` 等。
+
+[Building a Relationship - Object Relational Tutorial — SQLAlchemy 1\.2 Documentation](https://docs.sqlalchemy.org/en/latest/orm/tutorial.html#building-a-relationship)
+
+> ... uses the **foreign key relationships** between the two tables to determine the nature of this linkage
+
+這裡的 foreign key relationships 指的就是 `ForeignKey()` 或 `ForeignKeyConstraint()`：
+
+[foreign_keys - Relationships API — SQLAlchemy 1\.2 Documentation](https://docs.sqlalchemy.org/en/latest/orm/relationship_api.html#sqlalchemy.orm.relationship.params.foreign_keys)
+
+> **In normal cases, the foreign_keys parameter is not required.** `relationship()` will automatically determine which columns in the `primaryjoin` conditition are to be considered “foreign key” columns based on those `Column` objects that specify `ForeignKey`, or are otherwise listed as referencing columns in a `ForeignKeyConstraint` construct. `foreign_keys` is only needed when:
+
+很明顯的，我們一開始誤將 `ForeignKey()` construct 拿掉，因此要自訂 `foreign_keys` -- 但這通常都不用給，SQLAlchemy 會自己推算，跟 DB backend 支不支援 FK constraints 也沒有關係。
+
+---
+
+參考資料：
+
   - [Building a Relationship - Object Relational Tutorial — SQLAlchemy 1\.2 Documentation](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#building-a-relationship) #ril
       - 系統內一個 user 可以有多個 email address，也就是 `users` 與 `addresses` 兩個 table 間有 one to many association；Mapping 可以這麼做：(建議對照 [Define and Create Tables (Core)](https://docs.sqlalchemy.org/en/latest/core/tutorial.html#define-and-create-tables) 一起看，很多設定是 Core 本來就有的，並非專屬於 ORM)
 

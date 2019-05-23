@@ -35,5 +35,6 @@
   - [Exception Handling](python-exception.md)
   - [Decorator](python-decorator.md)
   - [Context Manager](python-context-manager.md)
+  - [Dependency Injection (DI)](python-di.md)
   - [ctypes](python-ctypes.md)
   - [URL](python-url.md)

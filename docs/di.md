@@ -42,3 +42,5 @@
   - AssistedInject · google/guice Wiki https://github.com/google/guice/wiki/AssistedInject #ril
   - Design for Testability and “Domain-Driven Design” http://misko.hevery.com/2009/03/16/design-for-testability-and-domain-driven-design/ 很明顯你不能說 `injector.getInstance(CreditCard.class)`，這是分辨 newable 與 injectable 的好方法，雖然 `injector.getInstance(HibernateSession.class).get(CreditCard.class, 123)` 這麼說也行，但中間透過 factory 又不算是 "fully injectable"。
 
+## 參考資料 {: #reference }
+

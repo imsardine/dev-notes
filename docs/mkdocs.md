@@ -306,9 +306,63 @@ site_name: Hello, World!
   - [Fenced code blocks - Writing Your Docs \- MkDocs](https://www.mkdocs.org/user-guide/writing-your-docs/#fenced-code-blocks) 提到 syntax highlighter #ril
   - [CodeHilite \- Material for MkDocs](https://squidfunk.github.io/mkdocs-material/extensions/codehilite/) Syntax highlighting 是 theme 的功能? #ril
 
-## MathJax ??
+## MathJax
 
-  - [python \- MkDocs and MathJax \- Stack Overflow](https://stackoverflow.com/questions/27882261/) #ril
+由於 MathJax 是在前端做轉換，所以只要在 `mkdocs.yml` 加上：
+
+```
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML
+```
+
+就可以讓 MathJax 作用在產生的頁面上，而 Markdown 原始文件只要注意 MathJax 的表示法不被 MkDocs 解析，可以正確地傳到前端即可。例如：
+
+    `x = (-b +- sqrt(b^2-4ac))/(2a)`
+
+要寫成：
+
+    \`x = (-b +- sqrt(b^2-4ac))/(2a)\`
+
+這樣 backtick 才能被送到前端：
+
+\`x = (-b +- sqrt(b^2-4ac))/(2a)\`
+
+---
+
+參考資料：
+
+  - [python \- MkDocs and MathJax \- Stack Overflow](https://stackoverflow.com/questions/27882261/)
+
+      - Waylan: This is actually easier than I expected. First I installed the [Python-Markdown-Math Extension](https://github.com/mitya57/python-markdown-math):
+
+            pip install https://github.com/mitya57/python-markdown-math/archive/master.zip
+
+        Next I edited the `test_math/docs/index.md` file to be as follows (sample borrowed from the MathJax documentation):
+
+            # MathJax Test Page
+
+            When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+            $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+        Finally, I edited the `test_math/config.yaml` file to be as follows:
+
+            site_name: Test Math
+
+            extra_javascript:
+                - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+            markdown_extensions:
+                - mdx_math
+
+        即便用了 extension，還是得引用 MathJax 的 JS library，那 extension 的作用是什麼 ??
+
+  - [Arithmatex \- PyMdown Extensions Documentation](https://facelessuser.github.io/pymdown-extensions/extensions/arithmatex/) #ril
+
+      - Arithmatex is an extension that PRESERVES LaTeX math equations during the Markdown conversion process so that they can be used with libraries like MathJax. If you prefer to use something other than MathJax, Arithmatex can output a more generic format suitable for other libraries like KaTeX.
+
+      - Arithmatex searches for the patterns `$...$` and `\(...\)` for INLINE MATH, and `$$...$$`, `\[...\]`, and `\begin{}...\end{}` for BLOCK MATH. By default, all formats are enabled, but each format can individually be disabled if desired.
+
+        難怪之前 `[... \( ... \)](http://....)` 這類連結在 client 端會被誤認為是 Mathjax 的 equation markup，因為 `pymdownx.arithmatex` 這個 extension 讓 Markdown conversion 的過程中保留了 `\(...\)` 的部份，而這正是 in-line mathematics 的寫法。
 
 ## Plugin ??
 
