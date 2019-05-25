@@ -62,7 +62,7 @@
   - [Async Workers - Installation — Gunicorn 19\.8\.1 documentation](http://docs.gunicorn.org/en/latest/install.html#async-workers) "pause for extended periods of time during request processing" 時要採用 async worker，加裝 [Eventlet](http://eventlet.net/) 或 [Gevent](http://www.gevent.org/)。
   - [Understanding gunicorn's async worker concurrency model \| Volant\.is](https://words.volant.is/articles/understanding-gunicorns-async-worker-concurrency-model/) (2014-04-21) #ril
 
-## Log ??
+## Logging ??
 
   - [Logging - Settings — Gunicorn 19\.9\.0 documentation](http://docs.gunicorn.org/en/stable/settings.html#logging)
 
