@@ -7,6 +7,10 @@ title: Python / Decorator
 
       - A function RETURNING ANOTHER FUNCTION, usually applied as a FUNCTION TRANSFORMATION using the `@wrapper` syntax. Common examples for decorators are `classmethod()` and `staticmethod()`.
 
+        包含 decorator 自己，共有 3 個 function；而 decorator 的 input 跟 output 都是 function，通常是用 output function (outer) 將 input function (inner) 包裝一層，未來呼叫 outer function 時會間接呼叫 inner function，其間就是 decorator 可以安插一些邏輯的地方。
+
+        [Can Python decorators be used to return non\-function objects? \- Stack Overflow](https://stackoverflow.com/questions/20791056/)
+
       - The decorator syntax is merely SYNTACTIC SUGAR, the following two function definitions are semantically equivalent:
 
             def f(...):
@@ -166,6 +170,7 @@ $ jython deco.py
 
       - The evaluation rules for the decorator expressions are the same as for function decorators. The result is then bound to the class name.
 
+  - [The best explanation of Python decorators I’ve ever seen\. \(An archived answer from StackOverflow\.\)](https://gist.github.com/Zearin/2f40b7b9cfc51132851a) #ril
   - [Decorators - Python syntax and semantics \- Wikipedia](https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators) #ril
   - [Primer on Python Decorators – Real Python](https://realpython.com/primer-on-python-decorators/) (2018-08-22) #ril
   - [Decorators I: Introduction to Python Decorators](https://www.artima.com/weblogs/viewpost.jsp?thread=240808) (2008-10-18) #ril
@@ -181,6 +186,56 @@ $ jython deco.py
   - [Introduction to Python Decorators \| Python Conquers The Universe](https://pythonconquerstheuniverse.wordpress.com/2009/08/06/introduction-to-python-decorators-part-1/) (2009-08-06) #ril
   - [python \- How to make a chain of function decorators? \- Stack Overflow](https://stackoverflow.com/questions/739654/) #ril
   - [Python 2\.4 Decorators \| Dr Dobb's](http://www.drdobbs.com/web-development/python-24-decorators/184406073) (2005-03-01) #ril
+
+## 不傳回 callable 可以嗎？ {: #not-returning-callable }
+
+  - 根據 [Function definitions - 8\. Compound statements — Python 3\.7\.3 documentation](https://docs.python.org/3/reference/compound_stmts.html#function-definitions) 的說法：
+
+    > Multiple decorators are applied in nested fashion. For example, the following code
+    >
+    >     @f1(arg)
+    >     @f2
+    >     def func(): pass
+    >
+    > is roughly equivalent to
+    >
+    >     def func(): pass
+    >     func = f1(arg)(f2(func))
+    >
+    > except that the original function is not temporarily bound to the name `func`.
+
+    `f1()` 傳回 non-function 沒什麼問題，但 `f2()` 傳回 non-function 可能就會讓預期收到 function 的外層 (`f1`) 出錯。
+
+    這跟 [Can Python decorators be used to return non\-function objects? \- Stack Overflow](https://stackoverflow.com/a/20791175/1691598) 中 mgilson 的想法/擔憂一致：
+
+    > However, doing so would be TERRIBLY UNCLEAR. People expect function decorators to return functions (or at least callable objects) and class decorators to return classes. If you stray from that pattern, DO SO AT YOUR OWN RISK
+
+---
+
+參考資料：
+
+  - [Can Python decorators be used to return non\-function objects? \- Stack Overflow](https://stackoverflow.com/questions/20791056/) #ril
+
+      - mgilson: To quote PEP 0318:
+
+        The current syntax for function decorators as implemented in Python 2.4a2 is:
+
+            @dec2
+            @dec1
+            def func(arg1, arg2, ...):
+                pass
+
+        This is equivalent to:
+
+            def func(arg1, arg2, ...):
+                pass
+            func = dec2(dec1(func))
+
+        without the INTERMEDIATE ASSIGNMENT to the variable `func`.
+
+        So, to answer your question, you CAN have a decorator return something which isn't a function and the behavior is COMPLETELY DEFINED. Otherwise, it wouldn't be equivalent to the code above.
+
+        However, doing so would be TERRIBLY UNCLEAR. People expect function decorators to return functions (or at least callable objects) and class decorators to return classes. If you stray from that pattern, DO SO AT YOUR OWN RISK -- If your neighbor decides to knock down your cubicle out of anger and frustration, that's your problem :).
 
 ## 參考資料 {: #reference }
 

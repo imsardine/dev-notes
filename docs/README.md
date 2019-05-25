@@ -222,6 +222,7 @@
   - [Postman](postman.md)
   - [Potentiometer 電位計](potentiometer.md)
   - [Powerlevel9k](powerlevel9k.md)
+  - [Proxy Pattern](proxy-pattern.md)
   - [PWM](pwm.md)
   - [Puppeteer](puppeteer.md)
   - [py-trello](py-trello.md)

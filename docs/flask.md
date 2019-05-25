@@ -226,6 +226,10 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
 
   - [The Application Context — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/appcontext/) #ril
 
+## Proxy Object ??
+
+  - [Note On Proxies - The Request Context — Flask 0\.12\.4 documentation](http://flask.pocoo.org/docs/0.12/reqcontext/#notes-on-proxies) #ril
+
 ## Development Server ??
 
   - [Welcome \| Flask (A Python Microframework)](http://flask.pocoo.org/) 提到內建 development server。

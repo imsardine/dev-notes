@@ -3,77 +3,163 @@ title: Python / Dependency Injection (DI)
 ---
 # [Python](python.md) / [Dependency Injection (DI)](di.md)
 
-Python module 裡的 global 本質上就是 singleton，若是在 import time 就完成 dependency 的初始化，就不用擔心 threading 的問題：
+  - Python 雖然不太流行 DI framework，但並不代表 Python 不需要它，而是利用語言本身的特性，就可以滿足大部份的需求。
 
-`pkg/__init__.py`:
+      - Python module 本身就是 singleton。
+      - 實現 lazy proxy pattern 對 Python 這樣的動態語言是輕而易舉。
 
-```
-from _config import config_ # trailing underscore as a hint
-```
+    為什麼要有 lazy proxy object？這樣就能在 import time 就拿到 dependency，但 dependency 又不會在 import time 完成初始化，這種做法不僅 pythonic，甚至可以實現 circular reference。
 
-`pkg/_config.py`:
+    `pkg/utils.py`
 
-```
-class Config:
+        __all__ = ['lazy_service']
 
-    def __init__(self, settings, env): # 跟 os.environ 及檔案脫勾，方便測試各種狀況
-        self._settings = settings
-        self._env = env
+        class LazyProxy:
 
-    @property
-    def email_signature():
-        return self._settings['email_signature']
+            def __init__(self, factory):
+                self._factory = factory
+                self._target = None
 
-_config = None # lazy
+            def __getattr__(self, attr):
+                if not self._target:
+                    self._target = self._factory()
+                return getattr(self._target, attr)
 
-def config_(): # factory
-    global _config
-    if not _config:
-        env = os.environ
-        with open(env['SETTINGS_PATH']) as ymlfile:
-            settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        def lazy_service(factory):
+            return LazyProxy(factory)
 
-        _config = Config(settings, env)
+  - 用起來像這樣：
 
-    return _config
-```
+    `pkg/__init__.py`:
 
-`pkg/mail.py`:
+        from _config import config
 
-```
-from . import config_
-from .smtp import smtp_transport_ # another factory
+    `pkg/_config.py`:
 
-class Mailer:
+        from .utils import lazy_service
 
-    def __init__(self, smtp_transport, config):
-        self._smtp_transport
-        self._config = config
+        class Config:
 
-    def send_mail(title, content, recipients):
-        content += '\n' + self._config.email_signature
-        ...
+            def __init__(self, settings, env): # 跟 os.environ 及檔案脫勾，方便測試各種狀況
+                self._settings = settings
+                self._env = env
 
-_mailer = None #lazy
+            @property
+            def email_signature():
+                return self._settings['email_signature']
 
-def mailer_():
-    global _mailer
-    if not _mailer:
-        _mailer = Mailer(smtp_transport_(), config_()) # injection
+        def config(): # factory
+            env = os.environ
+            with open(env['SETTINGS_PATH']) as ymlfile:
+                settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
-    return _mailer
-```
+            return Config(settings, env)
 
-要測試 `Mailer` 的話，不需要做 patch，只要搭配可控制的 `SmtpTransport` 及 `Config` 重新生個待測的 `Mailer` 即可，例如：
+        config = lazy_service(config)
 
-```
-def test_mailer():
-    smtp_transport = MagicMock(spec=SmtpTransport)
-    config = MagicMock(spec=Config)
-    mailer = Mailer(smtp_transport, config)
+    `pkg/mail.py`:
 
-    ...
-```
+        from . import config
+        from .utils import lazy_service
+        from .smtp import smtp_transport # another dendency (proxy)
+
+        class Mailer:
+
+            def __init__(self, smtp_transport, config):
+                self._smtp_transport
+                self._config = config
+
+            def send_mail(title, content, recipients):
+                content += '\n' + self._config.email_signature
+                ...
+
+        def mailer():
+            return Mailer(smtp_transport, config) # injection
+
+        mailer = lazy_service(mailer)
+
+  - 由於 `lazy_service(factory)` 接受單一個 callable 做為參數，雖然回傳值是 `LazyProxy` 而非 callable，但搭配 `@wrapper` decorator syntax 還是可以帶來些好處：
+
+        mailer = lazy_service(lambda: Mailer(smtp_transport, config))
+
+        # or
+
+        def mailer():
+            return Mailer(smtp_transport, config) # injection
+
+        mailer = lazy_service(mailer)
+
+        # or
+
+        @lazy_service
+        def mailer():
+            return Mailer(smtp_transport, config) # injection
+
+    若 factory 無法寫成單一行 lambda，在 Python 不支援多行 anonymous function 的情況下，第 3 種寫法相較第 2 種好讀，之後甚至可以發展 `@lazy_service(scope='thread')` 的應用。
+
+  - 要測試 `Mailer` 的話，不需要做 patch，只要搭配可控制的 `SmtpTransport` 及 `Config` 重新生個待測的 `Mailer` 即可，例如：
+
+        def test_mailer():
+            smtp_transport = MagicMock(spec=SmtpTransport)
+            config = MagicMock(spec=Config)
+            mailer = Mailer(smtp_transport, config)
+
+            ...
+
+  - 上面提到的 circular reference 雖然不常見，但因為 lazy proxy object 會延後初始化的時間，所以遇到 circular reference 還是可以應付。
+
+    `pkg/__init__.py`
+
+        from .foo import foo
+        from .bar import bar
+
+    `pkg/foo.py`
+
+        from .utils import lazy_service
+
+        class Foo:
+
+            def __init__(self, bar):
+                self._bar = bar
+
+            def op(self):
+                print 'I am Foo, and I have a Bar %r' % self._bar
+
+        @lazy_service
+        def foo():
+            from .bar import bar # 避開 circular import 的問題
+            return Foo(bar)
+
+    `pkg/bar.py`
+
+        from .utils import lazy_service
+
+        class Bar:
+
+            def __init__(self, foo):
+                self._foo = foo
+
+            def say_hi(self):
+                print 'I am Bar, and I have a Foo %r' % self._foo
+
+        @lazy_service
+        def bar():
+            from .foo import foo
+            return Bar(foo)
+
+    `test`
+
+        #!/usr/bin/env python
+        from pkg import foo, bar
+
+        foo.say_hi()
+        bar.say_hi()
+
+    執行 `test` 的結果：
+
+        $ ./test
+        I am Foo, and I have a Bar <pkg.utils.Proxy instance at 0x101e65908>
+        I am Bar, and I have a Foo <pkg.utils.Proxy instance at 0x101e657e8>
 
 ---
 

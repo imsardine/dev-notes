@@ -97,6 +97,95 @@ title: Python / Module & Package
 
       - Note: On file systems which support symlinks, the directory containing the input script is calculated after the symlink is followed. In other words the directory containing the symlink is not added to the module search path.
 
+## Naming
+
+  - Module/package name 都全小寫、簡短、不含 `_`；不過若對可讀性有幫助，module name 是可以加 `_` 的
+
+    例如 standard library 裡的 `textwrap`、`unicodedata`、`ossaudiodev`、`xml.sax.xmlreader` 等，只有少部份有用 `_` 分開 -- `dummy_threading`、`test.support.script_helper` 跟 `py_compile`。
+
+  - 單數或複數？
+
+    同 [object oriented \- Should package names be singular or plural? \- Software Engineering Stack Exchange](https://softwareengineering.stackexchange.com/questions/75919/) 的說法：
+
+    > Matthew Rodatus: Use the plural for packages with HOMOGENEOUS CONTENTS and the singular for packages with HETEROGENEOUS CONTENTS.
+
+    以 standard library 的 `codecs`、`builtins`、`mimetypes`、`xml.sax.saxutils` 為例，可以預期分別由多種 (type) 的 codec、builtin、MIME type 及 SAX utility 組成，所以用複數；而 `email`、`string` 等則是跟某一類型 (category) 的應用有關，所以用單數。
+
+---
+
+參考資料：
+
+  - [PEP 8 \-\- Style Guide for Python Code \| Python\.org](https://www.python.org/dev/peps/pep-0008/) #ril
+
+    Package and Module Names
+
+      - Modules should have short, all-lowercase names. Underscores can be used in the module name IF IT IMPROVES READABILITY.
+
+        Python packages should also have short, all-lowercase names, although the use of underscores is DISCOURAGED.
+
+        注意 module 跟 package name 都全小寫且簡短，不過對 `_` 有不同的要求 -- module name 可以加 `_`，只要對可讀性有幫助，但 package name 則不建議加 `_`。
+
+      - When an extension module written in C or C++ has an ACCOMPANYING PYTHON MODULE that provides a HIGHER LEVEL (e.g. more object oriented) INTERFACE, the C/C++ module has a LEADING UNDERSCORE (e.g. `_socket`).
+
+        若面對的是更高階的 Python module，為何要加底線？反而給人 internal module 的錯覺。
+
+  - [coding style \- Python file naming convention? \- Software Engineering Stack Exchange](https://softwareengineering.stackexchange.com/questions/308972/)
+
+      - agold: Quoting https://www.python.org/dev/peps/pep-0008/#package-and-module-names:
+
+        > Modules should have short, all-lowercase names. Underscores can be used in the module name if it improves readability. Python packages should also have short, all-lowercase names, although the use of underscores is discouraged.
+
+        And for classes:
+
+        > Class names should normally use the CapWords convention.
+
+        See [this answer](https://softwareengineering.stackexchange.com/a/111882/195918) for the difference between a module, class and package:
+
+          - A Python module is simply a Python source file, which can expose classes, functions and global variables.
+          - A Python package is simply a directory of Python module(s).
+
+        So PEP 8 tells you that:
+
+          - modules (filenames) should have short, all-lowercase names, and they CAN contain underscores;
+          - packages (directories) should have short, all-lowercase names, PREFERABLY WITHOUT underscores;
+          - classes should use the CapWords convention.
+
+        To finish, a good overview of the naming conventions is given in the [Google Python Style Guide](http://google.github.io/styleguide/pyguide.html#3164-guidelines-derived-from-guidos-recommendations).
+
+        PEP 8 tells that names should be short; this answer gives a good overview of what to take into account when creating variable names, which also apply to other names (for classes, packages, etc.):
+
+          - variable names are NOT FULL DESCRIPTORS; 但如果 self-descriptive 不是更好?
+          - put details in comments;
+          - too specific name might mean TOO SPECIFIC CODE;
+          - keep short scopes for quick lookup;
+          - spend time thinking about READABILITY.
+
+  - [Guidelines derived from Guido’s Recommendations - styleguide \| Style guides for Google\-originated open\-source projects](http://google.github.io/styleguide/pyguide.html#3164-guidelines-derived-from-guidos-recommendations)
+
+    | Type     | Public           | Internal          |
+    |----------|------------------|-------------------|
+    | Packages | lower_with_under |                   |
+    | Modules  | lower_with_under | _lower_with_under |
+
+    雖然 PEP 8 不建議在 package name 加 `_`，不過這裡似乎不以為意。另外提到 internal module 的概念，也是習慣用 `_` 開頭。
+
+  - [The Python Standard Library — Python 3\.7\.3 documentation](https://docs.python.org/3/library/)
+
+      - 以 `s` 複數形結尾的 module 有 `codecs`、`collections`、`types`、`itertools`、`functools`、`mimetypes`、`html.entities`、`http.cookies`、`warnings`、`builtins`、`pipes`、`xml.sax.saxutils` 等。
+      - 由兩個單字組成的 module 有 `textwrap`、`unicodedata`、`argparse`、`mimetypes`、`ossaudiodev` 等，都沒有用 `_` 隔開。
+
+  - [object oriented \- Should package names be singular or plural? \- Software Engineering Stack Exchange](https://softwareengineering.stackexchange.com/questions/75919/) 雖然主要在講 Java，但 Python 也可以參考
+
+      - Matthew Rodatus: Use the plural for packages with HOMOGENEOUS CONTENTS and the singular for packages with HETEROGENEOUS CONTENTS.
+
+        A class is similar to a DATABASE RELATION. A database relation should be named in the singular as its records are considered to be instances of the relation. The function of a relation is to compose a complex record from simple data.
+
+        A package, on the other hand, is NOT A DATA ABSTRACTION. It assists with organization of code and resolution of naming conflicts. If a package is named in the singular, it doesn't mean that each member of the package is an instance of the package; it contains RELATED BUT HETEROGENEOUS CONCEPTS. If it is named in the plural (as they often are), I would expect that the package contains homogeneous concepts.
+
+        For example, a TYPE should be named `TaskCollection` instead of `TasksCollection`, as it is a collection containing instances of a `Task`. A package named `com.myproject.task` does not mean that each contained class is an instance of a task. There might be a `TaskHandler`, a `TaskFactory`, etc. A package named `com.myproject.tasks`, however, would contain DIFFERENT TYPES THAT ARE ALL TASKS: `TakeOutGarbageTask`, `DoTheDishesTask`, etc.
+
+        For a similar question, see english.stackexchange.com/q/25713. A category is analogous to the singular and a type is analogous to the plural.
+
 ## `python -m` ??
 
   - [1\. Command line and environment — Python 3\.7\.2 documentation](https://docs.python.org/3/using/cmdline.html)
@@ -128,14 +217,27 @@ title: Python / Module & Package
 ## Internal Module ??
 
   - [Public and Internal Interfaces - PEP 8 \-\- Style Guide for Python Code \| Python\.org](https://www.python.org/dev/peps/pep-0008/?#public-and-internal-interfaces)
+
       - Any backwards compatibility guarantees apply only to public interfaces. Accordingly, it is important that users be able to clearly distinguish between public and internal interfaces. ... All undocumented interfaces should be assumed to be internal. 這話說得真好 -- 揭露越多，未來的包袱越重。
       - To better support introspection, modules should explicitly declare the names in their public API using the `__all__` attribute. Setting `__all__` to an empty list indicates that the module has no public API. 原來 `__all__` 的意義這麼重大!
       - Even with `__all__` set appropriately, internal interfaces (packages, modules, classes, functions, attributes or other names) should still be prefixed with a single leading underscore. 原來底線的慣例適用於所有的 names，包括 package、module、class ... 若 internal module 本身已經加底線，是否內部的 names 也要加底線??
+
+      - [Guidelines derived from Guido’s Recommendations - styleguide \| Style guides for Google\-originated open\-source projects](http://google.github.io/styleguide/pyguide.html#3164-guidelines-derived-from-guidos-recommendations)
+
+        | Type     | Public           | Internal          |
+        |----------|------------------|-------------------|
+        | Packages | lower_with_under |                   |
+        | Modules  | lower_with_under | _lower_with_under |
+
+        提到 internal module 的概念，也是習慣用 `_` 開頭，但不會有 internal package 嗎？
+
   - [Python: 'Private' module in a package \- Stack Overflow](https://stackoverflow.com/questions/3602110/)
+
       - Frederick The Fool: Package `mypack` 下有 2 個 module - `mod_a` 及 `mod_b`，不希望 `mod_b` 被外面的人用，要如何表達 (convey)? 在 module name 前面加底線 (`_mod_b`)，或是放進 subpackage `private/mod_b` 好?
       - Ivo van der Wijk: 雖有在 method 前加底線的慣例，但不會在檔案或 class 上面做這件事，覺得醜；或許可以從文件下手? 在文件說明哪些 module 不該直接存取。
       - Frederick The Fool: 最後決定採用 subpackage `private`，將不想公開的 module 放在底下，也不覺得這是 unpythonic；過了 6 年之後，sparc_spread 問作者還在用 private subpackage 嗎? 作者回答是的，因為還沒找到更好的方法。
       - Jeremy: 傾向在 module 前加底線，精神上同 PEP8 建議 C-extension module 加底線一樣。
+
   - [Modules and Packages \- Learn Python \- Free Interactive Python Tutorial](https://www.learnpython.org/en/Modules_and_Packages) The `__init__.py` file can also decide which modules the package exports as the API, while keeping other modules internal, by overriding the `__all__` variable 在 `__init__.py` 的 `__all__` 一併把可以公開的 module 列進去。
 
 可以參考的做法：
