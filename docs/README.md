@@ -121,6 +121,7 @@
   - [Google Cloud Search](google-cloud-search.md)
   - [Google Colaboratory (Colab)](google-colab.md)
   - [Google Drive](google-drive.md)
+  - [GraphQL](graphql.md)
   - [GTK](gtk.md)
   - [Gunicorn](gunicorn.md)
 
@@ -232,6 +233,9 @@
   - [PyMySQL](pymysql.md)
   - [PyPICloud](pypicloud.md)
   - [pyppeteer](pyppeteer.md)
+  - [pytest](pytest.md)
+  - [pytest-benchmark](pytest-benchmark.md)
+  - [pytest-cov](pytest-cov.md)
   - [Python](python.md)
   - [Python Fire](python-fire.md)
   - [python-ldap](python-ldap.md)
