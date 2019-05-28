@@ -239,7 +239,7 @@ Legend:
   - [Writing tests and benchmarks \- Python High Performance \- Second Edition](https://subscription.packtpub.com/book/application_development/9781787282896/1/ch01lvl1sec1/writing-tests-and-benchmarks) #ril
   - [Pedantic mode — pytest\-benchmark 3\.2\.2 documentation](https://pytest-benchmark.readthedocs.io/en/latest/pedantic.html) #ril
 
-## Comparsion ??
+## Comparsion & Assertion ??
 
   - 在硬體條件不變的情況下，比較不同次 benchmark 的結果才有意義。
 
@@ -249,11 +249,50 @@ Legend:
 
 參考資料：
 
-  - [Comparing past runs — pytest\-benchmark 3\.2\.2 documentation](https://pytest-benchmark.readthedocs.io/en/latest/comparing.html) 在 test code 裡不會檢查 benchmark 的結果 ?? #ril
+  - [Comparing past runs — pytest\-benchmark 3\.2\.2 documentation](https://pytest-benchmark.readthedocs.io/en/latest/comparing.html) #ril
+
+      - Before comparing different runs it’s ideal to make your tests as CONSISTENT as possible, see Frequently Asked Questions for more details.
+
+      - `pytest-benchmark` has support for storing stats and data for the previous runs.
+
+        To store a run just add `--benchmark-autosave` or `--benchmark-save=some-name` to your `pytest` arguments. All the files are saved in a path like `.benchmarks/Linux-CPython-3.4-64bit`.
+
+          - `--benchmark-autosave` saves a file like `0001_c9cca5de6a4c7eb2_20150815_215724.json` where:
+
+              - 0001 is an automatically incremented id, much like how django migrations have a number.
+
+              - c9cca5de6a4c7eb2 is the commit id (if you use Git or Mercurial)
+
+                在本地端來回試幾個 commit 跟 benchmark 的關係時很方便。
+
+              - 20150815_215724 is the current time
+
+            You should add `--benchmark-autosave` to `addopts` in you pytest configuration so you dont have to specify it all the time.
+
+          - `--benchmark-name=foobar` works similarly, but saves a file like `0001_foobar.json`. It’s there in case you want to give specific name to the run.
+
+      - After you have saved your first run you can compare against it with `--benchmark-compare=0001`. You will get an additional row for each test in the result table, showing the differences.
+
+      - You can also make the suite fail with `--benchmark-compare-fail=<stat>:<num>%` or `--benchmark-compare-fail=<stat>:<num>`. Examples:
+
+          - `--benchmark-compare-fail=min:5%` will make the suite fail if Min is 5% slower for any test.
+          - `--benchmark-compare-fail=mean:0.001` will make the suite fail if Mean is 0.001 seconds slower for any test.
+
+        可以在 repository 裡固定放個 `./benchmarks/.../0001_xxx` 做為 baseline，不過機器可能不同問題要如何解?? --> 透過 label 指定執行機器
+
+  - [Commandline options - Usage — pytest\-benchmark 3\.2\.2 documentation](https://pytest-benchmark.readthedocs.io/en/latest/usage.html#commandline-options)
+
+      - `--benchmark-compare=NUM`
+
+        Compare the current run against run `NUM` (or prefix of `_id` in elasticsearch) or the LATEST SAVED RUN if unspecified.
+
+        原來 `--benchmark-storage=URI` 可以將測試結果存到 Elasticsearch #ril
+
+      - `--benchmark-compare-fail=EXPR`
+
+        Fail test if performance REGRESSES according to given `EXPR` (eg: `min:5%` or `mean:0.001` for number of SECONDS). Can be used multiple times.
+
   - [Comparison CLI - Usage — pytest\-benchmark 3\.2\.2 documentation](https://pytest-benchmark.readthedocs.io/en/latest/usage.html#comparison-cli) #ril
-
-## Assertion ??
-
   - [pytest\-benchmark/fixture\.py at master · ionelmc/pytest\-benchmark](https://github.com/ionelmc/pytest-benchmark/blob/master/src/pytest_benchmark/fixture.py#L65) `benchmark.stats` 似乎可以用來判定結果 #ril
   - https://github.com/ionelmc/pytest-benchmark/blob/master/src/pytest_benchmark/stats.py #ril
   - [pytest\-benchmark/stats\.py at master · ionelmc/pytest\-benchmark](https://github.com/ionelmc/pytest-benchmark/blob/master/src/pytest_benchmark/stats.py) 記錄了 benchmark 的結果 #ril

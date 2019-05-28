@@ -20,7 +20,57 @@ title: Python / Exception Handling
 
 ## 如何選用 Exception {: #choice }
 
+Python [內建有許多 exceptions](https://docs.python.org/3/library/exceptions.html)，很多時候其實是不需要[自訂 exceptions](#user-defined-exception) 的。常用的有：
+
+  - `NotImplementedError`
+
+    尚未完成實作，或是需要 subclass 覆寫並提供實作時。
+
+  - `TypeError`
+
+    傳入的參數型態有問題時。
+
+  - `ValueError`
+
+    傳入的參數型態沒問題，但值不符合要求時。
+
+  - `IndexError`
+
+    內部用 sequence 序列的形式儲存資料，但索引超出範圍時。
+
+  - `KeyError`
+
+    內部用 key-value pairs 對照表的形式儲存資料，但索引的 key 值不存在時。
+
+  - `AssertionError`
+
+    斷言的條件不成立時。
+
+    許多人問到 Java [`IllegalStateException`](http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html) 適用的狀況，在 Python 裡要丟出什麼例外？目前大家比較能接受的答案是 `ValueError`，也就是第一個參數 `self` 的狀態有問題。但我個人認為，如果有人在不對的時機呼叫某個方法，丟出 `AssertionError` 應該更為恰當，因為它違反了當初設計 API 的人的假設。
+
+  - `RuntimeError`
+
+    當上面的 exceptions 都不適用時。
+
+    如果 caller 沒有要針對這種狀況做處理，直接用 `RuntimeError` 並沒有什麼不妥，只要 message 帶有足夠的 debug information 即可。
+
+---
+
+參考資料：
+
   - [`logging.basicConfig(**kwargs)` - logging — Logging facility for Python — Python 3\.7\.3 documentation](https://docs.python.org/3/library/logging.html#logging.basicConfig) - `stream` - ... Note that this argument is incompatible with `filename` - if both are present, a `ValueError` is raised. 看來只要 input 不對，都可以丟 `ValueError`。
+
+  - [python - What error to raise when class state is invalid? - Stack Overflow](http://stackoverflow.com/questions/10726919/) (2012-05-23)
+
+    建議延用 `ValueError`，因為沒有人會去 catch 這類的錯誤（基本上這是 API 用法上的錯誤，屬於 programming error），所以沒必要去自訂 exception。
+
+  - [python - Object not in the right state; which exception is appropriate? - Stack Overflow](http://stackoverflow.com/questions/7505941/) (2011-09-21)
+
+    建議自訂 exception，不要跟 `ValueError` 混用，因為使用者會很驚訝 `except ValueError:` 時，會 catch 到你的 exception。從 exception handling 的角度來看 exception 要怎麼設計。
+
+  - [Is there an analogue to Java IllegalStateException in Python? - Stack Overflow](http://stackoverflow.com/questions/1701199/) (2009-11-09)
+
+    普遍認為 `ValueError` 定位上類似於 Java 的 `IllegalStateException`
 
 ## Exception Chaining ??
 
@@ -54,7 +104,7 @@ title: Python / Exception Handling
   - [mkdocs/exceptions\.py at master · mkdocs/mkdocs](https://github.com/mkdocs/mkdocs/blob/master/mkdocs/exceptions.py)
   - [scrapy/exceptions\.py at master · scrapy/scrapy](https://github.com/scrapy/scrapy/blob/master/scrapy/exceptions.py)
 
-## User-defined Exception ??
+## User-defined Exception ?? {: #user-defined-exception }
 
   - [User-defined Exceptions - 8\. Errors and Exceptions — Python 3\.7\.1 documentation](https://docs.python.org/3/tutorial/errors.html#user-defined-exceptions)
 
@@ -302,4 +352,5 @@ except Exception:
 
 手冊：
 
-  - [Exception hierarchy - Python Documentation](https://docs.python.org/3/library/exceptions.html#exception-hierarchy)
+  - [Built-in Exceptions](https://docs.python.org/3/library/exceptions.html#base-classes)
+  - [Exception Hierarchy](https://docs.python.org/3/library/exceptions.html#exception-hierarchy)

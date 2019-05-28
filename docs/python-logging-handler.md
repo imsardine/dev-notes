@@ -515,7 +515,21 @@ title: Python / Logging / Handler
 
   - [\[Design Question\] How do gunicorn workers log correctly? · Issue \#1272 · benoitc/gunicorn](https://github.com/benoitc/gunicorn/issues/1272) #ril
 
-  - [python \- How do I log using gunicorn and multiprocessing? \- Stack Overflow](https://stackoverflow.com/questions/32565328/) #ril
+  - [python \- How do I log using gunicorn and multiprocessing? \- Stack Overflow](https://stackoverflow.com/questions/32565328/)
+
+      - Leandro M Barbosa: How do I use python logging to log my application code (NOT ACCESS LOGS) in a multiprocessing gunicorn (and Flask) application?
+
+        Do I need centralized logging solution or I could somehow use a file? Is it safe to just point each process to the same file?
+
+      - DorElias: You can use multiprocessing logger:
+
+        https://docs.python.org/2/library/multiprocessing.html#logging
+
+        Or if you want you can write the logs to a DIFFERENT FILE IN EACH PROCESS by concating the pid to the file name
+
+        Leandro M Barbosa: Since gunicorn creates the process, is calling multiprocessing.get_logger() enough? DorElias: Yes, `multiprocessing.get_logger()` is simply a process-safe logger
+
+        這假設了 Gunicorn 是用 multiprocessing ??
 
   - [logging \- How should I log while using multiprocessing in Python? \- Stack Overflow](https://stackoverflow.com/questions/641420/)
 

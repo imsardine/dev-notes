@@ -22,7 +22,7 @@ title: Git / Submodule
 
 因此移除 submodule 的標準步驟是 deinit --> rm：
 
-    $ git submodule deinit -f SUBMODULE_PATH && git rm SUBMODULE_PATH
+    $ git submodule deinit -f $SUBMODULE_PATH && git rm $SUBMODULE_PATH
 
 ---
 
