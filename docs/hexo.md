@@ -13,6 +13,50 @@
   - [Create an Hexo Theme - Part 1: Index | CodeBlocQ](http://www.codeblocq.com/2016/03/Create-an-Hexo-Theme-Part-1-Index/) 這裡教人家怎麼宣告 author (有連結更好... 或許也可以來個 author map??)
   - [Project Documentation with Hexo Static Site Generator](https://www.sitepoint.com/project-documentation-hexo/) 自訂 theme 結果只用到 page，這也好怪...
 
+## Configuration ??
+
+  - [Configuration \| Hexo](https://hexo.io/docs/configuration)
+
+      - You can modify site settings in `_config.yml` or in an ALTERNATE config file.
+
+    Using an Alternate Config
+
+      - A custom config file path can be specified by adding the `--config` flag to your `hexo` commands with a path to an alternate YAML or JSON config file, or a comma-separated list (no spaces) of multiple YAML or JSON files.
+
+            # use 'custom.yml' in place of '_config.yml'
+            $ hexo server --config custom.yml
+
+            # use 'custom.yml' & 'custom2.json', prioritizing 'custom2.json'
+            $ hexo server --config custom.yml,custom2.json
+
+      - Using multiple files COMBINES all the config files and saves the merged settings to `_multiconfig.yml`. The later values take precedence. It works with any number of JSON and YAML files with ARBITRARILY DEEP OBJECTS. Note that no spaces are allowed in the list.
+
+        For instance, in the above example if `foo: bar` is in `custom.yml`, but `"foo": "dinosaur"` is in `custom2.json`, `_multiconfig.yml` will contain `foo: dinosaur`.
+
+    Overriding Theme Config
+
+      - Hexo themes are INDEPENDENT PROJECTS, with separate `_config.yml` files.
+
+        INSTEAD OF FORKING A THEME, and maintaining a custom branch with your settings, you can configure it from your site’s primary configuration file.
+
+      - Example configuration:
+
+            # _config.yml
+            theme_config:
+              bio: "My awesome bio"
+
+            # themes/my-theme/_config.yml
+            bio: "Some generic bio"
+            logo: "a-cool-image.png"
+            Resulting theme configuration:
+
+            {
+              bio: "My awesome bio",
+              logo: "a-cool-image.png"
+            }
+
+        從 `theme_config` 往下覆寫目前 theme 的 `_config.yml`，上面的例子假設目前用 `my-theme`，所以 `_config.yml` 的 `theme_config: bio` 會覆寫 `themes/my-theme/_config.yml` 裡的 `bio`。
+
 ## 安裝設定 {: #installation }
 
   - [Installation - Documentation \| Hexo](https://hexo.io/docs/#Installation)
@@ -34,8 +78,6 @@
 
         看起來用 Docker 安裝是最單純的。
 
-### Docker ??
-
 ## 參考資料 {: #reference }
 
   - [Hexo](https://hexo.io/)
@@ -51,7 +93,12 @@
 
   - [Documentation | Hexo](https://hexo.io/docs/)
 
+更多：
+
+  - [Theme](hexo-theme.md)
+
 手冊：
 
-  - [Commands | Hexo](https://hexo.io/docs/commands)
+  - [Configuration](https://hexo.io/docs/configuration)
+  - [Commands](https://hexo.io/docs/commands)
 

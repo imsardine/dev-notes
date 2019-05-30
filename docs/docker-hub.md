@@ -36,6 +36,11 @@
       - If you have automated tests configured, these run after building but before pushing to the registry. You can use these tests to create a CONTINUOUS INTEGRATION WORKFLOW where a build that fails its tests does not push the built image. Automated tests do not push images to the registry on their own. 意謂著 test code 會包進 image 裡??
       - You can configure repositories in Docker Hub so that they automatically build an image each time you push new code to your SOURCE PROVIDER. If you have automated tests configured, the new image is only pushed when the tests succeed.
 
+## Travis CI Integration ??
+
+  - [Managing Open\-Source Docker Images on Docker Hub using Travis](https://medium.com/vaidikkapoor/managing-open-source-docker-images-on-docker-hub-using-travis-7fd33bc96d65) (2018-07-09) #ril
+  - [Pushing Docker images right from Travis\-CI \| OpsTips](https://ops.tips/blog/travis-ci-push-docker-image/) (2017-11-24) #ril
+
 ## 參考資料
 
   - [Docker Hub](https://hub.docker.com/)

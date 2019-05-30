@@ -70,6 +70,10 @@
 
       - By default the FIRST ROW of the table is considered the HEADING. This can be turned off.
 
+        [`Table.inner_heading_row_border` - Settings — terminaltables](https://robpol86.github.io/terminaltables/settings.html#Table.inner_heading_row_border)
+
+        > Show a horizontal dividing border after the first row. If `False` this removes the border so THE FIRST ROW IS NO LONGER CONSIDERED A HEADER ROW. It’ll look just like any other row.
+
 ## 安裝設定 {: #installation }
 
   - [Installation — terminaltables](https://robpol86.github.io/terminaltables/install.html) `pip install terminaltables`

@@ -101,8 +101,9 @@
   - [Flask-SQLAlchemy](flask-sqlalchemy.md)
   - [Flask-WTF](flask-wtf.md)
   - [Flutter](flutter.md)
-  - [Fuchsia](fuchsia.md)
+  - [FreezeGun](freezegun.md)
   - [Fritzing](fritzing.md)
+  - [Fuchsia](fuchsia.md)
 
 ## G
 
@@ -164,6 +165,7 @@
   - [KDE](kde.md)
   - [Keras](keras.md)
   - [Kibana](kibana.md)
+  - [Kindle](kindle.md)
   - [Kotlin](kotlin.md)
   - [Kubernetes](kubernetes.md)
 
@@ -239,6 +241,7 @@
   - [pytest-cov](pytest-cov.md)
   - [Python](python.md)
   - [Python Fire](python-fire.md)
+  - [python-dateutil](python-dateutil.md)
   - [python-ldap](python-ldap.md)
   - [python-magic](python-magic.md)
   - [Python-Markdown](python-markdown.md)

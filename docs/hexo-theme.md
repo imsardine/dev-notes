@@ -1,8 +1,7 @@
-# Hexo > Theme
-
-## 基礎
-
-### Theme ??
+---
+title: Hexo / Theme
+---
+# [Hexo](hexo.md) / Theme
 
 參考資料：
 
@@ -20,4 +19,15 @@
       - 為什麼一開始的 `Submodule 'themes/landscape' (https://github.com/hexojs/hexo-theme-landscape.git) registered for path 'themes/landscape'` 沒有產生 `.gitmodules`? 或許這才是正確的用法?
       - 在 `.gitmodules` 加上 `ignore = dirty` 即可。
 
-## 參考資料
+### Theme, Template, Layout ??
+
+  - [Configuration \| Hexo](https://hexo.io/docs/configuration) `default_layout` - Default layout，預設是 `post`。
+  - [Layout - Themes \| Hexo](https://hexo.io/docs/themes#layout) Layout folder. This folder contains the THEME’S TEMPLATE FILES, which define the appearance of your website.
+  - [Layouts - Templates \| Hexo](https://hexo.io/docs/templates#Layouts) #ril
+      - When pages share a similar structure - for instance, when two templates have both a header and a footer - you can consider using a layout to declare these structural similarities. Every layout file should contain a body variable to display the contents of the template in question.
+  - [Layout - Writing \| Hexo](https://hexo.io/docs/writing#Layout) #ril
+      - 用 `hexo new [<layout>] <title>` 建立 page/post，其中 `layout` 預設是 `post` (可以用 `default_layout` 自訂)
+      - Hexo 有 3 個 default layouts -- `post`、`page` 及 `draft`，分別存放 `soruce/` 下不同的地方，`page` 直接放 `source/` 下，`post` 與 `draft` 則分別放 `source/_posts/` 與 `source/_drafts/`。
+
+## 參考資料 {: #reference }
+

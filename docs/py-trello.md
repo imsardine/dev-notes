@@ -62,6 +62,21 @@
 
       - Run `python ./trello/util.py
 
+## `TrelloClient.get_card()` 很沒效率 ??
+
+  - [py\-trello/trelloclient\.py at 0\.15\.0 · sarumont/py\-trello](https://github.com/sarumont/py-trello/blob/0.15.0/trello/trelloclient.py#L154)
+
+        def get_card(self, card_id):
+            """Get card
+            :rtype: Card
+            """
+            card_json = self.fetch_json('/cards/' + card_id)
+            list_json = self.fetch_json('/lists/' + card_json['idList'])
+            board = self.get_board(card_json['idBoard'])
+            return Card.from_json(List.from_json(board, list_json), card_json)
+
+    拿 card 時，會一併拿所屬的 list，以及該 list 所屬的 board，所以會多出 2 個 request。
+
 ## 安裝設定 {: #installation }
 
   - [Install - sarumont/py\-trello: Python API wrapper around Trello's API](https://github.com/sarumont/py-trello#install) 安裝 `py-trello` 套件即可。
@@ -81,4 +96,5 @@
   - [`trello.Board`](https://github.com/sarumont/py-trello/blob/0.15.0/trello/board.py#L15)
   - [`trello.List`](https://github.com/sarumont/py-trello/blob/0.15.0/trello/trellolist.py#L8)
   - [`trello.Card`](https://github.com/sarumont/py-trello/blob/0.15.0/trello/card.py#L19)
+  - [`trello.Checklist`](https://github.com/sarumont/py-trello/blob/0.15.0/trello/checklist.py#L8)
 

@@ -124,6 +124,31 @@
 
   - [Complex Applications — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/complex/) #ril
 
+## Validation ??
+
+  - [click/examples/validation at master · pallets/click](https://github.com/pallets/click/tree/master/examples/validation) #ril
+  - [Callbacks for Validation - Options — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/options/?highlight=validation#callbacks-for-validation) #ril
+
+  - [Version 2.0 - Click Changelog — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/changelog/?highlight=validation#version-2-0) #ril
+
+      - introduced `BadParameter` which can be used to easily perform CUSTOM VALIDATION with the SAME ERROR MESSAGES as in the type system.
+
+  - [`click.BadParameter` - API — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/api/?highlight=validation#click.BadParameter)
+
+      - An exception that formats out a STANDARDIZED ERROR MESSAGE for a bad parameter. This is useful when thrown from a callback or type as Click will attach CONTEXTUAL INFORMATION to it (for instance, which parameter it is).
+
+        New in version 2.0.
+
+    Parameters
+
+      - `param` – the parameter object that caused this error. This CAN BE LEFT OUT, and Click will attach this info itself if possible.
+
+      - `param_hint` – a string that shows up as PARAMETER NAME.
+
+        This can be used as alternative to `param` in cases where custom validation should happen. If it is a string it’s used as such, if it’s a LIST then each item is quoted and separated.
+
+        聽起來 callback 可以一次驗多個 param ??
+
 ## Nesting Commands ??
 
   - [Commands and Groups — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/commands/) #ril
