@@ -4,7 +4,7 @@ MAKEFLAGS=--warn-undefined-variables
 PORT ?= 127.0.0.1:5000
 
 # Internal Variables
-docker_image = imsardine/docker-mkdocs
+docker_image = imsardine/mkdocs
 docker_opts =
 
 define docker_run
