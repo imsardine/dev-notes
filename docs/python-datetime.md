@@ -7,13 +7,15 @@ title: Python / Date/Time
 
       - The `datetime` module supplies classes for manipulating dates and times in both simple and complex ways. While date and time arithmetic is supported, the focus of the implementation is on EFFICIENT ATTRIBUTE EXTRACTION FOR OUTPUT FORMATTING AND MANIPULATION. For related functionality, see also the `time` and `calendar` modules.
 
+        為什麼說 `time`/`calendar` 較多時間的計算? 因為時間差 (`timedelta`) 跟比較大小都在 `datetime` module 裡。
+
       - There are two kinds of date and time objects: “NAIVE” and “AWARE”.
 
         An aware object has sufficient knowledge of applicable algorithmic and political time adjustments, such as time zone and daylight saving time information, to LOCATE ITSELF RELATIVE TO OTHER AWARE OBJECTS. An aware object is used to represent a SPECIFIC MOMENT in time that is NOT OPEN TO INTERPRETATION.
 
         A naive object does not contain enough information to UNAMBIGUOUSLY locate itself relative to other date/time objects. Whether a naive object represents Coordinated Universal Time (UTC), local time, or time in some other timezone is PURELY UP TO THE PROGRAM, just like it is up to the program whether a particular number represents metres, miles, or mass.
 
-        Naive objects are EASY TO UNDERSTAND AND TO WORK WITH, at the cost of ignoring some aspects of reality.
+      - Naive objects are EASY TO UNDERSTAND AND TO WORK WITH, at the cost of ignoring some aspects of reality.
 
         從 "easy to work with" 及 "applications requiring aware object" 看來，似乎是比較推 naive 的，由於 open to interpretation 的特性，統一將 naive 視為 UTC 即可。
 
@@ -21,7 +23,61 @@ title: Python / Date/Time
 
         Note that only one concrete `tzinfo` class, the `timezone` class, is supplied by the `datetime` module. The `timezone` class can represent simple timezones with FIXED OFFSET from UTC, such as UTC ITSELF or North American EST and EDT timezones.
 
-        Supporting timezones at deeper levels of detail is UP TO THE APPLICATION. The rules for time adjustment across the world are more POLITICAL than rational, CHANGE FREQUENTLY, and there is NO STANDARD suitable for every application aside from UTC.
+        這裡 "fixed offset" 要強調的是 `timezone` 未將 DST 等政治因素考量進去；唯一不受政治影響的是 UTC -- `timezone.utc`。
+
+        注意 Python 2 完全沒為 `tzinfo` 提供實作 [8\.1\. datetime — Basic date and time types — Python 2\.7\.16 documentation](https://docs.python.org/2/library/datetime.html)，`datetime.timezone` 是 Python 3 才有的：
+
+        > Note that no concrete `tzinfo` classes are supplied by the `datetime` module.
+
+      - Supporting timezones at deeper levels of detail is UP TO THE APPLICATION. The rules for time adjustment across the world are more POLITICAL than rational, CHANGE FREQUENTLY, and there is NO STANDARD suitable for every application aside from UTC.
+
+    Available Types
+
+      - class `datetime.date`
+
+        An idealized ?? naive date, assuming the current Gregorian calendar always was, and always will be, in effect. Attributes: `year`, `month`, and `day`.
+
+      - class `datetime.time`
+
+        An idealized time, independent of any particular day, assuming that every day has exactly 24*60*60 seconds (there is no notion of “leap seconds” here). Attributes: `hour`, `minute`, `second`, `microsecond`, and `tzinfo`.
+
+      - class `datetime.datetime`
+
+        A combination of a date and a time. Attributes: `year`, `month`, `day`, `hour`, `minute`, `second`, `microsecond`, and `tzinfo`.
+
+      - class `datetime.timedelta`
+
+        A duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+
+      - class `datetime.tzinfo`
+
+        An abstract base class for time zone information objects. These are used by the `datetime` and `time` classes to provide a customizable notion of time adjustment (for example, to account for time zone and/or daylight saving time).
+
+      - class `datetime.timezone`
+
+        A class that implements the `tzinfo` abstract base class as a fixed offset from the UTC. New in version 3.2.
+
+      - Objects of these types are IMMUTABLE.
+
+        [python \- Do datetime objects need to be deep\-copied? \- Stack Overflow](https://stackoverflow.com/questions/43072149/) 提到，因此所有對 `datetime` instance 的操作都會傳回新的 instance，不用怕動到原來的 instance。
+
+      - Objects of the `date` type are ALWAYS NAIVE.
+
+        An object of type `time` or `datetime` may be naive or aware. A `datetime` object `d` is aware if `d.tzinfo` is not `None` and `d.tzinfo.utcoffset(d)` does not return `None`. If `d.tzinfo` is `None`, or if `d.tzinfo` is not `None` but `d.tzinfo.utcoffset(d)` returns `None`, `d` is naive. A `time` object t is aware if `t.tzinfo` is not `None` and `t.tzinfo.utcoffset(None)` does not return `None`. Otherwise, `t` is naive.
+
+      - The distinction between naive and aware doesn’t apply to `timedelta` objects.
+
+        因為 `timedelta` 本身就是相對的概念，相對於 naive 或 aware 都沒問題。
+
+      - Subclass relationships:
+
+            object
+                timedelta
+                tzinfo
+                    timezone
+                time
+                date
+                    datetime
 
   - [8\.1\. datetime — Basic date and time types — Python 2\.7\.14 documentation](https://docs.python.org/2/library/datetime.html) 專注在取用 date/time 的 attribute extraction - 取年、月、日、時等 #ril
       - Objects of these types are immutable，這也代表著所有的 `datetime.*` types 都是 hashable，可以搭配 hashable collection 使用。

@@ -46,6 +46,24 @@ title: GitLab / Wiki
   - [Home · gollum/gollum Wiki](https://github.com/gollum/gollum/wiki#table-of-contents-toc-tag) 支援 `[[_TOC_]]` 或 `[[_TOC_|levels = 3]]` 的用法，不過在 GitLab Wiki (10.4.1) 上後者沒有作用。
   - [Markdown \- GitLab Documentation](https://docs.gitlab.com/ee/user/markdown.html) 這裡竟完全沒提到 TOC。
 
+  - [Make markdown TOC always follow links in the same current navigator tab \(\#56495\) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/56495) #ril
+
+      - Mathieu Rossignol: Using `[[TOC]]` in MD wiki pages is a great feature. However if you click on a FIRST LEVEL link in the TOC it opens in a NEW TAB whereas a click on a second level link in the TOC leads you to the section using the same current tab. This is not an homogeneous behaviour.
+
+        Also, the first expectation I think is generally always to move in the same tab. If you want to open a link in a new tab you traditionally can DECIDE IT BY YOURSELF by clicking on the link with the middle mouse button.
+
+        I am even not sure this is not a bug! SOME second level links use same tabs, some other second level links open in new tabs. Tested on both firefox and chrome.
+
+      - Mathieu Rossignol: OK I succeeded in reproducing the problem with a public page. On [this page](https://gitlab.com/mathieu.rossignol/sandbox/wikis/home), If you click for instance on the very first and very last links of the toc, they open in a new tab on my navigator whereas some others don't. For instance the links 'Liste des flux Nifi' or 'Hive' behave correctly and are followed in the current tab. Can you reproduce on your side?
+
+      - Mark Fletche (member): You're right certain TOC items have `target="_blank"` and others do not.
+
+      - Nick Thomas (member): Thanks for reporting @mathieu.rossignol ! I would DEFINITELY EXPECT only links that go to a new page would open in a new tab. Navigating within a page, the default - it seems to me - would be to jump around the existing page.
+
+        I believe this is generated from https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/banzai/filter/table_of_contents_filter.rb
+
+        I don't immediately see how the `target="_blank"` gets added, though 🤔 - maybe a later filter kicks in on some criterion? The obvious possibility is `ExternalLinkFilter`.
+
 ## Math
 
 官方只說用 LaTeX 寫，要怎麼寫 LaTeX 要另外學。

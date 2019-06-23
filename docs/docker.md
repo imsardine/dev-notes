@@ -765,6 +765,12 @@ $ docker run --rm --tty \
       - When running the command, the Docker CLI client checks the value the variable has in your local environment and PASSES IT TO THE CONTAINER. If no `=` is provided and that variable is not exported in your local environment, the variable won’t be set in the container.
       - You can also load the environment variables from a file. This file should use the syntax `<variable>=value` (which sets the variable to the given value) or `<variable>` (which TAKES THE VALUE FROM THE LOCAL ENVIRONMENT), and `#` for comments.
 
+## Testing ??
+
+  - [Container Structure Tests: Unit Tests for Docker Images \| Google Open Source Blog](https://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html) (2018-01-09) #ril
+  - [Testing Strategies for Docker Containers · Terra Nullius](https://alexei-led.github.io/post/docker_testing/) (2016-03-07) #ril
+  - [Tutorial: How to test your docker image in half a second](https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9) (2017-03-15) #ril
+
 ## 安裝設定 {: #installation }
 
   - [Docker for Mac Release Notes](https://docs.docker.com/docker-for-mac/release-notes/)

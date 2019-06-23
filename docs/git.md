@@ -5,147 +5,231 @@
   - [Git \- About Version Control](https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control) #ril
   - [A Visual Git Reference](https://marklodato.github.io/visual-git-guide/index-en.html#rebase) #ril
 
-## Diff ??
+## Revision, Reachable ??
 
-  - 搭配 `git config --global alias.vimdiff "difftool --tool=vimdiff --no-prompt"`，就可以視情況選用 `gif diff [--cached]` 或 `git vimdiff [--cached]`；後者會調用 Vim 的 diff mode，處理複雜的 diff 時很方便。
+  - [Git \- Revision Selection](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection) #il
 
-## Patching ??
+      - By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
 
-  - `git format-patch` 只接受 commit，但它會完整保留 commit 的 meta-data 與 binary data，對方用 `git am` 套用；適合交換 commit(s)。
-  - `git diff [--binary] [--cached]` 單純看兩個 tree 的 diff，不含 meta-data，預設不含 binary data，對方用 `git apply` 套用；適合單純交換 diff，無關 commit。
+        Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
 
-參考資料：
+      - Revision Selection -- Git allows you to refer to a SINGLE commit, SET of commits, or RANGE of commits in a number of ways. They aren’t necessarily obvious but are helpful to know.
 
-  - [version control \- How do I send a patch to another developer and avoid merge conflicts? \- Stack Overflow](https://stackoverflow.com/questions/293768/) Spoike: `git-diff` 可以產生兩個 commit 的差異 (`git diff fa1afe1 deadbeef > patch.diff`)，另一方用 `git apply` 套用即可 (`git apply patch.diff`)。
-  - [What is the difference between 'git format\-patch and 'git diff'? \- Stack Overflow](https://stackoverflow.com/questions/4624127/) 最大的差別在 meta-data 與預設是否含 binary data
-      - Rafid: `git format-patch` 只接受 commit，所以在 index 裡的 change 就只能用 `git diff --cached > index.patch`
-      - Sylvain Defresne: A patch created with `git format-patch` will also include some META-INFORMATION about the commit (committer, date, commit message, ...) and will contains diff of BINARY DATA. Everything will be formatted as a mail, so that it can be easily sent. The person that receive it can then recreate the corresponding commit with `git am` and all meta-data will be intact. It can also be applied with `git apply` as it is a super-set of a SIMPLE DIFF.
+    Single Revisions
 
-        A patch crated with `git diff` will be a simple diff with context (think `diff -u`). It can also be applied with `git apply` but the META-DATA WILL NOT BE RECREATED (as they are not present). In summary, `git format-patch` is useful to transmit a COMMIT, while `git diff` is useful to get a DIFF BETWEEN TWO TREES.
+      - You can obviously refer to any single commit by its FULL, 40-character SHA-1 hash, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to any commit.
 
-  - [11\. Understanding Patches \- Git Pocket Guide \[Book\]](https://www.oreilly.com/library/view/git-pocket-guide/9781449327507/ch11.html) #ril
-      - Instead of using `git-cherry-pick` we will create a patch file containing the changes and then IMPORT it. Git will REPLAY the commit and add the changes to the repository as a NEW COMMIT. 除了有機會把 patch file 交換到其他地方，`git-cherry-pick` 跟 `git-format-patch` 有什麼差別?? 因為 `git-cherry-pick` 也會產生新的 commit。
-      - `git-format-patch` exports the commits as patch files, which can then be applied to another branch or cloned repository. The patch files represent a SINGLE COMMIT and Git replays that commit when you IMPORT the patch file. 按照官方文件的說法，確實是一個 commit 一個 patch file。
-      - The old style process, when Git was used locally only without a remote repository, was to EMAIL THE PATCHEs to each other. This is handy if you only need to get someone a single commit without the need to merge branches and the overhead that goes with that.
-  - [Creating and Applying Patch Files in Git \- Mijingo](https://mijingo.com/blog/creating-and-applying-patch-files-in-git) #ril
-  - [Back to the future with Git’s diff and apply commands \| Oliver Davies \- Full Stack Web Developer (Drupal, Symfony, Laravel, Linux)](https://www.oliverdavies.uk/blog/back-to-the-future-git-diff-apply/) (2018-04-23) #ril
-  - [Creating and Applying Git Patch Files](http://nithinbekal.com/posts/git-patch/) (2017-02-12) #ril
-  - [Git \- git\-apply Documentation](https://git-scm.com/docs/git-apply) Apply a patch to files and/or to the index #ril
-  - [Generating patches with -p - Git \- git\-diff Documentation](https://git-scm.com/docs/git-diff#_generating_patches_with_p) #ril
-      - When ... "`git diff`" without the `--raw` option, or "`git log`" with the "`-p`" option, they do not produce the output described above; instead they produce a PATCH FILE. What the `-p` option produces is slightly different from the traditional diff format: 所以不能用 `patch` 套用??
-  - [Git \- git\-format\-patch Documentation](https://git-scm.com/docs/git-format-patch) Prepare patches for e-mail submission #ril
-      - Prepare EACH COMMIT WITH ITS PATCH IN ONE FILE per commit, formatted to resemble UNIX mailbox format. The output of this command is convenient for e-mail submission or for use with `git am`.
-  - [Git \- git\-am Documentation](https://git-scm.com/docs/git-am) Apply a series of patches from a mailbox #ril
+    Single Revisions > Short SHA-1
 
-## Cherry Pick ??
+      - Git is smart enough to figure out what commit you’re referring to if you provide the FIRST FEW CHARACTERS of the SHA-1 hash, as long as that partial hash is AT LEAST FOUR CHARACTERS long and unambiguous; that is, no other object in the object database can have a hash that begins with the same prefix.
 
-  - Cherry pick 怎麼用 => `git cherry-pick <REVISION>` 就像 merge 一樣；SourceTree 先切到目標 branch，再從 Hisotry 選一或多個 commit，按右鍵選 Cherry Pick 即可 (但沒有加 `-x` 產生 `cherry picked from commit ...`)
+        For example, to examine a specific commit where you know you added certain functionality, you might first run the `git log` command to locate the commit:
 
----
+            $ git log
+            ...
+            commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+            Author: Scott Chacon <schacon@gmail.com>
+            Date:   Thu Dec 11 14:58:32 2008 -0800
 
-參考資料：
+                added some blame and merge stuff
 
-  - [Git \- git\-cherry\-pick Documentation](https://git-scm.com/docs/git-cherry-pick) #ril
+        In this case, say you’re interested in the commit whose hash begins with `1c002dd...`. You can inspect that commit with any of the following variations of `git show` (assuming the shorter versions are unambiguous):
 
-      - `git-cherry-pick` - Apply the changes introduced by some EXISTING COMMITS
+            $ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+            $ git show 1c002dd4b536e7479f
+            $ git show 1c002d
 
-            git cherry-pick [--edit] [-n] [-m parent-number] [-s] [-x] [--ff]
-                              [-S[<keyid>]] <commit>…
-            git cherry-pick --continue
-            git cherry-pick --quit
-            git cherry-pick --abort
+        Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using SEVEN characters but makes them longer if necessary to keep the SHA-1 unambiguous:
 
-    Description
+            $ git log --abbrev-commit --pretty=oneline
+            ca82a6d changed the version number
+            085bb3b removed unnecessary test code
+            a11bef0 first commit
 
-      - Given ONE OR MORE existing commits, apply the change each one introduces, RECORDING A NEW COMMIT FOR EACH. This requires your working tree to be clean (no modifications from the `HEAD` commit).
+      - Generally, EIGHT TO TEN characters are more than enough to be unique within a project. For example, as of February 2019, the Linux kernel (which is a fairly sizable project) has over 875,000 commits and almost seven million objects in its object database, with no two objects whose SHA-1s are identical in the first 12 characters.
 
-        在 HEAD 上逐一套用多個 commit 所做的變更，感覺跟 rebase 很像 ??
+        就算是 Linux kernel 這麼大的專案，前 12 個字元就足以識別單一 commit，幾乎沒機會用到 40 個字元。
 
-      - When it is not obvious how to apply a change, the following happens: (發生衝突時)
+    Single Revisions > Branch References
 
-          - The current branch and `HEAD` pointer stay at the last commit successfully made.
-          - The `CHERRY_PICK_HEAD` ref is set to point at the commit that introduced the change that is difficult to apply.
-          - Paths in which the change applied cleanly are updated both in the index file and in your working tree.
+      - One straightforward way to refer to a particular commit is if it’s the commit at the TIP OF A BRANCH; in that case, you can simply use the branch name in any Git command that expects a reference to a commit. For instance, if you want to examine the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to commit `ca82a6d...`:
 
-          - For conflicting paths, the index file records up to three versions, as described in the "TRUE MERGE" section of `git-merge`.
+            $ git show ca82a6dff817ec66f44342007202690a93763949
+            $ git show topic1
 
-            The working tree files will include a description of the conflict bracketed by the usual conflict markers `<<<<<<<` and `>>>>>>>`.
+      - If you want to see which specific SHA-1 a branch points to, or if you want to see what any of these examples BOILS DOWN TO in terms of SHA-1s, you can use a Git plumbing tool called `rev-parse`. You can see Git Internals for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
 
-            手動解完衝突後執行 `git cherry-pick --continue` 繼續。
+            $ git rev-parse topic1
+            ca82a6dff817ec66f44342007202690a93763949
 
-          - No other modifications are made.
+    Single Revisions > RefLog Shortnames
 
-  - [Cherry\-Picking Explained // Think Like (a) Git](http://think-like-a-git.net/sections/rebase-from-the-ground-up/cherry-picking-explained.html)
+      - One of the things Git does in the background while you’re working away is keep a “reflog” — a log of where your HEAD and branch references have been FOR THE LAST FEW MONTHS.
 
-      - Git's own online help has a perfectly accurate, if characteristically terse, description of what the command does:
+        You can see your reflog by using `git reflog`:
 
-        > Given one or more existing commits, apply the change each one introduces, recording a new commit for each.
+            $ git reflog
+            734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+            d921970 HEAD@{1}: merge phedders/rdocs: Merge made by the 'recursive' strategy.
+            1c002dd HEAD@{2}: commit: added some blame and merge stuff
+            1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+            95df984 HEAD@{4}: commit: # This is a combination of two commits.
+            1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+            7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
-      - I've already mentioned (back on the page about Garbage Collection) that a Git commit's ID is a hash of both its contents AND ITS HISTORY. So, even if you have two commits that introduce the exact same change, if they POINT TO DIFFERENT PARENT COMMITS, they'll have different IDs.
+        Every time your BRANCH TIP is updated for any reason, Git stores that information for you in this TEMPORARY HISTORY. You can use your reflog data to refer to older commits as well. For example, if you want to see the fifth prior value of the HEAD of your repository, you can use the `@{5}` reference that you see in the reflog output:
 
-        What `git cherry-pick` does, basically, is take a commit from somewhere else, and "play it back" wherever you are right now. Because this introduces the SAME CHANGE WITH A DIFFERENT PARENT, Git builds a new commit with a different ID.
+            $ git show HEAD@{5}
 
-      - Let's go back to this example from the Reachability section:
+      - You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
 
-        ![](http://think-like-a-git.net/assets/images2/reachability-example.png)
+            $ git show master@{yesterday}
 
-        If you were at node H in this graph, and you typed `git cherry-pick E` (yes, you'd actually type part or all of the SHA for the commit, but for simplicity's sake, I'll just use the labels that are already here), you'd wind up with a copy of commit E—let's call it "E prime" or E'—that pointed to H as its parent, like so:
+      - That would show you where tip of your `master` branch was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
 
-        ![](http://think-like-a-git.net/assets/images2/cherry-pick-example-1.png)
+      - To see reflog information formatted like the `git log` output, you can run `git log -g`:
 
-      - Or, if you typed something like i`git cherry-pick C D E`, you'd wind up with this when you were done:
+            $ git log -g master
+            commit 734713bc047d87bf7eac9674765ae793478c50d3
+            Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
+            Reflog message: commit: fixed refs handling, added gc auto, updated
+            Author: Scott Chacon <schacon@gmail.com>
+            Date:   Fri Jan 2 18:32:33 2009 -0800
 
-        ![](http://think-like-a-git.net/assets/images2/cherry-pick-example-2.png)
+                fixed refs handling, added gc auto, updated tests
 
-      - The important thing to notice here is that Git has copied changes made in one place, and REPLAYED them somewhere else.
+            commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+            Reflog: master@{1} (Scott Chacon <schacon@gmail.com>)
+            Reflog message: merge phedders/rdocs: Merge made by recursive.
+            Author: Scott Chacon <schacon@gmail.com>
+            Date:   Thu Dec 11 15:08:43 2008 -0800
 
-  - [Using 'git cherry\-pick' to Simulate 'git rebase' // Think Like (a) Git](http://think-like-a-git.net/sections/rebase-from-the-ground-up/using-git-cherry-pick-to-simulate-git-rebase.html) #ril
+                Merge commit 'phedders/rdocs'
 
-      - Once you have `git cherry-pick` down, you can start off by thinking of `git rebase` as being a faster way to cherry-pick all of the commits in a given branch at once, rather than having to type out their IDs separately.
+      - It’s important to note that reflog information is STRICTLY LOCAL — it’s a log only of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; also, right after you INITIALLY CLONE a repository, you’ll have an EMPTY reflog, as no ACTIVITY has occurred yet in your repository.
 
-      - Let's go back to our trusty example, but this time add some branches...
+        Running `git show HEAD@{2.months.ago}` will show you the matching commit only if you cloned the project at least two months ago — if you cloned it any more recently than that, you’ll see only your first local commit.
 
-        ![](http://think-like-a-git.net/assets/images2/before-rebase.png)
+        要大家都一樣，要改用下面 ancestry reference 的表示法。
 
-        Now, I could type this sequence of commands:
+      - Tip: Think of the reflog as Git’s version of shell history
 
-            git checkout foo
-            git checkout -b newbar
-            git cherry-pick C D E
+        If you have a UNIX or Linux background, you can think of the reflog as GIT’S VERSION OF SHELL HISTORY, which emphasizes that what’s there is clearly relevant only for you AND YOUR “SESSION”, and has nothing to do with anyone else who might be working on the same machine.
 
-        ![](http://think-like-a-git.net/assets/images2/cherry-pick-qua-rebase-example-midpoint.png)
+    Single Revisions > Ancestry References
 
-        Then, I could type this:
+      - The other main way to specify a commit is via its ancestry. If you place a `^` (caret) at the end of a reference, Git resolves it to mean the PARENT OF THAT COMMIT. Suppose you look at the history of your project:
 
-            git checkout bar
-            git reset --hard newbar # 讓目前 branch 的 HEAD 指向另一個 commit
-            git branch -d newbar
+            $ git log --pretty=format:'%h %s' --graph
+            * 734713b fixed refs handling, added gc auto, updated tests
+            *   d921970 Merge commit 'phedders/rdocs'
+            |\
+            | * 35cfb2b Some rdoc changes
+            * | 1c002dd added some blame and merge stuff
+            |/
+            * 1c36188 ignore *.gem
+            * 9b29157 add open3_detach to gemspec file list
 
-        And leave my repository looking like this (note that the original D and E nodes are NO LONGER REACHABLE, because NO BRANCH POINTS TO THEM):
+        Then, you can see the previous commit by specifying `HEAD^`, which means “the parent of HEAD”:
 
-        ![](http://think-like-a-git.net/assets/images2/cherry-pick-qua-rebase-example-endpoint.png)
+            $ git show HEAD^
+            commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+            Merge: 1c002dd... 35cfb2b...
+            Author: Scott Chacon <schacon@gmail.com>
+            Date:   Thu Dec 11 15:08:43 2008 -0800
 
-      - Or, I could have accomplished all that by typing this instead:
+                Merge commit 'phedders/rdocs'
 
-            git rebase foo bar
+      - Note: Escaping the caret on Windows
 
-        In other words, `git rebase` (in this form) is a shortcut that lets you pick up entire sections of a repository and move them somewhere else.
+        On Windows in `cmd.exe`, `^` is a special character and needs to be treated differently. You can either double it or put the commit reference in quotes:
 
-        `git rebase foo bar` 可以讀做，將 bar 有但 foo 沒有的變更，以 foo 為基礎重做。這呼應了 [`git-rebase`](https://git-scm.com/docs/git-rebase) 中 `git rebase ... <upstream> <branch>` 說法：
+            $ git show HEAD^     # will NOT work on Windows
+            $ git show HEAD^^    # OK
+            $ git show "HEAD^"   # OK
 
-        > If `<branch>` is specified, `git rebase` will perform an automatic `git checkout <branch>` before doing anything else. Otherwise it remains on the current branch.
-        >
-        > All changes made by commits IN THE CURRENT BRANCH BUT THAT ARE NOT IN `<upstream>` are saved to a temporary area.
-        >
-        > The current branch is reset to `<upstream>`, ... The commits that were previously saved into the temporary area are then reapplied to the current branch, one by one, in order.
+      - You can also specify a number after the `^` to identify which parent you want; for example, `d921970^2` means “the second parent of d921970.” This syntax is useful only for MERGE COMMITS, which HAVE MORE THAN ONE PARENT — the first parent of a merge commit is from the branch you were on when you merged (frequently `master`), while the second parent of a merge commit is from the branch that was merged (say, topic):
 
-  - [Cherry\-Picking specific commits from another branch \| ariejan de vroom](https://www.devroom.io/2010/06/10/cherry-picking-specific-commits-from-another-branch/) (2010-06-10) #ril
+            $ git show d921970^
+            commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+            Author: Scott Chacon <schacon@gmail.com>
+            Date:   Thu Dec 11 14:58:32 2008 -0800
 
-      - 將特定 commit 併進現在的 branch，這裡簡單用 master 跟 feature branch 做說明，在 feature branch 裡有個 commit 很重要，必須要先回 master (或其他 branch 需要用到)，怎麼做 => `git checkout master && git cherry-pick 62ecb3`
-      - 做完 `git cherry-pick` 就會在 master 產生一個 "新的 commit"，就像 merge 一樣，如果有衝突的話要先 resolve。
-      - Cherry pick 適用於單一個 commit，如果是連續的幾個 commit，要用 rebase !! 以 `76cada - 62ecb3 - b886a0` 這個 feature branch 為例，若只想要 `76cada - 62ecb3` (不要 `b886a0`) 的話，先建一個新的 branch: `git checkout -b newbranch 62ecb3` (從終點開始??)，然後再執行 `git rebase --onto master 76cada^`，就會讓 `76cada - 62ecb3` 進到 master ??
+                added some blame and merge stuff
 
-  - [Git \- git\-cherry Documentation](https://git-scm.com/docs/git-cherry) #ril
+            $ git show d921970^2
+            commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
+            Author: Paul Hedderly <paul+git@mjr.org>
+            Date:   Wed Dec 10 22:22:03 2008 +0000
+
+                Some rdoc changes
+
+        在 merge 之後，如何分辨誰是第一個 parent ??
+
+      - The other main ancestry specification is the `~` (tilde). This also refers to the FIRST PARENT, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means “the first parent of the first parent,” or “the grandparent” — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+
+            $ git show HEAD~3
+            commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+            Author: Tom Preston-Werner <tom@mojombo.com>
+            Date:   Fri Nov 7 13:47:59 2008 -0500
+
+                ignore *.gem
+
+        This can also be written `HEAD~~~`, which again is the first parent of the first parent of the first parent:
+
+            $ git show HEAD~~~
+            commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+            Author: Tom Preston-Werner <tom@mojombo.com>
+            Date:   Fri Nov 7 13:47:59 2008 -0500
+
+                ignore *.gem
+
+        很明顯地，實務上 `~` 會比 `^` 來得常用。
+
+      - You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+
+        不過 `^` 後面接的數字最大也只是 2，應該不會有更多 parent ??
+
+    Commit Ranges
+
+      - Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, “What work is on this branch that I HAVEN’T YET MERGED into my main branch?”
+
+        這裡 haven't yet merged 暗示著，已經 cherry-pick 過的 change/commit 就會被濾除。
+
+    Commit Ranges > Double Dot
+
+      - The MOST COMMON range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are REACHABLE from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Example history for range selection..
+
+        ![Figure 137. Example history for range selection.](https://git-scm.com/book/en/v2/images/double-dot.png)
+
+        Say you want to see what is in your `experiment` branch that hasn’t yet been merged into your `master` branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means “all commits reachable from experiment that aren’t reachable from master.” For the sake of brevity and clarity in these examples, the letters of the commit objects from the diagram are used in place of the actual log output in the order that they would display:
+
+            $ git log master..experiment
+            D
+            C
+
+      - If, on the other hand, you want to see the opposite — all commits in master that aren’t in experiment — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+
+            $ git log experiment..master
+            F
+            E
+
+        This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge.
+
+        用 `git log <FROM>..<TO>` 來看就會很直覺，預設採 `HEAD` (不含 `FROM` 本身)，常見的用法有：
+
+          - 目前 topic branch 相較 master 多出什麼 -- `git log master..`
+          - 目前 topic branch 相較 master 少了什麼，要 porting 過來 -- `git log ..master`
+
+      - Another frequent use of this syntax is to see what you’re about to push to a remote:
+
+            $ git log origin/master..HEAD
+
+        This command shows you any commits in your current branch that aren’t in the `master` branch on your origin remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
+
+      - You can also leave off one side of the syntax to have Git assume `HEAD`. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes `HEAD` if one side is missing.
+
+  - [Git \- gitrevisions Documentation](https://git-scm.com/docs/gitrevisions) #ril
 
 ## Shallow Clone, Clone Depth ??
 
@@ -191,8 +275,9 @@
 
 更多：
 
-  - [Commit Message](git-message.md)
   - [Commit History](git-history.md)
+  - [Diff & Patch](git-diff-pactch.md)
+  - [Commit Message](git-message.md)
   - [Rebasing](git-rebase.md)
   - [Hook](git-hook.md)
   - [Submodule](git-submodule.md)

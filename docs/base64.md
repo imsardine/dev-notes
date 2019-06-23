@@ -135,6 +135,12 @@ TIP: 以前很直覺地會認為 Base64 的編碼結果，結尾一定會有等�
 
             [A–Za–z0–9+/=]
 
+  - [Variable types - Readme · Variables · Ci · Help · GitLab](https://gitlab.kkinternal.com/help/ci/variables/README#variable-types)
+
+      - `file:` the runner will write the variable value to a TEMPORARY FILE and set the PATH TO THIS FILE as the value of an environment variable named same as the variable key.
+
+        GitLab 11.11.1 試用發現 Type 選 File 後，也只能在小小的 Value 填上檔案內容，有空白/換行不能做 masked 的問題。
+
 ## Incorrect Padding
 
 以 [GitLab CI 環境變數的值含有 `=` 時不能被 mask](https://gitlab.com/gitlab-org/gitlab-ce/issues/60790) 的問題為例，在 GitLab CI 上把結尾的 `=` 去掉，要能夠在 CI runtime 順利解碼：

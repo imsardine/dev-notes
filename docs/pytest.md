@@ -52,10 +52,31 @@
 ## skip, xfail, xpass ??
 
   - [Skip and xfail: dealing with tests that cannot succeed — pytest documentation](https://docs.pytest.org/en/stable/skipping.html) #ril
-      - 可以標示只能執行在特定平台或預期就會失敗的 test function，這樣 pytest 在匯整 summary 時就會將它們排除，不會誤報為測試有問題 (green)
-      - `skip` 是指符合某些條件時才執行測試，例如 windows-only test 在 non-windows 平台就會被 skip 掉 (是完全不執行，而非 skip 結果)。
-      - `xfail` (`pytest.mark.xfail`) 是指你預期測試 "應該" 因為某種原因而失敗 (expected to fail, `xfail`)，所以測試通過了反而有問題，會被視為 `xpass` (unexpectedly passing)，例如功能尚未實作、問題當未修正等。這裡的 x 似乎可以解讀為 eXpectation?
-      - pytest 將 passed、failed、skipped、xfailed、xpassed 分開計算
+
+      - You can mark test functions that cannot be run on CERTAIN PLATFORMS or that you expect to fail so pytest can deal with them accordingly and present a summary of the test session, while keeping the test suite green.
+
+        其中 certain platforms 是相對陝義的說法，下面 "some conditions are met" 的說法比較適當。
+
+      - A skip means that you expect your test to pass ONLY IF SOME CONDITIONS ARE MET, otherwise pytest should skip running the test altogether. Common examples are skipping windows-only tests on non-windows platforms, or skipping tests that depend on an external resource which is not available at the moment (for example a database).
+
+        skip 是指符合某些條件時才執行測試 (通常根據 Python 或 OS version)，例如 windows-only test 在 non-windows 平台就會被 skip 掉；是完全不執行，而非 skip 結果。
+
+      - A xfail means that you EXPECT A TEST TO FAIL FOR SOME REASON.
+
+        A common example is a test for a FEATURE NOT YET IMPLEMENTED, or a BUG NOT YET FIXED. When a test passes despite being expected to fail (marked with `pytest.mark.xfail`), it’s an xpass and will be reported in the test summary.
+
+        xfail (`pytest.mark.xfail`) 是指你預期測試 "應該" 因為某種原因而失敗 (expected to fail)，所以測試通過了反而有問題，會被視為 xpass (unexpectedly passing)，例如功能尚未實作、問題當未修正等。
+
+        上述 "feature not yet implemented" 與 "bug not yet fixed" 的說法，意謂著開發過程中可以善用 xfail 做為 TODO，也比較容易看出是否改壞了哪些應該通過的測試。
+
+        不過 xpass 預設也只會 "reported in the test summary" 而已，並不會讓測試錯誤；可以透過 `xfail_strict=true` (或 `-o xfail_strict=true`) 強制讓它錯誤。
+
+      - pytest counts and lists skip and xfail tests SEPARATELY. Detailed information about skipped/xfailed tests is not shown by default to avoid cluttering the output. You can use the `-r` option to see details corresponding to the “short” letters shown in the test progress:
+
+            pytest -rxXs  # show extra info on xfailed, xpassed, and skipped tests
+
+        More details on the `-r` option can be found by running `pytest -h`.
+
   - [Reference — pytest documentation](https://docs.pytest.org/en/3.5.0/reference.html#pytest-mark-skipif-ref) #ril
 
 ## 區分 Python 2 & 3 的測試 ??

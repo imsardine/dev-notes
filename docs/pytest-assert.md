@@ -44,15 +44,85 @@ def test_almost_equal__scale():
 
 參考資料：
 
+  - [pytest.approx - Reference — pytest documentation](https://docs.pytest.org/en/latest/reference.html#pytest-approx)
+
+      - Assert that two numbers (or two sets of numbers) are equal to each other WITHIN SOME TOLERANCE.
+
+        Due to the intricacies of floating-point arithmetic, numbers that we would intuitively expect to be equal are not always so:
+
+            >>> 0.1 + 0.2 == 0.3
+            False
+
+      - This problem is commonly encountered when writing tests, e.g. when making sure that floating-point values are what you expect them to be. One way to deal with this problem is to assert that two floating-point numbers are equal to within some appropriate tolerance:
+
+            >>> abs((0.1 + 0.2) - 0.3) < 1e-6
+            True
+
+      - However, comparisons like this are tedious to write and DIFFICULT TO UNDERSTAND. Furthermore, ABSOLUTE COMPARISONS like the one above are USUALLY DISCOURAGED because there’s no tolerance that works well for ALL SITUATIONS.
+
+        1e-6 is good for numbers around 1, but too small for very big numbers and too big for very small ones. It’s better to express the tolerance as a FRACTION OF THE EXPECTED VALUE, but RELATIVE COMPARISONS like that are even more difficult to write correctly and concisely.
+
+        上面這種 absolute comparison 其實不建議用 (寫起來煩是另一回事)，因為 `1e-6` 對 1 可能剛好，但對比較大的數字而言又嫌太小，所以建議用 relative comparison (fraction of the expected value)。這概念還滿特別的，而且預設 1/1000000 對大部份情況已經夠精確，除非要比對的數字很大。
+
+      - The `approx` class performs floating-point comparisons using a syntax that’s as INTUITIVE as possible:
+
+            >>> from pytest import approx
+            >>> 0.1 + 0.2 == approx(0.3)
+            True
+
+        The same syntax also works for sequences of numbers:
+
+            >>> (0.1 + 0.2, 0.2 + 0.4) == approx((0.3, 0.6))
+            True
+
+        Dictionary values:
+
+            >>> {'a': 0.1 + 0.2, 'b': 0.2 + 0.4} == approx({'a': 0.3, 'b': 0.6})
+            True
+
+        numpy arrays:
+
+            >>> import numpy as np
+            >>> np.array([0.1, 0.2]) + np.array([0.2, 0.4]) == approx(np.array([0.3, 0.6]))
+            True
+
+        And for a numpy array against a scalar:
+
+            >>> import numpy as np
+            >>> np.array([0.1, 0.2]) + np.array([0.2, 0.1]) == approx(0.3)
+            True
+
+      - By default, `approx` considers numbers within a RELATIVE TOLERANCE of `1e-6` (i.e. one part in a million) of its expected value to be equal.
+
+        This treatment would lead to surprising results if the expected value was 0.0, because nothing but 0.0 itself is relatively close to 0.0. To handle this case less surprisingly, `approx` also considers numbers within an ABSOLUTE TOLERANCE of `1e-12` of its expected value to be equal.
+
+      - Infinity and NaN are special cases. Infinity is only considered equal to itself, regardless of the relative tolerance. NaN is not considered equal to anything by default, but you can make it be equal to itself by setting the `nan_ok` argument to `True`. (This is meant to facilitate comparing arrays that use NaN to mean “no data”.)
+
+        這是 NumPy 才有的東西 ??
+
+      - Both the relative and absolute tolerances can be changed by passing arguments to the `approx` constructor:
+
+            >>> 1.0001 == approx(1)
+            False
+            >>> 1.0001 == approx(1, rel=1e-3)
+            True
+            >>> 1.0001 == approx(1, abs=1e-3)
+            True
+
+        If you specify `abs` but not `rel`, the comparison will NOT consider the relative tolerance at all. In other words, two numbers that are within the default relative tolerance of 1e-6 will still be considered unequal if they exceed the specified absolute tolerance. If you specify both `abs` and `rel`, the numbers will be considered equal if EITHER tolerance is met:
+
+            >>> 1 + 1e-8 == approx(1)
+            True
+            >>> 1 + 1e-8 == approx(1, abs=1e-12)
+            False
+            >>> 1 + 1e-8 == approx(1, rel=1e-6, abs=1e-12)
+            True
+
+        注意同時指定時，兩個條件的關係是 OR 不是 AND。另外 relative/absolute tolerance 預設值只有在 `rel` 跟 `abs` 都沒有給的情況下才會有作用；大部份的情況下兩者都不用給。
+
   - [python \- pytest: assert almost equal \- Stack Overflow](https://stackoverflow.com/questions/8560131/)
       - 如何驗證 float 的 "almost equal"? 甚至是在資料結構裡，例如 `(1.32, 2.4)`
       - dbn: pytest 3.0 開始提供 `approx()`，用法像是 `assert 2.2 == pytest.approx(2.3)` (不會過，因為預設的誤差是 `1e-6`) 或 `assert 2.2 == pytest.approx(2.3, 0.1)` (會過，因為 `0.1` 或 `1e-1` 是指容許下數後一位數的差異)
-  - [pytest.approx - Reference — pytest documentation](https://docs.pytest.org/en/latest/reference.html#pytest-approx)
-      - 用來比較兩個 (或兩組) 數字，只要在某個容許範圍內 (tolerance)，就視為 equal；因為浮點數在電腦內部用二進位表示的關係，所以有些直覺上認為 equal 的關係在電腦上不一定會成立，例如 `0.1 + 0.2 == 0.3` 的結果是 `False`。
-      - 寫測試要驗證 float 的值是否符合預期時會有點麻煩，改檢查 "誤差值在一定範圍內" 可以避開這個問題，例如 `abs((0.1 + 0.2) - 0.3) < 1e-6` 的結果為 `True`。
-      - 上面這種 absolute comparison 其實不建議用 (寫起來煩是另一回事)，因為 `1e-6` 對 1 可能剛好，但對比較大的數字而言又嫌太小，所以建議用 relative comparison (fraction of the expected value)，例如 `0.1 + 0.2 == approx(0.3)`、`(0.1 + 0.2, 0.2 + 0.4) == approx((0.3, 0.6))`、`{'a': 0.1 + 0.2, 'b': 0.2 + 0.4} == approx({'a': 0.3, 'b': 0.6})` 等 (`from pytest import approx`)，適用於 sequence、mapping。
-      - 預設 `approx()` 採 relative tolerance (`1e-6`)，也就是誤差在 1/100000 內，但這不適用於 0.0，因為 0.0 的 1/100000 還是 0.0 (只有 0.0 等於 0.0)，所以 `approx()` 也會將 absolute tolerance (1e-12) 視為等於；預設的 absolute/relative tolerance 已經夠用，應該很少機會需要自訂?
-      - 上述的 absolute/relative tolerance 可以透過 `abs` 及 `rel` 參數自訂，若只提供 `abs`，就只看 absolute tolerance，反之若只提供 `rel` 則只看 relative tolerance，兩者都提供時表示要在兩種 tolerance 裡 (跟預設的行為一樣)。
 
 ### 自訂 Assertion Comparison ??
 

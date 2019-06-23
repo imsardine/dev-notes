@@ -67,26 +67,293 @@ title: App Center / API
 
       - Returns a list of apps for the organization
 
+        實驗發現，即便只是讀取，用 Read Only 的 API token 會遇到 `{"message":"Forbidden","code":"Forbidden"}` 的錯誤，改用 Full Access 即可。
+
     Parameters
 
       - `org_name` - The organization’s name
 
-    實驗發現，即便只是讀取，用 Read Only 的 API token 會遇到 `{"message":"Forbidden","code":"Forbidden"}` 的錯誤，改用 Full Access 即可。
+    Responses
 
-    Response Model (`[AppResponse ...]`) 比較重要的 attribute 有：
+        [AppResponse {
+          id*: string($uuid) // The unique ID (UUID) of the app
+          description: string // The description of the app
+          display_name*: string // The display name of the app
+          release_type: string // A one-word descriptive release-type value that starts with a capital letter but is otherwise lowercase
+          icon_url: string // The string representation of the URL pointing to the app’s icon
+          icon_source: string // The string representation of the source of the app’s icon
+          name*: string // The name of the app used in URLs
+          os*: string // The OS the app will be running on (1)
+          owner*: Owner { // The information about the app’s owner
+            id*: string($uuid) // The unique id (UUID) of the owner
+            avatar_url: string // The avatar URL of the owner
+            display_name*: string // The owner’s display name
+            email: string // The owner’s email address
+            name*: string // The unique name that used to identify the owner
+            type*: string // The owner type. Can either be ‘org’ or ‘user’
+          }
+          app_secret*: string // A unique and secret key used to identify the app in communication with the ingestion endpoint for crash reporting and analytics
+          azure_subscription: AzureSubscriptionResponse { ... }
+          platform*: string // The platform of the app (2)
+          origin*: string // The creation origin of this app (3)
+          created_at: string // The created date of this app
+          updated_at: string // The last updated date of this app
+          member_permissions: [ // The permissions of the calling user (string) (4)
+          ]
 
-      - `id*`: `string($uuid)` -- The unique ID (UUID) of the app
-      - `descriptios`: `string` -- The description of the app
-      - `display_name*`: `string` -- The display name of the app
-      - `name*`: `string` -- The name of the app used in URLs
+     1. `os` 的值可以是 `[Android, iOS, macOS, Tizen, tvOS, Windows, Linux, Custom]`
+     2. `platform` 的值可以是 `[Java, Objective-C-Swift, UWP, Cordova, React-Native, Unity, Electron, Xamarin, Unknown]`
+     3. `origin` 的值可以是 `[appcenter, hockeyapp, codepush]`
+     4. `member_permissions` 的內容可以是 `[manager, developer, viewer, tester]`
 
-      - `os*`: `string` -- The OS the app will be running on
+## Versions
 
-        Enum: [ Android, iOS, macOS, Tizen, tvOS, Windows, Linux, Custom ]
+  - 跟 version 列表相關的 endpoint 有：
 
-      - `origin*`: `string` -- The creation origin of this app
+      - Distribute `GET /v0.1/apps/{owner_name}/{app_name}/releases`
 
-        Enum: [ appcenter, hockeyapp, codepush ]
+        Return basic information about releases.
+
+      - Analytics `GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions`
+
+        Count of active versions IN THE TIME RANGE ordered by version.
+
+    後者是用來取各版本的使用量，所以只能針對某個日期區間查詢，前者傳回的資料跟 App Center 介面 Distribute > Releases 的資料很像，可以用來列舉所有的 version。
+
+---
+
+參考資料：
+
+  - [Distribute `GET /v0.1/apps/{owner_name}/{app_name}/releases` - App Center API](https://openapi.appcenter.ms/#operations-distribute-releases_list)
+
+      - Return basic information about releases.
+
+    Parameters
+
+      - `published_only`: `boolean` (query)
+
+        When `true`, filters out releases that were uploaded but were never distributed. Releases that under deleted distribution groups will not be filtered out.
+
+        雖然型態是 `boolean`，其實就是要求字串 `true`/`false`；什麼是 distributed ??
+
+      - `scope`: `string` (query)
+
+        When the scope is `tester`, only includes releases that have been distributed to groups that the user belongs to.
+
+      - `owner_name`: `string` (path, required)
+
+        The name of the owner
+
+      - `app_name`: `string` (path, required)
+
+        The name of the application
+
+    Responses
+
+        [{
+          id: integer, // ID identifying this unique release.
+          version: string, // The release’s version.             (1)
+          short_version: string, // The release’s short version. (1)
+          enabled: bolean, // This value determines the whether a release currently is enabled or disabled. (2)
+          uploaded_at: string, // UTC time in ISO 8601 format of the uploaded time.
+          destination_type: string, // OBSOLETE. Will be removed in next version. The destination type. (3)
+          distribution_groups: [{...}], // OBSOLETE. Will be removed in next version. A list of distribution groups that are associated with this release.
+          distribution_stores: [{...}], // OBSOLETE. Will be removed in next version. A list of distribution stores that are associated with this release.
+          destinations: [{...}], // A list of distribution groups or stores.
+          build: {
+            branch: string, // The branch name of the build producing the release
+            commit_hash: string, // The commit hash of the build producing the release
+            commit_message: string, // The commit message of the build producing the release
+          }
+        }]
+
+     1. `version` 跟 `short_version` 分別來自各平台提供的 metadata：
+
+        `version`: For iOS: `CFBundleVersion` from `info.plist`. For Android: `android:versionCode` from `AppManifest.xml`.
+
+        `short_version`: For iOS: `CFBundleShortVersionString` from `info.plist`. For Android: `android:versionName` from `AppManifest.xml`.
+
+        有趣的是，就 Android 而言 `version` 指的是 version code，而 `short_version` 才是比較長的 version name。
+
+     2. `enabled` 的說明 "whether a release currently is enabled or disabled" 從字面上看不出指的是什麼，因為 HockeyApp 的管理介面有 2 個可能相關的選項：
+
+          - Status: This value should be identical to the app's approval or release status.
+          - Crash Reports: This option enables that the server accepts crash reports for this version.
+
+        猜想跟 Crash Reports 的開關比較像 ??
+
+     3. `destination_type` 的值可以是 `group` 或 `store`
+
+        `group`: The release distributed to internal groups and distribution_groups details will be returned.
+
+        `store`: The release distributed to external stores and distribution_stores details will be returned.
+
+  - [Analytics `GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions` - App Center API](https://openapi.appcenter.ms/#operations-analytics-Analytics_Versions)
+
+      - COUNT of ACTIVE versions in the TIME RANGE ordered by version.
+
+        其中 count 感覺像是安裝數或 active user，但使用者若沒發生 crash，App Center 怎麼會知道 ??
+
+    Parameters
+
+      - `start`: `string($date-time)` (query, required)
+
+        Start date time in data in ISO 8601 date time format
+
+        離今天超過 90 天，會丟出 `From query parameter has to be less than 90 days old.` 的錯誤，不適合用來取得所有的 version ??
+
+      - `end`: `string($date-time)` (query)
+
+        Last date time in data in ISO 8601 date time format
+
+      - `$top`: `integer($int64)` (query)
+
+        The maximum number of results to return. (0 will fetch all results) Default value : 30
+
+        參數名稱真有前置的 `$`，2019-06-03 實驗發現給 `0` 時反而拿不到結果，而且預設值是 10 而非 30。
+
+      - `versions`: `array[string]` (query)
+
+        實驗發現是只傳回指定 version 的數據。
+
+      - `owner_name`: `string` (path, required)
+
+        The name of the owner
+
+      - `app_name`: `string` (path, required)
+
+        The name of the application
+
+  - [Crash `GET /v0.1/apps/{owner_name}/{app_name}/versions` - App Center API](https://openapi.appcenter.ms/#operations-crash-crashes_getAppVersions)
+
+      - Gets a list of application versions. AVAILABLE FOR UWP APPS ONLY. (Deprecated)
+
+        不像 `GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions` 需要提供時段，跟 [HockeyApp `GET /api/2/apps/APP_ID/app_versions`](https://support.hockeyapp.net/kb/api/api-versions#-u-get-api-2-apps-app_id-app_versions-u-) 的用法比較像。
+
+    Parameters
+
+      - `owner_name`: `string` (path, required)
+
+        The name of the owner
+
+      - `app_name`: `string` (path, required)
+
+        The name of the application
+
+## Crash ??
+
+  - [Errors `GET /v0.1/apps/{owner_name}/{app_name}/errors/errorGroups` - App Center API](https://openapi.appcenter.ms/#operations-errors-Errors_GroupList)
+
+      - List of error groups
+
+    Parameters
+
+      - `version`: `string($string)` (query)
+
+        預設會傳回所有 version 的資料，提供 `version` 時才會只傳回該 version 的資料。
+
+      - `groupState`: `string($string)` (query)
+
+      - `start`: `string($date-time)` (query, required)
+
+        Start date time in data in ISO 8601 date time format
+
+        開始時間一定要給，跟 Analytics `GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions` 一樣，超過 90 天會丟 `From query parameter has to be less than 90 days old.` 的錯誤。
+
+      - `end`: `string($date-time)` (query)
+
+        Last date time in data in ISO 8601 date time format
+
+      - `$orderby`: `string` (query)
+
+        controls the sorting order and sorting based on which column. Default value : `count desc`
+
+      - `$top`: `integer($int64)` (query)
+
+        The maximum number of results to return. (0 will fetch all results till the max number.) Default value : 30
+
+      - `errorType`: `string` (query)
+
+        Type of error (handled vs unhandled), including All
+
+        Available values : `all`, `unhandledError`, `handledError`
+
+      - `owner_name`: `string` (path, required)
+
+        The name of the owner
+
+      - `app_name`: `string` (path, required)
+
+        The name of the application
+
+    Responses
+
+        {
+          nextLink: string, // (1)
+          errorGroups: [{
+            state*: string, // open, closed, ignored (2)
+            annotation: string,
+            errorGroupId*: string,
+            appVersion*: string, (3)
+            appBuild: string,
+            count*: integer($int64), // (4)
+            deviceCount*: integer($int64),
+            firstOccurrence*: string($date-time),
+            lastOccurrence*: string($date-time),
+            exceptionType: string,
+            exceptionMessage: string,
+            exceptionClassName: string,
+            exceptionClassMethod: boolean,
+            exceptionMethod: string,
+            exceptionAppCode: boolean,
+            exceptionFile: string,
+            exceptionLine: string,
+            codeRaw: string,
+            reasonFrames: [{...}],
+            }]
+          }]
+        }
+
+     1. `nextLink` 似乎跟分頁有關?? 會多一個 `$token` 參數
+     2. 發現線上 API 會回傳 `Open` 而非 `open`，導致 Swagger Codegen 產生的程式在檢查結果時會出錯 XD
+
+     3. 觀察 `appVersion` 的值不論是 Android 或 iOS 都固定是 `GET /v0.1/apps/{owner_name}/{app_name}/releases` 的 `short_version` 而非 `version`。
+
+        也因此，查詢時若要限定 version，傳入的也是 `short_version`。
+
+     4. `count` 是指該 error group 從 `start` 到 `end` (或現在) 發生的次數，若一個版本存在久一點，數字不一定會一直往上長 ??
+
+  - [Errors `/v0.1/apps/{owner_name}/{app_name}/errors/errorCountsPerDay` - App Center API](https://openapi.appcenter.ms/#operations-errors-Errors_CountsPerDay)
+
+      - Count of crashes or errors by day in the time range based the SELECTED VERSIONS. If `SingleErrorTypeParameter` is not provided, defaults to `handlederror`.
+
+        文件怎麼可以錯成這樣 XD ... 是 `errorType`，預設是 `handledError`。
+
+    Parameter
+
+      - `version`: `string($string)` (query)
+
+      - `start`: `string($date-time)` (query, required)
+
+        Start date time in data in ISO 8601 date time format
+
+      - `end`: `string($date-time)` (query)
+
+        Last date time in data in ISO 8601 date time format
+
+      - `errorType`: `string` (query)
+
+        Type of error (handled vs unhandled), excluding All. Available values : `unhandledError`, `handledError`
+
+        為什麼跟 `GET /v0.1/apps/{owner_name}/{app_name}/errors/errorGroups` 有 including/excluding All 的差別 ??
+
+      - `owner_name`: `string` (path, required)
+
+        The name of the owner
+
+      - `app_name`: `string` (path, required)
+
+        The name of the application
 
 ## CLI
 

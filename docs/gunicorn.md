@@ -51,9 +51,40 @@
 
 ## Pre-fork Worker Model ??
 
+  - [Design — Gunicorn 19\.8\.1 documentation](http://docs.gunicorn.org/en/latest/design.html) #ril
+
+    Server Model
+
+      - Gunicorn is based on the PRE-FORK WORKER MODEL. This means that there is a central MASTER PROCESS that manages a set of WORKER PROCESSES. The master NEVER knows anything about individual clients. All requests and responses are handled completely by worker processes.
+
+    Server Model / Master
+
+      - The master process is A SIMPLE LOOP that listens for various PROCESS SIGNALS and reacts accordingly. It manages the list of running workers by listening for SIGNALS ?? like TTIN, TTOU, and CHLD.
+
+        TTIN and TTOU tell the master to increase or decrease the number of running workers. CHLD indicates that a child process has terminated, in this case the master process automatically restarts the failed worker.
+
+        Gunicorn 的 master process 完全不會載入 Python code，跟 [uWSGI, Preforking and Lazy Apps](https://engineering.ticketea.com/uwsgi-preforking-lazy-apps/) 中 uWSGI, forking and copy-on-write 描述的狀況完全不且。
+
+    Server Model / Sync Workers
+
+      - The most basic and the DEFAULT worker type is a synchronous worker class that HANDLES A SINGLE REQUEST AT A TIME. This model is the simplest to reason about as any errors will affect AT MOST a single request.
+
+        啟動時會看到 `[INFO] Using worker: sync` 的訊息。
+
+        Though as we describe below only processing a single request at a time requires some ASSUMPTIONS ?? about how applications are programmed.
+
+      - `sync` worker does NOT support PERSISTENT CONNECTIONS - each connection is closed after response has been sent (even if you manually add `Keep-Alive` or `Connection: keep-alive` header in your application).
+
+        不適合 production ??
+
+    Server Model/ Async Workers
+
+      - The asynchronous workers available are based on Greenlets (via Eventlet and Gevent). Greenlets are an implementation of COOPERATIVE MULTI-THREADING ?? for Python. In general, an application should be able to make use of these worker classes WITH NO CHANGES.
+
+    Server Model / Tornado Workers #ril
+
   - [Gunicorn \- Python WSGI HTTP Server for UNIX](http://gunicorn.org/) 一開始就講 It's a pre-fork worker model
   - [Quick Start - Gunicorn \- Python WSGI HTTP Server for UNIX](http://gunicorn.org/#quickstart) Server 一啟動時 (`Listening at: http://127.0.0.1:8000`)，緊接著其他 worker process 就預先產生了 ` Booting worker with pid: ...`，這就是 pre-fork worker?
-  - [Design — Gunicorn 19\.8\.1 documentation](http://docs.gunicorn.org/en/latest/design.html) 提到 master、worker、thread #ril
   - [Worker Processes - FAQ — Gunicorn 19\.8\.1 documentation](http://docs.gunicorn.org/en/latest/faq.html#worker-processes) #ril
 
 ## Sync/Async Worker ??

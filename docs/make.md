@@ -332,15 +332,39 @@ endif
 ## Self-documented Makefile (`make help`) ??
 
   - [Self\-Documented Makefile](https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html) (2016-02-29) #ril
+
       - 在 target 後面用 `##` 寫說明，還能避開 internal target。增加一個 `help` target 並將它設為 default，就可以用 `make [help]` 看說明
 
-```
-.PHONY: help
-.DEFAULT_GOAL := help
+            .PHONY: help
+            .DEFAULT_GOAL := help
 
-help:
-    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-```
+            help:
+                @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+  - [Running the build - Getting Started — Sphinx 3\.0\.0\+/f7bf66012 documentation](http://www.sphinx-doc.org/en/master/usage/quickstart.html#running-the-build)
+
+      - Execute make without an argument to SEE WHICH TARGETS ARE AVAILABLE.
+
+      - `sphinx-quickstart` 產生的 `Makefile` 像這樣：
+
+            # You can set these variables from the command line.
+            SPHINXOPTS    =
+            SPHINXBUILD   = sphinx-build
+            SOURCEDIR     = .
+            BUILDDIR      = _build
+
+            # Put it first so that "make" without argument is like "make help".
+            help:
+                @$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+            .PHONY: help Makefile
+
+            # Catch-all target: route all unknown targets to Sphinx using the new
+            # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+            %: Makefile
+                @$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+        將 `help` 安排成第一個 target 的想法很不錯，跟 `make help` 的效果一樣。
 
   - [Automation and Make: Self\-Documenting Makefiles](https://swcarpentry.github.io/make-novice/08-self-doc/) #ril
   - [Ned Batchelder: Makefile help target](https://nedbatchelder.com/blog/201804/makefile_help_target.html) (2018-04-04) #ril
@@ -382,6 +406,101 @@ Hello, World!
   - [5.3 Recipe Execution - GNU make](https://www.gnu.org/software/make/manual/make.html#Execution) 每一行 recipe 都會用 sub-shell 來執行，除非有 `.ONESHELL` 這個特殊的 target 存在；特別舉例設定 shell variable 或 `cd` 切換目錄，下一個 recipe 都不受影響。
   - [8.9 The eval Function - GNU make](https://www.gnu.org/software/make/manual/make.html#Eval-Function) `eval` 的結果固定是空字串 #ril
 
+## Expansion ??
+
+  - [8.13 The shell Function - GNU make](https://www.gnu.org/software/make/manual/make.html#The-shell-Function)
+
+    The commands run by calls to the `shell` function are run WHEN THE FUNCTION CALLS ARE EXPANDED (see How make Reads a Makefile).
+
+    之前踩到 `$(shell)` 的執行時機跟預期不符的問題：
+
+        define exit
+            exit $(shell cat $(exit_file))
+        endef
+
+        test: _test-run
+            $(call exit)
+
+    假設 `_test-run` 會更新 `exit_file` 的內容，原以為 `$(shell cat $(exit_file))` 會發生在 `_test-run` 之後，但似乎在那之前就發生了，所以無法反應最新的內容。
+
+    可能跟 [Function Call Syntax - GNU make](https://www.gnu.org/software/make/manual/make.html#Function-Call-Syntax) 的一段話有關：
+
+    > A function call resembles a variable reference. It can appear anywhere a variable reference can appear, and it is expanded using the SAME RULES AS VARIABLE REFERENCES.
+
+    以及 [Using Variables in Recipes - GNU make](https://www.gnu.org/software/make/manual/make.html#Using-Variables-in-Recipes)：
+
+    > The other way in which `make` processes recipes is by expanding any variable references in them (see Basics of Variable References). This occurs AFTER `make` HAS FINISHED READING ALL THE MAKEFILES AND THE TARGET IS DETERMINED TO BE OUT OF DATE; so, the recipes for targets which are not rebuilt are never expanded.
+
+    似乎是說 target 在執行前，裡面的 variable reference (包含 function call) 就已經展開。
+
+  - [3.7 How make Reads a Makefile - GNU make](https://www.gnu.org/software/make/manual/make.html#How-make-Reads-a-Makefile)
+
+      - GNU `make` does its work in TWO DISTINCT PHASES. During the first phase it reads all the makefiles, included makefiles, etc. and INTERNALIZES ?? all the variables and their values, implicit and explicit rules, and constructs a DEPENDENCY GRAPH of all the targets and their prerequisites. During the second phase, make uses these internal structures to determine what targets will need to be REBUILT and to invoke the rules necessary to do so.
+
+      - It’s important to understand this two-phase approach because it has a direct impact on HOW VARIABLE AND FUNCTION EXPANSION HAPPENS; this is often a source of some CONFUSION when writing makefiles. Here we will present a summary of the phases in which expansion happens for different constructs within the makefile.
+
+        We say that expansion is IMMEDIATE if it happens during the FIRST PHASE: in this case `make` will EXPAND any variables or functions in that section of a construct as the makefile is PARSED. We say that expansion is DEFERRED if expansion is not performed immediately. Expansion of a deferred construct is not performed until either the construct appears later in an IMMEDIATE CONTEXT ??, or until the second phase.
+
+        You may not be familiar with some of these constructs yet. You can reference this section as you become familiar with them, in later chapters.
+
+    Variable Assignment
+
+      - Variable definitions are parsed as follows:
+
+            immediate = deferred
+            immediate ?= deferred
+            immediate := immediate
+            immediate ::= immediate
+            immediate += deferred or immediate
+            immediate != immediate
+
+            define immediate
+              deferred
+            endef
+
+            define immediate =
+              deferred
+            endef
+
+            define immediate ?=
+              deferred
+            endef
+
+            define immediate :=
+              immediate
+            endef
+
+            define immediate ::=
+              immediate
+            endef
+
+            define immediate +=
+              deferred or immediate
+            endef
+
+            define immediate !=
+              immediate
+            endef
+
+      - For the append operator, `+=`, the right-hand side is considered immediate if the variable was previously set as a simple variable (`:=` or `::=`), and deferred otherwise.
+
+      - For the SHELL ASSIGNMENT operator, `!=`, the right-hand side is evaluated immediately and HANDED TO THE SHELL. The result is stored in the variable named on the left, and that variable becomes a SIMPLE VARIABLE (and will thus be RE-EVALUATED ON EACH REFERENCE ??).
+
+        為什麼 simple variable 反而每次存取時都要 re-evaluate ??
+
+    Conditional Directives
+
+      - Conditional directives are parsed immediately. This means, for example, that automatic variables cannot be used in conditional directives, as automatic variables are not set until the recipe for that rule is invoked. If you need to use automatic variables in a conditional directive you must move the condition into the recipe and use SHELL CONDITIONAL SYNTAX instead. ??
+
+    Rule Definition
+
+      - A rule is always expanded the same way, regardless of the form:
+
+            immediate : immediate ; deferred
+                    deferred
+
+        That is, the target and prerequisite sections are expanded immediately, and the recipe used to construct the target is always deferred. This general rule is true for explicit rules, pattern rules, suffix rules, static pattern rules, and simple prerequisite definitions.
+
 ## 參考資料 {: #reference }
 
   - [Make \- GNU Project \- Free Software Foundation](https://www.gnu.org/software/make/)
@@ -403,4 +522,4 @@ Hello, World!
   - [Ubuntu Manpage: make](http://manpages.ubuntu.com/manpages/xenial/man1/make.1.html)
   - [make(1) - FreeBSD](https://www.freebsd.org/cgi/man.cgi?make(1))
   - [make(1) - die.net](https://linux.die.net/man/1/make)
-
+  - [Expansion of Immediate/Deferred Constructs](https://www.gnu.org/software/make/manual/html_node/Reading-Makefiles.html)

@@ -117,6 +117,7 @@ title: Python / Text Processing
 
 手冊：
 
+  - [Text Sequence Type - `str`](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)
   - [Format String Syntax](https://docs.python.org/3/library/string.html#format-specification-mini-language)
   - [Standard Encodings - The Python Standard Library](https://docs.python.org/3/library/codecs.html#standard-encodings)
 

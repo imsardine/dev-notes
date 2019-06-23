@@ -214,7 +214,7 @@ title: Python / Module & Package
 
   - [PEP 338 \-\- Executing modules as scripts \| Python\.org](https://www.python.org/dev/peps/pep-0338/) #ril
 
-## Internal Module ??
+## Internal/Private Module ??
 
   - [Public and Internal Interfaces - PEP 8 \-\- Style Guide for Python Code \| Python\.org](https://www.python.org/dev/peps/pep-0008/?#public-and-internal-interfaces)
 
@@ -230,6 +230,10 @@ title: Python / Module & Package
         | Modules  | lower_with_under | _lower_with_under |
 
         提到 internal module 的概念，也是習慣用 `_` 開頭，但不會有 internal package 嗎？
+
+  - [sphinx\-apidoc — Sphinx 3\.0\.0\+/ce3c5735c documentation](http://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html#cmdoption-sphinx-apidoc-p)
+
+    `-P, --private`: Include “_private” modules. 原來 Sphinx 也用前置底線來區分 public/private module。
 
   - [Python: 'Private' module in a package \- Stack Overflow](https://stackoverflow.com/questions/3602110/)
 

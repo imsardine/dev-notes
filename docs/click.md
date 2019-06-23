@@ -124,6 +124,136 @@
 
   - [Complex Applications — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/complex/) #ril
 
+## Parameter, Option, Argument ??
+
+  - [Class `click.Parameter` - API — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/api/#click.Parameter) #ril
+
+        class click.Parameter(param_decls=None, type=None, required=False, default=None, callback=None, nargs=None, metavar=None, expose_value=True, is_eager=False, envvar=None, autocompletion=None)
+
+      - A parameter to a command comes in two versions: they are either `Option`s or `Argument`s. Other subclasses are currently not supported by design as some of the internals for parsing are intentionally NOT FINALIZED.
+
+        Some settings are supported by both options and arguments.
+
+        泛稱做 parameter，再進一步區分為前面通常是 optional 的 option，與後面通常是 required 的 argument；也因此 option 與 argument 有一些通用的特性。
+
+      - Changed in version 2.0: Changed signature for parameter `callback` to also be passed the parameter. In Click 2.0, the old callback format will still work, but it will raise a warning to give you change to migrate the code easier. ??
+
+    Parameters
+
+      - `param_decls`
+
+        the parameter declarations for this option or argument. This is a list of FLAGS or ARGUMENT NAMES.
+
+        其中 "flag" 的說法是針對 option，因為是 `-x` 或 `--xxx` 的用法。
+
+      - `type`
+
+        the type that should be used. Either a `ParamType` or a Python type. The later is converted into the former automatically if supported.
+
+        似乎沒有現成的 `ParamType` 可用 ??
+
+      - `required`
+
+        controls if this is optional or not.
+
+        如果不是 required 又沒有 default，會拿到 `None` ??
+
+      - `default`
+
+        the default value if omitted. This can also be a CALLABLE, in which case it’s invoked when the default is needed WITHOUT ANY ARGUMENTS.
+
+      - `callback`
+
+        a callback that should be executed AFTER the parameter was MATCHED. This is called as `fn(ctx, param, value)` and needs to return the value. Before Click 2.0, the signature was `(ctx, value)`.
+
+        看似有機會把傳進來的 `value` 加工過，不過 `value` 是經過 `type` 轉換的 ??
+
+      - `nargs`
+
+        the number of arguments to match. If not `1` the return value is a TUPLE instead of single value. The default for `nargs` is 1 (except if the type is a tuple, then it’s the arity of the tuple).
+
+      - `metavar`
+
+        how the value is REPRESENTED IN THE HELP PAGE.
+
+      - `expose_value`
+
+        if this is `True` then the value is passed onwards to the COMMAND CALLBACK and stored on the context, otherwise it’s skipped. ??
+
+      - `is_eager`
+
+        eager values are PROCESSED BEFORE NON EAGER ONES. This should not be set for arguments or it will inverse the order of processing.
+
+        感覺跨多個 paramter 的驗證可以利用這個 ??
+
+      - `envvar`
+
+        a string or LIST OF STRINGS that are environment variables that should be checked.
+
+        對應多個環境變數是什麼概念?
+
+  - [Class `click.Option` - API — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/api/#click.Option) #ril
+
+        class click.Option(param_decls=None, show_default=False, prompt=False, confirmation_prompt=False, hide_input=False, is_flag=None, flag_value=None, multiple=False, count=False, allow_from_autoenv=True, type=None, help=None, hidden=False, show_choices=True, show_envvar=False, **attrs)
+
+      - Options are USUALLY OPTIONAL values on the command line and have some extra features that arguments don’t have.
+
+        All other parameters are passed onwards to the parameter constructor.
+
+    Parameters
+
+      - `show_default`
+
+        controls if the default value should be shown on the help page. Normally, defaults are not shown. If this value is a string, it shows the string INSTEAD OF THE VALUE. This is particularly useful for dynamic options. ??
+
+      - `show_envvar`
+
+        controls if an environment variable should be shown on the help page. Normally, environment variables are not shown.
+
+      - `prompt`
+
+        if set to `True` or a non empty string then the user will be prompted for input. If set to `True` the prompt will be the option name capitalized.
+
+      - `confirmation_prompt`
+
+        if set then the value will need to be confirmed if it was prompted for.
+
+      - `hide_input`
+
+        if this is `True` then the input on the prompt will be hidden from the user. This is useful for password input.
+
+      - `is_flag`
+
+        forces this option to act as a flag. The default is auto detection.
+
+        所以 option 不一定是 flag ?? flag 是 boolean ??
+
+      - `flag_value`
+
+        which value should be used for this flag if it’s enabled. This is set to a boolean automatically if the option string contains a slash to mark two options. ??
+
+      - `multiple`
+
+        if this is set to `True` then the argument is accepted multiple times and recorded. This is similar to `nargs` in how it works but supports arbitrary number of arguments. 這有什麼差別 ??
+
+      - `count`
+
+        this flag makes an option INCREMENT AN INTEGER.
+
+        用多次，數字就會疊加 ??
+
+      - `allow_from_autoenv`
+
+        if this is enabled then the value of this parameter will be pulled from an environment variable in case a PREFIX is defined on the context. ??
+
+      - `help`
+
+        the help string.
+
+      - `hidden`
+
+        hide this option from help outputs.
+
 ## Validation ??
 
   - [click/examples/validation at master · pallets/click](https://github.com/pallets/click/tree/master/examples/validation) #ril
@@ -419,6 +549,7 @@
         untitaker (member): How about adding such a decorator to click or a `click-contrib` package? 團隊內部有不同的看法 ...
 
       - Stiivi: I'm giving my vote for this feature, as it makes the CLI EXPERIENCE LESS COMPLEX. Even though technically `cmd -a subcmd -b subsubcmd -c` is correct, `cmd subcmd subsubcmd -a -b -c` is analogous to have `cmd_subcmd_subsubcmd -a -b -c`.
+
       - mikenerone: I think this can be done even more trivially than the given example. Here's a snippet from a helper command I have for running unit tests and/or coverage. Note that several of the options are SHARED between the `test` and `cover` subcommands:
 
             _global_test_options = [
@@ -619,3 +750,4 @@
   - [API Documentation](https://click.palletsprojects.com/en/7.x/api/)
   - [`click.Parameter`](https://click.palletsprojects.com/en/7.x/api/#click.Parameter)
   - [`click.Option`](https://click.palletsprojects.com/en/7.x/api/#click.Option)
+  - [`click.Argument`](https://click.palletsprojects.com/en/7.x/api/#click.Argument)
