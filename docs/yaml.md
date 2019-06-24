@@ -211,6 +211,14 @@ greeting: Hello, YAML!
   - [The Official YAML Web Site](https://yaml.org/) 到處都看得到 data serialization 的說法，感覺可以定義 YAML 與 object 的對應規則?
   - [PyYAML · PyPI](https://pypi.org/project/PyYAML/) 提到 pickle support 與 represent an arbitrary Python object。
 
+## Merge Multiple Files ??
+
+  - [Scout24/yamlreader: Read all YAML files in a directory and merge them](https://github.com/Scout24/yamlreader) #ril
+
+  - [Using an Alternate Config - Configuration \| Hexo](https://hexo.io/docs/configuration#Using-an-Alternate-Config)
+
+    Using multiple files combines all the config files and saves the merged settings to `_multiconfig.yml`. The later values take precedence. It works with any number of JSON and YAML files with arbitrarily deep objects.
+
 ## Python ??
 
   - 從 [YAML.org](http://yaml.org/) 與 [Python Wiki](https://wiki.python.org/moin/YAML) 的建議看來，[PyYAML](pyyaml.md) 是最推薦的套件。

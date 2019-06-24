@@ -14,6 +14,14 @@
   - [Is GitBook still alive? · Issue \#1808 · GitbookIO/gitbook](https://github.com/GitbookIO/gitbook/issues/1808) #ril
   - [Migrating from the legacy version \- GitBook](https://docs.gitbook.com/getting-started/migrating-from-the-previous-version) #ril
 
+## 替代方案 {: #alternatives }
+
+  - [GitBook Alternatives and Similar Software \- AlternativeTo\.net](https://alternativeto.net/software/gitbook/)
+
+      - 依序是 Sphinx、Pandoc、Read The Docs、Daux.io ... MkDocs 等；直接表明跟 GitBook 一樣的只有 mdBook。
+      - 其中 Pandoc 倒是滿常出現在製作 ePub 電子書。
+      - Daux.io 對 code block 有 below/inline 兩種模式可切換，是其他工具沒看過的設計。
+
 ## 參考資料 {: #reference }
 
   - [GitBook](https://www.gitbook.com/) ([Legacy](https://legacy.gitbook.com/))

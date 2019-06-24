@@ -1,7 +1,9 @@
 # Python
 
-## Underscore ??
+## Convention, Style, Pythonic {: #style }
 
+  - [PEP 20 \-\- The Zen of Python \| Python\.org](https://www.python.org/dev/peps/pep-0020/) #ril
+  - [PEP 8 \-\- Style Guide for Python Code \| Python\.org](https://www.python.org/dev/peps/pep-0008/) #ril
   - [The Meaning of Underscores in Python – dbader\.org](https://dbader.org/blog/meaning-of-underscores-in-python) #ril
 
 ## 參考資料 {: #reference }
