@@ -117,11 +117,36 @@ Hello, Jeremy!
 
 ## Exporting Variables ??
 
+當 `Makefile` 會動態 export 一些 environment variables 給 subprocess 時，想遶過 `Makefile` 直接在 shell 裡操作會不太方便。這個問題可以在 `Makefile` 裡安排個 `env` target，印出一堆 `export VARIABLE=VALUE`，這樣透過 `eval $(make env)` 就可以把 shell 營造成 `Makefile` 呼叫 subprocess 時的樣子。例如：
+
+```
+$ cat Makefile
+...
+env:
+	@echo export DEBUG=$(DEBUG)
+	@echo export COMPOSE_PROJECT_NAME=$(COMPOSE_PROJECT_NAME)
+...
+
+$ eval $(make env)
+$ docker-compose ...
+```
+
+這種做法類似於 [`docker-machine env`](https://docs.docker.com/machine/reference/env/)，例如：
+
+```
+$ eval $(docker-machien evn managed-host)
+$ docker ... # 接下來 docker 指令會作用在 managed-host 上
+```
+
+---
+
+參考資料：
+
   - [5.7.2 Communicating Variables to a Sub-make - GNU make](https://www.gnu.org/software/make/manual/make.html#Communicating-Variables-to-a-Sub_002dmake)
 
       - Variable values of the top-level `make` can be passed to the sub-`make` through the environment by EXPLICIT REQUEST. These variables are defined in the sub-`make` as defaults, but they do not override variables defined in the makefile used by the sub-`make` unless you use the ‘`-e`’ switch (see Summary of Options).
 
-        所謂 explicit request 指的是使用 `export` directive。
+        所謂 explicit request 指的是使用 `export` directive；雖然標題是 "to a sub-make"，但廣義地來說是 "to a sub-process"，也就是每一行 recipe。
 
       - To PASS DOWN, or EXPORT, a variable, `make` ADDS THE VARIABLE AND ITS VALUE TO THE ENVIRONMENT for running each line of the recipe. The sub-`make`, in turn, uses the environment to initialize its table of variable values. See Variables from the Environment.
 
@@ -132,13 +157,22 @@ Hello, Jeremy!
         來自 invoking environemnt 的 environment variables 本來就會往下傳。
 
       - The value of the `make` variable `SHELL` is not exported. Instead, the value of the `SHELL` variable from the INVOKING ENVIRONMENT is passed to the sub-`make`. You can force `make` to export its value for `SHELL` by using the `export` directive, described below. See Choosing the Shell.
-      - The special variable `MAKEFLAGS` is always exported (unless you unexport it). `MAKEFILES` is exported if you set it to anything.
-      - `make` automatically passes down variable values that were defined on the command line, by putting them in the `MAKEFLAGS` variable. See Options/Recursion.
+
+        注意 "`make` variable" 的說法，透過 `export make` 才會進到 environment。
+
+      - The special variable `MAKEFLAGS` is always exported (unless you UNEXPORT it). `MAKEFILES` is exported if you set it to anything.
+
+        可以由 top-level `make` 一開始就決定了。
+
+        `make` automatically passes down variable values that were defined on the command line, by putting them in the `MAKEFLAGS` variable. See Options/Recursion.
+
       - Variables are not normally passed down if they were created by default by `make` (see Variables Used by Implicit Rules). The sub-`make` will define these for itself.
 
       - If you want to export SPECIFIC variables to a sub-`make`, use the `export` directive, like this:
 
             export variable …
+
+        會有 specific 的說法，是因為 `export` 不指定 variable 時會將所有 variable 都 export。
 
       - If you want to prevent a variable from being exported, use the `unexport` directive, like this:
 
@@ -155,7 +189,9 @@ Hello, Jeremy!
             variable = value
             export variable
 
-      - You may notice that the `export` and `unexport` directives work in `make` in the same way they work in the shell, `sh`.
+        You may notice that the `export` and `unexport` directives work in `make` in the same way they work in the shell, `sh`.
+
+        不過在 shell 裡 `=` 兩側不可以有空白。
 
       - If you want all variables to be exported by default, you can use `export` by itself:
 
@@ -169,13 +205,17 @@ Hello, Jeremy!
 
         Likewise, you can use `unexport` by itself to tell make not to export variables by default. Since this is THE DEFAULT BEHAVIOR, you would only need to do this if `export` had been used by itself earlier (in an included makefile, perhaps). You cannot use `export` and `unexport` by themselves to have variables exported for some recipes and not for others. The last `export` or `unexport` directive that appears by itself determines the behavior for the ENTIRE RUN of `make`.
 
-        看來要 export 哪些 varible 並不是在 `export` 當下決定的，`export`/`unexport` 只是調整模式，在呼叫 subprocess 的當下，才會決定哪些 variable 要以 environment variables 的型式傳進去。
+        看來要 export 哪些 varible 並不是在 `export` 該行決定的，`export`/`unexport` 只是調整模式，在呼叫 subprocess 的當下，才會決定哪些 variable 要以 environment variables 的型式傳進去。
 
       - As a special feature, the variable `MAKELEVEL` is changed when it is passed down from level to level. This variable’s value is a string which is the depth of the level as a decimal number. The value is ‘`0`’ for the top-level `make`; ‘`1`’ for a sub-`make`, ‘`2`’ for a sub-sub-`make`, and so on. The incrementation happens when `make` sets up the environment for a recipe.
 
         The main use of `MAKELEVEL` is to test it in a conditional directive (see Conditional Parts of Makefiles); this way you can write a makefile that behaves one way if RUN RECURSIVELY and another way if run directly by you.
 
-      - You can use the variable `MAKEFILES` to cause all sub-`make` commands to USE ADDITIONAL MAKEFILES ??. The value of `MAKEFILES` is a whitespace-separated list of file names. This variable, if defined in the outer-level makefile, is passed down through the environment; then it serves as a list of extra makefiles for the sub-`make` to read before the usual or specified ones. See The Variable `MAKEFILES`.
+        實務上有什麼應用 ??
+
+      - You can use the variable `MAKEFILES` to cause all sub-`make` commands to USE ADDITIONAL MAKEFILES. The value of `MAKEFILES` is a whitespace-separated list of file names. This variable, if defined in the outer-level makefile, is passed down through the environment; then it serves as a list of extra makefiles for the sub-`make` to read before the usual or specified ones. See The Variable `MAKEFILES`.
+
+        在 `Makefile` 外要再 include 哪些檔案 ??
 
 ## Target-specific Variable ??
 

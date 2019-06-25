@@ -1123,7 +1123,7 @@ web:
               # Named volume
               - datavolume:/var/lib/mysql
 
-        可以解讀 `~` 也滿酷了。
+        可以解讀 `~` 也滿酷了。注意 relative path 一定要以 `.` 或 `..` 開頭。
 
 ## Health Check ??
 

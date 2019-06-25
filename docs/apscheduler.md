@@ -273,6 +273,53 @@
 ## Trigger, Job Store, Executor, Scheduler ??
 
   - [Basic concepts - User guide — APScheduler 3\.5\.0\.post9 documentation](https://apscheduler.readthedocs.io/en/latest/userguide.html#basic-concepts) Cron、interval ... #ril
+  - [The Architecture of APScheduler \| Enqueue Zero](https://enqueuezero.com/concrete-architecture/apscheduler.html) #ril
+
+## Error Handling
+
+  - [Event codes](https://apscheduler.readthedocs.io/en/latest/modules/events.html#event-codes)
+
+    `EVENT_JOB_ERROR` -- A job raised an exception during execution
+
+  - [Event Listeners - The Architecture of APScheduler \| Enqueue Zero](https://enqueuezero.com/concrete-architecture/apscheduler.html#event-listeners)
+
+      - Except for the job management API, APScheduler also provides a lightweight event system for a certain number of events.
+
+        APScheduler fires events on certain occasions so that user code can listen to them.
+
+      - Below is an example of how apscheduler report job errors via prometheus:
+
+            def report_error(event):
+                if event.exception:
+                    PROM_ERROR_METRICS.inc()
+
+            scheduler.add_listener(report_error, EVENT_JOB_ERROR)
+
+        用 Prometheus 報錯? 從 `event.exception` 的用法看來，`event` 應該是 `apscheduler.events.JobExecutionEvent`。
+
+  - [Scheduler events - User guide — APScheduler 3\.6\.0\.post4 documentation](https://apscheduler.readthedocs.io/en/latest/userguide.html#scheduler-events)
+
+      - It is possible to attach event listeners to the scheduler. Scheduler events are fired on certain occasions, and may carry additional information in them concerning the details of that particular event. It is possible to listen to only particular types of events by giving the appropriate `mask` argument to `add_listener()`, OR’ing the different constants together. The listener callable is called with one argument, the event object.
+
+            Example:
+
+            def my_listener(event):
+                if event.exception:
+                    print('The job crashed :(')
+                else:
+                    print('The job worked :)')
+
+            scheduler.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
+
+      - See the documentation for the events module for specifics on the available events and their attributes.
+
+  - [apscheduler/base\_py3\.py at v3\.6\.0 · agronholm/apscheduler](https://github.com/agronholm/apscheduler/blob/v3.6.0/apscheduler/executors/base_py3.py#L35)
+
+        events.append(JobExecutionEvent(EVENT_JOB_ERROR, job.id, jobstore_alias, run_time,
+                                        exception=exc, traceback=formatted_tb))
+        logger.exception('Job "%s" raised an exception', job)
+
+    發現 job 發生錯誤時，APScheduler 本身就會做 exception log，所以主程式在 root logger 就可以攔截到這個 log record 統一做處理。
 
 ## 安裝設定 {: #installation }
 

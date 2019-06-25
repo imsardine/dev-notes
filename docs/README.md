@@ -264,6 +264,7 @@
   - [Responsive Web Design (RWD)](rwd.md)
   - [REST](rest.md)
   - [reStructuredText](rst.md)
+  - [Rollbar](rollbar.md)
   - [rsync](rsync.md)
 
 ## S
@@ -277,6 +278,7 @@
   - [Scrapy](scrapy.md)
   - [Semantic UI](semantic-ui.md)
   - [Semantic Versioning](semver.md)
+  - [Sentry](sentry.md)
   - [Service Virtualization](service-virtualization.md)
   - [Slack](slack.md)
   - [Snapcraft](snapcraft.md)

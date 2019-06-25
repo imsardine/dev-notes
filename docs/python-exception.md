@@ -348,6 +348,11 @@ except Exception:
       - 所有的 exception 都直接或間接繼承自 `BaseException`，不過 user-defined exception 應該要繼承自 `Exception`，而非 `BaseException`。從 `Exception` class 的說明看來，`BaseException` 是保留給 system-exiting exceptions 使用的。
       - 從 Exception hierarchy 看來，做 `except Exception:` 也不過漏了 `SystemExit`、`KeyboardInterrupt` 跟 `GeneratorExit` 而已，跟 bare except (`except:`) 的差別不大。
 
+## Uncaught Exception Handler ??
+
+  - [Logging uncaught exceptions in Python \- Stack Overflow](https://stackoverflow.com/questions/6234405/) #ril
+  - [`sys.excepthook(type, value, traceback)` - sys — System\-specific parameters and functions — Python 3\.7\.4rc1 documentation](https://docs.python.org/3/library/sys.html#sys.excepthook) #ril
+
 ## 參考資料 {: #reference }
 
 手冊：

@@ -248,6 +248,16 @@ Your code has been rated at -20.00/10 (previous run: -20.00/10, +0.00)
   - [Add suggestion for \`len\-as\-condition\` message\. · Issue \#1405 · PyCQA/pylint](https://github.com/PyCQA/pylint/issues/1405) #ril
   - [为什么在Pylint认为不正确的条件值中使用len（SEQUENCE）？ \- 问答 \- 云\+社区 \- 腾讯云](https://cloud.tencent.com/developer/ask/110361) #ril
 
+## broad-except (W0702)
+
+  - [Pylint features — Pylint 2\.4\.0\-dev0 documentation](https://pylint.readthedocs.io/en/latest/technical_reference/features.html#exceptions-checker-messages)
+
+    broad-except (W0703):
+
+      - Catching too general exception %s Used when an except catches a too general exception, possibly BURYING unrelated errors.
+
+        上面 "burying unrelated errors" 暗示著，只要在 handler 裡有 reraise 的話，就不會有警告。
+
 ## 安裝設定 {: #installation }
 
 ### Pylint 1.x, 2.x ??

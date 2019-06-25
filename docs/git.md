@@ -81,6 +81,18 @@
 
             $ git show HEAD@{5}
 
+        發現 `git reflog` 在本地做 code review 時很方便，因為 `git pull --rebase` 造成的 HEAD 改變，都會初記錄下來，例如：
+
+            $ git reflog
+            c5c0828 (HEAD -> init, origin/init) HEAD@{0}: rebase finished: returning to refs/heads/init
+            c5c0828 (HEAD -> init, origin/init) HEAD@{1}: pull --rebase: checkout c5c082895d626c0f61c197f99b3eacff42c228ae
+            5f9837a HEAD@{2}: rebase finished: returning to refs/heads/init
+            5f9837a HEAD@{3}: pull --rebase: checkout 5f9837ae0acdc29eb0a36c48dc540af4969e8342
+
+            $ git diff HEAD@{2}..
+
+        可以看出使用者從我們上次 pull (上次最新的 code) 到這次又改了什麼。
+
       - You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
 
             $ git show master@{yesterday}
@@ -105,6 +117,8 @@
             Date:   Thu Dec 11 15:08:43 2008 -0800
 
                 Merge commit 'phedders/rdocs'
+
+        雖然揭露了時間，但如果有用 `git commit --amend` 修改現有的 commit，該 commit 的時間點並不會變。
 
       - It’s important to note that reflog information is STRICTLY LOCAL — it’s a log only of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; also, right after you INITIALLY CLONE a repository, you’ll have an EMPTY reflog, as no ACTIVITY has occurred yet in your repository.
 
