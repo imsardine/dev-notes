@@ -101,6 +101,8 @@ title: Jinja / Template
                     yay
             </div>
 
+        就如同那些 block tags 不曾存在過一樣。
+
       - You can manually disable the `lstrip_blocks` behavior by putting a plus sign (`+`) at the start of a block:
 
             <div>
@@ -115,7 +117,7 @@ title: Jinja / Template
 
         This will yield all elements without whitespace between them. If `seq` was a list of numbers from 1 to 9, the output would be `123456789`.
 
-        沒想到 variable expression (`{{ ... }}`) 的用法跟 whitespace 的去留也有關 ?? 實驗發現，這裡 by hand 的做法效果不等同於上面的 `trim_blocks` + `lstrip_blocks`，因為 `{%-` 或 `-%}` 會將鄰近其他行的 whitespace 也刪掉!!
+        沒想到 variable expression (`{{ ... }}`) 的用法跟 whitespace 的去留也有關 ?? 實驗發現，這裡 by hand 的做法效果不等同於上面的 `trim_blocks` + `lstrip_blocks`，因為 `{%-` 或 `-%}` 會將鄰近其他行的 whitespace 也刪掉，有時候很難達到 "you can put block tags on their own lines" 的效果。
 
       - If Line Statements are enabled, they strip leading whitespace automatically up to the beginning of the line. ??
 

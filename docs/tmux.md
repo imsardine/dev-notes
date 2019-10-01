@@ -138,6 +138,116 @@ unbind %; bind % split-window -h -c "#{pane_current_path}"
   - 先知道如何開新視窗、分割視窗、調整大小，並在其間切換，再來談組態。
   - Man page 要怎麼看，尤其 command、alias、taret-session/client/window
 
+## Shared Sessions
+
+  - [Remote Pair Programming Made Easy with SSH and tmux](https://www.hamvocke.com/blog/remote-pair-programming-with-tmux/) (2015-11-03)
+
+      - A simple combination of SSH and tmux is all we need to setup a really effective and lightweight REMOTE PAIR PROGRAMMING environment. We can use all of our beloved command line tools with FINELY TUNED DOTFILES and pat ourselves on the backs for working on our hacker credibility.
+
+        重點是各自的 tmux 套用各自喜好的設定，不用互相牽就。
+
+    What are we going to do?
+
+      - Let’s imagine we have two developers, Alice and Bob. They want to collaborate on a task and since they both are comfortable using the command line they decide to set up a shared terminal environment to work together.
+
+        Alice and Bob connect to the same machine using SSH. They decide to use a DEDICATED PAIRING SERVER that both of them ssh into. Setting up a server with SSH access on DigitalOcean or AWS is a no-brainer nowadays. They simply add their public keys to the `~/.ssh/authorized_keys` file and then can connect securely without needing a password.
+
+        Alternatively they cold also designate Alice’s or Bob’s machine as the pairing host. In this case the respective other person has to ssh into the other dev’s machine and they’re set.
+
+        連到個人的機器可能有隱私的疑慮，連到專用的機器比較可行。
+
+      - Once they are connected to the same machine, they can use tmux for a shared environment. tmux’s client-server architecture allows multiple clients to connect to the same sessions on a server (we’ve got all that session handling stuff covered in the intro guide). That’s perfect for our plans. We can have one session that holds all the windows and panes and can connect one client for each developer.
+
+        ![synchronized session sharing with tmux](https://www.hamvocke.com/assets/img/uploads/ssh_tmux_simple.png)
+
+    Sharing a tmux session
+
+      - The simplest setup is using the exact SAME SESSION with multiple tmux client instances. The following steps will get us there:
+
+          - Alice and Bob ssh into the same server
+          - Alice creates a new tmux sesssion: `tmux new -s shared`
+          - Bob connects to that session: `tmux attach -t shared`
+
+        Please note that “shared” will be the name of the session, feel free to give it any name you like.
+
+      - From here Alice and Bob can happily hack away on their terminal and make use of all the fancy features offered by tmux. They can create panes and windows, launch different command line applications and pair happily on their tasks. They can even detach from that session and return at any later point. Both will see the exact same output in their respective terminal window.
+
+        But somehow Alice and Bob feel that this is not quite perfect. There are situations where they want to WORK ON DIFFERENT STUFF WHILE STILL BEING IN THAT SESSION. But as soon as Alice switches to a different window to work on her tasks, Bob’s terminal will also switch along.
+
+        雖然跟傳統看著同一個螢幕的做法不同，但分頭進行改同一個 commit 也不錯，避開了要互相 merge code 或解 conflict 的麻煩。
+
+    Independent window switching
+
+      - Instead of sharing the exact same session between multiple tmux clients, we can also create MULTIPLE SESSION WITHIN THE SAME WINDOW GROUP. The result is similar to what we’ve seen above with one difference: Each developer can switch tmux windows independently.
+
+        All contents of the windows will be synchronized between all clients. But each client can decide individually which window’s content should be shown at the moment. This allows Alice and Bob to work independently on different tasks IF THEY FEEL THE NEED TO DO SO. Whenever they want to go back to NORMAL PAIRING they can switch back to the same tmux window and will see the same content again.
+
+        在裡面執行指令時，身份當然是分享 session 的那位。
+
+      - The steps for this setup are a little different:
+
+          - Again, Alice and Bob ssh into the same server
+
+          - Alice, as before, creates a new tmux session: `tmux new -s alice`. tmux will IMPLICITLY create a new WINDOW GROUP
+
+          - Bob does not join that same session. Instead he starts a new session and connects that session to the same window group as Alice’s session: `tmux new -s bob -t alice`
+
+            根據 [man page](http://man7.org/linux/man-pages/man1/tmux.1.html) 的用法 `new-session [-s session-name] [-t group-name]`
+
+            > If `-t` is given, it specifies a SESSION GROUP. Sessions in the same group SHARE THE SAME SET OF WINDOWS - new windows are linked to all sessions in the group and any windows closed removed from all sessions. ... The `group-name` argument may be: ... 2. the name of an existing session - the new session is added to the same group as that session, creating a new group if necessary;
+            >
+            > 正確的說法是 session group，而非 window group；在 man page 裡完全找不到 window group 的說法。
+
+        That’s it. Now both can move between tmux windows independently. The content (including panes) within those windows will be synchronized between all clients.
+
+      - If you want to get a feeling for what’s happening behind the scenes you can simply look up what sessions and window groups have been created after Alice has created her session. A simple `tmux ls` will reveal what’s happening:
+
+            bob: 2 windows (created Mon Nov  2 22:51:24 2015) [80x23] (group 0) (attached)
+            alice: 2 windows (created Mon Nov  2 22:50:36 2015) [80x23] (group 0) (attached)
+
+        As you can see, there are two sessions with their respective name. Both sessions are IN THE SAME GROUP (group 0) and therefore SHARE THE SAME WINDOWS.
+
+        是因為 Bob 透過 `-t alice` 將自己的 session 跟 Alice 的 session 在同一個 group，所以 `tmux ls` 才看得到其他人的 session 嗎? 不過上面 Sharing a tmux session 的做法就已經能看到對方的 session ?? 感覺在開發機上面工作會被看光光 ??
+
+    Benefits and drawbacks
+
+      - To me this is a really nice and lightweight solution if you want to collaborate remotely. You can use it for pair programming, to TROUBLESHOOT ISSUES on your servers together and much more. However, you need to be aware that this is a solution with a lot of restrictions. You’re completely bound to the command line and its tools, there’s no way around it. You also need to have a SEPARATE CHANNEL TO TALK TO EACH OTHER
+
+        這份文件寫於 2015-11-03，現在要搭配其他工具交談並不是什麼問題。
+
+      - One last honorable mention goes out to [tmate.io](https://tmate.io/). Tmate is a service that creates the setup I’ve just described to you in an ad-hoc fashion. If you want to avoid the (quite small) hassle of setting up your own ssh server, tmate might be interesting for you. #ril
+
+        下面有人提到為什麼不用 [wemux](https://github.com/zolrath/wemux) #ril
+
+  - [TMUX — Sharing terminal between Users \- MicroPyramid \- Medium](https://medium.com/@MicroPyramid/tmux-sharing-terminal-between-users-84f2e311c64f) (2017-04-07)
+
+    Connecting to existing session:
+
+        tmux attach -t <session-number>
+        tmux attach -t <session-name>
+
+      - The above will only be possible if you’re logged in as THE SAME USER AS ONE SHARING THE SESSION.
+
+    Using Sockets for different users to connect:
+
+      - To Start a new session
+
+            tmux -S /tmp/socket
+
+      - Change its permission for other users to access
+
+            chmod 777 /tmp/socket
+
+        for other users to attach to the session
+
+            tmux -S /tmp/socket attach
+
+        注意 `-S socketpath` 是 `tmux` 的參數，而非 `new-session`、`attach` 這類 tmux command 的參數。
+
+  - [ssh \+ tmux = Pair Programming for Command Line Junkies](https://ryanlue.com/posts/2018-01-13-pair-programming-over-ssh) (2018-01-13) 在講 wemux，要連到其中一方的電腦，設置似乎有點麻煩，還是到共用 server 單純 #ril
+
+  - [BinarApps \- Pair programming with Docker, SSH and TMUX](https://binarapps.com/blog/pair-programming-with-docker-ssh-and-tmux/) (2017-11-07) 跟 Docker 什麼關係? #ril
+
 ## 疑難排解 {: #troubleshooting }
 
 ### The window server could not be contacted
@@ -156,3 +266,11 @@ The window server could not be contacted.  open must be run with a user logged i
 工具：
 
   - [zolrath/wemux: Multi\-User Tmux Made Easy](https://github.com/zolrath/wemux)
+
+書籍：
+
+  - [tmux 2: Productive Mouse-Free Development - The Pragmatic](https://pragprog.com/book/bhtmux2/tmux-2) (2016-11)
+
+手冊：
+
+  - [`tmux(1)` - Linux manual page](http://man7.org/linux/man-pages/man1/tmux.1.html)

@@ -367,6 +367,56 @@ title: C / Build Process
       - cHao: object file 是 compilation phase 的產出，除了 machine code 
   - [linker \- How does C\+\+ linking work in practice? \- Stack Overflow](https://stackoverflow.com/questions/12122446/) #ril
 
+## make, cc, gcc
+
+`cc` 是 Unix 下 C compiler 的名稱，而 `gcc` 則是 GCC (GNU Compiler Collection) 下 C compiler 的名稱。通常 Linux distro 的 `cc` 都會指向 `gcc`。例如：
+
+```
+$ cc -o hello hello.c
+```
+
+至於為什麼 `make hello` 也可以編譯 `hello.c`，是因為 make 的 implicit rule 在作用，預設會採用 `cc`：
+
+```
+$ make hello
+cc     hello.c   -o hello
+```
+
+參考資料：
+
+  - [How to compile and run C/C\+\+ in a Unix console/Mac terminal? \- Stack Overflow](https://stackoverflow.com/questions/221185/) camh: 執行 `make foo` 即可，source code 可以是 `foo.c` 或 `foo.cpp` 等。甚至不需要 makefile，因為 make 內建把 source file 編譯成 executable (同名，但沒有副檔名) 的 rule?
+  - [macos \- How to compile a C program with make on Mac OS X Terminal \- Stack Overflow](https://stackoverflow.com/questions/26409648/) kly 引用了 You don't need a Makefile 的說法。
+  - [cc/gcc and why is there a difference?](https://ubuntuforums.org/showthread.php?t=1161860) 筆記寫 `gcc`，但參考書卻用 `cc`?
+      - Nemooo: 大部份 Linux distro 的 `cc` 都是 `gcc`，比較一下 `cc --version` 跟 `gcc --version` 就知道 (版號相同)
+      - k2t0f12d: `cc` 是 Unix 的 C compiler，而 `gcc` 是 GNU OS 的 C compiler，通常 GNU+Linux 將 `cc` 指向 `gcc`；傳統上，採用 `cc` 時表示會遵守某種標準及 CLI。
+      - chuuk: 發現 `main() { printf("Hello World"); }` 可以用 `cc` 編，但 `gcc` 會失敗? 不過自己在 Ubuntu 及 macOS 上試過，都可以成功 compile 但會有 warning。之後 k2t0f12d 說明了這種現象 -- 就像 Bashi (Bourne Again SHell) 一樣，雖然 `sh` 指向 `bash`，但以 `sh` 執行時，會儘可能模擬 Bourne Shell 的行為，因此以 `cc` 執行 `gcc` 時也會模擬 `cc` 的行為，不過 chuuk 遇到的錯誤 k2t0f12d 也試不出來。
+  - 在 Ubuntu 16.04.2 LTS 執行 `readlink -f `which cc`` 會得到 `/usr/bin/gcc-5`，證實了 `cc` 指向 `gcc` 的說法。
+  - [c\+\+ \- Difference between CC, gcc and g\+\+? \- Stack Overflow](https://stackoverflow.com/questions/1516609/) #ril
+  - [10 Using Implicit Rules - GNU make](https://www.gnu.org/software/make/manual/make.html#Using-Implicit-Rules)
+      - 每個 implicit rule 都有 target pattern 與 prerequisite pattern 的概念，由於多個 implicit rule 可能有相同的 target pattern (例如 C compiler 的 `.o` 可以由 `.c` 產生、Pascal 的 `.o` 可以由 `.p` 產生)，所以會看誰的 prerequisite pattern 有符合的檔案存在，以決定要用哪個 implicit rule。
+      - Make 內建 C compilation 的 implicit rule，當它發現有 `.c` 時，就會拿它來編譯並產生 executable。這些 implicit rule 的 recipe 會用到一些 variable，透過修改 variable 就能影響 implicit rule 的行為。
+      - 10.2 Catalogue of Built-In Rules > Compiling C programs 提到 n.o is made automatically from n.c with a recipe of the form ‘$(CC) $(CPPFLAGS) $(CFLAGS) -c’. 雖然實際的輸出 `cc     hello.c   -o hello` 沒有最後的 `-c`，但在 makefile 裡 `$(CC)` 的值確實是 `cc` 沒錯。
+
+            $ make --debug=v hello
+            GNU Make 3.81
+            Copyright (C) 2006  Free Software Foundation, Inc.
+            This is free software; see the source for copying conditions.
+            There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+            PARTICULAR PURPOSE.
+
+            This program built for i386-apple-darwin11.3.0
+            Reading makefiles...
+            Updating goal targets....
+            Considering target file `hello'.
+             File `hello' does not exist.
+              Considering target file `hello.c'.
+               Finished prerequisites of target file `hello.c'.
+              No need to remake target `hello.c'.
+             Finished prerequisites of target file `hello'.
+            Must remake target `hello'.
+            cc     hello.c   -o hello <== 為什麼知道要用 cc ??
+            Successfully remade target file `hello'.
+
 ## Make ??
 
   - [4.3 Types of Prerequisites - GNU make](https://www.gnu.org/software/make/manual/make.html#Types-of-Prerequisites) #ril

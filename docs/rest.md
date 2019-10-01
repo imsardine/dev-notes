@@ -144,6 +144,10 @@
 
 ## Versioning??
 
+  - 採 `/<version>/<endpoint>` 或 `/<endpoint>/<version>`，應該是前著，因為一個 version 下會怎麼拆分不同的 endpoints 會依 version 不同。
+
+參考資料：
+
   - [Versioning - Best Practices for Designing a Pragmatic RESTful API \| Vinay Sahni](https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#versioning)
       - Always version your API. Versioning helps you ITERATE FASTER and prevents invalid requests from hitting updated endpoints. 避免卡到自己。
       - An API is never going to be completely stable. Change is inevitable. What's important is how that change is MANAGED.

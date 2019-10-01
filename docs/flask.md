@@ -113,7 +113,7 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
 
   - [Context Locals — Werkzeug Documentation \(0\.14\)](http://werkzeug.pocoo.org/docs/0.14/local/) #ril
 
-## Request??
+## Request ??
 
   - [Quickstart — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/quickstart/#accessing-request-data)
       - For web applications it’s crucial to react to the data a client sends to the server. In Flask this information is provided by the GLOBAL `request` object. If you have some experience with Python you might be wondering how that object can be global and how Flask manages to still be THREADSAFE. The answer is CONTEXT LOCALS:
@@ -178,16 +178,187 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
       - When the request starts, a `RequestContext` is created and pushed, which creates and pushes an `AppContext` FIRST if a context for that application is not already the top context. While these contexts are pushed, the `current_app`, `g`, `request`, and `session` proxies are available to the ORIGINAL THREAD handling the request.
       - After the request is dispatched and a response is generated and sent, the request context is popped, which then pops the application context. Immediately before they are popped, the `teardown_request()` and `teardown_appcontext()` functions are are executed. These execute EVEN IF an unhandled exception occurred during dispatch. 這 2 個 callback 都在 `flask.Flask` 上。
 
-  - [class flask.request - API — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/api/#flask.request) 透過 `flask.request` (global) 可以拿到 active thread 的 request object (`flask.Request`)，事實上它是個 proxy (`werkzeug.local.LocalProxy`)。
 
-  - [class flask.Request - API — Flask Documentation (0\.12)](http://flask.pocoo.org/docs/0.12/api/#flask.Request) #ril
-      - `form` 可以拿到 POST/PUT 的資料 (`MultiDict`)，但不含上傳的檔案 -- 檔案另外放在 `files`。
-      - `args` 可以拿到 query string 的資料 (`MultiDict`)。
-      - `values` 則可以同時拿到 `form` 跟 `args` 的資料 (`CombinedMultiDict`)，也就是資料從哪裡來不重要時。
+  - [`flask.request` - API — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/api/#flask.request)
 
-  - 怎麼讀取 request data、URL query string?
-      - 透過 [`flask.request`](http://flask.pocoo.org/docs/api/#flask.request)，型態是 [`flask.Request`](http://flask.pocoo.org/docs/api/#flask.Request)
-      - Query string 可以透過 `flask.Request` 的 `args` 存取，例如 `flask.request.args['param']`。
+      - To access incoming request data, you can use the GLOBAL `request` object. Flask parses incoming request data for you and gives you access to it through that global object. Internally Flask makes sure that you always get the correct data for the ACTIVE THREAD if you are in a multithreaded environment.
+
+        This is a PROXY (`werkzeug.local.LocalProxy`). See Notes On Proxies for more information.
+
+      - The request object is an instance of a `Request` subclass and provides all of the attributes Werkzeug defines. This just shows a quick overview of the most important ones.
+
+  - [`class flask.Request` - API — Flask 1\.0\.2 documentation](http://flask.pocoo.org/docs/1.0/api/#flask.Request) #ril
+
+      - The request object used by default in Flask. Remembers the MATCHED ENDPOINT and VIEW ARGUMENTS ??.
+
+        It is what ends up as `flask.request`. If you want to replace the request object used you can subclass this and set `Flask.request_class` to your subclass.
+
+      - The request object is a `Request` subclass and provides all of the attributes Werkzeug defines PLUS A FEW Flask SPECIFIC ONES.
+
+        [`werkzeug.wrappers.Request`](https://werkzeug.palletsprojects.com/en/0.15.x/wrappers/#werkzeug.wrappers.Request) 繼承自 [`werkzeug.wrappers.BaseRequest`](https://werkzeug.palletsprojects.com/en/0.15.x/wrappers/#werkzeug.wrappers.BaseRequest)。
+
+    `environ`
+
+      - The underlying WSGI environment.
+
+    `path`, `full_path`, `script_root`, `url`, `base_url`, `url_root`
+
+      - Provides different ways to look at the current IRI. Imagine your application is listening on the following application root:
+
+            http://www.example.com/myapplication
+
+        And a user requests the following URI:
+
+            http://www.example.com/myapplication/%CF%80/page.html?x=y
+
+        In this case the values of the above mentioned attributes would be the following:
+
+            path=u'/π/page.html'
+            full_path=u'/π/page.html?x=y'
+            script_root=u'/myapplication'
+            base_url=u'http://www.example.com/myapplication/π/page.html'
+            url=u'http://www.example.com/myapplication/π/page.html?x=y'
+            url_root=u'http://www.example.com/myapplication/'
+
+    `args`
+
+      - The parsed URL parameters (the part in the URL after the question mark).
+
+        也就是 query string。
+
+      - By default an `ImmutableMultiDict` is returned from this function. This can be changed by setting `parameter_storage_class` to a different type. This might be necessary if the ORDER of the form data is important.
+
+    `content_encoding`
+
+      - The `Content-Encoding` entity-header field is used as a modifier to the media-type. When present, its value indicates what additional content codings have been applied to the entity-body, and thus what decoding mechanisms must be applied in order to obtain the media-type referenced by the `Content-Type` header field. ??
+
+    `content_length`
+
+      - The `Content-Length` entity-header field indicates the size of the entity-body in bytes or, in the case of the `HEAD` method, the size of the entity-body that would have been sent had the request been a GET. ??
+
+    `content_type`
+
+      - The `Content-Type` entity-header field indicates the media type of the entity-body sent to the recipient or, in the case of the HEAD method, the media type that would have been sent had the request been a GET.
+
+    `cookies`
+
+      - A `dict` with the contents of all cookies transmitted with the request.
+
+    `data`
+
+      - Contains the incoming request data as string in case it came with a mimetype Werkzeug DOES NOT HANDLE.
+
+        也就是說，如果 Werkzeug 認得 content type，`data` 就會是空的? 這聽起來很不直覺，得從實作細節看起；[`BeseRequest.data`](https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L410):
+
+            def data(self):
+                if self.disable_data_descriptor:
+                    raise AttributeError("data descriptor is disabled")
+                return self.get_data(parse_form_data=True)
+
+        對照下面 `get_data()` 的實作，就算 `cache` 預設為 `True`，但因為 `parse_form_data=True` 先讀取並解析了 input stream，所以 `rv = self.stream.read()` 就讀不到東西了。
+
+        也因此 `data` 通常都拿不到東西，若真的想拿原始的 data，得在解析 form data 之前先呼叫 `get_data()` 並把資料快取起來，之後解析 form data 時才有資料。簡單做個時驗，看 `request.form` 對 `request.get_data()` 及 `request.data` 會造成什麼影響：
+
+            @app.route('/', methods=['POST'])
+            def post():
+                logging.info('request.get_data() = %r', request.get_data())
+                logging.info('request.data = %r', request.data)
+                logging.info('request.form = %r', request.form)
+
+        用 `curl --data 'key=value' http://...` 會得到：
+
+            root - request.get_data() = 'key=val'
+            root - request.data = 'key=val'
+            root - request.form = ImmutableMultiDict([('key', u'val')])
+
+        把 `request.form` 放到最前面：
+
+            root - request.form = ImmutableMultiDict([('key', u'val')])
+            root - request.get_data() = ''
+            root - request.data = ''
+
+        把 `request.data` 放到最前面，結果最詭異： (看過實作細節才能理解)
+
+            root - request.data = ''
+            root - request.get_data() = ''
+            root - request.form = ImmutableMultiDict([('key', u'val')])
+
+      - The form parameters. By default an `ImmutableMultiDict` is returned from this function. This can be changed by setting `parameter_storage_class` to a different type. This might be necessary if the order of the form data is important.
+      - Please keep in mind that file uploads will not end up here, but instead in the `files` attribute.
+
+    `get_data(cache=True, as_text=False, parse_form_data=False)`
+
+      - This reads the BUFFERED INCOMING DATA from the client into one BYTESTRING. By default this is CACHED but that behavior can be changed by setting `cache` to `False`.
+
+        根據 [`BaseRequest.get_data()`](https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L458) 的實作，從 input stream 讀進來的值會快取在 `_cached_data` 裡，之後存取 `BaseRequest.form` 時會[觸發 `_load_form_data()](https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L479)，就會[間接從 `_get_stream_for_parsing()`](https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L318) 取得 `_cached_data`。
+
+            def get_data(self, cache=True, as_text=False, parse_form_data=False):
+                rv = getattr(self, "_cached_data", None)
+                if rv is None:
+                    if parse_form_data:
+                        self._load_form_data() # 除非有 _cached_data，否則會從 self.stream 讀資料
+                    rv = self.stream.read()    # 如果做了 _load_form_data()，stream 裡就沒資料可讀了
+                    if cache:
+                        self._cached_data = rv # 快取的資料也會是空的
+                if as_text:
+                    rv = rv.decode(self.charset, self.encoding_errors)
+                return rv
+
+            def _get_stream_for_parsing(self):
+                cached_data = getattr(self, "_cached_data", None)
+                if cached_data is not None:
+                    return BytesIO(cached_data)
+                return self.stream
+
+      - Usually it’s a bad idea to call this method without checking the content length first as a client could send dozens of megabytes or more to cause memory problems on the server.
+
+        聽起來是前端 web server 的責任 ??
+
+      - Note that if the FORM DATA WAS ALREADY PARSED this method will not return anything as form data parsing does not cache the data like this method does.
+
+        To implicitly invoke form data parsing function set `parse_form_data` to `True`. When this is done the return value of this method will be an EMPTY STRING if the form parser handles the data. This generally is not necessary as if the whole data is cached (which is the default) the form parser will used the cached data to parse the form data. Please be generally aware of checking the content length first in any case before calling this method to avoid exhausting server memory.
+
+      - If `as_text` is set to `True` the return value will be a decoded UNICODE string.
+
+    `get_json(force=False, silent=False, cache=True)`
+
+      - Parse and return the data as JSON. If the mimetype does not indicate JSON (`application/json`, see `is_json()`), this returns `None` unless `force` is true. If parsing fails, `on_json_loading_failed()` is called and its return value is used as the return value.
+
+      - Parameters:
+
+          - `force` – Ignore the mimetype and always try to parse JSON.
+          - `silent` – Silence parsing errors and return `None` instead.
+          - `cache` – Store the parsed JSON to return for subsequent calls.
+
+    `headers`
+
+      - The headers from the WSGI environ as immutable `EnvironHeaders`.
+
+    `json`
+
+      - This will contain the parsed JSON data if the mimetype indicates JSON (`application/json`, see `is_json()`), otherwise it will be `None`.
+
+        這很依賴 client 是否有帶正確的 content type，如果要無條件視為 JSON 則要改用 `get_json(force=True)`。
+
+    `mimetype`
+
+      - Like content_type, but without PARAMETERS (eg, without charset, type etc.) and always LOWERCASE. For example if the content type is `text/HTML; charset=utf-8` the mimetype would be `'text/html'`.
+
+    `mimetype_params`
+
+      - The mimetype parameters as dict. For example if the content type is `text/html; charset=utf-8` the params would be `{'charset': 'utf-8'}`.
+
+    `stream`
+
+      - If the incoming form data was not encoded with a known mimetype the data is stored unmodified in this stream for consumption. Most of the time it is a better idea to use `data` which will give you that data as a string. THE STREAM ONLY RETURNS THE DATA ONCE.
+
+      - Unlike `input_stream` this stream is properly guarded that you can’t accidentally read past the length of the input. Werkzeug will internally always refer to this stream to read data which makes it possible to wrap this object with a stream that does filtering. ??
+
+    `values`
+
+      - A `werkzeug.datastructures.CombinedMultiDict` that combines `args` and `form`.
+
+        用在資料從哪裡來不重要時。
 
 ## Response
 
@@ -217,10 +388,10 @@ $ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
   - http://flask.pocoo.org/docs/1.0/quickstart/                  #sessions
   - [實作 Flask Session Interface 將Session 資料存入資料庫 — 使用 FlaskSession套件](https://medium.com/pyladies-taiwan/95290b80b2ed) 使用 Flask-Session 後，cookie 裡只剩 session ID #ril
 
-## RESTful ??
+## RESTful
 
-  - 可能的方案有 Flask-RESTful、Flask-RESTPlus、Connexion、Flasgger 等。
-  - 提供 OAuth 驗證、產生 API 文件等，都是標準配備；目前好像只有 Connexion 內建支援 OAuth?
+  - 可能的方案有 [Flask-RESTful](flask-restful.md)、[Flask-RESTPlus](flask-restplus.md)、[Connexion](connexion.md)、[Flasgger](flasgger.md) 等。
+  - 提供 OAuth 驗證、產生 API 文件等，都是標準配備；目前好像只有 Connexion 內建支援 OAuth ??
 
 ## Application Context ??
 
@@ -594,6 +765,7 @@ if os.getenv('UWSGI_DEBUG'):
 
   - [Template](flask-template.md)
   - [Error Handling](flask-error.md)
+  - [Testing](flask-testing.md)
   - [Uploading/Downloading](flask-uploading.md)
   - [Architecture](flask-arch.md)
 
@@ -606,3 +778,4 @@ if os.getenv('UWSGI_DEBUG'):
       - [`flask.url_for()`](http://flask.pocoo.org/docs/api/#flask.url_for)
       - [`flask.jsonify()`](http://flask.pocoo.org/docs/api/#flask.json.jsonify)
 
+  - [class `werkzeug.wrappers.BaseRequest`](https://werkzeug.palletsprojects.com/en/0.15.x/wrappers/#werkzeug.wrappers.BaseRequest)

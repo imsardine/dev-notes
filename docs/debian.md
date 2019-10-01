@@ -198,6 +198,7 @@
 手冊：
 
   - [Debian Manpages](https://manpages.debian.org/)
+  - [Debian Releases](https://www.debian.org/releases/)
 
 相關：
 

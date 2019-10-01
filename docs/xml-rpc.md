@@ -25,6 +25,10 @@
 
         言下之意，JSON-RPC 會是更好的選擇?? 不過 Python 只內建對 XML-RPC 的支援。
 
+  - [XML\-RPC HOWTO](http://www.tldp.org/HOWTO/XML-RPC-HOWTO/index.html) #ril
+  - [XML\-RPC Introspection](http://xmlrpc-c.sourceforge.net/introspection.html) #ril
+  - [Unofficial XML\-RPC Errata](http://effbot.org/zone/xmlrpc-errata.htm) #ril
+
 ## Data Type ??
 
   - [Data types - XML\-RPC \- Wikipedia](https://en.wikipedia.org/wiki/XML-RPC#Data_types) #ril
@@ -50,3 +54,7 @@
   - XML-RPC 是 [SOAP](soap.md) 的前身
   - 類似於 [JSON-RPC](json-rpc.md)
   - 常被拿來跟 [RESTful](rest.md) 比較
+
+手冊：
+
+  - [XML-RPC Specification](http://xmlrpc.scripting.com/spec.html)

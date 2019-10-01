@@ -1330,7 +1330,7 @@ Linux 下的 Docker Compose 要手動安裝，到 [GitHub 上的 release page](h
 
   - [docker/compose \- Docker Hub](https://hub.docker.com/r/docker/compose/)
 
-    沒有針對 `docker/compose` 這個 image 做說明，但很特別的是沒有 `latest` tag。
+    沒有針對 `docker/compose` 這個 image 做說明，但很特別的是沒有 `latest` 或 `stable` tag。
 
   - [Run docker\-compose build in \.gitlab\-ci\.yml \- Stack Overflow](https://stackoverflow.com/questions/39868369/) #ril
 

@@ -4,13 +4,15 @@
 
       - Redis is an open source (BSD licensed), IN-MEMORY DATA STRUCTURE STORE, used as a DATABASE, CACHE and MESSAGE BROKER.
 
-        本質上是 key-value store，除了 cache 跟 messaging，雖然稱 in-memory database，因為可以長期儲存資料，是個名符其實的 NoSQL database，不一定要跟 cache 有關。
+        本質上是 key-value store，除了 cache 跟 messaging，也可以是 in-memory database，因為可以長期儲存資料，是個名符其實的 NoSQL database，不一定要跟 cache 有關。
+
+        這裡的 message broker，呼應了 [Celery](celery.md#broker) 將 RabbitMQ、Redis、SQS 定位成 message broker 的用法。
 
       - It supports data structures such as strings, hashes, lists, sets, sorted sets with RANGE QUERIES, bitmaps, hyperloglogs, geospatial indexes with RADIUS QUERIES and streams.
 
         不只資料型態豐富，查詢方式也很多元。
 
-      - Redis has built-in REPLICATION, LUA SCRIPTING, LRU eviction, TRANSACTIONS and different levels of ON-DISK PERSISTENCE, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.
+      - Redis has built-in REPLICATION, LUA SCRIPTING, LRU eviction ??, TRANSACTIONS and different levels of ON-DISK PERSISTENCE, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.
 
         做為 database，支援 persistence 與 transaction 自然不意外。
 
@@ -428,6 +430,48 @@
 
   - [Flask\-Limiter — Flask\-Limiter 1\.0\.1\+0\.gb390e64\.dirty documentation](https://flask-limiter.readthedocs.io/en/stable/) #ril
 
+## Primary Database ??
+
+  - [Redis Enterprise for Primary Database and More\! \| Redis Labs](https://redislabs.com/blog/results-redis-enterprise-primary-database-session-store-high-speed-transactions/) (2018-03-06)
+
+    Lastly, but most noteworthy, we were delighted to learn that a staggering 67% of respondents use Redis Enterprise as their PRIMARY DATABASE, NOT STORING DATA IN ANY OTHER SYSTEM. What this means to us (and to you) is that companies are graduating from using Redis Enterprise as a caching service to using it as a full-fledged database。
+
+  - [When should I use redis as my primary data store? \- Quora](https://www.quora.com/When-should-I-use-redis-as-my-primary-data-store) (2018-08-22) #ril
+
+      - Mani Gandham: Redis is a key/value database with some advanced data structures and functionality. It can work as the primary database for many situations with the following considerations:
+
+          - If you don’t need COMPLEX ACCESS BY SQL - Redis is a key/value store with some advanced operations but it does not provide the rich indexing, querying and analytics available in a relational database.
+
+          - If your dataset is SMALL OR FITS IN MEMORY - Redis has persistence but the entire database must also fit in RAM which has practical limits. You can use Redis cluster to scale this out though.
+
+          - If you don’t need lots of concurrent access or performance beyond 250k ops/sec - Redis is SINGLE-THREADED and will only use a single CPU core. It’s still very fast but if you have a heavy workload, you might run into performance issues. You can run more instances on the same server using different CPUs or use Redis cluster to run on multiple machines.
+
+        As always, there are ways around everything (like using Redis clustering or Lua scripting and the newly released modules feature) but you should try to pick the database that best FITS YOUR DATA MODEL AND ACCESS PATTERNS.
+
+        If that’s Redis, then you’re in luck because it’s a great database that’s easy to run, maintain and use.
+
+      - Scott McNulty: When you need VERY FAST ACCESS. When the questions you ask your database tend to be ABOUT THE SAME. For example, if a user logs in and you store their session key in redis you get a lot of hits on it over a period of time until they log out.
+
+        As a primary data store…
+
+          - [Redis as the primary data store? WTF?!](https://muut.com/blog/technology/redis-as-primary-datastore-wtf.html) #ril
+          - [RedisConf17- Redis as a Primary Data Store](https://www.slideshare.net/RedisLabs/redisconf17-redis-as-a-primary-data-store) #ril
+          - [Redis Persistence - Redis](https://redis.io/topics/persistence)
+
+        Hope that helps.
+
+        IMO, it shines best as a caching layer rather than a persistence layer db. But who ever told you you couldn’t have a HYBRID ARCHITECTURE?
+
+  - [RedisConf17\- Redis as a Primary Data Store](https://www.slideshare.net/RedisLabs/redisconf17-redis-as-a-primary-data-store) (2017-06-02) #ril
+
+  - [Redis as the primary data store? WTF?\!](https://muut.com/blog/technology/redis-as-primary-datastore-wtf.html) (2013-04-08) #ril
+
+  - [Redis == Primary Database?](https://shawngrover.ca/redis-as-a-primary-database-not-yet/) (2017-09-12) #ril
+
+  - [Ask HN: Is it feasible to use redis as the only datastore? \| Hacker News](https://news.ycombinator.com/item?id=3010345) (2011-09-18) #ril
+
+  - [javascript \- Redis as a database \- Stack Overflow](https://stackoverflow.com/questions/4718832/) (2011-01-17) #ril
+
 ## Time Series Database ??
 
   - [Using Redis as a Time Series Database: Why and How](https://www.infoq.com/articles/redis-time-series) (2016-01-02) #ril
@@ -559,7 +603,7 @@ $ redis-cli ping -h other-redis-server
 
 更多：
 
-  - [Backup](redis-backup.md)
+  - [Persistence](redis-persistence.md)
 
 手冊：
 

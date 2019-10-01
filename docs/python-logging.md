@@ -278,11 +278,6 @@ title: Python / Logging
   - Handler 出問題 (例如網路不通)，會影響到 application 正常的運作嗎? 或是網路速度不佳，會不會拖慢 application 的效能?
   - slacker-log-handler 1.6.1 : Python Package Index https://pypi.python.org/pypi/slacker-log-handler #ril
 
-## 跟 warnings 有何不同?
-
-  - 28.6. warnings — Warning control — Python 2.7.14 documentation https://docs.python.org/2/library/warnings.html #ril
-  - Logging HOWTO — Python 2.7.14 documentation https://docs.python.org/2/howto/logging.html 提到都是 warning，但若是 client application 可以避開的 warning 用 `warnings.warn()`，若 client application 什麼也不能做則用 `logging.warn()`。
-
 ## 如何做 logging?
 
   - 習慣用 `_logger = logging.getLogger(__name__)`?

@@ -39,6 +39,14 @@
       - 沒有資料夾/群組的概念，每份文件的存取限制都要個別設定。
       - 分享 editable 與 read-only 的差別在 URL，若 editable link 流出去就無法限制?
 
+## Slide Mode
+
+  - [Make Presentation Slides with HackMD \- HackMD](https://hackmd.io/s/how-to-create-slide-deck) #ril
+
 ## 參考資料 {: #reference }
 
   - [HackMD](https://hackmd.io/)
+
+更多：
+
+  - [CodiMD](codimd.md)

@@ -55,6 +55,7 @@ def test_url_decode__list():
 
   - [urllib-urlencode() - 20\.5\. urllib — Open arbitrary resources by URL — Python 2\.7\.14 documentation](https://docs.python.org/2/library/urllib.html#urllib.urlencode) 提到 `urlparse` 的 `parse_qs()` 與 `parse_qls()` 可以用來解析 query string。
   - [20\.16\. urlparse — Parse URLs into components — Python 2\.7\.14 documentation](https://docs.python.org/2/library/urlparse.html) `parse_qs()` 與 `parse_qsl()` 都可以解析 query string，差別在於 `parse_qs()` 的輸出是 `dict` (注意 value 是 list of value)，而 `parse_qsl()` 的輸出是 list of (name, value)；看起來 `dict(parse_qsl())` 是比較方便的，不用再處理 list of value 的問題。
+  - [URL Decoding query strings or form parameters in Python \| URLDecoder](https://www.urldecoder.io/python/) 單純要解 percent-encoded string (不是 `key=value` 的形式)，有 `urllib.unquote()` 可以用 #ril
 
 ## urllib.urlencode() 不能用在 Unicode?
 

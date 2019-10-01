@@ -229,9 +229,28 @@
       - To check your configuration when using the command line or the configuration file you can run the following command: `$ gunicorn --check-config APP_MODULE` It also allows you to know if your application can be launched. 通常要搭配 `--config` 使用，因為 CLI options 有錯誤本來就會檢查；實驗發現，config file 裡有指定不對的 setting 時，例如 `preload` (正確是 `preload_app`)，執行 `gunicorn --config config.py --check-config ...` 會直接 exit，但 exit status 是 0，但不加 `--check-config` 就沒事。
       - Not all Gunicorn SETTINGS are available to be set from the command line. 用 `gunicorn --help` 看最準；注意 setting 與 configuration 的不同，前者是可以調整的點，後者是設定的管道 -- config file、CLI options 等。
       - The configuration file should be a valid Python source file. It only needs to be readable from the file system. More specifically, it does not need to be IMPORTABLE. Any Python is valid. Just consider that this will be run every time you start Gunicorn (including when you signal Gunicorn to reload). 重新執行，實際上會有什麼影響嗎?
+
   - [Settings — Gunicorn 19\.9\.0 documentation](http://docs.gunicorn.org/en/latest/settings.html) #ril
       - This is an exhaustive list of settings for Gunicorn. Some settings are only able to be set from a configuration file. The setting name is what should be used in the configuration file. 以 `preload_app`、`--preload`、`False` 為例，在 config file 裡要用 `preload_app` 設定，在 command line 要用 `--preload`，但預設值都是 `False`，另外 `default_proc_name`、`gunicorn` 沒有提示 `--xxx`，表示只能用在 config file 裡。
       - `raw_env`, `-e ENV, --env ENV`, `[]` -- Set environment variable (`key=value`). PASS variables to the execution environment. Ex.: `$ gunicorn -b 127.0.0.1:8000 --env FOO=1 test:app` 原來要特別指定，環境變數才進得去，跟 Docker、tox 的做法一樣，預設不會 pass all。
+
+  - [Security - Settings — Gunicorn 19\.9\.0 documentation](http://docs.gunicorn.org/en/latest/settings.html#security) #ril
+
+    `limit_request_line`
+
+      - `--limit-request-line INT`, 4094
+
+      - The maximum size of HTTP REQUEST LINE in bytes.
+
+      - This parameter is used to limit the allowed size of a client’s HTTP request-line. Since the request-line consists of the HTTP method, URI, and protocol version, this directive places a restriction on the length of a request-URI allowed for a request on the server.
+
+        A server needs this value to be large enough to hold any of its resource names, including any information that might be passed in the QUERY PART of a GET request. Value is a number from 0 (unlimited) to 8190.
+
+        差不多就是 `https://...?key=value&...` 的長度，若要限制 body 的長度 ??
+
+      - This parameter can be used to prevent any DDOS attack.
+
+        跟 DDOS 攻擊為什麼有關係 ??
 
 ## Deployment ??
 

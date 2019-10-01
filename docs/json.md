@@ -48,3 +48,7 @@
 
   - [fx](https://github.com/antonmedv/fx) - terminal JSON viewer
   - [jq](jq.md) - command-line JSON processor
+
+手冊：
+
+  - [RFC 7159 - The JavaScript Object Notation (JSON) Data Interchange Format](https://tools.ietf.org/html/rfc7159)

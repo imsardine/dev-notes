@@ -26,21 +26,12 @@
 
 更多：
 
-  - [Docstring](python-docstring.md)
-  - [Object-oriented Programming](python-oop.md)
-  - [Module & Package](python-module.md)
-  - [Import System](python-import.md)
-  - [Enum](python-enum.md)
+  - [Programming](python-programming.md)
   - [Text Processing](python-text.md)
   - [Datetime](python-datetime.md)
   - [File I/O](python-file.md)
-  - [PDB (Python Debugger)](python-pdb.md)
   - [Logging](python-logging.md)
-  - [Exception Handling](python-exception.md)
-  - [Decorator](python-decorator.md)
-  - [Generator](python-generator.md)
-  - [Context Manager](python-context-manager.md)
   - [Dependency Injection (DI)](python-di.md)
   - [ctypes](python-ctypes.md)
   - [URL](python-url.md)
-  - [Multiprocessing](python-multiprocessing.md)
+  - [Operating System](python-os.md)

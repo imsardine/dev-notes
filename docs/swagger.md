@@ -48,9 +48,12 @@
   - [Open Source API Developer Tool Kit \| Swagger](https://swagger.io/tools/) 工具都是 open source，核心的 Swagger Core 是用 Java 寫的。Editor 用於設計 API specification，而 Codegen 將 specification 轉成 server stubs 與 client libraries (支援 40+ 語言)，最後 UI 用於產生 interactive documentation，方便使用者上手。其他還有 Swagger JS、Swagger Node、Swagger Parser、Validator-Badge
   - [API Development Tools \| Swagger Editor \| Swagger](https://swagger.io/swagger-editor/) #ril
   - [API Development Tools \| Swagger Codegen \| Swagger](https://swagger.io/swagger-codegen/) #ril
-  - [API Development Tools \| Swagger UI \| Swagger](https://swagger.io/swagger-ui/) #ril
   - [SwaggerHub Powerful API Design Platform, Built for Teams](https://swaggerhub.com/) 共同協作 API 設計、文件的平台，強調 team、collaboration、workflow #ril
   - [SwaggerHub Plans](https://swaggerhub.com/pricing/) 5 個使用者，月費 $75 鎂。
+
+## Swagger UI {: #ui}
+
+  - [API Development Tools \| Swagger UI \| Swagger](https://swagger.io/swagger-ui/) #ril
 
 ## 跟 Test 的關係??
 
@@ -80,6 +83,7 @@
 
 更多：
 
+  - [OpenAPI Specification](swagger-spec.md)
   - [Codegen](swagger-codegen.md)
 
 手冊：

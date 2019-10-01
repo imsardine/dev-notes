@@ -40,6 +40,7 @@
 ## 新手上路 {: #getting-started }
 
   - [Quickstart — Connexion 2\.0 documentation](https://connexion.readthedocs.io/en/latest/quickstart.html) #ril
+  - [Implementing a Simple REST API using OpenAPI, Flask & Connexions](https://medium.com/@hmajid2301/implementing-a-simple-rest-api-using-openapi-flask-connexions-1bdd01ca916) (2019-08-16) #ril
 
 ## 參考資料 {: #reference }
 

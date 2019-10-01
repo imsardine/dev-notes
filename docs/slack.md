@@ -110,3 +110,6 @@
   - ['slack' Questions - Stack Overflow](https://stackoverflow.com/questions/tagged/slack)
   - ['slack-api' Questions - Stack Overflow](https://stackoverflow.com/questions/tagged/slack-api)
 
+更多：
+
+  - [Incoming Webhook](slack-incoming-webhook.md)

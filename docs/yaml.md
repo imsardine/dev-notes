@@ -213,11 +213,30 @@ greeting: Hello, YAML!
 
 ## Merge Multiple Files ??
 
+  - [Overriding Theme Config - Configuration \| Hexo](https://hexo.io/docs/configuration#Overriding-Theme-Config) 第一次在 Hexo 看到多個 YAML 合併的概念：
+
+    Using multiple files combines all the config files and saves the merged settings to `_multiconfig.yml`. The later values take precedence. It works with any number of JSON and YAML files with arbitrarily deep objects.
+
+        # _config.yml
+        theme_config:
+          bio: "My awesome bio"
+
+        # themes/my-theme/_config.yml
+        bio: "Some generic bio"
+        logo: "a-cool-image.png"
+        Resulting theme configuration:
+
+        {
+          bio: "My awesome bio",
+          logo: "a-cool-image.png"
+        }
+
+    但實驗發現 `theme_config: footer: since: 2017` 會覆寫整個 `theme/_config.yml` 裡的 `footer:`，無法單純複寫 `since: 2017` 這項設定。
+
   - [Scout24/yamlreader: Read all YAML files in a directory and merge them](https://github.com/Scout24/yamlreader) #ril
 
   - [Using an Alternate Config - Configuration \| Hexo](https://hexo.io/docs/configuration#Using-an-Alternate-Config)
 
-    Using multiple files combines all the config files and saves the merged settings to `_multiconfig.yml`. The later values take precedence. It works with any number of JSON and YAML files with arbitrarily deep objects.
 
 ## Python ??
 

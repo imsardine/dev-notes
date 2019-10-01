@@ -89,7 +89,7 @@
             5f9837a HEAD@{2}: rebase finished: returning to refs/heads/init
             5f9837a HEAD@{3}: pull --rebase: checkout 5f9837ae0acdc29eb0a36c48dc540af4969e8342
 
-            $ git diff HEAD@{2}..
+            $ git diff HEAD@{2}.. # 寫成 head@{2} 也可以
 
         可以看出使用者從我們上次 pull (上次最新的 code) 到這次又改了什麼。
 

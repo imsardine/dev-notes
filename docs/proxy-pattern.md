@@ -289,3 +289,5 @@ TypeError: 'LazyProxy' object has no attribute '__getitem__'
         Thus I forked the code and changed everything to have the lazy behavior. You can see the results here: https://github.com/ionelmc/python-lazy-object-proxy
 
   - [werkzeug/local\.py at 0\.15\.4 · pallets/werkzeug](https://github.com/pallets/werkzeug/blob/0.15.4/src/werkzeug/local.py#L255) Flask 常用的 local proxy object，實作了大部份的 magic methods #ril
+
+  - [class `xmlrpclib.ServerProxy` - 20\.23\. xmlrpclib — XML\-RPC client access — Python 2\.7\.16 documentation](https://docs.python.org/2/library/xmlrpclib.html#xmlrpclib.ServerProxy) 提到 "returned proxy instance" 及 "The returned instance is a proxy object" #ril

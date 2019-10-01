@@ -162,6 +162,8 @@
 
         the default value if omitted. This can also be a CALLABLE, in which case it’s invoked when the default is needed WITHOUT ANY ARGUMENTS.
 
+        支持 callable 這一點還滿酷的，不用在 import time 就決定 default value。
+
       - `callback`
 
         a callback that should be executed AFTER the parameter was MATCHED. This is called as `fn(ctx, param, value)` and needs to return the value. Before Click 2.0, the signature was `(ctx, value)`.
@@ -204,15 +206,19 @@
 
       - `show_default`
 
-        controls if the default value should be shown on the help page. Normally, defaults are not shown. If this value is a string, it shows the string INSTEAD OF THE VALUE. This is particularly useful for dynamic options. ??
+        controls if the default value should be shown on the help page. Normally, defaults are NOT shown. If this value is a string, it shows the string INSTEAD OF THE VALUE. This is particularly useful for DYNAMIC OPTIONS. ??
 
       - `show_envvar`
 
-        controls if an environment variable should be shown on the help page. Normally, environment variables are not shown.
+        controls if an environment variable should be shown on the help page. Normally, environment variables are NOT shown.
 
       - `prompt`
 
         if set to `True` or a non empty string then the user will be prompted for input. If set to `True` the prompt will be the option name capitalized.
+
+        主要是用來自訂提示文件，但設為 `True` 時會自動從 option name 轉換出提示文字。
+
+        `prompt` 在控制使用者沒有提供 option 時要不要提示輸入，跟有沒有預設值無關；搭配 `default` 使用時，只是會一併提示預設值而已，除非 `hide_input` 設為 `True`。
 
       - `confirmation_prompt`
 
@@ -220,7 +226,7 @@
 
       - `hide_input`
 
-        if this is `True` then the input on the prompt will be hidden from the user. This is useful for password input.
+        if this is `True` then the input on the PROMPT will be hidden from the user. This is useful for password input.
 
       - `is_flag`
 

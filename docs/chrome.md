@@ -36,4 +36,4 @@ Chrome 在訪問某些 port 時，會出現 This site can’t be reached (`ERR_U
 
 更多：
 
-  - [Extension](chrome-extension.md)
+  - [Extension](chrome-ext.md)
