@@ -277,7 +277,7 @@
       - gjcarneiro: I think this whole "sharing" design you guys are attempting is just over-engineered. 後面跟 brian-brazil 有一長串的討論，後來好像從 exporter 的角度下手? #ril
   - [python \- Sharing static global data among processes in a Gunicorn / Flask app \- Stack Overflow](https://stackoverflow.com/questions/26854594/) aaa90210: nmap #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation — Gunicorn 19\.8\.1 documentation](http://docs.gunicorn.org/en/latest/install.html) #ril
 

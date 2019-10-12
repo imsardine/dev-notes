@@ -147,7 +147,7 @@ title: Google APIs / Python Client
 
         把 request 跟 response 傳進 `xxx_next()` 的做法好奇特，內部方便從 response 分析需不需要有下一個 request。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation  \|  API Client Library for Python  \|  Google Developers](https://developers.google.com/api-client-library/python/start/installation)
 

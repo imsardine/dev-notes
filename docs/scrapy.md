@@ -213,7 +213,7 @@
   - [Deploying Spiders — Scrapy 1\.5\.0 documentation](https://doc.scrapy.org/en/1.5/topics/deploy.html) #ril
   - [Common Practices — Scrapy 1\.5\.0 documentation](https://doc.scrapy.org/en/1.5/topics/practices.html) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation guide — Scrapy 1\.5\.1 documentation](https://docs.scrapy.org/en/latest/intro/install.html)
       - 需要 CPython 2.7+ / 3.4+ 或 PyPy 5.9+

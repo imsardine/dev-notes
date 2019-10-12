@@ -26,7 +26,7 @@
 
   - [Arduino \- Troubleshooting](https://www.arduino.cc/en/Guide/Troubleshooting) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Uploading - Arduino \- Environment](https://www.arduino.cc/en/Guide/Environment#uploading) 在不同 OS 下對應到不同的 device，都不需要 driver?? #ril
 

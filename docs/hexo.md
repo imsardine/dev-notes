@@ -210,7 +210,7 @@
   - [Create an Hexo Theme - Part 1: Index | CodeBlocQ](http://www.codeblocq.com/2016/03/Create-an-Hexo-Theme-Part-1-Index/) 這裡教人家怎麼宣告 author (有連結更好... 或許也可以來個 author map??)
   - [Project Documentation with Hexo Static Site Generator](https://www.sitepoint.com/project-documentation-hexo/) 自訂 theme 結果只用到 page，這也好怪...
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 用 npm 安裝 `hexo-cli` 套件 (不是 `hexo`)，就會有 `hexo` 指令可以用。
 

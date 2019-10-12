@@ -19,7 +19,7 @@ title: MkDocs / Cinder Theme
 
      但要如何產生 `<footer>...<cite>` 的組合卻沒說??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install the Cinder Theme - Home \- Cinder](https://sourcefoundry.org/cinder/#install-the-cinder-theme) 安裝 `mkdocs-cinder` 套件，在 `mkdocs.yml` 宣告 `theme: cinder` 即可。
 

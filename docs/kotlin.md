@@ -30,7 +30,7 @@
   - [Idioms \- Kotlin Programming Language](https://kotlinlang.org/docs/reference/idioms.html) #ril
   - [Coding Conventions \- Kotlin Programming Language](https://kotlinlang.org/docs/reference/coding-conventions.html) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [What build tools support Kotlin? - FAQ \- Kotlin Programming Language](https://kotlinlang.org/docs/reference/faq.html#what-build-tools-support-kotlin) On the JVM side, the main build tools include Gradle, Maven, Ant, and Kobalt. There are also some build tools available that target client-side JavaScript. 針對不同 target 有不同的 build tool。
   - [Working with the Command Line Compiler \- Kotlin Programming Language](https://kotlinlang.org/docs/tutorials/command-line.html) #ril

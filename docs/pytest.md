@@ -244,7 +244,7 @@ def test_foo(x, y):
 
   - Tox - Good Integration Practices — pytest documentation https://docs.pytest.org/en/latest/goodpractices.html#tox #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 用 `virtualenv pytest` 建立一個虛擬環境，然後在環境內安裝 `pytest` 套件，再用 symbolic link 將環境內 `bin/pytest` 引出來即可。
   - 但如何引用開發環境 virtualenv 的其他相依性、受測的 code??

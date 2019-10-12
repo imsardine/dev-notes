@@ -200,7 +200,7 @@
       - A menu displays grouped NAVIGATION actions
       - Starting in 2.0 menus now use flexbox. This allows each menu item to automatically stretch to the size of the largest item. 最簡單的 menu 看起來像 (group of) buttons。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">

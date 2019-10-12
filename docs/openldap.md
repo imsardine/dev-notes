@@ -33,7 +33,7 @@ dn:xxx,ou=people,dc=example,dc=com
       - 範例提到 `ldapwhoami -x -D "cn=Manager,dc=example,dc=com" -W`，可以用來確認 LDAP 密碼是否正確。
   - [RFC 4532 \- Lightweight Directory Access Protocol (LDAP) "Who am I?" Operation](https://tools.ietf.org/html/rfc4532) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Debian/Ubuntu ??
 

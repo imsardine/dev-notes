@@ -67,7 +67,7 @@ $ curl https://httpbin.org/anything?key1=value1 --data key2=value2
       - drichards-levtech: 想看 server side 收到什麼?
       - sigmavirus24: (member) `/anything` already returns the data as it is seen by HTTPbin => 這一點可以用來確認收到什麼!!
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Docker
 

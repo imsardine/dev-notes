@@ -95,7 +95,7 @@
 
         看不懂，要先爬過 `JsonFormatter` 的原始碼??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installing - madzak/python\-json\-logger: Json Formatter for the standard python logger](https://github.com/madzak/python-json-logger#installing) #ril
       - `pip install python-json-logger`

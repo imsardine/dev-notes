@@ -527,7 +527,7 @@
 
       - CK.Nguyen: The include param need to be add if you're using RELATIVE IMPORTS. I've solved my issue by adding it
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installing Celery - First Steps with Celery — Celery 4\.3\.0 documentation](http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#installing-celery)
 

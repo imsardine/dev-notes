@@ -42,7 +42,7 @@ jq [OPTION]... FILTER [FILE]...
 
   - [Basic filters - jq Manual \(development version\)](https://stedolan.github.io/jq/manual/#Basicfilters) 可以用來取出 JSON 欄位資料，超級複雜!! #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### macOS
 

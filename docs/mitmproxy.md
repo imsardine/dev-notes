@@ -131,7 +131,7 @@
   - [How to easily mock up new backend systems \| ustwo](https://www.ustwo.com/blog/how-to-easily-mock-up-new-backend-systems/) (2016-05-03) #ril
   - [meituan/lyrebird: Lyrebird 是一个基于拦截以及模拟HTTP/HTTPS网络请求的面向移动应用的插件化测试平台](https://github.com/meituan/lyrebird) 基於 mitmproxy #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### macOS
 

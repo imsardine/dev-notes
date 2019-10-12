@@ -109,7 +109,7 @@
 
   - [Library Tour \| Dart](https://www.dartlang.org/guides/libraries/library-tour) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install Dart \| Dart](https://www.dartlang.org/install)
       - Although DartPad is a great way to learn how to write a simple app, once you’re ready to develop REAL apps, you need an SDK. Install the SDK for your platform.

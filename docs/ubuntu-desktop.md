@@ -5,7 +5,7 @@ title: Ubuntu / Desktop
 
   - [Ubuntu PC operating system \| Ubuntu](https://www.ubuntu.com/desktop) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download Ubuntu Desktop \| Download \| Ubuntu](https://www.ubuntu.com/download/desktop)
 

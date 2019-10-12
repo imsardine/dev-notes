@@ -10,7 +10,7 @@
 
   - [Getting Started - Vault Curriculum \- HashiCorp Learn](https://learn.hashicorp.com/vault/#getting-started) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download Vault \- Vault by HashiCorp](https://www.vaultproject.io/downloads.html)
 

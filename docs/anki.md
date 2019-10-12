@@ -238,7 +238,7 @@
   - Anki 不是很好輸入 (尤其中文輸入很卡)，如何匯入外部檔案?
   - [Importing - Anki Manual](https://apps.ankiweb.net/docs/manual.html#importing) 文字檔可以接受 UTF-8 編碼的 CSV (用逗號、分號或 tab 隔開)，第一行決定欄位名稱與分隔字元，匯入時可以選定與 note field 的對應關係。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### macOS
 

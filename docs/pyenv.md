@@ -21,7 +21,7 @@
   - [Basic GitHub Checkout - pyenv/pyenv: Simple Python version management](https://github.com/pyenv/pyenv#basic-github-checkout) #ril
   - [How It Works - pyenv/pyenv: Simple Python version management](https://github.com/pyenv/pyenv#how-it-works) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 $ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash

@@ -228,7 +228,7 @@ sql = CreateTable(table).compile(dialect=mysql.dialect())
 
   - Object Relational Tutorial — SQLAlchemy 1.2 Documentation http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#declare-a-mapping 提到 `__repr__()` 的實作並非必要，但輸出關鍵的值，當 instance 被印出來時，對於除錯似乎很有幫助，否則預設只有 object ID?
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 用 `pip install SQLAlchemy` 安裝。
   - 用 `python -c 'import sqlalchemy; print(sqlalchemy.__version__)'` 檢查。

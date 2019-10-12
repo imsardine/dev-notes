@@ -45,7 +45,7 @@ title: Arduino / Software (IDE)
       - Choose the baud rate from the drop-down menu that matches the rate passed to `Serial.begin` in your sketch. 板子內外的 baud rate 要一致，聽起來其他程式也可以透過 serial 跟板子溝通。
       - The Serial Monitor does not process control characters; if your sketch needs a complete management of the serial communication with control characters, you can use an EXTERNAL TERMINAL PROGRAM and connect it to the COM port assigned to your Arduino board. 怎麼做??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Arduino Web Editor (Plugin)
 

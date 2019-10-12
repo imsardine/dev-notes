@@ -109,7 +109,7 @@ drwxr-xr-x 4 elasticsearch elasticsearch 4096 Jun 27  2017 x-pack
   - [General Security Settings - Security Settings \| X\-Pack for the Elastic Stack \[5\.4\] \| Elastic](https://www.elastic.co/guide/en/x-pack/5.4/security-settings.html#general-security-settings) `xpack.security.enabled` - Set to `false` to disable X-Pack security on the node. Configure in BOTH `elasticsearch.yml` and `kibana.yml`. 做法跟 6.x 很不一樣。
   - [General security settings - Security settings in Elasticsearch \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html#general-security-settings) `xpack.security.enabled` - If set to `false`, which is the default value for basic and trial licenses, security features are disabled. It also affects all Kibana instances that connect to this Elasticsearch instance; you do not need to disable security features in those `kibana.yml` files. 也就是 Kibana 會根據連接的 Elasticsearch 決定要不要啟用 X-Pack 相關的功能，不需要從 Kibana 這端停用。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download Kibana Free • Get Started Now \| Elastic](https://www.elastic.co/downloads/kibana) 將 `config/kibana.yml` 裡的 `elasticsearch.url` 指向 Elasticsearch instance，然後執行 `bin/kibana`，就可以在 http://localhost:5601 看到 Kibana 的 UI。
   - [Set Up Kibana \| Kibana User Guide \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/kibana/current/setup.html)

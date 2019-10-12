@@ -42,7 +42,7 @@
       - preslavrachev: Perhaps, it is a only short-term solution. Eventually, I think that I will extract the HARMLESS variable and alias statements into a third `.sh` file, which will then be sourced by `.bash_profile` and `.zshrc` respectively. 問題是，哪些 variable/alias 是有害的?
       - dedalozzo: The best way is source `~/.bash_profile` at the end of your `.zshrc` file. Nothing bad will happen. Copying all the content of `.bash_profile` is not smart, because you have to maintain two file in synch in case you want remove zsh in the future. 確實要維護兩支檔案很麻煩，尤其 Zsh 又強調相容於 Bash?
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [zsh \- How can I make tmux use my default shell? \- Super User](https://superuser.com/questions/253786/)
       - Alex Hammel: tmux 要加 `set-option -g default-shell /bin/zsh` 的設定，可能要用 `killall tmux; tmux` 重啟 tmux。

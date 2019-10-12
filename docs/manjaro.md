@@ -66,7 +66,7 @@
 
     之前遇到黑畫面的問題，第一次開進 text mode，再透過 `startx` 進到桌面，之後重開就可以順利進到桌面環境了。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Manjaro \- Try it now](https://manjaro.org/download/)
 

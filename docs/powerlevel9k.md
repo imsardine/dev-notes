@@ -21,7 +21,7 @@
 
   - [Stylizing Your Prompt · bhilburn/powerlevel9k Wiki](https://github.com/bhilburn/powerlevel9k/wiki/Stylizing-Your-Prompt) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - bhilburn/powerlevel9k: The most awesome Powerline theme for ZSH around\!](https://github.com/bhilburn/powerlevel9k#installation) #ril
       - There are two installation steps to go from a vanilla terminal to a PL9k terminal. Once you are done, you can optionally customize your prompt. 安裝 Zsh theme 跟 Powerline fonts 後就可以用，但有很多 segment customization options 可以調整。

@@ -407,7 +407,7 @@ extra_javascript:
       - [add\_event: get stripe\_account from message · pinax/pinax\-stripe@274abcf](https://github.com/pinax/pinax-stripe/commit/274abcf9d6fb25a29e6531a468d75333f05b6ed3#diff-85aca1129704024a07435fb565b3f92f) 從 `reference/actions.md` 反推 history，每個 commit 都會跟 source code 裡的 docstrings 一起修改，感覺有用什麼工具?
       - [Sync subscription data immediately · pinax/pinax\-stripe@86bed63](https://github.com/pinax/pinax-stripe/commit/86bed63f316040f7ff435fbbeadd3ff715d43a40#diff-85aca1129704024a07435fb565b3f92f) 從這個 commit 看來是手動同步的；在 docstrings 寫 "Returns: the data representing the subscription object that was created"，但到 `reference/actions.md` 就改成 "Returns: the `pinax.stripe.models.Subscription` object that was created" 了。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - MkDocs](https://www.mkdocs.org/#installation) 可以用 OS package manager 裝，但如果版本不夠新，還是建議用 pip 安裝 `mkdocs` 套件，就會有 `mkdocs` 指令可用。
 

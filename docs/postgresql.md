@@ -34,7 +34,7 @@
 
       - After you have worked through this tutorial you might want to move on to reading Part II to gain a more formal knowledge of the SQL language, or Part IV for information about developing applications for PostgreSQL. Those who set up and manage their own server should also read Part III.
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [PostgreSQL: Documentation: 11: 1\.1\. Installation](https://www.postgresql.org/docs/11/tutorial-install.html)
 

@@ -328,7 +328,7 @@
   - [Effects \| jQuery Learning Center](https://learn.jquery.com/effects/) #ril
   - [Effects \| jQuery API Documentation](http://api.jquery.com/category/effects/) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download jQuery \| jQuery](http://jquery.com/download/) 用 CDN 比較方便，但什麼時候要下載自己另存一份?? #ril
 

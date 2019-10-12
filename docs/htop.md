@@ -17,7 +17,7 @@
 
   - [How to install htop on macOS Unix desktop running on MacBook \- nixCraft](https://www.cyberciti.biz/faq/install-htop-on-macos-unix-desktop-running-macbook-pro/) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 $ brew install htop

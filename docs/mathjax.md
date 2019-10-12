@@ -107,7 +107,7 @@
 
   - [Getting Started - MathJax \| Beautiful math in all browsers\.](https://www.mathjax.org/#gettingstarted) If you prefer to render server-side, you can check out [mathjax-node](https://github.com/mathjax/mathjax-node).
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Getting Started - MathJax \| Beautiful math in all browsers\.](https://www.mathjax.org/#gettingstarted) #ril
 

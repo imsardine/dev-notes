@@ -45,7 +45,7 @@ http://www.google.com[Google]
 
         看起來 `preserve` 會是比 `none` 更好的選擇，尊重原始文件的想法。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Pandoc \- Installing pandoc](https://pandoc.org/installing.html) #ril
 

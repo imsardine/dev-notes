@@ -91,7 +91,7 @@
       - Take Bootstrap 4 to the next level with official PREMIUM Themes—toolkits built on Bootstrap with new components and plugins, docs, and build tools. 都是要收費的
   - [Bootstrap Themes Built & Curated by the Bootstrap Team\.](https://themes.getbootstrap.com/) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - Bootstrap · The most popular HTML, CSS, and JS library in the world\.](https://getbootstrap.com/)
       - Installation -- Include Bootstrap’s source [Sass](sass.md) and JavaScript files via npm, [Composer](https://getcomposer.org/) or [Meteor](https://www.meteor.com/). Package managed installs don’t include documentation, but do include our build system?? and readme.

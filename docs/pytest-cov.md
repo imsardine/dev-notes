@@ -34,7 +34,7 @@ test:
   - [python \- How can I combine coverage results with tox? \- Stack Overflow](https://stackoverflow.com/questions/50895525/) 為 `pytest` 加上 `--cov-append` 參數，會合併多次 test run 的結果，有助於把拆分 integration/unit tests?
   - [2.1.0 (2015-08-23) - Changelog — pytest\-cov 2\.5\.1 documentation](https://pytest-cov.readthedocs.io/en/latest/changelog.html#id16) 2.1.0 加入 `--cov-append`，跟 [PR#80](https://github.com/pytest-dev/pytest-cov/pull/80) 有關。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - pytest\-cov 2\.5\.1 : Python Package Index](https://pypi.python.org/pypi/pytest-cov#installation) 安裝 `pytest-cov` 套件，若要用 distributed testing 則要額外裝 `pytest-xdist`。
   - [Installation - Overview — pytest\-cov 2\.5\.1 documentation](http://pytest-cov.readthedocs.io/en/latest/readme.html#installation)

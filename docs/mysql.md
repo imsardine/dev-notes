@@ -137,7 +137,7 @@
   - [MySQL :: MySQL 5\.7 Reference Manual :: 11\.1\.1 Numeric Type Overview](https://dev.mysql.com/doc/refman/5.7/en/numeric-type-overview.html) `INT` 的值域是 -2147483648 ~ 2147483647。
   - [mysql \- ERROR 1062 \(23000\): Duplicate entry '2147483647' for key 'PRIMARY' \- Stack Overflow](https://stackoverflow.com/questions/20442140/) John Conde: 因為 `INT` (signed) 的最大值是 2147483647，任何超過這個數字的值會被 truncate；或許採用 `VARCHAR` 是更好的選擇?
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Docker
 

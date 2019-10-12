@@ -482,7 +482,7 @@
   - [Memory optimization - Redis](https://redis.io/topics/memory-optimization) #ril
   - [Redis Mass Insertion – Redis](https://redis.io/topics/mass-insert) 可能跟 IoT 有關? #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download - Redis](https://redis.io/download) #ril
 

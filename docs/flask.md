@@ -730,7 +730,7 @@ if os.getenv('UWSGI_DEBUG'):
   - Testing Flask Applications — Flask Documentation http://flask.pocoo.org/docs/latest/testing/ #ril
   - `test_request_context()` 似乎可以用實作 unit testing??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 建議用 virtualenv 安裝 `Flask` 套件，安裝完成有 `flask` 指令可以用。
 

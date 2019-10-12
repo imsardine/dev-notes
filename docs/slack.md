@@ -62,7 +62,7 @@
 
   - [Call actions - Slack keyboard shortcuts – Slack Help Center](https://get.slack.help/hc/en-us/articles/201374536-Slack-keyboard-shortcuts#-call-actions) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - Slack 官方除提供 `.deb` 與 `.rpm` 外，也提供了 [Snap](https://snapcraft.io/slack)，因此其他 Linux distro 可以透過 [Snapcrapt](snapcraft.md) 安裝 Slack。
 

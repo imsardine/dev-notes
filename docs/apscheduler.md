@@ -321,7 +321,7 @@
 
     發現 job 發生錯誤時，APScheduler 本身就會做 exception log，所以主程式在 root logger 就可以攔截到這個 log record 統一做處理。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installing APScheduler - User guide — APScheduler 3\.6\.0\.post2 documentation](https://apscheduler.readthedocs.io/en/latest/userguide.html#installing-apscheduler)
 

@@ -51,7 +51,7 @@
 
         看似 Anaconda 透過 Conda 安裝了 Python 及 Pip，選擇 Anaconda2 或 Anaconda3 的差別只在於安裝程式用 Conda 裝了 Python 2/3 而已 ??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Anaconda Python/R Distribution \- Anaconda](https://www.anaconda.com/distribution/) #ril
 

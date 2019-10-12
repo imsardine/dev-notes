@@ -9,7 +9,7 @@
   - [Home \- Neovim](https://neovim.io/) #ril
   - [neovim/neovim: Vim\-fork focused on extensibility and usability](https://github.com/neovim/neovim) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installing Neovim · neovim/neovim Wiki](https://github.com/neovim/neovim/wiki/Installing-Neovim) #ril
 

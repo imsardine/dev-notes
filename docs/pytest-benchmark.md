@@ -297,7 +297,7 @@ Legend:
   - https://github.com/ionelmc/pytest-benchmark/blob/master/src/pytest_benchmark/stats.py #ril
   - [pytest\-benchmark/stats\.py at master · ionelmc/pytest\-benchmark](https://github.com/ionelmc/pytest-benchmark/blob/master/src/pytest_benchmark/stats.py) 記錄了 benchmark 的結果 #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - ionelmc/pytest\-benchmark: py\.test fixture for benchmarking code](https://github.com/ionelmc/pytest-benchmark#installation)
 

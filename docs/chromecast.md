@@ -2,7 +2,7 @@
 
   - [Chromecast \- Wikipedia](https://en.wikipedia.org/wiki/Chromecast) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [How to change Chromecast WiFi network? \- All About Chromecast](http://allaboutchromecast.com/chromecast-how-to-guide/how-to-change-chromecast-wifi-network/) 若存取不到舊網路，只能 reset。
   - [How to reset Chromecast \(Factory Data Reset,FDR\)? \- All About Chromecast](http://allaboutchromecast.com/chromecast-how-to-guide/reset-chromecast-factory-data-reset-fdr/) 長按 Chromecast Micro-USB 這端的按鈕，直到閃燈，即可完成 factory reset；接著按畫面提示即可完成安裝 (之前用 Chromecast App，現在用 Google Home)。

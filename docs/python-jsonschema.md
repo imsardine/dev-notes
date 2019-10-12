@@ -58,7 +58,7 @@
 
   - [Benchmarks - Julian/jsonschema: An\(other\) implementation of JSON Schema for Python](https://github.com/Julian/jsonschema#benchmarks) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 用 pip 安裝 `jsonschema` 套件，支援 Python 2.7+ 與 Python 3。
 

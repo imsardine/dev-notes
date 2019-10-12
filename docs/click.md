@@ -736,7 +736,7 @@
           - the first argument can be a CALLBACK and all other arguments and keyword arguments are forwarded directly to the function.
           - the first argument is a click COMMAND OBJECT. In that case all arguments are forwarded as well but proper click parameters (options and click arguments) must be keyword arguments and Click will fill in defaults.
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Welcome to Click — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/) You can get the library directly from PyPI: `pip install click`
   - [virtualenv - Quickstart — Click Documentation \(7\.x\)](https://click.palletsprojects.com/en/7.x/quickstart/#virtualenv) #ril

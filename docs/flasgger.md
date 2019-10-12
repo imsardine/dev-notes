@@ -224,7 +224,7 @@
 
   - [Using Flask RESTful Resources - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API](https://github.com/flasgger/flasgger#using-flask-restful-resources) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API](https://github.com/flasgger/flasgger#installation)
 

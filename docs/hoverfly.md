@@ -14,7 +14,7 @@
   - [Verifying \- WireMock](http://wiremock.org/docs/verifying/) 一開始先發現 WireMock 有 Admin API 可以檢查收到哪些 requests，進而查到 Hoverfly，似乎比 WireMock 輕量 (用 Go 開發)
   - [REST API — Hoverfly v1\.0\.0\-rc\.1 documentation](https://hoverfly.readthedocs.io/en/latest/pages/reference/api/api.html) 也有 `/journal/` endpoint，可以拿回收到的 requests 檢查 #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Docker ??
 

@@ -862,7 +862,7 @@
 
   - Building beautiful REST APIs using Flask, Swagger UI and Flask-RESTPlus - Michał Karzyński http://michal.karzynski.pl/blog/2016/06/19/building-beautiful-restful-apis-using-flask-swagger-ui-flask-restplus/ 支持 Markdown? #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 $ pip install flask-restplus

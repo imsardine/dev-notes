@@ -114,7 +114,7 @@
 
   - [Debian \-\- Packages](https://www.debian.org/distrib/packages) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 直接下載 amd64 的 image (`debian-<version>-amd64-netinst.iso`) 即可，約 250 MB。例如：
 

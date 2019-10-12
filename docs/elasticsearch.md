@@ -185,7 +185,7 @@
   - [Getting Started with Security \| X\-Pack for the Elastic Stack \[6\.2\] \| Elastic](https://www.elastic.co/guide/en/x-pack/current/security-getting-started.html)
   - [Security settings in Elasticsearch \| Elasticsearch Reference \[6\.5\] \| Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html) 預設的密碼是 `changeme` #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 至少要有 Oracle 或 OpenJDK 的 Java 8 (或 1.8.0_131 以上的版本)。
   - 從 [Download Elasticsearch](https://www.elastic.co/downloads/elasticsearch) 下載 TAR/ZIP，解開後執行 `bin/elasticsearch` 即可；`config/jvm.options` 預設是針對 64-bit server JVM，若採用 32-bit client JVM 要另外調整。

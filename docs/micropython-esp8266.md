@@ -55,7 +55,7 @@ title: MicroPython / ESP8266
   - [OTA firmware updates with MicroPython/ESP8266 \- Schinckel\.net](https://schinckel.net/2018/05/26/ota-firmware-updates-with-micropython-esp8266/) (2018-05-26) #ril
   - [\[ESP8266\] Firmware OTA update · Issue \#3570 · micropython/micropython](https://github.com/micropython/micropython/issues/3570) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Firmware for ESP8266 boards - MicroPython \- Python for microcontrollers](https://micropython.org/download#esp8266)
       - 主要是 stable firmware for the ESP8266，這正是 Getting started with MicroPython on the ESP8266 所用的版本

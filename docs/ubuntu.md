@@ -13,7 +13,7 @@
   - [Other Version - Repositories/CommandLine \- Community Help Wiki](https://help.ubuntu.com/community/Repositories/CommandLine#Other_Versions) 一樣提到用 `lsb_release -sc` 取得 code name。
   - `man lsb_release` 發現 `-a` 可以顯示更多的資訊。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### 沒有安裝 standard system utilities 會怎樣? 事後要如何安裝?
 

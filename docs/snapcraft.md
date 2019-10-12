@@ -19,7 +19,7 @@
 
   - [Snapcraft \- Snaps are universal Linux packages](https://snapcraft.io/first-snap) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installing snapd \- Documentation for snaps: Universal Linux packages](https://docs.snapcraft.io/installing-snapd/6735) #ril
 

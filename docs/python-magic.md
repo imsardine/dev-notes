@@ -31,7 +31,7 @@
             >>> m.from_file('index.html')
             'text/html; charset=utf-8'
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - ahupp/python\-magic: A python wrapper for libmagic](https://github.com/ahupp/python-magic#installation)
       - 用 Pip 安裝 `python-magic` 套件

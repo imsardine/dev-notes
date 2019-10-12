@@ -51,7 +51,7 @@
       - By default, the `setup.py` script checks whether LibYAML is installed and if so, builds and installs LibYAML bindings. To skip the check and force installation of LibYAML bindings, use the option `--with-libyaml`: `python setup.py --with-libyaml install`.
       - To disable the check and skip building and installing LibYAML bindings, use `--without-libyaml`: `python setup.py --without-libyaml install`. `setup.py` 會檢查系統是不是有 LibYAML，如果有的話就安裝 LibYAML binding，若不想安裝 LibYAML binding 則可以加上 `--without-libyaml`。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ## 參考資料 {: #reference }
 

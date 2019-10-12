@@ -33,7 +33,7 @@ title: OpenSSH / Server
   - [ssh\_exchange\_identification: Connection closed by remote host \(\#1687\) · Issues · GitLab\.com / GitLab\.com Support Tracker · GitLab](https://gitlab.com/gitlab-com/support-forum/issues/1687) - due to a load balancer config change
   - [ssh远程登陆有时候正常，有时候显示：ssh\_exchange\_identification: Connection closed by remote host，这是什么原因？ \- 知乎](https://www.zhihu.com/question/20023544) 許多人提到 SSH 連接數滿了，將 `/etc/ssh/ssh_config` 裡的 `MaxStartups` 設定提高 (或取消這個設定) 即可。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Ubuntu
 

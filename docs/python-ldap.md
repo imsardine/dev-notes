@@ -6,7 +6,7 @@
   - [Basic LDAP actions using python — Adimian](https://www.adimian.com/blog/2014/10/basic-ldap-actions-using-python/) (2014-10-15) #ril
   - [python\-ldap sample code](http://www.grotan.com/ldap/python-ldap-samples.html) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installing python\-ldap — python\-ldap 3\.2\.0 documentation](https://www.python-ldap.org/en/python-ldap-3.2.0/installing.html) #ril
 

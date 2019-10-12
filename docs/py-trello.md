@@ -77,7 +77,7 @@
 
     拿 card 時，會一併拿所屬的 list，以及該 list 所屬的 board，所以會多出 2 個 request。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install - sarumont/py\-trello: Python API wrapper around Trello's API](https://github.com/sarumont/py-trello#install) 安裝 `py-trello` 套件即可。
 

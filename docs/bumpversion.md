@@ -57,7 +57,7 @@
 
   - [Part specific configuration - peritus/bumpversion: Version\-bump your software with a single command](https://github.com/peritus/bumpversion#part-specific-configuration) 這裡的 part specific 跟 file specific 有什麼關係? #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - peritus/bumpversion: Version\-bump your software with a single command](https://github.com/peritus/bumpversion#installation) 安裝 `bumpversion` 套件。
 

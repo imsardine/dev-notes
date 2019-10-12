@@ -273,7 +273,7 @@
   - [How to run/register local generators? · Issue \#210 · yeoman/yo](https://github.com/yeoman/yo/issues/210) #ril
   - [Running local generators by paths · Issue \#11 · yeoman/environment](https://github.com/yeoman/environment/issues/11) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [The web's scaffolding tool for modern webapps \| Yeoman](https://yeoman.io/)
 

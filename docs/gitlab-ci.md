@@ -220,7 +220,7 @@ deploy:
 
   - 預設專案是可以用 shared runner 的，但只會跑在有 job 描述 tag 的 runner 上。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### 安裝 & 註冊 Runner ??
 

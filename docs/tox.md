@@ -247,7 +247,7 @@ deps =
 
         什麼是 code/warm start ?? 不過把 `.tox` 搬出 project directory 真的變很快!! 跑 `tox --notest` 準備多個 virtualenvs 時就感受得到。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 在 virtualenv 下用 `pip install tox` 安裝，就會有 `tox` 與 `tox-quickstart` 指令可用。
 

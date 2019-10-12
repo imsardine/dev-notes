@@ -10,7 +10,7 @@ title: Oh My Zsh
 
   - [Quick Setup of Oh My ZSH\! terminal on Ubuntu \- DEV Community](https://dev.to/lauragift21/quick-setup-of-oh-my-zsh-terminal-on-ubuntu-2c4e) (2018-04-27) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 $ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"

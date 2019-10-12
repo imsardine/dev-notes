@@ -11,7 +11,7 @@
   - [Python3 MySQL 数据库连接 – PyMySQL 驱动 \| 菜鸟教程](http://www.runoob.com/python3/python3-mysql.html) #ril
   - [Example - PyMySQL/PyMySQL: Pure Python MySQL Client](https://github.com/PyMySQL/PyMySQL#example) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - PyMySQL/PyMySQL: Pure Python MySQL Client](https://github.com/PyMySQL/PyMySQL#installation) 安裝 `PyMySQL` 套件。
 

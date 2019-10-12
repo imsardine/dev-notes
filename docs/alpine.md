@@ -12,7 +12,7 @@
 
   - [Alpine Linux package management \- Alpine Linux](https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management) "designed to run from RAM" 與 "on a running system" 的說法好特別 #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Docker
 

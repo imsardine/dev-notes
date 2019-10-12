@@ -56,7 +56,7 @@
 
   - [Hot reload \- Flutter](https://flutter.io/docs/development/tools/hot-reload) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install \- Flutter](https://flutter.io/docs/get-started/install) 分 Windows、macOS 跟 Linux，只有 macOS 可以同時開發 iOS 跟 Android。
 

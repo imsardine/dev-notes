@@ -16,7 +16,7 @@
       - It is possible to override default settings in a configuration file. The default location is `$XDG_CONFIG_HOME/wuzz/config.toml` on linux and `~/.wuzz/config.toml` on other platforms. `-c`/`--config` switches can be used to load config file from custom location.
   - [wuzz/sample\-config\.toml at master · asciimoo/wuzz](https://github.com/asciimoo/wuzz/blob/master/sample-config.toml) keybinding 可以自訂 #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation and usage - asciimoo/wuzz: Interactive cli tool for HTTP inspection](https://github.com/asciimoo/wuzz#installation-and-usage)
       - 用 Go 1.10+ 安裝：

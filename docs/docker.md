@@ -771,7 +771,7 @@ $ docker run --rm --tty \
   - [Testing Strategies for Docker Containers · Terra Nullius](https://alexei-led.github.io/post/docker_testing/) (2016-03-07) #ril
   - [Tutorial: How to test your docker image in half a second](https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9) (2017-03-15) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Docker for Mac Release Notes](https://docs.docker.com/docker-for-mac/release-notes/)
   - Install Docker for Mac | Docker Documentation https://docs.docker.com/docker-for-mac/install/ Docker for Mac 是 Docker Community Edition (CE) 的一部份?

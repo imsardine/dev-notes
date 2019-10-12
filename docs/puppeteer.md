@@ -64,7 +64,7 @@
       - [JSHandle](https://pptr.dev/#?product=Puppeteer&version=v1.8.0&show=api-class-jshandle) `ConsoleMessage.args()` 的型態是 `Array<JSHandle>`，從 "handle" 看起來，似乎可以間接操作 browser 裡的物件??
   - [How to get all console messages with puppeteer? including errors, CSP violations, failed resources, etc \- Stack Overflow](https://stackoverflow.com/questions/47539043/) 要註冊多個 event listener 才能拿到所有的輸出 #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - Quick start  \|  Tools for Web Developers  \|  Google Developers](https://developers.google.com/web/tools/puppeteer/get-started)
       - 用 npm/yarm 安裝 puppeteer 套件，過程中會下自動下載最新版的 Chromium；可以用 `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD` 環境變數跳過這個步驟，但 [Puppeteer 文件](https://github.com/GoogleChrome/puppeteer/blob/v1.8.0/docs/api.md#environment-variables) 又多次強調 "Puppeteer is only guaranteed to work with the bundled Chromium, use at your own risk"。

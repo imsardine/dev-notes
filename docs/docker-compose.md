@@ -1305,7 +1305,7 @@ CONTAINER           CPU %               MEM USAGE / LIMIT   MEM %               
   - [Exit Codes With Special Meanings](http://tldp.org/LDP/abs/html/exitcodes.html) 137 (128 +9) 就是 SIGKILL
   - [Understand the risks of running out of memory - Limit a container’s resources \| Docker Documentation](https://docs.docker.com/engine/admin/resource_constraints/#understand-the-risks-of-running-out-of-memory) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install Docker Compose \| Docker Documentation](https://docs.docker.com/compose/install/) #ril
 

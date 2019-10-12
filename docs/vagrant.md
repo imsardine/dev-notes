@@ -258,7 +258,7 @@ Connection to 127.0.0.1 closed.
   - shared folder problem · Issue #351 · mitchellh/vagrant https://github.com/mitchellh/vagrant/issues/351#issuecomment-1339640 mitchellh: 跟用來提供 static files 的 `sendfile` syscall 有關，這是 VirtualBox 要修的問題，在這之前先用不同 server 的 configuration 將 `sendfile` 停用。
   - #9069 (shared folder doesn't seem to update) – Oracle VM VirtualBox https://www.virtualbox.org/ticket/9069 這 issue 存在 6 年了 ~
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### macOS
 

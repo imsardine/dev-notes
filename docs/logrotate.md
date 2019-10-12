@@ -80,7 +80,7 @@
             Usage: logrotate [-dfv?] [-d|--debug] [-f|--force] [-m|--mail=command] [-s|--state=statefile] [-v|--verbose] [--version] [-?|--help] [--usage]
                     [OPTION...] <configfile>
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - Logrotate \- ArchWiki](https://wiki.archlinux.org/index.php/Logrotate#Installation)
 

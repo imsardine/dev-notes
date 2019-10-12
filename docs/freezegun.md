@@ -171,7 +171,7 @@
 
         Parameter for `move_to` can be any valid `freeze_time` date (STRING, date, datetime).
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - spulec/freezegun: Let your Python tests travel through time](https://github.com/spulec/freezegun#installation)
 

@@ -235,6 +235,7 @@
   - [PDFMiner](pdfminer.md)
   - [Perfboard 洞洞板](perfboard.md)
   - [PhantomJS](phantomjs.md)
+  - [PHP](php.md)
   - [Pipenv](pipenv.md)
   - [PlantUML](plantuml.md)
   - [PlatformIO](platformio.md)

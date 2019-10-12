@@ -26,7 +26,7 @@ error: espcomm_upload_mem failed
       - Example boards with USB to serial converter build in, that will make your initial project development easier. 圖片沒有標示型號，看起來像是 NodeMCU 與 WeMOS D1
       - If you are using a Generic ESP8266 module, separate USB to serial converter and connect them by yourself, please make sure you have the following three things right: 1. Module is provided with enough power, 2. GPIO0, GPIO15 and CH_PD are connected using pull up / pull down resistors, 3. Module is put into boot loader mode. 重點還是要進 boot loader mode!!
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [esp8266/Arduino: ESP8266 core for Arduino](https://github.com/esp8266/Arduino#installing-with-boards-manager) #ril
       - Starting with 1.6.4, Arduino allows installation of third-party platform packages using Boards Manager.

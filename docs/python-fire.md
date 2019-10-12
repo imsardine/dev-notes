@@ -124,7 +124,7 @@
 
   - [python\-fire/widget\_test\.py at master · google/python\-fire](https://github.com/google/python-fire/blob/master/examples/widget/widget_test.py) 搭配 `fire.testurils` 測? #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - google/python\-fire: Python Fire is a library for automatically generating command line interfaces (CLIs) from absolutely any Python object\.](https://github.com/google/python-fire#installation) 用 Pip 安裝 `fire` 套件即可。
 

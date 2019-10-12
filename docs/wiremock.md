@@ -18,7 +18,7 @@
   - [How to get HTTPS endpoints to proxy successfully in WireMock?](https://botproxy.net/docs/how-to/how-to-get-https-endpoints-to-proxy-successfully-in-wiremock/) #ril
   - [How to use Wiremock with HTTPS · The Dev Haus](http://www.tecraf.com/post/my-first-post/) (2018-02-10) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ## 參考資料 {: #reference }
 

@@ -23,7 +23,7 @@ Chrome 在訪問某些 port 時，會出現 This site can’t be reached (`ERR_U
   - [Which ports are considered unsafe on Chrome \- Super User](https://superuser.com/questions/188058/) #ril
   - [\[chrome\] Contents of /trunk/src/net/base/net\_util\.cc](https://src.chromium.org/viewvc/chrome/trunk/src/net/base/net_util.cc?view=markup) 原始碼列出哪些 port 是不安全的，通常會選 1024+，可能踩到的有 2049、3659、6000、6665-6669。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Manjaro Linux ??
 

@@ -8,7 +8,7 @@
 
   - [VLC command\-line help \- VideoLAN Wiki](https://wiki.videolan.org/VLC_command-line_help/) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Mac OS X \- VideoLAN Wiki](https://wiki.videolan.org/Mac_OS_X/) #ril
 

@@ -25,7 +25,7 @@
 
   - [Programming with PDFMiner](https://euske.github.io/pdfminer/programming.html) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [How to install - PDFMiner](https://euske.github.io/pdfminer/#install) #ril
 

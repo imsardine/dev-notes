@@ -258,7 +258,7 @@ Your code has been rated at -20.00/10 (previous run: -20.00/10, +0.00)
 
         上面 "burying unrelated errors" 暗示著，只要在 handler 裡有 reraise 的話，就不會有警告。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Pylint 1.x, 2.x ??
 

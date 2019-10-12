@@ -4,7 +4,7 @@
       - 可以用 Google、Twitter、GitHub、Bitbucket 帳戶登入。
       - Free plan 只限制每個 group 每月只能用 2000 CI pipeline minutes (執行在 shared runner 上)，可以有不限數量的 private project 跟 collaborator；一個人可以有多個 group??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### 如何安裝 GitLab CE?
 

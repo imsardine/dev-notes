@@ -706,7 +706,7 @@ def hello(who=None):
 
       - You can further configure recommonmark to allow custom syntax that standard CommonMark doesn’t support. Read more in the recommonmark documentation.
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation from PyPI - Installing Sphinx — Sphinx 3\.0\.0\+/f7bf66012 documentation](http://www.sphinx-doc.org/en/master/usage/installation.html#installation-from-pypi)
 

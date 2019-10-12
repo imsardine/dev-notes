@@ -224,7 +224,7 @@
   - [kubernetes/minikube: Run Kubernetes locally](https://github.com/kubernetes/minikube) Minikube 在 VM 裡裡跑一個 single-node Kubernetes cluster
   - [Hello Minikube \| Kubernetes](https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/) 可以在本機執行 Kubernetes，文中提到 Minikube VM ??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Create a Minikube cluster - Hello Minikube \| Kubernetes](https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/#create-a-minikube-cluster) #ril
       - 把 Hello World (Node.js) 轉成 Docker image 並執行在 Minikube 上；Minikube 讓你可以在本機上執行 Kubernetes -- 建立 local cluster。

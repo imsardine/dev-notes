@@ -235,7 +235,7 @@
   - [Suppressing Command\-Line Prompts — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/suppressing_prompts.html) #ril
   - [cookiecutter package — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/cookiecutter.html) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 $ python3 -m venv ~/dev/cookiecutter

@@ -7,7 +7,7 @@
   - [Theme Directory - Featured \| WordPress\.org](https://wordpress.org/themes/) #ril
   - [50\+ Best Free Responsive WordPress Themes 2019 \- Colorlib](https://colorlib.com/wp/free-wordpress-themes/) (2019-01-11) 感覺質感還不錯 #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download \| WordPress\.org](https://wordpress.org/download/) #ril
   - [Installing WordPress « WordPress Codex](https://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Installation) #ril

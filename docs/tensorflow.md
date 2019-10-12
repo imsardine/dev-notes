@@ -39,7 +39,7 @@
   - [Introduction to TensorFlow](https://www.tensorflow.org/learn) #ril
   - [Tools - TensorFlow](https://www.tensorflow.org/resources/tools) 提到 TensorBoard、TensorFlow Playground #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install TensorFlow](https://www.tensorflow.org/install)
 

@@ -9,7 +9,7 @@
   - [Getting Started - Documentation for Visual Studio Code](https://code.visualstudio.com/docs) #ril
   - [Next steps - Setting up Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview#_next-steps) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Setting up Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview)
 

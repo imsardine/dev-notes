@@ -22,7 +22,7 @@
       - 發佈 breadboard view 時至少要載明這是用 Fritzing 做的。
       - Fritzing 本身用 C++ 跟 Qt 開發 (本來是用 Eclipse GMF，但遭遇一些困難)
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Fritzing Download](http://fritzing.org/download/)
       - 支援 Windows、Mac 10.7+ 跟 Linux; Linux 要 libc >= 2.6 的版本 (在 Ubuntu 上測試過)

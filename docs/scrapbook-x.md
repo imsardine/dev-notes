@@ -1,6 +1,6 @@
 # ScrapBook X
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Installation - danny0838/firefox\-scrapbook: ScrapBook X – a Firefox add\-on that inherits from ScrapBook by Gomita and ScrapBook Plus by haselnuss](https://github.com/danny0838/firefox-scrapbook#installation)
 

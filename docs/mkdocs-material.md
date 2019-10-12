@@ -6,7 +6,7 @@
       - [retrace/mkdocs\.yml at master · d0ugal/retrace](https://github.com/d0ugal/retrace/blob/master/mkdocs.yml) #ril
       - [retrace/index\.md at master · d0ugal/retrace](https://github.com/d0ugal/retrace/blob/master/docs/index.md) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 平時寫作：
 

@@ -83,7 +83,7 @@ $ phantomjs --debug=true script-accessing-https.js
   - [PhantomJS unable to load the address · Issue \#10178 · ariya/phantomjs](https://github.com/ariya/phantomjs/issues/10178) #ril
   - [PhantomJS fail to open HTTPS site \| MichaelYin Blog](https://blog.michaelyin.info/phantomjs-fail-to-open-https/) (2018-08-31) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download PhantomJS](http://phantomjs.org/download.html) #ril
 

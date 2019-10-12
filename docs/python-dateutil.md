@@ -91,7 +91,7 @@ dateutil 主要是用它的工具 (尤其是 parsing)，需要用到 timezone �
 
   - [parser — dateutil 2\.6\.1 documentation](http://dateutil.readthedocs.io/en/stable/parser.html) "This module offers a generic date/time string parser which is able to parse most known formats to represent a date and/or time."
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 用 `pip` 安裝 `python-dateutil` 套件即可：(注意不是 `dateutil`)
 

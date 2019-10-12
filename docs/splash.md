@@ -32,7 +32,7 @@ curl -o index.html http://localhost:8050/render.html?url=https://tiddlywiki.com/
   - [scrapy\-plugins/scrapy\-splash: Scrapy\+Splash for JavaScript integration](https://github.com/scrapy-plugins/scrapy-splash#session-handling) #ril
       - Splash 是 stateless，每一個 request 都是全新的，所以要自己處理 cookies。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### Docker
 

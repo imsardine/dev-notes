@@ -64,7 +64,7 @@
 
   - [Integrate with Desktop \- Fcitx](https://fcitx-im.org/wiki/Special:MyLanguage/Integrate_with_Desktop) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Install and Configure \- Fcitx](https://fcitx-im.org/wiki/Special:MyLanguage/Install_and_Configure) #ril
   - [Install input method \- Fcitx](https://fcitx-im.org/wiki/Special:MyLanguage/Install_input_method) #ril

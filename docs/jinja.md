@@ -151,7 +151,7 @@ def test_hello_world(py2):
 
   - [Wide Range of Features - Welcome \| Jinja2 (The Python Template Engine)](http://jinja.pocoo.org/#wide-range-of-features) Configurable syntax. For instance you can reconfigure Jinja2 to better fit output formats such as LaTeX or JavaScript. 是指可以把 `{% ... %}` 及 `{{ ... }}` 換成其他符號??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 支持 Python 2.6+ 與 Python 3.3+，但 Python 3 還在實驗階段。
   - 用 pip 安裝 `Jinja` 套件即可。

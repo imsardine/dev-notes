@@ -108,7 +108,7 @@
 
   - [jupyterhub/jupyterhub: Multi\-user server for Jupyter notebooks](https://github.com/jupyterhub/jupyterhub) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - 安裝內含 Jupyter 的 [Anaconda](anaconda.md#installation)，執行 `jupyter notebook` 就可以啟動 Notebook Server。
 

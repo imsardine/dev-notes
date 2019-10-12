@@ -161,7 +161,7 @@
   - [Tox Automation Project - Advanced Usage of Pipenv — pipenv 2018\.10\.14\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/advanced/#tox-automation-project) #ril
   - [tox\-dev/tox\-pipenv: A pipenv plugin for Tox](https://github.com/tox-dev/tox-pipenv) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Pipenv: Python Dev Workflow for Humans — pipenv 2018\.11\.27\.dev0 documentation](https://pipenv.readthedocs.io/en/latest/#install-pipenv-today) 提到 `brew install pipenv` 與 `sudo dnf install pipenv`，就是沒提到 `pip install pipenv`?
   - [How to keep setup\.py install\_requires and Pipfile in sync · Issue \#1263 · pypa/pipenv](https://github.com/pypa/pipenv/issues/1263) uranusjr: Pipenv should only be installed once (usually globally), and is used outside the project’s virtualenv to manage it, not inside the project’s virtualenv.

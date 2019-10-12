@@ -44,7 +44,7 @@
   - [Texpad · Help · TeX vs\. LaTeX](https://www.texpad.com/support/latex/advanced/tex-vs-latex) #ril
   - [Levels of TeX \- TeX Users Group](http://www.tug.org/levels.html) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### macOS ??
 

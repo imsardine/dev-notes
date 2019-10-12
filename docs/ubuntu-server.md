@@ -5,7 +5,7 @@ title: Ubuntu / Server
 
   - [Ubuntu Server \- for scale out workloads \| Ubuntu](https://www.ubuntu.com/server) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### VirtualBox
 

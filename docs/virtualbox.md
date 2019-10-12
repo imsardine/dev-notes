@@ -11,7 +11,7 @@
 
         不過 [3.1. Supported Guest Operating Systems - Chapter 3\. Configuring Virtual Machines](https://www.virtualbox.org/manual/ch03.html#guestossupport) 也沒提到任何 embedded 相關的 OS??
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Downloads – Oracle VM VirtualBox](https://www.virtualbox.org/wiki/Downloads) #ril
 

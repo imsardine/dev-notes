@@ -167,7 +167,7 @@ int main() {
   - 習慣內縮幾格??
       - http://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/ 建議用 4 格 (除非別人的專案已經用了 tab)，但不要混用 space 跟 tab 就好。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ### macOS
 

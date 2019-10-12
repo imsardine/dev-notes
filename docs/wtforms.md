@@ -193,7 +193,7 @@
   - Form 比較像是 presentation mode。
   - 假設前端 UI 輸入日期的設計是用分開的下拉清單分別選最年、月、日，那麼 form 顯然就不適合傳進 domain model，應該要解析成 date 型態後再傳進去。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Download / Installation - WTForms Documentation](https://wtforms.readthedocs.io/en/latest/crash_course.html#download-installation) 安裝 `WTForms` 套件
 

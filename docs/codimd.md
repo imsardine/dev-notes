@@ -62,7 +62,7 @@
   - [Rename the project · Issue \#720 · hackmdio/codimd](https://github.com/hackmdio/codimd/issues/720) #ril
   - [Rebrand HackMD CE to CodiMD by SISheogorath · Pull Request \#850 · hackmdio/codimd](https://github.com/hackmdio/codimd/pull/850) #ril
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Deployment - hackmdio/codimd: CodiMD \- Realtime collaborative markdown notes on all platforms\.](https://github.com/hackmdio/codimd#deployment)
 

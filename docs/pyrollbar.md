@@ -130,7 +130,7 @@ pyrollbar is a Python SDK for reporting exceptions, errors, and log messages to 
 
     從 Git log 看來，`RollbarHandler` 第一次出現在 v0.6.0。
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
   - [Quick start - Python](https://docs.rollbar.com/docs/python#section-quick-start)
 

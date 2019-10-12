@@ -29,7 +29,7 @@ $code-font-size = 13px
   - font 修改 · Issue #111 · iissnan/hexo-theme-next https://github.com/iissnan/hexo-theme-next/issues/111 在 `source/css/_custom/variables.styl` 自訂字體，也試不出來
   - 如何更改字体？ http://theme-next.iissnan.com/faqs.html#custom-font 官方文件，原來是要改 theme 下面的 `source/css/_variables/custom.styl`，`$font-size-base` 與 `$code-font-size = 13px` 分別調整本文與代碼的字體大小；不過選單字體沒跟著放大好像也怪怪的?
 
-## 安裝設定 {: #installation }
+## 安裝設置 {: #setup }
 
 ```
 $ git submodule add https://github.com/theme-next/hexo-theme-next.git themes/next
