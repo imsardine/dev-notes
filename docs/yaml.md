@@ -88,7 +88,7 @@ greeting: Hello, YAML!
         # Comments in YAML look like this.
 
      1. 看來註解 `#` 不一定要出現在行首。
-     2. `---` 是用來隔開 front matter，應該不是必要的 ?? 
+     2. `---` 是用來隔開 front matter，應該不是必要的 ??
 
     SCALAR TYPES
 
@@ -188,6 +188,7 @@ greeting: Hello, YAML!
 ## String ??
 
   - [Strings - The YAML Format (The Yaml Component \- Symfony Docs)](https://symfony.com/doc/current/components/yaml/yaml_format.html#strings) #ril
+
       - Strings in YAML can be wrapped both in single and double quotes. In some cases, they can also be UNQUOTED:
 
             A string in YAML
@@ -199,12 +200,23 @@ greeting: Hello, YAML!
             :, {, }, [, ], ,, &, *, #, ?, |, -, <, >, =, !, %, @, `
 
       - When using single-quoted strings, any single quote `'` inside its contents must be doubled to escape it: `'A single quote '' inside a single-quoted string'`，那雙引號怎麼 escape??
+
   - [Scalars - A YAML Primer — OctoPrint 1\.3\.9\.post5\.dev0\+g09af281 documentation](http://docs.octoprint.org/en/master/configuration/yaml.html#scalars) In double quoted strings if you need to include a literal double quote in your string you can escape it by PREFIXING IT WITH A BACKSLASH `\` (which you can in turn escape by itself). In single quoted strings the single quote character can be escaped by prefixing it with another single quote, basically DOUBLING IT. Backslashes in single quoted strings do not need to be escaped. 在 single quote 與 double quote 裡要 escape quote 的方式很不一樣，double quote 裡因為 `\` 有作用的關係，用 `\"`，但 single quote 裡因為 `\` 沒有作用，所以改用 `''`。
   - [syntax \- Do I need quotes for strings in Yaml? \- Stack Overflow](https://stackoverflow.com/questions/19109912/) `Yes` 跟 `No` 要加引號，否則會被解讀為 `True`/`False` #ril
 
 ## 多行字串要如何表示 ?? {: #multiline-string }
 
   - [YAML Multiline Strings](http://yaml-multiline.info/) #ril
+
+      - There are two types of formats that YAML supports for strings: BLOCK SCALAR and FLOW SCALAR formats.
+
+        (Scalars are what YAML calls basic values like numbers or strings, as opposed to complex types like arrays or objects.)
+
+        Block scalars have more control over how they are interpreted, whereas flow scalars have more limited escaping support.
+
+      - 最下面 Plain 的用法其實滿直覺的，結果幾乎跟 `'` 一樣。
+
+  - [syntax \- How do I break a string over multiple lines? \- Stack Overflow](https://stackoverflow.com/questions/3790454) #ril
 
 ## Data Serialization ??
 

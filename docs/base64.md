@@ -28,7 +28,7 @@
 
         In some implementations, the padding character is mandatory, while for others it is not used. One case in which padding characters are required is concatenating multiple Base64 encoded files.
 
-        試過 macOS 的 `base64` 與 Python 的 `base64` 還到 padding 被去掉時都會出狀況：
+        試過 macOS 的 `base64` 與 Python 的 `base64` 遇到 padding 被去掉時都會出狀況：
 
             $ echo 'Hello, World!' | base64
             SGVsbG8sIFdvcmxkIQo=
@@ -147,9 +147,29 @@ TIP: 以前很直覺地會認為 Base64 的編碼結果，結尾一定會有等�
 
 ```
 $ export DATA=SGVsbG8sIFdvcmxkIQ       # 完整資料 SGVsbG8sIFdvcmxkIQ==
-$ echo "${DATA}===" | base64 --decode  # 固定加上 ===
+$ echo -n "${DATA}===" | base64 --decode  # 固定加上 ===
 Hello, World!
 ```
+
+後來才發現這做法可能不完全通用，在 macOS 及 Ubuntu 下都會有錯誤：
+
+```
+$ echo -n "VG9kYXkgaXMgbXkgZGF5" | base64 --decode
+Today is my day
+
+$ echo -n "VG9kYXkgaXMgbXkgZGF5===" | base64 --decode ; echo $?
+Invalid character in input stream.
+65
+
+$ docker run -it --rm ubuntu bash -c 'echo -n "VG9kYXkgaXMgbXkgZGF5===" | base64 -d ; echo $?'
+Today is my daybase64: invalid input
+1
+
+$ docker run -it --rm --entrypoint= docker/compose:1.24.0 sh -c 'apk add --no-cache make && echo -n "VG9kYXkgaXMgbXkgZGF5===" | base64 -d ; echo $?'
+Today is my day0
+```
+
+顯然 `docker/compose:1.24.0` 下的 `base64` 相對友善。
 
 參考資料：
 

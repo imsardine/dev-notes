@@ -148,7 +148,11 @@ title: AWS / SNS (Simple Notification Service)
 
   - SNS 跟 SQS 的 message payload [原先都有 64 KB 的限制](https://aws.amazon.com/about-aws/whats-new/2013/06/18/amazon-sqs-announces-256KB-large-payloads/)，但 2013-06-18 為了支援更多的 use case，所以將此限制放寬到 256 KB。
 
-    但這並不意謂著就該將檔案直接塞進 message 裡，建議把檔案放 S3，而 SNS message 只有留有檔案的 reference 及其他 metadata 即可。
+    但這並不意謂著就該將檔案直接塞進 message 裡，建議讓檔案 offloading 放到 S3，而 SNS message 只有帶有檔案的 reference 及其他 metadata 即可。
+
+    若不想讓 consumer 直接存取 S3 (綁定了 bucket，且整個 bucket 的內容都拿得到)，reference 可以設計成有時效的 signed URL，收到 message 的人在一定時間內都可以透過 URL 拿到檔案內容，不需要通過驗證。
+
+    日後有重新下載檔案的需求，則可以在 metadata 裡埋 key，回頭跟來源系統再要一次檔案；但通常不會有這個需求。
 
 ---
 

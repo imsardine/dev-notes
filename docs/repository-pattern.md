@@ -1,11 +1,31 @@
 # Repository Pattern
 
-  - [P of EAA: Repository](https://martinfowler.com/eaaCatalog/repository.html) #ril
-      - Repository: 在 domain layer 與 data mapping layer 間居中協調 (mediate)，使能透過 collection-like interface 存取 domain objects。
-      - Data Mapper 可以將 domain objects 與 database access code 隔開，通常值得在 mapping layer 上再疊加一層 -- 專注在 query construction code，避免重複 query logic -- 這就是 repository。
-      - Repository 像是個 in-memory domain object collection，對外為 persistence layer 提供更為 object-oriented 的 view -- 物件可以加入 repository，或是從 repository 移除 -- repository 內部會把它轉化為 mapping layer 的操作。
-      - Client objects construct QUERY SPECIFICATIONS DECLARATIVELY and submit them to Repository for satisfaction. 這裡的 specification 有學問??
+  - [P of EAA: Repository](https://martinfowler.com/eaaCatalog/repository.html)
+
+      - Mediates between the domain and data mapping layers using a COLLECTION-LIKE INTERFACE for accessing domain objects.
+
+        For a full description see P of EAA page 322
+
+        ![](https://martinfowler.com/eaaCatalog/repositorySketch.gif)
+
+        重點是用起來像個 (in-memory) collection；雖然這個 sequence diagram 只強調了 query construction，但還是有提到 add/remove。
+
+      - A system with a complex domain model often benefits from a LAYER, such as the one provided by Data Mapper (165), that isolates domain objects from details of the database access code.
+
+        In such systems it can be worthwhile to build another layer of abstraction over the mapping layer where QUERY CONSTRUCTION CODE is concentrated. This becomes more important when there are a large number of domain classes or heavy querying. In these cases particularly, adding this layer helps MINIMIZE DUPLICATE QUERY LOGIC.
+
+        這裡的 data mapper 指的就是 ORM/DAL，在 domain model 與 ORM 之間，可以再隔一層 repository，對外除了 query logic 還有 add & remove，內部會轉化成 ORM 的操作。
+
+      - A Repository mediates between the domain and data mapping layers, acting like an IN-MEMORY DOMAIN OBJECT COLLECTION. Client objects construct QUERY SPECIFICATIONS DECLARATIVELY and submit them to Repository for satisfaction. Objects can be added to and removed from the Repository, as they can from a simple collection of objects, and the mapping code encapsulated by the Repository will carry out the appropriate operations behind the scenes.
+
+        上圖中的 criteria 或這裡的 (declarative) specification 並非必要，但確實可以讓 query method 的數量變少。
+
+      - Conceptually, a Repository encapsulates the set of objects persisted in a data store and the operations performed over them, providing a MORE OBJECT-ORIENTED VIEW of the persistence layer. Repository also supports the objective of achieving a clean separation and ONE-WAY DEPENDENCY between the domain and data mapping layers.
+
+        也就是說，用了 repository pattern，就沒有理由讓 domain 接觸到 ORM。
+
   - [The Repository Pattern \| Microsoft Docs](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10)) (2010-04-27) #ril
+
   - [Using the Repository Pattern \| Building RESTful Web Services Workshop 17 \- YouTube](https://www.youtube.com/watch?v=tUuBMifqFAg) #ril
 
 ### 有 ORM 為什麼還要有 Repository ??
@@ -44,7 +64,11 @@
   - [4 Common Mistakes with the Repository Pattern \- Programming with Mosh](https://programmingwithmosh.com/entity-framework/common-mistakes-with-the-repository-pattern/) (2017-04-03)
       - One repository per domain: 一個 domain class 對應一個 repository。
       - Repositories that return view models/DTOs: 由於 repository = a collection of domain objects，很明顯 mapping 並不是 repository 的責任 (將 domain object 轉成 view model 或 DTO 而言) -- 那是 client code 的責任。
+
       - Save/Update method in repositories: 由於 repository 是個 collection，不會有 `save()`/`update()`；後段 "sometimes as part of a transaction you may work with multiple repositories" 的說法不太懂，不過 `save()` 確實給人有 persistence 的錯覺，這裡 `unitOfWork.Complete()` 的寫法還滿通用的 #ril
+
+        Update 就找 domain object，不該在 repository 上。
+
       - Repositories that return IQueryable: 重申 repository 的目的是 "encapsulate fat queries ... the chances of you repeating a fat query in multiple places increases"，要像是個 collection of domain objects，所以要傳回 `IEnumerable` 而非 `IQueryable`；這應該是 .NET 特有的問題?
   - [Sapiensworks \| Repository vs DAO](https://blog.sapiensworks.com/post/2012/11/01/Repository-vs-DAO.aspx) (2012-11-01) #ril
   - [hibernate \- What is the difference between DAO and Repository patterns? \- Stack Overflow](https://stackoverflow.com/questions/8550124/) #ril

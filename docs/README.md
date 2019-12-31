@@ -19,6 +19,7 @@
   - [App Store Connect](app-store-connect.md)
   - [APScheduler](apscheduler.md)
   - [Arch Linux](archlinux.md)
+  - [Architecture](architecture.md)
   - [Arduino](arduino.md)
   - [AsciiMath](asciimath.md)
   - [AVR Microcontroller](avr.md)
@@ -45,8 +46,10 @@
 ## C
 
   - [C](c.md)
+  - [C4 Model](c4.md)
   - [Cache](cache.md)
   - [Celery](celery.md)
+  - [Carbon (PHP)](carbon-php.md)
   - [Chrome](chrome.md)
   - [Chromecast](chromecast.md)
   - [Circuit 電路](circuit.md)
@@ -57,8 +60,10 @@
   - [Click](click.md)
   - [CMake](cmake.md)
   - [CodiMD](codimd.md)
+  - [Composer](composer.md)
   - [Conda](conda.md)
   - [Connexion](connexion.md)
+  - [Context Diagram](context-diagram.md)
   - [Cookiecutter](cookiecutter.md)
   - [Configuration](configuration.md)
   - [CORS](cors.md)
@@ -83,6 +88,7 @@
 
 ## E
 
+  - [EC2](ec2.md)
   - [Elastic](elastic.md)
   - [Elasticsearch](elasticsearch.md)
   - [ElasticSearch Head](elasticsearch-head.md)
@@ -95,6 +101,7 @@
 
 ## F
 
+  - [Facade Pattern](facade-pattern.md)
   - [Favicon](favicon.md)
   - [Fcitx](fcitx.md)
   - [Feedly](feedly.md)
@@ -130,7 +137,9 @@
   - [Google Cloud Search](google-cloud-search.md)
   - [Google Colaboratory (Colab)](google-colab.md)
   - [Google Drive](google-drive.md)
+  - [GraalVM](graalvm.md)
   - [GraphQL](graphql.md)
+  - [Graphviz](graphviz.md)
   - [GTK](gtk.md)
   - [Gunicorn](gunicorn.md)
 
@@ -156,6 +165,7 @@
 
   - [JaCoCo](jacoco.md)
   - [JavaScript](javascript.md)
+  - [JDK (Java Development Kit)](jdk.md)
   - [Jinja](jinja.md)
   - [JSON](json.md)
   - [JSON Lines](jsonlines.md)
@@ -197,6 +207,7 @@
   - [Manjaro](manjaro.md)
   - [Markdown](markdown.md)
   - [MathJax](mathjax.md)
+  - [Maven](maven.md)
   - [mdBook](mdbook.md)
   - [Mermaid](mermaid.md)
   - [Microcontroller 微處理器](microcontroller.md)
@@ -244,6 +255,7 @@
   - [Postman](postman.md)
   - [Potentiometer 電位計](potentiometer.md)
   - [Powerlevel9k](powerlevel9k.md)
+  - [Presentation Model](presentation-model.md)
   - [Programming](programming.md)
   - [Proxy Pattern](proxy-pattern.md)
   - [Publish/Subscribe Pattern](pubsub-pattern.md)
@@ -309,6 +321,7 @@
   - [Splash](splash.md)
   - [SQLAlchemy](sqlalchemy.md)
   - [SSD (Single Shot Multibox Detector)](ssd.md)
+  - [SSH](ssh.md)
   - [Stackdriver](stackdriver.md)
   - [Statuspage](statuspage.md)
   - [strings](strings.md)
@@ -326,6 +339,7 @@
   - [TeX](tex.md)
   - [Text Mode](text-mode.md)
   - [ThingSpeak](thingspeak.md)
+  - [Timezone](timezone.md)
   - [TMP36](tmp36.md)
   - [top](top.md)
   - [tox](tox.md)
@@ -360,6 +374,7 @@
   - [Webduino](webduino.md)
   - [WebScrapBook](webscrapbook.md)
   - [WEMOS](wemos.md)
+  - [WildFly](wildfly.md)
   - [WireMock](wiremock.md)
   - [WordPress](wordpress.md)
   - [WTForms](wtforms.md)
@@ -380,4 +395,5 @@
 
 ## Z
 
+  - [Zoom](zoom.md)
   - [Zsh](zsh.md)

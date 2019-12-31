@@ -4,6 +4,7 @@ title: PlantUML / Server
 # [PlantUML](plantuml.md) / Server
 
   - [The servlet for server side](http://plantuml.com/server) #ril
+
   - [PlantUML & GitLab \| GitLab](https://docs.gitlab.com/ee/administration/integration/plantuml.html)
       - Before you can enable PlantUML in GitLab; you need to set up your own PlantUML server that will generate the diagrams.
 

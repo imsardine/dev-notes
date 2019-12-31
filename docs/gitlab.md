@@ -4,6 +4,142 @@
       - 可以用 Google、Twitter、GitHub、Bitbucket 帳戶登入。
       - Free plan 只限制每個 group 每月只能用 2000 CI pipeline minutes (執行在 shared runner 上)，可以有不限數量的 private project 跟 collaborator；一個人可以有多個 group??
 
+## Notification
+
+  - [GitLab Notification Emails \| GitLab](https://docs.gitlab.com/ee/user/profile/notifications.html)
+
+      - GitLab Notifications allow you to stay informed about what’s happening in GitLab. With notifications enabled, you can receive updates about activity in issues, merge requests, and epics. Notifications are sent via email.
+
+    Receiving notifications
+
+      - You will receive notifications for one of the following reasons:
+
+          - You participate in an issue, merge request, or epic. In this context, PARTICIPATE means comment, or edit.
+
+            被 mention 到也算；下面 Issue / Epics / Merge request events 對 participant 有更精確的定義。
+
+          - You enable notifications in an issue, merge request, or epic. To enable notifications, click the Notifications toggle in the sidebar to on.
+
+      - While notifications are enabled, you will receive notification of actions occurring in that issue, merge request, or epic.
+
+        這是預設的情況，因為 notification level 可以調成 On mention，只有明確明確被提及時才會收到通知。
+
+    Tuning your notifications
+
+      - The quantity of notifications can be OVERWHELMING. GitLab allows you to tune the notifications you receive. For example, you may want to be notified about all activity in a specific project, but for others, only be notified when you are mentioned by name.
+
+        可以依 group/project 分開設定。
+
+      - You can tune the notifications you receive by COMBINING your notification settings:
+
+          - Global notification settings
+          - Notification scope
+          - Notification levels
+
+    Editing notification settings
+
+      - To edit your notification settings:
+
+          - Click on your profile picture and select Settings.
+          - Click Notifications in the left sidebar.
+          - Edit the desired notification settings. Edited settings are automatically saved and enabled.
+          - These notification settings apply only to you. They do not affect the notifications received by anyone else in the same project or group.
+
+        這就是 Global notification settings。
+
+    Global notification settings
+
+      - Your Global notification settings are the default settings unless you select different values for a project or a group.
+
+          - Notification email
+
+            This is the email address your notifications will be sent to.
+
+          - Global notification level
+
+            This is the default notification level which applies to all your notifications.
+
+          - Receive notifications about your own activity.
+
+            Check this checkbox if you want to receive notification about your own activity. Default: Not checked.
+
+    Notification scope
+
+      - You can tune the scope of your notifications by selecting different notification levels for each project and group.
+
+      - Notification scope is applied in order of precedence (highest to lowest):
+
+          - Project
+
+            For each project, you can select a notification level. Your project setting overrides the group setting.
+
+          - Group
+
+            For each group, you can select a notification level. Your group setting overrides your default setting.
+
+          - Global (default)
+
+            Your global, or default, notification level applies if you have not selected a notification level for the project or group in which the activity occurred.
+
+    Group notification email address
+
+      - You can select an email address to receive notifications for each group you belong to. This could be useful, for example, if you work freelance, and want to keep email about CLIENTS’ PROJECTS separate.
+
+        Introduced in GitLab 12.0
+
+        這情況在 GitLab.com 上才會有需要。
+
+    Notification levels
+
+      - For each project and group you can select one of the following levels:
+
+          - Global: Your global settings apply.
+          - Watch: Receive notifications for any activity.
+          - On mention: Receive notifications when `@mentioned` in comments.
+
+          - Participate: Receive notifications for THREADS you have participated in.
+
+            這裡的 thread 指的是 comment thread ??
+
+          - Disabled: Turns off notifications.
+          - Custom: Receive notifications for custom selected events.
+
+    Issue / Epics / Merge request events
+
+      - In most of the below cases, the notification will be sent to:
+
+          - PARTICIPANTS:
+
+              - the author and assignee of the issue/merge request
+
+                包含 author 不一定合適，因為可能幫別人回報問題；可以在 description 裡另外安排 Reporter。
+
+              - authors of comments on the issue/merge request
+
+                講過話，就算加入了。
+
+              - anyone mentioned by `@username` in the TITLE OR DESCRIPTION of the issue, merge request or epic
+
+                出現在 title/description 就是必然的 stakeholder。
+
+              - anyone with notification level “Participating” or higher that is mentioned by `@username` in any of the comments on the issue, merge request, or epic ??
+
+          - Watchers: users with notification level “Watch”
+
+          - Subscribers: anyone who MANUALLY subscribed to the issue, merge request, or epic
+
+            明確啟用 issue 的 notification??
+
+          - Custom: Users with notification level “custom” who turned on notifications for any of the events present in the table below
+
+      - In addition, if the TITLE OR DESCRIPTION of an Issue or Merge Request is changed, notifications will be sent to any NEW MENTIONS by `@username` AS IF they had been mentioned in the original text.
+
+        這個設計很棒，如果後來才發現某個人一開始就該知道這整件事，加個 mention 就可以了；不過修改 comment 補上 mention 並沒有這樣的效果。
+
+      - You won’t receive notifications for Issues, Merge Requests or Milestones created by yourself (except when an issue is due). You will only receive automatic notifications when somebody else comments or adds changes to the ones that you’ve created or mentions you.
+
+      - If an open merge request becomes unmergeable due to conflict, its author will be notified about the cause. If a user has also set the merge request to AUTOMATICALLY MERGE?? once pipeline succeeds, then that user will also be notified.
+
 ## 安裝設置 {: #setup }
 
 ### 如何安裝 GitLab CE?
@@ -127,3 +263,4 @@ $ sudo gitlab-ctl reconfigure # 完成初始化
   - [EmojiCopy](https://www.emojicopy.com/) ([GitLab 文件推薦的查詢界面](https://docs.gitlab.com/ee/user/markdown.html#emoji))
   - [GitLab quick actions - GitLab Documentation](https://docs.gitlab.com/ee/user/project/quick_actions.html)
   - [GitLab releases](https://about.gitlab.com/releases/)
+  - [Permissions](https://docs.gitlab.com/ee/user/permissions.html#project-members-permissions)

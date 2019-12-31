@@ -38,8 +38,10 @@ Host <NICKNAME> [<NICKNAME>] ...
 參考資料：
 
   - [ssh\(1\) \- OpenBSD manual pages](https://man.openbsd.org/ssh#ENVIRONMENT)
+
       - 沒有指定 identity file 的 environment variable
       - `-i identity_file` 可以指定 identity file (private key)，預設會用 `~/.ssh/id_dsa`、`~/.ssh/id_ecdsa`、`~/.ssh/id_ed25519` 或 `~/.ssh/id_rsa`，提到 "Identity files may also be specified on a PER-HOST BASIS in the configuration file."，但 It is possible to have multiple `-i` options 是怎麼回事?
+
   - [ssh\_config\(5\) \- OpenBSD manual pages](https://man.openbsd.org/ssh_config.5)
       - 依序從 command-line options -> user's configuration file (`~/.ssh/config`) -> system-wide configuration file (`/etc/ssh/ssh_config`) 讀取 configuration，以先讀取到的值為主 For each parameter, the first obtained value will be used. 也就是前者會覆寫後者；在同一個 configuration file 裡也是一樣，越上面的設定會優先採用 (如果符合 pattern 的話)。
       - 整個檔案以 `Host` specification 劃分，接下來的設定 -- 每一行都是 keyword-argument pair (但 `#` 開頭或空白行會被忽略) -- 只會套用在符合 pattern 的 host(s) 上 (直到下一個 `Host` 或 `Match` 出現)。`Host` 後面可以接多個用空白隔開的 pattern，單一個 `*` 則用來為所有 host 提供 global defaults (要擺在最後面)
@@ -47,6 +49,7 @@ Host <NICKNAME> [<NICKNAME>] ...
       - `IdentityFile` 指定 authentication identity，可以使用 `~` (tilde) 表示 home director，例如 `IdentityFile ~/.ssh/id_rsa`。
       - `User` 用來指定 log in 的身份，當使用者跟本機不同時很方便，不用記哪一台機器要用什麼使用者。
       - `HostName` 可以用來指定 log in 真正的 host name，預設是用 command line 給的名字；不太懂 "This can be used to specify nicknames or abbreviations for hosts." 的意思，所謂 nickname 應該在 `Host` 後面羅列出來吧??
+
   - [Creating remote server nicknames with \.ssh/config \- SaltyCrane Blog](https://www.saltycrane.com/blog/2008/11/creating-remote-server-nicknames-sshconfig/) (2008-11-20) 從範例看來，nickname 是指 `Host` 後面的 pattern，而真正的 host name 則由 `HostName` 來指定。
   - [OpenSSH Config File Examples \- nixCraft](https://www.cyberciti.biz/faq/create-ssh-config-file-on-linux-unix/) (2018-05-15) 習慣上 `Host ...` 以外的設定都會內縮一層。
   - 實驗發現，用 `Host` 指定某些 hosts 的設定之後，並不需要額外用 `Host *` 指定 identity file 要用 `~/.ssh/id_rsa`，好像自然會 fallback。
@@ -73,6 +76,7 @@ Host <NICKNAME> [<NICKNAME>] ...
 
 更多：
 
+  - [SSH Tunneling](openssh-tunneling.md)
   - [OpenSSH Server](openssh-server.md)
 
 手冊：

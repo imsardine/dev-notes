@@ -42,3 +42,7 @@
 
 ## 參考資料 {: #reference }
 
+工具：
+
+  - [SAML Service Provider (SP) Metadata XML Builder | SAMLTool.com](https://www.samltool.com/sp_metadata.php)
+  - [SAML Identity Provider (IdP) XML Metadata Builder | SAMLTool.com](https://www.samltool.com/idp_metadata.php)

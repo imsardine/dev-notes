@@ -12,7 +12,7 @@
 
 ## 新手上路 ?? {: #reference }
 
-  - 所有的 diagram 都用 `@startuml` 與 `enduml` 括起來，並不會特別宣告是哪種 diagram。所以 PlantUML 要學習通則、各項元素要怎麼表示，所請不同的 diagram，就是用上不同的元素而已，元素的用法在不同 diagram 裡都是一樣的，例如 note、actor、line、arrow ...
+  - 所有的 diagram 都用 `@startuml` 與 `@enduml` 括起來，並不會特別宣告是哪種 diagram。所以 PlantUML 要學習通則、各項元素要怎麼表示，所請不同的 diagram，就是用上不同的元素而已，元素的用法在不同 diagram 裡都是一樣的，例如 note、actor、line、arrow ...
 
 ---
 
@@ -55,6 +55,26 @@
 
   - [Common - PlantUML \| DrawUML](http://ogom.github.io/draw_uml/plantuml/#common) 這裡將 `'` 與 `/' '/` 分別稱做 single-line comment 與 block comment。
 
+## Title / Caption, Header / Footer
+
+  - [Footer and header - General and common command to handle graphic layout in diagrams\.](http://plantuml.com/commons) #ril
+
+      - You can use the commands `header` or `footer` to add a footer or a header on any generated diagram.
+      - You can optionally specify if you want a `center`, `left` or `right` footer/header, by adding a keyword.
+      - As for title, it is possible to define a header or a footer on several lines. 跟 `header`/`footer` command 相連的幾行，都會被視為內容；但 title 有另一個 command 不是??
+      - It is also possible to put some HTML into the header or footer. (通常是為了控制顏色)
+
+            Alice -> Bob: Authentication Request
+
+            header
+            <font color=red>Warning:</font>
+            Do not use in production.
+            endheader
+
+            center footer Generated for demonstration
+
+        ![](http://s.plantuml.com/imgw/commons-nfzmdfkb.webp)
+
 ## Note
 
 參考資料：
@@ -73,26 +93,22 @@
 
       - It is possible to put notes on message using the `note left` or `note right` keywords just after the message.
 
-            @startuml
             Alice->Bob : hello
             note left: this is a first note
 
             Bob->Alice : ok
             note right: this is another note
-            @enduml
 
         跟 note 一般的用法一致，緊接在要加 note 的對象之後，用 `note left: ...` 或 `note right: ` 帶出 notes；試過 `note top:` 跟 `note bottom:` 也可以。
 
       - You can have a multi-line note using the `end note` keywords.
 
-            @startuml
             Bob->Bob : I am thinking
             note left
                 a note
                 can also be defined
                 on several lines
             end note
-            @enduml
 
         注意 `note left` 右側沒有 `:`，內文左側的內縮只是提高可讀性。
 
@@ -100,7 +116,6 @@
 
       - You can use the `note left of` , `note right of` , `note top of` , `note bottom of` keywords to define notes related to a single OBJECT.
 
-            @startuml
             :Main Admin: as Admin
             (Use the application) as (Use)
 
@@ -115,17 +130,14 @@
               A note can also
               be on several lines
             end note
-            @enduml
 
         相對於之前 `note left/right/top/bottom` 一定要宣告在 object 之後的用法，加上 `of` 就可以把 note 寫在其他地方，當然也支援多行的 note。
 
       - A note can be also DEFINE ALONE with the `note` keywords, then LINKED to other objects using the `..` symbol.
 
-            @startuml
             note "This note is connected\nto several objects." as N2
             (Start) .. N2
             N2 .. (Use)
-            @enduml
 
         會把 note 的宣告額外接出來 (並給予別名)，通常是該 note 要同時說明多個物件。
 
@@ -139,7 +151,6 @@
 
       - A note can be also define alone with the `note` keywords, then linked to other objects using the `..` symbol.
 
-            @startuml
             class Object << general >>
             Object <|--- ArrayList
 
@@ -152,7 +163,6 @@
 
             class Foo
             note left: On last defined class
-            @enduml
 
   - [Notes - Activity Diagram syntax and features](http://plantuml.com/activity-diagram-legacy)
 
@@ -162,7 +172,6 @@
 
       - You can also have a note on several lines, using the `endnote` keywords.
 
-            @startuml
             (*) --> "Some Activity"
             note right: This activity has to be defined
             "Some Activity" --> (*)
@@ -170,7 +179,6 @@
              This note is on
              several lines
             end note
-            @enduml
 
         原來 `endnote` 跟 `end note` 兩種寫法都可以。
 
@@ -178,7 +186,6 @@
 
       - Text formatting can be done using CREOLE WIKI SYNTAX.
 
-            @startuml
             start
             :foo1;
             floating note left: This is a note
@@ -191,43 +198,134 @@
               * Calling the method ""foo()"" is prohibited
             end note
             stop
-            @enduml
 
       - A note can be floating, using `floating` keyword.
 
         實驗發現 `floating` 只能用在 activity 後，否則會丟出 Syntax Error。
 
-## Wiki Syntax ??
+## Stereotype
+
+  - [Using Sprite in Stereotype - Component Diagram syntax and features](http://plantuml.com/component-diagram#11) Stereotype 可以自訂圖示! #ril
+
+## Wiki Syntax
 
   - [Notes - New Activity Diagram Beta syntax and features](http://plantuml.com/activity-diagram-beta) 第一次提到 note 的內容可以用 creole 語法。
   - [Use creole syntax to style your texts](http://plantuml.com/creole) #ril
 
-## Title / Caption, Header / Footer ??
+## Link, Arrow
 
-  - [Footer and header - General and common command to handle graphic layout in diagrams\.](http://plantuml.com/commons) #ril
+  - [Basic example - Component Diagram syntax and features](http://plantuml.com/component-diagram#4)
 
-      - You can use the commands `header` or `footer` to add a footer or a header on any generated diagram.
-      - You can optionally specify if you want a `center`, `left` or `right` footer/header, by adding a keyword.
-      - As for title, it is possible to define a header or a footer on several lines. 跟 `header`/`footer` command 相連的幾行，都會被視為內容；但 title 有另一個 command 不是??
-      - It is also possible to put some HTML into the header or footer. (通常是為了控制顏色)
+    Links between elements are made using combinations of dotted line (`..`), straight line (`--`), and arrows (`-->`) symbols.
 
-            @startuml
-            Alice -> Bob: Authentication Request
+        DataAccess - [First Component]
+        [First Component] ..> HTTP : use
 
-            header
-            <font color=red>Warning:</font>
-            Do not use in production.
-            endheader
+    注意有 `-`、`.` 的用法，但就是沒有 `>` 的用法；因為 `>` 只是加上 arrow，不影響 ranking。
 
-            center footer Generated for demonstration
+    這裡 dot (`..`)、dash (`--`) 的說法有點微妙，因為 `..` 畫出的是虛線 (dashed)，而 `--` 畫出的是實線 (solid)。
 
-            @enduml
+  - [Changing arrows direction - Component Diagram syntax and features](http://plantuml.com/component-diagram#7)
 
-        ![](http://s.plantuml.com/imgw/commons-nfzmdfkb.webp)
+      - By default, links between classes have TWO dashes `--` and are vertically oriented. It is possible to use horizontal link by putting a SINGLE dash (or dot) like this:
 
-## Line, Arrow ??
+            [Component] --> Interface1
+            [Component] -> Interface2
+
+        這裡隱約帶出 rank 的概念，只是沒有明講。
+
+      - You can also change directions by REVERSING the link:
+
+            Interface1 <-- [Component]
+            Interface2 <- [Component]
+
+      - It is also possible to change arrow direction by adding `left`, `right`, `up` or `down` keywords inside the arrow:
+
+            [Component] -left-> left
+            [Component] -right-> right
+            [Component] -up-> up
+            [Component] -down-> down
+
+        You can shorten the arrow by using only the first character of the direction (for example, `-d-` instead of `-down-`) or the two first characters (`-do-`).
+
+        感覺要控制 direction 就要跨 rank? 因為 `-left>` 這種寫法行不通 ... 實則不然，如果是順著 layout direction 的方向，只要調換位置即可 (例如 `A -> B` ￫ `B <- A`)，若方向與 layout direction 橫切，自然會跨 rank，這時候自然會有 `-->` 或 `..>` 的用法出現。
+
+      - Please note that you should not ABUSE this functionality : Graphviz gives usually good results without tweaking.
+
+        想調整方向，通常是沒有搞懂 `->` 與`-->` 的差別 (ranking)，以及 `->` 與 `<-` 的差別 (order of definition)。
+
+  - [Linking - Deployment Diagram syntax and features](http://plantuml.com/deployment-diagram#3)
+
+      - You can create simple links between elements with or without labels:
+
+            node node1
+            node node2
+            node node3
+            node node4
+            node node5
+            node1 -- node2 : label1
+            node1 .. node3 : label2
+            node1 ~~ node4 : label3
+            node1 == node5
+
+        用 `:` 帶出 label。這裡提到 `~~` (dotted) 與 `==` (粗線) 兩種新的線條樣式，注意 `..` (dashed) 與 `~~` (dotted) 的用法有點違反直覺。
+
+      - It is possible to use several types of links:
+
+            artifact artifact1
+            artifact artifact2
+            artifact artifact3
+            artifact artifact4
+            artifact artifact5
+            artifact artifact6
+            artifact artifact7
+            artifact artifact8
+            artifact artifact9
+            artifact artifact10
+            artifact1 --> artifact2
+            artifact1 --* artifact3
+            artifact1 --o artifact4
+            artifact1 --+ artifact5
+            artifact1 --# artifact6
+            artifact1 -->> artifact7
+            artifact1 --0 artifact8
+            artifact1 --^ artifact9
+            artifact1 --(0 artifact10
+
+        這裡講的是箭頭的樣式，多了 `*` (實心菱形)、`o` (空心菱形)、`+` (圓形十字)、`#` (空心方塊)、`>>` (箭頭)、`0` (像 interface 的圓)、`^` (空心箭頭)、`(0` (類 required & provided interface 的效果)
+
+      - You can also have the following types:
+
+            cloud cloud1
+            cloud cloud2
+            cloud cloud3
+            cloud cloud4
+            cloud cloud5
+            cloud1 -0- cloud2
+            cloud1 -0)- cloud3
+            cloud1 -(0- cloud4
+            cloud1 -(0)- cloud5
+
+  - [Note on links - Class Diagram syntax and features](http://plantuml.com/class-diagram#10)
+
+      - It is possible to add a note ON A LINK, just after the link definition, using `note on link`.
+
+            class Dummy
+            Dummy --> Foo : A link
+            note on link #red: note that is red
+
+      - You can also use `note left on link`, `note right on link`, `note top on link`, `note bottom on link` if you want to change the relative position of the note WITH THE LABEL.
+
+            Dummy --> Foo2 : Another link
+            note right on link #blue
+              this is my note on right link
+              and in blue
+            end note
+
+        注意方位是相對於 label，而非 link 本身。
 
   - [uml \- How to correct PlantUML Line Path \- Stack Overflow](https://stackoverflow.com/questions/48712801/)
+
       - Peter Uhnak: There are some tricks that you can try, listed below. The layouting itself is performed by GraphViz (dot layouting iirc), and GraphViz simply does this sometimes. Graph layouting is a NP-complete problem, so algorithms usually take HARSH SHORTCUTS. 許多問答都提到線條怎麼走，都是背後 Graphviz 在決定。
 
         Typical workarounds that I've seen or used include:
@@ -254,6 +352,50 @@
   - [PlantUML Pleasantness: Change Line Style And Color \- Messages from mrhaki](http://mrhaki.blogspot.com/2016/12/plantuml-pleasantness-change-line-style.html) (2016-12-14) #ril
   - [PlantUML Pleasantness: Layout Elements With Hidden Lines \- Messages from mrhaki](http://mrhaki.blogspot.com/2017/10/plantuml-pleasantness-layout-elements.html) (2017-10-18) #ril
 
+## Grouping
+
+  - [Grouping Components - Component Diagram syntax and features](http://plantuml.com/component-diagram#6)
+
+    You can use several keywords to group components and interfaces together: `package`, `node`, `folder`, `frame`、`cloud`、`database`
+
+        package "Some Group" {
+          HTTP - [First Component]
+          [Another Component]
+        }
+
+        node "Other Groups" {
+          FTP - [Second Component]
+          [First Component] --> FTP
+        }
+
+        cloud {
+          [Example 1]
+        }
+
+
+        database "MySql" {
+          folder "This is my folder" {
+            [Folder 3]
+          }
+          frame "Foo" {
+            [Frame 4]
+          }
+        }
+
+        [Another Component] --> [Example 1]
+        [Example 1] --> [Folder 3]
+        [Folder 3] --> [Frame 4]
+
+    事實上 grouping 可以用在 component diagram 以外的地方，外框以 `frame` 最為通用。
+
+  - [Declaring element - Deployment Diagram syntax and features](http://plantuml.com/deployment-diagram)
+
+    其中 `artifact`、`card`、`cloud`、`component`、`database`、`file`、`folder`、`frame`、`node`、`package`、`queue`、`stack`、`rectangle`、`storage` 都可以用 `xxx { ... }` 的語法達到 grouping 的效果。
+
+  - [Packages - Deployment Diagram syntax and features](http://plantuml.com/deployment-diagram#4)
+
+    There is a limit of THREE levels.
+
 ## Layout, Direction, Rank {: #layout }
 
   - Rank 是 "由上而下" 或 "由左而右" 逐行/逐列的排列方式
@@ -272,6 +414,14 @@
           - `--->` is 2 rank lowers
 
       - You can use `-[norank]>` to create arrows between nodes that will be always on SAME RANK INDEPENDENT OF LENGTH.
+
+  - [Using notes - Use case Diagram syntax and features](http://plantuml.com/use-case-diagram#7)
+
+        User -> (Start)
+        User --> (Use)
+        Admin ---> (Use)
+
+    很明顯可以看出 `->`、`-->` 與 `--->` 造成了不同的 rank。
 
   - [need help in layout among and inside packages \- PlantUML Q&A](https://forum.plantuml.net/8365/)
 
@@ -401,9 +551,25 @@
   - 灰階輸出 -- `skinparam monochrome true`
   - 線條走直線且轉直角 -- `skinparam linetype ortho`
 
+---
+
 參考資料：
 
+  - [Round corner - Deployment Diagram syntax and features](http://plantuml.com/deployment-diagram#5)
+
+        skinparam rectangle {
+          roundCorner<<Concept>> 25
+        }
+
+        rectangle "Concept Model" <<Concept>> {
+          rectangle "Example 1" <<Concept>> as ex1
+          rectangle "Another rectangle"
+        }
+
+    注意只有帶 `<<Concept>>` stereotype 的 rectangle 才有圓角!!
+
   - [Changing colors and fonts](http://plantuml.com/skinparam) #ril
+  - [Skinparam - Component Diagram syntax and features](http://plantuml.com/component-diagram#12) 可以控制 interface、component、node 等的字體、顏色 #ril
 
 ## CLI ??
 
@@ -531,8 +697,6 @@
 
         涉及 `[*]` 的箭頭用 `-->`，其餘用 `->`? 似乎是慣例，兩者的差別只有箭頭的長度 -- `-->` 是 `->` 的 2 倍長。
 
-            @startuml
-
             [*] --> State1
             State1 --> [*]
             State1 : this is a string <-- 冒號前後不一定要有空白，但這樣比較好讀
@@ -541,15 +705,12 @@
             State1 -> State2
             State2 --> [*]
 
-            @enduml
-
         ![](http://s.plantuml.com/imgw/state-diagram-8fezmvpq.webp)
 
     Change state rendering
 
       - You can use hide empty description to render state as simple box. 不過慣例上好像還是會畫出來??
 
-            @startuml
             hide empty description
             [*] --> State1
             State1 --> [*]
@@ -558,7 +719,6 @@
 
             State1 -> State2
             State2 --> [*]
-            @enduml
 
         ![](http://s.plantuml.com/imgw/state-diagram-sfo60qtl.webp)
 
@@ -568,7 +728,6 @@
 
         這裡剛好示範了 initial transition 直接進入 superstate 的狀況，習慣上確實會在 superstate 裡再畫上一個小黑點。
 
-            @startuml
             scale 350 width
             [*] --> NotShooting
 
@@ -589,7 +748,6 @@
               }
 
             }
-            @enduml
 
         ![](http://s.plantuml.com/imgw/state-diagram-xtzglfer.webp)
 
@@ -599,7 +757,7 @@
 
 ## Component Diagram
 
-  - [Component Diagram syntax and features](http://plantuml.com/component-diagram) #ril
+  - [Component Diagram syntax and features](http://plantuml.com/component-diagram)
 
     Components
 
@@ -627,7 +785,7 @@
             () "First Interface"
             () "Another interface" as Interf2
 
-        若 `(` 與 `)` 中間有其他文字，則會被視為 use case。
+        若 `(` 與 `)` 中間有其他文字 (或空白字元)，則會被視為 use case。
 
       - You can also use the `interface` keyword to define an interface.
 
@@ -639,7 +797,32 @@
 
       - We will see latter that interface definition is OPTIONAL.
 
-        所謂 option 是指類似下面 `[First Component] ..> HTTP : use` 的用法，其中 `HTTP` 會被視為 interface，猜想是與 component 有關聯的物件才會預設被視為 interface，所以 `:actor: --> HTTP` 中的 `HTTP` 才會被視為 actor 而非 interface。
+        所謂 optional 是指類似下面 Basic example 中 `[First Component] ..> HTTP : use` 的用法，其中 `HTTP` 會被視為 interface，猜想是與 component 有關聯的物件才會預設被視為 interface，所以 `:actor: --> HTTP` 中的 `HTTP` 才會被視為 actor 而非 interface。
+
+    Long description
+
+      - It is possible to put description on several lines using square brackets.
+
+            component comp1 [
+            This component
+            has a long comment
+            on several lines
+            ]
+
+    Individual colors
+
+      - You can specify a color after component definition.
+
+            component  [Web Server] #Yellow
+
+  - [Linking - Deployment Diagram syntax and features](http://plantuml.com/deployment-diagram#3)
+
+      - It is possible to use several types of links:
+
+            artifact1 --0 artifact8
+            artifact1 --(0 artifact10
+
+        `--(0` 與 `--0` 剛好可以營造出 required & provided interface 的效果。
 
   - [Are partial lollipop for component diagrams supported? \- PlantUML Q&A](https://forum.plantuml.net/1736/are-partial-lollipop-for-component-diagrams-supported) (2014-03-20)
 
@@ -647,21 +830,89 @@
 
       - The support of lollipop and port is (still) really limited within PlantUML. Here is an UNDOCUMENTED example that is working right now:
 
-            @startuml
             component comp1
             component comp2
             comp1 *-0)-+ comp2
             [comp3] <-->> [comp4]
-            @enduml
 
         這只是用 `0` 模擬出 interface 的效果，不過 `--(` 的用法倒是給了一點啟發：
 
-            @startuml
             [Component] -right-( Interface
             [AnotherComponent] -left- Interface
-            @enduml
 
         確實能營造出 `Component --( O-- Another Component` 的效果!! 左邊是 required interface，右邊是 provided interface。
+
+## Deployment Diagram
+
+  - [Deployment Diagram syntax and features](http://plantuml.com/deployment-diagram)
+
+    Declaring element
+
+        actor actor
+        agent agent
+        artifact artifact
+        boundary boundary
+        card card
+        cloud cloud
+        component component
+        control control
+        database database
+        entity entity
+        file file
+        folder folder
+        frame frame
+        interface  interface
+        node node
+        package package
+        queue queue
+        stack stack
+        rectangle rectangle
+        storage storage
+        usecase usecase
+
+      - You can optionaly put text using bracket `[]` for a long description.
+
+            folder folder [
+            This is a <b>folder
+            ----
+            You can use separator
+            ====
+            of different kind
+            ....
+            and style
+            ]
+
+            node node [
+            This is a <b>node
+            ----
+            You can use separator
+            ====
+            of different kind
+            ....
+            and style
+            ]
+
+            database database [
+            This is a <b>database
+            ----
+            You can use separator
+            ====
+            of different kind
+            ....
+            and style
+            ]
+
+            usecase usecase [
+            This is a <b>usecase
+            ----
+            You can use separator
+            ====
+            of different kind
+            ....
+            and style
+            ]
+
+        其中 `--` 跟 `==` 可以畫出分隔線 (至少 2 個字元)。
 
 ## Wireframe (Salt) ??
 
@@ -729,6 +980,7 @@ $ open sequence.png
 
 手冊：
 
+  - [Release Notes](http://plantuml.com/changes)
   - [Language Specification](http://plantuml.com/sitemap-language-specification)
   - [Help - Command Line](http://plantuml.com/command-line#8)
   - [PlantUML Cheat Sheet - DrawUML](http://ogom.github.io/draw_uml/plantuml/)

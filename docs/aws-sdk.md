@@ -83,5 +83,9 @@ Signature expired: 20190629T113743Z is now earlier than 20190629T132834Z (201906
 
         就是系統的時間跑掉，堅決不採用 AWS JavaScript SDK `correctClockSkew` 自動修正時間偏移 (clock skew) 的問題。
 
-## 參考資料
+## 參考資料 {: #reference }
+
+更多：
+
+  - [AWS SDK for Java](aws-sdk-java.md)
 

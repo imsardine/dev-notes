@@ -20,3 +20,7 @@ title: UML / Class Diagram
   - [UML basics: The class diagram](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/) (2004-09-15) #ril
   - BallAndSocket - Martin Fowler (2005-02-03) https://martinfowler.com/bliki/BallAndSocket.html UML 2 開始支援用一個小圓 (`o`) 來表示 interface #ril
 
+
+## 參考資料 {: #reference }
+
+  - [UML Class Diagrams Reference](https://www.uml-diagrams.org/class-reference.html)

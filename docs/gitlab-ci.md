@@ -25,47 +25,6 @@ title: GitLab / CI/CD
       - 若沒有用 `stages:` 宣告有哪些 stage，就會假設 `build`、`test` 跟 `deploy`，若沒有宣告 job 的 stage，預設會是 `test` stage。
       - 實驗發現，雖然 `stages` 是宣告小寫，但 pipeline 的 web UI 會顯示 Build、Test、Deploy，不過 job name 倒是維持大小寫不變。
 
-## `.gitlab-ci.yml` ??
-
-手刻 `.gitlab-ci.yml` 的方式，一開始先把 `stages` 列出來，然後逐 job 寫出來，job 一開始宣告 `stage` (什麼時候跑)、`only`/`except` (針對哪些 change)，然後 `tags` (跑在哪裡)、`image`、`script` (要做什麼)，最後才是 `artifacts` 蒐集產出物。例如：
-
-```
-image: docker:stable
-stages:
-  - build
-  - deploy
-
-build:
-  stage: build
-  tags:
-    - docker
-  script:
-    - apk add --no-cache make
-    - make build
-  artifacts:
-    paths:
-      - dist/
-
-deploy:
-  stage: deploy
-  tags:
-    - docker
-  only:
-    - master
-  script:
-    - apk add --no-cache make
-    - make deploy
-```
-
-參考資料：
-
-  - [Configuration of your jobs with \.gitlab\-ci\.yml \- GitLab Documentation](https://docs.gitlab.com/ee/ci/yaml/README.html) #ril
-      - GitLab 7.12 開始以 `.gitlab-ci.yml` 做為 project configuration，放在 repository 的 root，描述 "how to build" -- 一堆 jobs 及何時該執行的 constraints。Job 會被 runner 拿出來執行，而且每個 job 都是獨立執行的。
-      - 所謂 job 是指 top-element，包含至少一個 `script` clause。但有些保留字不能做為 job name，包括 `image`、`servies`、`stages`、`before_script`、`after_script`、`variables` 及 `cache`；其中 `image` 跟 `services` 跟 Docker 有關。
-  - [dependencies - Configuration of your jobs with \.gitlab\-ci\.yml \- GitLab Documentation](https://docs.gitlab.com/ee/ci/yaml/README.html#dependencies) 這裡 `build:osx:` 之類的 job name 好特別，而且 script 轉到對應的 make target，例如 `make build:osx` #ril
-  - [Validate the \.gitlab\-ci\.yml \(API\) \| GitLab](https://docs.gitlab.com/ee/api/lint.html) 透過 API 有機會在本地端驗證 `.gitlab-ci.yml` 是否有語法上的錯誤 #ril
-  - [Where is the gitlab\-ci\.yml lint tool? \(\#37338\) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/37338) 說 lint tool 在 CI/CD Pipelines/Jobs 的右上方；實驗發現 Pipelines 右上方的 CI Lint 要有跑過 pipeline 才會出現，但 Jobs 右上方的則是專案一開始就會有。
-
 ## Scheduled Pipeline ??
 
   - [Pipeline Schedules \| GitLab](https://docs.gitlab.com/ee/user/project/pipelines/schedules.html) #ril
@@ -267,6 +226,10 @@ $ gitlab-runner start
   - [Run GitLab Runner on a Kubernetes cluster \- GitLab Documentation](http://docs.gitlab.com/runner/install/kubernetes.html) 也是用 docker image? #ril
 
 ## 參考資料 {: #reference }
+
+更多：
+
+  - [`.gitlab-ci.yml`](gitlab-ci-yaml.md)
 
 手冊：
 

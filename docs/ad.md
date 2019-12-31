@@ -2,11 +2,15 @@
 
   - [Active Directory \- Wikipedia](https://en.wikipedia.org/wiki/Active_Directory) #ril
 
-## Pyhton ??
+## Pyhton
 
   - [python-ldap](python-ldap.md)
 
 ## 參考資料 {: #reference }
+
+更多：
+
+  - [AD Federation Services](ad-fs.md)
 
 相關：
 

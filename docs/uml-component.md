@@ -19,9 +19,21 @@ title: UML / Component Diagram
 
         至於跟 task assignment 的有關，大概是先約定好 component 間的 interface，就可以分頭去開發。
 
-      - System administrators can use component diagrams to PLAN AHEAD, using the view of the logical software components and their relationships on the system.
+      - System administrators can use component diagrams to PLAN AHEAD, using the view of the LOGICAL software components and their relationships on the system.
 
-  - [What is Component Diagram? - Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-component-diagram/) #ril
+        所謂 plan ahead 指的是根據 logical component diagram 描繪出 deployment 後可能的樣貌。
+
+    Diagram Elements
+
+      - The component diagram EXTENDS the information given in a component notation element.
+
+        One way of illustrating the PROVIDED and REQUIRED INTERFACES by the specified component is in the form of a rectangular compartment attached to the component element. Another accepted way of presenting the interfaces is to use the BALL-AND-SOCKET graphic convention. A provided dependency from a component to an interface is illustrated with a solid line to the component using the interface from a "LOLLIPOP", or ball, labelled with the name of the interface. A required usage dependency from a component to an interface is illustrated by a HALF-CIRCLE, or socket, labelled with the name of the interface, attached by a solid line to the component that requires this interface.
+
+        因為 Component Diagram 要表現 component 間的關聯，所以會在 component 的表示法上擴充。
+
+        Inherited interfaces may be shown with a lollipop, preceding the name label with a caret symbol. To illustrate dependencies between the two, use a solid line with a plain arrowhead joining the socket to the lollipop. ??
+
+  - [What is Component Diagram? - Visual Paradigm](https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-component-diagram/)
 
       - UML Component diagrams are used in modeling the PHYSICAL ASPECTS of object-oriented systems that are used for visualizing, specifying, and documenting component-based systems and also for constructing executable systems through FORWARD AND REVERSE ENGINEERING.
 
@@ -75,6 +87,8 @@ title: UML / Component Diagram
 
           - Required Interface symbols with only a HALF CIRCLE at their end (a.k.a. sockets) represent an interface that the component requires (in both cases, the interface's name is placed near the interface symbol itself).
 
+            習慣上 interface name 只會寫在 provided interface 這一方 ??
+
     Component Diagram Example - Using Interface (Order System)
 
       - ![Component interface example](https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/05-component-diagram-example-using-interface.png)
@@ -101,3 +115,8 @@ title: UML / Component Diagram
   - [UML 2 Component Diagramming Guidelines](http://www.agilemodeling.com/style/componentDiagram.htm) #ril
   - [The component diagram – IBM Developer](https://developer.ibm.com/articles/the-component-diagram/) #ril
 
+## 參考資料 {: #reference }
+
+手冊：
+
+  - [UML Component Diagrams Reference](https://www.uml-diagrams.org/component-diagrams-reference.html)

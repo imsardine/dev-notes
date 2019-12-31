@@ -137,13 +137,17 @@
   - [MySQL :: MySQL 5\.7 Reference Manual :: 11\.1\.1 Numeric Type Overview](https://dev.mysql.com/doc/refman/5.7/en/numeric-type-overview.html) `INT` 的值域是 -2147483648 ~ 2147483647。
   - [mysql \- ERROR 1062 \(23000\): Duplicate entry '2147483647' for key 'PRIMARY' \- Stack Overflow](https://stackoverflow.com/questions/20442140/) John Conde: 因為 `INT` (signed) 的最大值是 2147483647，任何超過這個數字的值會被 truncate；或許採用 `VARCHAR` 是更好的選擇?
 
+## Implicit Default Value
+
+  - [Avoiding implicit default column values in MySQL \- codediesel](https://www.codediesel.com/mysql/avoiding-implicit-default-column-values-in-mysql/) (2013-07-02) 只是為了避免之後開 strict mode 所揭露的錯誤? #ril
+
 ## 安裝設置 {: #setup }
 
 ### Docker
 
 ```
 $ docker volume create mysql-data
-$ MYSQL_VERSION = 5 # 8
+$ MYSQL_VERSION=5 # 8
 $ docker run --rm --name mysql -d \
     -v mysql-data:/var/lib/mysql \
     --env MYSQL_DATABASE=mydb \
@@ -322,6 +326,7 @@ $ mysql -h another-host -u xxx -p
 
 更多：
 
+  - [Collation](mysql-collation.md)
   - [InnoDB Storage Engine](mysql-innodb.md)
   - [JSON](mysql-json.md)
 
