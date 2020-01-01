@@ -57,13 +57,13 @@
 
       - 一樣以 `cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git` 為例，會先 clone 進 `~/.cookiecutters/`，再 "fill in the blanks for your project"，重點會在 Step 3: Observe How It Was Generated，對照 template 與最後的產出。
 
-      - This happens in `find.py`, where the `find_template()` method looks for the first jinja-like directory name that starts with cookiecutter. 這裡講的是 Cookiecutter 的內部實作 -- Determine which child directory of `repo_dir` is the project template.
+      - This happens in `find.py`, where the `find_template()` method looks for the first jinja-like directory name that starts with `cookiecutter`. 這裡講的是 Cookiecutter 的內部實作 -- Determine which child directory of `repo_dir` is the project template.
 
         根據 [source code](https://github.com/audreyr/cookiecutter/blob/master/cookiecutter/find.py#L25) `if 'cookiecutter' in item and '{{' in item and '}}' in item:` 會找有 `cookiecutter`、`{{` 與 `}}` 的目錄，不一定要以 `{{cookiecutter.` 開頭。
 
   - [Additional Tutorials — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/tutorials.html) #ril
 
-## Local/Remote Template/Cookiecutter ??
+## Local/Remote Template/Cookiecutter {: #template }
 
   - 雖然 cookiecutter 是專案名稱，但也習慣將 project template 稱做 cookiecutter，也之所以 local/remote template 的另一種說法是 local/remote cookiecutter。
 
@@ -90,7 +90,7 @@
 
   - [Keeping your cookiecutters organized - Usage — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/usage.html) Cookiecutter 0.7.0 後，用過的 cookiecutter 都會存一份在 `~/.cookiecutters/`；實驗確認，local cookiecutter 不會另存一份在 `~/.cookiecutters/`。
 
-## Template Variables, Context ??
+## Template Variables, Context {: #variable }
 
   - 實驗發現 `cookiecutter.json` 裡的 default value 都必須是字串，寫數字在執行期會出現 `TypeError: must be str, not int` 的錯誤。
   - [audreyr/cookiecutter: A command\-line utility that creates projects from cookiecutters (project templates)\. E\.g\. Python package projects, jQuery plugin projects\.](https://github.com/audreyr/cookiecutter) 提到 template variables、default context、extra context 等，指的都是相同的東西 -- key-value pair，只是由 template 自己提供時習慣稱做 template variable，由 `~/.cookiecutterrc` 提供時稱 default context，由 command line 額外覆寫時稱做 extra context。
@@ -99,14 +99,17 @@
   - [Choice Variables (1\.1\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/choice_variables.html) #ril
   - [Dictionary Variables (1\.5\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/dict_variables.html) 套用時是如何提示預設值的? #ril
 
-## 自製 Cookiecutter ?? {: #create-your-own-cookiecutter }
+## 自製 Cookiecutter {: #create-your-own-cookiecutter }
 
   - Local cookiecutter 在開發自己的 cookiecutter 時很方便。
   - 將一個現成可運作的專案 "參數化"，是比較有效的做法。
+  - 需要 Jinja 的快速入門，過程中會用到 Jinja 的進階語法。
 
 ---
 
 參考資料：
+
+  - [Template Extensions — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/template_extensions.html) #ril
 
   - [Learn the Basics of Cookiecutter by Creating a Cookiecutter — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/first_steps.html)
 
@@ -128,6 +131,10 @@
             }
 
       - Template tagging 裡的東西可以有 namespace，例如 `cookiecutter.directory_name` 是指 `cookiecutter` 這個 namespace 上的 `directory_name`，而 `cookiecutter` namespace 下的 variable，主要是來自 `cookiecutter.json`。
+
+  - [I’m having trouble generating Jinja templates from Jinja templates - Troubleshooting — cookiecutter 1\.6\.0 documentation](http://cookiecutter.readthedocs.io/en/latest/troubleshooting.html#i-m-having-trouble-generating-jinja-templates-from-jinja-templates) #ril
+
+  - [Templates in Context Values — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/templates_in_context.html) 出現 `"project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}"` 與 `"pkg_name": "{{ cookiecutter.project_slug|replace('-', '') }}"` 的用法。
 
   - [Create a Cookiecutter From Scratch — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/tutorial2.html) 這份 tutorial 沒寫完，採用 `{{cookiecutter.project_slug}}` 做為目錄名稱。
 
@@ -184,20 +191,13 @@
 
   - [Wrapping up our Cookiecutter template](https://raphael.codes/blog/wrapping-up-our-cookiecutter-template/) (2015-02-02) #ril
 
-## Templating ??
-
-  - 應該需要 Jinja 的快速入門，因為在這裡會用到 Jinja 的進階語法 ??
-  - [I’m having trouble generating Jinja templates from Jinja templates - Troubleshooting — cookiecutter 1\.6\.0 documentation](http://cookiecutter.readthedocs.io/en/latest/troubleshooting.html#i-m-having-trouble-generating-jinja-templates-from-jinja-templates) #ril
-  - [Templates in Context Values — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/templates_in_context.html) 出現 `"project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}"` 與 `"pkg_name": "{{ cookiecutter.project_slug|replace('-', '') }}"` 的用法。
-  - [Template Extensions — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/template_extensions.html) #ril
-
-## Copy without Render ??
+## Copy without Render
 
   - [Copy without Render — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/copy_without_render.html) #ril
 
-## Pre-/Post-generate Hooks ??
+## Pre-/Post-generate Hooks {: #hook }
 
-  - [Using Pre/Post\-Generate Hooks (0\.7\.0\+) — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/hooks.html) #ril
+  - [Using Pre/Post\-Generate Hooks \(0\.7\.0\+\) — cookiecutter 1\.7\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/hooks.html) #ril
   - [cookiecutter\-django/post\_gen\_project\.py at master · pydanny/cookiecutter\-django](https://github.com/pydanny/cookiecutter-django/blob/master/hooks/post_gen_project.py) #ril
 
 ## Conditional Files / Directories ??
@@ -224,12 +224,12 @@
       - 檔名 `my-custom-config.yaml` 首度提到 YAML。
   - [cookiecutter package — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/cookiecutter.html?#cookiecutter.exceptions.InvalidConfiguration) exception `cookiecutter.exceptions.InvalidConfiguration` 提到若 configuration 不是個合法的 YAML，就會丟出錯誤。
 
-## 同一個 Repo 提供多個 Cookiecutter ??
+## 同一個 Repo 提供多個 Cookiecutter {: #multiple-cookiecutters-in-a-repo }
 
   - [Works directly with git and hg (mercurial) repos too & Works with private repos - Usage — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/usage.html#works-directly-with-git-and-hg-mercurial-repos-too) 可以搭配 `--checkout <BRANCH>` 指定採用哪個 branch 的 template；可以減少 repository 的數量
   - 把所有的 cookiecutter 放在同一個 repo 下的不同資料夾，先 clone 到本地端，就可以透過路徑指定不同的 cookiecutter?
 
-## Python Integration ??
+## Python Integration
 
   - [Calling Cookiecutter Functions From Python — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/calling_from_python.html) #ril
   - [Suppressing Command\-Line Prompts — cookiecutter 1\.6\.0 documentation](https://cookiecutter.readthedocs.io/en/latest/advanced/suppressing_prompts.html) #ril
@@ -252,6 +252,7 @@ $ cookiecutter --version
 ## 參考資料 {: #reference }
 
   - [audreyr/cookiecutter - GitHub](https://github.com/audreyr/cookiecutter)
+  - [cookiecutter - PyPI](https://pypi.org/project/cookiecutter/)
 
 文件：
 
@@ -269,6 +270,6 @@ $ cookiecutter --version
 
 手冊：
 
+  - [Changelog](https://github.com/cookiecutter/cookiecutter/blob/master/HISTORY.md)
   - [A Pantry Full of Cookiecutters - audreyr/cookiecutter](https://github.com/audreyr/cookiecutter#a-pantry-full-of-cookiecutters) 社群提供的 remote cookiecutters。
   - [Command Line Options](https://cookiecutter.readthedocs.io/en/latest/advanced/cli_options.html)
-

@@ -190,6 +190,7 @@
 
 ## L
 
+  - [Laravel](laravel.md)
   - [LaTeX](latex.md)
   - [LDAP](ldap.md)
   - [LED 發光二極體](led.md)
@@ -247,6 +248,7 @@
   - [Perfboard 洞洞板](perfboard.md)
   - [PhantomJS](phantomjs.md)
   - [PHP](php.md)
+  - [PHPUnit](phpunit.md)
   - [Pipenv](pipenv.md)
   - [PlantUML](plantuml.md)
   - [PlatformIO](platformio.md)

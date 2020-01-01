@@ -874,6 +874,7 @@ $ newgrp docker # 刷新 login session 的群組，不用重新登入
   - [Daemon](docker-daemon.md)
   - [Networking](docker-networking.md)
   - [Compose](docker-compose.md)
+  - [buildpack-deps](docker-buildpack-deps.md)
   - [Swarm](docker-swarm.md)
 
 手冊：
