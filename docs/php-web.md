@@ -72,3 +72,9 @@ title: PHP / Web Development
 
       - If an extension was seemingly installed yet the functions are undefined, be sure that the appropriate ini file is being loaded and/or the web server was restarted after installation.
 
+## 參考資料 {: #reference }
+
+相關：
+
+  - [Laravel](laravel.md)
+  - [Symfony](symfony.md)

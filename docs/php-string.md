@@ -1,7 +1,7 @@
 ---
-title: PHP / String
+title: PHP Programming / String
 ---
-# [PHP](php.md) / String
+# [PHP Programming](php-prog.md) / String
 
   - [PHP: Strings \- Manual](https://www.php.net/manual/en/language.types.string.php) #ril
 

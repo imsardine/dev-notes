@@ -1,14 +1,16 @@
 # Java
 
-  - [File I/O \(Featuring NIO\.2\) \(The Java™ Tutorials > Essential Classes > Basic I/O\)](https://docs.oracle.com/javase/tutorial/essential/io/fileio.html) #ril
-
 ## 參考資料 {: #reference }
 
 更多：
 
+  - [Programming](java-prog.md)
+  - [Coding Style](java-style.md)
   - [Date/Time](java-datetime.md)
   - [File I/O](java-file.md)
   - [Regex](java-regex.md)
+  - [Resource](java-res.md)
+  - [URL](java-url.md)
 
 手冊：
 

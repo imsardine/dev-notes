@@ -1,7 +1,7 @@
 ---
-title: PHP / Including
+title: PHP Programming / Including
 ---
-# [PHP](php.md) / Including
+# [PHP Programming](php-prog.md) / Including
 
   - [PHP: include \- Manual](https://www.php.net/manual/en/function.include.php) #ril
 

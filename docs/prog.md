@@ -5,7 +5,10 @@
   - [MonkeyUser](http://www.monkeyuser.com/)
   - [Devhumor - humor for developers](http://devhumor.com/)
 
-## 參考資料
+## 參考資料 {: #reference }
+
+  - [Function](prog-func.md)
+  - [Error Handling](prog-error.md)
 
 書籍：
 

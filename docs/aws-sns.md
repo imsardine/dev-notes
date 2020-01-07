@@ -51,6 +51,8 @@ title: AWS / SNS (Simple Notification Service)
 
         ![](https://d1.awsstatic.com/product-marketing/SNS/product-page-diagram_SNS_how-it-works_1.53a464980bf0d5a868b141e9a8b2acf12abc503f.png)
 
+  - [Fanout - Common Amazon SNS Scenarios \- Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/sns-common-scenarios.html#SNSFanoutScenario) #ril
+
   - [What is Amazon Simple Notification Service? \- Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/welcome.html)
 
       - Amazon Simple Notification Service (Amazon SNS) is a web service that COORDINATES and manages the delivery or sending of messages to subscribing endpoints or clients.
@@ -210,13 +212,15 @@ title: AWS / SNS (Simple Notification Service)
 
       - In addition to sending large payloads, with Amazon SNS you can now enable RAW MESSAGE DELIVERY for messages delivered to either Amazon SQS endpoints or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is created for the Amazon SNS metadata when raw message delivery is not selected.
 
-        For example when enabling raw message delivery for an Amazon SQS endpoint, the Amazon SNS metadata is not included and the published message is delivered to the subscribed Amazon SQS endpoint AS IS. When enabling raw message delivery for HTTP/S endpoints, the messages will contain an additional HTTP header `x-amz-sns-rawdelivery` with a value of `true` to indicate that the message is being published raw instead of with JSON formatting. This enables those endpoints to understand what is being delivered and enables easier transition for subscriptions from JSON to raw delivery.
+        For example when enabling raw message delivery for an Amazon SQS endpoint, the Amazon SNS metadata is not included and the published message is delivered to the subscribed Amazon SQS endpoint AS IS. When enabling raw message delivery for HTTP/S endpoints, the messages will contain an additional HTTP header `x-amz-sns-rawdelivery` with a value of `true` to indicate that the message is being published raw instead of with JSON formatting.
+
+        This enables those endpoints to understand what is being delivered and enables easier TRANSITION for subscriptions from JSON to raw delivery.
 
         若雙方已約定好自己的格式 (也可能是 JSON)，那麼 SNS 再加一層 JSON 似乎是多餘的?
 
       - To enable raw message delivery using one of the AWS SDKs, you must use the `SetSubscriptionAttribute` action and configure the `RawMessageDelivery` attribute with a value of `true`. The default value is `false`.
 
-        針對單一個 message ??
+        不是針對單一個 message，而是針對個別 subscription。
 
     Enabling Raw Message Delivery Using the AWS Management Console
 
@@ -233,7 +237,43 @@ title: AWS / SNS (Simple Notification Service)
 
     為什麼說原來的 JSON format 沒有辦法帶太多資訊 ??
 
-## 安裝設定 {: #setup }
+## 疑難排解 {: #troubleshooting }
+
+### FIFO SQS Queues can not be subscribed to standard SNS topics
+
+建立 subscription 時，若 protocol 選擇 Amazon SQS 並給定 FIFO SQS 的 ARN，會出現下面的錯誤：
+
+```
+Couldn't create subscription.
+Error code: InvalidParameter - Error message: Invalid parameter: Invalid parameter: Endpoint Reason: FIFO SQS Queues can not be subscribed to standard SNS topics
+```
+
+參考資料：
+
+  - [Amazon Simple Notification Service \(SNS\) FAQs – Amazon Web Services \(AWS\)](https://aws.amazon.com/sns/faqs/)
+
+    Q: What are the different delivery formats/transports for receiving notifications?
+
+      - “SQS” – Users can specify an SQS standard queue as the endpoint; Amazon SNS will enqueue a notification message to the specified queue (which subscribers can then process using SQS APIs such as `ReceiveMessage`, `DeleteMessage`, etc.). Note that FIFO queues are not currently supported.
+
+    Q: Are Amazon SQS FIFO queues compatible with Amazon Simple Notification Service (SNS)?
+
+      - Amazon SNS does not currently support forwarding messages to Amazon SQS FIFO queues. You can use SNS to forward messages to standard queues.
+
+  - [AWS Developer Forums: FIFO queue subscribes to a SNS topic \.\.\.](https://forums.aws.amazon.com/thread.jspa?threadID=246962)
+
+      - zak@AWS: (2017-01-12) This feature is not supported at the moment.
+      - awschiargs: (2018-10-09) This feature request has already been submitted to the concerned team. Rest assured, we take customer feedback seriously and are always looking forward to improving our services. Unfortunately, we will be unable to provide an ETA on when this will be implemented.
+
+  - [SNS to SQS as a microservices event bus\. FIFO? : aws](https://www.reddit.com/r/aws/comments/6cm6u1/sns_to_sqs_as_a_microservices_event_bus_fifo/) (2017-05-22)
+
+      - TooMuchTaurine: You are better to just put ordering / sequencing in the MESSAGE CONTENTS, and dealing with OCCASIONAL OUT OF ORDER messages with standard queue visibility timeouts and pulling the next item.
+
+        Anytime I hear "must have guaranteed and ordered delivery" it makes me wonder how this interservice architecture would handle the INEVITABLE SCENARIO OF MISSED MESSAGES. (For example a DR event where backup restore is required and one of the services loses a portion on the received data)
+
+        把 ordering 埋在 message 裡似乎真的是好方法 (例如 `event_time`)，而且實務上可能會重送訊息，訊息本來就可能會被打破。
+
+## 安裝設置 {: #setup }
 
   - [Step 2: Create an IAM User and Get Your AWS Credentials - Setting Up Access for Amazon SNS \- Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/sns-setting-up.html#create-iam-user)
 
@@ -247,8 +287,12 @@ title: AWS / SNS (Simple Notification Service)
 
 文件:
 
-  - [Developer Guide - Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/)
+  - [SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/)
 
 相關：
 
   - 實作了 [Pub/Sub Pattern](pubsub-pattern.md)。
+
+手冊：
+
+  - [SNS API Reference](https://docs.aws.amazon.com/sns/latest/api/)

@@ -20,7 +20,62 @@
   - [PostgreSQL: PostgreSQL Press FAQ](https://www.postgresql.org/about/press/faq/) 唸做 post-GRES-que-ell，或 post-GRES。
   - [How do you pronounce PostgreSQL?](https://www.quora.com/How-do-you-pronounce-PostgreSQL) 跟官方 FAQ 的唸法一樣。
 
-## PostgreSQL 跟 MySQL 的選擇??
+## PostgreSQL 跟 MySQL 的選擇 {: #vs-mysql }
+
+  - [MySQL vs PostgreSQL \-\- Choose the Right Database for Your Project \| Okta Developer](https://developer.okta.com/blog/2019/07/19/mysql-vs-postgres) (2019-07-19)
+
+      - The choice of a database management system is usually an AFTERTHOUGHT when starting a new project, especially on the Web. Most frameworks come with some object-relational mapping tool (ORM) which more or less HIDES THE DIFFERENCES between the different platforms and makes them all EQUALLY SLOW. ??
+
+        Using the DEFAULT OPTION (MySQL in most cases) is rarely wrong, but it’s worth considering. Don’t fall into the trap of FAMILIARITY AND COMFORT – a good developer must always make INFORMED DECISIONS among the different options, their benefits and drawbacks.
+
+    Database Performance
+
+      - Historically, MySQL has had a reputation as an extremely fast database for READ-HEAVY workloads, sometimes AT THE COST OF CONCURRENCY when mixed with write operations.
+
+      - PostgreSQL, also known as Postgres, advertises itself as “the most advanced open-source relational database in the world”. It was built to be feature-rich, extendable and standards-compliant. In the past, Postgres performance was more BALANCED - reads were generally slower than MySQL, but it was capable of writing large amounts of data more efficiently, and it handled CONCURRENCY BETTER.
+
+      - The performance differences between MySQL and Postgres have been LARGELY ERASED in recent versions. MySQL is still very fast at reading data, but only if using the old MyISAM engine. If using InnoDB (which allows transactions, key constraints, and other important features), differences are NEGLIGIBLE (if they even exist).
+
+        These features are absolutely critical to enterprise or consumer-scale applications, so using the old engine is not an option. On the other hand, MySQL has also been optimized to reduce the gap when it comes to HEAVY DATA WRITES.
+
+      - When choosing between MySQL and PostgreSQL, performance should not be a factor for most RUN-OF-THE-MILL applications – it will be good enough in either case, even if you consider expected future growth.
+
+        Both platforms are perfectly capable of replication, and many cloud providers offer managed scalable versions of either database. Therefore, it’s worth it to consider the other advantages of Postgres over MySQL before you start your next project with the DEFAULT DATABASE SETTING.
+
+    Postgres Advantages over MySQL
+
+      - Postgres is an OBJECT-RELATIONAL database, while MySQL is a PURELY RELATIONAL database. This means that Postgres includes features like TABLE INHERITANCE and function overloading, which can be important to certain applications. Postgres also adheres MORE CLOSELY TO SQL STANDARDS.
+
+      - Postgres handles concurrency better than MySQL for multiple reasons:
+
+          - Postgres implements Multiversion Concurrency Control (MVCC) without read locks
+          - Postgres supports parallel query plans that can use multiple CPUs/cores
+          - Postgres can create indexes in a non-blocking way (through the `CREATE INDEX CONCURRENTLY` syntax), and it can create PARTIAL indexes (for example, if you have a model with SOFT DELETES, you can create an index that ignores records marked as deleted)
+          - Postgres is known for protecting data integrity at the transaction level. This makes it less vulnerable to data corruption.
+
+    Default Installation and Extensibility of Postgres and MySQL
+
+      - The default installation of Postgres generally works better than the default of MySQL (but you can tweak MySQL to compensate). MySQL has some outright weird default settings (for example, for character encoding and collation).
+
+      - Postgres is highly extensible. It supports a number of advanced data types not available in MySQL (geometric/GIS, network address types, JSONB which can be indexed, native UUID, timezone-aware timestamps). If this is not enough, you can also add your own datatypes, operators, and index types.
+
+      - Postgres is truly open-source and COMMUNITY-DRIVEN, while MySQL has had some LICENSING ISSUES.
+
+        It was started as a company product (with a free and a paid version) and Oracle’s acquisition of MySQL AB in 2010 has led to some concerns among developers about its future open source status. However, there are several open source forks of the original MySQL (MariaDB, Percona, etc.), so this is not considered a huge risk at the moment.
+
+    When to Use MySQL
+
+      - Despite all of these advantages, there are still some small drawbacks to using Postgres that you should consider.
+
+          - Postgres is still LESS POPULAR than MySQL (despite catching up in recent years), so there’s a smaller number of 3rd party tools, or developers/database ADMINISTRATORS available.
+
+            這是很現實的考量；沒有 DBA 會管 PostgreSQL，確實是個問題。
+
+          - Postgres forks a new process for each new client connection which allocates a non-trivial amount of memory (about 10 MB).
+
+          - Postgres is built with extensibility, standards compliance, scalability, and data integrity in mind - sometimes at the expense of speed. Therefore, for simple, read-heavy workflows, Postgres might be a worse choice than MySQL.
+
+      - These are only some of the factors a developer might want to consider when choosing a database. Additionally, your platform provider might have a PREFERENCE, for instance Heroku prefers Postgres and offers operational benefits to running it. Your framework may also prefer one over the other by offering better drivers. And as ever, your coworkers may have OPINIONS!
 
   - Heroku 主推 PostgreSQL https://devcenter.heroku.com/articles/heroku-mysql 只提到 tight-              integration
   - Why Uber Engineering Switched from Postgres to MySQL - Uber Engineering Blog https://eng.uber.com/mysql-migration/ (2016-07-26) 但 Uber 又說 PostgreSQL 會遇到 scaling 的問題? #ril
@@ -33,6 +88,39 @@
       - Welcome to the PostgreSQL Tutorial. The following few chapters are intended to give a simple introduction to PostgreSQL, relational database concepts, and the SQL language to those who are new to any one of these aspects.
 
       - After you have worked through this tutorial you might want to move on to reading Part II to gain a more formal knowledge of the SQL language, or Part IV for information about developing applications for PostgreSQL. Those who set up and manage their own server should also read Part III.
+
+## OID
+
+  - [What Are Oids \| EnterpriseDB](https://www.enterprisedb.com/blog/what-are-oids) (2012-06-13)
+
+      - Object Identifiers (oids) were added to Postgres as a way to UNIQUELY IDENTIFY DATABASE OBJECTS, e.g. ROWS, tables, functions, etc. It is part of Postgres's object-relational HERITAGE (遺產).
+
+      - Because oids where assigned to EVERY DATA ROW by default, and were only four-bytes in size, they were increasingly seen as unnecessary. In Postgres 7.2 (2002), they were made optional, and in Postgres 8.1 (2005), AFTER MUCH WARNING, oids were no longer assigned to USER TABLES by default.
+
+        They are still used by SYSTEM TABLES, and can still be added to user tables using the `with oids` clause during create table. Server parameter `default_with_oids` controls the default mode for table creation (defaults to "false").
+
+        [E.24.2. Migration to Version 8.1 - PostgreSQL: Documentation: 8\.1: Release 8\.1](https://www.postgresql.org/docs/8.1/release-8-1.html#AEN74605)
+
+        > `default_with_oids` is now `false` by default (Neil)
+        >
+        > With this option set to `false`, USER-CREATED TABLES no longer have an OID column unless `WITH OIDS` is specified in `CREATE TABLE`. Though OIDs have existed in all releases of PostgreSQL, their use is LIMITED because they are only four bytes long and the counter is SHARED ACROSS ALL INSTALLED DATABASES. The preferred way of uniquely identifying rows is via SEQUENCES and the `SERIAL` type, which have been supported since PostgreSQL 6.4.
+
+        如果真的是 shared across all installed databases，表示換到另一台機器時，它的值會改變??
+
+      - Oids as still used extensively for system table rows, and are used to JOIN SYSTEM TABLES, e.g.:
+
+            SELECT oid, relname FROM pg_class ORDER BY 1 LIMIT 1;
+
+             oid |              relname
+            -----+-----------------------------------
+             112 | pg_foreign_data_wrapper_oid_index
+            (1 row)
+
+        Only system tables that need oids have them, e.g. `pg_class` has an `oid` column, but `pg_attribute` does not.
+
+  - [PostgreSQL: Documentation: 12: 8\.19\. Object Identifier Types](https://www.postgresql.org/docs/current/datatype-oid.html) #ril
+  - [PostgreSQL \- OID System Column \- Table with OIDs \(Identity, Autoincrement\) \- SQLines Open Source Tools](http://www.sqlines.com/postgresql/oid) #ril
+  - [database \- SQL, Postgres OIDs, What are they and why are they useful? \- Stack Overflow](https://stackoverflow.com/questions/5625585/) #ril
 
 ## 安裝設置 {: #setup }
 

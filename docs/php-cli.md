@@ -1,7 +1,7 @@
 ---
-title: PHP / CLI SAPI
+title: PHP / CLI
 ---
-# [PHP](php.md) / CLI SAPI
+# [PHP](php.md) / CLI
 
   - [PHP: Introduction \- Manual](https://www.php.net/manual/en/features.commandline.introduction.php)
 
@@ -266,6 +266,12 @@ title: PHP / CLI SAPI
 
         Note: [Autoloading](https://www.php.net/manual/en/language.oop5.autoload.php) is not available if using PHP in CLI interactive mode. #ril
 
+## Tools
+
+  - [Symfony Console Component - 40 Best PHP Libraries For Web Applications in 2019](https://www.cloudways.com/blog/php-libraries/#symfonyconsole) #ril
+  - [Building Command Line Applications in PHP \| Code Engineered](https://codeengineered.com/blog/building-cli-applications-in-php/) (2012-12-10) #ril
+  - [Bootstrapping a CLI PHP application in Vanilla PHP \- DEV Community](https://dev.to/erikaheidi/bootstrapping-a-cli-php-application-in-vanilla-php-4ee) (2019-12-10) #ril
+
 ## 安裝設置 {: #setup }
 
 ### Docker
@@ -335,6 +341,7 @@ title: PHP / CLI SAPI
 相關：
 
   - [Standard I/O](php-stdio.md)
+  - [Symfony Console Component](symfony-console.md)
 
 手冊：
 

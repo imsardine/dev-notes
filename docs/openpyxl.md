@@ -56,7 +56,7 @@
   - [feature: add custom properties support · Issue \#91 · python\-openxml/python\-docx](https://github.com/python-openxml/python-docx/issues/91) 尚不支援，未來可能從 `custom_properties` 拿到 #ril
   - [Extract xlsx workbook file metadata/properties in python 3\.6 \- Stack Overflow](https://stackoverflow.com/questions/53930645/) #ril
 
-## 安裝設定 {: #setup }
+## 安裝設置 {: #setup }
 
   - 安裝 `openpyxl` 套件即可，若需要寫出大檔，搭配 lxml 可以提昇效能。
   - 需要在檔案裡安插圖片，要再加裝 `pillow` 套件。

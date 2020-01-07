@@ -80,12 +80,12 @@
 
 更多：
 
-  - [Programming](php-programming.md)
+  - [Programming](php-prog.md)
   - [Testing](php-testing.md)
   - [Standard I/O](php-stdio.md)
   - [File I/O](php-file.md)
   - [Logging](php-logging.md)
-  - [CLI SAPI](php-cli.md)
+  - [CLI](php-cli.md)
   - [Web Development](php-web.md)
   - [i18n](php-i18n.md)
 

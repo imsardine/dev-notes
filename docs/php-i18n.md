@@ -7,4 +7,5 @@ title: PHP / i18n
   - [PHP internationalization \- i18n mechanisms tutorial](https://lingohub.com/blog/2013/06/php-internationalization-i18n-mechanisms-tutorial/) #ril
   - [PHP: intl \- Manual](https://www.php.net/manual/en/book.intl.php) #ril
   - [PHP: Gettext \- Manual](https://www.php.net/manual/en/book.gettext.php) #ril
+  - [The Intl Component \(Symfony Docs\)](https://symfony.com/doc/current/components/intl.html) #ril
   - [internationalization \- Best way to internationalize simple PHP website \- Stack Overflow](https://stackoverflow.com/questions/6953528/) #ril

@@ -1,7 +1,7 @@
 ---
-title: PHP / Data Type
+title: PHP Programming / Data Type
 ---
-# [PHP](php.md) / Data Type
+# [PHP Programming](php-prog.md) / Data Type
 
   - [PHP: Introduction \- Manual](https://www.php.net/manual/en/language.types.intro.php)
 

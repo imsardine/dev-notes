@@ -165,6 +165,7 @@
 
   - [JaCoCo](jacoco.md)
   - [JavaScript](javascript.md)
+  - [JAX-WS](jaxws.md)
   - [JDK (Java Development Kit)](jdk.md)
   - [Jinja](jinja.md)
   - [JSON](json.md)
@@ -258,7 +259,7 @@
   - [Potentiometer 電位計](potentiometer.md)
   - [Powerlevel9k](powerlevel9k.md)
   - [Presentation Model](presentation-model.md)
-  - [Programming](programming.md)
+  - [Programming](prog.md)
   - [Proxy Pattern](proxy-pattern.md)
   - [Publish/Subscribe Pattern](pubsub-pattern.md)
   - [PWM](pwm.md)
@@ -359,10 +360,12 @@
   - [Ubuntu](ubuntu.md)
   - [UML](uml.md)
   - [Unit Testing](unit-testing.md)
+  - [URI](uri.md)
 
 ## V
 
   - [Vagrant](vagrant.md)
+  - [Value Object](value-object.md)
   - [Vault](vault.md)
   - [Vega Grammar](vega-grammar.md)
   - [Vim](vim.md)
@@ -379,6 +382,7 @@
   - [WildFly](wildfly.md)
   - [WireMock](wiremock.md)
   - [WordPress](wordpress.md)
+  - [WSDL](wsdl.md)
   - [WTForms](wtforms.md)
   - [wuzz](wuzz.md)
 

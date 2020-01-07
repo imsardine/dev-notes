@@ -167,93 +167,13 @@ title: PHP / Programming
              */
             ?>
 
-## Variable
-
-  - [PHP: Variables \- Manual](https://www.php.net/manual/en/language.variables.php) #ril
-  - [PHP: Variable scope \- Manual](https://www.php.net/manual/en/language.variables.scope.php) #ril
-
-## Constant
-
-  - [PHP: Constants \- Manual](https://www.php.net/manual/en/language.constants.php) #ril
-  - [PHP: define \- Manual](https://www.php.net/manual/en/function.define.php) #ril
-
-  - [PHP: Magic constants \- Manual](https://www.php.net/manual/en/language.constants.predefined.php)
-
-      - PHP provides a large number of PREDEFINED CONSTANTS to any script which it runs. Many of these constants, however, are created by various EXTENSIONS, and will only be present when those extensions are available, either via dynamic loading or because they have been compiled in.
-
-      - There are nine MAGICAL CONSTANTS that CHANGE depending on WHERE THEY ARE USED.
-
-        For example, the value of `__LINE__` depends on the line that it's used on in your script. All these "magical" constants are resolved AT COMPILE TIME, unlike REGULAR CONSTANTS, which are resolved at RUNTIME. These special constants are CASE-INSENSITIVE and are as follows:
-
-        說法好像相反了? 不過仔細想想，若 magic constant 跟 "where the are used" 有關，確實在 compile time 就會知道。這呼應了 [PHP: include \- Manual](https://www.php.net/manual/en/function.include.php) 的說法：
-
-        > An exception to this rule are magic constants which are EVALUATED BY THE PARSER BEFORE THE INCLUDE OCCURS.
-
-        所以 compile time 似乎是指 parsing 的階段 ??
-
-    A few "magical" PHP constants
-
-      - `__LINE__`
-
-        The current line number of the file.
-
-      - `__FILE__`
-
-        The FULL path and filename of the file with SYMLINKS RESOLVED. If used inside an include, the name of the INCLUDED FILE is returned.
-
-      - `__DIR__`
-
-        The directory of the file. If used inside an include, the directory of the INCLUDED FILE is returned.
-
-        This is equivalent to `dirname(__FILE__)`. This directory name does NOT HAVE A TRAILING SLASH unless it is the root directory.
-
-      - `__FUNCTION__`
-
-        The function name, or {closure} for anonymous functions. ??
-
-      - `__CLASS__`
-
-        The class name. The class name includes the NAMESPACE it was declared in (e.g. `Foo\Bar`).
-
-        Note that as of PHP 5.4 `__CLASS__` works also in TRAITS ??. When used in a trait method, `__CLASS__` is the name of the class the trait is used in.
-
-      - `__TRAIT__`
-
-        The trait name. The trait name includes the namespace it was declared in (e.g. `Foo\Bar`).
-
-      - `__METHOD__`
-
-        The class method name.
-
-      - `__NAMESPACE__`
-
-        The name of the current namespace.
-
-      - `ClassName::class`
-
-        The FULLY QUALIFIED class name. See also [`::class`](https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class). #ril
-
-    See also `get_class()`, `get_object_vars()`, `file_exists()` and `function_exists()`.
-
-    Changelog
-
-      - 5.5.0
-
-        Added `::class` magic constant
-
-      - 5.4.0
-
-        Added `__TRAIT__` constant
-
-      - 5.3.0
-
-        Added `__DIR__` and `__NAMESPACE__` constants
-
 ## 參考資料 {: #reference }
 
 更多：
 
   - [Data Type](php-type.md)
+  - [Variable](php-variable.md)
+  - [Constant](php-constant.md)
   - [String](php-string.md)
   - [Including](php-including.md)
 
