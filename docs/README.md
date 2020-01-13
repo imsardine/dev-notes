@@ -104,6 +104,7 @@
   - [Facade Pattern](facade-pattern.md)
   - [Favicon](favicon.md)
   - [Fcitx](fcitx.md)
+  - [Feature Toggle](feature-toggle.md)
   - [Feedly](feedly.md)
   - [Finite State Machine (FSM)](finite-state-machine.md)
   - [Fire (Python)](python-fire.md)

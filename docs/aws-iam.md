@@ -3,15 +3,59 @@ title: AWS / IAM (Identity and Access Management)
 ---
 # [AWS](aws.md) / IAM (Identity and Access Management)
 
+  - [What Is IAM? \- AWS Identity and Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html)
+
+      - AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. You use IAM to control who is AUTHENTICATED (SIGNED IN) and AUTHORIZED (HAS PERMISSIONS) to use resources.
+
+      - When you first create an AWS ACCOUNT, you begin with a single SIGN-IN IDENTITY that has COMPLETE ACCESS to all AWS services and resources in the ACCOUNT. This identity is called the AWS ACCOUNT ROOT USER and is accessed by signing in with the EMAIL ADDRESS and password that you used to create the account.
+
+        注意 (AWS) account 指的是整個 AWS 服務的層級 (用 email 識別)，對內就 AWS resource 的存取身份則泛稱為 (IAM) identity，底下再細分為 IAM user、group、role 等。這符合用 IAM user 登入 AWS console 時的體驗 -- 畫面上依序提示 Account ID or alias、IAM user name、Password。
+
+        用 AWS account 登入時，就是 root user 的身份 (sign-in identity)。
+
+        We strongly recommend that you do not use the root user for your everyday tasks, EVEN THE ADMINISTRATIVE ONES. Instead, adhere to the best practice of using the root user only to create your first IAM user. Then securely lock away the root user credentials and use them to perform only a few account and service management tasks.
+
+## 新手上路 {: #getting-started }
+
+  - [Understanding How IAM Works \- AWS Identity and Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html) #ril
+
+      - Before you create users, you should understand how IAM works. IAM provides the infrastructure necessary to control authentication and authorization for your account. The IAM infrastructure includes the following elements:
+
+        ![](https://docs.aws.amazon.com/IAM/latest/UserGuide/images/intro-diagram%20_policies_800.png)
+
+        每個 AWS account 是完全隔開的；左上方的 Principal 細分為 User、Role、Federated User、Application。
+
+    Terms
+
+      - Resources
+
+        The user, group, role, policy, and identity provider objects that are stored in IAM. As with other AWS services, you can add, edit, and remove resources from IAM.
+
+        很奇特的說法；IAM 是用來控制 resource 的存取，但 IAM 底下的 user、policy 等也都是 resource。
+
+      - Identities
+
+        The IAM resource objects that are used to identify and group. You can ATTACH A POLICY to an IAM identity. These include USERS, GROUPS, and ROLES.
+
+        policy 可以套用到不同的 identity 上 (IAM user、group、role 的集合)，而 identity 因此而有了 permission。
+
+      - Entities
+
+        The IAM resource objects that AWS uses for authentication. These include users and roles. Roles can be assumed by IAM users and roles in your or another account. They can also be assumed by users federated through a web identity or SAML.
+
+      - Principals
+
+        A person or application that uses the AWS account root user, an IAM user, or an IAM role to sign in and make requests to AWS.
+
 ## IAM Role
 
   - [IAM Roles \- AWS Identity and Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) #ril
 
-      - An IAM role is an IAM identity that you can create in your account that has specific permissions. An IAM role is similar to an IAM user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS.
+      - An IAM ROLE is an IAM IDENTITY that you can create in your account that has specific permissions. An IAM role is similar to an IAM USER, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS.
 
-        However, instead of being uniquely associated with one person, a role is intended to be ASSUMABLE BY ANYONE WHO NEEDS IT. Also, a role does not have standard long-term credentials such as a password or access keys associated with it. Instead, when you assume a role, it provides you with TEMPORARY security credentials for your role SESSION ??.
+        However, instead of being uniquely associated with ONE PERSON, a role is intended to be ASSUMABLE BY ANYONE WHO NEEDS IT. Also, a role does not have standard long-term credentials such as a password or access keys associated with it. Instead, when you assume a role, it provides you with TEMPORARY security credentials for your role SESSION.
 
-        根據下面 "switch to (or assume)" 的說法，這裡的 assume 可以解釋成 "假裝成 ... 的樣子"。但 temporary credentials 是多久?
+        根據下面 "switch to (or assume)" 的說法，這裡的 assume 可以解釋成 "假裝成 ... 的樣子"。但 temporary credentials 是多久??
 
         從 AWS Console > IAM > Roles > Maximum CLI/API session duration > Custom Duration 的提示看來：
 
