@@ -31,6 +31,7 @@
 ### 有 ORM 為什麼還要有 Repository ??
 
   - [Repository pattern, done right – jgauffin's coding den](http://blog.gauffin.org/2013/01/repository-pattern-done-right/) (2013-01-11) #ril
+
       - The repository pattern has been discussed a lot lately. Especially about it’s usefulness since the introduction of OR/M libraries. 有了 ORM，還需要 repository 嗎??
       - Let’s start with the [definition](http://martinfowler.com/eaaCatalog/repository.html):
 

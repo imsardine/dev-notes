@@ -16,6 +16,8 @@
 
           - Keybr uses a sophisticated computer ALGORITHM to GENERATE typing lessons matching your skills. These lessons consist of random words generated from a subset of the current alphabet. The size of the subset and individual letter frequency is controlled by the algorithm to give you the best learning experience.
 
+            下面提到，這些亂數產生的字即便不存在，也是可以唸得出來的，相對自然。
+
       - Initially it starts generating words from a small subset of the most frequent letters of the alphabet.
 
         When you are typing these words, keybr measures time to type a key for every letter in that subset. This time is used to measure your learning progress. The more familiar you become with a key, the shorter time does it takes you to type it.
@@ -42,7 +44,7 @@
 
         This is the typing score in ABSTRACT POINTS. Higher is better. The score is calculated from your typing speed, error count and the current ALPHABET SIZE.
 
-      - This indicator (Lesson's key set) shows the current subset of letters used to generate lessons, and your confidence level for every letter in the subset:
+      - This indicator (Lesson's key set) shows the current subset of letters used to generate lessons, and your CONFIDENCE LEVEL for every letter in the subset:
 
           - ? A not calibrated key with UNKNOWN confidence level
           - ? A calibrated key with the LEAST confidence level
@@ -121,7 +123,7 @@
 
       - Study the Principles for Effective Learning. These are so integral to your success in this course that they will be in front of your eyes before every typing exercise. Please take them to heart, and practise them ALWAYS.
 
-        每個 Typing Exercise 前都會有 Principles for Effective Learning 的內容；這裡的 Typing Exercises 是左側選項的大項，獨立於 Typing Lessons。
+        每個 Typing Exercise 前都會有 Principles for Effective Learning 的內容；這裡的 Typing Exercises 用來熱身，在左側選單獨立於 Typing Lessons。
 
       - Familiarize yourself with good TYPING ERGONOMICS.
 
@@ -143,7 +145,7 @@
 
         會嚴格要求時間要控制在 60 秒內，而且完全沒有錯誤；根據下面 Slower is faster 的準則，先達到沒有錯誤 (不要猜) 再要求速度。
 
-      - Always begin with one or more of the TYPING EXERCISES to warm-up. These are designed to help you develop the physical skills of typing in isolation, and to get the blood flowing!
+      - Always begin with one or more of the TYPING EXERCISES to WARM-UP. These are designed to help you develop the physical skills of typing IN ISOLATION, and to get the blood flowing!
 
   - [Principles for Effective Learning \- Peter's Online Typing Course](https://www.typing-lessons.org/preliminaries_2.html)
 
@@ -165,7 +167,7 @@
 
           - Type to a steady rhythm.
 
-            Generally, the TIME BETWEEN KEYSTROKES SHOULD BE THE SAME, giving you a sense of flow and the ability to scan ahead at a constant speed.
+            Generally, the TIME BETWEEN KEYSTROKES SHOULD BE THE SAME, giving you a sense of flow and the ability to SCAN AHEAD at a constant speed.
 
           - Relax.
 
@@ -183,7 +185,7 @@
 
     ![](https://www.typing-lessons.org/images/which_fingers.png)
 
-      - Each finger rests on a particular key in the HOME ROW of the keyboard when not typing, in order to keep "GROUNDED" and oriented at all times.
+      - Each finger rests on a particular key in the HOME ROW of the keyboard when not typing, in order to keep "GROUNDED" and ORIENTED ?? at all times.
 
         The home keys (ASDF JKL;) are outlined in yellow on the above diagram. The thumbs remain IN THE AIR, or very gently in contact with the keys below.
 

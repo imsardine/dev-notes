@@ -30,14 +30,14 @@
   - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/) 算是 "strict superset of JSON"，跟 Python 一樣看重 newline 與 indentation，但不像 Python 允許 tab。
   - [1.3. Relation to JSON - YAML Ain’t Markup Language (YAML™) Version 1\.2](http://yaml.org/spec/1.2/spec.html#id2759572) #ril
 
-## Hello, World! ??
+## Hello, World!
 
 ```
 # Hello, World!
 greeting: Hello, YAML!
 ```
 
-## 新手上路 ?? {: #getting-started }
+## 新手上路 {: #getting-started }
 
   - [YAML Ain't Markup Language](https://yaml.org/start.html) 結構用 indentation 創造出來 (一或多個空格)、list (sequence items) 用 dash (`-`) 表示，而 key-value pair 則用 colon (`:`) 拆開 key 跟 value；其中 `&` 跟 `*` 似乎可以用來參照?? `>` 跟 `|` 可以用多行表示??
 
@@ -141,7 +141,7 @@ greeting: Hello, YAML!
   - [YAML Idiosyncrasies](https://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html) #ril
   - [The YAML Format (The Yaml Component \- Symfony Docs)](https://symfony.com/doc/current/components/yaml/yaml_format.html) #ril
 
-## Boolean ??
+## Boolean
 
   - [Boolean Language\-Independent Type for YAML™ Version 1\.1](https://yaml.org/type/bool.html) 多種寫法可以兼顧可讀性
 
@@ -154,7 +154,7 @@ greeting: Hello, YAML!
 
   - [y\|Y\|n\|N not Recognised as Booleans · Issue \#247 · yaml/pyyaml](https://github.com/yaml/pyyaml/issues/247) 實驗確認 3.13 也有這個問題，為什麼這個錯誤在 2019-02-01 才被回報? #ril
 
-## Convention ??
+## Convention
 
   - 雖然[官方 FAQ](http://www.yaml.org/faq.html) 建議使用 `.yaml`，但因為 `.yml` 已經夠清楚、某些早期檔名 8.3 限制的習慣，結果 `.yml` 變成業界標準 (de facto standard)。
 
@@ -168,6 +168,18 @@ greeting: Hello, YAML!
 
 ## Comment
 
+  - [Comments - The YAML Format \(The Yaml Component \- Symfony 3\.3 Docs\)](https://symfony.com/doc/3.3/components/yaml/yaml_format.html#comments)
+
+    Comments can be added in YAML by prefixing them with a hash mark (`#`):
+
+        # Comment on a line
+        "symfony 1.0": { PHP: 5.0, Propel: 1.2 } # Comment at the end of a line
+        "symfony 1.2": { PHP: 5.2, Propel: 1.3 }
+
+    NOTE: Comments are simply ignored by the YAML parser and DO NOT NEED TO BE INDENTED according to the current level of nesting in a collection.
+
+    但跟著資料內縮會比較好讀。
+
   - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/) `# Comments in YAML look like this.`
   - [YAML \- Wikipedia](https://en.wikipedia.org/wiki/YAML) Comment 以 `#` 開頭表示，可以出現在一行的任何地方，直到行尾，但必須與其他 token 用 whitespace 隔開。在 Comparison with JSON 也提到，YAML 比 JSON 多了 comment 的支援。
   - [How do you do block comment in yaml? \- Stack Overflow](https://stackoverflow.com/questions/2276572/) 提到 inline comment 的說法，但不援 block comment 是真的。
@@ -177,15 +189,181 @@ greeting: Hello, YAML!
   - [YAML Ain't Markup Language](http://www.yaml.org/faq.html) 由於 indentation 對 YAML 很重要，所以 YAML 裡不能用 tab，各種工具對 tab 有不同的解讀。
   - [YAML Idiosyncrasies](https://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html) 建議用 2 spaces (Vim 搭配 `:set tabstop=2 expandtab`)；Nested Dictioanries 提到 nested dicts 的 identation 要特別注意。
 
+## `---`, `...` {: #--- }
+
+  - 對於文件一開始的 `---`，YAML 1.1 與 1.2 有不同的解釋：
+
+    [YAML 1.1](https://yaml.org/spec/1.1/#id857577):
+
+    > YAML uses three dashes (“`---`”) to separate documents within a stream.
+
+    [YAML 1.2](https://yaml.org/spec/1.2/spec.html#id2760395):
+
+    > YAML uses three dashes (“`---`”) to separate directives from document content. This also serves to signal the start of a document if no directives are present.
+
+    顯然明確用 `---` 起頭的想法是源自 YAML 1.2，目的是為了強調沒有 directives；雖然相對而言 YAML 1.1，現有支擾 YAML 1.2 的 parser 是相對少的。
+
+  - "multiple documents in a single stream" 的用法其實並不常見，尤其是用在 configuration 時。
+
+    > Allowing multiple documents in a single stream makes YAML suitable for LOG FILES and similar applications. Note that each document is independent of the rest, allowing for heterogeneous log file entries.
+    >
+    > -- [YAML 1.2](https://yaml.org/spec/1.2/spec.html#id2801681)
+
+  - 要求文件一開始要有 `---` 的習慣可能來自 Puppet？
+
+    [Google 搜尋結果](https://www.google.com/search?q=puppet+three+dashes) 都在講 YAML 要以 `---` 開頭，可能因此造成該領域的人誤以為 YAML 就是要以 `---` 開頭。
+
+    同為 configurmation management 應用的 Ansible 也說一開始的 `---` 並非必要：
+
+    > There’s another small quirk to YAML. All YAML files (regardless of their association with Ansible or not) can OPTIONALLY begin with `---` and end with `...`. This is part of the YAML format and indicates the start and end of a document.
+    >
+    > -- [YAML Syntax — Ansible Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-basics)
+
+    在其他領域，包括 [Dart](https://dart.dev/tools/pub/pubspec#example)、[Symfony](https://symfony.com/doc/master/components/yaml/yaml_format.html)、[Jekyll 的 `_config.yml`](https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml)、[Travis](https://docs.travis-ci.com/user/customizing-the-build/)、[Prometheus](https://prometheus.io/docs/prometheus/latest/configuration/configuration/) 都未曾出現過這類要求。
+
+---
+
+參考資料：
+
+  - [why \-\-\- \(3 dashes/hyphen\) in yaml file? \- Stack Overflow](https://stackoverflow.com/questions/50788277/)
+
+      - YAML uses three dashes (“---”) to separate directives from document content. This also serves to signal the start of a document if NO DIRECTIVES ARE PRESENT.
+
+      - Yassin Hajaj: It's not mandatory to have them if you do not begin your YAML with a directive. If it's the case, you should use them.
+
+  - [General syntax - Brief YAML reference — Camel 0\.1\.2 documentation](https://camel.readthedocs.io/en/latest/yamlref.html#general-syntax)
+
+      - A document begins with `---` and ends with `...`. Both are OPTIONAL, though a `...` can only be followed by directives or `---`.
+
+        You DON’T see multiple documents very often, but it’s a very useful feature for sending INTERMITTENT CHUNKS of data over a single network connection. With JSON you’d usually put each chunk on its own line and delimit with newlines; YAML has support built in.
+
+      - Documents may be preceded by directives, in which case the `---` is REQUIRED to indicate the end of the directives.
+
+        Directives are a `%` followed by an identifier and some parameters. (This is how directives are distinguished from a bare document without `---`, so the first non-blank non-comment line of a document can’t start with a `%`.)
+
+  - [The YAML Format \(The Yaml Component \- Symfony 5\.1 Docs\)](https://symfony.com/doc/master/components/yaml/yaml_format.html#unsupported-yaml-features)
+
+    The following YAML features are not supported by the Symfony Yaml component: Multi-documents (`---` and `...` markers);
+
+    如果只有一個 document 但以 `---` 開頭會怎樣?
+
+  - [document-start - Rules — yamllint 1\.20\.0 documentation](https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.document_start)
+
+    Use this rule to require or forbid the use of DOCUMENT START MARKER (`---`).
+
+    Set `present` to `true` when the document start marker is required, or to `false` when it is forbidden.
+
+    這工具的設計有點奇怪，`document-start: {present: true}` 時一定要有，`document-start: {present: false}` 一定不能有，若要讓使用者依需求自己決定呢?
+
+        $ yamllint settings.yml
+        settings.yml
+          1:1       warning  missing document start "---"  (document-start)
+        $ echo $?
+        0
+
+    不過它只是 warning 就是了，除非啟用 [strict mode](https://yamllint.readthedocs.io/en/stable/configuration.html#errors-and-warnings)：
+
+        $ yamllint --strict settings.yml
+        settings.yml
+          1:1       warning  missing document start "---"  (document-start)
+        $ echo $?
+        2
+
 ## Collection (Sequence, Mapping), Nested, Indentation ??
 
   - [Learn yaml in Y Minutes](https://learnxinyminutes.com/docs/yaml/) #ril
       - Sequences (equivalent to lists or arrays) look like this (note that THE '-' COUNTS AS INDENTATION) 其中 `- ` 也被視為 identation，那麼 key 的 value 是 list 時，為什麼不用再縮一排，就可以解釋了。
   - [Complete idiot's introduction to yaml · Animosity/CraftIRC Wiki](https://github.com/Animosity/CraftIRC/wiki/Complete-idiot%27s-introduction-to-yaml) #ril
   - [YAML Syntax — Ansible Documentation](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) Dictionary 跟 list 都有 abbreviated form #ril
-  - [The YAML Format (The Yaml Component \- Symfony 3\.3 Docs)](https://symfony.com/doc/3.3/components/yaml/yaml_format.html) #ril
 
-## String ??
+  - [Collections - The YAML Format \(The Yaml Component \- Symfony 3\.3 Docs\)](https://symfony.com/doc/3.3/components/yaml/yaml_format.html#collections)
+
+      - A YAML file is rarely used to describe a simple scalar. Most of the time, it describes a collection. YAML collections can be a sequence (indexed arrays in PHP) or a mapping of elements (associative arrays in PHP).
+
+      - Sequences use a DASH followed by a SPACE:
+
+            - PHP
+            - Perl
+            - Python
+
+        The previous YAML file is equivalent to the following PHP code:
+
+            array('PHP', 'Perl', 'Python');
+
+     - Mappings use a COLON followed by a SPACE (`: `) to mark each key/value pair:
+
+            PHP: 5.2
+            MySQL: 5.1
+            Apache: 2.2.20
+
+        注意 `:` 後面還要有個空格，否則會被視為 scalar value -- string。
+
+        which is equivalent to this PHP code:
+
+            array('PHP' => 5.2, 'MySQL' => 5.1, 'Apache' => '2.2.20');
+
+        NOTE: In a mapping, a key can be ANY VALID SCALAR.
+
+        The number of spaces between the colon and the value does not matter:
+
+            PHP:    5.2
+            MySQL:  5.1
+            Apache: 2.2.20
+
+        為了提高可讀性時，也可以這麼做。
+
+      - YAML uses indentation with ONE OR MORE spaces to describe nested collections:
+
+            'symfony 1.0':
+              PHP:    5.0
+              Propel: 1.2
+            'symfony 1.2':
+              PHP:    5.2
+              Propel: 1.3
+
+        The above YAML is equivalent to the following PHP code:
+
+            array(
+                'symfony 1.0' => array(
+                    'PHP'    => 5.0,
+                    'Propel' => 1.2,
+                ),
+                'symfony 1.2' => array(
+                    'PHP'    => 5.2,
+                    'Propel' => 1.3,
+                ),
+            );
+
+      - There is one important thing you need to remember when using indentation in a YAML file: Indentation must be done with one or more spaces, but never with tabulators.
+
+        You can nest sequences and mappings as you like:
+
+            'Chapter 1':
+              - Introduction
+              - Event Types
+            'Chapter 2':
+              - Introduction
+              - Helpers
+
+      - YAML can also use FLOW STYLES for collections, using explicit indicators rather than indentation to denote scope.
+
+        A sequence can be written as a comma separated list within square brackets (`[]`):
+
+            [PHP, Perl, Python]
+
+        A mapping can be written as a comma separated list of key/values within curly braces (`{}`):
+
+            { PHP: 5.2, MySQL: 5.1, Apache: 2.2.20 }
+
+        You can mix and match styles to achieve a BETTER READABILITY:
+
+            'Chapter 1': [Introduction, Event Types]
+            'Chapter 2': [Introduction, Helpers]
+
+            'symfony 1.0': { PHP: 5.0, Propel: 1.2 }
+            'symfony 1.2': { PHP: 5.2, Propel: 1.3 }
+
+## String
 
   - [Strings - The YAML Format (The Yaml Component \- Symfony Docs)](https://symfony.com/doc/current/components/yaml/yaml_format.html#strings) #ril
 
@@ -249,10 +427,11 @@ greeting: Hello, YAML!
 
   - [Using an Alternate Config - Configuration \| Hexo](https://hexo.io/docs/configuration#Using-an-Alternate-Config)
 
-
-## Python ??
+## Python
 
   - 從 [YAML.org](http://yaml.org/) 與 [Python Wiki](https://wiki.python.org/moin/YAML) 的建議看來，[PyYAML](pyyaml.md) 是最推薦的套件。
+
+---
 
 參考資料：
 
@@ -260,6 +439,35 @@ greeting: Hello, YAML!
   - [How do I install the yaml package for Python? \- Stack Overflow](https://stackoverflow.com/questions/14261614/) 幾乎都在講 PyYAML 套件。
   - [How can I parse a YAML file in Python \- Stack Overflow](https://stackoverflow.com/questions/1773805/) Anthon 提到 ruamel.yaml，本身是作者
   - [YAML \- Python Wiki](https://wiki.python.org/moin/YAML) 由於 YAML spec 的複雜度，PyYAML 有完整的支援 (C-based)，但其他 library 只有局部的支援。
+
+## Java
+
+  - [Jackson](https://github.com/FasterXML/jackson)
+  - [SnakeYAML](https://bitbucket.org/asomov/snakeyaml/wiki/Home)
+
+Jackson 的 YAML extension 及 Spring Boot 背後都是用 SnakeYAML。
+
+---
+
+參考資料：
+
+  - [Reading and Writing YAML Files in Java with Jackson](https://stackabuse.com/reading-and-writing-yaml-files-in-java-with-jackson/) (2020-01-02)
+
+    With a refresher on YAML, we're ready to write some code that reads/writes YAML files. To achieve this, we can use either of the two popular libraries: Jackson or SnakeYAML. In this article, we'll be focusing on Jackson.
+
+  - [Read YAML in Java with Jackson \- DZone Java](https://dzone.com/articles/read-yaml-in-java-with-jackson) (2016-05-30)
+
+    Jackson is one of the best JSON libraries for Java. Now with the YAML EXTENSION of Jackson, we can use Jackson to process YAML in Java. Under the hood, Jackson’s YAML extension uses the SnakeYAML library to parse YAML.
+
+    所謂 extension (`com.fasterxml.jackson.dataformat:jackson-dataformat-yaml`) 背後也是用 SnakeYAML。
+
+  - [Java - The Official YAML Web Site](https://yaml.org/)
+
+    這裡提到 JvYaml、SnakeYAML、YamlBeans、JYaml 及 Camel，但沒有 Jackson。
+
+  - [Project Dependency - Spring Boot YAML example – Mkyong\.com](https://mkyong.com/spring-boot/spring-boot-yaml-example/)
+
+    Spring Boot uses SnakeYAML library to parse the YAML file, and the SnakeYAML library is provided by `spring-boot-starter`
 
 ## 參考資料 {: #reference }
 
@@ -271,6 +479,7 @@ greeting: Hello, YAML!
   - [Online YAML Parser](http://yaml-online-parser.appspot.com/) 可以輸出成 JSON 或 Python
   - [YAML Lint - The YAML Validator](http://www.yamllint.com/) 除了檢查，也會將 `[...]` (list) 或 `{...}` (dictionary) 轉換成階層的表示法
   - [Best YAML Validator Online](https://jsonformatter.org/yaml-validator) 同時提供 Validate 與 Format YAML 的功能
+  - [adrienverge/yamllint - GitHub](https://github.com/adrienverge/yamllint) (Python)
 
 書籍：
 
@@ -278,5 +487,5 @@ greeting: Hello, YAML!
 
 手冊：
 
-  - [YAML 1.2](http://www.yaml.org/spec/1.2/spec.html)
-
+  - [YAML 1.1](https://yaml.org/spec/1.1/)
+  - [YAML 1.2](http://yaml.org/spec/1.2/spec.html)

@@ -3,6 +3,71 @@ title: Dart / Programming
 ---
 # [Dart](dart.md) / Programming
 
+  - [Get Started \| Dart](https://www.dartlang.org/guides/get-started)
+
+        void main() {
+          for (int i = 0; i < 5; i++) {
+            print('hello ${i + 1}');
+          }
+        }
+
+      會依序印出 `hello 1` ~ `hello 5`，這正是 DartPad 下 Hello World 的範例。
+
+      - DartPad is a quick and easy way to become familiar with Dart language features.
+      - Note that DartPad supports only a few core libraries. If you want to use other libraries, such as `dart:io` or libraries from packages, you’ll need to download platform-specific tools.
+      - Learn about the Dart language and core libraries on this site. Once you have a use case in mind, go to the “get started” instructions for the appropriate Dart platform: 先弄懂 Dart 的基礎 (lang + core lib) 再往不同的 platform 移動。
+
+  - [DartPad \| Dart](https://www.dartlang.org/tools/dartpad)
+
+      - DartPad supports `dart:*` libraries that work with WEB APPS; it doesn’t support `dart:io` or libraries from packages. If you want to use `dart:io`, use the Dart SDK instead. If you want to use a package, get the SDK for a platform that THE PACKAGE SUPPORTS.
+
+        難怪 [Dart Packages](https://pub.dartlang.org/) 套件會標示 `FLUTTER`、`WEB`、`OTHER` 等。
+
+      - The language features and APIs that DartPad supports depend on the Dart SDK version that DartPad is based on. You can find the SDK version at the bottom right of DartPad.
+
+        這裡的 Dark SDK 指的正是 Dart for the web。
+
+    Open DartPad, and run some samples
+
+      - A sample appears on the left and the output appears on the right. 右上角 Samples 下拉提供的範例並不多。
+      - Choose an HTML sample like Sunflower, using the Samples list at the upper right. Again, the output appears to the right. By default, you see the HTML output—what you’d see in a browser.
+      - Click CONSOLE to view the sample’s console output. On the left, click the HTML tab to view the sample’s HTML markup.
+
+    Create a command-line app
+
+      - Click the New Pad button, and confirm that you want to discard changes to the current pad.
+      - Clear the SHOW WEB CONTENT checkbox, at the bottom right of DartPad. The HTML and CSS tabs disappear.
+
+        原來不顯示 web content 就是 command-line app，不過 console 在 web app 下也會有。
+
+      - Change the code. For example, change the `main()` function to contain this code:
+
+            for (var char in 'hello'.split('')) {
+              print(char);
+            }
+
+      - Click the Format button. DartPad uses the Dart formatter to ensure that your code has proper indentation, white space, and line wrapping.
+      - If you didn’t happen to have any bugs while you were entering the code, try INTRODUCING A BUG.
+
+        For example, if you change `split` to `spit`, you get warnings at the bottom of the window and in the Run button. If you run the app, you’ll see output from an UNCAUGHT EXCEPTION.
+
+            Error compiling to JavaScript: <-- 印證了 SDK 是 Dart for the web 的說法
+            main.dart:2:28:
+            Error: The method 'spit' isn't defined for the class 'dart.core::String'.
+              for (var char in 'hello'.spit('')) {
+                                       ^^^^
+            Error: Compilation failed.
+
+  - [Sample Code \| Dart](https://www.dartlang.org/samples) #ril
+
+  - [Language tour \| Dart](https://dart.dev/guides/language/language-tour) #ril
+
+      - This page shows you how to use each major Dart feature, from variables and operators to classes and libraries, with the assumption that you already know how to program in another language. For a briefer, less complete introduction to the language, see the [language samples page](https://dart.dev/samples). #ril
+
+        To learn more about Dart’s core libraries, see the library tour. Whenever you want more details about a language feature, consult the Dart language specification.
+
+        Note: You can play with most of Dart’s language features using DartPad (learn more). Open DartPad
+
   - [A basic Dart program - Language Tour \| Dart](https://www.dartlang.org/guides/language/language-tour#a-basic-dart-program)
 
         // Define a function.
@@ -46,222 +111,7 @@ title: Dart / Programming
       - Dart has both EXPRESSIONS (which have RUNTIME VALUES) and STATEMENTS (which don’t). For example, the conditional expression `condition ? expr1 : expr2` has a value of `expr1` or `expr2`. Compare that to an if-else statement, which has no value. A statement often contains one or more expressions, but an expression can’t directly contain a statement.
       - Dart tools can report two kinds of problems: warnings and errors. Warnings are just indications that your code might not work, but they don’t prevent your program from executing. Errors can be either compile-time or run-time. A compile-time error prevents the code from executing at all; a run-time error results in an EXCEPTION being raised while the code executes.
 
-## 新手上路 ?? {: #getting-started }
-
-## Style, Lint ??
-
-  - [Effective Dart: Style \| Dart](https://www.dartlang.org/guides/language/effective-dart/style)
-      - A surprisingly important part of good code is GOOD STYLE. Consistent naming, ordering, and formatting helps CODE THAT IS THE SAME LOOK THE SAME. It takes advantage of the powerful pattern-matching hardware most of us have in our ocular systems. If we use a consistent style across the entire Dart ecosystem, it makes it easier for all of us to LEARN FROM AND CONTRIBUTE TO each others’ code.
-      - 每個 style 都帶有 "Linter rule: xxx" 的連結往 [Linter for Dart](https://dart-lang.github.io/linter/)。
-      - 分為 Identifiers、Ordering、Formatting 三塊，其中 ordering 主要跟 import/export 有關。
-
-  - [Formatting Rules · dart\-lang/dart\_style Wiki](https://github.com/dart-lang/dart_style/wiki/Formatting-Rules)
-      - The canonical source of truth for the logic dartfmt applies is in the code. ... But if you want an approximate list of the main HIGH-LEVEL WHITESPACE RULES the formatter applies, these are them:
-      - 最後一段文字是 Your goal is to BALANCE using indentation to show expression structure while not wanting to indent large swathes (塊) of code unnecessarily. 這裡講的 balance，指的是 readable + consistent。
-
-    Spaces, not tabs.
-
-      - Using spaces for formatting ensures the code LOOKS THE SAME IN EVERYONE'S EDITOR. It also makes sure it looks the same when posted to blogs, or on code sites like GitHub.
-
-        通常內縮 2 格。
-
-      - Modern editors emulate the behavior of tabs while inserting spaces, giving you the easy editing of tabs and the consistency of spaces.
-
-    One or two newlines after each statement or declaration.
-
-        main() {
-          first(statement);
-          second(statement);
-
-          third(statement);
-        }
-
-        anotherDeclaration() { ... }
-
-    No space between the declared name of a method, operator, or setter and its parameter list. 也就是 `(...)` 前不會有空白，所以 `==(other)` 不會寫成 `== (other)`。
-
-        log(arg) { ... }
-        bool operator ==(other) => ...
-        set contents(value) { ... }
-
-    Space after the `operator` keyword.
-
-        bool operator ==(other) => ...
-
-    Spaces around binary and ternary operators.
-
-      - Note that `<` and `>` are considered binary operators when used as expressions, but not for specifying generic types. Both `is` and `is!` are considered single binary operators. However, the `.` used to access members is not and should not have spaces around it.
-
-            average = (a + b) / 2;
-            largest = a > b ? a : b;
-            if (obj is! SomeType) print('not SomeType');
-
-    Spaces after `,` and `:` when used in a map or named parameter.
-
-        function(a, b, named: c)
-        [some, list, literal]
-        {map: literal}
-
-    No spaces around unary operators.
-
-        !condition
-        index++
-
-    Spaces around `in`, and after each `;` in a loop.
-
-        for (var i = 0; i < 100; i++) { ... }
-
-        for (final item in collection) { ... }
-
-    Space after flow-control keywords.
-
-      - This is UNLIKE FUNCTION AND METHOD CALLS, which do not have a space between the name and the opening parenthesis.
-
-            while (foo) { ... }
-
-            try {
-              // ...
-            } catch (e) {
-              // ...
-            }
-
-    No space after `(`, `[`, and `{`, or before `)`, `]`, and `}`.
-
-      - Also, do not use a space when using `<` and `>` for generic types.
-
-            var numbers = <int>[1, 2, (3 + 4)];
-
-    Space before `{` in function and method bodies.
-
-      - When a `{` is used after a parameter list in a function or method, there should be a space between it and the `)` ending the parameters.
-
-            getEmptyFn(a) {
-              return () {};
-            }
-
-    Place the opening curly brace (`{`) on the same line as what it follows. 還好官方有定義這個，否則有人喜歡把 `{` 擺在下一行，看起來實在不舒服!
-
-        class Foo {
-          method() {
-            if (someCondition) {
-              // ...
-            } else {
-              // ...
-            }
-          }
-        }
-
-    Place binary operators on the preceding line in a MULTI-LINE EXPRESSION.
-
-      - There are valid arguments for both styles but most of our code seems to go this way, and CONSISTENCY MATTERS MOST.
-
-            var bobLikesIt = isDeepFried ||
-                (hasPieCrust && !vegan) ||
-                containsBacon;
-
-            bobLikes() =>
-                isDeepFried || (hasPieCrust && !vegan) || containsBacon;
-
-        斷行時內縮 4 格。
-
-    Place ternary operators on the next line in a multi-line expression.
-
-      - Also, if you break the line before one of the operators, BREAK AROUND BOTH. 要斷就全斷!
-
-            return someCondition
-                ? whenTrue
-                : whenFalse;
-
-    Place the `.` on the next line in a multi-line expression.
-
-            someVeryLongVariableName.withAVeryLongPropertyName
-                .aReallyLongMethodName(args);
-
-    Format constructor initialization lists with each field on its own line.
-
-        MyClass()
-            : firstField = 'some value',
-              secondField = 'another',
-              thirdField = 'last' {
-          // ...
-        }
-
-      - Note that the `:` should be wrapped to the next line and indented FOUR SPACES. Fields should all LINE UP (so all but the first field end up indented SIX SPACES).
-
-    Split EVERY element in a collection IF IT DOES NOT FIT ON ONE LINE. 要斷就全斷!
-
-      - This means after the opening bracket, before the closing one, and after the `,` for each element.
-
-            mapInsideList([
-              {
-                'a': 'b',
-                'c': 'd'
-              },
-              {
-                'a': 'b',
-                'c': 'd'
-              },
-            ]);
-
-        注意 `([ ...])` 與 `{ ... }` 用法上的差別。
-
-    Indent block and collection bodies TWO SPACES.
-
-        if (condition) {
-          print('hi');
-        }
-
-        var compoundsWithLongNames = [
-          buckminsterfullerene,
-          dodecahedrane,
-          olympiadane
-        ];
-
-    Indent switch cases two spaces and case bodies four spaces.
-
-        switch (fruit) {
-          case 'apple':
-            print('delish');
-            break;
-
-          case 'durian':
-            print('stinky');
-            break;
-        }
-
-    Indent multi-line method cascades TWO SPACES. 這與上面 multi-line expression 折行內縮 4 格的做法不同，可能是 `  ..` 視覺上已經也是內縮 4 格的關係。
-
-        buffer
-          ..write('Hello, ')
-          ..write(name)
-          ..write('!');
-
-    Indent CONTINUED LINES with AT LEAST FOUR SPACES.
-
-        someVeryLongVariableName.aReallyLongMethodName(
-            arg, anotherArg, wrappedToNextLine);
-
-      - This includes `=>` as well:
-
-            bobLikes() =>
-                isDeepFried || (hasPieCrust && !vegan) || containsBacon;
-
-      - There are exceptions to this when the expression contains multi-line function or collection literals.
-
-            new Future.delayed(const Duration(seconds: 1), () {
-              print('I am a callback');
-            });
-
-            args.addAll([ // 符合上面 "Split every element..." 內容 2 格的做法
-              '--mode',
-              'release',
-              '--checked'
-            ]);
-
-  - [Formatting - Effective Dart: Style \| Dart](https://www.dartlang.org/guides/language/effective-dart/style#formatting) #ril
-
-  - [dart\-lang/linter: Linter for Dart\.](https://github.com/dart-lang/linter) #ril
-  - [Effective Dart: Design \| Dart](https://www.dartlang.org/guides/language/effective-dart/design) #ril
+  - [Effective Dart \| Dart](https://dart.dev/guides/language/effective-dart) #ril
 
 ## Identifier
 
@@ -402,8 +252,13 @@ title: Dart / Programming
 
 ## 參考資料 {: #reference }
 
-  - [Linter for Dart](https://dart-lang.github.io/linter/)
+  - [DartPad](https://dartpad.dev/)
+
+更多：
+
+  - [Data Type](dart-type.md)
+  - [Concurrency](dart-concurrency.md)
 
 手冊：
 
-  - [Lint Rules](http://dart-lang.github.io/linter/lints/)
+  - [Language Specification](https://dart.dev/guides/language/spec)

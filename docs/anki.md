@@ -198,6 +198,54 @@
 
   - [Using Decks Appropriately - Anki Manual](https://apps.ankiweb.net/docs/manual.html#manydecks) #ril
 
+## Custom Study
+
+  - [Custom Study - Anki Manual](https://apps.ankiweb.net/docs/manual.html#custom-study)
+
+      - The easiest way to create a FILTERED DECK is with the Custom Study button, which appears at the bottom of the screen when you click on a deck. It offers some convenient presets for common tasks like reviewing the cards you’ve failed (回答 1 Again 者) that day. It will create a filtered deck called "Custom Study Session" and automatically open it for you.
+
+        If an existing "Custom Study Session" deck exists, it will be emptied before a new one is created. If you wish to keep a custom study deck, you can RENAME it from the deck list.
+
+      - Here is a summary of each of the options:
+
+          - Increase today’s new card limit
+
+            Add more new cards to the deck you are currently studying. Note that unlike other options, this DOES NOT create a new filtered deck, it modifies the existing deck.
+
+            改變 current deck "今天" 的 new card limit，不會影響 deck option 的設定值。
+
+          - Increase today’s review card limit
+
+            If not all reviews due today were shown due to the daily review limit ??, this option allows you to show more of them. Like with the new cards option, this modifies the existing deck.
+
+          - Review forgotten cards
+
+            Show all cards that you’ve answered AGAIN (1) to within a number of days you specify.
+
+          - Review ahead
+
+            Show cards that will be due in the near future (a number of days you specify). This is useful for working through some of your older cards BEFORE A VACATION, but it will not help with cards you have learnt recently. Please see the reviewing ahead section below for more info.
+
+          - Preview new cards
+
+            Show cards that you have recently added, WITHOUT converting them to review cards as they are answered.
+
+          - Study by card state or tag
+
+            Select a certain number of cards from the current deck to study. You can choose to select new cards only, due cards only, or all cards; after you click "Choose Tags", you can also limit the selected cards by tags. If you wish to see all the cards in the deck (for instance, to study BEFORE A BIG TEST), you can set the number of cards to more than the number of cards in the deck.
+
+            除了 New cards only 與 Due cards only 兩個選項外，All review cards in random order 與 All cards in random older (don't reschedule) 比較特別。後兩者的差別在於 filtered deck 的 options 裡 Reschedule cards based on my answers in this deck 有沒有被勾選，但就實驗結果來看並沒有什麼差別??
+
+            按 Choose Tags 後開出的新視窗可以根據 tag 過濾 -- Require one or more of these tags (OR 運算) 及 Select tags to exclude，彈性很大。事實上，自動建立的 filtered deck，除了可以 rename，也可以再調整它的 options。
+
+  - [Help\! How do I only study cards with a certain tag? : Anki](https://www.reddit.com/r/Anki/comments/59q52a/)
+
+    ElfjeTinkerBell: Click the deck. On the bottom, click custom study. Choose "study by card state or tag" and enter the number of cards you want to study. Click ok. Select tag(s). Click ok. Go.
+
+    After your study session, you will find a CUSTOM DECK in your list of decks. You can delete that one without deleting the cards, they will go back to their original decks.
+
+    意思是被 custom study/deck 選定，就不會出現在原來的 deck ??
+
 ## Template ??
 
   - [Cards and Templates - Anki Manual](https://apps.ankiweb.net/docs/manual.html#templates) #ril
@@ -262,6 +310,7 @@
 社群：
 
   - [Anki Support](https://anki.tenderapp.com/)
+  - [Anki - reddit](https://www.reddit.com/r/Anki/)
 
 文件：
 

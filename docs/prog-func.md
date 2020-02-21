@@ -93,6 +93,25 @@ title: Programming / Function
   - [language agnostic \- Should a function have only one return statement? \- Stack Overflow](https://stackoverflow.com/questions/36707/) guard clauses 是個例外? #ril
   - [Replace Nested Conditional with Guard Clauses](https://www.refactoring.com/catalog/replaceNestedConditionalWithGuardClauses.html) (1999-10-09) #ril
 
+  - [Multiple return statements - Return statement \- Wikipedia](https://en.wikipedia.org/wiki/Return_statement#Multiple_return_statements) #ril
+
+      - Languages with an explicit return statement create the possibility of multiple return statements in the same function. Whether or not that is a good thing is controversial.
+
+      - Strong adherents of STRUCTURED PROGRAMMING make sure each function has a single entry and a SINGLE EXIT (SESE). It has thus been argued that one should eschew the use of the explicit return statement except at the textual end of a subroutine, considering that, when it is used to "return early", it may suffer from the same sort of problems that arise for the GOTO statement.
+
+        Conversely, it can be argued that using the return statement is worthwhile when the alternative is more convoluted code, such as deeper nesting, harming readability.
+
+## Return Early
+
+  - [Why should you return early? \- Szymon Krajewski](https://szymonkrajewski.pl/why-should-you-return-early/) (2017-11-20) #ril
+
+  - [The "return early" pattern](http://www.itamarweiss.com/personal/2018/02/28/return-early-pattern.html) (2018-02-28) #ril
+  - [Return Early, Return Often \- Christina Burger \- Medium](https://medium.com/@pypmannetjies/return-early-return-often-f46f2f940c3d) (2018-06-03) #ril
+
+  - [Multiple return statements - Return statement \- Wikipedia](https://en.wikipedia.org/wiki/Return_statement#Multiple_return_statements) #ril
+
+    Others, including Kent Beck and Martin Fowler argue that one or more GUARD CLAUSES -- conditional "early exit" return statements near the beginning of a function -- often make a function easier to read than the alternative.
+
 ## 內部不該修改傳入的 Argument ??
 
   - Output paramter 本身沒有問題，問題在於若是從外面傳進來，可不可以改？如果改了，就是有 side effect (不是絕對的不好)。

@@ -66,6 +66,127 @@
 
   - [Contacts Management \- NSC Self Service \| Workday Community](https://community.workday.com/articles/415712) #ril
 
+## Tenant
+
+  - [Tenant Management \| Workday Community](https://community.workday.com/articles/24324) #ril
+
+      - A tenant is a unique INSTANCE of the Workday Service with a separate set of data held by Workday in a LOGICALLY SEPARATED DATABASE (i.e., a database segregated through password-controlled access).
+
+        Our tenants follow a weekly Service Update schedule that you can find on the Events Calendar. Additionally, each tenant has a UNIQUE URL and is subject to specific IP Addresses and DNS names.
+
+        注意不是 unique HOSTNAME，所以跟 DNS 其實沒什麼關係。
+
+    Tenant Types
+
+      - Workday maintains six types of tenants:
+
+        Production
+
+          - The Production tenant contains data where the integrity and validity of the data is critical. We consider the data housed in the Production tenant as your SYSTEM OF RECORD.
+
+          - Workday Administrators are responsible for ending active sessions and locking users prior to a DATA LOAD in the Production Tenant. They are also responsible for unlocking users after the data load. For more information, please review the [Production Data Loads](https://community.workday.com/node/35603) page. #ril
+
+        Sandbox
+
+          - The Sandbox tenant is a COPY of the Production tenant which Workday provides as a SECOND TENANT. The creation of your Sandbox tenant COINCIDES with the timing of your initial Workday Service go-live date.
+
+          - We recommend that you use your Sandbox for a variety of purposes including testing configuration changes and training. Sandboxes are isolated from Production, therefore changes you make in Sandbox do not affect Production, and vice versa.
+
+            Sandboxes are only refreshed with a copy of Production taken on Friday at 6:00 pm PT during our Weekly Service Updates.  However, you can request up to two consecutive Refresh Exemption Tenant Request if you do not want your changes in Sandbox overwritten by Production. It is important that you understand the refresh schedule and plan accordingly, especially if you are testing configuration changes.
+
+          - You can not request to have your Sandbox refreshed on an ad hoc basis outside of the Weekly Service Update. If you need a tenant to be refreshed from Production during the week, please use an existing Implementation tenant or you can request to purchase a new Implementation tenant.
+
+            看起來 Implementation tenant 的彈性更大，呼應下面 "greatest amount of flexibility" 的說法。
+
+        Sandbox Preview
+
+          - The Sandbox Preview tenant is a copy of the Production tenant, but it additionally contains new functionality that may be available in a future Feature Release.
+
+            Generally, the preview features will be targeted for the next Feature Release, but that is not guaranteed. Preview features could be targeted for an unspecified future Feature Release. In addition, Preview features could undergo changes based on feedback or new desired behavior, or could be retracted as a Preview feature and never released.
+
+          - The creation of your Sandbox Preview tenant COINCIDES with the timing of your initial Workday Service go-live date and it stays in existence forever.
+
+            也就是說，新客戶一定會有 3 個 tenant -- Production、Sandbox 及 Sandbox Preview；或許是 Sandbox Preview 這說法會讓人搞不清是 Sandbox 還是 Preview，所以有人會簡稱 Preview，不過另外還有個 Implementation Preview，所以 Sandbox Preview 的說法還是比較精確的。
+
+            在 Customer Center > Tenant Management 可以看到 tenant 列表，就會標示不同的 tenant type；這裡只會有 Sandbox Preview 這種完整的說法。
+
+          - The main purpose of the Sandbox Preview tenant is to test new functionality as it become available in between Feature Releases. It is not recommended that you use the Sandbox Preview tenant for DEPLOYMENT WORK for these reasons:
+
+              - Objects, such as reports and business processes, cannot be moved from a Preview tenant to a Non-Preview tenant using Solutions
+              - The Sandbox Preview tenant contains new features, fields, and functionality that are not available in Non-Preview tenants
+              - It is not guaranteed when the features in the Sandbox Preview tenant will be made available in Production
+
+            為什麼說 Preview 不適合拿來測試? 因為無法像 Sandbox 將測試的東西 migrate 到 Production。
+
+            For more details on preview tenants, please see the 'Preview Tenant Questions' section of the Update Process: Workday 22 and beyond FAQ.
+
+          - The Sandbox Preview tenant is only refreshed from production when a Named Support Contact enters a Refresh Tenant Request during one of the Tenant Maintenance windows.
+
+            Twice a year at the beginning of the Release Preparation Window, the Sandbox Preview tenant is AUTO-REFRESHED from a copy of Production taken on that Friday at 6:00 pm PT. Sandbox Preview Exemptions are not permitted.
+
+        Implementation
+
+          - The Implementation tenant provides you with the greatest amount of flexibility as related to tenant refreshes. We recommend an Implementation tenant if you are configuring new features and anticipate needing MORE THAN 3 WEEKS to complete the project.
+
+            因為 Sandbox Refresh Exemption 最多只能連續申請 2 週，也就是停止刷新 3 週。
+
+          - Although all of our Implementation tenants are subject to weekly Service Updates, the tenants are not refreshed with a copy of Production unless you specifically request to do so. There are no mandatory refreshes. For more information on how to purchase an Implementation tenant, please refer to Workday's [Deployment Tenant Policy and Pricing](http://community.workday.com/node/15409). #ril
+
+          - NEW CUSTOMERS are temporarily provided with either a Global Modern Services (GMS), Green Oak Valley (GOV) or Alma Mater University (AMU) tenant that is pre-configured with demonstration data. The GMS, GOV or AMU tenant gives you an opportunity to see configured features and custom reports using FICTITIOUS ORGANIZATIONS AND WORKERS.
+
+            It can be used as a great LEARNING TOOL for Named Support Contacts. No customer or testing data should be loaded into the GMS, GOV and AMU tenants. For more information on how to purchase a GMS/GOV/AMU tenant, please refer to Workday's Deployment Tenant Policy and Pricing.
+
+            雖然說 Sandbox 也可以拿來練習，但 Sandbox 有真實資料，若不想限縮操作範圍，這些特殊的 tenant 好像很實用。
+
+          - Please review the Implementation Tenant Maintenance Windows for information on when you can request to create, refresh or delete Implementation tenants.
+
+        Implementation Preview
+
+          - The Implementation Preview tenant contains new functionality that may be available in a future Feature Release.
+
+            Generally, the preview features will be targeted for the next Feature Release, but that is not guaranteed. Preview features could be targeted for an unspecified future Feature Release.  In addition, Preview features could undergo changes based on feedback or new desired behavior, or could be retracted as a Preview feature and never released.
+
+            第 2 段話跟上面 Sandbox Preview 是完全一樣的；第一段話的差別在於 Sandbox Preview 強調了 "copy of the Production tenant"。
+
+          - We recommend an Implementation Preview tenant if you are testing future features and you do not have a Sandbox Preview tenant. The Implementation Preview tenants are subject to weekly Service Updates, but the tenants are not refreshed unless you specifically request to do so.
+
+            什麼情況下會沒有 Sandbox Preview tenant ??
+
+          - The creation of your Implementation Preview tenant must be requested using the Workday Customer Center or the Workday Partner Center. You must refresh the data in the Implementation tenant to TRANSFORM it into an Implementation Preview tenant.
+
+              - Engagement Managers and Project Managers can request to transform an Implementation tenant into an Implementation Preview tenant by entering either a Create New or Refresh tenant request for the initial deployment or any subsequent deployments.
+              - The Named Support Contact can request to do this transformation by entering a Refresh tenant request or a Purchase/Renew tenant request for a new Empty Tenant.
+
+          - Please read the Community documentation to get further instructions on how to request for an Implementation Preview tenant using the Create New, Refresh and Purchase/Renew tenant requests.
+
+            Please review the Implementation Tenant Maintenance Windows for information on when you can request to create, refresh or delete Implementation Preview tenants.
+
+        Implementation Customer Central
+
+          - Customer Central is a new type of Workday tenant that increases implementation security and efficiency through Single Sign-On and Configuration Catalog features. Named Support Contacts can request for a Customer Central tenant using the Implementation tenant request. ??
+
+    Tenant Comparisons
+
+      - Features 提到在 Repease Preparation Window 期間，除 Sandbox Preview 與 Implementation Preview 會變成新版外 (Future Feature Release)，其餘都會維持舊版 (Current Feature Release)。
+      - Data 可能很明顯區分出 Sandbox 與 Implementation 的差別 -- Sandbox 一定是 customer data，但 Implementation 除了 customer data 外，也可以是 GMS/GOV/AMU data (假資料)。
+      - Refresh Schedule 除了 Sandbox 會有每週的 Service Update 自動刷新之外，其餘的刷新都要手動申請；Production 跟 Implementation Customer Central 沒有刷新的概念。
+
+    Tenant Versions
+
+      - All of your tenants will be ON THE SAME VERSION of Workday.
+
+        The Sandbox Preview tenant and Implementation Preview tenant banners will display the SAME VERSION as your Production, Sandbox, and Implementation tenants, even if they contain functionality that may be included in the next Feature Release.
+
+        2020-01-16 登入 Sandbox Preview，發現左上角出現 "Sandbox Preview Preview -- xxx_preview"，第 2 的 "Preview" 是否意謂著將進入 Workday 2020R1 Preview Window (2020-02-01 ~ 2020-03-07) ??
+
+      - You can identify the Preview tenants in two ways:
+
+          - The top banner within the Preview tenant will contain text that will either read ‘Implementation Preview’ or ‘Sandbox Preview’.
+
+          - The tenants displayed in the Workday Tenants tab within the Workday Customer Center will display with a Tenant Type of ‘Implementation Preview or ‘Sandbox Preview’.
+
+            Engagement Managers and Project Managers would access the Workday Partner Center and navigate to the Accounts tab, select an account, and press the View Tenants button to see the customer’s tenants.
+
 ## Sandbox
 
   - Sandbox 的資料會定期跟 production 同步，除非暫時關閉這項功能 (Sandbox Refresh Exemption)，否則在 sandbox 所做的變更都會被覆蓋。
@@ -353,7 +474,6 @@
 
 手冊：
 
-  - [Scheduled Maintenance | Workday Community](https://community.workday.com/extended-maintenance-events)
-  - [Service Update Notes | Workday Community](https://community.workday.com/service-update-notes)
+  - [Tenant Comparisons - Tenant Management | Workday Community](https://community.workday.com/articles/24324)
   - [Glossary - Administrator Guide](https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/M_r1GQrevkRxteNj1XyUmw)
 

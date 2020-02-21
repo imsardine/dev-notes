@@ -411,7 +411,7 @@
 
         Notice that no one can change the scopes variables. JWTs are digitally signed, so its content cannot be tampered with.
 
-        為什麼只要符合其中一個 scope 即可?
+        為什麼只要符合其中一個 scope 即可? 以 GitHub `user:follow` (`user` 包含 `user:email` 與 `user:follow`) 為例，若要 follow 某個 user，有 `user` 或 `user:follow` 都可以。
 
       - Documenting an API is equally important. What would be a good way for surfacing this on an API explorer?
 

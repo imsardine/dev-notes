@@ -1,6 +1,7 @@
 # Flutter
 
   - [Flutter \- Beautiful native apps in record time](https://flutter.io/) #ril
+
       - Flutter allows you to build beautiful NATIVE apps on iOS and Android from a SINGLE CODEBASE.
       - Coming from another platform? Docs: iOS, Android, Web, React Native, Xamarin. 想吸收不同平台的開發者，野心不小!!
       - Fast Development - Paint your app to life in milliseconds with stateful Hot Reload. Use a rich set of fully-customizable widgets to build NATIVE INTERFACES in minutes.
@@ -58,13 +59,63 @@
 
 ## 安裝設置 {: #setup }
 
-  - [Install \- Flutter](https://flutter.io/docs/get-started/install) 分 Windows、macOS 跟 Linux，只有 macOS 可以同時開發 iOS 跟 Android。
+  - [Install \- Flutter](https://flutter.io/docs/get-started/install)
+
+    分 Windows、macOS 跟 Linux，只有 macOS 可以同時開發 iOS 跟 Android。
 
 ### macOS
 
-  - [MacOS install \- Flutter](https://flutter.io/docs/get-started/install/macos)
-      - Download the following installation bundle to get the latest stable release of the Flutter SDK: `flutter_macos_v1.0.0-stable.zip` (約 430 MB)。
-      - Add the `flutter` tool to your path: ``export PATH="$PATH:`pwd`/flutter/bin"``
+  - [macOS install \- Flutter](https://flutter.dev/docs/get-started/install/macos)
+
+    System requirements
+
+      - To install and run Flutter, your development environment must meet these minimum requirements:
+
+          - Operating Systems: macOS (64-bit)
+          - Disk Space: 2.8 GB (does not include disk space for IDE/tools).
+
+          - Tools: Flutter depends on these command-line tools being available in your environment.
+
+            `bash`, `curl`, `git` 2.x, `mkdir`, `rm`, `unzip`, `which`
+
+    Get the Flutter SDK
+
+     1. Download the following installation bundle to get the latest stable release of the Flutter SDK:
+
+        For other release channels, and older builds, see the [SDK archive](https://flutter.dev/docs/development/tools/sdk/archive) page.
+
+     2. Extract the file in the desired location, for example:
+
+            $ cd ~/development
+            $ unzip ~/Downloads/flutter_macos_v1.12.13+hotfix.8-stable.zip
+
+        If you don’t want to install a fixed version of the installation bundle, you can skip steps 1 and 2. Instead, get the source code from the Flutter repo on GitHub, and change branches or tags as needed. For example:
+
+            $ git clone https://github.com/flutter/flutter.git -b stable
+
+     3. Add the `flutter` tool to your path:
+
+            export PATH="$PATH:`pwd`/flutter/bin"
+
+        This command sets your `PATH` variable for the current terminal window only. To permanently add Flutter to your path, see Update your path.
+
+     4. Optionally, PRE-DOWNLOAD development binaries:
+
+        The `flutter` tool downloads PLATFORM-SPECIFIC development binaries as needed. For scenarios where pre-downloading these artifacts is preferable (for example, in HERMETIC build environments, or with intermittent network availability), iOS and Android binaries can be downloaded ahead of time by running:
+
+            flutter precache
+
+        For additional download options, see `flutter help precache`.
+
+            $ flutter precache
+            Downloading Android Maven dependencies...
+            (This is taking an unexpectedly long time.)
+
+        就放著給它跑，否則之後練習過程中還要等待。
+
+      - You are now ready to run Flutter commands!
+
+        Note: To update an existing version of Flutter, see [Upgrading Flutter](https://flutter.dev/docs/development/tools/sdk/upgrading). #ril
 
     Run `flutter doctor`:
 
@@ -73,59 +124,80 @@
             $ flutter doctor
 
               ╔════════════════════════════════════════════════════════════════════════════╗
-              ║                 Welcome to Flutter! - https://flutter.io                   ║
+              ║                 Welcome to Flutter! - https://flutter.dev                  ║
               ║                                                                            ║
-              ║ The Flutter tool anonymously reports feature usage statistics and crash    ║
-              ║ reports to Google in order to help Google contribute improvements to       ║
-              ║ Flutter over time.                                                         ║
+              ║ The Flutter tool uses Google Analytics to anonymously report feature usage ║
+              ║ statistics and basic crash reports. This data is used to help improve      ║
+              ║ Flutter tools over time.                                                   ║
+              ║                                                                            ║
+              ║ Flutter tool analytics are not sent on the very first run. To disable      ║
+              ║ reporting, type 'flutter config --no-analytics'. To display the current    ║
+              ║ setting, type 'flutter config'. If you opt out of analytics, an opt-out    ║
+              ║ event will be sent, and then no further information will be sent by the    ║
+              ║ Flutter tool.                                                              ║
+              ║                                                                            ║
+              ║ By downloading the Flutter SDK, you agree to the Google Terms of Service.  ║
+              ║ Note: The Google Privacy Policy describes how data is handled in this      ║
+              ║ service.                                                                   ║
+              ║                                                                            ║
+              ║ Moreover, Flutter includes the Dart SDK, which may send usage metrics and  ║
+              ║ crash reports to Google.                                                   ║
               ║                                                                            ║
               ║ Read about data we send with crash reports:                                ║
               ║ https://github.com/flutter/flutter/wiki/Flutter-CLI-crash-reporting        ║
               ║                                                                            ║
               ║ See Google's privacy policy:                                               ║
               ║ https://www.google.com/intl/en/policies/privacy/                           ║
-              ║                                                                            ║
-              ║ Use "flutter config --no-analytics" to disable analytics and crash         ║
-              ║ reporting.                                                                 ║
               ╚════════════════════════════════════════════════════════════════════════════╝
 
 
             Doctor summary (to see all details, run flutter doctor -v):
-            [✓] Flutter (Channel stable, v1.0.0, on Mac OS X 10.13.6 17G65, locale en-TW)
-            [✓] Android toolchain - develop for Android devices (Android SDK 28.0.3)
-            [!] iOS toolchain - develop for iOS devices (Xcode 10.0)
-                ✗ libimobiledevice and ideviceinstaller are not installed. To install with Brew, run:
-                    brew update
-                    brew install --HEAD usbmuxd
-                    brew link usbmuxd
-                    brew install --HEAD libimobiledevice
-                    brew install ideviceinstaller
-                ✗ ios-deploy not installed. To install with Brew:
-                    brew install ios-deploy
+            [✓] Flutter (Channel stable, v1.12.13+hotfix.8, on Mac OS X 10.15.3 19D76, locale en-TW)
+
+            [✓] Android toolchain - develop for Android devices (Android SDK version 28.0.3)
+            [!] Xcode - develop for iOS and macOS (Xcode 10.2.1)
+                ✗ Flutter requires a minimum Xcode version of 11.0.0.
+                  Download the latest version or update via the Mac App Store.
+                ✗ Xcode requires additional components to be installed in order to run.
+                  Launch Xcode and install additional required components when prompted or run:
+                    sudo xcodebuild -runFirstLaunch
                 ✗ CocoaPods not installed.
-                    CocoaPods is used to retrieve the iOS platform side's plugin code that responds to your plugin usage on the Dart side.
-                    Without resolving iOS dependencies with CocoaPods, plugins will not work on iOS.
-                    For more info, see https://flutter.io/platform-plugins
+                    CocoaPods is used to retrieve the iOS and macOS platform side's plugin code that responds to your plugin
+                    usage on the Dart side.
+                    Without CocoaPods, plugins will not work on iOS or macOS.
+                    For more info, see https://flutter.dev/platform-plugins
                   To install:
-                    brew install cocoapods
-                    pod setup
-            [✓] Android Studio (version 3.2)
+                    sudo gem install cocoapods
+            [!] Android Studio (version 3.2)
                 ✗ Flutter plugin not installed; this adds Flutter specific functionality.
                 ✗ Dart plugin not installed; this adds Dart specific functionality.
             [!] IntelliJ IDEA Community Edition (version 2016.3.4)
                 ✗ Flutter plugin not installed; this adds Flutter specific functionality.
                 ✗ Dart plugin not installed; this adds Dart specific functionality.
                 ✗ This install is older than the minimum recommended version of 2017.1.0.
-            [!] VS Code (version 1.27.2)
+            [!] VS Code (version 1.33.1)
+                ✗ Flutter extension not installed; install from
+                  https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
             [!] Connected device
                 ! No devices available
 
-            ! Doctor found issues in 4 categories.
+            ! Doctor found issues in 5 categories.
 
-      - This command checks your environment and displays a report to the terminal window. The Dart SDK is bundled with Flutter; it is not necessary to install Dart separately. Check the output carefully for other software you may need to install or further tasks to perform (shown in BOLD TEXT). 也就是 error 的部份。
-      - The `flutter` tool uses Google Analytics to anonymously report feature USAGE STATISTICS and basic CRASH REPORTS. This data is used to help improve Flutter tools over time. Analytics is not sent on the very first run or for any runs involving `flutter config`, so you can OPT OUT of analytics before any data is sent. To disable reporting, type `flutter config --no-analytics` and to display the current setting, type `flutter config`.
+      - This command checks your environment and displays a report to the terminal window. The Dart SDK is bundled with Flutter; it is not necessary to install Dart separately. Check the output carefully for other software you might need to install or further tasks to perform (shown in bold text). 也就是 error 的部份。
 
-    MacOS supports developing Flutter apps for both iOS and Android.
+        Once you have installed any missing dependencies, run the `flutter doctor` command again to verify that you’ve set everything up correctly.
+
+      - Warning: The `flutter` tool uses Google Analytics to anonymously report feature usage statistics and basic crash reports. This data is used to help improve Flutter tools over time.
+
+        Flutter tool analytics are not sent on the very first run. To disable reporting, type `flutter config --no-analytics`. To display the current setting, type `flutter config`. If you opt out of analytics, an opt-out event will be sent, and then no further information will be sent by the Flutter tool.
+
+        Moreover, Flutter includes the Dart SDK, which may send usage metrics and crash reports to Google.
+
+### Android
+
+  - [Android setup - macOS install \- Flutter](https://flutter.dev/docs/get-started/install/macos#android-setup) #ril
+
+### iOS
 
   - [iOS setup - MacOS install \- Flutter](https://flutter.io/docs/get-started/install/macos#ios-setup)
       - To develop Flutter apps for iOS, you need a Mac with Xcode 9.0 or newer: ... With Xcode, you’ll be able to run Flutter apps on an iOS device or on the simulator.

@@ -142,17 +142,17 @@
 
             mvn clean deploy site-deploy
 
-        Just creating the package and installing it in the local repository for re-use from other projects can be done with
+        Just creating the package and installing it in the LOCAL REPOSITORY for re-use from other projects can be done with
 
             mvn verify
 
         This is the most common build invocation for a Maven project.
 
-        感覺 `mvn` 可以接 life cycle 或底下的 phase，例如 `clean` 是 life cycle (但同時也是 phase ??)，而 `deploy`、`site-deploy` 跟 `verify` 都是 phase。
-
         從 `mvn clean deploy site-deploy` 的用法看來，life cycle 是獨立的，但若某個 phase 有被提及，同一 life cycle 前面的 phase 都會被走過。因此 `mvn verify` 只會走 `default` life cycle 的 `validate` ~ `verify`，跟 `clean` & `site` life cycle 無關。
 
-      - When not working with a project, and in some other use cases, you might want to invoke a specific TASK implemented by a part of Maven - this is called a GOAL of a PLUGIN. E.g.:
+        這呼應了 `mvn [options] [<goal(s)>] [<phase(s)>]` 的用法，`mvn` 後面只會接 phase 或 goal，但不會是 life cycle。因此 `mvn clean` 會走過 `clean` life cycle 的 `pre-clean` ~ `clean`，但 `post-clean` 就永遠走不到，是不是哪裡怪怪的 ??
+
+      - When NOT WORKING WITH A PROJECT, and in some other use cases, you might want to invoke a specific TASK implemented by a part of Maven - this is called a GOAL of a PLUGIN. E.g.:
 
             mvn archetype:generate
 
@@ -161,20 +161,6 @@
             mvn checkstyle:check
 
         There are many different plugins available and they all implement different goals.
-
-## Repository
-
-  - [Maven – Introduction to Repositories](https://maven.apache.org/guides/introduction/introduction-to-repositories.html) #ril
-
-  - [Maven – Guide to installing 3rd party JARs](https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html) #ril
-  - [Maven – Guide to deploying 3rd party JARs to remote repository](https://maven.apache.org/guides/mini/guide-3rd-party-jars-remote.html) #ril
-  - [Maven – Guide to Coping with Sun JARs](https://maven.apache.org/guides/mini/guide-coping-with-sun-jars.html) #ril
-  - [Maven – Remote repository access through authenticated HTTPS](https://maven.apache.org/guides/mini/guide-repository-ssl.html) #ril
-  - [Maven – Guide to relocation](https://maven.apache.org/guides/mini/guide-relocation.html) #ril
-
-## Central Repository
-
-  - [Maven – Maven Central Repository](https://maven.apache.org/repository/index.html) #ril
 
 ## 安裝設置 {: #setup }
 
@@ -225,6 +211,7 @@
 
 更多：
 
+  - [Repository](maven-repo.md)
   - [Archetype](maven-archetype.md)
   - [Plugin](maven-plugin.md)
 
@@ -232,4 +219,4 @@
 
   - [Release Notes](https://maven.apache.org/docs/history.html)
   - [POM Reference](https://maven.apache.org/pom.html)
-  - [Maven Plugins](https://maven.apache.org/plugins/index.html)
+  - [Lifecycles Reference](http://maven.apache.org/ref/3.6.3/maven-core/lifecycles.html)
