@@ -360,7 +360,8 @@
   - [Cookbook - Flutter](https://flutter.io/docs/cookbook)
   - [Google Developers Blog: flutter](https://developers.googleblog.com/search/label/flutter)
   - [Flutter by Google - YouTube](https://www.youtube.com/playlist?list=PLOU2XLYxmsIJ7dsVN4iRuA7BT8XHzGtCr) #ril
-  - [Flutter – Medium](https://medium.com/flutter-io)
+  - [Flutter – Medium](https://medium.com/flutter)
+  - [FlutterDevs – Medium](https://medium.com/flutterdevs)
   - [Flutter Live](https://developers.google.com/events/flutter-live/)
 
 更多：

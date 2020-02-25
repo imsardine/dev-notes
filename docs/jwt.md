@@ -524,6 +524,40 @@
 
   - [go \- Scopes Not Present in JWT Claim in Golang and Goa \- Stack Overflow](https://stackoverflow.com/questions/44036579/) 出現 `"scopes": "read:meta"` 的用法。
 
+## Token Generation {: #token-generation }
+
+  - [Debugger - JSON Web Tokens \- jwt\.io](https://jwt.io/#debugger-io)
+
+    Warning: JWTs are credentials, which can grant access to resources. Be careful where you paste them! We do not record tokens, all validation and debugging is done on the CLIENT SIDE.
+
+    雖然說 jwt.io 聲稱運算都在 client 端，但最好要有自己的 operation tool。
+
+    另外發現 jwt.io 在對 header 跟 payload 做 Base64 運算前，因為 compact 的考量，會先對 JSON 做 minify，例如：
+
+        {
+          "alg": "HS256",
+          "typ": "JWT"
+        }
+
+    會變成 `{"alg":"HS256","typ":"JWT"}`，對它做 Base64 的結果就跟 jwt.io 的範例一致：
+
+        $ echo -n '{"alg":"HS256","typ":"JWT"}' | base64
+        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+        $ echo -n 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' | base64 -d
+        {"alg":"HS256","typ":"JWT"}
+
+    但有趣的是，一樣是 compact 的考量，會把結尾的 padding 去掉：
+
+        $ echo -n 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ' | base64 -d
+        {"sub":"1234567890","name":"John Doe","iat":1516239022
+
+        $ echo -n 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ===' | base64 -d
+        {"sub":"1234567890","name":"John Doe","iat":1516239022}
+
+        $ echo -n '{"sub":"1234567890","name":"John Doe","iat":1516239022}' | base64
+        eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ==
+
 ## Authentication Scheme
 
   - [How do JSON Web Tokens work? - JSON Web Token Introduction \- jwt\.io](https://jwt.io/introduction/)

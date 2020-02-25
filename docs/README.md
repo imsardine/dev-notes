@@ -166,6 +166,7 @@
 
   - [IBus](ibus.md)
   - [IK Analysis for Elasticsearch](elasticsearch-analysis-ik.md)
+  - [Information System](is.md)
   - [IoT 物聯網](iot.md)
 
 ## J
@@ -299,6 +300,7 @@
 ## R
 
   - [Redis](redis.md)
+  - [Reengineering](reengineering.md)
   - [Repository Pattern](repository-pattern.md)
   - [Reproducible Build](reproducible-build.md)
   - [Resistor 電阻](resistor.md)

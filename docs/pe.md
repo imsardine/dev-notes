@@ -48,3 +48,9 @@
       - Enable DATA-DRIVEN PRIORITIZATION and decision-making for your team through cross-organizational communication
       - Encourage individual decision-making amongst your team to support growth opportunities for your directs
       - Foster an OPEN ENVIRONMENT of MUTUAL SUPPORT and ENGINEERING EFFECTIVENESS
+
+## 參考資料 {: #reference }
+
+相關：
+
+  - [Reengineering](reengineering.md)
