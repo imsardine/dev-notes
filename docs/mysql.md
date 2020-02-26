@@ -99,22 +99,22 @@
   - [MySQL :: MySQL 5\.7 Reference Manual :: 6\.2\.1 Privileges Provided by MySQL](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html) #ril
   - [MySQL :: MySQL 5\.7 Reference Manual :: 13\.7\.1\.4 GRANT Syntax](https://dev.mysql.com/doc/refman/5.7/en/grant.html) #ril
 
-## mysqldump??
+## mysqldump
 
   - [MySQL :: MySQL 5\.7 Reference Manual :: 4\.5\.4 mysqldump — A Database Backup Program](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html) 用來做 logical backup，產生一組 SQL statements 用以重建 database definition 與 table data -- 目的可能是 backup 或轉移資料，所以輸出格式也可以是 CSV 或 XML。
   - [Invocation Syntax - MySQL :: MySQL 5\.7 Reference Manual :: 4\.5\.4 mysqldump — A Database Backup Program](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#mysqldump-syntax) 常見的用法是 `mysqldump [OPTIONS] DB_NAME`，例如 `mysqldump [--host HOST] --user USER --password [--no-data] DB_NAME`
 
-## Backup ??
+## Backup
 
   - [MySQL :: MySQL Enterprise Backup 4\.1 User's Guide :: 4\.3\.3 Making a Differential or Incremental Backup](https://dev.mysql.com/doc/mysql-enterprise-backup/4.1/en/mysqlbackup.incremental.html) #ril
   - [MySQL :: MySQL 8\.0 Reference Manual :: 7\.2 Database Backup Methods](https://dev.mysql.com/doc/refman/8.0/en/backup-methods.html) #ril
 
-## information_schema ??
+## information_schema
 
   - [MySQL :: MySQL 8\.0 Reference Manual :: 24 INFORMATION\_SCHEMA Tables](https://dev.mysql.com/doc/refman/8.0/en/information-schema.html) #ril
   - [MySQL :: MySQL 5\.7 Reference Manual :: 24 INFORMATION\_SCHEMA Tables](https://dev.mysql.com/doc/refman/5.7/en/information-schema.html) #ril
 
-## Auto Increment ??
+## Auto Increment
 
   - [How To Reset MySQL Autoincrement Column\. Autoincrement Number Reseting](https://viralpatel.net/blogs/reseting-mysql-autoincrement-column/) #ril
 
@@ -326,8 +326,10 @@ $ mysql -h another-host -u xxx -p
 
 更多：
 
+  - [Data Type](mysql-type.md)
   - [Collation](mysql-collation.md)
   - [InnoDB Storage Engine](mysql-innodb.md)
+  - [Performance](mysql-perf.md)
   - [JSON](mysql-json.md)
 
 手冊：

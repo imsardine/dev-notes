@@ -285,7 +285,7 @@ ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
 
       - Transaction data for a record lock appears similar to the following in `SHOW ENGINE INNODB STATUS` and InnoDB monitor output:
 
-            RECORD LOCKS space id 58 page no 3 n bits 72 index `PRIMARY` of table `test`.`t` 
+            RECORD LOCKS space id 58 page no 3 n bits 72 index `PRIMARY` of table `test`.`t`
             trx id 10078 lock_mode X locks rec but not gap
             Record lock, heap no 2 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
              0: len 4; hex 8000000a; asc     ;;
