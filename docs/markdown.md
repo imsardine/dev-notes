@@ -287,6 +287,10 @@ TBD:
 
   - [Daring Fireball: Markdown](https://daringfireball.net/projects/markdown/)
 
+更多：
+
+  - [用 Markdown 寫書](markdown-book.md)
+
 手冊：
 
   - [GitHub Flavored Markdown Spec](https://github.github.com/gfm/)

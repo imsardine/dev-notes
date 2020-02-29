@@ -124,7 +124,7 @@
 
           - `Pay_Period_End_Date` is valid for the Pay Group.
 
-      - The integration generates a data audit file, which contains details for the import. Invalid manifest records and invalid archive records files are generated to help you correct failed record imports.
+      - The integration generates a DATA AUDIT file, which contains details for the import. Invalid manifest records and invalid archive records files are generated to help you correct failed record imports.
 
       - After 5 unsuccessful attempts to import a manifest file, ALL RECORDS in that file are considered invalid and are written to the invalid manifest file. The data audit file differentiates records that have errors from records that exceeded the maximum number of import attempts.
 
