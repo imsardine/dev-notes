@@ -1,7 +1,34 @@
 ---
-:title: MySQL / Collation
+title: MySQL / Collation
 ---
 # [MySQL](mysql.md) / Collation
+
+  - [Collation \- Wikipedia](https://en.wikipedia.org/wiki/Collation) #ril
+
+  - [MySQL :: MySQL 8\.0 Reference Manual :: 10\.1 Character Sets and Collations in General](https://dev.mysql.com/doc/refman/8.0/en/charset-general.html)
+
+      - A character set is A SET OF SYMBOLS AND ENCODINGS. A collation is a set of RULES FOR COMPARING characters in a character set. Let's make the distinction clear with an example of an imaginary character set.
+
+        Suppose that we have an alphabet with four letters: A, B, a, b. We give each letter a number: A = 0, B = 1, a = 2, b = 3. The letter A is a SYMBOL, the number 0 is the ENCODING for A, and the combination of all four letters and their encodings is a character set.
+
+      - Suppose that we want to compare two string values, A and B. The simplest way to do this is to look at the encodings: 0 for A and 1 for B. Because 0 is less than 1, we say A is less than B. What we've just done is APPLY A COLLATION TO OUR CHARACTER SET. The collation is a set of rules (only one rule in this case): “compare the encodings.” We call this simplest of all possible collations a BINARY collation.
+
+        But what if we want to say that the lowercase and uppercase letters are equivalent? Then we would have at least two rules: (1) treat the lowercase letters a and b as equivalent to A and B; (2) then compare the encodings. We call this a CASE-INSENSITIVE COLLATION. It is a little more complex than a binary collation.
+
+        不同的 symbol，在 collation rule 裡可能被視為等同。
+
+      - In real life, most character sets have many characters: not just A and B but whole alphabets, sometimes multiple alphabets or eastern writing systems with thousands of characters, along with many special symbols and punctuation marks. Also in real life, most collations have many rules, not just for whether to distinguish lettercase, but also for whether to distinguish accents (an “accent” is a mark attached to a character as in German Ö), and for multiple-character mappings (such as the rule that Ö = OE in one of the two German collations).
+
+      - MySQL can do these things for you:
+
+          - Store strings using a variety of character sets.
+          - Compare strings using a variety of collations.
+          - Mix strings with different character sets or collations in the same server, the same database, or even the same table.
+          - Enable specification of character set and collation at any level.
+
+        指定 collation 的最小單位是 column。
+
+      - To use these features effectively, you must know what character sets and collations are available, how to change the defaults, and how they affect the behavior of string operators and functions.
 
   - [MySQL :: MySQL 8\.0 Reference Manual :: 10 Character Sets, Collations, Unicode](https://dev.mysql.com/doc/refman/8.0/en/charset.html) #ril
 
@@ -70,7 +97,6 @@
 
       - if you’re using MySQL (or MariaDB or Percona Server), make sure you know your encodings. I would recommend anyone to set the MySQL encoding to `utf8mb4`. Never use `utf8` in MySQL, there is no good reason to do that (unless you like tracing encoding related bugs).
 
-
     How to convert utf8 to utf8mb4 in MySQL?
 
       - So now I had to fix this issue. As I recommend above, I wanted to use utf8mb4 and drop the old utf8. To do that, I used the following ALTER statements. Please DO NOT just copy paste them. You need to make sure you understand each of them and adjust them accordingly.
@@ -80,3 +106,9 @@
 文件：
 
   - [Character Sets, Collations, Unicode - MySQL Reference Manual](https://dev.mysql.com/doc/refman/8.0/en/charset.html)
+
+手冊：
+
+  - [Character Sets and Collations](https://dev.mysql.com/doc/refman/8.0/en/charset-mysql.html)
+  - [Supported Character Sets and Collations](https://dev.mysql.com/doc/refman/8.0/en/charset-charsets.html)
+  - [Collation Naming Conventions](https://dev.mysql.com/doc/refman/8.0/en/charset-collation-names.html)

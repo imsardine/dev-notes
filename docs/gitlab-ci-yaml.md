@@ -279,3 +279,6 @@ deploy:
   - [Validate the \.gitlab\-ci\.yml \(API\) \| GitLab](https://docs.gitlab.com/ee/api/lint.html) 透過 API 有機會在本地端驗證 `.gitlab-ci.yml` 是否有語法上的錯誤 #ril
   - [Where is the gitlab\-ci\.yml lint tool? \(\#37338\) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/37338) 說 lint tool 在 CI/CD Pipelines/Jobs 的右上方；實驗發現 Pipelines 右上方的 CI Lint 要有跑過 pipeline 才會出現，但 Jobs 右上方的則是專案一開始就會有。
 
+## 參考資料 {: #reference }
+
+  - [GitLab CI/CD Pipeline Configuration Reference](https://docs.gitlab.com/ee/ci/yaml/README.html)

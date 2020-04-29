@@ -1,5 +1,7 @@
 # GitLab
 
+  - [GitLab \- Wikipedia](https://en.wikipedia.org/wiki/GitLab) #ril
+
   - [GitLab Pricing \| GitLab](https://about.gitlab.com/pricing/#gitlab-com) #ril
       - 可以用 Google、Twitter、GitHub、Bitbucket 帳戶登入。
       - Free plan 只限制每個 group 每月只能用 2000 CI pipeline minutes (執行在 shared runner 上)，可以有不限數量的 private project 跟 collaborator；一個人可以有多個 group??
@@ -179,15 +181,6 @@ $ sudo gitlab-ctl reconfigure # 完成初始化
   - New Project 會有 Import project from ... 的提示，支援 GitHub、Bitbucket 等。
   - 之前匯入 GitHub 專案的印象，提供 Personal Access Token 可以列出自己的 project，但匯入時 username/project 會直接對應到 GitLab 裡，如果要去掉 username/org 那一層，可能得要自己先 clone 再 push。
 
-## 什麼是 Issue??
-
-  - [Issues \- GitLab Documentation](https://docs.gitlab.com/ce/user/project/issues/) #ril
-  - [Always start with an issue \| GitLab](https://about.gitlab.com/2016/03/03/start-with-an-issue/) (2016-03-03) #ril
-
-## 什麼是 Issue Board ??
-
-  - [One group level issue board in CE \(\#38337\) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/38337) EE 已經支援，但 CE 還沒有? #ril
-
 ## Quick Action ??
 
   - [GitLab quick actions \| GitLab](https://docs.gitlab.com/ee/user/project/quick_actions.html) #ril
@@ -195,20 +188,6 @@ $ sudo gitlab-ctl reconfigure # 完成初始化
   - [GitLab quick actions \- GitLab Documentation](https://docs.gitlab.com/ee/user/project/quick_actions.html) 可以用在 issue 或 merge request 的 comment 裡，但要自成一行才有作用。由於是 textual shortcut，所以並不會真的被存起來。
   - [Description templates \- GitLab Documentation](http://docs.gitlab.com/ce/user/project/description_templates.html) 可以用在 issue templae 裡，官方的說明也出現 `/cc` 的用法。
   - [Add a \`/cc\` quick action \(\#24615\) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/24615) `/cc` 的用法只是一種習慣，並沒有實質作用 #ril
-
-## 如何實作 Sub-issue 或 task??
-
-參考資料：
-
-  - [Task Lists - Markdown \- GitLab Documentation](https://docs.gitlab.com/ee/user/markdown.html#task-lists) 本身就是用來做 task，若是同一個 list 條列其他 issue，不就是 sub-issue 了嗎，完成還會被劃上一條線!
-  - [User should be able to create sub\-issue of an issue\. \(\#4182\) · Issues · GitLab\.org / GitLab Community Edition · GitLab](https://gitlab.com/gitlab-org/gitlab-ce/issues/4182) #ril
-
-## 如何建立 Issue Tempalte??
-
-  - 每個專案都要設定一次有點麻煩? 或許可以共用一個 template project 做為起點? 最簡單的方法就是用 wiki 建立一個 template，複製貼上即可。
-  - [Issue templates - Issues \- GitLab Documentation](https://docs.gitlab.com/ce/user/project/issues/#issue-templates) #ril
-  - [Description templates \- GitLab Documentation](http://docs.gitlab.com/ce/user/project/description_templates.html) 用 `.gitlab` 下的 `.md` 來實現，可以內含 quick action 還不錯 #ril
-  - [Merge Request Checklist \- GitLab Documentation](https://docs.gitlab.com/ce/development/database_merge_request_checklist.html) 用 merge request 的 template 實作 checklist 還滿不錯的!
 
 ## GitLab 在 CI/CD 這一塊的定位是什麼?
 
@@ -245,18 +224,21 @@ $ sudo gitlab-ctl reconfigure # 完成初始化
 
   - [Introduction to pipelines and jobs \- GitLab Documentation](https://docs.gitlab.com/ce/ci/pipelines.html) #ril
 
-## 如何拿 Issues 來實現 task management，甚至取代 Trello?
-
-  - 在 Group level 定義通用的 labels，優先處理 bug、request 等；To Do 跟 Doing 也可以嗎?
-  - 善用 group 的 milestone，建立 sprint 將要處理的 issue 拉進 milestone 裡。
-  - 可惜 Issue > Board 不能跨 project 使用?
-
 ## 參考資料 {: #reference }
+
+  - [GitLab](https://gitlab.com/)
+
+社群：
+
+  - [GitLab (@gitlab) - Twitter](https://twitter.com/gitlab)
 
 更多：
 
+  - [Issue](gitlab-issue.md)
   - [Wiki](gitlab-wiki.md)
   - [CI/CD](gitlab-ci.md)
+  - [Plugin](gitlab-plugin.md)
+  - [OAuth](gitlab-oauth.md)
 
 手冊：
 
@@ -264,3 +246,4 @@ $ sudo gitlab-ctl reconfigure # 完成初始化
   - [GitLab quick actions - GitLab Documentation](https://docs.gitlab.com/ee/user/project/quick_actions.html)
   - [GitLab releases](https://about.gitlab.com/releases/)
   - [Permissions](https://docs.gitlab.com/ee/user/permissions.html#project-members-permissions)
+  - [GitLab FOSS Changelog](https://gitlab.com/gitlab-org/gitlab-foss/blob/master/CHANGELOG.md)

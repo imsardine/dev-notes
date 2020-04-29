@@ -1,5 +1,5 @@
 ---
-:title: Active Directory / Federation Services (ADFS)
+title: Active Directory / Federation Services (ADFS)
 ---
 # [Active Directory](ad.md) / Federation Services (ADFS)
 

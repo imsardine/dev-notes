@@ -1,5 +1,5 @@
 ---
-:title: Java / Regex
+title: Java / Regex
 ---
 # [Java](java.md) / Regex
 

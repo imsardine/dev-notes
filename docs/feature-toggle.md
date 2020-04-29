@@ -28,6 +28,17 @@
 
   - [Feature Flags \| GitLab](https://docs.gitlab.com/ee/user/project/operations/feature_flags.html) #ril
 
+## Stale Flag
+
+  - [uber/piranha: A tool for refactoring code related to feature flag APIs](https://github.com/uber/piranha)
+
+      - Feature flags are commonly used to enable gradual rollout or experiment with new features. In a few cases, even after the purpose of the flag is ACCOMPLISHED, the code pertaining to the feature flag is not removed. We refer to such flags as STALE FLAGS. The presence of code pertaining to stale flags can have the following drawbacks:
+
+          - Unnecessary code clutter increases the overall complexity w.r.t maintenance resulting in reduced developer productivity
+          - The flags can interfere with other experimental flags (e.g., due to NESTING under a flag that is always false)
+          - Presence of unused code in the source as well as the binary
+          - Stale flags can also cause bugs
+
 ## 參考資料：
 
 工具：

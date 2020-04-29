@@ -1,5 +1,5 @@
 ---
-:title: Carbon
+title: Carbon
 ---
 # Carbon
 

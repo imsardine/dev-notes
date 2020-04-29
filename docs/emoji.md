@@ -16,6 +16,10 @@
 
 ## 參考資料 {: #reference }
 
+工具：
+
+  - [Emoji Finder](https://emojifinder.com/) (無廣告)
+
 手冊：
 
   - [Emoji Cheat Sheet - Emoji.codes](https://emoji.codes/)

@@ -576,11 +576,14 @@ title: Workday / Integration
 ## 參考資料 {: #reference }
 
   - [Integrations - Administrator Guide](https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/root)
+  - [Integration Cloud Platform](https://community.workday.com/icp)
 
 更多：
 
   - [Payroll Interface](workday-intsys-pi.md)
   - [Import External Payslip](workday-intsys-external-payslips.md)
+
+手冊：
 
 Workday Objects:
 
@@ -597,3 +600,7 @@ Workday Objects:
   - Create Integration System User
   - Integration System User Security Configuration -- 列出所有的 ISU 及其所屬的 (integration) security group
   - Move Integration Users to Integration System Security Group (Unconstrained)
+
+相關：
+
+  - [Workday Studio](workday-studio.md)

@@ -11,6 +11,7 @@ markdown_extensions:
       permalink: ' #'
   - attr_list
   - smarty
+  - admonition
   - pymdownx.smartsymbols
   - pymdownx.magiclink
 extra_javascript:

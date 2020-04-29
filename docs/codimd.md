@@ -125,3 +125,6 @@
 
   - [CodiMD Documentation - HackMD](https://hackmd.io/c/codimd-documentation/)
 
+手冊：
+
+  - [CodiMD Configuration](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-configuration)

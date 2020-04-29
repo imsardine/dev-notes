@@ -1,5 +1,5 @@
 ---
-:title: Markdown / 用 Markdown 寫書
+title: Markdown / 用 Markdown 寫書
 ---
 # [Markdown](markdown.md) / 用 Markdown 寫書
 

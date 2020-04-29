@@ -1,5 +1,5 @@
 ---
-:title: AWS / VPC (Virtual Private Cloud)
+title: AWS / VPC (Virtual Private Cloud)
 ---
 # [AWS](aws.md) / VPC (Virtual Private Cloud)
 

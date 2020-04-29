@@ -286,9 +286,11 @@
 
         The processing of this claim is generally application specific. The "sub" value is a case-sensitive string containing a StringOrURI value. Use of this claim is OPTIONAL.
 
-      - The "aud" (audience) claim identifies the RECIPIENTS that the JWT is intended for. Each principal intended to process the JWT MUST identify itself with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the "aud" claim when this claim is present, then the JWT MUST be REJECTED.
+      - The "aud" (audience) claim identifies the RECIPIENTS that the JWT is intended for. Each principal intended to process the JWT MUST identify ITSELF with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the "aud" claim when this claim is present, then the JWT MUST be REJECTED.
 
         表示 issuer 當初只授權這個 JWT 被用在哪些地方 (類似證件影本會標註限定做為什麼用途)；收到這個 JWT 的人，如果有 `aud` 就要先判斷自己是否在授權範圍內，否則就算有能力驗證 signature 的合法性，也不該同意存取。
+
+        相對於 subject，這裡的 audience 指的應該是驗證 JWT 合法性的這一端；當多個 service 共用一個 secret 時，若想進一步限定只能將 token 用在哪些 service，就需要 `aud` 來區隔。給了一個 token 裡載明 `aud: ['service-a']`，拿去用在 service B 就應該被擋下，因為 B 不在 `aud` 裡。
 
         In the general case, the "aud" value is an ARRAY of case-sensitive strings, each containing a StringOrURI value. In the special case when the JWT has one audience, the "aud" value MAY be a single case-sensitive string containing a StringOrURI value. The interpretation of audience values is generally application specific. Use of this claim is OPTIONAL.
 
@@ -316,7 +318,7 @@
 
       - The "jti" (JWT ID) claim provides a unique identifier for the JWT. The identifier value MUST be assigned in a manner that ensures that there is a NEGLIGIBLE probability that the same value will be accidentally assigned to a different data object; if the application uses multiple issuers, collisions MUST be prevented among values produced by different issuers as well.
 
-        The "jti" claim can be used to prevent the JWT from being REPLAYED. The "jti" value is a case- sensitive string. Use of this claim is OPTIONAL. ??
+        The "jti" claim can be used to prevent the JWT from being REPLAYED. The "jti" value is a case- sensitive string. Use of this claim is OPTIONAL. 可以用在 revoke ??
 
   - [JSON Web Token Claims](https://auth0.com/docs/tokens/jwt-claims) #ril
 
@@ -687,6 +689,10 @@
         This cache is then checked whenever a JWT is verified to determine if the JWT should be revoked or not. This is all based on the duration of JWTs and EXPIRATION INSTANT of individual JWTs.
 
         Authorization server 跟 resource server 間可以透過 event system 通報要擋下哪些 token，但前題還是 JWT 自己要有 `exp` claim。
+
+  - [Blacklist and Token Revoking — flask\-jwt\-extended 3\.24\.1 documentation](https://flask-jwt-extended.readthedocs.io/en/stable/blacklist_and_token_revoking/) #ril
+
+  - [node\.js \- How to use jti claim in a JWT \- Stack Overflow](https://stackoverflow.com/questions/28907831/) #ril
 
   - [I don’t see the point in Revoking or Blacklisting JWT – Getting Connected](https://www.dinochiesa.net/?p=1388) (2015-06-01) #ril
   - [Blacklisting JSON Web Token API Keys](https://auth0.com/blog/blacklist-json-web-token-api-keys/) (2015-03-10) #ril

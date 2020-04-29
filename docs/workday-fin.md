@@ -1,5 +1,5 @@
 ---
-:title: Workday / FIN
+title: Workday / FIN
 ---
 # [Workday](workday.md) / FIN
 

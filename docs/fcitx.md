@@ -122,4 +122,4 @@
 
 相關：
 
-  - 用於 [X Window](x-window.md) 的輸入法框架
+  - 用於 [X Window](xwindow.md) 的輸入法框架

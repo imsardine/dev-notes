@@ -921,7 +921,60 @@
 ## MindMap Diagram ??
 
   - [What's new ?](http://plantuml.com/news) 2019-03-01 開始支援 MindMap diagram
+
   - [MindMap syntax and features](http://plantuml.com/mindmap-diagram) #ril
+
+      - MindMap diagram are still in beta: the syntax MAY CHANGE without notice.
+
+        可以用，但最好是拿產生的圖來用就好。
+
+    OrgMode syntax
+
+      - This syntax is compatible with OrgMode
+
+            @startmindmap
+            * Debian
+            ** Ubuntu
+            *** Linux Mint
+            *** Kubuntu
+            *** Lubuntu
+            *** KDE Neon
+            ** LMDE
+            ** SolydXK
+            ** SteamOS
+            ** Raspbian with a very long name
+            *** <s>Raspmbc</s> => OSMC
+            *** <s>Raspyfi</s> => Volumio
+            @endmindmap
+
+    Removing box
+
+      - You can remove the box drawing using an underscore.
+
+            @startmindmap
+            * root node
+            ** some first level node
+            ***_ second level node
+            ***_ another second level node
+            ***_ foo
+            ***_ bar
+            ***_ foobar
+            ** another first level node
+            @endmindmap
+
+        這還滿實用的! 加 node 可以用來表現 content? 例如：
+
+            @startmindmap
+            * Topic
+            **_ Section 1
+            **_ Section 2
+            ** Other Node 1
+            ** Other Node 2
+            @endmindmap
+
+    Arithmetic notation
+
+      - You can use the following notation to choose DIAGRAM SIDE.
 
 ## PNG Metadata ??
 

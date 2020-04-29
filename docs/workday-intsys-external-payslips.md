@@ -1,5 +1,5 @@
 ---
-:title: Workday / Integration / Import External Payslips
+title: Workday / Integration / Import External Payslips
 ---
 # [Workday / Integration](workday-intsys.md) / Import External Payslips
 

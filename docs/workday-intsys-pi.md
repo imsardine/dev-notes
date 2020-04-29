@@ -1,5 +1,5 @@
 ---
-:title: Workday / Payroll Interface (PI)
+title: Workday / Payroll Interface (PI)
 ---
 # [Workday](workday) / Payroll Interface (PI)
 

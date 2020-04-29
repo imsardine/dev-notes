@@ -28,6 +28,37 @@
 
   - [Team Drives: Best Practices \| Learning Center \| G Suite](https://gsuite.google.com/learning-center/products/drive/sharing-best-practices/#!/) #ril
 
+## 取代 File Server，階層式權限？ { #file-server }
+
+  - [GSuite Business Shared Drives \- Individual permission on subfolder or file \- G Suite Admin Community](https://support.google.com/a/thread/26990707?hl=en) #ril
+
+  - [Google Drive as a File Server \| Ripple](https://rippleit.com/google-drive-migration-file-server/) #ril
+
+    Flatter Folder Structures Optimize Search
+
+      - Google Drive supports a search-first, browse-later mentality. ?? Best practices for dealing with traditional file servers call for deeper folder structures that rely on categorization to make browsing easier. When it comes to searching, however, flatter structures are the way to go.
+
+    The Benefits of Team Drive
+
+      - Team Drive is quite useful for small projects or departments in need of hosting a single hub for multiple various files. The biggest selling point is that all the data that resides in a Team Drive folder is owned by the folder -not the individuals contributing or accessing the folder. This is a great step towards peeling away a common administrator headache of managing ownership of Google Drive files.
+
+      - If Team Drive is enabled for your domain, creating a Team Drive folder is as simple as clicking ‘Team Drives’ and then ‘New’. Once created, Google Drive will guide you along to adding members and their permission levels to the folder. It’s very simple to use and is now part of our discovery process when working with clients to make Google Drive their file server.
+
+  - [G Suite Team drive folder sharing —no you can’t — yes you can](https://pirate.london/g-suite-team-drive-sharing-yes-you-can-not-you-cant-yes-you-can-db0a4e3e6220) (2018-11-09) #ril
+  - [Cannot share folders on G Suite Google Drive \- Web Applications Stack Exchange](https://webapps.stackexchange.com/questions/110244) (2017-09-27) #ril
+
+## Version Control
+
+  - 2020-03-05 實驗確認 Google Docs、Sheets、Slides 都支援 Named Version，但 Suggested Edit 確實只有 Google Docs 支援。
+  - 手動上傳的檔案 (非 Google Docs/Sheets/Slides)，才會有 Manage Versions 的功能；不能自己命名 (named version)，但可以將某個版本設為 Keep Forever。
+
+---
+
+參考資料：
+
+  - [Google Docs Has Full 'Track Changes' Word Integration \- UpCurve Cloud](https://www.upcurvecloud.com/blog/google-docs-has-full-track-changes-word-integration/) (2014-12-04) #ril
+  - [View activity & file versions \- Computer \- Google Drive Help](https://support.google.com/drive/answer/2409045) #ril
+
 ## 參考資料 {: #reference }
 
   - [Google Drive](https://drive.google.com/)
