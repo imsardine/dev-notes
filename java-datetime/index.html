@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/java-datetime/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Java / Data/Time - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/java-datetime.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#java-datetime">Java / Date/Time</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="java-datetime"><a href="../java/">Java</a> / Date/Time<a class="headerlink" href="#java-datetime" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Date.html">Date (Java Platform SE 8 )</a> #ril</p>
+<ul>
+<li>
+<p>The class <code>Date</code> represents a specific INSTANT in time, with MILLISECOND precision.</p>
+<p>注意 <code>Date</code> 不只是日期也包含時間，而且精度還到 millis。</p>
+</li>
+<li>
+<p>Prior to JDK 1.1, the class <code>Date</code> had two additional functions. It allowed the interpretation of dates as year, month, day, hour, minute, and second values. It also allowed the formatting and parsing of date strings. Unfortunately, the API for these functions was not amenable to internationalization.</p>
+<p>As of JDK 1.1, the <code>Calendar</code> class should be used to convert between dates and time fields and the <code>DateFormat</code> class should be used to format and parse date strings. The corresponding methods in <code>Date</code> are deprecated.</p>
+<p><code>Date</code> 本身還是會繼續存在，只是跟 date/time field 相關的操作都被標示為 deprecated，單純用來表示跟 1970-01-01 00:00:00Z 的時間差 (millis)。</p>
+</li>
+<li>
+<p>Although the <code>Date</code> class is intended to reflect coordinated universal time (UTC), it may not do so exactly, depending on the host environment of the Java Virtual Machine. Nearly all modern operating systems assume that 1 day = 24 × 60 × 60 = 86400 seconds in all cases. In UTC, however, about once every year or two there is an extra second, called a &ldquo;leap second.&rdquo; The leap second is always added as the last second of the day, and always on December 31 or June 30.</p>
+<p>For example, the last minute of the year 1995 was 61 seconds long, thanks to an added leap second. Most computer clocks are not accurate enough to be able to reflect the leap-second distinction. ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/javase/tutorial/datetime/index.html">Trail: Date Time (The Java™ Tutorials)</a> #ril</p>
+</li>
+<li><a href="https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html">Java SE 8 Date and Time</a> #ril</li>
+<li><a href="https://www.geeksforgeeks.org/new-date-time-api-java8/">New Date-Time API in Java 8 - GeeksforGeeks</a> #ril</li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/datetime/index.html">Java Date Time APIs</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li>
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/package-summary.html">Package <code>java.util</code></a></p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Date.html">Class <code>Date</code></a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/text/package-summary.html">Package <code>java.text</code></a></p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/text/DateFormat.html">Class <code>DateFormat</code></a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html">Class <code>SimpleDateFormat</code></a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html">Package <code>java.time</code></a></p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

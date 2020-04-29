@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/manjaro/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Manjaro - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/manjaro.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#manjaro">Manjaro</a></li>
+            <li class="second-level"><a href="#boot-into-text-mode">Boot Into Text mode ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#virtualbox">VirtualBox ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="manjaro">Manjaro<a class="headerlink" href="#manjaro" title="Permanent link"> #</a></h1>
+<ul>
+<li>Manjaro 唸做 man-ja-ro (<a href="http://www.pronouncekiwi.com/Manjaro%20Linux"><code>[mæn‵dʒɑrəul]</code></a>)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://manjaro.org/">Manjaro - enjoy the simplicity</a></p>
+<ul>
+<li>
+<p>Manjaro is an operating system, suitable as a FREE REPLACEMENT TO WINDOWS OR MACOS. It has different editions, they all use the same base but provide a different experience, based on the diversity of desktop environments available.</p>
+<p>We also work together with hardware manufacturers, to design MANJARO DEDICATED HARDWARE, visit the shop for more information on the available range of laptops.</p>
+<p>想取代 Windows/macOS，表示 UI 要很容易上手，呼應下面 &ldquo;entry-point into the Linux world&rdquo;、&rdquo;suitable for beginners&rdquo; 等說法。不過發展 Manjaro 專用的硬體，這路線倒是很特別。</p>
+</li>
+<li>
+<p>Manjaro is an accessible, friendly, open-source Linux distribution and community. Based on Arch Linux, Manjaro provides all the benefits of cutting-edge software combined with a focus on GETTING STARTED QUICKLY, automated tools to require less manual intervention, and help readily available when needed. Manjaro is suitable for both newcomers and experienced Linux users.</p>
+<p>沒想到 Debian 外，Arch Linux 也發展得不錯。</p>
+</li>
+<li>
+<p>Manjaro is an excellent ENTRY-POINT into the Linux world. Unlike proprietary operating systems, Manjaro gives you full control over your hardware, without restrictions. This makes it ideal for people who want to learn how Linux works and how it is different to other operating systems. From this perspective, Manjaro is suitable for BEGINNERS similar to the way an Arduino is an excellent entry-point to embedded hardware development.</p>
+</li>
+<li>Manjaro is not a CONSUMER-ORIENTED operating system. You have full control and you will not be prevented from breaking your own installation - but then again, BREAKING THINGS AND FIXING THEM is half of the fun! On the other hand, if you are happy with the way it works you don&rsquo;t have to change a thing.</li>
+<li>Manjaro can represent a perfect MIDDLE-GROUND for experienced Linux users, those who want good performance, full control, and cutting-edge software but also a degree of software version stability.</li>
+</ul>
+<p>Free is better</p>
+<ul>
+<li>Manjaro always will be completely free. We create it, so we can have a Linux based operating system that is EASY TO USE and STABLE, you the user, are the main focus, we do not take control away from you and consider PRIVACY very important, we do not keep, sell or pass your data to 3<sup>rd</sup> parties.</li>
+</ul>
+<p>Install Anything</p>
+<ul>
+<li>There are thousands of software applications available in the software center, including fully compatible equivalents of popular Windows software such as MS Office ??, any additional software is also completely free. Searching for applications to install on the internet, is not necessary.</li>
+</ul>
+<p>Great Community</p>
+<ul>
+<li>We have a polite, friendly and cheerful Forum, everyone is welcoming and supportive. The forum is the right place to share knowledge, talk Linux with the community, we all love it.</li>
+</ul>
+<p>Availability</p>
+<ul>
+<li>Manjaro is Available for 64 Bit architecture, Kde, Gnome and XFCE EDITIONS are officially supported, other flavors are community maintained, so as 32 Bit and ARM architectures.</li>
+<li>ARM is available as PER DEVICE BASIS, pre built images can be downloaded for the Raspberry Pi and <a href="https://www.pine64.org/?page_id=3707">Pinebook 64</a>.</li>
+</ul>
+<p>What is Linux</p>
+<ul>
+<li>
+<p>Linux is the NAME OF THE KERNEL powering the GNU SYSTEM. GNU/Linux, also called Linux is a free and open source operating system, that can be freely used and distributed.</p>
+<p>GNU/Linux (簡稱 Linux) = Linux (kernel) + <a href="https://www.gnu.org/gnu/gnu-history.en.html">GNU System</a></p>
+</li>
+<li>
+<p>Originally developed in 1991 by Finnish Programmer Linus Torvalds, Linux is an exceptionally robust and reliable kernel, which combined with the GNU system is most commonly used for Internet servers, mobile phones, tablets mostly known as Android devices. Additionally, the use of GNU/Linux as an alternative operating system, for personal computers such as desktops or laptops, has also been growing over the years, with several million users having already discovered the benefits of it.</p>
+</li>
+</ul>
+<p>Benefits of using Linux</p>
+<ul>
+<li>It is highly efficient, very fast and any hardware device works out of the box, only in rare occasions you will need to install a device driver, The 64 bit version of Manjaro with the Xfce desktop, boots up in only a few seconds, it uses only 200MB of memory to run.</li>
+<li>Linux systems are also very secure, and are not affected by the huge amount of Windows viruses, trojans, worms, or malware out there. ANTI-VIRUS SOFTWARE IS NOT REQUIRED.</li>
+<li>It is also possible to easily run many popular Windows applications on GNU/Linux using compatibility software such as Wine or PlayonLinux or using <a href="https://www.protondb.com/">Proton</a> via Steam. The examples given here are far from comprehensive!</li>
+</ul>
+</li>
+</ul>
+<h2 id="boot-into-text-mode">Boot Into Text mode ??<a class="headerlink" href="#boot-into-text-mode" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://forum.manjaro.org/t/45638">How to boot Manjaro into text mode (text-only console mode) and troubleshoot at bootup (2018 tutorial) - Technical Issues and Assistance / Tutorials - Manjaro Linux Forum</a></p>
+<ul>
+<li>You might have run into it. Issues at bootup. Sometimes you messed something up, but you know how to fix it. If only you had access to a terminal/console at bootup!</li>
+<li>Look no further. Here’s how to boot Manjaro into text mode, i.e. text-only console mode. (terminal) Additionally a few useful tips are given to solve or work around potential issues.</li>
+<li>
+<p>Start up your computer and when you see the Grub screen, do the following:</p>
+<ol>
+<li>In the Grub menu press the ‘e’ key to edit Grub’s boot options.</li>
+<li>Using your arrow keys, move the typing cursor to the end of the ‘<code>linux</code>’ (kernel) line and append a ‘<code>3</code>’ at the end of the line (with a space before it).</li>
+<li>Then press CTRL+X or F10 to save the changes for THIS BOOTUP SESSION and to boot the system into a console.</li>
+</ol>
+</li>
+</ul>
+<p>That’s it. You will now boot into a console where you can log in with your username and password.</p>
+<p>之前遇到黑畫面的問題，第一次開進 text mode，再透過 <code>startx</code> 進到桌面，之後重開就可以順利進到桌面環境了。</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://manjaro.org/download/">Manjaro - Try it now</a></p>
+<ul>
+<li>You can try Manjaro without modifying your current operating system, run Manjaro from a USB stick or a DVD. Later on if you decide to install Manjaro, you can do it directly from the live system.</li>
+<li>For simplicity we have selected XFCE, KDE and GNOME as our FLAGSHIP EDITIONS. If you want to look for other experiences, our community has created many flavours that focus around other desktops. 所謂 flaship edition 就是官方提供的，其餘都由社群貢獻</li>
+<li>
+<p>For example we have editions that use technology that makes them very RESOURCE-EFFICIENT and makes them a good choice for old computers.</p>
+<p>Other editions focus on breaking away from user interface standards that are decades old and giving users a MODERN EXPERIENCE. As not everybody wants to have such an experience and likes a more TRADITIONAL WAY how everything works, we have editions that focus on this traditional workflow.</p>
+<p>Simply use our DOWNLOAD SELECTOR below to find your right edition. You may also want to checkout our archive of past released flagship and community editions. 很特別的設計，可以組合 Flagship editions、Beginner-friendly、Resource-efficient、Traditional workflow 找出適合的版本。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://forum.manjaro.org/t/manjaro-free-non-free-drivers/6347">Manjaro Free/Non-Free Drivers - Newbie Corner - Manjaro Linux Forum</a> non-free 通常比較快 #ril</p>
+</li>
+<li>
+<p>安裝 Manjaro 18.04 幾個重要的步驟：</p>
+<ul>
+<li>一開始維持 <code>tz=UTC</code>、<code>lang=en_US</code> 與 <code>driver=free</code> 的設定；<code>driver=free</code> 的顯示似乎比 <code>driver=non-free</code> 正常? 速度也不差，況且最後會再裝 VirtualBox Guest Additions。</li>
+<li>在 Location 的步驟，時區選 Asia/Taipei 後，將最下面的 The numbers and dates locale will be set to 繁體中文 (台灣) 改為 American English (United States)，即 <code>en_US.UTF-8</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="virtualbox">VirtualBox ??<a class="headerlink" href="#virtualbox" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/VirtualBox#Install_the_Guest_Additions">Install the Guest Additions - VirtualBox - ArchWiki</a></p>
+<ul>
+<li>
+<p>VirtualBox Guest Additions provides drivers and applications that optimize the guest operating system including improved image resolution and better control of the mouse. Within the installed guest system, install:</p>
+<ul>
+<li><code>virtualbox-guest-utils</code> for VirtualBox Guest utilities with X support</li>
+<li><code>virtualbox-guest-utils-nox</code> for VirtualBox Guest utilities without X support</li>
+</ul>
+</li>
+<li>
+<p>Both packages will make you choose a package to provide guest modules:</p>
+<ul>
+<li>for the default linux kernel choose <code>virtualbox-guest-modules-arch</code></li>
+<li>for non-default kernels choose <code>virtualbox-guest-dkms</code></li>
+</ul>
+</li>
+<li>
+<p>To compile the virtualbox modules provided by <code>virtualbox-guest-dkms</code>, it will also be necessary to install the appropriate headers package(s) for your installed kernel(s) (e.g. <code>linux-lts-headers</code> for <code>linux-lts</code>). When either VirtualBox or the kernel is updated, the kernel modules will be AUTOMATICALLY RECOMPILED thanks to the DKMS Pacman hook.</p>
+</li>
+<li>You can alternatively install the Guest Additions with the ISO from the <code>virtualbox-guest-iso</code> package, provided you installed this on the host system. To do this, go to the device menu click Insert Guest Additions CD Image.</li>
+<li>
+<p>To recompile the vbox kernel modules, run <code>rcvboxdrv</code> as root.</p>
+</li>
+<li>
+<p>The guest additions running on your guest, and the VirtualBox application running on your host must have MATCHING VERSIONS, otherwise the guest additions (like shared clipboard) may stop working.</p>
+<p>If you upgrade your guest (e.g. <code>pacman -Syu</code>), make sure your VirtualBox application on this host is also the latest version. &ldquo;Check for updates&rdquo; in the VirtualBox GUI is sometimes not sufficient; check the VirtualBox.org website.</p>
+<p>這指的是透過 <code>virtualbox-guest-utils</code> 安裝 Guest Additions 的狀況，<code>pacman -Syu</code> 才可能造成 guest 內部的 Guest Additions 昇級，跟 host 的 VirtualBox 對不起來。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>在 VirtualBox 6.0.4 上安裝 Manjaro 18.0.4 時，一開始無法順利安裝 Guest Additions</p>
+<p>用 <code>pacman -Syu</code> 全面昇級，再用 <code>pacman -S gcc make perl linux-headers</code> 安裝開發套件；Header 的版本參考 <code>uname -r</code>。</p>
+<p>重開機，再做 Devices &gt; Insert Guest Additions CD images &hellip; 開始開裝 Guest Additions。</p>
+<pre><code>Verifying archive integrity... All good.
+Uncompressing VirtualBox 6.0.4 Guest Additions for Linux........
+VirtualBox Guest Additions installer
+Copying additional installer modules ...
+Installing additional modules ...
+VirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel 
+modules.  This may take a while.
+VirtualBox Guest Additions: To build modules for other installed kernels, run
+VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup &lt;version&gt;
+VirtualBox Guest Additions: Building the modules for kernel 4.19.32-1-MANJARO.
+VirtualBox Guest Additions: Running kernel modules will not be replaced until 
+the system is restarted
+VirtualBox Guest Additions: Starting.
+VirtualBox Guest Additions: Building the modules for kernel 4.19.32-1-MANJARO.
+VirtualBox Guest Additions: modprobe vboxsf failed
+Press Return to close this window...
+</code></pre>
+<p>雖然上面仍有 <code>modprobe vboxsf failed</code> 的錯誤，但重開機後 (歷經 <code>A stop job is running for vboxadd.service</code> 與 <code>A start job is running for vboxadd.service</code>)，就可以正常開全螢幕了。</p>
+<p>Settings &gt; Power &gt; Power Saving &gt; Blank screen 及 Automatic suspend 分別調成 Never 與 When on battery power，才不會動不動要解鎖。</p>
+</li>
+<li>
+<p><a href="https://linuxhint.com/install_manjaro_linux_virtualbox/">Install Manjaro Linux on VirtualBox – Linux Hint</a> (2018-08) #ril</p>
+</li>
+<li><a href="https://superuser.com/questions/951055/">Unable to install Linux header for current kernel with pacman - Super User</a> #ril</li>
+<li><a href="https://antergos.com/wiki/system-admin/virtualization/how-to-install-virtualbox/#1_Install_kernel_headers_linux-headers">How to install Virtualbox | Antergos Wiki</a> (2018-08-25)</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://manjaro.org/">Manjaro</a></li>
+<li><a href="https://gitlab.manjaro.org/explore/groups">Manjaro - GitLab</a></li>
+<li><a href="https://wiki.manjaro.org/index.php?title=Main_Page">Manjaro Wiki</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://forum.manjaro.org/">Manjaro Linux Forum</a></li>
+<li><a href="https://twitter.com/ManjaroLinux">Manjaro Linux (@ManjaroLinux) | Twitter</a></li>
+<li><a href="https://www.reddit.com/r/ManjaroLinux/">r/ManjaroLinux - Reddit</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>基於 <a href="../archlinux/">Arch Linux</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

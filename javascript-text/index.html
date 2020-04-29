@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/javascript-text/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JavaScript / Text Processing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/javascript-text.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#javascript-text-processing">JavaScript / Text Processing</a></li>
+            <li class="second-level"><a href="#string">String</a></li>
+                
+            <li class="second-level"><a href="#string-interpolation">String Interpolation ??</a></li>
+                
+            <li class="second-level"><a href="#multiline-string">Multiline String ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="javascript-text-processing"><a href="../javascript/">JavaScript</a> / Text Processing<a class="headerlink" href="#javascript-text-processing" title="Permanent link"> #</a></h1>
+<h2 id="string">String<a class="headerlink" href="#string" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#String_literals">String literals - Grammar and types - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>A string literal is zero or more characters enclosed in double (<code>"</code>) OR single (<code>'</code>) quotation marks. A string must be delimited by quotation marks of the same type; that is, either both single quotation marks or both double quotation marks. The following are examples of string literals:</p>
+<pre><code>'foo'
+"bar"
+'1234'
+'one line \n another line'
+"John's cat"
+</code></pre>
+</li>
+<li>
+<p>You can call any of the methods of the <code>String</code> object on a string literal value—JavaScript automatically converts the string literal to a temporary <code>String</code> object, calls the method, then discards the temporary <code>String</code> object. You can also use the <code>String.length</code> property with a string literal:</p>
+<pre><code>console.log("John's cat".length)
+// Will print the number of symbols in the string including whitespace.
+// In this case, 10.
+</code></pre>
+</li>
+<li>
+<p>In ES2015, TEMPLATE LITERALS are also available. Template literals are enclosed by the back-tick (` `) (grave accent) character instead of double or single quotes. Template strings provide syntactic sugar for constructing strings. This is similar to STRING INTERPOLATION features in Perl, Python and more.</p>
+<pre><code>// Basic literal string creation
+`In JavaScript '\n' is a line-feed.`
+
+// Multiline strings
+`In JavaScript template strings can run
+ over multiple lines, but double and single
+ quoted strings cannot.`
+
+// String interpolation
+var name = 'Bob', time = 'today';
+`Hello ${name}, how are you ${time}?`
+</code></pre>
+<p>Multiline 的用法是 template literal 特有的，雖然單雙引號搭配 escaped line break 也可以辦到，但就是沒那麼方便。</p>
+</li>
+<li>
+<p>Optionally, a TAG can be added to allow the string construction to be customized, avoiding INJECTION ATTACKS or constructing higher level data structures from string contents. ??</p>
+<pre><code>// Construct an HTTP request prefix used to interpret the replacements and construction
+POST`http://foo.org/bar?a=${a}&amp;b=${b}
+     Content-Type: application/json
+     X-Credentials: ${credentials}
+     { "foo": ${foo},
+       "bar": ${bar}}`(myOnReadyStateChangeHandler);
+</code></pre>
+</li>
+<li>
+<p>You should use string literals unless you specifically need to use a <code>String</code> object.</p>
+<p>應該是考量到可讀性，string literal 就會自動生成 <code>String</code> object，不用特別用 <code>String(literal)</code>。</p>
+</li>
+</ul>
+<p>Using special characters in strings</p>
+<ul>
+<li>
+<p>In addition to ordinary characters, you can also include special characters in strings, as shown in the following example.</p>
+<pre><code>'one line \n another line'
+</code></pre>
+</li>
+<li>
+<p>The following table lists the special characters that you can use in JavaScript strings.</p>
+<ul>
+<li><code>\0</code> - Null Byte</li>
+<li><code>\b</code> - Backspace</li>
+<li><code>\f</code> - Form feed</li>
+<li><code>\n</code> - New line</li>
+<li><code>\r</code> - Carriage return</li>
+<li><code>\t</code> - Tab</li>
+<li><code>\v</code> - Vertical tab</li>
+<li><code>\'</code> - Apostrophe or single quote</li>
+<li><code>\"</code> - Double quote</li>
+<li>
+<p><code>\\</code> - Backslash character</p>
+</li>
+<li>
+<p><code>\XXX</code></p>
+<p>The character with the Latin-1 encoding specified by up to three OCTAL digits XXX between 0 and 377. For example, <code>\251</code> is the octal sequence for the copyright symbol.</p>
+</li>
+<li>
+<p><code>\xXX</code></p>
+<p>The character with the Latin-1 encoding specified by the two HEXADECIMAL digits XX between 00 and FF. For example, <code>\xA9</code> is the hexadecimal sequence for the copyright symbol.</p>
+</li>
+<li>
+<p><code>\uXXXX</code></p>
+<p>The Unicode character specified by the four hexadecimal digits XXXX. For example, <code>\u00A9</code> is the Unicode sequence for the copyright symbol. See Unicode escape sequences.</p>
+</li>
+<li>
+<p><code>\u{XXXXX}</code></p>
+<p>Unicode code POINT ESCAPES. For example, \u{2F804} is the same as the simple Unicode escapes <code>\uD87E\uDC04</code>.</p>
+<p>這跟 <code>\uXXXX</code> 的用法有何不同 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Escaping characters</p>
+<ul>
+<li>
+<p>For characters not listed in the table, a preceding backslash is IGNORED, but this usage is DEPRECATED and should be avoided.</p>
+</li>
+<li>
+<p>You can insert a quotation mark inside a string by preceding it with a backslash. This is known as escaping the quotation mark. For example:</p>
+<pre><code>var quote = "He read \"The Cremation of Sam McGee\" by R.W. Service.";
+console.log(quote);
+</code></pre>
+<p>The result of this would be:</p>
+<pre><code>He read "The Cremation of Sam McGee" by R.W. Service.
+</code></pre>
+<p>To include a literal backslash inside a string, you must escape the backslash character. For example, to assign the file path <code>c:\temp</code> to a string, use the following:</p>
+<pre><code>var home = 'c:\\temp';
+</code></pre>
+<p>You can also ESCAPE LINE BREAKS by preceding them with backslash. The backslash and line break are both removed from the value of the string.</p>
+<pre><code>var str = 'this string \
+is broken \
+across multiple \
+lines.'
+console.log(str);   // this string is broken across multiple lines.
+</code></pre>
+</li>
+<li>
+<p>Although JavaScript does not have &ldquo;HEREDOC&rdquo; syntax, you can get close by adding a line break escape and an escaped line break at the end of each line:</p>
+<pre><code>var poem =
+'Roses are red,\n\
+Violets are blue.\n\
+Sugar is sweet,\n\
+and so is foo.'
+</code></pre>
+<p>ECMAScript 2015 introduces a new type of literal, namely template literals. This allows for many new features including multiline strings!</p>
+<pre><code>var poem = 
+`Roses are red, 
+Violets are blue. 
+Sugar is sweet, 
+and so is foo.`
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String | MDN</a> #ril</p>
+</li>
+</ul>
+<h2 id="string-interpolation">String Interpolation ??<a class="headerlink" href="#string-interpolation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Literals#String_literals">String literals - Grammar and types - JavaScript | MDN</a> #ril</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">Template literals (Template strings) - JavaScript | MDN</a> #ril</li>
+</ul>
+<h2 id="multiline-string">Multiline String ??<a class="headerlink" href="#multiline-string" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/805107/">Creating multiline strings in JavaScript - Stack Overflow</a> #ril<ul>
+<li>Anonymous: ES6 有 template literal，除了可以做 variable interpolation，另一個特性是 multiline。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String - JavaScript | MDN</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

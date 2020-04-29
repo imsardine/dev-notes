@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/slideshow/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Slideshow - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/slideshow.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#slideshow">Slideshow</a></li>
+            <li class="second-level"><a href="#markdown">Markdown</a></li>
+                
+            <li class="second-level"><a href="#terminal">Terminal-based</a></li>
+                
+            <li class="second-level"><a href="#hosting">Hosting</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="slideshow">Slideshow<a class="headerlink" href="#slideshow" title="Permanent link"> #</a></h1>
+<h2 id="markdown">Markdown<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h2>
+<p>用 Markdown 製作 slides 的好處有：</p>
+<ul>
+<li>使用慣用的編輯器撰寫，比較能專注在內容。</li>
+<li>原始碼是純文字，方便做版本控制。</li>
+<li>輕鬆表現 code highlighting。</li>
+</ul>
+<p>首推 <a href="../revealjs/">reveal.js</a>。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://opensource.com/article/18/5/markdown-slide-generators">4 Markdown-powered slide generators | Opensource.com</a> (2018-05-24) #ril</p>
+</li>
+<li>
+<p><a href="https://remarkjs.com/">Remark</a></p>
+<p>Why use it?</p>
+<ul>
+<li>
+<p>If your ideal slideshow creation workflow contains any of the following steps:</p>
+<ul>
+<li>Just write what&rsquo;s on your mind</li>
+<li>Do some basic styling</li>
+<li>Easily collaborate with others</li>
+<li>Share with and show to everyone</li>
+</ul>
+<p>Then remark might be perfect for your next* slideshow!</p>
+</li>
+<li>
+<p>As the slideshow is expressed using Markdown, you may:</p>
+<p>FOCUS ON THE CONTENT, expressing yourself in next to plain text not worrying what flashy graphics and disturbing effects to put where</p>
+</li>
+<li>
+<p>As the slideshow is actually an HTML document, you may:</p>
+<ul>
+<li>Display it in any decent browser</li>
+<li>Style it using regular CSS, just like any other HTML content</li>
+<li>Use it offline!</li>
+</ul>
+</li>
+<li>
+<p>As the slideshow is contained in a plain file, you may:</p>
+<ul>
+<li>Store it wherever you like; on your computer, hosted from your Dropbox, hosted on Github Pages alongside the stuff you&rsquo;re presenting&hellip;</li>
+<li>Easily collaborate with others, keeping track of changes using your favourite SCM tool, like Git or Mercurial</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="terminal">Terminal-based<a class="headerlink" href="#terminal" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://opensource.com/article/19/8/command-line-presentation-tools">3 tools for doing presentations from the command line | Opensource.com</a> (2019-08-06) #ril</li>
+</ul>
+<h2 id="hosting">Hosting<a class="headerlink" href="#hosting" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://slidehelper.com/blog/slideshare-alternatives-create-share-online-presentations/">Top 25 SlideShare Alternatives to Share Online Presentations For Free</a> (2018-09-04)</p>
+<ol>
+<li>
+<p>Google Slides – Free online presentation maker</p>
+</li>
+<li>
+<p>Google Docs has been around for a long time, and besides the great office features, it also lets you create and share presentations and MEDIA-RICH slides with whoever you want, whenever you want, totally free.</p>
+</li>
+<li>
+<p>Speaker Deck – Ads free Slideshare</p>
+</li>
+<li>
+<p>This is a COMPLETELY FREE service that you can upload and share your presentations online. You have to upload the presentation file as a PDF and Speaker Deck splits your PDF into slides creating a beautiful slideshow.</p>
+<p>只能上傳 PDF 再拆解開來，是否意謂著沒有動態的效果? 但老實說，動態效果並不重要。</p>
+</li>
+<li>
+<p>Presentations can be embedded on your website using the provided web embed code. You can also share the link on Facebook and Twitter. Your followers can view the easy to navigate presentation on Speakerdeck.com, more like Slideshare but without ads!</p>
+</li>
+<li>
+<p>Limits: PDF version of the slideshow that you upload cannot be larger than 50 Megabytes and you can upload up to 500 presentations all time.</p>
+</li>
+<li>
+<p>Slides – Beautiful online presentation tool</p>
+</li>
+<li>
+<p>The first third-party app on our list, and definitely not the last. Slides pride itself on a very user-friendly interface, which lets you create beautiful presentations using any kind of media, and share them with a single click.</p>
+</li>
+<li>
+<p>The BASIC VERSION is free, but if you want more, you’ll need to sign up for a paid plan. If you want to quickly create modern slides that will catch people’s attention, this is a great tool to start with.</p>
+<p>可以先在本機做好上傳，只將 slides.com 做為分享的平台 (不想失去動態的效果)?</p>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://slides.com/">Slides – Create and share presentations online</a> - 採 reveal.js #ril</p>
+</li>
+<li><a href="https://speakerdeck.com/">Speaker Deck - Share Presentations without the Mess</a> #ril</li>
+<li><a href="https://www.slideshare.net/">Share and Discover Knowledge on LinkedIn SlideShare</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>工具：</p>
+<ul>
+<li><a href="../mdp/">mdp</a></li>
+<li><a href="../revealjs/">reveal.js</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

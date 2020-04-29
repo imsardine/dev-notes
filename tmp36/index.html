@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tmp36/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>TMP36 Analog Temperature Sensor - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tmp36.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tmp36-analog-temperature-sensor">TMP36 Analog Temperature Sensor</a></li>
+            <li class="second-level"><a href="#arduino">Arduino</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tmp36-analog-temperature-sensor">TMP36 Analog Temperature Sensor<a class="headerlink" href="#tmp36-analog-temperature-sensor" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.adafruit.com/product/165">TMP36 - Analog Temperature sensor [TMP36] ID: 165 - $1.50 : Adafruit Industries, Unique &amp; fun DIY electronics and kits</a></p>
+<ul>
+<li>
+<p>Wide range, low power temperature sensor outputs an ANALOG VOLTAGe that is PROPORTIONAL TO THE AMBIENT TEMPERATURE. To use, connect pin 1 (left) to power (between 2.7 and 5.5V), pin 3 (right) to ground, and pin 2 to analog in on your microcontroller.</p>
+<p>The voltage out is 0V at -50°C and 1.75V at 125°C. You can easily calculate the temperature from the voltage in millivolts: Temp °C = 100*(reading in V) - 50</p>
+<p>溫度範圍跟 <a href="ds1b20.md">DS1B20</a> 的 -55°C ~ 125°C 很接近，但它不是走 1-Wire protocol，直接接類比輸入即可，也不用上拉電阻。</p>
+</li>
+<li>
+<p>下面 Figure 6. Output Voltages vs. Temperature 說明了兩者的線性關係，雖然 +Vs (voltage source) = 3V，但最高溫還是以 1.75V 來表現，也就是 0 ~ 1.75V 等比例表現 -50°C ~ 125°C (區間 175 °C)：</p>
+<pre><code>temp = -50 + (voltage / 1.75) * 175 = -50 + ((100 * voltage) / 175) * 175 = 100 * voltage - 50
+</code></pre>
+<p>跟 Arduino Projects Book #03 Love-o-Meter 的公式 <code>(voltage - .5) * 100</code> 是一樣的，單位應該不是 millivolts。</p>
+<p>TMP36 最高溫固定輸出 1.75V 的設計 (跟輸入電壓無關) 跟溫度區間 175°C 剛好差 100 倍，是溫度計算公式如此簡單的關鍵。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://learn.adafruit.com/tmp36-temperature-sensor">Overview | TMP36 Temperature Sensor | Adafruit Learning System</a> #ril</p>
+</li>
+</ul>
+<h2 id="arduino">Arduino<a class="headerlink" href="#arduino" title="Permanent link"> #</a></h2>
+<pre><code>int SENSOR_PIN = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int reading = analogRead(SENSOR_PIN);
+  Serial.print(&quot;Reading: &quot;);
+  Serial.print(reading);
+  Serial.print(&quot;; &quot;);
+
+  float voltage = reading / 1024.0 * 5; // ADC
+  float temp = 100 * voltage - 50;
+  Serial.print(&quot;Temperature: &quot;);
+  Serial.println(temp);
+  delay(500);
+}
+</code></pre>
+
+<p>因為 ADC 固定把 0 ~ 5V 劃分成 1024 個值 (跟當時的 +Vs 無關)，所以用 <code>reading / 1024.0 * 5</code> 求取 TMP36 輸出的電壓，其中的 5 跟 +Vs 無關。</p>
+<p>從 Serial Monitor 可以看到：</p>
+<pre><code>Reading: 148; Temperature: 22.27
+Reading: 147; Temperature: 21.78
+Reading: 147; Temperature: 21.78
+...
+</code></pre>
+
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.adafruit.com/product/165">TMP36 - Analog Temperature sensor - Adafruit</a></li>
+<li><a href="https://www.analog.com/en/products/tmp36.html#product-overview">TMP36 - Analog Devices</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../ds18b20/">DS18B20</a> 也是另一個溫度傳感器，但走的是 1-Wire 協定，需要上拉電阻，使用上較為複雜。</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.analog.com/media/en/technical-documentation/data-sheets/TMP35_36_37.pdf">TMP35/TMP36/TMP37 Datasheet (Rev. H) - Analog Devices</a> (PDF)</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

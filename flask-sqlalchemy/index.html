@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/flask-sqlalchemy/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Flask-SQLAlchemy - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/flask-sqlalchemy.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#flask-sqlalchemy">Flask-SQLAlchemy</a></li>
+            <li class="second-level"><a href="#dbsession">db.session ??</a></li>
+                
+            <li class="second-level"><a href="#flask-sqlalchemy_1">如何入門 Flask-SQLAlchemy?</a></li>
+                
+            <li class="second-level"><a href="#sqlalchemymetadatanone">SQLAlchemy(metadata=None) 的用法??</a></li>
+                
+            <li class="second-level"><a href="#isolation-level">Isolation Level ??</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#mysql-server-has-gone-away">MySQL server has gone away</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="flask-sqlalchemy">Flask-SQLAlchemy<a class="headerlink" href="#flask-sqlalchemy" title="Permanent link"> #</a></h1>
+<ul>
+<li>Flask-SQLAlchemy 做為 Flask 的 extension，使能在 Flask 裡輕鬆使用 SQLAlchemy 0.8+。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Flask-SQLAlchemy — Flask-SQLAlchemy Documentation (2.3) <a href="http://flask-sqlalchemy.pocoo.org/2.3/">http://flask-sqlalchemy.pocoo.org/2.3/</a></li>
+<li>Object Relational Tutorial — SQLAlchemy 1.2 Documentation <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html</a> Session Lifecycle Patterns 提到 <code>Session</code> instance 的產生時機會因應用類型而異，而 Flask-SQLAlchemy 就是將 session lifecycle 整合進 Flask application 的 callback?</li>
+<li>Flask-SQLAlchemy — Flask-SQLAlchemy Documentation (2.3) <a href="http://flask-sqlalchemy.pocoo.org/2.3/">http://flask-sqlalchemy.pocoo.org/2.3/</a> 提到 &ldquo;providing useful defaults and extra helpers&rdquo;，指的是哪些?</li>
+</ul>
+<h2 id="dbsession">db.session ??<a class="headerlink" href="#dbsession" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/quickstart/">Quickstart — Flask-SQLAlchemy Documentation (2.3)</a><ul>
+<li>提到 <code>db = SQLAlchemy(app)</code> (傳 <code>app</code> 進去，應該是 <code>app.config[...]</code> 取組態的慣例) 及 <code>db.session.commit()</code> 的用法</li>
+<li>Road to Enlightenment 提到 &ldquo;a preconfigured scoped session called session&rdquo;，還強調 &ldquo;don’t have to remove it at the end of the request, Flask-SQLAlchemy does that for you&rdquo;，只要做 commit 就好 =&gt; 向 Flask 註冊 teardown function。</li>
+</ul>
+</li>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/api/#flask_sqlalchemy.SQLAlchemy.create_scoped_session">create_scoped_session(options=None) - API — Flask-SQLAlchemy Documentation (2.3)</a> 預設會利用的 Flask 的 app context stack identity 確保 <code>scoped_session</code> 會在進出 request/response cycle 時自動建立/刪除。</li>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/blob/master/flask_sqlalchemy/__init__.py#L801">flask-sqlalchemy/__init__.py at master · mitsuhiko/flask-sqlalchemy</a> 在 <code>init_app()</code> 裡利用 <code>@app.teardown_appcontext</code> 向 app 註冊 teardown function，如果有設定 <code>SQLALCHEMY_COMMIT_ON_TEARDOWN</code> 會先 commit (沒有錯誤的話)，再呼叫 <code>session.remove()</code>；為什麼有 exception 時不做 rollback? =&gt; <code>Session.remove()</code> 內部會做 rollback。</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.teardown_appcontext">teardown_appcontext(f) - API — Flask Documentation (0.12)</a><ul>
+<li>註冊一個在 application context 結束時會被呼叫的 function，但又補上一句 &ldquo;These functions are TYPICALLY also called when the request context is popped&rdquo; 是什麼意思?</li>
+<li>&ldquo;Since a request context typically also manages an application context it would also be called when you pop a request context.&rdquo; 這句話是說 request context 結束時也會呼叫? =&gt; 實驗發現，appcontext 或 request teardown function 在 request 結束時都會被呼叫，其間有什麼差異??</li>
+</ul>
+</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/contextual.html#sqlalchemy.orm.scoping.scoped_session.remove">remove() - Contextual/Thread-local Sessions — SQLAlchemy 1.2 Documentation</a> <code>Session.remove()</code> 除了呼叫 <code>Session.close()</code> 及釋放 transactional/connection resource，特別提到 &ldquo;transactions specifically are rolled back&rdquo;。</li>
+</ul>
+<h2 id="flask-sqlalchemy_1">如何入門 Flask-SQLAlchemy?<a class="headerlink" href="#flask-sqlalchemy_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>Quickstart — Flask-SQLAlchemy Documentation (2.3) <a href="http://flask-sqlalchemy.pocoo.org/2.3/quickstart/">http://flask-sqlalchemy.pocoo.org/2.3/quickstart/</a> #ril</li>
+</ul>
+<h2 id="sqlalchemymetadatanone">SQLAlchemy(metadata=None) 的用法??<a class="headerlink" href="#sqlalchemymetadatanone" title="Permanent link"> #</a></h2>
+<ul>
+<li>之前同事用另一個 subproject 定義 model，搭配 Flask-SQLAlchemy 使用；平常 application 執行沒問題，但 testing 時 model 無法跟 Flask-SQLAlchemy 的 <code>app.db.Model</code> 串起來，導致 <code>app.db.create_all()</code> 無效? 為什麼平常沒問題，測試期間就有問題? 後來同事將 <code>db = SQLAlchemy(app)</code> 改為 <code>db = SQLAlchemy(app, metadata=Base.metadata)</code> 即可。</li>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/api/#flask_sqlalchemy.SQLAlchemy">class flask_sqlalchemy.SQLAlchemy - API — Flask-SQLAlchemy Documentation (2.3)</a> v2.1 才加上 <code>metadata</code> 參數 &ndash; The metadata associated with db.Model。</li>
+<li>問題跟 metadata 有關是確定的，例如 <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html">Object Relational Tutorial — SQLAlchemy</a> 就有提到 <code>MetaData.create_all()</code></li>
+</ul>
+<h2 id="isolation-level">Isolation Level ??<a class="headerlink" href="#isolation-level" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pallets/flask-sqlalchemy/issues/120">changing isolation level · Issue #120 · pallets/flask-sqlalchemy</a> #ril</li>
+<li><a href="https://gist.github.com/robyoung/68e2121c045f117bea78">Flask-SQLAlchemy set per request isolation level</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="mysql-server-has-gone-away">MySQL server has gone away<a class="headerlink" href="#mysql-server-has-gone-away" title="Permanent link"> #</a></h3>
+<p><a href="http://flask-sqlalchemy.pocoo.org/2.3/quickstart/#road-to-enlightenment">Road to Enlightment - Flask-SQLAlchemy</a> 提到：</p>
+<blockquote>
+<p>You have to commit the session, but you don’t have to remove it at the end of the request, Flask-SQLAlchemy does that for you.</p>
+</blockquote>
+<p>原來 <a href="https://github.com/mitsuhiko/flask-sqlalchemy/blob/master/flask_sqlalchemy/__init__.py#L801"><code>SQLAlchemy.init_app()</code></a> 會利用 <code>@app.teardown_appcontext</code> 向 app 註冊 teardown function，如果有設定 <code>SQLALCHEMY_COMMIT_ON_TEARDOWN</code> 會先 commit (沒有錯誤的話)，再呼叫 <code>session.remove()</code> (內部會做 rollback)。</p>
+<pre><code>@app.teardown_appcontext
+def shutdown_session(response_or_exc):
+    if app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN']:
+        if response_or_exc is None:
+            self.session.commit()
+
+    self.session.remove()
+    return response_or_exc
+</code></pre>
+
+<p>實驗確認 app context 的 teardown function 會在每個 request 結束時被呼叫，就像<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.teardown_appcontext">文件</a>上所宣稱的：</p>
+<blockquote>
+<p>Registers a function to be called when the application context ends. These functions are TYPICALLY also called when the request context is popped.</p>
+</blockquote>
+<p>到這裡，我們可以排除因為沒有明確呼叫 <code>Session.close()</code> 導致 connection 沒有回到 connection pool 的可能性，因為 Flask-SQLAlchemy 會自動處理。問題回到，若是與 MySQL 間的連線真的這麼不穩定 (為什麼不穩定要另外找)，我們能怎麼做？</p>
+<p>面對 pool 裡的 connection 可能失效 (stale) 的問題，<a href="http://docs.sqlalchemy.org/en/latest/core/pooling.html#dealing-with-disconnects">SQLAlchemy 支援 Pessimistic (悲觀) 與 Optimistic (樂觀) 兩種策略</a>。所謂悲觀是指 &ldquo;不看好連線穩定&rdquo;，所以要從 pool 拿出 (checkout) connection 前，會先送出一個 test statement 以確定 connection 是有用的 (viable)，這個動作稱做 <a href="http://docs.sqlalchemy.org/en/latest/core/pooling.html#sqlalchemy.pool.Pool.params.pre_ping">pre ping</a> (SQLAlchemy 1.2+)。雖然 pre ping 會對 checkout process 增加一些 overhead，但這是最簡單且可以完全排除拿到 stale pooled connection 的方法，應用端也不用擔心如何從 stale connection 回復的問題。</p>
+<p>不過很不幸地，<a href="https://github.com/mitsuhiko/flask-sqlalchemy/pull/600">Flask-SQLAlchemy 尚不支援 pre ping 的做法</a>，所以只能退而使用相對樂觀的策略 &ndash; <a href="http://docs.sqlalchemy.org/en/latest/core/pooling.html#setting-pool-recycle">Pool Recycle</a>。按照 <a href="http://flask-sqlalchemy.pocoo.org/2.3/config/">Flask-SQLAlchemy 官方文件</a>的說法，遇到 MySQL 時會自動將 <code>SQLALCHEMY_POOL_RECYCLE</code> 設定成 2hr，雖然這低於 MySQL <code>wait_time</code> 預設的 8hr，若是 MySQL 的連線不穩定 (未超過 <a href="https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_wait_timeout"><code>wait_timeout</code></a> 就中斷)，2hr 的設定就顯得有點長，設成每 5 分鐘 recycle 一次似乎也沒什麼不妥。</p>
+<hr />
+<p>後來在 <a href="https://github.com/mitsuhiko/flask-sqlalchemy/issues/589#issuecomment-361075700">Provide a way to configure the SA engine · Issue #589 · mitsuhiko/flask-sqlalchemy</a> 的對話中找到了解法 &ndash; 覆寫 <code>flask_sqlalchemy.SQLAlchemy.apply_pool_defaults()</code> 並強制加上 <code>pool_pre_ping</code> 參數即可：</p>
+<pre><code>from flask_sqlalchemy import SQLAlchemy as SA
+
+class SQLAlchemy(SA):
+    def apply_pool_defaults(self, app, options):
+        SA.apply_pool_defaults(self, app, options)
+        options[&quot;pool_pre_ping&quot;] = True
+
+db = SQLAlchemy()
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/pull/600">add possibility to set pool_pre_ping in configuration by maximilianredt · Pull Request #600 · mitsuhiko/flask-sqlalchemy</a> 已經有人提出 <code>pool_pre_ping</code> 的支援，但 PR 還沒過 #ril<ul>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/pull/577">Add SQLALCHEMY_POOL_PRE_PING config by pigletfly · Pull Request #577 · mitsuhiko/flask-sqlalchemy</a> PR 最後被 close 了!? gilbsgilbs: 在 #589 中已經有解法。</li>
+</ul>
+</li>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/issues/589#issuecomment-361075700">Provide a way to configure the SA engine · Issue #589 · mitsuhiko/flask-sqlalchemy</a> #ril</li>
+</ul>
+<pre><code>from flask_sqlalchemy import SQLAlchemy as SA
+
+class SQLAlchemy(SA):
+    def apply_pool_defaults(self, app, options):
+        SA.apply_pool_defaults(self, app, options)
+        options[&quot;pool_pre_ping&quot;] = True
+
+db = SQLAlchemy()
+</code></pre>
+
+<pre><code>  - [flask\-sqlalchemy/\_\_init\_\_\.py at 50944e77522d4aa005fc3c833b5a2042280686d3 · mitsuhiko/flask\-sqlalchemy](https://github.com/mitsuhiko/flask-sqlalchemy/blob/50944e77522d4aa005fc3c833b5a2042280686d3/flask_sqlalchemy/__init__.py#L814) 按照 `_EngineConnector.get_engine()` 的實作，會先後呼叫 `SQLAlchemy.apply_pool_defaults()` 與 `SQLAlchemy.apply_driver_hacks()` 更新準備傳給 `create_engine()` 的 options -- `self._engine = rv = sqlalchemy.create_engine(info, **options)`。
+</code></pre>
+<ul>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/pull/540">Support additional SQLAlchemy parameters. by yangbaepark · Pull Request #540 · mitsuhiko/flask-sqlalchemy</a> 這個 PR 更全面地在討論傳更多的參數給背後的 SQLAlchemy，也包含 <code>pool_pre_ping</code>，但討論不太活躍 #ril</li>
+<li><a href="https://www.slideshare.net/maxcclai/javajersey-pythonflask">Java-Jersey 到 Python-Flask 服務不中斷重構之旅</a> p21. Flask-SQLAlchemy 佈置上線後 你會看到 (OperationError) (2006, &lsquo;MySQL server has gone away&rsquo;) (2018-05-31)<ul>
+<li>解法 1: <code>create_engine(mysql_db_url, pool_recycle=3600)</code> 縮短 pool recycle 時間，還是會出問題。</li>
+<li>解法 2: 每次操作前先做一次 connection test，例如 <code>SELECT 1</code>，而這就是 SQLAlchemy 1.2 新增的 <code>create_engine(..., pool_pre_ping=True)</code>。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/6471549/">Avoiding &ldquo;MySQL server has gone away&rdquo; on infrequently used Python / Flask server with SQLAlchemy - Stack Overflow</a> 幾天才會存取一次，但第一次存取時會有 &ldquo;MySQL server has gone away&rdquo; 的錯誤，接下來又沒問題&hellip; #ril</li>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/issues/449">MySQL server has gone away error using db.session · Issue #449 · mitsuhiko/flask-sqlalchemy</a> #ril</li>
+<li><a href="https://github.com/mattupstate/flask-security/issues/235">SQL Alchemy MySQL Server has Gone away · Issue #235 · mattupstate/flask-security</a> #ril</li>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy/issues/2">Getting this error daily: &ldquo;SQLError: (OperationalError) (2006, ‘MySQL server has gone away’)&rdquo; · Issue #2 · mitsuhiko/flask-sqlalchemy</a> #ril<ul>
+<li>aaront: 因為是 office intranet，發生在 8hr 沒有活動之後，每天都會。</li>
+<li>mitsuhiko (owner): 因為 MySQL 預設為 PHP 組態 &ndash; 常忘了關閉連線? 會為 MySQL 自動啟用 connection recycling；<a href="https://github.com/mitsuhiko/flask-sqlalchemy/blob/2.1/flask_sqlalchemy/__init__.py#L846">判斷到 driver name 以 <code>mysql</code> 開頭時，自動加上 <code>pool_size = 10</code> 及 <code>pool_recycle = 7200</code> 的設定</a></li>
+<li>2013-08-29 rawrgulmuffins、pakdev、nullzero 等又陸續遇到相同的問題，louking: 若 commit 失敗一定要做 rollback? 不過後來又說 <code>SQLALCHEMY_POOL_RECYCLE</code> 要小於 MySQL 的 <code>interactive_timeout</code> (應該是 <code>wait_timeout</code> 才對)</li>
+</ul>
+</li>
+<li><a href="https://github.com/coleifer/peewee/issues/239">Add support for MySQL connection recycling · Issue #239 · coleifer/peewee</a> 跟 <code>threadlocals=True</code>? #ril</li>
+<li><a href="https://stackoverflow.com/questions/19052973/">python - OperationalError: MySQL Connection not available - Stack Overflow</a> #ril</li>
+<li><a href="https://rapd.wordpress.com/2008/03/02/sqlalchemy-sqlerror-operationalerror-2006-mysql-server-has-gone-away/">SqlAlchemy: SQLError: (OperationalError) (2006, ‘MySQL server has gone away’) | RAPD</a> <code>engine = create_engine(db_path, pool_size = 100, pool_recycle=7200)</code> 其中 <code>pool_recycle</code> 每 N seconds 就會重新建立連線，確保 MySQL 連線是有效的。</li>
+<li><a href="https://www.reddit.com/r/flask/comments/2vbphd/flasksqlalchemy_closing_the_session/#cogyz27">Flask-Sqlalchemy, closing the session : flask</a> commit 之後要 close 嗎? manychairs: tutorial 裡沒在 close session 的，但放上 production 就開始出現 <code>OperationalError: (OperationalError) (2006, 'MySQL server has gone away')</code> 的錯誤，尤其是在停了幾小時候。後來將 pool recycle 的時間調低，也在 query 或 commit 後加上 <code>db.session.close()</code>，就沒這個問題了。</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/patterns/sqlalchemy/">SQLAlchemy in Flask — Flask Documentation (0.12)</a> 提到不論是不是 declarative，在 request 結束跟 application context 結束時都要做 remove/close session，這裡用 <code>db_session.remove()</code>。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/contextual.html">Contextual/Thread-local Sessions — SQLAlchemy 1.2 Documentation</a> 提到 <code>scoped_session.remove()</code> 會先呼叫 <code>Session.close()</code> 再釋放 <code>Session</code> 自己，讓 connection 回到 pool #ril</li>
+<li><a href="https://github.com/jfinkels/flask-restless/issues/451">How to call session.remove() &ldquo;on request end&rdquo; for SQLAlchemy · Issue #451 · jfinkels/flask-restless</a> 整理了 SQLAlchemy session 與 web framework 的整合要用到 scoped session #ril</li>
+<li><a href="https://stackoverflow.com/questions/21738944/how-to-close-a-sqlalchemy-session">python - How to close a SQLAlchemy session? - Stack Overflow</a> <code>session.close()</code> 會讓 connetion 回到 pool，而 <code>engine.dispose()</code> 會關閉 poll 裡所有的 connection #ril</li>
+</ul>
+<p>Flask-SQLAlchemy:</p>
+<ul>
+<li>Getting this error daily: &ldquo;SQLError: (OperationalError) (2006, ‘MySQL server has gone away’)&rdquo; · Issue #2 · mitsuhiko/flask-sqlalchemy <a href="https://github.com/mitsuhiko/flask-sqlalchemy/issues/2">https://github.com/mitsuhiko/flask-sqlalchemy/issues/2</a> #ril<ul>
+<li>wim: SQLAlchemy v1.2.0+ 支援 connection pool pre-ping - 從 pool 拿出 connection 時會先檢查 liveness，若已經中斷就會回收，這樣就不需要 <code>pool_recycle</code> flag，或是 restart DB 造成的斷線；不過 SQLAlchemy 1.2.x 在 2017-07-24 還處於 pre-release。</li>
+<li>omerk: 提到 <code>app.config['SQLALCHEMY_POOL_RECYCLE'] = 280</code> 的用法。</li>
+</ul>
+</li>
+<li>Python SQLAlchemy - &ldquo;MySQL server has gone away&rdquo; - Stack Overflow <a href="https://stackoverflow.com/questions/18054225/">https://stackoverflow.com/questions/18054225/</a> #ril</li>
+<li>Using SQLAlchemy with MySQL | PythonAnywhere help <a href="http://help.pythonanywhere.com/pages/UsingSQLAlchemywithMySQL">http://help.pythonanywhere.com/pages/UsingSQLAlchemywithMySQL</a> #ril</li>
+<li>Configuration — Flask-SQLAlchemy Documentation (2.1) <a href="http://flask-sqlalchemy.pocoo.org/2.1/config/">http://flask-sqlalchemy.pocoo.org/2.1/config/</a> 提到 <code>SQLALCHEMY_POOL_RECYCLE</code> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask-sqlalchemy.pocoo.org/">Flask-SQLAlchemy</a></li>
+<li><a href="https://github.com/mitsuhiko/flask-sqlalchemy">mitsuhiko/flask-sqlalchemy - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/api/">Flask-SQLAlchemy API</a></li>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/api/#flask_sqlalchemy.SQLAlchemy"><code>flask_sqlalchemy.SQLAlchemy</code></a></li>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/api/#flask_sqlalchemy.Model"><code>flask_sqlalchemy.Model</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

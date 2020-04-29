@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/unittest/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Unit Testing 單元測試 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/unittest.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#unit-testing">Unit Testing 單元測試</a></li>
+            <li class="second-level"><a href="#questions">Questions</a></li>
+                
+            <li class="second-level"><a href="#_1">定位</a></li>
+                
+                <li class="third-level"><a href="#unit">Unit 指的是什麼?</a></li>
+                <li class="third-level"><a href="#seams">關鍵是 Seams</a></li>
+            <li class="second-level"><a href="#_2">基礎</a></li>
+                
+                <li class="third-level"><a href="#arrange-act-assert-3a">Arrange-Act-Assert (3A) 原則?</a></li>
+                <li class="third-level"><a href="#input">測試的單位 input 越少越好??</a></li>
+            <li class="second-level"><a href="#good-tests">Good Tests</a></li>
+                
+                <li class="third-level"><a href="#first-principle">FIRST Principle ??</a></li>
+            <li class="second-level"><a href="#coverage">Coverage</a></li>
+                
+                <li class="third-level"><a href="#coverage-100">Coverage 100% 的意義是什麼?</a></li>
+            <li class="second-level"><a href="#testable">Testable</a></li>
+                
+            <li class="second-level"><a href="#readability">Readability 可讀性</a></li>
+                
+                <li class="third-level"><a href="#non-static-nested-class-inner-class-enclosing-class">Non-static nested class (inner class) 如何在測試時不管 enclosing class??</a></li>
+            <li class="second-level"><a href="#legacy-code-refactoring">Legacy Code &amp; Refactoring</a></li>
+                
+            <li class="second-level"><a href="#concurrency-multithreading">Concurrency / Multithreading</a></li>
+                
+            <li class="second-level"><a href="#fluent-assertion">Fluent Assertion</a></li>
+                
+            <li class="second-level"><a href="#one-assertion-per-test">One Assertion Per Test?</a></li>
+                
+            <li class="second-level"><a href="#overspecified-over-specification">Overspecified (Over Specification)</a></li>
+                
+            <li class="second-level"><a href="#naming">Naming</a></li>
+                
+            <li class="second-level"><a href="#new">New</a></li>
+                
+            <li class="second-level"><a href="#singleton">Singleton</a></li>
+                
+            <li class="second-level"><a href="#public-fields">Public fields</a></li>
+                
+            <li class="second-level"><a href="#private-method">Private Method</a></li>
+                
+            <li class="second-level"><a href="#static-method">Static Method</a></li>
+                
+                <li class="third-level"><a href="#legacy-code-static-method-instance-method">Legacy code 很容易有 static method，如果要全改成 instance method，工程會太大??</a></li>
+            <li class="second-level"><a href="#test-doubles">Test Doubles</a></li>
+                
+            <li class="second-level"><a href="#stubbing">Stubbing</a></li>
+                
+            <li class="second-level"><a href="#dont-mock-type-you-dont-own">Don't mock type you don't own!</a></li>
+                
+            <li class="second-level"><a href="#dont-mock-value-objects">Don't mock value objects</a></li>
+                
+            <li class="second-level"><a href="#test-code-production-code">不要將 test code 混入 production code</a></li>
+                
+            <li class="second-level"><a href="#verification-assertion">Verification / Assertion 驗證</a></li>
+                
+                <li class="third-level"><a href="#data-class-field-property">如何驗證 data class 只有特定的 field / property 被異動??</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="unit-testing">Unit Testing 單元測試<a class="headerlink" href="#unit-testing" title="Permanent link"> #</a></h1>
+<h2 id="questions">Questions<a class="headerlink" href="#questions" title="Permanent link"> #</a></h2>
+<ul>
+<li>Infinitest <a href="https://infinitest.github.io/">https://infinitest.github.io/</a> 會在 code 變動時自動執行測試，聽起來不錯??</li>
+<li>什麼是 FIRST principle??</li>
+<li>Coverage 100% 的意義是什麼?</li>
+<li>做單元測試時，我們總是對其他 dependency 做了假設 &ldquo;我這樣呼叫你，就會完成一些事&rdquo;，這些東西應該寫在 Javadoc 上才對??</li>
+<li>除以 0 的複雜度有辦被算出來嗎??</li>
+</ul>
+<h2 id="_1">定位<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="unit">Unit 指的是什麼?<a class="headerlink" href="#unit" title="Permanent link"> #</a></h3>
+<ul>
+<li>Unit 可大可小，重點反倒是 unit 之外的 collaborator isolation。</li>
+<li>Building Effective Unit Tests | Android Developers <a href="https://developer.android.com/training/testing/unit-testing/index.html">https://developer.android.com/training/testing/unit-testing/index.html</a> 提到 unit of code 可以是 method、class 或 component。</li>
+<li>
+<p>UnitTest - Martin Fowler <a href="https://martinfowler.com/bliki/UnitTest.html">https://martinfowler.com/bliki/UnitTest.html</a> &ldquo;what people consider to be a unit&rdquo; 提到大家對 unit 的認知不同，OOD 認為是 class、而 functional programming 認為是 function，作者認為 &ldquo;closely related classes&rdquo; 或 &ldquo;a subset of methods in a class&rdquo; 都可以視為是 unit。</p>
+</li>
+<li>
+<p>Flexible and expressive unit tests with the builder pattern <a href="https://www.kenneth-truyers.net/2013/07/15/flexible-and-expressive-unit-tests-with-the-builder-pattern/">https://www.kenneth-truyers.net/2013/07/15/flexible-and-expressive-unit-tests-with-the-builder-pattern/</a> 提到 &ldquo;Unit tests become more valuable if they are expressive and flexible. A good unit test should not only test your code, but also document it.&rdquo;</p>
+</li>
+<li>Building Real Software: Automated Tests as Documentation (2013-06-13) <a href="http://swreflections.blogspot.tw/2013/06/automated-tests-as-documentation.html">http://swreflections.blogspot.tw/2013/06/automated-tests-as-documentation.html</a> 這標題下得真好!! #ril</li>
+</ul>
+<h3 id="seams">關鍵是 Seams<a class="headerlink" href="#seams" title="Permanent link"> #</a></h3>
+<ul>
+<li>覺得 DI 只是劃出 seam 的手段，像 Python 這種不太需要 DI 的語言，可替換的 names 就是 seam。</li>
+<li>Google Testing Blog: Static Methods are Death to Testability <a href="https://testing.googleblog.com/2008/12/static-methods-are-death-to-testability.html">https://testing.googleblog.com/2008/12/static-methods-are-death-to-testability.html</a> 也提到 seams #ril</li>
+<li>Seams | Testing Effectively With Legacy Code | InformIT <a href="http://www.informit.com/articles/article.aspx?p=359417&amp;seqNum=2">http://www.informit.com/articles/article.aspx?p=359417&amp;seqNum=2</a> &ldquo;A seam is a place where you can alter behavior in your program without editing in that place.&rdquo; 這話說得真好!! #ril</li>
+</ul>
+<h2 id="_2">基礎<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<h3 id="arrange-act-assert-3a">Arrange-Act-Assert (3A) 原則?<a class="headerlink" href="#arrange-act-assert-3a" title="Permanent link"> #</a></h3>
+<ul>
+<li>Arrange 是不是不該藏進 setup 裡? 感覺 setup 應該只處理 fixture，而 arrange 還是應該明確寫在 test method 裡?</li>
+<li>Arrange Act Assert <a href="http://wiki.c2.com/?ArrangeActAssert">http://wiki.c2.com/?ArrangeActAssert</a> 一種安排/格式化 test method 的 pattern，用空白行把 arrage (precondition)、act (on CUT, AUT, SUT)、assert (expected results) 分開來 #ril</li>
+<li>Arrange Act Assert | JustMock Documentation <a href="http://docs.telerik.com/help/justmock/basic-usage-arrange-act-assert.html">http://docs.telerik.com/help/justmock/basic-usage-arrange-act-assert.html</a> #ril</li>
+</ul>
+<h3 id="input">測試的單位 input 越少越好??<a class="headerlink" href="#input" title="Permanent link"> #</a></h3>
+<ul>
+<li>以某個複雜的 data structure 做為 input 時，若沒有用到全部的資料，在測試時如何只提供部份的資料 &ndash; 像 builder 的存在一樣，如何讓會影響結果的 input 被突顯出來? 話說回來，複雜的 data structure 只不過是另一種 object? (例如 hashmap，不同的 key 帶不同的資料)，所以 builder pattern 應該也適用。</li>
+</ul>
+<h2 id="good-tests">Good Tests<a class="headerlink" href="#good-tests" title="Permanent link"> #</a></h2>
+<ul>
+<li>從 caller 角度來想，目前是怎麼用它的，對外做了什麼承諾 (如果有 Javadoc 就好)</li>
+<li>How to write good tests · mockito/mockito Wiki <a href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests">https://github.com/mockito/mockito/wiki/How-to-write-good-tests</a> #ril</li>
+<li>AimiaMobile/unit-testing-guidelines: Unit testing best practices <a href="https://github.com/AimiaMobile/unit-testing-guidelines">https://github.com/AimiaMobile/unit-testing-guidelines</a> #ril</li>
+</ul>
+<h3 id="first-principle">FIRST Principle ??<a class="headerlink" href="#first-principle" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=pK7W5npkhho">Test-Driven Development on Android with the Android Testing Support Library (Google I/O &lsquo;17) - YouTube</a> (2017-05-18) 07:10 列舉 unit test 應該要掌握的要點 - thorough、repeatable、focused、verify behavior (避免對實作做太多假設，測試 behavior，才不會 implementation 改變就影響 test；這與 <a href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests">Mockito</a> &ldquo;focusing on interactions between objects&rdquo; 的想法一致)、fast (尤其測試數量會很大，否則會不想寫測試、做 refactoring)、concise (將測試做為 documentation)；比 FIRST 多了 focused (快速定位出問題點) 與 verify behavior。</li>
+<li>Test-Driven Development on Android with the Android Testing Support Library (Google I/O &lsquo;17) - YouTube (2017-05-19) <a href="https://www.youtube.com/watch?v=pK7W5npkhho">https://www.youtube.com/watch?v=pK7W5npkhho</a> Mobile Nijia 的場子，ATSL (包括 <code>AndroidJUnitRunner</code>、rules、Espresso) 就是這個小 team 在負責，圍遶著 Test Pyramid 與 &ldquo;Testing is about tradeoffs&rdquo;，從定位 large E2E test 的 UI test (Espresso) 講到 small unit test (Robolectric)，再回頭講怎麼搭配 hermetic environment 把 large E2E test 拆成數個 medium integration test，宣告下一版 ATSL 會有 Android Test Orchestrator 與 Multiprocess Espresso，分別解決 large E2E test 的 flakiness 與 UI 可能執行在不同 process 的問題。其間最讓人意外的是 Robolectric 似乎在 Google 內部逐漸受到重視，雖然官方常未宣稱支持這個專案，但從 Android CTS 測試進度已達 70% 這件事看來，正式成為 ATSL 的一員也是可以期待的?</li>
+<li><a href="https://github.com/ghsukumar/SFDC_Best_Practices/wiki/F.I.R.S.T-Principles-of-Unit-Testing">F.I.R.S.T Principles of Unit Testing · ghsukumar/SFDC_Best_Practices Wiki</a> (2016-06-28) Fast, Isolated/Independent, Repeatable, Self-Validating, Thorough &amp; Timely，其中 Isolated/Independent 與 Repeatable 互為因果，最重要的就是不要跟環境、會變動的資料、執行順序相依；Fast 背後主要的考量是量很大，所以加總起來的時間會很可觀。<ul>
+<li>Fast 若不夠快，開發人員就會不想多執行它；由於 unit test 的量很大，若每個 test 不控制在幾個 millisecond，加總起來的時間會很可觀。</li>
+<li>Isolated/Independent - 提及 3 As - Arrange, Act, Assert，其中 arrange 與 &ldquo;不要跟環境相依&rdquo; 也有點關係 (不要在這裡做 assert)，另外只做 a single logical assert (== multiple physical asserts)，避免 order-of-run dependency。</li>
+<li>Repeatable - 因為不跟環境、會變動的資料 (例如 date/time) 相依，所以結果是決定論的 deterministic (de-ter-mi-nis-tic) ；感覺 repeatable 是 isolated/independent 的產物。</li>
+<li>Self-validating - 不需要人為介入去判斷 pass 或 fail。</li>
+<li>Thorough and Timely - 比起 100% coverage，是不是覆蓋所有的 use case scenario 更為重要。另外儘可能做到 TDD，這樣就不用事後做 refactoring。</li>
+</ul>
+</li>
+<li><a href="https://howtodoinjava.com/best-practices/first-principles-for-good-tests/">FIRST Principles for Writing Good Unit Tests - HowToDoInJava</a> (2016-08-22) Fast 提到慢的原因極可能是跟 database/file/network 產生相依，這些 &ldquo;external environment not under your direct control&rdquo; 會防礙你達成 repeatable；另外 isolated 除了要避開不受控制的外部環境、變動資料，也要 &ldquo;focused only on a small amount of behavior&rdquo;。<ul>
+<li>FIRST 是個 acronym - First, Isolated, Repeatable, Self-validating, Timely</li>
+<li>First - 會造成慢的原因，多半是跟外部環境相依，例如 database、file、network calls 等。</li>
+<li>Isolated - 不只是 test case 可以單獨執行 (不受其他 test case 的影響)，也跟測試失敗時，能否立即反應出是哪裡出錯有關 (不用花時間找問題在哪裡)；這跟 &ldquo;tests focused only on a small amount of behavior&rdquo; 有關 =&gt; If one of your test methods can break for more than one reason, consider splitting it into separate tests，跟 Single Responsibility Principle (SRP) 的概念有點像。</li>
+<li>Repeatable - 跟 &ldquo;external environment not under your direct control&rdquo; 隔離開來，若不得以要存取 database，可以考慮 in-memory database。</li>
+<li>Self-validating - 測試過程中不需要人為介入。</li>
+<li>Timely - 雖然可以在任何時候寫 unit test，但儘早做的好處多多。</li>
+</ul>
+</li>
+<li>Agile in a Flash: F.I.R.S.T (2009-02) <a href="http://agileinaflash.blogspot.tw/2009/02/first.html">http://agileinaflash.blogspot.tw/2009/02/first.html</a> #ril</li>
+</ul>
+<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link"> #</a></h2>
+<ul>
+<li>從 coverage 來看哪些沒測試不一定準，因為程式有走過並不代表有做驗證，因為最好是根據 contract 來寫 test case。</li>
+<li>Codecov <a href="https://codecov.io/">https://codecov.io/</a> 有很多 opensource project 在用??<ul>
+<li><a href="https://github.com/mockito/mockito/pull/286">https://github.com/mockito/mockito/pull/286</a> Mockito</li>
+</ul>
+</li>
+</ul>
+<h3 id="coverage-100">Coverage 100% 的意義是什麼?<a class="headerlink" href="#coverage-100" title="Permanent link"> #</a></h3>
+<ul>
+<li>F.I.R.S.T Principles of Unit Testing · ghsukumar/SFDC_Best_Practices Wiki <a href="https://github.com/ghsukumar/SFDC_Best_Practices/wiki/F.I.R.S.T-Principles-of-Unit-Testing">https://github.com/ghsukumar/SFDC_Best_Practices/wiki/F.I.R.S.T-Principles-of-Unit-Testing</a> Thorough and Timely 提到 &ldquo;Should cover every use case scenario and NOT just aim for 100% coverage.&rdquo; 但所有 use case scenario 都 cover 到的情況下，不也就 100% coverage 了?</li>
+</ul>
+<h2 id="testable">Testable<a class="headerlink" href="#testable" title="Permanent link"> #</a></h2>
+<ul>
+<li>所謂 testable 是指重新安排 (rearrange) code，使能分開測試 (in isolation)，但絕不是在 application 裡安插 test-specific code；但 <code>@VisibleForTesting</code> 在灰色地帶??</li>
+<li>TDD: Testable is most important (2016-02-04) <a href="http://pietschsoft.com/post/2016/02/04/TDD-Testable-is-most-important">http://pietschsoft.com/post/2016/02/04/TDD-Testable-is-most-important</a> #ril</li>
+<li>Clean Coder Blog (2014-12-17) <a href="http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html">http://blog.cleancoder.com/uncle-bob/2014/12/17/TheCyclesOfTDD.html</a> #ril</li>
+<li>Guide: Writing Testable Code (2008-11-24) <a href="http://misko.hevery.com/code-reviewers-guide/">http://misko.hevery.com/code-reviewers-guide/</a> (<a href="http://misko.hevery.com/attachments/Guide-Writing%20Testable%20Code.pdf">PDF</a>) #ril</li>
+<li>Flaw: Digging into Collaborators <a href="http://misko.hevery.com/code-reviewers-guide/flaw-digging-into-collaborators/">http://misko.hevery.com/code-reviewers-guide/flaw-digging-into-collaborators/</a> #ril</li>
+<li>Flaw: Class Does Too Much <a href="http://misko.hevery.com/code-reviewers-guide/flaw-class-does-too-much/">http://misko.hevery.com/code-reviewers-guide/flaw-class-does-too-much/</a> #ril</li>
+</ul>
+<h2 id="readability">Readability 可讀性<a class="headerlink" href="#readability" title="Permanent link"> #</a></h2>
+<ul>
+<li>collections - How to convert an Array to a Set in Java - Stack Overflow <a href="http://stackoverflow.com/questions/3064423/">http://stackoverflow.com/questions/3064423/</a> David Carboni: I&rsquo;ll take readability over efficiency (nearly) every time 就測試而言，確實是這樣!!</li>
+<li>Flexible and expressive unit tests with the builder pattern <a href="https://www.kenneth-truyers.net/2013/07/15/flexible-and-expressive-unit-tests-with-the-builder-pattern/">https://www.kenneth-truyers.net/2013/07/15/flexible-and-expressive-unit-tests-with-the-builder-pattern/</a> 提到 unit test 同時也是文件，要能兼顧 expressive 跟 flexible 會更有價值，但這並不容易；builder pattern 可以幫上一些忙&hellip;</li>
+<li>要說可讀性，應該就是 BDD 了吧?? 倒也不是要導入什麼 framework，而是像 <a href="https://github.com/googlesamples/android-architecture/blob/todo-mvp-clean/todoapp/app/src/test/java/com/example/android/architecture/blueprints/todoapp/tasks/TasksPresenterTest.java">這樣</a> 從註解裡下手也不錯 &hellip;</li>
+<li>Write Tests to be Read | Effective Java Testing (2008-12-09) <a href="https://effectivejavatesting.wordpress.com/2008/12/09/write-tests-to-be-read/">https://effectivejavatesting.wordpress.com/2008/12/09/write-tests-to-be-read/</a> #ril</li>
+</ul>
+<h3 id="non-static-nested-class-inner-class-enclosing-class">Non-static nested class (inner class) 如何在測試時不管 enclosing class??<a class="headerlink" href="#non-static-nested-class-inner-class-enclosing-class" title="Permanent link"> #</a></h3>
+<ul>
+<li>以 <code>EnclosingClass</code> 底下的 <code>public class NonStaticNestedClass</code> 為例。</li>
+<li>利用 Mockito 生出一個假的 enclosing object，例如 <code>Mockito.mock(EnclosingClass.class).new NonStaticNestedClass(...)</code> 就可以了。</li>
+</ul>
+<h2 id="legacy-code-refactoring">Legacy Code &amp; Refactoring<a class="headerlink" href="#legacy-code-refactoring" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.amazon.ca/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052">https://www.amazon.ca/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052</a> 我們用了 legacy code 這個 term 很久，卻沒有給它一個明確的定義。簡單地說 &ldquo;Legacy code is code that we&rsquo;ve gotten from someone else.&rdquo;，而 &ldquo;code that you have to change but don&rsquo;t really understand&rdquo; 就是程式設計師遇到 legacy code 的感覺。作者給 legacy code 下了一個絕妙的定義 &ldquo;To me, legacy code is simply code without tests.&rdquo;，為什麼是 test? 因為 &ldquo;Code without tests is bad code. It doesn&rsquo;t matter how well written it is; it doesn&rsquo;t matter how pretty or object-oriented or well-encapsulated it is. With tests, we can change the behavior of our code quickly and verifiably. Without them, we really don&rsquo;t know if our code is getting better or worse.&rdquo;</li>
+<li>為 legacy code 寫 unit test 似乎有些技巧<ul>
+<li>回推為什麼要加這段 code，針對 why 去驗證</li>
+<li>從 caller 角度來想，目前是怎麼用它的，對外做了什麼承諾 (如果有 Javadoc 就好)</li>
+<li>從更高層次做起有點難? 或許先把要測的 behavior (test name) 全部列出來，再一一補齊，似乎是個不錯的折衷?</li>
+</ul>
+</li>
+<li>Legacy code - Wikipedia <a href="https://en.wikipedia.org/wiki/Legacy_code">https://en.wikipedia.org/wiki/Legacy_code</a> #ril</li>
+<li>Guide to Freelancing: Starting Over vs Refactoring (2016-09-30) <a href="https://www.crondose.com/2016/09/starting-over-vs-refactoring/">https://www.crondose.com/2016/09/starting-over-vs-refactoring/</a> #ril</li>
+<li>Do You Write Legacy Code? | Hacker Boss <a href="http://hackerboss.com/legacy-code/">http://hackerboss.com/legacy-code/</a> #ril</li>
+<li>Adding unit tests to legacy code - Stack Overflow (2009-10-09) <a href="http://stackoverflow.com/questions/1541568/">http://stackoverflow.com/questions/1541568/</a> - 很難，但值得做；從更高的層次做起 (safety net)，再做 refactoring 讓它變成 testable。</li>
+<li>
+<p>Refactoring Without Good Tests - Code Climate Blog (2013-12-05) <a href="http://blog.codeclimate.com/blog/2013/12/05/refactoring-without-good-tests/">http://blog.codeclimate.com/blog/2013/12/05/refactoring-without-good-tests/</a> 提到 &ldquo;outside in&rdquo; 的概念 (先聚焦在 interface，而非 impl.)，另外 fear of refactoring 會產生越來越多的技術債；建議先寫好 key user scenarios 的 automated acceptance test，再開始用測試驅動所有新的 code #ril</p>
+</li>
+<li>
+<p>Living Dangerously: Refactoring without a Safety Net (2010-10-01) <a href="https://simpleprogrammer.com/2010/10/01/living-dangerously-refactoring-without-a-safety-net/">https://simpleprogrammer.com/2010/10/01/living-dangerously-refactoring-without-a-safety-net/</a> #ril</p>
+</li>
+<li>Unit Testing Legacy Code <a href="http://wiki.c2.com/?UnitTestingLegacyCode">http://wiki.c2.com/?UnitTestingLegacyCode</a> #ril</li>
+<li>Reversed Tests Pyramid – dealing with legacy code (2012) <a href="http://xpdays.com.ua/archive/xp-days-ukraine-2012/materials/legacy-code/">http://xpdays.com.ua/archive/xp-days-ukraine-2012/materials/legacy-code/</a> #ril</li>
+<li>How do you introduce unit testing into a large, legacy (C/C++) codebase? (2009-04-14) Stack Overflow <a href="http://stackoverflow.com/questions/748503/">http://stackoverflow.com/questions/748503/</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Characterization_test">https://en.wikipedia.org/wiki/Characterization_test</a> 看起來像是 integration code 為了確保沒被 unit test 覆蓋到的部份，做為 extend/refactor code 的安全網 #ril</li>
+<li>如何面對與避免Legacy Code | iThome (2009-09-18) <a href="http://www.ithome.com.tw/node/57107">http://www.ithome.com.tw/node/57107</a> Legacy 和 Non-Legacy Code 區分的關鍵在測試 #ril</li>
+<li>testing - Why write tests for code that I will refactor? - Software Engineering Stack Exchange <a href="https://softwareengineering.stackexchange.com/questions/233222/why-write-tests-for-code-that-i-will-refactor">https://softwareengineering.stackexchange.com/questions/233222/why-write-tests-for-code-that-i-will-refactor</a> #ril</li>
+<li>Practical refactoring using unit tests - Stack Overflow <a href="http://stackoverflow.com/questions/522334/">http://stackoverflow.com/questions/522334/</a> #ril</li>
+</ul>
+<h2 id="concurrency-multithreading">Concurrency / Multithreading<a class="headerlink" href="#concurrency-multithreading" title="Permanent link"> #</a></h2>
+<h2 id="fluent-assertion">Fluent Assertion<a class="headerlink" href="#fluent-assertion" title="Permanent link"> #</a></h2>
+<ul>
+<li>AssertJ &gt; Fest &gt; Hamcrest (2014-10-20) <a href="https://www.javacodegeeks.com/2014/10/assertj-fest-hamcrest.html">https://www.javacodegeeks.com/2014/10/assertj-fest-hamcrest.html</a> #ril</li>
+</ul>
+<h2 id="one-assertion-per-test">One Assertion Per Test?<a class="headerlink" href="#one-assertion-per-test" title="Permanent link"> #</a></h2>
+<ul>
+<li>所以什麼是 single concept? 實務上可以搭配 test method 的 naming - <code>action_Given_Then()</code> (例如 <code>addTask_DuplicateName_ShowError()</code>) 來做判斷，只要 verification 都在 then 的範圍下即可，因為 then 不會寫得太長，自然 verification 的範圍就會受到限制。</li>
+<li>One Assertion Per Test Considered Ambiguous (2013-08-26) <a href="https://www.franzoni.eu/one-assertion-per-test-considered-ambiguous/">https://www.franzoni.eu/one-assertion-per-test-considered-ambiguous/</a> 解讀成只能用一次 <code>assert</code> method 是錯的，應說說是 Single Concept Per Test。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>關於傳說中的 One Assert Per Test，或許 Single Concept Per Test 是相對務實的 &ldquo;I think the single assert rule is a good guideline. &hellip; But I am not afraid to put more than one assert in a test. I think the best thing we can say is that the number of asserts in a test ought to be minimized. … Perhaps a better rule is that we want to test a single concept in each test function.&rdquo; &ndash; Clean Code</li>
+<li>should I worry about the unexpected? | monkey island <a href="https://monkeyisland.pl/2008/07/12/should-i-worry-about-the-unexpected/">https://monkeyisland.pl/2008/07/12/should-i-worry-about-the-unexpected/</a> 提到 &ldquo;I really want to have small, separate test methods that are focused around behavior&rdquo; 及 &ldquo;small&amp;focused test methods&rdquo;</li>
+<li>
+<p>F.I.R.S.T Principles of Unit Testing · ghsukumar/SFDC_Best_Practices Wiki <a href="https://github.com/ghsukumar/SFDC_Best_Practices/wiki/F.I.R.S.T-Principles-of-Unit-Testing">https://github.com/ghsukumar/SFDC_Best_Practices/wiki/F.I.R.S.T-Principles-of-Unit-Testing</a> 在 Isolated/Independent 提到 &ldquo;typically there should be only a single logical assert. A logical assert could have multiple physical asserts as long as all the asserts test the state of a single object.&rdquo; 這裡 &ldquo;a single logical assert = multiple physical asserts&rdquo; 的說法很不錯。</p>
+</li>
+<li>
+<p>One Assertion Per Test (2004-02-23) <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=35578">http://www.artima.com/weblogs/viewpost.jsp?thread=35578</a> #ril</p>
+</li>
+<li>忘了在哪裡寫下 &ldquo;focused&rdquo; 比 &ldquo;single assertion&rdquo; 更重要??<ul>
+<li>幾個相關的 state 要一起驗證才對，例如 <code>select(item)</code> 後，<code>isSelected(item)</code> 跟 <code>getSelectedCount()</code> 都會跟著起變化。</li>
+</ul>
+</li>
+<li>Google Testing Blog: Testing on the Toilet: Writing Descriptive Test Names <a href="https://testing.googleblog.com/2014/10/testing-on-toilet-writing-descriptive.html">https://testing.googleblog.com/2014/10/testing-on-toilet-writing-descriptive.html</a> 一開始的範例就用了 3 個 assertion，與其說是 single assertion，倒不如說是 single behavior?? &ldquo;By giving tests more explicit names, it forces you to split up testing different behaviors into separate tests&rdquo;</li>
+<li>Programmatically Speaking – One assertion per test, please (2015-07-25) <a href="http://programmaticallyspeaking.com/one-assertion-per-test-please.html">http://programmaticallyspeaking.com/one-assertion-per-test-please.html</a> #ril</li>
+<li><a href="https://www.youtube.com/watch?v=DJDBl0vURD4">Testing made sweet with a Mockito by Jeroen Mols - YouTube</a> It is better to have a simple test that works than a complicated test that seems to work. (在 <a href="https://static.javadoc.io/org.mockito/mockito-core/2.2.7/org/mockito/ArgumentMatcher.html">Javadoc</a> 裡)，呼應 conclusion 裡的 &ldquo;keep unit tests small and focused&rdquo;，要跟 production code 視為一樣重要，否則之後會咬你一口</li>
+</ul>
+<h2 id="overspecified-over-specification">Overspecified (Over Specification)<a class="headerlink" href="#overspecified-over-specification" title="Permanent link"> #</a></h2>
+<ul>
+<li>Overspecified 跟 fragile 常常同時被提起，意思是稍微修改內部實作 (次數、順序)，就會造成 unit test 失敗<ul>
+<li>覺得次數不做精確的檢查有點奇怪?? 不過順序倒是有許多情況下不用做檢查。</li>
+<li>Fragile Test at XUnitPatterns.com <a href="http://xunitpatterns.com/Fragile%20Test.html">http://xunitpatterns.com/Fragile%20Test.html</a> 當我們不視為有 change 但卻會導致 test 失敗時，表示我們遇到了 fragile test #ril</li>
+</ul>
+</li>
+<li>覺得用在 listener/callback 只有觸發某種狀況的檢查，<code>verifyNoMoreInteractions(mocks...)</code> 還滿重要的??<ul>
+<li>guava/FutureCallbackTest.java at master · google/guava <a href="https://github.com/google/guava/blob/master/guava-tests/test/com/google/common/util/concurrent/FutureCallbackTest.java">https://github.com/google/guava/blob/master/guava-tests/test/com/google/common/util/concurrent/FutureCallbackTest.java</a> 就是用在 callback 上</li>
+</ul>
+</li>
+<li>should I worry about the unexpected? | monkey island (2008-07-12) <a href="https://monkeyisland.pl/2008/07/12/should-i-worry-about-the-unexpected/">https://monkeyisland.pl/2008/07/12/should-i-worry-about-the-unexpected/</a> 找不到 worry about the unexpected 跟 test quality 有關的證明，所以就是要視情況 &ldquo;write extra defensive tests only when it’s relevant&rdquo;，這也就是為什麼 Mockito 預設不會檢查 unexpected interaction，要明確呼叫 <code>verifyZeroInteractions()</code> 或 <code>verifyNoMoreInteractions()</code>；最後作者與 Tom De Wolf 的討論極為重要，雙方都同意理想上 <code>verifyNoMoreInteractions()</code> 應該只檢查 tell method，但實作上有困難，言下之意是，對 tell method 做 unexpected interaction 的檢查是沒問題的，有問題的點是對 ask method 做這件事，其間引出了 is there a difference between asking and telling? | monkey island <a href="https://monkeyisland.pl/2008/04/26/asking-and-telling/">https://monkeyisland.pl/2008/04/26/asking-and-telling/</a> 這份文件</li>
+<li>AimiaMobile/unit-testing-guidelines: Unit testing best practices <a href="https://github.com/AimiaMobile/unit-testing-guidelines#mocks-vs-stubs">https://github.com/AimiaMobile/unit-testing-guidelines#mocks-vs-stubs</a> #ril</li>
+<li>is there a difference between asking and telling? | monkey island (2008-04-26) <a href="https://monkeyisland.pl/2008/04/26/asking-and-telling/">https://monkeyisland.pl/2008/04/26/asking-and-telling/</a> #ril</li>
+<li>
+<p>Better support of strict mocks · Issue #649 · mockito/mockito <a href="https://github.com/mockito/mockito/issues/649">https://github.com/mockito/mockito/issues/649</a> #ril</p>
+</li>
+<li>
+<p>AimiaMobile/unit-testing-guidelines: Unit testing best practices <a href="https://github.com/AimiaMobile/unit-testing-guidelines">https://github.com/AimiaMobile/unit-testing-guidelines</a> 一些如何避開 over specification 的 guideline #ril</p>
+</li>
+<li><a href="http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html">http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html</a> Mockito API 8. Finding redundant invocations 提到 <code>verifyNoMoreInteractions()</code> 要小心使用，避免 &ldquo;overspecified, less maintainable tests&rdquo; 的問題；習慣 expect-run-verify 做法的人，很容易過度使用 <code>verifyNoMoreInteractions()</code>；另外 <code>verifyZeroInteractions()</code> 應該也是相同的考量。</li>
+<li>
+<p>EasyMock Tests Are Usually Overspecified <a href="http://frequal.com/java/EasyMockTestOverspecification.html">http://frequal.com/java/EasyMockTestOverspecification.html</a> 因為 EasyMock 會記住 calls 的次數、順序，如果這些都不重要，可能稍微修改實作就會讓測試壞掉。但如何不做這樣的檢查??</p>
+</li>
+<li>
+<p>Testing anti-patterns: Overspecification - jasonrudolph.com <a href="http://jasonrudolph.com/blog/2008/07/01/testing-anti-patterns-overspecification/">http://jasonrudolph.com/blog/2008/07/01/testing-anti-patterns-overspecification/</a> #ril</p>
+</li>
+</ul>
+<h2 id="naming">Naming<a class="headerlink" href="#naming" title="Permanent link"> #</a></h2>
+<ul>
+<li>Naming 很重要，如果可以簡單用幾個單字描述清楚 state under test 與 expected behavior，那麼 test code 就不會驗太多，讓 test case 保持專注 (focused)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><code>unitUnderTest[_Condition[_ExpectedBehavior]]</code> 的命名似乎跟 When-Given-Then 有對應關係??</li>
+<li>Google Testing Blog: Testing on the Toilet: Writing Descriptive Test Names (2014-10-16) <a href="https://testing.googleblog.com/2014/10/testing-on-toilet-writing-descriptive.html">https://testing.googleblog.com/2014/10/testing-on-toilet-writing-descriptive.html</a><ul>
+<li>用什麼 naming pattern 都好，只要包含 scenario 跟 expected outcome 就好，也就是看得出在測試什麼、預期結果。</li>
+<li>沒提到的重點是，scenario 跟 expected outcome 儘可能用 business language 寫，隨著時間過去，從 test name 就能看出 spec。</li>
+</ul>
+</li>
+<li>Building Local Unit Tests | Android Developers <a href="https://developer.android.com/training/testing/unit-testing/local-unit-tests.html">https://developer.android.com/training/testing/unit-testing/local-unit-tests.html</a> - 出現 <code>emailValidator_CorrectEmailSimple_ReturnsTrue()</code>、<code>readStringFromContext_LocalizedString()</code> 之類的用法，基本上是 <code>unitUnderTest[_Condition[_ExpectedBehavior]]</code></li>
+<li>Unit test naming best practices - Stack Overflow (2008-09-30) <a href="http://stackoverflow.com/questions/155436">http://stackoverflow.com/questions/155436</a> 推薦 Roy Osherove 的 naming strategy: <code>[UnitOfWork__StateUnderTest__ExpectedBehavior]</code></li>
+<li>Naming standards for unit tests - Blog - Osherove (2005-04-03) <a href="http://osherove.com/blog/2005/4/3/naming-standards-for-unit-tests.html">http://osherove.com/blog/2005/4/3/naming-standards-for-unit-tests.html</a> #ril</li>
+<li>
+<p>AimiaMobile/unit-testing-guidelines: Unit testing best practices <a href="https://github.com/AimiaMobile/unit-testing-guidelines#unit-test-naming-conventions">https://github.com/AimiaMobile/unit-testing-guidelines#unit-test-naming-conventions</a> 這裡也採用 <code>[Method-Name][StateUnderTest][ExpectedBehaviour]</code></p>
+</li>
+<li>
+<p>Google Testing Blog: TotT: Naming Unit Tests Responsibly (2007-02-01) <a href="https://testing.googleblog.com/2007/02/tott-naming-unit-tests-responsibly.html">https://testing.googleblog.com/2007/02/tott-naming-unit-tests-responsibly.html</a></p>
+</li>
+<li>Writing Clean Tests – Naming Matters (2014-05-11) <a href="https://www.petrikainulainen.net/programming/testing/writing-clean-tests-naming-matters/">https://www.petrikainulainen.net/programming/testing/writing-clean-tests-naming-matters/</a> #ril</li>
+<li>What are some popular naming conventions for Unit Tests? - Stack Overflow (2008-09-18) <a href="http://stackoverflow.com/questions/96297/">http://stackoverflow.com/questions/96297/</a></li>
+<li>
+<p>可以一次把所有要測的狀況都列出來，預設 <code>Assert.fail()</code>，之後一個個補上，這樣就不會遺漏。</p>
+</li>
+<li>
+<p><a href="https://github.com/googlesamples/android-architecture/"><code>googlesamples/android-architecture</code></a></p>
+<ul>
+<li><a href="https://github.com/googlesamples/android-architecture/blob/todo-mvp-clean/todoapp/app/src/test/java/com/example/android/architecture/blueprints/todoapp/tasks/TasksPresenterTest.java">https://github.com/googlesamples/android-architecture/blob/todo-mvp-clean/todoapp/app/src/test/java/com/example/android/architecture/blueprints/todoapp/tasks/TasksPresenterTest.java</a> 看到許多 <code>clickOnTask_ShowsDetailUi()</code> 的命名，<code>_</code> 前是動作，<code>_</code> 後是預期結果。</li>
+<li>用來準備 pre-condition 的 method 取做 <code>givenXXX()</code> 也滿不錯的，例如 <code>givenTasksPresenter()</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="new">New<a class="headerlink" href="#new" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>How to Think About the “new” Operator with Respect to Unit Testing (2008-07-08) <a href="http://misko.hevery.com/2008/07/08/how-to-think-about-the-new-operator/">http://misko.hevery.com/2008/07/08/how-to-think-about-the-new-operator/</a> 非 leaf node 要把 object construction 與 application logic 拆開才有辦法做 unit test (value object 不在此限)。</p>
+</li>
+<li>
+<p>Flaw: Constructor does Real Work <a href="http://misko.hevery.com/code-reviewers-guide/flaw-constructor-does-real-work/">http://misko.hevery.com/code-reviewers-guide/flaw-constructor-does-real-work/</a> #ril</p>
+</li>
+<li>Where Have all the “new” Operators Gone? (2008-09-10) <a href="http://misko.hevery.com/2008/09/10/where-have-all-the-new-operators-gone/">http://misko.hevery.com/2008/09/10/where-have-all-the-new-operators-gone/</a> #ril</li>
+<li>My main() Method Is Better Than Yours (2008-08-29) <a href="http://misko.hevery.com/2008/08/29/my-main-method-is-better-than-yours/">http://misko.hevery.com/2008/08/29/my-main-method-is-better-than-yours/</a> #ril</li>
+<li>Collaborator vs. the Factory (2009-03-30) <a href="http://misko.hevery.com/2009/03/30/collaborator-vs-the-factory/">http://misko.hevery.com/2009/03/30/collaborator-vs-the-factory/</a> #ril</li>
+<li>Lazy loading 好像也有問題，因為會在 class under test 裡面做 new 的動作??</li>
+</ul>
+<h2 id="singleton">Singleton<a class="headerlink" href="#singleton" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/">http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/</a> 提到 singleton 分為 GoF single 與 application singleton，前者透過 static instance field 來強制達成整個 JVM 裡就只能有一個 instance，但後者單指整個 application 裡只有一個 instance，它本身並沒有強制 singletonness。或許 JVM Global State 與 Application Shared State 這說法更容易識別。</li>
+<li>是 singleton 就算了，但全是 static method 的 class 又該怎麼看待?? 似乎比 singleton 更難處理&hellip; =&gt; utility class 也是 anti pattern</li>
+<li>Golbal state 跟 singleton 的關係?? =&gt; 其實我們要的是 application shared state，而非 JVM global state<ul>
+<li>從 <a href="http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/">http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/</a> 的 warning signs 看來，singleton 只是 global state 的一種，因為 global state 還有 static field/method、static initialization 等；或許 static global state 的說法會更為精確??</li>
+<li><a href="http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/">http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/</a> 裡的 &ldquo;A Singleton is Global State in Sheep’s Clothing&rdquo; 這個標題很傳神!!</li>
+</ul>
+</li>
+<li>
+<p>Flaw: Brittle Global State &amp; Singletons <a href="http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/">http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/</a> 提到好多東西!! &ldquo;Spooky Action at a distance&rdquo;、無法達到 test isolation (也就無法 parallel testing)、static state 是一種 &ldquo;秘密通道&rdquo; 要看過每一行 code 才能察覺，而 singleton 間接產生了 global state，是披著羊皮的狼，說明了 &ldquo;JVM Global State&rdquo; 與 &ldquo;Application Shared State&rdquo; 的差異 #ril</p>
+</li>
+<li>
+<p>Clean Code Talks – Global State and Singletons (2008-09-13) <a href="http://misko.hevery.com/2008/11/21/clean-code-talks-global-state-and-singletons/">http://misko.hevery.com/2008/11/21/clean-code-talks-global-state-and-singletons/</a> #ril</p>
+</li>
+<li>Why Singletons Are Controversial <a href="https://code.google.com/archive/p/google-singleton-detector/wikis/WhySingletonsAreControversial.wiki">https://code.google.com/archive/p/google-singleton-detector/wikis/WhySingletonsAreControversial.wiki</a> #ril</li>
+<li>Root Cause of Singletons (2008-08-25) <a href="http://misko.hevery.com/2008/08/25/root-cause-of-singletons/">http://misko.hevery.com/2008/08/25/root-cause-of-singletons/</a> #ril</li>
+<li>Where Have All the Singletons Gone? (2008-08-21) <a href="http://misko.hevery.com/2008/08/21/where-have-all-the-singletons-gone/">http://misko.hevery.com/2008/08/21/where-have-all-the-singletons-gone/</a> #ril</li>
+<li>Singletons are Pathological Liars (2008-08-17) <a href="http://misko.hevery.com/2008/08/17/singletons-are-pathological-liars/">http://misko.hevery.com/2008/08/17/singletons-are-pathological-liars/</a> #ril</li>
+<li>Flaw: Constructor does Real Work <a href="http://misko.hevery.com/code-reviewers-guide/flaw-constructor-does-real-work/">http://misko.hevery.com/code-reviewers-guide/flaw-constructor-does-real-work/</a> 原來在 constructor 裡做太多也會出事 #ril</li>
+</ul>
+<h2 id="public-fields">Public fields<a class="headerlink" href="#public-fields" title="Permanent link"> #</a></h2>
+<ul>
+<li>Public fields 在測試上似乎也會形成阻礙?? 至少 mocking framework 無法 verify 對 field 的存取?? 但似乎很少人在談論這個?</li>
+</ul>
+<h2 id="private-method">Private Method<a class="headerlink" href="#private-method" title="Permanent link"> #</a></h2>
+<h2 id="static-method">Static Method<a class="headerlink" href="#static-method" title="Permanent link"> #</a></h2>
+<ul>
+<li>如果 3<sup>rd</sup> party lib 只有 static method 可用，怎麼辦? =&gt; 按照 &ldquo;Don&rsquo;t mock types you don&rsquo;t own&rdquo; 的原則，為它提供一層 wrapper；不過這跟是否為 static 沒有直接關係，而是處理 3<sup>rd</sup> party dependency 的通用方式。在 <a href="http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/">http://misko.hevery.com/code-reviewers-guide/flaw-brittle-global-state-singletons/</a> 也提到 &ldquo;If you’re stuck with a library class’ static methods, wrap it &hellip;&rdquo;</li>
+<li>Legacy code 很容易有 static method，如果要全改成 instance method，工程會太大<ul>
+<li>以 Mockito + PowerMock 來說，一開始會覺得可以處理掉 static method dependency 很好用，但其實只是 &ldquo;緩兵之計&rdquo;，因為當你要測試 static method 所在的 class 時，還是會再遇到它自己的 dependency 要 mock 的問題&hellip;</li>
+</ul>
+</li>
+<li>感覺 static method 也沒那麼糟，除非內部有些 dependencies 要在 unit test 時做 mock</li>
+<li>Google Testing Blog: Static Methods are Death to Testability (2008-12-17) <a href="https://testing.googleblog.com/2008/12/static-methods-are-death-to-testability.html">https://testing.googleblog.com/2008/12/static-methods-are-death-to-testability.html</a> - 大體上 &ldquo;leaf methods are ok to be static but other methods should not be&rdquo; 是對的，只擔心某天 leaf method 不再是 leaf 而已；Static method 中尤以 factory methods 最糟，因為內部建立了 object graph。</li>
+<li>FAQ · mockito/mockito Wiki <a href="https://github.com/mockito/mockito/wiki/FAQ#user-content-can-i-mock-static-methods">https://github.com/mockito/mockito/wiki/FAQ#user-content-can-i-mock-static-methods</a> 提到 &ldquo;Mockito prefers object orientation and dependency injection over static, procedural code that is hard to understand &amp; change&rdquo;，如果面對的是 &ldquo;scary legacy code&rdquo;，請用 JMockit 或 PowerMock；但 static method 跟 procedural code 有關係??</li>
+</ul>
+<h3 id="legacy-code-static-method-instance-method">Legacy code 很容易有 static method，如果要全改成 instance method，工程會太大??<a class="headerlink" href="#legacy-code-static-method-instance-method" title="Permanent link"> #</a></h3>
+<ul>
+<li>以 Mockito + PowerMock 來說，一開始會覺得可以處理掉 static method dependency 很好用，但其實只是 &ldquo;緩兵之計&rdquo;，因為當你要測試 static method 所在的 class 時，還是會再遇到它自己的 dependency 要 mock 的問題&hellip;</li>
+</ul>
+<h2 id="test-doubles">Test Doubles<a class="headerlink" href="#test-doubles" title="Permanent link"> #</a></h2>
+<ul>
+<li>Mocks And Stubs - Understanding Test Doubles With Mockito | JavaWorld <a href="http://www.javaworld.com/article/2074508/core-java/mocks-and-stubs---understanding-test-doubles-with-mockito.html">http://www.javaworld.com/article/2074508/core-java/mocks-and-stubs---understanding-test-doubles-with-mockito.html</a> (2011-11-25) 說明 test double 不同角色在 Mockito 上的實作 - dummy object、test stub、mock object、test spy</li>
+<li>Testing with Doubles, or why Mocks are Stupid - Part 1 | End of Line Blog (2015-11-10) <a href="http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-1">http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-1</a> #ril</li>
+<li>Testing with Doubles, or why Mocks are Stupid - Part 2 | End of Line Blog (2015-11-30) <a href="http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-2">http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-2</a> #ril</li>
+<li>Testing with Doubles, or why Mocks are Stupid - Part 3 | End of Line Blog (2015-12-30) <a href="http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-3">http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-3</a> #ril</li>
+<li>Testing with Doubles, or why Mocks are Stupid - Part 4 | End of Line Blog (2016-01-16) <a href="http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-4">http://endoflineblog.com/testing-with-doubles-or-why-mocks-are-stupid-part-4</a> #ril</li>
+<li>Test Double at XUnitPatterns.com <a href="http://xunitpatterns.com/Test%20Double.html">http://xunitpatterns.com/Test%20Double.html</a> #ril</li>
+<li>Test Double · testdouble/contributing-tests Wiki <a href="https://github.com/testdouble/contributing-tests/wiki/Test-Double">https://github.com/testdouble/contributing-tests/wiki/Test-Double</a> #ril</li>
+</ul>
+<h2 id="stubbing">Stubbing<a class="headerlink" href="#stubbing" title="Permanent link"> #</a></h2>
+<ul>
+<li>Mocks Aren&rsquo;t Stubs (2007-01-02) <a href="https://martinfowler.com/articles/mocksArentStubs.html">https://martinfowler.com/articles/mocksArentStubs.html</a> #ril</li>
+<li>AimiaMobile/unit-testing-guidelines: Unit testing best practices <a href="https://github.com/AimiaMobile/unit-testing-guidelines#mocks-vs-stubs">https://github.com/AimiaMobile/unit-testing-guidelines#mocks-vs-stubs</a> 提到 &ldquo;Mocks are used for interaction testing&rdquo; 與 &ldquo;a stub can never fail a test&rdquo; 的概念 #ril</li>
+</ul>
+<h2 id="dont-mock-type-you-dont-own">Don&rsquo;t mock type you don&rsquo;t own!<a class="headerlink" href="#dont-mock-type-you-dont-own" title="Permanent link"> #</a></h2>
+<ul>
+<li>Don&rsquo;t mock type you don&rsquo;t own! - How to write good tests · mockito/mockito Wiki <a href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-type-you-dont-own">https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-type-you-dont-own</a> - 對 3<sup>rd</sup> party lib 做 mocking/stubbing，換版時 unit test 過了，但實際上會爆。這通常意謂著沒有對 3<sup>rd</sup> party lib 做 loose decoupling，將 3<sup>rd</sup> party lib 的使用集中到少數 wrapper 裡，再對 wrapper 做 integration test - 搭配真正的 3<sup>rd</sup> party lib，若涉及 database 或 networking，就是 in-memory database、mock web server 這類 fake object 上場的時候。</li>
+<li>Don&rsquo;t mock what you don&rsquo;t own · testdouble/contributing-tests Wiki <a href="https://github.com/testdouble/contributing-tests/wiki/Don't-mock-what-you-don't-own">https://github.com/testdouble/contributing-tests/wiki/Don't-mock-what-you-don't-own</a> 使用 test double 的心態是要傾聽 &ldquo;design feedback&rdquo; 並根據它調整 design，若硬是對 3<sup>rd</sup> party dependency 做 mocking，會掉入 application logic 跟 3<sup>rd</sup> party lib 綁得太緊的問題。</li>
+<li>TDD: Only mock types you own - Mark Needham at Mark Needham (2009-12-13) <a href="http://www.markhneedham.com/blog/2009/12/13/tdd-only-mock-types-you-own/">http://www.markhneedham.com/blog/2009/12/13/tdd-only-mock-types-you-own/</a> 對 3<sup>rd</sup> party lib 做 mocking，就是在檢查 &ldquo;the WAY that the library achieves that result&rdquo;，而 integration test 則是在檢查 &ldquo;the result that we get from using the library&rdquo;，後者才是最怕出錯的地方，就算 lib 不換版，平台也會隨著時間演進，可能原版本在新平台上會有問題&hellip;</li>
+<li>
+<p>對 3<sup>rd</sup> party lib 提供另一層 wrapper，以 Java SDK 為例，提出 <code>JavaUtil.java</code> 是一個例子，可以提供 <code>JavaUtil.currentTimeMillis()</code> 之類的 method，這樣關於時間的測試就會比較好進行。 </p>
+</li>
+<li>
+<p>Don&rsquo;t mock types you don&rsquo;t own - dave^2 = -1 (2011-04-28) <a href="http://www.davesquared.net/2011/04/dont-mock-types-you-dont-own.html">http://www.davesquared.net/2011/04/dont-mock-types-you-dont-own.html</a> #ril</p>
+</li>
+<li>That&rsquo;s Not Yours | 8<sup>th</sup> Light (2011-10-27) <a href="https://8thlight.com/blog/eric-smith/2011/10/27/thats-not-yours.html">https://8thlight.com/blog/eric-smith/2011/10/27/thats-not-yours.html</a> #ril</li>
+<li>mocking - Should you only mock types you own? - Stack Overflow (2009-12-15) <a href="http://stackoverflow.com/questions/1906344/">http://stackoverflow.com/questions/1906344/</a> #ril</li>
+<li>testdouble.js/2-howto-purpose.md at master · testdouble/testdouble.js <a href="https://github.com/testdouble/testdouble.js/blob/master/docs/2-howto-purpose.md">https://github.com/testdouble/testdouble.js/blob/master/docs/2-howto-purpose.md</a> #ril</li>
+</ul>
+<h2 id="dont-mock-value-objects">Don&rsquo;t mock value objects<a class="headerlink" href="#dont-mock-value-objects" title="Permanent link"> #</a></h2>
+<ul>
+<li>很有趣的是，value object 通常沒有 interface，是否也是一個不適合做 mocking 的根據??</li>
+<li>&ldquo;Don&rsquo;t mock value objects&rdquo; 適用 <a href="http://www.javaworld.com/article/2074508/core-java/mocks-and-stubs---understanding-test-doubles-with-mockito.html">http://www.javaworld.com/article/2074508/core-java/mocks-and-stubs---understanding-test-doubles-with-mockito.html</a> 這裡講到的 dummy object 嗎?? =&gt; 個人覺得 dummy object 是個例外，如果沒有任何 interaction 的話</li>
+<li>Don&rsquo;t mock value objects - How to write good tests · mockito/mockito Wiki <a href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-value-objects">https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-value-objects</a> 不好建立 test fixtures 不是藉口，可以建立 factory methods 讓 test code 維持 compact &amp; readable。</li>
+<li>To “new” or not to “new”… (2008-09-30) <a href="http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/">http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/</a> 提到 newable 位處 object graph 的末端 (leaf)，只要沒有跟 external service (injectable) 互動，就不需做 mock。Nothing behaves more like a <code>String</code> like than a <code>String</code> &hellip; 這句話說得真好!! (所謂 injectable 就是想要換成假的，所以 injectable 與否跟 mocking 是很有關係的)</li>
+</ul>
+<h2 id="test-code-production-code">不要將 test code 混入 production code<a class="headerlink" href="#test-code-production-code" title="Permanent link"> #</a></h2>
+<ul>
+<li>Don&rsquo;t mix test code with production code | 8<sup>th</sup> Light (2014-12-19) <a href="https://8thlight.com/blog/dariusz-pasciak/2014/12/19/dont-mix-test-code-with-production-code.html">https://8thlight.com/blog/dariusz-pasciak/2014/12/19/dont-mix-test-code-with-production-code.html</a> #ril</li>
+<li>c# - Is it bad to add code just for unit testing? - Stack Overflow (2010-09-02) <a href="http://stackoverflow.com/questions/3629562/is-it-bad-to-add-code-just-for-unit-testing">http://stackoverflow.com/questions/3629562/is-it-bad-to-add-code-just-for-unit-testing</a> Jeff Sternal 提到專用於 unit test 的 code 通常帶有 design flaw #ril</li>
+<li>c# - Is it a bad practice to modify code strictly for testing purposes - Software Engineering Stack Exchange (2013-05-22) <a href="http://softwareengineering.stackexchange.com/questions/199090/is-it-a-bad-practice-to-modify-code-strictly-for-testing-purposes">http://softwareengineering.stackexchange.com/questions/199090/is-it-a-bad-practice-to-modify-code-strictly-for-testing-purposes</a> #ril</li>
+</ul>
+<h2 id="verification-assertion">Verification / Assertion 驗證<a class="headerlink" href="#verification-assertion" title="Permanent link"> #</a></h2>
+<h3 id="data-class-field-property">如何驗證 data class 只有特定的 field / property 被異動??<a class="headerlink" href="#data-class-field-property" title="Permanent link"> #</a></h3>
+<ul>
+<li>如果是要驗證某個 method 有被呼叫，Mockito 可以用 <code>verify(mock, only()).method()</code>，但 fields 怎麼檢查?</li>
+<li>java - How do I assert equality on two classes without an equals method? - Stack Overflow <a href="http://stackoverflow.com/questions/12147297/">http://stackoverflow.com/questions/12147297/</a> 若 class 沒有實作 <code>equals()</code>，要怎麼驗 equality? 多個 assert 逐 field / property 驗證會有失敗時看不到 &ldquo;full equality picture&rdquo; 的問題 #ril</li>
+<li>ArgumentMatchers (Mockito 2.7.22 API) <a href="https://static.javadoc.io/org.mockito/mockito-core/2.7.22/org/mockito/ArgumentMatchers.html#refEq(T,%20java.lang.String">https://static.javadoc.io/org.mockito/mockito-core/2.7.22/org/mockito/ArgumentMatchers.html#refEq(T,%20java.lang.String</a>&hellip;) <code>Mockito.refEq()</code></li>
+<li>Reflection Assert - Unitils <a href="http://www.unitils.org/tutorial-reflectionassert.html">http://www.unitils.org/tutorial-reflectionassert.html</a> 似乎專門在處理這些事&hellip; #ril</li>
+<li>Is there a Java reflection utility to do a deep comparison of two objects? - Stack Overflow <a href="http://stackoverflow.com/questions/1449001/">http://stackoverflow.com/questions/1449001/</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

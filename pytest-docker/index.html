@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pytest-docker/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pytest / Docker - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pytest-docker.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pytest-docker">pytest / Docker</a></li>
+            <li class="second-level"><a href="#container">測試過程中自動啟動/刪除 Container??</a></li>
+                
+            <li class="second-level"><a href="#docker-image">檢驗包裝出來的 Docker Image??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pytest-docker"><a href="../pytest/">pytest</a> / Docker<a class="headerlink" href="#pytest-docker" title="Permanent link"> #</a></h1>
+<h2 id="container">測試過程中自動啟動/刪除 Container??<a class="headerlink" href="#container" title="Permanent link"> #</a></h2>
+<ul>
+<li>CI 的 build script 在測試前後自動啟動/刪除 container 是可行，但測試本身就不會 self-contained，</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/AndreLouisCaron/pytest-docker">AndreLouisCaron/pytest-docker: Docker-based integration tests</a> 方便寫涉及 Docker containers 的 integration test &ndash; 利用 Docker Compose 在測試期間啟動/停止 containers #ril</li>
+<li><a href="https://stdout.roman.zone/jenkins-docker-python">Testing Python in Docker containers with Jenkins - stdout - Roman Tsukanov</a> #ril</li>
+<li><a href="https://stdout.roman.zone/jenkins-docker-python">Testing Python in Docker containers with Jenkins - stdout - Roman Tsukanov</a> (2016-10-24) 讓測試 (pytest) 執行在 container 裡，但整個測試前後利用 script 啟動/停止 container，測試完再從 container 裡取出 test result #ril</li>
+</ul>
+<h2 id="docker-image">檢驗包裝出來的 Docker Image??<a class="headerlink" href="#docker-image" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/nvbn/pytest-docker-pexpect">nvbn/pytest-docker-pexpect: pytest plugin for writing functional tests with pexpect and docker</a> 提供 <code>spawnu</code> fixture，用以執行 <code>spawnu(tag, dockerfile, command)</code> 並拿到 child application，感覺測試對象是 image 而非 application? #ril</li>
+<li><a href="https://nvbn.github.io/2015/09/09/pytest-docker/">py.test plugin for functional testing with Docker | nvbn blog</a> (2015-09-09) 作者說明 <code>pytest-docker-pexpect</code> plugin 的用法 #ril</li>
+<li><a href="http://testinfra.readthedocs.io/en/latest/examples.html#test-docker-images">Test Docker images - Examples — testinfra 1.10.0 documentation</a> <code>testinfra.get_host("docker://" + docker_id)</code> 可以直接連到 container，<code>host.check_output('myapp -v')</code> 就能檢查執行 command 的結果 #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

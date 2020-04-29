@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/c-random/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>C / Random - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/c-random.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#c-random">C / Random</a></li>
+            <li class="second-level"><a href="#seed">Seed ??</a></li>
+                
+            <li class="second-level"><a href="#rand-7">為什麼第一次 rand() 的結果總能被 7 整除 ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="c-random"><a href="../c/">C</a> / Random<a class="headerlink" href="#c-random" title="Permanent link"> #</a></h1>
+<h2 id="seed">Seed ??<a class="headerlink" href="#seed" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/7343833/">c - srand() — why call it only once? - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>Lipika Deka: This question is about a comment in this question <a href="https://stackoverflow.com/questions/322938">Recommended way to initialize srand?</a> The first comment says that <code>srand()</code> should be called only ONCE in an application. Why is it so?</p>
+</li>
+<li>
+<p>Kornelije Petak: That depends on what you are trying to achieve.</p>
+<p>Randomization is performed as a function that has a STARTING VALUE, namely the SEED. So, for the SAME SEED, you will always get the SAME SEQUENCE OF VALUES. If you try to set the seed every time you need a random value, and the seed is the same number, you will always get the same &ldquo;random&rdquo; value.</p>
+<p>Seed is usually taken from the CURRENT TIME, which are the SECONDS, as in <code>time(NULL)</code>, so if you always set the seed before taking the random number, you will get the same number as long as you call the <code>srand</code>/<code>rand</code> combo multiple times IN THE SAME SECOND.</p>
+<p>To avoid this problem, <code>srand</code> is set only ONCE PER APPLICATION, because it is doubtful that two of the application instances will be initialized in the same second, so each instance will then have a different sequence of random numbers.</p>
+<p>However, there is a slight possibility that you will run your app (especially if it&rsquo;s a short one, or a command line tool or something like that) many times in a second, then you will have to resort to some other way of choosing a seed (unless the same sequence in different application instances is ok by you). But like I said, that depends on your application context of usage.</p>
+<p>Also, you may want to try to increase the precision to MICROSECONDS (minimizing the chance of the same seed), requires (<code>sys/time.h</code>):</p>
+<pre><code>struct timeval t1;
+gettimeofday(&amp;t1, NULL);
+srand(t1.tv_usec * t1.tv_sec);
+</code></pre>
+</li>
+<li>
+<p>achoora: A simpler solution for using <code>srand()</code> for generating different seeds for application instances run at the same second is as seen.</p>
+<pre><code>srand(time(NULL)-getpid());
+</code></pre>
+<p>This method makes your seed very close to random as there is no way to guess at what time your thread started and the pid will be different also.</p>
+<p>利用瞬間兩個 process 的 ID 不會重複的特性。</p>
+</li>
+<li>
+<p>Steve Summit: Short answer: calling <code>srand()</code> is not like &ldquo;rolling the dice&rdquo; for the random number generator. Nor is it like shuffling a deck of cards. If anything, it&rsquo;s more like just CUTTING A DECK OF CARDS.</p>
+<p>Think of it like this. <code>rand()</code> deals from a big deck of cards, and every time you call it, all it does is pick the next card OFF THE TOP OF THE DECK, give you the value, and RETURN THAT CARD TO THE BOTTOM OF THE DECK. (Yes, that means the &ldquo;random&rdquo; sequence will REPEAT AFTER A WHILE. It&rsquo;s a very big deck, though: typically 4,294,967,296 cards.)</p>
+<p>很特別的觀點 &ndash; 是拿全新的牌來切。</p>
+<p>Furthermore, every time your program runs, a BRAND-NEW PACK OF CARDS is bought from the game shop, and every brand-new pack of cards always has the same sequence. So unless you do something special, every time your program runs, it will get exactly the same &ldquo;random&rdquo; numbers back from <code>rand()</code>.</p>
+<p>Now, you might say, &ldquo;Okay, so how do I shuffle the deck?&rdquo; And the answer is (at least as far as <code>rand</code> and <code>srand</code> are concerned), THERE ISN&rsquo;T A WAY OF SHUFFLING THE DECK.</p>
+<p>So what does <code>srand</code> do? Based on the analogy I&rsquo;ve been building here, calling <code>srand(n)</code> is basically like saying, &ldquo;CUT THE DECK N CARDS FROM THE TOP&rdquo;. But wait, one more thing: it&rsquo;s actually take another BRAND-NEW DECK and cut it n cards from the top.</p>
+<p>So if you call <code>srand(n)</code>, <code>rand()</code>, <code>srand(n)</code>, <code>rand()</code>, &hellip;, with the same <code>n</code> every time, you won&rsquo;t just get a not-very-random sequence, you&rsquo;ll actually get the same number back from <code>rand()</code> every time. (Not necessarily the same number you handed to srand, but the same number back from rand over and over.)</p>
+<p>So the best you can do is to CUT THE DECK ONCE, that is, call <code>srand()</code> once, at the beginning of your program, with an <code>n</code> that&rsquo;s REASONABLY RANDOM, so that you&rsquo;ll start at a different random place in the big deck each time your program runs.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/16569239/">c - How to use function srand() with time.h? - Stack Overflow</a> #ril</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/322938/">c++ - Recommended way to initialize srand? - Stack Overflow</a> #ril</p>
+</li>
+</ul>
+<h2 id="rand-7">為什麼第一次 <code>rand()</code> 的結果總能被 7 整除 ??<a class="headerlink" href="#rand-7" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/7866754/">objective c - Why does rand() % 7 always return 0? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>0xdead10cc: This seems to be a really strange issue: This is my code:</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+int main (int argc, const char * argv[])
+{
+    @autoreleasepool {
+        srand((unsigned int)time(NULL));
+        int newRandomNumber = 0;
+        newRandomNumber = rand() % 7;
+        NSLog(@"%d", rand() % 7); //This prints out what I expected
+        NSLog(@"newRandomNumber = %d", newRandomNumber); // This always prints out 0!
+    }
+    return 0;
+}
+</code></pre>
+<p>If I replace that one line that says <code>newRandomNumber = rand() % 7</code> with <code>newRandomNumber = rand() % 8</code> everything works perfectly. Why is that the case?</p>
+</li>
+<li>
+<p>Grady Player: It seems unlikely but running some tests, after an <code>srand</code> the first <code>rand</code> seems always to be divisible by 7, at least in an <code>int</code> sized variable.</p>
+<p>On several runs I got 1303562743, 2119476443, and 2120232758, all of which mod 7 to 0.</p>
+<p>The second <code>rand()</code> works, because it is the second <code>rand()</code>. THROW a <code>rand()</code> before your first <code>rand()</code>&hellip; or better yet, use a better random number generator <code>random</code> or <code>arc4rand</code> if available.</p>
+<p>Also see Stack Overflow question <a href="https://stackoverflow.com/questions/2129705">Why is (rand() % anything) always 0 in C++?</a>.</p>
+</li>
+<li>
+<p>georg: Well, this</p>
+<pre><code>int seed;
+for(seed = 1; seed &lt; 10; seed++) {
+    srand(seed);
+    printf("%4d %16d\n", seed, rand());
+}
+</code></pre>
+<p>prints</p>
+<pre><code>   1            16807
+   2            33614
+   3            50421
+   4            67228
+   5            84035
+   6           100842
+   7           117649
+   8           134456
+   9           151263
+</code></pre>
+<p>which makes me think that <code>rand()</code> = seed * 16807</p>
+<p>Wikipedia article <a href="https://en.wikipedia.org/wiki/Linear_congruential_generator">Linear congruential generator</a> confirms that CarbonLib indeed uses Xn+1 = Xn * 16807 to generate random numbers.</p>
+<p>Apple CarbonLib, C++11&rsquo;s minstd_rand0 的 multiplier a 是 16807，所以這個問題只有 macOS 上有 ??</p>
+<p>在 macOS 上試過，確實是如此：</p>
+<pre><code>$ cat rand.c
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main() {
+  int seed;
+  for(seed = 1; seed &lt; 10; seed++) {
+      srand(seed);
+      printf("%4d %16d\n", seed, rand());
+  }
+
+  return 0;
+}
+
+$ make rand &amp;&amp; ./rand
+cc     rand.c   -o rand
+   1            16807
+   2            33614
+   3            50421
+   4            67228
+   5            84035
+   6           100842
+   7           117649
+   8           134456
+   9           151263
+
+$ ls -l `which cc`
+lrwxr-xr-x  1 root  wheel  5 Mar 30 15:28 /usr/bin/cc -&gt; clang
+</code></pre>
+<p>在 Ubuntu 上也有類似的情況 &ndash; 第一次 <code>rand()</code> 的結果固定，只是數字不同而已：</p>
+<pre><code>$ make rand &amp;&amp; ./rand
+cc     rand.c   -o rand
+   1       1804289383
+   2       1505335290
+   3       1205554746
+   4       1968078301
+   5        590011675
+   6        290852541
+   7       1045618677
+   8        757547896
+   9        444454915
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/2129705/">random - Why is (rand() % anything) always 0 in C++? - Stack Overflow</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

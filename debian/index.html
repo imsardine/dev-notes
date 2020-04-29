@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/debian/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Debian - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/debian.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#debian">Debian</a></li>
+            <li class="second-level"><a href="#release-life-cycle">Release, Life Cycle ??</a></li>
+                
+            <li class="second-level"><a href="#locale">Locale ??</a></li>
+                
+            <li class="second-level"><a href="#package">Package ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#virtualbox">VirtualBox ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="debian">Debian<a class="headerlink" href="#debian" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.debian.org/">Debian -- The Universal Operating System</a></p>
+<ul>
+<li>Debian is a free operating system (OS) for your computer. An operating system is the set of basic programs and utilities that make your computer run.</li>
+<li>Debian provides more than a pure OS: it comes with over 51000 PACKAGES, precompiled software bundled up in a nice format for easy installation on your machine.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.debian.org/intro/about">Debian -- About Debian</a> #ril</p>
+</li>
+</ul>
+<h2 id="release-life-cycle">Release, Life Cycle ??<a class="headerlink" href="#release-life-cycle" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.debian.org/releases/">Debian -- Debian Releases</a> #ril</li>
+<li><a href="https://wiki.debian.org/DebianReleases">DebianReleases - Debian Wiki</a> #ril</li>
+</ul>
+<h2 id="locale">Locale ??<a class="headerlink" href="#locale" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://wiki.debian.org/Locale">Locale - Debian Wiki</a></p>
+<ul>
+<li>
+<p>Programs that support LOCAL TECHNOLOGY use ENVIRONMENT VARIABLES to determine the CONVENTIONS to use for date and time formatting, character display, currency display and CODEPAGE selection.</p>
+</li>
+<li>
+<p>The following environment variables affect locale related behaviour of the system:</p>
+<p>原始為只規範數字、日期時間、金額，沒想到連紙張大小、電話號碼都有。</p>
+<ul>
+<li><code>LANG</code> - Determines the DEFAULT LOCALE in the absence of other locale related environment variables</li>
+<li><code>LANGUAGE</code> - List of FALLBACK message translation languages (GNU only) ??</li>
+<li>
+<p><code>LC_ADDRESS</code> - Convention used for formatting of street or postal addresses</p>
+</li>
+<li>
+<p><code>LC_ALL</code> - OVERRIDES all other locale variables (except <code>LANGUAGE</code>)</p>
+<p>Using <code>LC_ALL</code> is STRONGLY DISCOURAGED as it overrides everything. Please use it only when TESTING and never set it in a STARTUP FILE.</p>
+</li>
+<li>
+<p><code>LC_COLLATE</code> - Collation order</p>
+</li>
+<li><code>LC_CTYPE</code> - Character classification and case conversion</li>
+<li><code>LC_MONETARY</code> - Monetary formatting</li>
+<li><code>LC_MEASUREMENT</code> - Default measurement system used within the region</li>
+<li><code>LC_MESSAGES</code> - Format of interactive words and responses</li>
+<li><code>LC_NUMERIC</code> - Numeric formatting</li>
+<li><code>LC_PAPER</code> - Default paper size for region</li>
+<li><code>LC_RESPONSE</code> - Determines how responses (such as Yes and No) appear in the local language</li>
+<li><code>LC_TELEPHONE</code> - Conventions used for representation of telephone numbers</li>
+<li><code>LC_TIME</code> - Date and time formats</li>
+</ul>
+</li>
+<li>
+<p>Normally how it works is you set <code>LANG</code> to your PREFERRED LOCALE. If there are SPECIFIC ASPECTS of your PRIMARY LOCALE that you don&rsquo;t like (e.g. date formats), then you set the specific variables to override those features only.</p>
+<p>原來正確的用法以 <code>LANG</code> 為大方向，再用 <code>LC_XXX</code> 細部微調。</p>
+<p>End users should never set <code>LC_ALL</code>, at least not permanently. <code>LC_ALL</code> is reserved for programs or situations where you need to ENFORCE a specific locale (usually &ldquo;<code>C</code>&rdquo; ??) on a TEMPORARY BASIS. One example of this would be REPORTING ERROR MESSAGES on an English-speaking mailing list; you can use  <code>LC_ALL=C</code> your command to ensure that the errors are in English, and follow all the POSIX norms.</p>
+</li>
+</ul>
+<p>Standard</p>
+<ul>
+<li>
+<p>Get root and type <code>dpkg-reconfigure locales</code> and select the locale(s) you want to GENERATE. At the end, you&rsquo;ll be asked which one should be the DEFAULT.</p>
+<p>If you have users who access the system through ssh, it is recommended that you choose None as your default locale.</p>
+<p>下面提到，default locale 會覆寫 SSH 提供的 local，對連線的人不方便? 覺得還好，使用者再自訂 local 即可。</p>
+</li>
+<li>
+<p>This changes <code>/etc/default/locale</code> and <code>/etc/locale.gen</code> (in older versions of Debian, also <code>/etc/environment</code>). If you chose a default locale other than None above, it will be in <code>/etc/default/locale</code> and will OVERRIDE the <code>LANG</code> variable supplied by ssh. This is highly inconvenient.</p>
+<pre><code>$ cat /etc/default/locale
+#  File generated by update-locale
+LANG=en_US.UTF-8
+
+$ head /etc/locale.gen
+# This file lists locales that you wish to have built. You can find a list
+# of valid supported locales at /usr/share/i18n/SUPPORTED, and you can add
+# user defined locales to /usr/local/share/i18n/SUPPORTED. If you change
+# this file, you need to rerun locale-gen.
+
+# aa_DJ ISO-8859-1
+# aa_DJ.UTF-8 UTF-8
+# aa_ER UTF-8
+# aa_ER@saaho UTF-8
+</code></pre>
+<p>產生 locale 的工具是 <code>locale-gen</code>，它會讀取 <code>/etc/locale.gen</code> 來決定要產生哪些 locale；至於系統可支援的 locale 有哪些，則要看 <code>/usr/share/i18n/SUPPORTED</code>。</p>
+<pre><code>$ grep -v '^#' /etc/locale.gen
+
+en_US.UTF-8 UTF-8
+lzh_TW UTF-8
+zh_TW.UTF-8 UTF-8
+</code></pre>
+</li>
+<li>
+<p>If you&rsquo;ve upgraded to Lenny from an older version of Debian and have leftover <code>LANG=...</code> content in <code>/etc/environment</code>, you should comment it out (type <code>editor /etc/environment</code> and put a <code>#</code> character in front of the line, and then save it).</p>
+</li>
+</ul>
+<p>Manually</p>
+<ul>
+<li>
+<p>Edit the file <code>/etc/locale.gen</code> and add your locale settings (one set per line), e.g.:</p>
+<pre><code>de_DE.UTF-8 UTF-8
+de_DE ISO-8859-1
+de_DE@euro ISO-8859-15
+</code></pre>
+</li>
+<li>
+<p>The supported locales are listed in <code>/usr/share/i18n/SUPPORTED</code>.</p>
+</li>
+<li>Run the command <code>locale-gen</code></li>
+<li>Run the command <code>locale -a</code> to verify the list of AVAILABLE locales; (也就是 <code>locale-gen</code> 產生，真正可以用的 locales) note that the spellings change.</li>
+<li>If you&rsquo;ve upgraded to Lenny and you have leftover <code>LANG=...</code> content in <code>/etc/environment</code>, you should comment it out.</li>
+<li>To use the new settings with your programs, log out and back in.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://askubuntu.com/questions/801933/">environment variables - What does C in LC_ALL=C mean? - Ask Ubuntu</a></p>
+<ul>
+<li>
+<p>Sergiy Kolodyazhnyy: I know very well that to override locale settings we can use <code>LC_ALL</code> prepended to the command one wants to run. I also know <code>C</code> uses default locale of a system. But what does <code>C</code> stand for ?</p>
+</li>
+<li>
+<p>user4556274: <code>C</code> stands for the C programming language. It is a synonym for the <code>POSIX</code> locale.</p>
+<blockquote>
+<p>The POSIX locale can be specified by assigning to the appropriate environment variables the values &ldquo;C&rdquo; or &ldquo;POSIX&rdquo;.</p>
+<p><a href="http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap07.html#tag_07_02">http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap07.html#tag_07_02</a></p>
+</blockquote>
+<p>原來 <code>POSIX</code> 也是一種 locale，呼應了上面 &ldquo;follow all the POSIX norms&rdquo; 的說法。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="package">Package ??<a class="headerlink" href="#package" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.debian.org/distrib/packages">Debian -- Packages</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<p>直接下載 amd64 的 image (<code>debian-&lt;version&gt;-amd64-netinst.iso</code>) 即可，約 250 MB。例如：</p>
+<pre><code>$ curl -LO https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.8.0-amd64-netinst.iso
+</code></pre>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.debian.org/distrib/">Debian -- Getting Debian</a></p>
+<p>Download an installation image</p>
+<ul>
+<li>
+<p>Depending on your Internet connection, you may download either of the following:</p>
+<ul>
+<li>
+<p>A small installation image: can be downloaded quickly and should be recorded onto a removable disk. To use this, you will need a machine with an Internet connection.</p>
+<p>下載 image 本身很快，但安裝過程中還要從網路下載其他東西。如果網路不慢的話，這會是較好的選擇 &ndash; 只下載需要用到的東西。</p>
+</li>
+<li>
+<p>A larger complete installation image: contains more packages, making it easier to install machines WITHOUT an Internet connection.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Use a Debian cloud image</p>
+<ul>
+<li>An official cloud image: can be used directly on your cloud provider, built by the Debian Cloud Team.</li>
+</ul>
+<p>Try Debian live before installing</p>
+<ul>
+<li>You can try Debian by booting a live system from a CD, DVD or USB key without installing any files to the computer. When you are ready, you can run the included installer. PROVIDED the images meet your size, language, and package selection requirements, this method MAY BE suitable for you. Read more information about this method to help you decide. 預裝某些東西，但不一定符合需求</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.debian.org/distrib/netinst">Installing Debian via the Internet</a></p>
+<ul>
+<li>This method of installing Debian requires a functioning Internet connection during installation. Compared to other methods you end up DOWNLOADING LESS DATA as the process will be TAILORED to your requirements. Ethernet and wireless connections are supported. Internal ISDN cards are unfortunately not supported.</li>
+</ul>
+<p>Small CDs or USB sticks</p>
+<ul>
+<li>The following are image files. Choose your processor architecture below.</li>
+<li>For details, please see: Network install from a minimal CD</li>
+</ul>
+<p>Tiny CDs, flexible USB sticks, etc.</p>
+<ul>
+<li>You can download A COUPLE OF image files of small size, suitable for USB Sticks and similar devices, write them to the media, and then start the installation by booting from that. &hellip;</li>
+</ul>
+<p>Network boot</p>
+<ul>
+<li>
+<p>You set up a TFTP and a DHCP (or BOOTP, or RARP) server which will serve the installation media to machines on your local network. If your client machine&rsquo;s BIOS supports it, you can then boot the Debian installation system from the network (using PXE and TFTP), and proceed with installing the rest of Debian from the network.</p>
+<p>所以 server 上要提供完整的版本?? 因為要安裝的機器只要有連到 intranet 即可，不一定要有 internet?</p>
+</li>
+<li>
+<p>Not all machines support booting from the network. Because of the additional work required, this method for installing Debian is not recommended for novice users.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>記錄幾個安裝 Debian 9.8.0 過程中被問及的問題：</p>
+<ul>
+<li>
+<p>Set up users and passwords 這個步驟要求輸入 root 的密碼，沒有提供的話就不會有 <code>root</code> 使用者。</p>
+<blockquote>
+<p>If you leave this empty, the root account will be disabled and the system initial user account will be given the power to become root using the &ldquo;sudo&rdquo; command.</p>
+</blockquote>
+</li>
+<li>
+<p>Software selection 在安裝 core 完後，可以選擇要再加裝什麼，預選了 Debian desktop environment (但沒有勾選 GNOME 或 KDE 等任何一項)、print server 及 standard system utilities；沒選 GNOME 或 KDE 好像會自動裝 GNOME。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.debian.org/releases/stable/amd64/">64-bit PC (amd64) - Debian GNU/Linux Installation Guide</a> #ril</p>
+</li>
+</ul>
+<h3 id="virtualbox">VirtualBox ??<a class="headerlink" href="#virtualbox" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p>記錄幾個安裝 Debian 9.8.0 過程中被問及的問題：</p>
+<ul>
+<li>
+<p>視窗開全螢幕時，桌面不會跟著改變?</p>
+<p><a href="https://www.youtube.com/watch?v=WgTFow66Yps">Debian 9.8 Installation in Virtualbox + Guest Addition Installation to get full screen - YouTube</a> 先裝 <code>build-essential</code> 及 <code>linux-headers-$(unmae -r)</code> 套件，再用 <code>sudo sh VBoxLinuxAdditions.run</code> 安裝 Guest Additions，重開機就可以成功切換到全螢幕。</p>
+<p>另外發現 VM 設定 Display &gt; Graphics Controller 要維持預設的 VMSVGA 才行；桌面有點頓頓的，改用 Ubuntu 會不會好很多 (有專用的 driver)??</p>
+</li>
+<li>
+<p>裝了 SSH server，但預設的 NAT mode 會連不到? 透過 Network &gt; Advanced &gt; Port Forwarding，例如 Guest 22 &rarr; Host 22。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wiki.debian.org/VirtualBox">VirtualBox - Debian Wiki</a> 為何 Debian 的 wiki 要花時間解釋如何安裝 VirtualBox，而非如何在 VirtualBox 裡安裝 Debian? #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.debian.org/">Debian</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://www.debian.org/doc/">Debian Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://manpages.debian.org/">Debian Manpages</a></li>
+<li><a href="https://www.debian.org/releases/">Debian Releases</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../virtualbox/">VirtualBox</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

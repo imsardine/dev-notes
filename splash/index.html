@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/splash/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Splash - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/splash.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#splash">Splash</a></li>
+            <li class="second-level"><a href="#lua">跟 Lua 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#splash-http-api">Splash HTTP API ??</a></li>
+                
+            <li class="second-level"><a href="#session">Session ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="splash">Splash<a class="headerlink" href="#splash" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://github.com/scrapinghub/splash">scrapinghub/splash: Lightweight, scriptable browser as a service with an HTTP API</a><ul>
+<li>Lightweight, scriptable browser as a service with an HTTP API 雖然是用 Python 3 + Twisted + QT5 實現的 JavaScript rendering service，但對外提供的是 HTTP API。</li>
+<li>要搭配 Scrapy 應用，有 <code>scrapy-splash</code> 可以用。</li>
+</ul>
+</li>
+<li><a href="https://splash.readthedocs.io/en/stable/">Splash - A javascript rendering service — Splash 3.2 documentation</a><ul>
+<li>背後的 browser engine 是 WebKit。</li>
+<li>可以平行處理多個 webpage、取得最後畫出來的 HTML 或 screenshot，也可以將 rendering 的過程記錄成 HAR 格式。</li>
+<li>可以關閉 image 或使用 Adblock Plus rule 加速 rendering。</li>
+<li>可以執行自訂的 JavaScript，也可以執行用 Lua 寫的 browsing script?? (用 Splash-Jupyter Notebook 寫)</li>
+</ul>
+</li>
+</ul>
+<h2 id="lua">跟 Lua 的關係 ??<a class="headerlink" href="#lua" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://splash.readthedocs.io/en/stable/">Splash - A javascript rendering service — Splash 3.2 documentation</a> 提到 browsing script 用 Lua 寫。</li>
+<li><a href="http://splash.readthedocs.io/en/stable/install.html#folders-sharing">Folder Sharing - Installation — Splash 3.2 documentation</a> 提到 Lua modules。</li>
+<li><a href="http://splash.readthedocs.io/en/stable/faq.html#why-does-splash-use-lua-for-scripting-not-python-or-javascript">Why does Splash use Lua for scripting, not Python or JavaScript? - FAQ — Splash 3.2 documentation</a> 答案指向 Issue #117</li>
+<li><a href="https://github.com/scrapinghub/splash/issues/117">Lua scripting support · Issue #117 · scrapinghub/splash</a> #ril</li>
+<li><a href="https://github.com/scrapy-plugins/scrapy-splash/issues/40">Why ScrapyJS has Lua as scripting language and not Python? · Issue #40 · scrapy-plugins/scrapy-splash</a> #ril</li>
+<li><a href="http://splash.readthedocs.io/en/stable/internals/js-python-lua.html">JavaScript &lt;-&gt; Python &lt;-&gt; Lua intergation — Splash 3.2 documentation</a> #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code>curl -o index.html http://localhost:8050/render.html?url=https://tiddlywiki.com/
+</code></pre>
+
+<h2 id="splash-http-api">Splash HTTP API ??<a class="headerlink" href="#splash-http-api" title="Permanent link"> #</a></h2>
+<h2 id="session">Session ??<a class="headerlink" href="#session" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/scrapinghub/splash">scrapinghub/splash: Lightweight, scriptable browser as a service with an HTTP API</a> 除了 fast, lightweight，也提到了 stateless。</li>
+<li><a href="https://github.com/scrapy-plugins/scrapy-splash#session-handling">scrapy-plugins/scrapy-splash: Scrapy+Splash for JavaScript integration</a> #ril<ul>
+<li>Splash 是 stateless，每一個 request 都是全新的，所以要自己處理 cookies。</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>docker run -p 8050:8050 scrapinghub/splash
+</code></pre>
+
+<p>Splash API 就會在服務。例如：</p>
+<pre><code>$ docker run --rm -p 8050:8050 scrapinghub/splash
+2018-05-18 14:30:32+0000 [-] Log opened.
+2018-05-18 14:30:32.706004 [-] Splash version: 3.2
+2018-05-18 14:30:32.706855 [-] Qt 5.9.1, PyQt 5.9, WebKit 602.1, sip 4.19.3, Twisted 16.1.1, Lua 5.2
+2018-05-18 14:30:32.707126 [-] Python 3.5.2 (default, Nov 23 2017, 16:37:01) [GCC 5.4.0 20160609]
+2018-05-18 14:30:32.707676 [-] Open files limit: 1048576
+2018-05-18 14:30:32.707922 [-] Can't bump open files limit
+2018-05-18 14:30:32.824683 [-] Xvfb is started: ['Xvfb', ':1492286436', '-screen', '0', '1024x768x24', '-nolisten', 'tcp']
+QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+2018-05-18 14:30:32.897870 [-] proxy profiles support is enabled, proxy profiles path: /etc/splash/proxy-profiles
+2018-05-18 14:30:32.998413 [-] verbosity=1
+2018-05-18 14:30:32.998671 [-] slots=50
+2018-05-18 14:30:32.999273 [-] argument_cache_max_entries=500
+2018-05-18 14:30:33.000303 [-] Web UI: enabled, Lua: enabled (sandbox: enabled)
+2018-05-18 14:30:33.000569 [-] Server listening on 0.0.0.0:8050
+2018-05-18 14:30:33.002187 [-] Site starting on 8050
+2018-05-18 14:30:33.002569 [-] Starting factory &lt;twisted.web.server.Site object at 0x7f3a377c97f0&gt;
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="http://splash.readthedocs.io/en/stable/install.html#linux-docker">Linux + Docker - Installation — Splash 3.2 documentation</a><ul>
+<li><code>docker run -p 8050:8050 -p 5023:5023 scrapinghub/splash</code>，其中 8050 是 HTTP，5023 是 Telnet。</li>
+<li>實驗發現 5023 port 沒有作用，走 Telnet 是做什麼用的??</li>
+</ul>
+</li>
+<li><a href="http://splash.readthedocs.io/en/stable/install.html#customizing-dockerized-splash">Customizing Dockerized Splash - Installation — Splash 3.2 documentation</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/scrapinghub/splash">scrapinghub/splash - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://splash.readthedocs.io/">Splash Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

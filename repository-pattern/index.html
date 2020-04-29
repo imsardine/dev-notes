@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/repository-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Repository Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/repository-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#repository-pattern">Repository Pattern</a></li>
+            <li class="second-level"><a href="#orm-repository">有 ORM 為什麼還要有 Repository ??</a></li>
+                
+            <li class="second-level"><a href="#dao">跟 DAO 的不同 ??</a></li>
+                
+            <li class="second-level"><a href="#_1">基礎</a></li>
+                
+                <li class="third-level"><a href="#specification">Specification ??</a></li>
+                <li class="third-level"><a href="#unit-of-work">Unit of Work ??</a></li>
+                <li class="third-level"><a href="#caching">Caching ??</a></li>
+                <li class="third-level"><a href="#unit-testing">Unit Testing ??</a></li>
+            <li class="second-level"><a href="#_2">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="repository-pattern">Repository Pattern<a class="headerlink" href="#repository-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://martinfowler.com/eaaCatalog/repository.html">P of EAA: Repository</a></p>
+<ul>
+<li>
+<p>Mediates between the domain and data mapping layers using a COLLECTION-LIKE INTERFACE for accessing domain objects.</p>
+<p>For a full description see P of EAA page 322</p>
+<p><img alt="" src="https://martinfowler.com/eaaCatalog/repositorySketch.gif" /></p>
+<p>重點是用起來像個 (in-memory) collection；雖然這個 sequence diagram 只強調了 query construction，但還是有提到 add/remove。</p>
+</li>
+<li>
+<p>A system with a complex domain model often benefits from a LAYER, such as the one provided by Data Mapper (165), that isolates domain objects from details of the database access code.</p>
+<p>In such systems it can be worthwhile to build another layer of abstraction over the mapping layer where QUERY CONSTRUCTION CODE is concentrated. This becomes more important when there are a large number of domain classes or heavy querying. In these cases particularly, adding this layer helps MINIMIZE DUPLICATE QUERY LOGIC.</p>
+<p>這裡的 data mapper 指的就是 ORM/DAL，在 domain model 與 ORM 之間，可以再隔一層 repository，對外除了 query logic 還有 add &amp; remove，內部會轉化成 ORM 的操作。</p>
+</li>
+<li>
+<p>A Repository mediates between the domain and data mapping layers, acting like an IN-MEMORY DOMAIN OBJECT COLLECTION. Client objects construct QUERY SPECIFICATIONS DECLARATIVELY and submit them to Repository for satisfaction. Objects can be added to and removed from the Repository, as they can from a simple collection of objects, and the mapping code encapsulated by the Repository will carry out the appropriate operations behind the scenes.</p>
+<p>上圖中的 criteria 或這裡的 (declarative) specification 並非必要，但確實可以讓 query method 的數量變少。</p>
+</li>
+<li>
+<p>Conceptually, a Repository encapsulates the set of objects persisted in a data store and the operations performed over them, providing a MORE OBJECT-ORIENTED VIEW of the persistence layer. Repository also supports the objective of achieving a clean separation and ONE-WAY DEPENDENCY between the domain and data mapping layers.</p>
+<p>也就是說，用了 repository pattern，就沒有理由讓 domain 接觸到 ORM。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10)">The Repository Pattern | Microsoft Docs</a> (2010-04-27) #ril</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=tUuBMifqFAg">Using the Repository Pattern | Building RESTful Web Services Workshop 17 - YouTube</a> #ril</p>
+</li>
+</ul>
+<h3 id="orm-repository">有 ORM 為什麼還要有 Repository ??<a class="headerlink" href="#orm-repository" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="http://blog.gauffin.org/2013/01/repository-pattern-done-right/">Repository pattern, done right – jgauffin&rsquo;s coding den</a> (2013-01-11) #ril</p>
+<ul>
+<li>The repository pattern has been discussed a lot lately. Especially about it’s usefulness since the introduction of OR/M libraries. 有了 ORM，還需要 repository 嗎??</li>
+<li>
+<p>Let’s start with the <a href="http://martinfowler.com/eaaCatalog/repository.html">definition</a>:</p>
+<blockquote>
+<p>A Repository mediates between the domain and data mapping layers (指的正是 ORM), acting like an IN-MEMORY DOMAIN OBJECT COLLECTION. Client objects construct QUERY SPECIFICATIONS DECLARATIVELY and submit them to Repository for satisfaction. Objects can be added to and removed from the Repository, as they can from a simple collection of objects, and the mapping code encapsulated by the Repository will carry out the appropriate operations behind the scenes</p>
+</blockquote>
+</li>
+<li>
+<p>The repository pattern is an ABSTRACTION. It’s purpose is to reduce complexity and make the rest of the code PERSISTENT IGNORANT. As a bonus it allows you to write unit tests instead of integration tests. The problem is that many developers fail to understand the patterns purpose and create repositories which LEAK PERSISTENCE SPECIFIC INFORMATION up to the caller (typically by exposing <code>IQueryable&lt;T&gt;</code>).</p>
+<p>By doing so they get no benefit over using the OR/M directly.</p>
+</li>
+</ul>
+<p>Repositories is about being able to switch DAL implementation</p>
+<ul>
+<li>Using repositories is not about being able to switch persistence technology (i.e. changing database or using a web service etc instead). Repository pattern do allow you to do that, but it’s not the main purpose.</li>
+<li>A more realistic approach is that you in <code>UserRepository.GetUsersGroupOnSomeComplexQuery()</code> uses ADO.NET directly while you in <code>UserRepository.Create()</code> uses Entity Framework. By doing so you are probably saving a lot of time instead of struggling with LinqToSql to get your complex query running.</li>
+</ul>
+<p>Unit testing</p>
+<ul>
+<li>When people talks about Repository pattern and unit tests they are not saying that the pattern allows you to use unit tests for the data access layer. What they mean is that it allows you to unit test the business layer. It’s possible as you can fake the repository (which is a lot easier than faking nhibernate/EF interfaces) and by doing so write clean and readable tests for your business logic.</li>
+<li>As you’ve separated business from data you can also write integration tests for your data layer to make sure that the layer works with your current database schema.</li>
+<li>If you use ORM/LINQ in your business logic you can never be sure why the tests fail. It can be because your LINQ query is incorrect, because your business logic is not correct or because the ORM mapping is incorrect.</li>
+<li>If you have mixed them and fake the ORM interfaces you can’t be sure either. Because Linq to Objects do not work in the same way as Linq to SQL.</li>
+<li>Repository pattern reduces the complexity in your tests and allow you to specialize your tests for the current layer</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.infoworld.com/article/3117713/application-development/design-patterns-that-i-often-avoid-repository-pattern.html">Design patterns that I often avoid: Repository pattern | InfoWorld</a> (2016-09-08) #ril</p>
+</li>
+</ul>
+<h3 id="dao">跟 DAO 的不同 ??<a class="headerlink" href="#dao" title="Permanent link"> #</a></h3>
+<ul>
+<li>關鍵在 repository = collection of domain objects，所以 CURD 中的 Create 跟 Delete 會對應到 collection 的操作，而 Update 本來就會透過 domain object 本身，所以剩下的就是 Read，呼應了 repository 用來封裝 query logic 的說法。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://programmingwithmosh.com/entity-framework/common-mistakes-with-the-repository-pattern/">4 Common Mistakes with the Repository Pattern - Programming with Mosh</a> (2017-04-03)</p>
+<ul>
+<li>One repository per domain: 一個 domain class 對應一個 repository。</li>
+<li>
+<p>Repositories that return view models/DTOs: 由於 repository = a collection of domain objects，很明顯 mapping 並不是 repository 的責任 (將 domain object 轉成 view model 或 DTO 而言) &ndash; 那是 client code 的責任。</p>
+</li>
+<li>
+<p>Save/Update method in repositories: 由於 repository 是個 collection，不會有 <code>save()</code>/<code>update()</code>；後段 &ldquo;sometimes as part of a transaction you may work with multiple repositories&rdquo; 的說法不太懂，不過 <code>save()</code> 確實給人有 persistence 的錯覺，這裡 <code>unitOfWork.Complete()</code> 的寫法還滿通用的 #ril</p>
+<p>Update 就找 domain object，不該在 repository 上。</p>
+</li>
+<li>
+<p>Repositories that return IQueryable: 重申 repository 的目的是 &ldquo;encapsulate fat queries &hellip; the chances of you repeating a fat query in multiple places increases&rdquo;，要像是個 collection of domain objects，所以要傳回 <code>IEnumerable</code> 而非 <code>IQueryable</code>；這應該是 .NET 特有的問題?</p>
+</li>
+<li><a href="https://blog.sapiensworks.com/post/2012/11/01/Repository-vs-DAO.aspx">Sapiensworks | Repository vs DAO</a> (2012-11-01) #ril</li>
+<li><a href="https://stackoverflow.com/questions/8550124/">hibernate - What is the difference between DAO and Repository patterns? - Stack Overflow</a> #ril</li>
+<li><a href="https://medium.com/@frederikjacques/repository-design-pattern-in-swift-952061485aa">Repository Design Pattern in Swift – Frederik Jacques – Medium</a> (2017-09-30) 把 CRUD 加入 reposotiry? #ril</li>
+</ul>
+</li>
+</ul>
+<h2 id="_1">基礎<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="specification">Specification ??<a class="headerlink" href="#specification" title="Permanent link"> #</a></h3>
+<h3 id="unit-of-work">Unit of Work ??<a class="headerlink" href="#unit-of-work" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.codeproject.com/Articles/814768/CRUD-Operations-Using-the-Generic-Repository-Patte">CRUD Operations Using the Generic Repository Pattern and Unit of Work in MVC - CodeProject</a> (2014-12-24) #ril</li>
+</ul>
+<h3 id="caching">Caching ??<a class="headerlink" href="#caching" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10)">The Repository Pattern | Microsoft Docs</a> (2010-04-27)<ul>
+<li>You want to implement and centralize a CACHING STRATEGY for the data source.</li>
+<li>Implementation Details &gt; Web Service Repositories 提到 Note that services are often expensive to invoke and BENEFIT FROM CACHING STRATEGIES that are implemented within the repository. &hellip; In this case, the query logic in the repository first checks to see whether the queried items are in the cache. If they are not, the repository accesses the Web service to retrieve the information.</li>
+<li>Considerations 提到 synchronization 的問題 When caching data in a multithreaded environment, consider synchronizing access to the cache in addition to the cached objects. &hellip; If you are caching data in heavily loaded systems, performance can be an issue. Consider synchronizing access to the data source. This ensures that only a single request for the data is issued to the list or back-end service. 對 heavily loaded systems 而言，repository 的這層 caching 尤其重要，但要注意 synchronization 的問題。</li>
+</ul>
+</li>
+</ul>
+<h3 id="unit-testing">Unit Testing ??<a class="headerlink" href="#unit-testing" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff649690(v=pandp.10)">The Repository Pattern | Microsoft Docs</a> (2010-04-27)<ul>
+<li>You want to maximize the amount of code that can be tested with automation and to ISOLATE THE DATA LAYER TO SUPPORT UNIT TESTING.</li>
+<li>Implementation Details &gt; Web Service Repositories 提到 A repository centralizes the access logic for a service and provides a SUBSTITUTION POINT FOR UNIT TESTS.</li>
+<li>Considerations: The Repository pattern helps to isolate both the service and the list access code. Isolation makes it easier to treat them as independent services and to replace them with mock objects in unit tests. Typically, it is difficult to unit test the repositories themselves, so it is often better to write integration tests for them. 是這樣嗎??</li>
+</ul>
+</li>
+</ul>
+<h2 id="_2">參考資料<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

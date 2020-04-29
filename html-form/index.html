@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/html-form/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>HTML / Form - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/html-form.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#html-form">HTML / Form</a></li>
+            <li class="second-level"><a href="#validation">Validation ??</a></li>
+                
+            <li class="second-level"><a href="#elements">如何送出同名的多個 elements??</a></li>
+                
+            <li class="second-level"><a href="#applicationx-www-form-urlencoded-multipartform-data">application/x-www-form-urlencoded, multipart/form-data ??</a></li>
+                
+            <li class="second-level"><a href="#redirect-after-post-rap">Redirect After Post (RAP) ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="html-form"><a href="../html/">HTML</a> / Form<a class="headerlink" href="#html-form" title="Permanent link"> #</a></h1>
+<h2 id="validation">Validation ??<a class="headerlink" href="#validation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation">Form data validation - Learn web development | MDN</a><ul>
+<li>Form validation 的做法有很多種，主要分為 client-side vlidation 及 server-side validation。</li>
+<li>Client-side validation 發生在資料未送往 server 前，就 instant response 而言，它比 server-side validation 還 user-friendly。可以進一步細分為 JavaScript valication (可自訂) 及 built-in form validation &ndash; HTML5 專屬的功能，通常不需要 JavaScript，但也不能自訂。</li>
+<li>Server-side validation 發生在資料送到 server 後，雖然比較不友善 (回應沒有 client-side validation 那麼即時)，但 server-side validation 做為最後一條防線，是不能捨棄的；However, server-side validation is your application&rsquo;s last line of defence against incorrect or even malicious data. All popular server-side frameworks have features for validating and sanitizing (消毒) data (making it safe).</li>
+<li>In the real world, developers tend to use a combination of client-side and server-side validation. 但 client-side validation 會用 JavaScript 還是 built-in form validation 呢??</li>
+<li>HTML5 有個功能可以幫驗證資料，也不需要用到 script &ndash; 透過 form element 上的 validation attributes，可以描述不同的 rule，當輸入的資料符合所有的 rule 時視為 valid，否則視為 invalid。當 element 為 valid 時，CSS 會套用 <code>:valid</code> pseudo-class 的樣式，按 submit 會送出資料 (如果沒有 JavaScript 擋下的話)，反之常 element 為 invalid 時，CSS 會套用 <code>:invalid</code> pseudo-class 的樣式，此時若使用者試圖送出資料，會被 browser 擋下來並提示 error message；在 Chrome 上發現，一次只會提醒一個 invalid 的欄位，有點煩。</li>
+<li>Validation constraints on input elements — starting simple 開始說明一些 validation attributes 的用法，例如 <code>required</code>、<code>pattern</code> 等 #ril</li>
+<li>Customized error messages 提到 built-in form validation 發生錯誤時的表現方式會因 browser 而異 (且語言會跟著 browser local 走)，HTML5 是有提供 constraint validation API 可以改變 message，但表現方式還是不能自訂。</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Form_validation#Validating_forms_using_JavaScript">Validating forms using JavaScript - Form data validation - Learn web development | MDN</a> #ril<ul>
+<li>第一個範例就直接用了 <code>&lt;form novalidate&gt;</code>，<code>novalidate</code> attribute 可以停用 browser 的 automatic validation，讓我們的 script 可以完全控制 validation，但它並不會影響 constraint validation API 及 CSS pseudo-class (<code>:valid</code>、<code>:invalid</code>、<code>:in-range</code>、<code>:out-of-range</code> 等) 的效用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="elements">如何送出同名的多個 elements??<a class="headerlink" href="#elements" title="Permanent link"> #</a></h2>
+<pre><code>&lt;form action=&quot;http://mysvr/search&quot; method=&quot;get&quot;&gt;
+  &lt;input type=&quot;checkbox&quot; name=&quot;categories&quot; value=&quot;dev&quot; checked&gt; Development
+  &lt;input type=&quot;checkbox&quot; name=&quot;categories&quot; value=&quot;life&quot;&gt; Life
+  &lt;input type=&quot;submit&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>同時勾選 Development 與 Life 按 Submit 後，URL 會呈現 <code>http://mysvr/search?categories=dev&amp;categories=life</code>，而非 <code>?categories=dev,life</code>。</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/2203430/">php - POSTing Form Fields with same Name Attribute - Stack Overflow</a> 出現 <code>name[]</code> 的用法 #ril </li>
+<li><a href="https://stackoverflow.com/questions/24808660/">python - Sending a form array to Flask - Stack Overflow</a> Martijn Pieters: 欄位名稱加 <code>[]</code> 的做法是 PHP 的慣例，但這不是標準，雖然 Ruby on Rails 也這麼做。如果要走相同的 convention 可以用 <code>request.form.getlist('name[]')</code>，但不加 <code>[]</code> 其實 Flask 也可以處理 - <code>request.form.getlist('name')</code> #ril</li>
+<li><a href="https://stackoverflow.com/questions/4543500/">php - Form input field names containing square brackets like field[index] - Stack Overflow</a> (2010-12-28) #ril</li>
+</ul>
+<h2 id="applicationx-www-form-urlencoded-multipartform-data">application/x-www-form-urlencoded, multipart/form-data ??<a class="headerlink" href="#applicationx-www-form-urlencoded-multipartform-data" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/4007969/">http - application/x-www-form-urlencoded or multipart/form-data? - Stack Overflow</a> #ril</li>
+<li><a href="https://www.w3.org/TR/html401/interact/forms.html#didx-applicationx-www-form-urlencoded">application/x-www-form-urlencoded - Forms in HTML documents</a> #ril<ul>
+<li>Control name (control element 的 <code>name</code> attribute) 跟 value 都會做 (分開做) escaping &ndash; 空白用 <code>+</code> 表示、非英數字都要用 <code>%HH</code> 取代、斷行用 <code>CR LF</code> (也就是 <code>%0D%0A</code>) 表示 =&gt; 簡單的說，就是先將 space 換成 <code>+</code> 再做 URL-encode。</li>
+<li>name 跟 value 用 <code>=</code> 分開，name/value pairs 間則用 <code>&amp;</code> 串起來 (同 HTML 裡出現的順序)。</li>
+</ul>
+</li>
+<li><a href="https://tools.ietf.org/html/rfc1738#section-2.2">2.2. URL Character Encoding Issues - RFC 1738 - Uniform Resource Locators (URL)</a> Octet 可以用 <code>%HH</code> (character triplet) 編碼；除了英數字 (alphanumerics) 之外，沒有 US-ASCII (20 ~ 7E) 對應、unsafe、reserved 的字元都要做 encode。</li>
+</ul>
+<h2 id="redirect-after-post-rap">Redirect After Post (RAP) ??<a class="headerlink" href="#redirect-after-post-rap" title="Permanent link"> #</a></h2>
+<ul>
+<li>對後端產生異動之後的回應，務必要實現 RAP；除了避免使用者重整頁面造成異動重複發出的問題之外，也讓使用者沒有機會拿到該 URL 去 bookmark 起來，如果被網路機器人拿到更糟, 它會不斷發出不適當的要求，產生一連串不必要的錯誤。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://wiki.c2.com/?RedirectAfterPost">Redirect After Post</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

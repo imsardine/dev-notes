@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/go/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Go - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/go.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#go">Go</a></li>
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#gopath">GOPATH ??</a></li>
+                
+            <li class="second-level"><a href="#coding-style">Coding Style ??</a></li>
+                
+            <li class="second-level"><a href="#_1">安裝設定</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS</a></li>
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="go">Go<a class="headerlink" href="#go" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://golang.org/">The Go Programming Language</a></p>
+<ul>
+<li>Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go (programming language) - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>Go (also referred to as Golang) is a statically typed, compiled programming language designed at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go is SYNTACTICALLY SIMILAR TO C, but with MEMORY SAFETY, garbage collection, structural typing, and CSP-style concurrency.</p>
+<p>看來會 C 對於學習 Go 有些幫助。</p>
+</li>
+<li>
+<p>There are two major implementations:</p>
+<ul>
+<li>Google&rsquo;s self-hosting compiler toolchain targeting multiple operating systems, mobile devices, and WebAssembly.</li>
+<li><code>gccgo</code>, a GCC frontend.</li>
+</ul>
+<p>A third compiler, <a href="https://github.com/gopherjs/gopherjs">GopherJS</a>, compiles Go to JavaScript for front-end web development.</p>
+<p>怎麼跟 Dart 這麼像，產出這麼多樣 &ndash; mobile、WebAssembly、JavaScript 等 #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://blog.wu-boy.com/2017/01/business-benefits-of-go/">從商業利益看 Go 程式語言 | 小惡魔 - 電腦技術 - 工作筆記 - AppleBOY</a> (2017-01-14) #ril</p>
+</li>
+<li><a href="https://www.dartlang.org/faq#q-how-does-dart-relate-to-go">Frequently Asked Questions (FAQ) | Dart</a> 雖然都是 Google 開創的語言，但兩者是完全獨立且有著不同的目標，這是一種選擇&hellip;</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p><code>hello-world/hello.go</code>:</p>
+<pre><code>package main
+
+import &quot;fmt&quot;
+
+func main() {
+    fmt.Printf(&quot;Hello, World!\n&quot;)
+}
+</code></pre>
+
+<p>執行 <code>go build</code> 會產生 <code>hello-world</code> 執行檔 (根據目錄名稱)。</p>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://golang.org/doc/install#testing">Test your installation - Getting Started - The Go Programming Language</a></p>
+<ul>
+<li>
+<p>Check that Go is installed correctly by setting up a WORKSPACE and building a simple program, as follows.</p>
+</li>
+<li>
+<p>Create your WORKSPACE DIRECTORY, <code>$HOME/go</code>. (If you&rsquo;d like to use a different directory, you will need to set the <code>GOPATH</code> environment variable.)</p>
+<p>為什麼 workspace dir 不在 <code>~/go</code> 就要調整 <code>GOPATH</code>? &rarr; 預設為 <code>~/go</code>。</p>
+</li>
+<li>
+<p>Next, make the directory <code>src/hello</code> inside your workspace, and in that directory create a file named <code>hello.go</code> that looks like:</p>
+<pre><code>package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf("hello, world\n")
+}
+</code></pre>
+</li>
+<li>
+<p>Then build it with the <code>go</code> tool:</p>
+<pre><code>$ cd $HOME/go/src/hello
+$ go build
+</code></pre>
+<p>The command above will build an executable named <code>hello</code> in the directory ALONGSIDE YOUR SOURCE CODE. Execute it to see the greeting:</p>
+<pre><code>$ ./hello
+hello, world
+</code></pre>
+<p>If you see the &ldquo;hello, world&rdquo; message then your Go installation is working.</p>
+<p>沒有先將 CWD 切到 <code>src/hello</code> 的話，<code>go build</code> 會丟出 <code>can't load package: package .: no Go files in /tmp/go</code> 的錯誤；看來 <code>go build</code> 預設會在 CWD 找 <code>.go</code>，下面的 <code>go install</code> 跟 <code>go clean -i</code> 也是這樣，有點怪 ??</p>
+</li>
+<li>
+<p>You can run <code>go install</code> to install the binary into your workspace&rsquo;s <code>bin</code> directory or <code>go clean -i</code> to remove it.</p>
+<p>實驗發現，若 workspace dir 在 <code>~/go</code>，在 <code>~/go/src/hello</code> 下執行 <code>go install</code> 確實會產生 <code>~/go/bin/hello</code>，但如果是在其他地方 (例如 <code>/tmp/go</code>)，執行 <code>go install</code> 會丟出下面的錯誤：</p>
+<pre><code>go install
+go install: no install location for directory /tmp/go/src/hello outside GOPATH
+    For more details see: 'go help gopath'
+</code></pre>
+<p><code>go help gopath</code> 提到 &ldquo;If the environment variable is unset, <code>GOPATH</code> defaults to a subdirectory named &ldquo;<code>go</code>&rdquo; in the user&rsquo;s home directory&rdquo;</p>
+</li>
+<li>
+<p>Before rushing off to write Go code please read the How to Write Go Code document, which describes some essential concepts about using the Go tools.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tour.golang.org/welcome/1">Hello, World! - A Tour of Go</a></p>
+<ul>
+<li>The tour is interactive. Click the Run button now (or press Shift + Enter) to compile and run the program on a remote server. The result is displayed below the code.</li>
+<li>When you click on Format (shortcut: Ctrl + Enter), the text in the editor is formatted using the <code>gofmt</code> tool. You can switch syntax highlighting on and off by clicking on the syntax button.</li>
+</ul>
+<p>Go offline</p>
+<ul>
+<li>
+<p>This tour is also available as a stand-alone program that you can use without access to the internet.</p>
+<p>The stand-alone tour is faster, as it builds and runs the code samples on your own machine.</p>
+</li>
+<li>
+<p>To run the tour locally install and run the tour binary:</p>
+<pre><code>go get golang.org/x/tour
+tour
+</code></pre>
+<p>The tour program will open a web browser displaying your local version of the tour.</p>
+<p>執行完 <code>go get golang.org/x/tour</code> 後，<code>~/go/bin</code> 會多了個 <code>tour</code> 執行檔，相應的原始碼則在 <code>~/go/src/golang.org/x/tour/</code> 下。而 <code>tour</code> 在本地啟動了一個 web server：</p>
+<pre><code>$ bin/tour
+2019/05/03 10:56:06 Serving content from .../go/src/golang.org/x/tour
+2019/05/03 10:56:06 A browser window should open. If not, please visit http://127.0.0.1:3999
+2019/05/03 10:56:07 accepting connection from: 127.0.0.1:61737
+
+...
+2019/05/03 10:57:31 running snippet from: 127.0.0.1:61737
+</code></pre>
+</li>
+</ul>
+<p>The Go Playground</p>
+<ul>
+<li>
+<p>This tour is built atop the Go Playground, a web service that runs on golang.org&rsquo;s servers.</p>
+<p>The service receives a Go program, compiles, links, and runs the program inside a SANDBOX, then returns the output.</p>
+</li>
+<li>
+<p>There are limitations to the programs that can be run in the playground:</p>
+<ul>
+<li>
+<p>In the playground the time begins at 2009-11-10 23:00:00 UTC (determining the significance of this date is an EXERCISE FOR THE READER). This makes it easier to cache programs by giving them deterministic output.</p>
+<p>此時右側的程式碼正是印出當下的時間 <code>fmt.Println("The time is", time.Now())</code>，固定會看到 <code>The time is 2009-11-10 23:00:00 +0000 UTC m=+0.000000001</code>。 </p>
+</li>
+<li>
+<p>There are also limits on execution time and on CPU and memory usage, and the program cannot access external network hosts.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The playground uses the latest stable release of Go.</p>
+<p>Read &ldquo;<a href="https://blog.golang.org/playground">Inside the Go Playground</a>&rdquo; to learn more.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tour.golang.org/list">Welcome to a tour of Go - A Tour of Go</a></p>
+<p>Basics</p>
+<ul>
+<li>The starting point, learn all the basics of the language. Declaring variables, calling functions, and all the things you need to know before moving to the next lessons.</li>
+<li>Packages, variables, and functions. &ndash; Learn the basic components of any Go program.</li>
+<li>Flow control statements: <code>for</code>, <code>if</code>, <code>else</code>, <code>switch</code> and <code>defer</code> &ndash; Learn how to control the flow of your code with conditionals, loops, switches and defers.</li>
+<li>More types: structs, slices, and maps. &ndash;  Learn how to define types based on existing ones: this lesson covers structs, arrays, slices, and maps.</li>
+</ul>
+<p>Methods and interfaces</p>
+<ul>
+<li>Learn how to define methods on types, how to declare interfaces, and how to put everything together.</li>
+<li>Methods and interfaces &ndash; This lesson covers methods and interfaces, the constructs that define objects and their behavior.</li>
+</ul>
+<p>Concurrency</p>
+<ul>
+<li>
+<p>Go provides concurrency features AS PART OF THE CORE LANGUAGE.</p>
+<p>This module goes over GOROUTINES and CHANNELS, and how they are used to implement different CONCURRENCY PATTERNS.</p>
+</li>
+<li>
+<p>Concurrency &ndash; Go provides concurrency constructions as part of the core language. This lesson presents them and gives some examples on how they can be used.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tour.golang.org/basics/1">Packages - A Tour of Go</a> #ril</p>
+</li>
+</ul>
+<h2 id="gopath">GOPATH ??<a class="headerlink" href="#gopath" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://golang.org/doc/install#testing">Test your installation - Getting Started - The Go Programming Language</a> 要求把 code 放在 workspace 裡 (<code>$HOME/go/</code>)，否則要設定 <code>GOPATH</code> 環境變數? 執行 <code>go install</code> 或 <code>go clean</code> 可以把編出來的執行檔 <code>hello</code> 安裝到 workspace 下的 <code>bin/</code> 子目錄，或是從裡面移除? (安裝可以，但 <code>clean</code> 試不出來?)</li>
+<li>在 workspace 外執行 <code>go install</code> 時，會出現 <code>go install: no install location for directory /path/to/... outside GOPATH</code> 及 <code>For more details see: 'go help gopath'</code> 的錯誤。</li>
+</ul>
+<h2 id="coding-style">Coding Style ??<a class="headerlink" href="#coding-style" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tour.golang.org/welcome/1">A Tour of Go</a> 提到 Tour 介面上的 Format 背後是執行 <code>gofmt</code>。</li>
+<li><a href="https://golang.org/cmd/gofmt/">gofmt - The Go Programming Language</a> #ril</li>
+</ul>
+<h2 id="_1" installation="installation">安裝設定<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://golang.org/doc/install">Getting Started - The Go Programming Language</a></p>
+<ul>
+<li>Official binary distributions are available for the FreeBSD (release 10-STABLE and above), Linux, macOS (10.10 and above), and Windows operating systems and the 32-bit (386) and 64-bit (amd64) x86 processor architectures.</li>
+<li>If you are upgrading from an older version of Go you must FIRST REMOVE THE EXISTING VERSION.</li>
+</ul>
+<p>Uninstalling Go</p>
+<ul>
+<li>
+<p>To remove an existing Go installation from your system delete the <code>go</code> directory. This is usually <code>/usr/local/go</code> under Linux, macOS, and FreeBSD or <code>c:\Go</code> under Windows.</p>
+</li>
+<li>
+<p>You should also remove the Go <code>bin</code> directory from your <code>PATH</code> environment variable. Under Linux and FreeBSD you should edit <code>/etc/profile</code> or <code>$HOME/.profile</code>. If you installed Go with the macOS package then you should remove the <code>/etc/paths.d/go</code> file. Windows users should read the section about setting environment variables under Windows.</p>
+<p>在 macOS 上，要刪掉的有 <code>/usr/local/go</code> 跟 <code>/etc/paths.d/go</code>，<code>PATH</code> 裡的 <code>/usr/local/go/bin</code> 就是來自這裡。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="macos">macOS<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://golang.org/dl/">Downloads - The Go Programming Language</a> 下載 binary distribution - <code>go&lt;VERSION&gt;.darwin-amd64.pkg</code>，需要 macOS 10.8+ 及 amd64 架構。</p>
+</li>
+<li>
+<p><a href="https://golang.org/doc/install#macos">macOS package installer - Getting Started - The Go Programming Language</a></p>
+<ul>
+<li>Download the package file, open it, and follow the prompts to install the Go tools. The package installs the Go distribution to <code>/usr/local/go</code>.</li>
+<li>
+<p>The package should put the <code>/usr/local/go/bin</code> directory in your <code>PATH</code> environment variable. You may need to restart any open Terminal sessions for the change to take effect.</p>
+<p>安裝在 <code>/usr/local/go</code>，也會把 <code>/usr/local/go/bin</code> 加到 <code>PATH</code> 環境變數裡。移除時必須手動把 <code>/usr/local/go</code> 及 <code>/etc/paths.d/go</code> 移除。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://hub.docker.com/_/golang/">library/golang - Docker Hub</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://golang.org/">The Go Programming Language</a></li>
+<li><a href="https://blog.golang.org/">The Go Blog</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/go">&lsquo;go&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="https://play.golang.org/">The Go Playground</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://golang.org/doc/">Documentation - The Go Programming Language</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>Go 的語法跟 <a href="../c/">C</a> 很像。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

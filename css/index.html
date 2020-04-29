@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/css/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>CSS (Cascading Style Sheets) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/css.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#css-cascading-style-sheets">CSS (Cascading Style Sheets)</a></li>
+            <li class="second-level"><a href="#css">CSS 跟平面印刷、語音等表現有關?</a></li>
+                
+            <li class="second-level"><a href="#_1">基礎</a></li>
+                
+                <li class="third-level"><a href="#hello-world">Hello, World! ??</a></li>
+                <li class="third-level"><a href="#_2">新手上路 ??</a></li>
+                <li class="third-level"><a href="#data-type">Data Type ??</a></li>
+                <li class="third-level"><a href="#length">Length ??</a></li>
+                <li class="third-level"><a href="#specificity">Specificity ??</a></li>
+                <li class="third-level"><a href="#_3">如何寫註解?</a></li>
+                <li class="third-level"><a href="#widthheight-paddingborder-margin">設定 width/height 時，padding、border 跟 margin 有沒有算在內?</a></li>
+                <li class="third-level"><a href="#selector">Selector ??</a></li>
+                <li class="third-level"><a href="#_4">如何設定字型?</a></li>
+                <li class="third-level"><a href="#unit">Unit ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="css-cascading-style-sheets">CSS (Cascading Style Sheets)<a class="headerlink" href="#css-cascading-style-sheets" title="Permanent link"> #</a></h1>
+<ul>
+<li>CSS 是用來描述 HTML/XML 文件該如何在不同媒體上表現 (presentation) 的 stylesheet language，可能的媒體有 screen、paper 等。</li>
+<li>按 level 逐步開發推展，CSS1 已經淘汰 (obsolete)，目前 CSS2.1 是推薦 (recommendation)，而 CSS3 則切分成不同 module，逐步標準化中。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>CSS | MDN <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">https://developer.mozilla.org/en-US/docs/Web/CSS</a> 說明 CSS 的用途、標準的推展。</li>
+</ul>
+<h3 id="css">CSS 跟平面印刷、語音等表現有關?<a class="headerlink" href="#css" title="Permanent link"> #</a></h3>
+<ul>
+<li>CSS | MDN <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">https://developer.mozilla.org/en-US/docs/Web/CSS</a> 提到 paper、speech 等非 screen 的媒體，前者應該是指列印的時候，但 speech 就比較難理解??</li>
+<li>speak | CSS-Tricks <a href="https://css-tricks.com/almanac/properties/s/speak/">https://css-tricks.com/almanac/properties/s/speak/</a> 只是在調整使用 screen reader 時的 experience #ril</li>
+</ul>
+<h2 id="_1">基礎<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h3>
+<h3 id="_2">新手上路 ??<a class="headerlink" href="#_2" title="Permanent link"> #</a></h3>
+<p>參考資料：</p>
+<ul>
+<li>CSS basics - Learn web development | MDN <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics">https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics</a> #ril</li>
+<li>Learn to style HTML using CSS - Learn web development | MDN <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS">https://developer.mozilla.org/en-US/docs/Learn/CSS</a> #ril</li>
+</ul>
+<h3 id="data-type">Data Type ??<a class="headerlink" href="#data-type" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Types">CSS basic data types - CSS: Cascading Style Sheets | MDN</a> #ril<ul>
+<li>用來定義 CSS property 可以接受的 value (包括 keyword、unit 等)；在語法中，會用 <code>&lt;data_type&gt;</code> 來表示，例如 <code>&lt;angle&gt;</code>、<code>&lt;color&gt;</code>、<code>&lt;ratio&gt;</code> 等。</li>
+</ul>
+</li>
+<li><a href="https://www.w3.org/TR/css3-values/">CSS Values and Units Module Level 3</a> #ril</li>
+</ul>
+<h3 id="length">Length ??<a class="headerlink" href="#length" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length"><length> - CSS: Cascading Style Sheets | MDN</a> #ril<ul>
+<li><code>&lt;length&gt;</code> 表示 distance value，由 <code>&lt;number&gt;</code> (可能是負數) 及一個 unit 構成，跟其他 CSS 尺寸 (dimensions) 一樣，在 number 與 unit literal 間不能有空白；當然，如果 number 是 <code>0</code>，那後面的 unit 就可有可無。</li>
+<li>Unit 大致分為 relative 與 absolute 兩類。</li>
+</ul>
+</li>
+</ul>
+<h3 id="specificity">Specificity ??<a class="headerlink" href="#specificity" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity">Specificity - CSS: Cascading Style Sheets | MDN</a> #ril<ul>
+<li>Specificity is the means by which browsers decide which CSS property values are the MOST RELEVANT to an element and, therefore, will be applied.</li>
+</ul>
+</li>
+<li><a href="https://css-tricks.com/precedence-css-order-css-matters/">Precedence in CSS (When Order of CSS Matters) | CSS-Tricks</a> (2016-08-02) #ril</li>
+<li><a href="https://www.smashingmagazine.com/2007/07/css-specificity-things-you-should-know/">CSS Specificity: Things You Should Know — Smashing Magazine</a> (2007-07-27) #ril</li>
+<li><a href="https://stackoverflow.com/questions/9459062/">In which order do CSS stylesheets override? - Stack Overflow</a> When multiple rules of the same &ldquo;specificity level&rdquo; exist, whichever one appears last wins. #ril</li>
+</ul>
+<h3 id="_3">如何寫註解?<a class="headerlink" href="#_3" title="Permanent link"> #</a></h3>
+<ul>
+<li>CSS 裡註解的表示法只有一種 <code>/* ... */</code>，可以寫成單行，也可以橫跨多行，但不能交疊 (nested)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>CSS basics - Learn web development | MDN <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics#Fonts_and_text">https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics#Fonts_and_text</a> 提到 CSS comment 寫在 <code>/* ... */</code> 裡。</li>
+<li>Comments - CSS | MDN <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Comments">https://developer.mozilla.org/en-US/docs/Web/CSS/Comments</a> 強調 <code>/* ... */</code> 同時用在 single-line 與 multiline comments，沒有其他寫法。</li>
+</ul>
+<h3 id="widthheight-paddingborder-margin">設定 width/height 時，padding、border 跟 margin 有沒有算在內?<a class="headerlink" href="#widthheight-paddingborder-margin" title="Permanent link"> #</a></h3>
+<ul>
+<li>不算在內。設定 width/height 時是針對 content，所以整個 box 的大小要另外把 padding、border 及 margin 算進來。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>CSS Box Model <a href="https://www.w3schools.com/css/css_boxmodel.asp">https://www.w3schools.com/css/css_boxmodel.asp</a> 由內而外，box model 由 content、padding、border 與 margin 組成，其中 padding 跟 margin 都是透明的；當設定 width/height 時，是指 content area，所以 full size 要另外把 padding、border、margin 加進來。</li>
+</ul>
+<h3 id="selector">Selector ??<a class="headerlink" href="#selector" title="Permanent link"> #</a></h3>
+<ul>
+<li>Selectors - Learn web development | MDN <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors">https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Selectors</a> #ril</li>
+</ul>
+<h3 id="_4">如何設定字型?<a class="headerlink" href="#_4" title="Permanent link"> #</a></h3>
+<ul>
+<li>CSS basics - Learn web development | MDN <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics#Fonts_and_text">https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics#Fonts_and_text</a> Font and text 利用 Google Fonts 產生</li>
+</ul>
+<h3 id="unit">Unit ??<a class="headerlink" href="#unit" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length"><length> - CSS: Cascading Style Sheets | MDN</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/css">&lsquo;css&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.w3.org/Style/CSS/">Cascading Style Sheets - W3C</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference">CSS Reference | MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Types">Basic Data Types</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

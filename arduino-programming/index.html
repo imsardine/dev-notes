@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/arduino-programming/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Ardunio / Programming - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/arduino-programming.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#arduino-programming">Arduino / Programming</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#arduino-language-standard-arduino-librarycore-c-c">Arduino Language, Standard Arduino Library/Core, C, C++</a></li>
+                
+            <li class="second-level"><a href="#digital-io">Digital I/O ??</a></li>
+                
+            <li class="second-level"><a href="#analog-io">Analog I/O ??</a></li>
+                
+            <li class="second-level"><a href="#memory">Memory ??</a></li>
+                
+            <li class="second-level"><a href="#library">Library ??</a></li>
+                
+            <li class="second-level"><a href="#build-process">Build Process ??</a></li>
+                
+            <li class="second-level"><a href="#interfacing">Interfacing ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="arduino-programming"><a href="../arduino/">Arduino</a> / Programming<a class="headerlink" href="#arduino-programming" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Tutorial/Foundations">Arduino - Foundations</a> #ril</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/Sketch">Arduino - Sketch</a> 以內建的 Blink 範例說明</p>
+<ul>
+<li>A sketch is the name that Arduino uses for a PROGRAM. It&rsquo;s the UNIT OF CODE that is uploaded to and run on an Arduino board. Sketch 只是 Ardunio 對於 program 的說法，一樣可以由多支檔案組成。</li>
+<li>
+<p>You can call a function that&rsquo;s already been defined (either in your sketch or as part of the Arduino language). There are two special functions that are a part of every Arduino sketch: <code>setup()</code> and <code>loop()</code>. The <code>setup()</code> is called once, when the sketch starts. It&rsquo;s a good place to do SETUP TASKS like setting pin modes or initializing libraries. The <code>loop()</code> function is called over and over and is heart of most sketches. You need to include both functions in your sketch, even if you don&rsquo;t need them for anything. 跟一般的 C 程式不同，一定要有 <code>setup()</code> 跟 <code>loop()</code>，其中 <code>setup()</code> 用來做一次性的 setup，接著 <code>loop()</code> 會不斷地被執行。</p>
+<pre><code>void setup()
+{
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output
+  Serial.begin(9600);           // initializing libraries
+}
+</code></pre>
+</li>
+<li>
+<p>The <code>pinMode()</code> function configures a pin as either an input or an output. To use it, you pass it the number of the pin to configure and the constant <code>INPUT</code> or <code>OUTPUT</code>. When configured as an input, a pin can detect the state of a sensor like a pushbutton.</p>
+</li>
+<li>The <code>digitalWrite()</code> functions outputs a value on a pin. 例如 <code>digitalWrite(ledPin, HIGH);</code>。</li>
+<li>The <code>delay()</code> causes the Arduino to wait for the specified number of milliseconds before continuing on to the next line. 例如 <code>delay(1000)</code> 會暫停 1 秒。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/BareMinimum">Arduino - BareMinimum</a></p>
+<pre><code>void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+</code></pre>
+<ul>
+<li>This example contains the BARE MINIMUM of code you need for a sketch to compile properly on Arduino Software (IDE): the <code>setup()</code> method and the <code>loop()</code> method.</li>
+<li>The <code>setup()</code> function is called when a sketch starts. Use it to initialize variables, pin modes, START USING LIBRARIES, etc. The setup function will only run once, after each POWERUP or RESET OF THE BOARD.</li>
+<li>After creating a <code>setup()</code> function, the <code>loop()</code> function does precisely what its name suggests, and loops consecutively, allowing your program to change and respond as it runs. Code in the <code>loop()</code> section of your sketch is used to ACTIVELY control the board.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/Blink">Arduino - Blink</a></p>
+<pre><code>// the setup function runs once when you press reset or power the board
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                       // wait for a second
+}
+</code></pre>
+<ul>
+<li>This (built-in) LED is connected to a DIGITAL pin and its number may VARY FROM BOARD TYPE TO BOARD TYPE. To make your life easier, we have a constant that is specified in every board DESCRIPTOR FILE. This constant is <code>LED_BUILTIN</code> and allows you to control the built-in LED easily. 下面列出不同板子連接到 built-in LED 的 pin number，例如 Arduino UNO 是 D13，其中 D 指的是 digital。</li>
+<li>
+<p>If you want to lit an external LED with this sketch, you need to build this circuit, where you connect one end of the resistor to the digital pin correspondent to the <code>LED_BUILTIN</code> constant. Connect the long leg of the LED (the positive leg, called the anode) to the other end of the resistor. Connect the short leg of the LED (the negative leg, called the cathode) to the GND. 由於 built-in LED 有內建電阻，所以不用特別加 220 ohm (紅紅棕)；同時間內外 LED 都會閃。</p>
+<p><img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/ExampleCircuit_bb.png" width="30%" />
+<img alt="Schematic" src="https://www.arduino.cc/en/uploads/Tutorial/ExampleCircuit_sch.png" width="30%" /></p>
+</li>
+<li>
+<p>The value of the resistor in series with the LED may be of a different value than 220 ohm; the LED will lit up also with values up to 1K ohm. 電阻越大，亮度越低。</p>
+</li>
+<li>The first thing you do is to initialize <code>LED_BUILTIN</code> pin as an output pin with the line <code>pinMode(LED_BUILTIN, OUTPUT);</code> In the MAIN LOOP, you turn the LED on with the line: <code>digitalWrite(LED_BUILTIN, HIGH);</code> This supplies 5 volts to the LED anode. That creates a VOLTAGE DIFFERENCE across the pins of the LED, and lights it up. Then you turn it off with the line: <code>digitalWrite(LED_BUILTIN, LOW);</code> That takes the <code>LED_BUILTIN</code> pin back to 0 volts, and turns the LED off. 形成電位差，就會有電流流動，方向若是從 LED 的正極流往負極，就能點亮它。</li>
+<li>In between the on and the off, you want enough time FOR A PERSON TO SEE THE CHANGE, so the <code>delay()</code> commands tell the board to do nothing for 1000 milliseconds, or one second. When you use the <code>delay()</code> command, nothing else happens for that amount of time. 原本不是沒變化，而是快到肉眼看不出來。</li>
+<li>Check out the <code>BlinkWithoutDelay</code> example to learn how to create a delay WHILE DOING OTHER THINGS. 手動營造出多工的效果&hellip;</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/DigitalReadSerial">Arduino - DigitalReadSerial</a></p>
+<ul>
+<li>This example shows you how to monitor the state of a switch by establishing SERIAL COMMUNICATION between your Arduino or Genuino and your computer over USB. 當 pushbutton 被按下時，可以從 D2 得知；會用到 pull-down resistor，但不會用到 LED，所以電阻才會用 10k，跟 Blink 的 220 ohm 差很多。</li>
+<li>Connect three wires to the board. The first two, red and black, connect to the two long vertical rows on the side of the breadboard to provide access to the 5 volt supply and ground. 跟 Blink 由 GPIO pin 提供電源不同 (但一樣是 5V)，這裡 &ldquo;provide ground&rdquo; 的說法很有趣。</li>
+<li>
+<p>The third wire goes from digital pin 2 to one leg of the pushbutton. That same leg (指另一邊永遠連通的接腳) of the button connects through a PULL-DOWN RESISTOR (here 10k ohm) to ground. The other leg of the button connects to the 5 volt supply. 雖然 pushbutton 外觀上有 4 支腳，但其實是兩兩相連的；按下時 &ldquo;全部&rdquo; 會連通。</p>
+<p><img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/button.png" width="60%" />
+<img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/button_sch.png" width="30%" /></p>
+</li>
+<li>
+<p>Pushbuttons or switches CONNECT TWO POINTS in a circuit when you press them. When the pushbutton is OPEN (unpressed) there is no connection between the two legs of the pushbutton, so the pin is connected to ground (through the pull-down resistor) and reads as LOW, or 0. When the button is CLOSED (pressed), it makes a connection between its two legs, connecting the pin to 5 volts, so that the pin reads as HIGH, or 1.</p>
+</li>
+<li>If you disconnect the digital i/o pin from everything, the LED may blink erratically. This is because the input is &ldquo;FLOATING&rdquo; - that is, it doesn&rsquo;t have a SOLID CONNECTION to voltage or ground, and it will randomly return either HIGH or LOW. That&rsquo;s why you need a pull-down resistor in the circuit. 平時 digital pin 沒有經由 pull-down resistor 連往 GND 的話，讀到的值會在 HIGH 與 LOW 之間跳動 (floating)；這裡沒講清楚的是，雖然 D2-switch-GND 直接連通也可以 (solid connection)，但按下按鈕時為了不讓電流往 GND 去，所以中間才要安排 pull-down resistor。</li>
+<li>In the program below, the very first thing that you do will in the setup function is to begin serial communications, at 9600 bits of data per second, between your board and your computer with the line: <code>Serial.begin(9600);</code></li>
+<li>5 volts will freely flow through your circuit, and when it is not pressed, the input pin will be connected to ground through the 10k ohm resistor. This is a DIGITAL Input, meaning that the switch can only be in either an on state (seen by your Arduino as a &ldquo;1&rdquo;, or HIGH) or an off state (seen by your Arduino as a &ldquo;0&rdquo;, or LOW), with NOTHING IN BETWEEN.</li>
+<li>
+<p>&hellip; You can accomplish all this with just one line of code: <code>int sensorValue = digitalRead(2);</code> Once the bord has read the input, make it print this information BACK TO THE COMPUTER as a decimal value. You can do this with the command <code>Serial.println()</code> in our last line of code: <code>Serial.println(sensorValue);</code> Now, when you open your Serial Monitor in the Arduino Software (IDE), you will see a stream of &ldquo;0&rdquo;s if your switch is open, or &ldquo;1&rdquo;s if your switch is closed.</p>
+<pre><code>int pushButton = 2;
+
+// the setup routine runs once when you press reset:
+void setup() {
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+  // make the pushbutton's pin an input:
+  pinMode(pushButton, INPUT);
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  // read the input pin:
+  int buttonState = digitalRead(pushButton);
+  // print out the state of the button:
+  Serial.println(buttonState);
+  delay(1);        // delay in between reads for stability
+}
+</code></pre>
+<p>上面提到的 &ldquo;LED may blink erratically&rdquo;，斷掉 D2-GND 的連線，加上下面的邏輯就可以用內建的 LED 觀察：</p>
+<pre><code>digitalWrite(LED_BUILTIN, buttonState == 1 ? HIGH : LOW);
+delay(100);
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/AnalogReadSerial">Arduino - AnalogReadSerial</a></p>
+<ul>
+<li>This example shows you how to read ANALOG INPUT from the physical world using a POTENTIOMETER. A potentiometer is a simple mechanical device that provides a varying amount of resistance when its shaft (轉軸) is turned. By passing voltage through a potentiometer and into an analog input on your board, it is possible to measure the AMOUNT OF RESISTANCE produced by a potentiometer (or POT for short) as an analog value. 確實 potentiometer 是個可變電阻，但多了第 3 根腳可以讀到電阻值；正確地來說，是讀到不同的電壓值。</li>
+<li>
+<p>Connect the three wires from the potentiometer to your board. The first goes from one of the OUTER pins of the potentiometerto ground. The second goes from the other outer pin of the potentiometer to 5 volts. The third goes from the MIDDLE pin of the potentiometer to the analog pin A0. 外觀有 3 支腳 (2 + 1)，單支腳接往 analog pin (A0)，另外 2 支腳則分別接正負極，本身產生的電阻可以在第 3 支腳 (middle pin) 讀到。</p>
+<p><img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/AnalogReadSerial_BB.png" />
+<img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/AnalogReadSerial_sch.png" width="35%" /></p>
+</li>
+<li>
+<p>By turning the shaft of the potentiometer, you change the amount of resistance on either side of the WIPER, which is connected to the center pin of the potentiometer. This changes the VOLTAGE AT THE CENTER PIN. When the resistance between the center and the side connected to 5 volts is close to zero (and the resistance on the other side is close to 10k ohm), the voltage at the center pin nears 5 volts. When the resistances are reversed, the voltage at the center pin nears 0 volts, or ground. This voltage is the ANALOG VOLTAGE that you&rsquo;re reading as an input. 可以想成 wiper 就是 5v 與 middle pin 中間的電阻；完全沒電阻時會讀到 5V，電阻全開時會讀到 0V，而 analog input 就是 0 ~ 5V 中間的變化值。</p>
+</li>
+<li>The Arduino and Genuino boards have a circuit inside called an analog-to-digital converter or ADC that reads this changing voltage and converts it to a number between 0 and 1023. When the shaft is turned all the way in one direction, there are 0 volts going to the pin, and the input value is 0. When the shaft is turned all the way in the opposite direction, there are 5 volts going to the pin and the input value is 1023. In between, <code>analogRead()</code> returns a number between 0 and 1023 that is proportional to the amount of voltage being applied to the pin. 由於內建 ADC，能將 0 ~ 5V 細分成 1024 階 (0 ~ 1023)，用 <code>analogRead()</code> 就能讀到這個值。</li>
+<li>
+<p>The only thing that you do in the <code>setup</code> function is to begin serial communications, at 9600 bits of data per second, between your board and your computer with the command: <code>Serial.begin(9600);</code> &hellip; you need to establish a variable to store the resistance value (which will be between 0 and 1023, perfect for an <code>int</code> datatype) coming in from your potentiometer: <code>int sensorValue = analogRead(A0);</code> 傳送與接收兩端的 baud rate 要一樣；原來 <code>A0</code> 被定義在 Arduino Core 裡：</p>
+<pre><code>void setup() {
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  // read the input on analog pin 0:
+  int sensorValue = analogRead(A0);
+  // print out the value you read:
+  Serial.println(sensorValue);
+  delay(1);        // delay in between reads for stability
+}
+</code></pre>
+<p>不用先將 A0 設為 input mode? 猜想板子上寫著 ANALOG IN，這些 pin 固定只用在 input (ADC + <code>analogRead()</code>)，而且 Fade 的例子，analog output? 是寫往 digital pin 而非 analog pin。事實上 <code>pinMode()</code> 在 Arduino Reference 裡被歸為 Digital I/O。</p>
+</li>
+<li>
+<p>You should see a STEADY stream of numbers ranging from 0-1023, correlating to the position of the pot. As you turn your potentiometer, these numbers will respond almost instantly. 實際上觀察，只要不轉動 potentiometer，用 <code>analogRead()</code> 讀到的值是滿固定的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/Fade">Arduino - Fade</a></p>
+<pre><code>int led = 9;           // the PWM pin the LED is attached to
+int brightness = 0;    // how bright the LED is
+int fadeAmount = 5;    // how many points to fade the LED by
+
+// the setup routine runs once when you press reset:
+void setup() {
+  // declare pin 9 to be an output:
+  pinMode(led, OUTPUT);
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  // set the brightness of pin 9:
+  analogWrite(led, brightness);
+
+  // change the brightness for next time through the loop:
+  brightness = brightness + fadeAmount;
+
+  // reverse the direction of the fading at the ends of the fade:
+  if (brightness &lt;= 0 || brightness &gt;= 255) {
+    fadeAmount = -fadeAmount;
+  }
+  // wait for 30 milliseconds to see the dimming effect
+  delay(30);
+}
+</code></pre>
+<ul>
+<li>This example demonstrates the use of the <code>analogWrite()</code> function in fading an LED off and on. AnalogWrite uses pulse width modulation (PWM), turning a digital pin ON AND OFF VERY QUICKLY with different ratio between on and off, to create a fading effect. 不是改變輸出的電壓!! 由於輸出還是 digital (0/1)，只是搭配 PWM 產生不同頻率的訊號，所以還是寫往 digital pin (標示有 PWM~ 者)，還是要先設定 output mode。</li>
+<li>The <code>analogWrite()</code> function that you will be using in the main loop of your code requires two arguments: One telling the function which pin to write to, and one indicating what PWM value to write. In order to fade your LED off and on, gradually increase your PWM value from 0 (all the way off) to 255 (all the way on), and then back to 0 once again to complete the cycle. 注意 PWM 的值介於 0 ~ 255，跟上個範例 analog input 由 ADC 轉出的 0 ~ 1024 不同。</li>
+<li><code>analogWrite()</code> can change the PWM value very fast, so the delay at the end of the sketch controls the speed of the fade. Try changing the value of the delay and see how it changes the fading effect.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/PWM">Arduino - PWM</a> #ril</p>
+</li>
+<li><a href="https://www.arduino.cc/en/Tutorial/ReadAnalogVoltage">Arduino - ReadAnalogVoltage</a> 將 analog input 換算回 voltage，為什麼有這個需求? #ril</li>
+<li><a href="https://www.arduino.cc/en/Tutorial/BuiltInExamples">Built-In Examples - Arduino - BuiltInExamples</a> 所有內建在 Arduino Software 的範例，值得全部做過!! #ril</li>
+<li><a href="https://www.arduino.cc/en/Tutorial/LibraryExamples">Examples from Libraries - Arduino - LibraryExamples</a> #ril</li>
+</ul>
+<h2 id="arduino-language-standard-arduino-librarycore-c-c">Arduino Language, Standard Arduino Library/Core, C, C++<a class="headerlink" href="#arduino-language-standard-arduino-librarycore-c-c" title="Permanent link"> #</a></h2>
+<ul>
+<li>Sketch 是 Arduino Software 提出的觀念；Sketch folder = Arduino code file (<code>.ino</code>) + C/C++ files (<code>.c</code>/<code>.cpp</code>) + header files (<code>.h</code>)。</li>
+<li>Ardunio code file = Arduino Core (<code>#include &lt;Arduino.h&gt;</code>) + <code>setup()</code> + <code>loop()</code> &rarr; 經過 arduino-builder 轉換 &rarr; 交給 AVR-GCC 編譯 &rarr; 跟 AVR Libc 連結 &rarr; 產生 binary (<code>.hex</code>)。</li>
+<li>Arduino Language 實質上就是 <code>#include &lt;Arduino.h&gt;</code> &ndash; 間接引入了 <code>&lt;stdlib.h&gt;</code>、<code>&lt;stdbool.h&gt;</code>、<code>&lt;string.h&gt;</code>、<code>&lt;math.h&gt;</code>、<code>&lt;avr/pgmspace.h&gt;</code>、<code>&lt;avr/io.h&gt;</code>、<code>&lt;avr/interrupt.h&gt;</code> 等 libraries，定義了 <code>HIGH</code>/<code>LOW</code>、<code>INPUT</code>/<code>OUTPUT</code>/<code>INPUT_PULLUP</code> 等常數，<code>pinMode()</code>、<code>digitalWrite()</code>、<code>digitalWrite()</code> 等 function，另外宣告了一些 <code>#define min(a,b) ((a)&lt;(b)?(a):(b))</code> 這類的 macro，這些林林總總加起來，就形成 <a href="https://www.arduino.cc/reference/en/">Arduino Reference</a> 所宣稱的 Arduino Programming Language；與其說是 lanugage，倒不如說是 framework。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.arduino.cc/en/Hacking/HomePage">Hardware - Arduino - Hacking</a> Arduino sketches are C/C++ based and compiled with the open-source compiler <a href="https://www.avrfreaks.net/">avr-gcc</a> and linked against the open-source <a href="http://www.nongnu.org/avr-libc/">AVR Libc</a>. The Arduino language comes from <a href="http://wiring.org.co/">Wiring</a>. The Arduino environment is based on <a href="http://processing.org/">Processing</a> and includes modifications made by Wiring.</p>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Main/FAQ#toc13">Can I program the Arduino board in C? - Arduino - FAQ</a> In fact, you already are; the Arduino language is MERELY A SET OF C/C++ FUNCTIONS that can be called from your code. Your sketch undergoes minor changes (e.g. automatic generation of function prototypes) and then is passed directly to a C/C++ compiler (<code>avr-g++</code>). All standard C and C++ constructs supported by <code>avr-g++</code> should work in Arduino. 本來就是 C/C++，只要 compiler <code>avr-g++</code> 支援即可。Sketch 就是交給 <code>avr-g++</code> 編譯；就 macOS 而言，它的位置就在 <code>/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-g++</code>。</p>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Reference/HomePage?from=Reference.Extended">Arduino - Reference</a> The Arduino language is based on C/C++. It links against <a href="http://www.nongnu.org/avr-libc/user-manual/modules.html">AVR Libc</a> and allows the use of any of its functions; see its <a href="http://www.nongnu.org/avr-libc/user-manual/index.html">user manual</a> for details.</p>
+</li>
+<li>
+<p><a href="https://books.google.com.tw/books?id=QTbyAAAAQBAJ&amp;pg=PA20">Beginning Arduino</a> 中提到 Arduino IDE 中寫的語言就是 C，許多專家都用其他 IDE，例如 Eclipse、ArduIDE、GNU/Emacs、AVR-GCC、AVR Studio 甚至是 Xcode；若直接用 AVR-C 撰寫，就有機會跳脫 <code>setup()</code> 與 <code>loop()</code> 的框架??</p>
+</li>
+<li>
+<p><a href="https://www.arduino.cc/en/Guide/Introduction">Why Arduino? - Arduino - Introduction</a> 關於 &ldquo;Open source and extensible software&rdquo; 的說明中提到 Arduino programming language 可以用 C++ library 擴充，懂的人也可以直接用 AVR C programming language 來寫。而 &ldquo;you can add AVR-C code directly into your Arduino programs if you want to&rdquo; 這句話似乎就在講 Arduino IDE 裡寫的就是 C 語言。</p>
+</li>
+<li>
+<p><a href="https://github.com/arduino/Arduino/wiki/Build-Process#overview">Overview - Build Process · arduino/Arduino Wiki</a></p>
+<ul>
+<li>Then your code gets combined with (linked against), the STANDARD ARDUINO LIBRARIES that provide basic functions like <code>digitalWrite()</code> or <code>Serial.print()</code>.</li>
+<li>If not already present, <code>#include &lt;Arduino.h&gt;</code> is added to the sketch. This header file (found in the <code>core</code> folder for the currently selected board) includes all the definitions needed for the STANDARD ARDUINO CORE.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/arduino/ArduinoCore-avr/blob/master/cores/arduino/Arduino.h">ArduinoCore-avr/Arduino.h at master · arduino/ArduinoCore-avr</a> 一開始引入了 <code>&lt;stdlib.h&gt;</code>、<code>&lt;stdbool.h&gt;</code>、<code>&lt;string.h&gt;</code>、<code>&lt;math.h&gt;</code>、<code>&lt;avr/pgmspace.h&gt;</code>、<code>&lt;avr/io.h&gt;</code>、<code>&lt;avr/interrupt.h&gt;</code> 等 libraries，定義了 <code>HIGH</code>/<code>LOW</code>、<code>INPUT</code>/<code>OUTPUT</code>/<code>INPUT_PULLUP</code> 等常數，<code>pinMode()</code>、<code>digitalWrite()</code>、<code>digitalWrite()</code> 等 function，另外宣告了一些 <code>#define min(a,b) ((a)&lt;(b)?(a):(b))</code> 這類的 macro，這些林林總總加起來，就形成 <a href="https://www.arduino.cc/reference/en/">Arduino Reference</a> 所宣稱的 Arduino Programming Language。</p>
+</li>
+<li>
+<p><a href="https://github.com/esp8266/Arduino/issues/1066">Arduino 1.6.6 now requires function prototypes in sketches (preprocessor changed?) · Issue #1066 · esp8266/Arduino</a></p>
+<ul>
+<li>ladyada: FQA 提到 Your sketch undergoes minor changes (e.g. automatic generation of function prototypes) and then is passed directly to a C/C++ compiler (avr-g++). 現在 sketch 裡沒放 <code>setup()</code> 跟 <code>loop()</code> 會出錯 &ndash; <code>undefined reference to 'setup'</code></li>
+<li>
+<p>ladyada: ok yeah its a thing thats now done with arduino-builder <a href="https://github.com/arduino/arduino-builder">https://github.com/arduino/arduino-builder</a> 專案 README 提到：</p>
+<p>An Arduino sketch differs from a standard C program in that it misses a <code>main</code> (provided by the Arduino core), function prototypes are not mandatory, and libraries inclusion is automagic (you just have to <code>#include</code> them). This tool generates function prototypes and gathers library paths, providing <code>gcc</code> with all the needed <code>-I</code> params. 這解釋了為何 Sketch &gt; Include Library 只是加了 <code>#include</code>，之後 comipler 就知道要 include 哪些 library。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>就 macOS 而言，core 位在 <code>/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/</code> 底下，進而發現 <code>/Applications/Arduino.app//Contents/Java/hardware/arduino/avr/cores/arduino/main.cpp</code> 主程式定義了 <code>setup()</code> 與 <code>loop()</code>：</p>
+<pre><code>#include &lt;Arduino.h&gt;
+
+// Declared weak in Arduino.h to allow user redefinitions.
+int atexit(void (* /*func*/ )()) { return 0; }
+
+// Weak empty variant initialization function.
+// May be redefined by variant files.
+void initVariant() __attribute__((weak));
+void initVariant() { }
+
+void setupUSB() __attribute__((weak));
+void setupUSB() { }
+
+int main(void)
+{
+    init();
+
+    initVariant();
+
+#if defined(USBCON)
+    USBDevice.attach();
+#endif
+
+    setup();
+
+    for (;;) {
+        loop();
+        if (serialEventRun) serialEventRun();
+    }
+
+    return 0;
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="digital-io">Digital I/O ??<a class="headerlink" href="#digital-io" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/">pinMode() - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/functions/digital-io/digitalread/">digitalRead() - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/">digitalWrite() - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/variables/constants/constants/#_defining_pin_levels_high_and_low">Defining Pin Levels: HIGH and LOW - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/variables/constants/constants/#_defining_digital_pins_modes_input_input_pullup_and_output">Defining Digital Pins modes: INPUT, INPUT_PULLUP, and OUTPUT - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/variables/constants/constants/#_defining_built_ins_led_builtin">Defining built-ins: LED_BUILTIN - Arduino Reference</a></li>
+</ul>
+<h2 id="analog-io">Analog I/O ??<a class="headerlink" href="#analog-io" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/reference/en/language/functions/analog-io/analogread/">analogRead() - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/">analogWrite() - Arduino Reference</a> #ril</li>
+<li><a href="https://www.arduino.cc/reference/en/language/functions/analog-io/analogreference/">analogReference() - Arduino Reference</a> #ril</li>
+</ul>
+<h2 id="memory">Memory ??<a class="headerlink" href="#memory" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/tutorial/memory">Arduino - Memory</a> Flash 放程式，SRAM 放執行期資料，而 EEPROM 則是放長期資料 #ril</li>
+</ul>
+<h2 id="library">Library ??<a class="headerlink" href="#library" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Reference/Libraries">Arduino - Libraries</a> Standard Libraries 列了不少 library #ril</li>
+<li><a href="https://www.arduino.cc/en/Hacking/LibraryTutorial">Writing a Library for Arduino - Arduino - LibraryTutorial</a> #ril</li>
+</ul>
+<h2 id="build-process">Build Process ??<a class="headerlink" href="#build-process" title="Permanent link"> #</a></h2>
+<ul>
+<li>比對 <code>/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/*.h</code> 與 Sketch &gt; Include Library 下的內容，才發現多數選項來自 <code>/Applications/Arduino.app//Contents/Java/hardware/arduino/avr/librariesls</code> 與 <code>/Applications/Arduino.app//Contents/Java/libraries</code>，但不一定跟 AVR 有關?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/arduino/arduino-builder">arduino/arduino-builder: A command line tool for compiling Arduino sketches</a> Arduino Software 背後用的工具，可以實現從 command line 建構 Arduino 專案 #ril</li>
+<li><a href="https://github.com/queezythegreat/arduino-cmake">queezythegreat/arduino-cmake: Arduino CMake Build system</a> 這才知道 CMake 可以通吃 Makefile、Eclipse project、Visual Studio 跟 Xcode 等；不過 <code>example/</code> 的程式還是用了 <code>setup()</code> 跟 <code>loop()</code> #ril</li>
+<li><a href="https://www.arduino.cc/en/Guide/Environment">Arduino - Environment</a><ul>
+<li>Sketch &gt; Verify/Compile - Checks your sketch for errors compiling it; it will report memory usage for CODE and VARIABLES in the console area.</li>
+<li>Sketch &gt; Upload - Compiles and loads the BINARY FILE onto the configured board through the configured Port.</li>
+<li>Sketch &gt; Export Compiled Binary - Saves a <code>.hex</code> file that may be kept as archive or sent to the board USING OTHER TOOLS. 顯然 compile 產生的 binary file 就是 <code>.hex</code>，是否透過 programmer 上傳有什麼差別?? 不透過 programmer 是透過 onboard USB-serial connection 把程式當資料上傳??</li>
+</ul>
+</li>
+<li><a href="https://github.com/arduino/Arduino/wiki/Build-Process">Build Process · arduino/Arduino Wiki</a> #ril</li>
+</ul>
+<h2 id="interfacing">Interfacing ??<a class="headerlink" href="#interfacing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment#serialmonitor">Serial Monitor - Arduino - Environment</a> 提到 You can also talk to the board from Processing, Flash, MaxMSP, etc (see the interfacing page for details). 原來要從外面跟板子溝通有很多方式，都是走 serial ??</li>
+<li><a href="http://playground.arduino.cc/Main/Interfacing">Arduino Playground - Interfacing</a> 許多語言、平台，都可以跟 Arduino 溝通 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../arduino-audio/">Audio</a></li>
+<li><a href="../arduino-display/">Display</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../avr-libc/">AVR Libc</a></li>
+<li><a href="../fritzing/">Fritzing</a> - 程式通常必須搭配特定的線路配置</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.arduino.cc/reference/en/">Arduino Language Reference</a></li>
+<li><a href="https://github.com/arduino/ArduinoCore-avr/blob/master/cores/arduino/Arduino.h">ArduinoCore-avr/Arduino.h</a></li>
+<li><a href="https://www.arduino.cc/en/Reference/Libraries">Arduino Libraries</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

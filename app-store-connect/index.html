@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/app-store-connect/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>App Store Connect - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/app-store-connect.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#app-store-connect">App Store Connect</a></li>
+            <li class="second-level"><a href="#rating-review">Rating &amp; Review ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="app-store-connect">App Store Connect<a class="headerlink" href="#app-store-connect" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developer.apple.com/app-store-connect/">App Store Connect - Apple Developer</a></p>
+<ul>
+<li>
+<p>Easily upload, submit, and manage your apps on the App Store with App Store Connect on the web or on iOS. This suite of tools also lets you view sales reports, access APP ANALYTICS, invite users to test your apps with TestFlight, and much more.</p>
+<p>定位像是 Google 的 Google Play Console，管理 App Store 上的資訊、發佈、數據；除 web UI 外，也有專用的 iOS app。</p>
+<p>在 App Store Connect 上是看得到 macOS software 的，但這份文件卻完全沒提到 macOS??</p>
+</li>
+<li>
+<p>Create Your Product Page - Help customers find and engage with your app on the App Store by creating a great PRODUCT PAGE. You can enter your app name, subtitle, keywords, description, and more, in up to 28 languages. Upload up to ten screenshots and three optional app previews for each supported language, and choose the order you’d like them to appear.</p>
+</li>
+<li>Add In-App Purchases - SELL A VARIETY OF CONTENT, including subscriptions, new features, and services, from within your app by entering in-app purchase details in App Store Connect. You can also select in-app purchases to promote directly on the App Store.</li>
+<li>Upload, Test, and Submit - View EACH BUILD of your app that you’ve uploaded using Xcode, <code>altool</code> (即 Application Loader 的 CLI 版本), or Application Loader, and easily distribute it to testers for valuable feedback using TestFlight in App Store Connect. When your app is ready for public distribution, submit it to App Store Review.</li>
+<li>
+<p>Manage Releases and Updates - You can publish your app as soon as it’s approved, or manually release it ON A SPECIFIC DAY. Choose a price point, offer introductory prices for auto-renewable subscriptions, and even let customers PRE-ORDER your iOS app. You can also release iOS app updates IN PHASES OVER A 7-DAY PERIOD.</p>
+<p>參考 <a href="https://medium.com/tribalscale/why-phased-releasing-apps-are-the-future-95ed5f1de9e4">Why Phased Releasing Apps is the Future – TribalScale – Medium</a> &ndash; The Phased Release feature allows a developer to gradually release an app to iPhone users who opted for automatic updates over a period of 7 days. 分七天慢慢釋出，算是 Canary Release 的一種，可以自己控制比例嗎??</p>
+</li>
+<li>
+<p>Gain Insights into Your App&rsquo;s Performance - App Analytics lets you measure user engagement, marketing campaigns, and monetization using data you won’t find anywhere else. Get next-day sales and unit data in Sales and Trends, and view details on completed payments in Payments and Financial Reports. 這裡指的是銷售績效，而非軟體的執行效能。</p>
+</li>
+<li>Access Additional Features - RESPOND TO CUSTOMER REVIEWS on your App Store product page, create promo codes to give potential customers or press a free download of your app or in-app purchase, bundle multiple apps into a single purchase, and more.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://appleinsider.com/articles/18/06/05/apple-rebrands-itunes-connect-as-app-store-connect-adds-new-app-management-features">Apple rebrands iTunes Connect as &lsquo;App Store Connect,&rsquo; adds new app management features</a> (2018-06-04) #ril</p>
+</li>
+</ul>
+<h2 id="rating-review">Rating &amp; Review ??<a class="headerlink" href="#rating-review" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://help.apple.com/app-store-connect/#/devd15088dd0">View ratings and reviews - App Store Connect Help</a> 在 My Apps &gt; Activity &gt; Ratings and Reviews 下 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://appstoreconnect.apple.com/">App Store Connect</a></li>
+<li><a href="https://developer.apple.com/app-store-connect/">App Store Connect - Apple Developer</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://help.apple.com/app-store-connect/">App Store Connect Help</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../app-store-connect-api/">App Store Connect API</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

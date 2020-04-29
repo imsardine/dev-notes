@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/trello/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Trello - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/trello.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#trello">Trello</a></li>
+            <li class="second-level"><a href="#markdown">Markdown ??</a></li>
+                
+            <li class="second-level"><a href="#cover">如何在上傳圖片時不要自動成為 cover?</a></li>
+                
+            <li class="second-level"><a href="#mouseless">如何只用鍵盤快速操作?</a></li>
+                
+            <li class="second-level"><a href="#card">如何快速調整 card 上下順序?</a></li>
+                
+            <li class="second-level"><a href="#pomodora">如何搭配 Pomodora 使用?</a></li>
+                
+            <li class="second-level"><a href="#_1">如何管理同時在進行的多個專案?</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="trello">Trello<a class="headerlink" href="#trello" title="Permanent link"> #</a></h1>
+<h2 id="markdown">Markdown ??<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://help.trello.com/article/821-using-markdown-in-trello">How To Format Your Text in Trello - Trello Help</a></p>
+<ul>
+<li>
+<p>Markdown is a simple language used to add formatting to text. Trello uses a MODIFIED VERSION of the Markdown syntax. It allows you to easily add bold, italics, links, lists, paragraphs, headers, and images and code blocks to blocks of texts. You can add markdown to your cards in the card&rsquo;s description, checklists and comments, as well as in your Trello bio.</p>
+<p>看過下面的 Markdown syntax，覺得 Markdown 的用法並沒有什麼特別；若要用其他工具來轉換成 HTML，比較有可能出狀況的是 nested list。</p>
+</li>
+<li>
+<p>Bullet and numbered lists: Preface a series of lines with hyphens or numbers to create a list. Lists will only be formatted if you start a new paragraph (by leaving a blank line before the list). You can add a space before the bullet mark to create NESTED BULLETS.</p>
+<p>To indent within a bulleted or numbered list, start the NEW LINE WITH A SPACE.</p>
+<p>不太懂 new line with a space 的意思，不過文件內也沒有示範。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="cover">如何在上傳圖片時不要自動成為 cover?<a class="headerlink" href="#cover" title="Permanent link"> #</a></h2>
+<ul>
+<li>從 Settings &gt; Enable/Disable Card Cover Images 調整。不過一旦停用這個功能，就無法單就某個 card 讓它顯示 cover。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Adding attachments to cards - Trello Help <a href="http://help.trello.com/article/769-adding-attachments-to-cards">http://help.trello.com/article/769-adding-attachments-to-cards</a> 上傳到 Trello card 的圖片，會自動視為 cover；Card cover 可以從 Settings &gt; Card Coverage Images 開關。</li>
+</ul>
+<h2 id="mouseless">如何只用鍵盤快速操作?<a class="headerlink" href="#mouseless" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>?</code> 調出 Shortcuts Page</li>
+<li>方向鍵可以選取不同的 card (灰色)，接下來許多快捷鍵會直接作用在上面。</li>
+<li><code>C</code> 封存 (這容易踩到)</li>
+<li><code>Enter</code> 開啟 card</li>
+<li><code>D</code> 改 due date</li>
+<li><code>E</code> 進入 Quick Edit Mode</li>
+<li><code>F</code> 啟用 card filter (取消用 <code>X</code>)</li>
+<li><code>Q</code> 只顯示指派給我的 card (取消用 <code>X</code>)；可以跟 <code>F</code> 混用。</li>
+<li><code>/</code> 搜尋</li>
+<li><code>L</code> 調整 label</li>
+<li><code>;</code> 顯示/隱藏 label 的文字</li>
+<li><code>&lt;</code>/<code>&gt;</code> 移動到左右不同的 list。 </li>
+<li><code>N</code> 在目前選取的 card 底下新增一個 card。</li>
+<li><code>M</code> 調整 member。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Keyboard Shortcuts | Trello <a href="https://trello.com/shortcuts">https://trello.com/shortcuts</a></li>
+</ul>
+<h2 id="card">如何快速調整 card 上下順序?<a class="headerlink" href="#card" title="Permanent link"> #</a></h2>
+<ul>
+<li>還是只能用滑鼠拖拉。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Shortcut key for moving cards up or down in Trello - Web Applications Stack Exchange <a href="https://webapps.stackexchange.com/questions/37908/">https://webapps.stackexchange.com/questions/37908/</a> user3842869: 有個 Chrome 外掛可以移到 top/bottom。</li>
+<li>Chrome Web Store - Extensions <a href="https://chrome.google.com/webstore/category/extensions">https://chrome.google.com/webstore/category/extensions</a> 可以把 card 移到 top/bottom，但沒有上下移動；裝了沒作用?</li>
+<li>Trello Changed their Card Moving Shortcut – Flavian Hautbois – Medium (2017-04-26) <a href="https://medium.com/@FlavianHautbois/trello-why-does-my-card-moving-shortcut-no-longer-works-a1ce27f91880">https://medium.com/@FlavianHautbois/trello-why-does-my-card-moving-shortcut-no-longer-works-a1ce27f91880</a> 提到 &ldquo;we’ve been waiting for the ability to move cards up and down with keyboard shortcuts for ages though&rdquo; 顯然還沒被解決</li>
+</ul>
+<h2 id="pomodora">如何搭配 Pomodora 使用?<a class="headerlink" href="#pomodora" title="Permanent link"> #</a></h2>
+<ul>
+<li>這方面的應用還真不少&hellip;</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>How To Pomodoro Your Way To Productivity (Pomodoro Technique Tips) <a href="https://blog.trello.com/how-to-pomodoro-your-way-to-productivity">https://blog.trello.com/how-to-pomodoro-your-way-to-productivity</a> #ril</li>
+<li>Pomello - Chrome Web Store <a href="https://chrome.google.com/webstore/detail/pomello/ahjnfakocpfoocnncbgmondnnnlfjide">https://chrome.google.com/webstore/detail/pomello/ahjnfakocpfoocnncbgmondnnnlfjide</a></li>
+<li>Pomodoro Timer for Trello - PomoDoneApp <a href="https://pomodoneapp.com/pomodoro-timer-for-trello.html">https://pomodoneapp.com/pomodoro-timer-for-trello.html</a></li>
+</ul>
+<h2 id="_1">如何管理同時在進行的多個專案?<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>若為每個專案都建立一個 board，但背後的人力若是同一個 pool，要統一 prioritize 會有困難。</li>
+<li>理想上一個 team 只會有一個 board，方便看出任務、資源的配置是否洽當。</li>
+<li>可以為比較具規模的專案建立 board，但目的是為了與 stakeholders 溝通 (例如現在正在開發什麼、大概什麼時候會有更新&hellip;)，但內部的開發細節應該還是得放在 team 的 board 統一管理。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://trello.com/">Trello</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../trello-api/">API</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://trello.com/shortcuts">Keyboard Shortcuts | Trello</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

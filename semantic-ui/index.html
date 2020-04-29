@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/semantic-ui/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Semantic UI - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/semantic-ui.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#semantic-ui">Semantic UI</a></li>
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#component-definition-element-collection-view-module-behavior">Component, Definition, Element, Collection, View, Module, Behavior ??</a></li>
+                
+            <li class="second-level"><a href="#message">Message ??</a></li>
+                
+            <li class="second-level"><a href="#theme">Theme ??</a></li>
+                
+            <li class="second-level"><a href="#image">Image ??</a></li>
+                
+            <li class="second-level"><a href="#icon">Icon</a></li>
+                
+            <li class="second-level"><a href="#checkbox">Checkbox ??</a></li>
+                
+            <li class="second-level"><a href="#menu">Menu ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="semantic-ui">Semantic UI<a class="headerlink" href="#semantic-ui" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/">Semantic UI</a></p>
+<ul>
+<li>User Interface is the language of the web</li>
+<li>Semantic is a development framework that helps create beautiful, RESPONSIVE layouts using human-friendly HTML.</li>
+<li>Unbelievable Theming: Semantic comes equipped with an intuitive INHERITANCE system and high level THEMING VARIABLES that let you have complete design freedom. 有 theme 可以切換，也可以透過 theming variables 覆寫。</li>
+<li>Responsively Designed: Semantic is designed completely with EM (長度的單位) making responsive sizing a breeze. Design VARIATIONS built into elements allow you to make the choice how content adjusts for tablet and mobile.</li>
+<li>Partners with Libraries You Love: Semantic has integrations with <a href="https://react.semantic-ui.com/">React</a>, Angular, Meteor, Ember and many other frameworks to help organize your UI layer alongside your application logic. 專注在 UI layer，跟其他 framework 不相衝突；下面 Intuitive Javascript 的範例是用 jQuery</li>
+</ul>
+</li>
+<li>
+<p><a href="https://coderwall.com/p/ham3gg/move-over-bootstrap-and-foundation-welcome-semantic-ui">Move over Bootstrap and Foundation, welcome Semantic UI (Example)</a> (2019-01-08) #ril</p>
+</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://learnsemantic.com/">Learn Semantic | Semantic UI</a> 似乎整個網站都用 Semantic UI 做的。</li>
+<li><a href="http://semantic-ui-forest.com/">Semantic-UI-Forest, collection of design, themes and templates for Semantic-UI.</a></li>
+<li><a href="https://github.com/Semantic-Org/Semantic-UI/issues/2449">Sites/Companies Using Semantic UI · Issue #2449 · Semantic-Org/Semantic-UI</a></li>
+<li><a href="https://hackernoon.com/23-best-react-ui-component-libraries-and-frameworks-250a81b2ac42#139a">23 Best React UI Component Libraries And Frameworks</a> (2018-04-04) Semantic UI React is the official React integration for Semantic UI. With 6.5K stars it’s used by Netflix, Amazon and other great organizations.</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>不同的 element 會有不同的 sample，過程中就會學到各式 class 的用法；看過幾個範例，就能體會什麼是 semantic 了。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/">Semantic UI</a></p>
+<ul>
+<li>
+<p>Concise HTML: Semantic UI treats WORDS and CLASSES as exchangeable concepts. Classes use syntax from NATURAL LANGUAGES like noun/modifier relationships, word ORDER, and PLURALITY to link concepts intuitively.</p>
+<p>意思是 class 寫起來像是 natural laugnage 一樣 (例如下面的 &ldquo;three buttons&rdquo;，注意最後的 <code>s</code>)，這就是所謂的 semantic。下面的例子，很神奇的，active button 會自己變色!!</p>
+<pre><code>&lt;div class="ui three buttons"&gt;
+  &lt;button class="ui active button"&gt;One&lt;/button&gt; &lt;-- active button 會比 button active 直覺
+  &lt;button class="ui button"&gt;Two&lt;/button&gt;
+  &lt;button class="ui button"&gt;Three&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>
+<p>Intuitive Javascript: Semantic uses SIMPLE PHRASES called BEHAVIORS that trigger functionality. Any arbitrary decision in a component is included as a setting that developers can modify.</p>
+<pre><code>&lt;select name="skills" multiple="" class="ui fluid dropdown"&gt;
+  &lt;option value=""&gt;Skills&lt;/option&gt;
+  &lt;option value="angular"&gt;Angular&lt;/option&gt;
+  &lt;option value="css"&gt;CSS&lt;/option&gt;
+  &lt;option value="ember"&gt;Ember&lt;/option&gt;
+  &lt;option value="html"&gt;HTML&lt;/option&gt;
+  &lt;option value="javascript"&gt;Javascript&lt;/option&gt;
+  &lt;option value="meteor"&gt;Meteor&lt;/option&gt;
+  &lt;option value="node"&gt;NodeJS&lt;/option&gt;
+&lt;/select&gt;
+
+$('select.dropdown') // 執行下去，會讓 list 收合起來，只剩兩個選定的項目，還可以移除
+  .dropdown('set selected', ['meteor', 'ember'])
+;
+</code></pre>
+<p>其中 <code>$('select.dropdown')</code> 是 jQuery 的用法，而 <code>.dropdown()</code> 可能是 <code>semantic.js</code> 對帶有 <code>ui</code> class 的 component 加工後的結果?? 對照 Glossary 的定義，其中 <code>'set selected'</code> 就是 behavior &ndash; 可供外面呼叫的 action。</p>
+</li>
+<li>
+<p>Simplified Debugging: Performance logging lets you track down bottlenecks without digging through stack traces. 開啟 Chrome 的 Developer Tools &gt; Console，可以看到一些 debug info，以下面的例子，加上 <code>debug: true</code>，就可以看到動畫在每個環節花了多少時間。</p>
+<pre><code>$('.sequenced.images .image')
+  .transition({
+    debug     : true,
+    animation : 'jiggle',
+    duration  : 500,
+    interval  : 200
+  })
+;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://learnsemantic.com/">Learn Semantic | Semantic UI</a> #ril</p>
+</li>
+</ul>
+<h2 id="component-definition-element-collection-view-module-behavior">Component, Definition, Element, Collection, View, Module, Behavior ??<a class="headerlink" href="#component-definition-element-collection-view-module-behavior" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/">Semantic UI</a></p>
+<ul>
+<li>
+<p>Unbelievable Breadth: DEFINITIONS aren&rsquo;t limited to just buttons on a page. Semantic&rsquo;s COMPONENTS allow several distinct TYPES of definitions: elements, collections, views, modules and behaviors which cover the gamut of interface design.</p>
+<p>整個 UI design 細分為 element、collection、view、module 跟 behavior，泛稱 component，而每一份 component 的說明文件都是一個 definition。UI Docs 左側的選單，除了 Introduction 與 Usage 外，底下依序就是 Globals、Elements、Collections、Views、Modules、Behaviors 不同類型的 component；實務上不太需要管 component type 是什麼，因為有些分類很難理解。</p>
+</li>
+<li>
+<p>Liberate your Development, Enterprise Ready &ndash; Build tools, performance logging, support for CUSTOM DEFINITIONS, multiple-levels of theme inheritance—a developer&rsquo;s dream. 可以自訂元件??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://semantic-ui.com/introduction/glossary.html#types-of-components">Types of Components - Glossary | Semantic UI</a></p>
+<ul>
+<li>
+<p>Globals - Globals are STYLES that are applied ACROSS A SITE. These include things like CSS resets??, and sitewide font, link and sizing defaults. Most importantly, globals include site-wide theming variables that other components can inherit and modify.</p>
+<p>相對於其他 component type，是在頁面上沒有實體的 style，但會影響整個 site 及所有 component type 的呈現。</p>
+</li>
+<li>
+<p>Element - UI elements are page elements with a SINGLE FUNCTION. They can exist ALONE or in a PLURAL FORM with elements sharing QUALITIES (特性). For example, a group of buttons may use <code>ui red buttons</code> as a GROUPING with individual <code>ui button</code> children.</p>
+<p>實驗確認，兩層都要加 <code>ui</code> 才行! (<code>ui button</code> 才是個 component，而 <code>ui red buttons</code> 只是給了一個 hint 而已) 上面的 plural form 指的是 class name 複數的用法：</p>
+<pre><code>&lt;div class="ui red buttons"&gt;
+  &lt;a class="ui button"&gt;Button 1&lt;/a&gt;
+  &lt;a class="ui button" href="http://www.google.com"&gt;Button 2&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<p>只因為 JavaScript + (CSS) 另外分出 module、behavior 的做法有點奇怪? 那是很實作細節的東西，概念上應該都視為 UI element 會比較直覺。</p>
+</li>
+<li>
+<p>Collection - Collections are HETEROGENEOUS groups of components which are usually found together. They describe a list of &ldquo;usual suspects&rdquo; (普通嫌疑犯?) which appear in a CERTAIN CONTEXT. They may include and extend other ui elements for use in certain contexts—for example form may extend dropdown or input—as well as include THEIR OWN CONTENT.</p>
+<p>就特定用途 (certain context) 將多個異質的 component 組合起來 (注意組成不限於 element)；最後的 &ldquo;their own content&rdquo; 指的是 collection 裡面可能有自己專用的 element (不能拿到外面單獨使用)，例如 form 的 content 裡面有 text area，但不能單獨拿出來用，但也可以有 dropdown，不一定要在 form 裡面使用。</p>
+</li>
+<li>
+<p>Views - A view is a CONVENTION for presenting SPECIFIC TYPES OF CONTENT that is usually CONSISTENT ACROSS A WEBSITE. These include things like comments, activity feeds, or cards.</p>
+<p>只要提供數據、設定即可，不太會去改變它的結構，這樣在外觀上才會形成 convention &ndash; 網路上大家都這麼表現，一看就懂的東西。</p>
+</li>
+<li>
+<p>Modules - Modules are components that include both a definition of how they appear and how they BEHAVE. These include components like, accordions, dropdowns, and popups. 也就是 CSS + JavaScript。</p>
+</li>
+<li>Behaviors - Behaviors are standalone Javascript components that describe how page elements should ACT, but not how they should APPEAR. Behaviors include things like form validation, state management, and API request routing. 相對於 module 就少了 CSS 而已。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://semantic-ui.com/introduction/glossary.html#project-terminology">Project Terminology - Glossary | Semantic UI</a></p>
+<ul>
+<li>Component - A component is a GENERAL TERM used to refer to any user interface element packaged for distribution.</li>
+<li>
+<p>Definition - A definition is a set of CSS and Javascript which describe a component&rsquo;s essential qualities.</p>
+<p>Definition use variables to express arbitrary parts of a component&rsquo;s appearance so that they can be changed with themes.</p>
+</li>
+<li>
+<p><code>ui</code> is a special class name used to distinguish parts of components from components. 只用在 component 的層級，例如 list element 用 <code>ui list</code>，但裡面的 item 只會用 <code>item</code> (而非 <code>ui item</code>)。</p>
+<p>The ui class name helps encapsulate CSS rules by making sure all &lsquo;parts of a component&rsquo; are defined in context to a &lsquo;WHOLE&rsquo; component. 大概就是這樣的感覺，不過像 <a href="https://semantic-ui.com/views/card.html">card</a> 這類較複雜的 component，巢狀的 <code>ui</code> 是可能出現的。</p>
+<p>It also helps make SCANNING unknown code simpler. If you see <code>ui</code> you know you are looking at a component. 快速識別出 Semantic UI 作用的範圍</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://semantic-ui.com/introduction/glossary.html#definition-terminology">Definition Terminology - Glossary | Semantic UI</a> #ril</p>
+<ul>
+<li>
+<p>When browsing Semantic UI definitions, you will see content grouped into different sections. These parts of a definition are consistent across definitions, and are common patterns for describing components.</p>
+<p>原來 UI Docs 中除 Introduction 與 Usage，每份文件都劃分成 Types、Variations 等不同的段落，而每份文件也各自構成一個 definition。</p>
+</li>
+<li>
+<p>Content - Content are parts which ONLY HAVE MEANING IN THE CONTEXT OF A COMPONENT. Content use NAMES (指 class name) which describe the type of expected content like header, description, menu, or item.</p>
+<p>Content inside a collection or view often includes STUBBED (簡化的?) versions of other components. For example cards let you use image content, which can be EXTENDED by using ui image variations. 若可以擴充，可以解釋成 collection 與 view 的文件在說明 content 時，只會簡單說明，完整的用法要看個別 component 文件。</p>
+</li>
+<li>
+<p>Behaviors - Behaviors are ACTIONS that a component can perform. Behaviors are represented by simple phrases like &ldquo;set value&rdquo; or &ldquo;increment&rdquo;, that can be invoked in Javascript. Behaviors are AUTOMATICALLY CONVERTED from spaced lowercase phrases to internal Javascript methods at invocation.</p>
+<p>以首頁提到的 <code>$('select.dropdown').dropdown('set selected', ['meteor', 'ember'])</code> 為例，其中 <code>dropdown()</code> 的用法可以在 <a href="https://semantic-ui.com/modules/dropdown.html#behavior">definition 裡的 Usage &gt; Behavior</a> 查到 &ndash; <code>dropdown('behavior name', argumentOne, argumentTwo)</code>，而 <code>set selected(value)</code> 用來 Sets value as selected。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="message">Message ??<a class="headerlink" href="#message" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/collections/message.html">Message | Semantic UI</a> #ril</p>
+<ul>
+<li>A message displays information that explains NEARBY CONTENT；表現上比較像是 message box，因為有個框框，左邊可以有 icon。</li>
+<li>Type 分為 (basic) message、list message、icon message 與 dismissable block (搭配 JavaScript)；其實 types 間也不完全互斥，而是可以混搭的元素，裡面可以有 list、icon、右上角的叉叉 (可以關閉 message)。</li>
+<li>
+<p>Message box 主要用 <code>ui message</code> 識別，裡面的標題用 <code>header</code> 識別，如果有清單用 <code>&lt;ul class="list"&gt;</code> 即可，下面的 <code>&lt;li&gt;</code> 不用特別宣告 class：</p>
+<pre><code>&lt;div class="ui message"&gt;
+  &lt;div class="header"&gt;
+    New Site Features
+  &lt;/div&gt;
+  &lt;ul class="list"&gt;
+    &lt;li&gt;You can now have cover images on blog pages&lt;/li&gt;
+    &lt;li&gt;Drafts will now auto-save while writing&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>
+<p>Possive/success 或 negative/error message，加上 <code>positive</code>/<code>success</code> 或 <code>negatice</code>/<code>error</code> 即可，例如 <code>&lt;div class="ui negative message"&gt;</code>。</p>
+</li>
+<li>Icon 會出大大地出現在 message box，不過這要在最外層加上 <code>icon</code> 識別，裡面也要用 <code>content</code> 內容區隔開來 (icon 在左側，內容在右側)，例如：<pre><code>&lt;div class="ui icon message"&gt;
+  &lt;i class="inbox icon"&gt;&lt;/i&gt;
+  &lt;div class="content"&gt;
+    &lt;div class="header"&gt;
+      Have you heard about our mailing list?
+    &lt;/div&gt;
+    &lt;p&gt;Get the best news in your e-mail every day.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="theme">Theme ??<a class="headerlink" href="#theme" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/introduction/glossary.html#types-of-components">Types of Components - Glossary | Semantic UI</a> Most importantly, globals include site-wide theming variables that other components can inherit and modify.</li>
+<li><a href="https://semantic-ui.com/usage/theming.html">Theming | Semantic UI</a> #ril</li>
+<li><a href="https://semantic-ui.com/collections/message.html">Message | Semantic UI</a> 只有 3 種 theme? 跟 button 的 11 種 theme 差很多，會不會有不一致的問題??</li>
+</ul>
+<h2 id="image">Image ??<a class="headerlink" href="#image" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/elements/image.html">Image | Semantic UI</a> #ril<ul>
+<li>An image is a GRAPHIC REPRESENTATION of something 這說法滿特別的</li>
+<li>Unless a size is specified, images will use the ORIGINAL DIMENSIONS of the image UP TO the size of its container.. 所以大圖放進小的 container 會被限制住??</li>
+<li>You can specify an <code>img</code> or <code>svg</code> as a <code>ui image</code> or use a child element.<pre><code>&lt;img class="ui small image" src="/images/wireframe/image.png"&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="icon">Icon<a class="headerlink" href="#icon" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/elements/icon.html">Icons - Icon | Semantic UI</a></p>
+<ul>
+<li>An icon is a glyph used to represent something else. An icon set contains an arbitrary number of glyphs</li>
+<li>
+<p>Icons serve a very similar function to text in a page. In Semantic icons receive a special tag <code>&lt;i&gt;</code> which allow for an ABBREVIATED MARKUP when sitting along-side text. 例如：</p>
+<pre><code>&lt;i class="circle icon"&gt;&lt;/i&gt;
+</code></pre>
+<p>為了讓 icon 與文字混用時的 markup 可以簡短一點就用 <code>&lt;i&gt;</code>，聽起來怪怪的? 不過背後用字型來表現，好像也就不奇怪了。</p>
+</li>
+<li>
+<p>Semantic includes a complete PORT of Font Awesome 5.0.8 designed by the FontAwesome team for its standard icon set.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="checkbox">Checkbox ??<a class="headerlink" href="#checkbox" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/modules/checkbox.html">Checkbox | Semantic UI</a> #ril<ul>
+<li>A checkbox allows a user to select a value from a SMALL SET OF OPTIONS, often binary 更多選項，Dropdown &gt; Multiple Selection 會更合適。</li>
+<li>Checkbox - A standard checkbox<pre><code>&lt;div class="ui checkbox"&gt;
+  &lt;input type="checkbox" name="example"&gt;
+  &lt;label&gt;Make my profile visible&lt;/label&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="menu">Menu ??<a class="headerlink" href="#menu" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/collections/menu.html">Menu | Semantic UI</a> #ril<ul>
+<li>A menu displays grouped NAVIGATION actions</li>
+<li>Starting in 2.0 menus now use flexbox. This allows each menu item to automatically stretch to the size of the largest item. 最簡單的 menu 看起來像 (group of) buttons。</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css&quot;&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/introduction/getting-started.html#preface">Preface - Getting Started | Semantic UI</a> #ril</p>
+<ul>
+<li>Semantic UI packaged Gulp build tools so your project can preserve its own theme changes. The easiest way to install Semantic UI is our NPM package which contains special install scripts to make setup interactive and updates seamless.</li>
+<li>For integrating Semantic UI tasks into your own build tools, or using a CDN see our recipes section.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://semantic-ui.com/introduction/advanced-usage.html#cdn-releases">CDN Releases - Recipes | Semantic UI</a> Individual components are available on <a href="https://www.jsdelivr.com/projects/semantic-ui">jsDelivr</a>:</p>
+<pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"&gt;&lt;/script&gt;
+</code></pre>
+<p>jQuery 要另外引用 (且一定要放 <code>semantic.min.js</code> 前面)，否則會出現 <code>Uncaught ReferenceError: jQuery is not defined at semantic.min.js:11</code> 的錯誤。</p>
+</li>
+<li>
+<p><a href="https://semantic-ui.com/introduction/getting-started.html#include-in-your-html">Include in Your HTML - Getting Started | Semantic UI</a> #ril</p>
+<ul>
+<li>
+<p>Semantic UI 自己的 CSS 及 JavaScript，但也會用到 jQuery。</p>
+<pre><code>&lt;link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css"&gt;
+&lt;script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;script src="semantic/dist/semantic.min.js"&gt;&lt;/script&gt;
+</code></pre>
+<p>其中 <code>crossorigin="anonymous"</code> 的作用是什麼??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/">Semantic UI</a></li>
+<li><a href="https://github.com/semantic-org/semantic-ui/">Semantic-Org/Semantic-UI - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/semantic-ui">&lsquo;semantic-ui&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../semantic-ui-form/">Form</a></li>
+<li><a href="../semantic-ui-layout/">Layout</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../rwd/">Responsive Web Design (RWD)</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://semantic-ui.com/kitchen-sink.html">All UI</a></li>
+<li><a href="https://semantic-ui.com/elements/icon.html">Icon Sets</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

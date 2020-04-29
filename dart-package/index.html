@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dart-package/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dart / Package - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dart-package.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dart-package">Dart / Package</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dart-package"><a href="../dart/">Dart</a> / Package<a class="headerlink" href="#dart-package" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.dartlang.org/guides/libraries">Libraries | Dart</a></p>
+<ul>
+<li>You can get additional libraries by importing them FROM PACKAGES. 從 package 裡才能引用 library??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/guides/libraries/create-library-packages">Create Library Packages | Dart</a></p>
+<ul>
+<li>
+<p>In the Dart ecosystem, libraries are created and DISTRIBUTED AS PACKAGES. Dart has two kinds of packages: APPLICATION PACKAGES, which may include LOCAL LIBRARIES, and LIBRARY PACKAGES.</p>
+<p>顯然 package 跟 distribution 有關，所以 library 不一定要是 package，也可以是 local library。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/tools/pub/glossary">Glossary of Pub Terms | Dart</a></p>
+<p>Application pacakge</p>
+<ul>
+<li>
+<p>A package that is not intended to be used as a library. Application packages may have DEPENDENCIES ON OTHER PACKAGES, but are never depended on themselves. They are usually meant to be RUN DIRECTLY, either on the command line or in a browser. The opposite of an application package is a library package.</p>
+<p>對照 library package 中 &ldquo;other packages will depend on&rdquo; 的說法，這裡 &ldquo;other packages&rdquo; 一定是 library package。</p>
+</li>
+<li>
+<p>Application packages SHOULD check their lockfiles into source control, so that everyone working on the application and every location the application is deployed has a consistent set of dependencies. Because their dependencies are constrained by the lockfile, application packages usually specify <code>any</code> for their dependencies’ version constraints. 應該會指定版本，怎會是 <code>any</code>??</p>
+</li>
+</ul>
+<p>Library package</p>
+<ul>
+<li>A package that other packages will depend on. Library packages may have dependencies on other packages and may be dependencies themselves. They may also include SCRIPTS that will be run directly. The opposite of a library package is an application package.</li>
+<li>
+<p>Library packages SHOULD NOT check their lockfile into source control, since they should support A RANGE OF DEPENDENCY VERSIONS. Their IMMEDIATE dependencies’ version constraints should be AS WIDE AS POSSIBLE while still ensuring that the dependencies will be compatible with the versions that were TESTED AGAINST.</p>
+<p>最後一句 &ldquo;compatible with the versions that were tested against&rdquo; 很有意思 &ndash; 雖然測試只挑最小支援版本，但相容的版本也含括在內了。</p>
+</li>
+<li>
+<p>Since SEMANTIC VERSIONING requires that libraries increment their major version numbers for any backwards incompatible changes, library packages will usually require their dependencies’ versions to be greater than or equal to the versions that were TESTED and less than the next major version. So if your library depended on the (fictional) <code>transmogrify</code> package and you tested it at version 1.2.1, your version constraint would be <code>^1.2.1</code>.</p>
+<p>其中 <code>^1.2.1</code> 讀做 1.2.1 ~ 2.0.0 但不含 2.0.0。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/tutorials/libraries/shared-pkgs">Install Shared Packages | Dart</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pub.dartlang.org/">Dart Packages</a></li>
+<li><a href="https://www.dartlang.org/tools/pub">Pub Package Manager</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.dartlang.org/tools/pub/glossary">Glossary of Pub Terms | Dart</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

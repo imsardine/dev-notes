@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/workday-fin/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Workday / FIN - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/workday-fin.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#workday-fin">Workday / FIN</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="workday-fin"><a href="../workday/">Workday</a> / FIN<a class="headerlink" href="#workday-fin" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/dHvoVCr~P~0GOgQgE5Ot4A/7HGL3H0DmrEc4WNIOY2Jqw">Steps: Configure Transaction Tax Rules • Financial Management • Reader • Administrator Guide</a> #ril</p>
+<p>Prerequisites</p>
+<ul>
+<li>
+<p>Security: These domains in the Common Financial Management functional area:</p>
+<ul>
+<li>Set Up: Company General</li>
+<li>Set Up: Tax</li>
+</ul>
+<p>修改權限分別落在 Company Administrator 與 Finance Administrator。</p>
+</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>
+<p>When you configure transaction tax rules, Workday automatically populates the appropriate tax code and TAX APPLICABILITY when you enter TAXABLE DOCUMENTS.</p>
+<p>所謂 taxable document 是因為財會都是依據單據做事，而 tax applicability 是指適用哪種稅率?? 那 tax code 又是什麼??</p>
+</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>
+<p>Access the Maintain Transaction Tax Item Groups task.</p>
+<p>Create groups to:</p>
+<ul>
+<li>Organize purchase, expense, and sales items.</li>
+<li>Use as DIMENSIONS in transaction tax rules for ITEMS.</li>
+</ul>
+<p>When you assign items to a group, you can include only items of the selected type. In transaction tax rules for items, you can use:</p>
+<ul>
+<li>Sales item groups for revenue rules.</li>
+<li>Purchase item and expense item groups for spend rules.</li>
+</ul>
+</li>
+<li>
+<p>Access the Assign Items to Transaction Tax Item Group task.</p>
+<p>到這一步，只是把 item 加入不同的 transaction tax item group；接下來設定 transation tax rule 會用到。</p>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/dHvoVCr~P~0GOgQgE5Ot4A/3a2Bp9v4U6E5SM~E1bfbCA">Configure Transaction Tax Rules for Items</a>. #ril</p>
+</li>
+<li>
+<p>Access the Maintain VAT or GST Groups task.</p>
+<p>Create groups to:</p>
+<ul>
+<li>Organize companies that share the same Value Added Tax (VAT) or Goods and Services Tax (GST) requirements.</li>
+<li>Use as DIMENSIONS in transaction tax rules for COUNTRIES.</li>
+</ul>
+</li>
+<li>
+<p>Access the Assign Companies to VAT or GST Group task.</p>
+<p>Add 2 or more companies to a group. Use effective dates to track changes to the group over time.</p>
+</li>
+<li>
+<p>Access the Maintain Transaction Tax Statuses task.</p>
+<p>Create transaction tax statuses for a country, such as <code>EU Company VAT Registered</code> or <code>EU Company Exempt</code>. You can associate these tax statuses with companies, customers, and suppliers. You can then use them as a DIMENSION in transaction tax rules for COUNTRIES.</p>
+<p>只要輸入 name 跟 description，本質上也只是個 group??</p>
+</li>
+<li>
+<p>Access the Edit Company Tax Details task.</p>
+<p>Configure transaction tax statuses by company to use as matching criteria in transaction tax rules for countries.</p>
+<p>As you complete the Tax Statuses tab, consider:</p>
+<ul>
+<li>Country: Select a country to associate with a specific tax status for the company. You can only select 1 transaction tax status per country.</li>
+<li>Transaction Tax Status: Select the appropriate tax status that applies to the company.</li>
+</ul>
+</li>
+<li>
+<p>Create Suppliers.</p>
+<p>You can assign Tax Statuses by country to a supplier for tax defaulting.</p>
+</li>
+<li>
+<p>Create Customer.</p>
+<p>You can assign Tax Statuses by country to a customer for tax defaulting.</p>
+</li>
+<li>
+<p>Access the Maintain Tax Rule Exception Groups task.</p>
+<p>Create a group to enable exceptions for a SHIP-TO COUNTRY with tax rules different from the SHIPPING COUNTRY. You can use these exception groups to create tax rules for a country and tax rule exceptions for ship-to countries.</p>
+<p>只是建立 group 而已，單純提供 group name。</p>
+</li>
+<li>
+<p>Configure Transaction Tax Rules for Countries.</p>
+</li>
+<li>
+<p>Configure Transaction Tax Rule Exceptions.</p>
+</li>
+</ol>
+<p>Result</p>
+<ul>
+<li>
+<p>Workday evaluates transaction tax rules in this order:</p>
+<ul>
+<li>Transaction tax rules for countries based on VAT or GST groups. Only when it&rsquo;s a direct intercompany transaction and both companies are in the same VAT or GST group.</li>
+<li>Transaction tax rules for countries based on exception groups.</li>
+<li>General transaction tax rules for countries.</li>
+<li>Transaction tax rules for items.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>Workday Objects:</p>
+<ul>
+<li>Edit Company Tax Details - 修改某個公司的稅務設定</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/excel/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Excel - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/excel.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#excel">Excel</a></li>
+            <li class="second-level"><a href="#defined-name">Defined Name</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="excel">Excel<a class="headerlink" href="#excel" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Office_Open_XML">Office Open XML - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="defined-name">Defined Name<a class="headerlink" href="#defined-name" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>很適合拿來在 Excel 裡設定錨點，方便讓程式抓取資料，使用者安插新欄/列也不會跑掉。</p>
+<p>拿 named/defined cell 來試，將 <code>Sheet1!A1</code> 定義為 <code>price</code> 時，在左側增加一欄，named cell 會自己調成 <code>Sheet1!B1</code>，在上面增加一列時，named cell 也會自動調成 <code>Sheet!A2</code>。</p>
+</li>
+<li>
+<p>實務上必須要在使用者填表前先埋好 defined names，空白檔案提供出去就來不及了；程式會變得很複雜，有的有這個 define name，有的沒那個 define name。</p>
+</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.ablebits.com/office-addins-blog/2017/07/11/excel-name-named-range-define-use/">Excel names and named ranges: how to define and use in formulas</a> (2018-05-12)</p>
+<p>What does name mean in Excel?</p>
+<ul>
+<li>
+<p>Similarly, in Microsoft Excel, you can give a human-readable name to a single cell or a range of cells, and refer to those cells by name rather than by reference.</p>
+<p>For instance, to find the total of sales (B2:B10) for a specific item (E1), you can use the following formula:</p>
+<pre><code>=SUMIF($A$2:$A$10, $E$1, $B$2:$B$10)
+</code></pre>
+<p>Or, you can give meaningful names to the ranges and individual cells and supply those names to the formula:</p>
+<pre><code>=SUMIF(items_list, item, sales)
+</code></pre>
+<p>Looking at the screenshot below, which of the two formulas are easier for you to understand?</p>
+<p><img alt="Excel names" src="https://cdn.ablebits.com/_img-blog/excel-name/excel-names.png" /></p>
+</li>
+</ul>
+<p>Excel name types</p>
+<ul>
+<li>
+<p>In Microsoft Excel, you can create and use two types of names:</p>
+<ul>
+<li>
+<p>Defined name - a name that refers to a single cell, range of cells, constant value, or formula. For example, when you define a name for a range of cells, it&rsquo;s called a NAMED range, or DEFINED range. These names are subject of today&rsquo;s tutorial.</p>
+</li>
+<li>
+<p>Table name - a name of an Excel table that is created automatically when you insert a table in a worksheet (Ctrl + T). For more information about Excel tables, please see How to make and use a table in Excel.</p>
+<p>原來 Excel 裡還可以插進 table!</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li>把 Excel 檔轉存成 CSV 後再做處理，也是一種可能的方式。感覺起來 xlrd/xlwt 功能上較為完整，但 openpyxl 看起來相對容易操作，也可以同時讀寫檔案。</li>
+<li><code>*.xls</code> or <code>*.xlsx</code></li>
+</ul>
+<p>可能的方案有：</p>
+<ul>
+<li><a href="../openpyxl/">OpenPyXL</a> - 如果只要處理 Excel 2010 (XLSX) 以後的文件，這是最被推薦的套件；唯一的缺點是大檔案處理起來比較慢。</li>
+<li><a href="https://xlsxwriter.readthedocs.io/">XlsxWriter</a> - 寫出 XLSX</li>
+<li><a href="https://github.com/kz26/PyExcelerate">kz26/PyExcelerate</a> - 寫出 XLSX，強調速度。</li>
+<li><a href="https://xlrd.readthedocs.io/">xlrd</a> - 讀取 XLS 或 XLSX</li>
+<li><a href="https://xlwt.readthedocs.io/">xlwt</a> - 寫出 XLSX</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://www.python-excel.org/">Python Excel</a></p>
+<p>This site contains pointers to the best information available about working with Excel files in the Python programming language. There are python packages available to work with Excel files that will run on any Python platform and that DO NOT REQUIRE either Windows or Excel to be used. They are fast, reliable and open source:</p>
+<ul>
+<li>
+<p>openpyxl</p>
+<p>The RECOMMENDED package for reading and writing Excel 2010 files (ie: <code>.xlsx</code>)</p>
+</li>
+<li>
+<p>xlsxwriter</p>
+<p>An alternative package for writing data, formatting information and, in particular, charts in the Excel 2010 format (ie: <code>.xlsx</code>)</p>
+</li>
+<li>
+<p>xlrd</p>
+<p>This package is for READING data and formatting information from older Excel files (ie: <code>.xls</code>)</p>
+<p><a href="https://xlrd.readthedocs.io/en/latest/">xlrd documentation — xlrd 1.1.0 documentation</a> 也支援 <code>.xlsx</code>:</p>
+<blockquote>
+<p>xlrd is a library for reading data and formatting information from Excel files, whether they are <code>.xls</code> or <code>.xlsx</code> files.</p>
+</blockquote>
+</li>
+<li>
+<p>xlwt</p>
+<p>This package is for WRITING data and formatting information to older Excel files (ie: <code>.xls</code>)</p>
+</li>
+<li>
+<p>xlutils</p>
+<p>This package collects utilities that require both xlrd and xlwt, including the ability to copy and modify or filter existing excel files.</p>
+<p>NB: In general, these use cases are now covered by openpyxl!</p>
+<p>把 xlrd 跟 xlwt 集合起來? 也就是同時可以讀寫 Excel，不過 openpyxl 同時滿足了讀與寫的需求。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.pyxll.com/blog/tools-for-working-with-excel-and-python/#read-write">Reading and Writing Excel workbooks - Tools for Working with Excel and Python | PyXLL</a> (2018-08-13) #ril</p>
+<p>OpenPyXL</p>
+<ul>
+<li>
+<p>For working with Excel 2010 onwards, OpenPyXL is a GREAT ALL ROUND CHOICE. Using OpenPyXL you can read and write xlsx, xlsm, xltx and xltm files. The following code shows how an Excel workbook can be written as an xlsx file with a few lines of Python.</p>
+<pre><code>from openpyxl import Workbook
+wb = Workbook()
+
+# grab the active worksheet
+ws = wb.active
+
+# Data can be assigned directly to cells
+ws['A1'] = 42
+
+# Rows can also be appended
+ws.append([1, 2, 3])
+
+# Save the file
+wb.save('sample.xlsx')
+</code></pre>
+</li>
+<li>
+<p>OpenPyXL covers more advanced features of Excel such as charts, styles, number formatting and conditional formatting. It even includes a tokeniser for parsing Excel formulas!</p>
+</li>
+<li>
+<p>One really nice feature for writing reports is its built-in support for NumPy and Pandas data. To write a Pandas DataFrame all that’s required is the included ‘dataframe_to_rows’ function:</p>
+<pre><code>from openpyxl.utils.dataframe import dataframe_to_rows
+
+wb = Workbook()
+ws = wb.active
+
+for r in dataframe_to_rows(df, index=True, header=True):
+ws.append(r)
+
+wb.save('pandas_openpyxl.xlsx')
+</code></pre>
+</li>
+<li>
+<p>If you need to read Excel files to EXTRACT DATA then OpenPyXL can do that too. The Excel file types are incredibly complicated and openpyxl does an amazing job of reading them into a form that’s easy to access in Python. There are some things that openpyxl can’t load though, such as charts and images, so if you open a file and save it with the same name then some elements may be LOST.</p>
+<p>上面才說支援 chart，這裡又說 chart 無法載入?</p>
+<pre><code>from openpyxl import load_workbook
+
+wb = load_workbook(filename = 'book.xlsx')
+sheet_ranges = wb['range names']
+print(sheet_ranges['D18'].value)
+</code></pre>
+</li>
+<li>
+<p>A possible downside of OpenPyXL is that it can be QUITE SLOW FOR HANDLING LARGE FILES. If you have to WRITE reports with thousands of rows and your application is time-sensitive then XlsxWriter or PyExcelerate may be better choices.</p>
+<p>其中 XlsxWriter 與 PyExcelerate 都只能寫出 Excel，而 OpenPyXL 也只有寫出時才會慢。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://automatetheboringstuff.com/chapter12/">Chapter 12 – Working with Excel Spreadsheets - Automate the Boring Stuff with Python</a> 這裡用 openpyxl。</p>
+</li>
+<li><a href="https://www.datacamp.com/community/tutorials/python-excel-tutorial">Python Excel Tutorial: The Definitive Guide (article) - DataCamp</a> (2017-01-31) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../excel-addin/">Add-in</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

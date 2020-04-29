@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/micropython/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MicroPython - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/micropython.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#micropython">MicroPython</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#port">Port</a></li>
+                
+            <li class="second-level"><a href="#unix-port-workflow">Unix Port, Workflow ??</a></li>
+                
+            <li class="second-level"><a href="#python-language-standard-library">Python Language, Standard Library ??</a></li>
+                
+            <li class="second-level"><a href="#hardware-api">Hardware API ??</a></li>
+                
+            <li class="second-level"><a href="#repl">REPL ??</a></li>
+                
+            <li class="second-level"><a href="#filesystem">Filesystem ??</a></li>
+                
+            <li class="second-level"><a href="#packaging">Packaging ??</a></li>
+                
+            <li class="second-level"><a href="#circuitpython">CircuitPython ??</a></li>
+                
+            <li class="second-level"><a href="#docker-vagrant-unix-port">Docker / Vagrant (Unix Port) ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="micropython">MicroPython<a class="headerlink" href="#micropython" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://micropython.org/">MicroPython - Python for microcontrollers</a><ul>
+<li>MicroPython is a lean and efficient implementation of the Python 3 programming language</li>
+<li>Yet it is compact enough to fit and run within just 256k of code space and 16k of RAM. 呼應 <a href="https://docs.micropython.org/en/latest/reference/glossary.html#term-mcu">MCU - Glossary — MicroPython 1.9.4 documentation</a> &hellip; but smaller, cheaper and require much less power. MicroPython is designed to be small and optimized enough to run on an average modern microcontroller. 的說法。</li>
+<li>TEST DRIVE A PYBOARD - <a href="http://micropython.org/live/">MicroPython Live</a> 遠端 pyboard 直播，可以線上寫程式排程執行。</li>
+<li>USE MICROPYTHON ONLINE - <a href="https://micropython.org/unicorn/">MicroPython on Unicorn</a> 利用 <a href="https://github.com/micropython/micropython-unicorn">Unicorn.js</a> 模擬出 pyboard 及 MicroPython 執行環境，不過 <code>led = machine.Pin(2, machine.Pin.OUT)</code> 都會丟 <code>TypeError: can't convert 'int' object to str implicitly</code> 的錯誤，可用性不高?</li>
+<li>MicroPython is written in C99 and the entire MicroPython core is available for general use under the very liberal MIT license. &hellip; You can freely use and adapt MicroPython for personal use, in education, and in COMMERCIAL products. 對商業應用很友善!</li>
+<li>官網最下面寫著 A project by Damien George © 2014-2018 George Robotics Limited 其中，呼應 <a href="http://dpgeorge.net/">Damien P. George</a> 所說的 At the end of 2013 I ran a Kickstarter campaign for the MicroPython project, which is a lean and fast implementation of the Python programming language that is optimised to run on microcontrollers. 這個專案由 Damien George 發起，背後的公司是 George Robotics Limited。</li>
+</ul>
+</li>
+<li><a href="https://micropython.org/">Code: state-of-the-art and highly robust - MicroPython - Python for microcontrollers</a><ul>
+<li>Support for many architectures (x86, x86-64, ARM, ARM Thumb, Xtensa) 竟然也支援 x86，而 ESP8266 就是基於 Tensilica Xtensa。</li>
+<li>Extensive test suite with over 590 tests, and more than 18,500 individual testcases. code coverage at 98.4% for the core and at 96.3% for the core plus extended modules 驚人的 coverage，更提高了商用的可能性。</li>
+<li>Fast start-up time from boot to loading of first script (150 microseconds to get to <code>boot.py</code>, on PYBv1.1 running at 168MHz) 在實務應用上啟動速度很關鍵，使用者無法忍受小小的東西要有開機時間。</li>
+<li>A cross-compiler and frozen bytecode, to have pre-compiled scripts that don&rsquo;t take any RAM (except for any dynamic objects they create) 上傳的程式要先 pre-compile?? 跟 <a href="https://github.com/micropython/micropython/blob/master/mpy-cross/">cross compiler</a> 有關??</li>
+<li>Multithreading via the &ldquo;_thread&rdquo; module, with an optional global-interpreter-lock (still work in progress, only available on selected ports) 支援 asyncio 嗎? =&gt; <code>micropython-lib</code> 下有 <code>asyncio</code>、<code>asyncio_slow</code>、<code>uasyncio</code> 及 <code>cpython-uasyncio</code> #ril</li>
+<li>Inline assembler (currently Thumb and Xtensa instruction sets only) 在 Python 裡直接寫組語，不是寫成 C libary 來解效能的問題? =&gt; 還是有 <a href="http://docs.micropython.org/en/latest/library/uctypes.html"><code>uctypes</code></a> 套件；這讓 MicroPython 通吃 Python/C/ASM 高中低三個層級。</li>
+</ul>
+</li>
+<li><a href="https://forum.micropython.org/viewtopic.php?t=744">MicroPython and the European Space Agency - MicroPython Forum</a> (2015-06-10) Viktoriya Skoryk (Director, George Robotics Limited.) 公佈 European Space Agency (ESA 歐洲太空總署) 將評估 MicroPython 在 space-based application 的適用性，投入資源讓 MicroPython 在 critical embedded system 上更穩定，之後也會回饋到 MicroPython。</li>
+<li><a href="https://github.com/micropython/micropython/wiki/FAQ">FAQ · micropython/micropython Wiki</a> #ril</li>
+<li><a href="https://github.com/micropython/micropython/wiki/Performance">Performance · micropython/micropython Wiki</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/MicroPython">MicroPython - Wikipedia</a> #ril</li>
+<li>
+<p><a href="https://www.linux.com/news/event/elcna/2017/2/using-scripting-languages-iot-challenges-and-approaches">Using Scripting Languages in IoT: Challenges and Approaches | Linux.com | The source for Linux information</a> (2017-02-15) #ril</p>
+</li>
+<li>
+<p><a href="http://www.eeboard.com/evaluation/pyboard/4/">准备挖C/C++墙角的MicroPython到底值不值得学？——pyboard评测 | 爱板网 - Part 4</a> (2017-05-08) 对于微控制器的开发来说，一般很少涉及到上层开发，诸多都如采集数据，做控制等底层开发，虽然 C/C++ 也足矣了，但是多一种选择未尝不可 &hellip; 总之，如果你是个嵌入式行业的从业者，先把 C/C++ 学好，有余力，再学 MicroPython。</p>
+</li>
+<li><a href="http://www.eeboard.com/evaluation/micropythonboard/">简单、方便、快速开发嵌入式实时系统——用MicroPython就对了 | 爱板网</a> (2018-02-23) #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>很多元件都只提供 C library，若是用 MicroPython，可能得自己用 ctypes 包裝過??</li>
+<li><a href="https://www.youtube.com/watch?time_continue=5&amp;v=hHec4qL00x0">Writing fast and efficient MicroPython - YouTube</a> (2018-08-24) MicroPython 的開發者 Damien George 現身說法 #ril</li>
+</ul>
+<h2 id="port">Port<a class="headerlink" href="#port" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.micropython.org/en/latest/">Overview — MicroPython 1.9.4 documentation</a> MicroPython runs on a variety of systems and hardware platforms. &hellip; as well as specific information about the various PLATFORMs - also known as ports - that MicroPython runs on. 不同的執行平台稱做 port。</li>
+<li><a href="https://docs.micropython.org/en/latest/reference/glossary.html#term-micropython-port">MicroPython port - Glossary — MicroPython 1.9.4 documentation</a> #ril<ul>
+<li>MicroPython supports different boards, RTOSes, and OSes, and can be relatively easily adapted to new systems. MicroPython with support for a particular system is called a “port” to that system.</li>
+<li>綜合 &ldquo;“boardless” ports like Unix port)&rdquo; 與 &ldquo;upip runs both on Unix port and on baremetal ports &rdquo; 的說法，感覺 port 可以粗分為 boardless/baremetal ports 兩種，而 boardless port 指的就是 unix 這種有完整 OS 的執行環境。</li>
+</ul>
+</li>
+<li><a href="https://docs.micropython.org/en/latest/library/index.html">MicroPython libraries — MicroPython 1.9.4 documentation</a> #ril<ul>
+<li>Any particular MicroPython VARIANT or PORT may miss any feature/function described in this general documentation (due to resource constraints or other limitations).</li>
+<li>Modules specific to a particular MicroPython port and thus not portable.</li>
+<li>MicroPython is highly configurable, and each port TO A PARTICULAR BOARD/EMBEDDED SYSTEM makes available only a subset of MicroPython libraries. For officially supported ports, there is an effort to either FILTER OUT non-applicable items, or mark individual descriptions with “Availability:” clauses describing which ports provide a given feature. 原來 port 指的就是針對特定 board/embedded system 所安排的 MicroPython configuration。不適合某個 port 的功能就拔除 (或是用文件說明 availability)，就算 MicroPython libraries 也一樣。</li>
+</ul>
+</li>
+<li><a href="https://github.com/micropython/micropython/tree/master/ports">micropython/ports at master · micropython/micropython</a> 可以看到 <code>esp8266</code>、<code>esp32</code>、<code>unix</code> 等，甚至還有 <code>windows</code>。</li>
+<li><a href="https://github.com/micropython/micropython/wiki/Boards-Summary">Boards Summary · micropython/micropython Wiki</a> #ril</li>
+</ul>
+<h2 id="unix-port-workflow">Unix Port, Workflow ??<a class="headerlink" href="#unix-port-workflow" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.micropython.org/en/latest/reference/glossary.html#term-micropython-unix-port">MicroPython Unix port - Glossary — MicroPython 1.9.4 documentation</a> #ril<ul>
+<li>Unix port is one of the major MicroPython ports. It is intended to run on POSIX-compatible operating systems, like Linux, MacOS, FreeBSD, Solaris, etc. It also serves as the basis of <a href="https://github.com/micropython/micropython/tree/master/ports/windows">Windows port</a>.</li>
+<li>The importance of Unix port lies in the fact that while there are many different boards, so two random users unlikely have the same board, almost all modern OSes have some level of POSIX compatibility, so Unix port serves as a kind of “COMMON GROUND” to which any user can have access. So, Unix port is used for initial prototyping, different kinds of TESTING, development of MACHINE-INDEPENDENT features, etc. 跟 board/machine 無關的開發、測試工作都可以在 Unix port 上進行；這一點跟 Android 將 unit testing <a href="https://imsardine.github.io/2017/06/04/io17-tdd-android-with-atsl/">拆分為跑在本機的 local unit test 與跑在設備上的 instrumented test</a> 一樣??</li>
+<li>All users of MicroPython, even those which are interested only in running MicroPython on MCU systems, are recommended to be familiar with Unix (or Windows) port, as it is important productivity helper and a part of normal MicroPython WORKFLOW. 最佳開發實務是??</li>
+</ul>
+</li>
+<li><a href="https://github.com/micropython/micropython/wiki/Learn-Micropython">Learn Micropython · micropython/micropython Wiki</a> 最後提到 &ldquo;If you don&rsquo;t have the pyboard, it is easy to get started on linux machines.&rdquo; 沒有 board 是可以!!</li>
+<li><a href="https://micropython.org/download">MicroPython - Python for microcontrollers</a> 沒有提供 unix port，要自行編譯? 應該會有 Docker image &hellip; 把開發工具集合起來?</li>
+<li>
+<p><a href="https://github.com/micropython/micropython/wiki/Getting-Started#debian-ubuntu-mint-and-variants">Debian, Ubuntu, Mint, and variants - Getting Started · micropython/micropython Wiki</a> #ril</p>
+<pre><code>$ sudo apt-get install build-essential libreadline-dev libffi-dev git pkg-config
+$ git clone --recurse-submodules https://github.com/micropython/micropython.git
+$ cd ./micropython/ports/unix
+$ make axtls
+$ make
+$ ./micropython
+</code></pre>
+</li>
+<li>
+<p><a href="https://github.com/micropython/micropython/wiki/Developing-on-a-microcontroller">Developing on a microcontroller · micropython/micropython Wiki</a> #ril</p>
+</li>
+<li><a href="https://github.com/micropython/micropython/wiki/Micro-Python-on-Mac-OSX">Micro Python on Mac OSX · micropython/micropython Wiki</a> #ril</li>
+</ul>
+<h2 id="python-language-standard-library">Python Language, Standard Library ??<a class="headerlink" href="#python-language-standard-library" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.micropython.org/en/latest/genrst/syntax.html">Syntax — MicroPython 1.9.4 documentation</a> 在比較 MicroPython 與 CPython 時，出現 uPy 與 CPy 的說法，其中 <code>uPy</code> 的 <code>u</code> 源自單位符號 [μ (micro)](<a href="https://en.wikipedia.org/wiki/Micro-">Micro- - Wikipedia</a> &ndash; In circumstances in which only the Latin alphabet is available &hellip; allow the prefix <code>μ</code> to be substituted by the letter <code>u</code>。</li>
+<li><a href="https://docs.micropython.org/en/latest/reference/glossary.html">Glossary — MicroPython 1.9.4 documentation</a><ul>
+<li>CPython is the REFERENCE IMPLEMENTATION of Python programming language &hellip; As there is NO FORMAL SPECIFICATION of the Python language, only CPython documentation, it is not always easy to draw a line between Python the language and CPython its particular implementation. This however leaves more freedom for other implementations. For example, MicroPython DOES A LOT OF THINGS DIFFERENTLY than CPython, while still aspiring to be a Python language implementation. 沒有 spec 可以參考嗎? 宣稱許多地方跟 CPython 不同，感覺有點糟?</li>
+<li>This documentation is intended to be a reference of the generic APIs available across different ports (“MicroPython core”). Note that some ports may still omit some APIs described here (e.g. due to resource constraints). 所有 port 通用的 API 稱 MicroPython Core，但有些 core API 在某些 port 也可能不能用；因為資源受限。</li>
+</ul>
+</li>
+<li><a href="https://github.com/micropython/micropython/wiki/Learn-Micropython">Learn Micropython · micropython/micropython Wiki</a><ul>
+<li>This means that micropython is VERY CLOSE TO python, but is missing a few of the features.</li>
+<li>Micropython supports SURPRISINGLY LARGE PART OF THE PYTHON LANGUAGE including numeric types, strings, tuples, lists, dictionaries, classes (with inheritance) and many more. However, it&rsquo;s &ldquo;BATTERIES INCLUDED&rdquo; philosophy is reduced in order to keep everything small, with the standard library modules being supported in micropython-lib 要把 Python language 與 Python standard library (batteries-included) 分開來看。</li>
+</ul>
+</li>
+<li><a href="https://micropython.org/">MicroPython - Python for microcontrollers</a> #ril<ul>
+<li>MicroPython is a lean and efficient implementation of the Python 3 programming language that includes a SMALL SUBSET of the Python standard library and is optimised to run on microcontrollers and in constrained environments. &hellip; 注意完整實作的是 Python 3 LANGUAGE 本身，但 standard library 只是 subset (這一點跟 Java ME 之於 Java SE 的關係很像)；其中 code space 是指 flash??</li>
+<li>MicroPython aims to be as COMPATIBLE with normal Python as possible to allow you to transfer code with ease from the desktop to a microcontroller or embedded system. &hellip; MicroPython strives to be as compatible as possible with normal Python (known as CPython) so that if you know Python you already know MicroPython. 如果讓 library 的 unit test 也跑過 MicroPython 的環境?? Pyenv 或 Docker 是否支援?</li>
+<li>MicroPython is a full Python compiler and runtime that runs on the <a href="https://docs.micropython.org/en/latest/reference/glossary.html#term-baremetal">bare-metal</a>. (沒有完整 OS 的系統，而 MicroPython 本身就是帶有 REPL 的 user-facing OS)</li>
+<li>In addition to implementing a selection of core Python libraries, MicroPython includes modules such as &ldquo;<code>machine</code>&rdquo; for accessing low-level hardware.</li>
+</ul>
+</li>
+<li><a href="http://docs.micropython.org/en/latest/reference/index.html">The MicroPython language — MicroPython 1.9.4 documentation</a> MicroPython aims to implement the Python 3.4 standard (with SELECTED features from later versions) with respect to language syntax, and most of the features of MicroPython are identical to those described by the “Language Reference” documentation at docs.python.org. 語言的分歧比較小，但 standard library 又是另一回事了；為什麼停在 Python 3.4 ??</li>
+<li><a href="https://github.com/micropython/micropython/wiki#what-is-micropython">What is MicroPython - Home · micropython/micropython Wiki</a> MicroPython is a Python interpreter (with partial native code compilation feature). It provides a subset of Python 3.5 features, implemented for embedded processors and constrained systems. 原來已經支援一些 Python 3.5</li>
+<li>
+<p><a href="https://docs.micropython.org/en/latest/library/index.html">MicroPython libraries — MicroPython 1.9.4 documentation</a></p>
+<ul>
+<li>MicroPython implements a SUBSET of Python functionality for each module. Any particular MicroPython variant or PORT may miss any feature/function described in this general documentation (due to resource constraints or other limitations). 如果 standard library 的 module 有提供的話，通常也只是 subset，主要是因為執行環境資源有限。</li>
+<li>To ease extensibility, MicroPython versions of standard Python modules USUALLY have <code>u</code> (“micro”) prefix. 為什麼這跟容易擴充有關? 感覺會不會加 <code>u</code> prefix 沒什麼規則?? 例如 <code>urllib.urequest</code> 之於 standard library 的 <code>urllib.request</code>，跟是否為 C extension 無關，因為 <code>urllib.urequest</code> 就是純 Python。</li>
+<li>There are a few categories of such modules: Modules which implement a subset of standard Python functionality and are NOT INTENDED TO BE EXTENDED BY THE USER. Modules which implement a subset of Python functionality, with a PROVISION FOR EXTENSION BY THE USER (via Python code). Modules which implement MicroPython EXTENSIONS to the Python standard libraries. Modules specific to a particular MicroPython PORT and thus not portable. 為何要區分能否 &ldquo;extended by the user&rdquo;?? 這裡的 extension 好像不是專指可以調用 Python API 的 extension module??</li>
+<li>
+<p>On some ports you are able to discover the available, built-in libraries that can be imported by entering the following at the REPL: <code>help('modules')</code> 例如在 ESP8266 上：</p>
+<pre><code>&gt;&gt;&gt; help('modules')
+__main__          http_client_ssl   sys               urandom
+_boot             http_server       time              ure
+_onewire          http_server_ssl   uasyncio/__init__ urequests
+_webrepl          inisetup          uasyncio/core     urllib/urequest
+apa102            json              ubinascii         uselect
+array             lwip              ucollections      usocket
+btree             machine           uctypes           ussl
+builtins          math              uerrno            ustruct
+dht               micropython       uhashlib          utime
+ds18x20           neopixel          uheapq            utimeq
+errno             network           uio               uzlib
+esp               ntptime           ujson             webrepl
+example_pub_button                  onewire           umqtt/robust      webrepl_setup
+example_sub_led   os                umqtt/simple      websocket
+flashbdev         port_diag         uos               websocket_helper
+framebuf          select            upip
+gc                socket            upip_utarfile
+http_client       ssd1306           upysh
+Plus any modules on the filesystem
+</code></pre>
+</li>
+<li>
+<p>Beyond the BUILT-IN LIBRARIES described in this documentation, many more modules from the Python standard library, as well as further MicroPython extensions to it, can be found in micropython-lib. 這裡 built-in 是指 MicroPython Core??</p>
+</li>
+<li>The following standard Python libraries have been “MICRO-IFIED” to fit in with the philosophy of MicroPython. They provide the core functionality of that module and are intended to be a DROP-IN REPLACEMENT for the standard Python library.</li>
+<li>Some modules below use a standard Python name, but prefixed with “u”, e.g. <code>ujson</code> instead of <code>json</code>. This is to signify that such a module is MICRO-LIBRARY, i.e. implements ONLY A SUBSET of CPython module functionality. 原來加 <code>u</code> prefix (micro) 是因為只實作 standard library 對應 module 的 subset，稱之為 micro-library。</li>
+<li>By naming them differently, a user has a choice to write a Python-level module to extend functionality for better compatibility with CPython (indeed, this is what done by the <code>micropython-lib</code> project mentioned above). 但為什麼 <code>micropython-lib</code> 下還有會 <code>u</code> 開頭的 module?? 例如 <a href="https://github.com/micropython/micropython-lib/tree/master/urllib.urequest"><code>micropython-lib/urllib.urequest</code></a>，而且 <code>from urllib import request</code> 會直接丟 <code>ImportError: no module named 'urllib.request'</code> 的錯誤，不會 fallback 成 <code>urllib.urequest</code>。</li>
+<li>以為 <code>json</code> (<a href="https://github.com/micropython/micropython-lib/tree/master/json/json"><code>micropython-lib/json/json</code></a>) 會以 <code>ujson</code> (<a href="https://github.com/micropython/micropython/blob/master/extmod/modujson.c"><code>micropython/extmod/modujson.c</code></a>) 為基礎，但 <code>json</code> 的實作卻完全沒用到 <code>ujson</code>，感覺 <code>json</code> 的原始碼完全抄 CPython，或許實務上應優先用 <code>ujson</code>，若真的不夠用才改用 <code>json</code>，但 <code>ujson</code>/<code>json</code> module naming 不同的差異怎麼處理? =&gt; <code>import json</code> 會自動 fallback 為 <code>ujson</code></li>
+<li><code>time</code> (<a href="https://github.com/micropython/micropython-lib/blob/master/time/time.py"><code>micropython-lib/time/time</code></a>) 跟 <code>utime</code> (<a href="https://github.com/micropython/micropython/blob/master/ports/esp8266/modutime.c"><code>micropython/ports/esp8266/modutime.c</code></a>) 就是一個比較好的例子 &ndash; <code>time</code> 基於 <code>utime</code> 實作完整的 Python standard library <code>time</code>；發現 <a href="https://docs.micropython.org/en/latest/library/utime.html"><code>utime</code></a> 提供了一些 CPython 沒有的 function，例如 <code>utime.sleep_ms(ms)</code>、<code>utime.ticks_ms()</code> 等，不建議使用嗎? =&gt; 用 <code>import time</code> 會自動 fallback 回 <code>utime</code>。</li>
+<li>On some embedded platforms, where it may be cumbersome to add Python-level wrapper modules to achieve naming compatibility with CPython, micro-modules are available both by their U-NAME, and also by their NON-U-NAME. The non-u-name can be OVERRIDDEN by a file of that name in your library path (<code>sys.path</code>). For example, <code>import json</code> will first search for a file <code>json.py</code> (or package directory <code>json</code>) and load that module if it is found. If nothing is found, it will FALLBACK to loading the built-in <code>ujson</code> module. 如果有 fallback 機制，就直接 import 標準的 module name 即可，但</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/micropython/micropython-lib">micropython/micropython-lib: Core Python libraries ported to MicroPython</a> #ril</p>
+<ul>
+<li>發現 <code>ctypes</code> 不在 <code>micropython-lib</code> 裡，而在 <a href="https://github.com/micropython/micropython/blob/master/extmod/moductypes.c"><code>micropython/extmod/moductypes.c</code></a>；感覺 <code>micropython-lib</code> 是純 Python，而 <code>micropython/extmod</code> 則是 C extension。</li>
+</ul>
+</li>
+<li><a href="https://github.com/micropython/micropython/wiki#related-projects">Related Projects - Home · micropython/micropython Wiki</a> - project to develop/port Python standard library for MicroPython 很明顯 micropython/micropython 專注在實作 Python 語言、平台，而 micropython/micropython-lib 則專注在儘可能提供 Python standard library 有的東西。</li>
+<li><a href="https://github.com/micropython/micropython/wiki/Differences">Differences · micropython/micropython Wiki</a> 提到 Differences By Design 的概念 #ril</li>
+<li><a href="https://pypi.org/user/micropython-lib/">micropython-lib · PyPI</a> 所有套件都會發佈到 PyPI，以 <code>micropython-*</code> 為名 #ril</li>
+<li><a href="https://github.com/micropython/micropython/issues/2415">Discussion of Python 3.6 support · Issue #2415 · micropython/micropython</a> 對 Python 3.6 的支援討論中 #ril</li>
+</ul>
+<h2 id="hardware-api">Hardware API ??<a class="headerlink" href="#hardware-api" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/micropython/micropython/wiki/Hardware-API">Hardware API · micropython/micropython Wiki</a> #ril</li>
+<li><a href="https://docs.micropython.org/en/latest/library/machine.html">machine — functions related to the hardware — MicroPython 1.9.4 documentation</a> #ril</li>
+</ul>
+<h2 id="repl">REPL ??<a class="headerlink" href="#repl" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.micropython.org/en/latest/reference/repl.html">The MicroPython Interactive Interpreter Mode (aka REPL) — MicroPython 1.9.4 documentation</a> #ril</li>
+</ul>
+<h2 id="filesystem">Filesystem ??<a class="headerlink" href="#filesystem" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://micropython.org/">MicroPython - Python for microcontrollers</a> Proper Python with hardware-specific modules 提到 &ldquo;run and import scripts from the built-in FILESYSTEM&rdquo; 而 Example 6/7 示範了路徑、讀取檔案：<pre><code>import os
+
+# list root directory
+print(os.listdir('/'))
+
+# print current directory
+print(os.getcwd())
+
+# open and read a file from the SD card
+with open('/sd/readme.txt') as f:
+    print(f.read())
+</code></pre>
+</li>
+</ul>
+<h2 id="packaging">Packaging ??<a class="headerlink" href="#packaging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.micropython.org/en/latest/reference/packages.html">Distribution packages, package management, and deploying applications — MicroPython 1.9.4 documentation</a> #ril</li>
+</ul>
+<h2 id="circuitpython">CircuitPython ??<a class="headerlink" href="#circuitpython" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/CircuitPython">CircuitPython - Wikipedia</a> MicroPython 的分支，主要開發者是 Adafruit #ril</li>
+<li><a href="https://learn.adafruit.com/micropython-hardware-ssd1306-oled-display/micropython">MicroPython | CircuitPython Hardware: SSD1306 OLED Display | Adafruit Learning System</a> #ril<ul>
+<li>In addition to CircuitPython there&rsquo;s an OLDER MicroPython version of the SSD1306 library that you can use with some MicroPython boards. 意思 MicroPython 與 CircuitPython 的 library 不相容? 而且 MicroPython 的版本不再更新??</li>
+</ul>
+</li>
+</ul>
+<h2 id="docker-vagrant-unix-port">Docker / Vagrant (Unix Port) ??<a class="headerlink" href="#docker-vagrant-unix-port" title="Permanent link"> #</a></h2>
+<ul>
+<li>Docker 在 container 無法存取 USB device，但 Vagrant 是有機會的；單純要打包 unix port 用 Docker 應該沒問題，但要打包 MicroPython 開發工具 (最後要存取 board)，目前就只能選 Vagrant。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.docker.com/docker-for-mac/faqs/#can-i-pass-through-a-usb-device-to-a-container">Can I pass through a USB device to a container? - Frequently asked questions (FAQ) | Docker Documentation</a> Unfortunately it is not possible to pass through a USB device (or a serial port) to a container.</li>
+<li><a href="https://forum.micropython.org/viewtopic.php?f=16&amp;t=1880">Docker image - MicroPython Forum</a> (2016-05-08) #ril</li>
+<li><a href="https://github.com/adafruit/esp8266-micropython-vagrant">adafruit/esp8266-micropython-vagrant: Vagrant file to build a virtual machine that can compile the ESP8266 open SDK &amp; MicroPython firmware.</a> #ril</li>
+<li><a href="http://code-chronicle.blogspot.com/2014/08/connect-usb-device-through-vagrant.html">Code chronicle: Connect a Usb device through Vagrant</a> #ril</li>
+<li><a href="https://sonnguyen.ws/connect-usb-from-virtual-machine-using-vagrant-and-virtualbox/">Connect USB from Virtual Machine using Vagrant and Virtual Box - Nguyen Sy Thanh Son</a> #ril</li>
+<li><a href="https://gist.github.com/stonehippo/e33750f185806924f1254349ea1a4e68">Getting a USB device to show up in a Docker container on OS X</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://micropython.org/">MicroPython</a></li>
+<li><a href="https://github.com/micropython/micropython">micropython/micropython - GitHub</a></li>
+<li><a href="https://github.com/micropython/micropython-lib">micropython/micropython-lib</a> (<a href="https://pypi.org/user/micropython-lib/">PyPI</a>)</li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://forum.micropython.org/">MicroPython Forum</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="http://docs.micropython.org/">MicroPython Documentation</a></li>
+<li><a href="https://github.com/micropython/micropython/wiki">Wiki - micropython/micropython - GitHub</a></li>
+<li><a href="http://wiki.micropython.org/">MicroPython Wiki</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="http://shop.oreilly.com/product/0636920056515.do">Programming with MicroPython - O&rsquo;Reilly</a> (2017-04)</li>
+<li><a href="http://www.flag.com.tw/books/product/FT797">超圖解 Python 物聯網實作入門 - 使用 ESP8266 與 MicroPython - 旗標</a> (2018-05)</li>
+<li><a href="https://www.tenlong.com.tw/products/9787121328466">MicroPython 入門指南 - 電子工業出版社</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../micropython-gpio/">GPIO</a></li>
+<li><a href="../micropython-networking/">Networking</a></li>
+<li><a href="../micropython-ota/">OTA Update</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../micropython-esp8266/">ESP8266</a> - MicroPython 官方直接提供 ESP8266 的韌體</li>
+<li><a href="../python/">Python</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://docs.micropython.org/en/latest/py-modindex.html">Python Module Index</a></li>
+<li><a href="https://docs.micropython.org/en/latest/reference/glossary.html">Glossary</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

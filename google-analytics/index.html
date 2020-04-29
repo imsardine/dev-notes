@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/google-analytics/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Analytics (GA) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/google-analytics.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-analytics-ga">Google Analytics (GA)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#migration-to-firebase-analytics">Migration to Firebase Analytics ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-analytics-ga">Google Analytics (GA)<a class="headerlink" href="#google-analytics-ga" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Google_Analytics">Google Analytics - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<h2 id="migration-to-firebase-analytics">Migration to Firebase Analytics ??<a class="headerlink" href="#migration-to-firebase-analytics" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.simoahava.com/analytics/google-analytics-for-mobile-sunset/">Google Analytics For Mobile Apps Getting Shut Down | Simo Ahava&rsquo;s blog</a> (2018-12-03) #ril<ul>
+<li>Google is now starting the process of deprecating the “legacy” Google Analytics for Mobile Apps. This covers all data collection SDKs that do not have the word “Firebase” in them. As such, also the “Google Analytics” tags in Google Tag Manager for mobile apps will be impacted. 但也只影響 MOBILE，原 web 的應用不受影響。</li>
+<li>Google is most likely doing this because they want to focus on Firebase Analytics as the new paradigm for Google’s mobile app analytics. 跟 mobile app 相關的部份 (SDK、reprting UI/API 等) 都將移往 Firebase Analytics。</li>
+<li>In 2019, we will begin to decommission properties that receive data exclusively from the Google Analytics Services SDK. Data collection and processing for such properties will stop on October 31, 2019. Reporting access through our UI and API access will remain available for these properties’ historical data until January 31, 2020. 轉換在 2019 就會開始發生，2019-10-31 不再接受新的數據，舊數據在 2020-01-31 前仍可透過 UI/API 存取，之後舊數據就會刪除。</li>
+<li>As you can see from the email, only FREE Google Analytics properties are impacted. Furthermore, only those properties that collect data EXCLUSIVELY with the mobile analytics tracking schema will be impacted. 可 property 不是只能在 website 跟 mobile app 擇一? 如何判別 property 只用在 mobile app 的數據?</li>
+<li>It looks like one way to avoid the impact even if using free Google Analytics is to send the occasional web hit to the property collecting the mobile app data. This means sending hits with the JavaScript SDK, or building a Measurement Protocol request that includes web dimensions. 想摻雜一些來自 website 的數據，但後來作者確認，一旦 property 被識別為專門用在 mobile app (收到信件告知要轉換)，後面再送 website 數據也沒用了。</li>
+<li>First of all, on a personal note, I’m very glad about this announcement. I’ve considered the “mobile version” of Google Analytics to be flawed for a long time, as it relies on the PARADIGM OUTLINED BY WEB DATA COLLECTION TOO MUCH. It’s difficult trying to pigeon hole the fluctuations of mobile app usage into the constricted schema of GA with its screenviews, sessions, and campaign attribution. 原來過去要把 GA 套在 mobile app 上，概念上就已經格格不入 &ndash; screenview、session 等都不適用 mobile app。</li>
+<li>At the same time, the push to Firebase won’t be gentle. It’s a very different approach to analytics, as it revolves around the duality of Users and Events??. Thus, it harks back to hit stream analytics?? &hellip; Moving from GA to Firebase isn’t as easy as flipping a switch, and you should familiarize with the latter as soon as possible. 概念上跟原來為 website 設計的 GA 會很不一樣</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.google.com/analytics/">Google Analytics  |  Google Developers</a> #ril</li>
+<li><a href="https://developers.google.com/analytics/devguides/platform/">Learn about Google Analytics - Google Analytics  |  Google Developers</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.google.com/analytics/">Google Analytics</a></li>
+<li><a href="https://developers.google.com/analytics/">Google Analytics |  Google Developers</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/googleanalytics">Google Analytics (@googleanalytics) | Twitter</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../google-analytics-measurement-protocol/">Measurement Protocol</a> - Client 往 GA server 送數據的協定</li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../firebase-analytics/">Firebase Analytics</a> - Mobile app 的應用將被 Firebase Analytics 取代</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

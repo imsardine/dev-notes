@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/java-oop/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Java Programming / OOP (Object-oriented Programming) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/java-oop.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#java-programming-oop-object-oriented-programming">Java Programming / OOP (Object-oriented Programming)</a></li>
+            <li class="second-level"><a href="#this">this</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="java-programming-oop-object-oriented-programming"><a href="../java-prog/">Java Programming</a> / OOP (Object-oriented Programming)<a class="headerlink" href="#java-programming-oop-object-oriented-programming" title="Permanent link"> #</a></h1>
+<h2 id="this"><code>this</code><a class="headerlink" href="#this" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.oracle.com/javase/tutorial/java/javaOO/thiskey.html">Using the this Keyword (The Java™ Tutorials &gt; Learning the Java Language &gt; Classes and Objects)</a></p>
+<ul>
+<li>Within an instance method or a constructor, <code>this</code> is a reference to the CURRENT OBJECT — the object whose method or constructor is being called. You can refer to any member of the current object from within an instance method or a constructor by using <code>this</code>.</li>
+</ul>
+<p>Using this with a Field</p>
+<ul>
+<li>
+<p>The most common reason for using the <code>this</code> keyword is because a field is SHADOWED by a method or constructor parameter.</p>
+<p>For example, the Point class was written like this</p>
+<pre><code>public class Point {
+    public int x = 0;
+    public int y = 0;
+
+    //constructor
+    public Point(int a, int b) {
+        x = a;
+        y = b;
+    }
+}
+</code></pre>
+<p>but it could have been written like this:</p>
+<pre><code>public class Point {
+    public int x = 0;
+    public int y = 0;
+
+    //constructor
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+</code></pre>
+<p>Each argument to the constructor shadows one of the object&rsquo;s fields — inside the constructor <code>x</code> is a local copy of the constructor&rsquo;s first argument. To refer to the <code>Point</code> field <code>x</code>, the constructor must use <code>this.x</code>.</p>
+</li>
+</ul>
+<p>Using this with a Constructor</p>
+<ul>
+<li>
+<p>From within a constructor, you can also use the <code>this</code> keyword to call another constructor in the same class. Doing so is called an EXPLICIT CONSTRUCTOR INVOCATION. Here&rsquo;s another <code>Rectangle</code> class, with a different implementation from the one in the Objects section.</p>
+<pre><code>public class Rectangle {
+    private int x, y;
+    private int width, height;
+
+    public Rectangle() {
+        this(0, 0, 1, 1);
+    }
+    public Rectangle(int width, int height) {
+        this(0, 0, width, height);
+    }
+    public Rectangle(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+    ...
+}
+</code></pre>
+<p>This class contains a set of constructors. Each constructor initializes some or all of the rectangle&rsquo;s member variables. The constructors provide a default value for any member variable whose initial value is not provided by an argument.</p>
+<p>For example, the no-argument constructor creates a 1x1 <code>Rectangle</code> at coordinates 0,0. The two-argument constructor calls the four-argument constructor, passing in the width and height but always using the 0,0 coordinates. As before, the COMPILER determines which constructor to call, based on the number and the type of arguments.</p>
+</li>
+<li>
+<p>If present, the invocation of another constructor must be the first line in the constructor.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://softwareengineering.stackexchange.com/questions/113430/">What is the accepted style for using the `this` keyword in Java? - Software Engineering Stack Exchange</a></p>
+<ul>
+<li>
+<p>Andrea: Is it considered a bad practice to always prepend <code>this</code> to the current instance attributes? It feels more natural to me to write &hellip; as it helps me to distinguish instance attributes from local variables.</p>
+<p>Of course in a language like Javascript it makes more sense to always use <code>this</code>, since one can have more function nesting, hence local variables coming from larger scopes. In Java, as far as I understand, no nesting like this is possible (except for inner classes), so probably it is not a big issue.</p>
+<p>In any case, I would prefer to use <code>this</code>. Would it feel weird and not idiomatic?</p>
+</li>
+<li>
+<p>DeadMG: In most IDEs, you can simply mouseover the variable if you want to know. In addition, really, if you&rsquo;re working in an instance method, you should really know all the variables involved. If you have TOO MANY, or their names clash, then you NEED TO REFACTOR.</p>
+<p>It&rsquo;s really quite redundant.</p>
+<p>好像有道理，但如果不用 IDE 呢?</p>
+<p>Brad Christie: Though I agree, when coming across other developers&rsquo; code (and while being unfamiliar at first glance) I find this. a lot more helpful. This is also probably because I don&rsquo;t have an IDE that color-codes local/object variables differently.</p>
+</li>
+<li>
+<p>Thomas Owens: I prefer to use <code>this</code>. It makes it easier to read code in various editors that color local and instance variables in the same way. It also makes it easier to read the code on a PRINTED PAGE during something like a code review. It&rsquo;s also a fairly strong reminder as to the scope of the variable to other developers.</p>
+<p>However, there are arguments against this. In modern IDEs, you can find out the scope of a variable by hovering over it or viewing it in a tree-like structure. You can also change the color and/or font face of variables depending on their scope (even in such a way that, when printed, it&rsquo;s evident what the scope of the variable is).</p>
+<p>I believe that ChrisF&rsquo;s last sentence is dead on: BE CONSISTENT in your usage.</p>
+</li>
+<li>
+<p>ptyx: One place I consistently use &lsquo;this&rsquo; is setters and or constructors:</p>
+<pre><code>public void setFoo(String foo) {
+    this.foo = foo;
+}
+</code></pre>
+<p>Other than that, I don&rsquo;t feel it is necessary to add it. When reading the body of a method, parameters and locals are right there - and fairly easy to keep track of (even without the IDE help). Also locals and fields tend to be of different nature (object state vs transient storage or parameter).</p>
+<p>If there is any confusion about what&rsquo;s a variable and what&rsquo;s a field, it probably means a method has too many variables/parameters, is too long and too complex, and should be simplified.</p>
+<p>If you choose to use &lsquo;this&rsquo; to TAG fields, I would recommend to make sure the convention is ALWAYS STRICTLY FOLLOWED - it would be really easy to start assuming no &lsquo;this&rsquo; means it&rsquo;s a local and break stuff based on the assumption.</p>
+<p>一致性確實很重要!!</p>
+<p>edit: I also end up using this in equals, clone or anything which has a &lsquo;that&rsquo; parameter of the same object type:</p>
+<pre><code>public boolean isSame(MyClass that) {
+    return this.uuid().equals(that.uuid());
+}
+</code></pre>
+<p>這想法還滿直觀的。</p>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

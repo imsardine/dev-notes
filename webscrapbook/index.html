@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/webscrapbook/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>WebScrapBook - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/webscrapbook.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#webscrapbook">WebScrapBook</a></li>
+            <li class="second-level"><a href="#archive-page-viewer">Archive Page Viewer ??</a></li>
+                
+            <li class="second-level"><a href="#site-indexer">Site Indexer ??</a></li>
+                
+            <li class="second-level"><a href="#scrapbook">ScrapyBook Migration</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="webscrapbook">WebScrapBook<a class="headerlink" href="#webscrapbook" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://github.com/danny0838/webscrapbook">danny0838/webscrapbook: A browser extension that captures the web page faithfully with highly customizable configurations. This project inherits from ScrapBook X.</a></p>
+<ul>
+<li>
+<p>WebScrapBook is a browser extension that captures the web page faithfully with VARIOUS ARCHIVE FORMATS and customizable configurations. This project inherits from LEGACY Firefox addon ScrapBook X.</p>
+</li>
+<li>
+<p>A wab page can be saved as a folder, a zip-packed archive file (HTZ or MAFF), or a single HTML file (optionally scripted as an enhance). An archive file can be viewed by opening the index page after unzipping, using the BUILT-IN ARCHIVE PAGE VIEWER, or with other assistant tools.</p>
+<p>但過去使用者面對的是 &ldquo;多個 page 組成的 book&rdquo; 而非單一個 page，不管 page 是否存成單一個檔案。</p>
+</li>
+<li>
+<p>With a running BACKEND SERVER, which can be hosted with <a href="https://pypi.org/project/webscrapbook/">webscrapbook Python package</a>, captured web pages can be further ORGANIZED WITH FOLDERS, SEPARATORS, etc. #ril</p>
+<p>這聽起來跟舊 ScrapBook 的體驗就比較像了。</p>
+</li>
+<li>
+<p>A SITE INDEXER is also built in and can be used to generate a static site for captured web pages. Additionally, the data folder of legacy ScrapBook (X) CAN BE IMPORTED using the indexer.</p>
+<p>看來舊資料有出路了!!</p>
+</li>
+<li>
+<p>This extension is available for Chromium-based browsers (Google Chrome, Opera, Vivaldi, etc.), and Firefox for Desktop and Android.</p>
+<p>Download: <a href="https://chrome.google.com/webstore/detail/webscrapbook/oegnpmiddfljlloiklpkeelagaeejfai/related">for Google Chrome</a>, <a href="https://addons.mozilla.org/en-US/firefox/addon/webscrapbook/">for Firefox</a></p>
+<p>為什麼 Android 上也可以 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="archive-page-viewer">Archive Page Viewer ??<a class="headerlink" href="#archive-page-viewer" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/danny0838/webscrapbook/wiki/View">View · danny0838/webscrapbook Wiki</a> #ril</li>
+<li><a href="https://github.com/danny0838/webarchiveviewer">danny0838/webarchiveviewer: A browser addon that views an HTML-based web page archive.</a> #ril</li>
+</ul>
+<h2 id="site-indexer">Site Indexer ??<a class="headerlink" href="#site-indexer" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/danny0838/webscrapbook/wiki/Indexer">Indexer · danny0838/webscrapbook Wiki</a> #ril</li>
+</ul>
+<h2 id="scrapbook">ScrapyBook Migration<a class="headerlink" href="#scrapbook" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../scrapbook-x/#installation">用 Firefox 支持 XUL/XPCOM 的衍生版安裝 ScrapBook X</a> 也是一個方式。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/danny0838/webscrapbook/wiki/Import">Import · danny0838/webscrapbook Wiki</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/danny0838/webscrapbook">danny0838/webscrapbook - GitHub</a></li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/webscrapbook/">WebScrapBook – Firefox</a></li>
+<li><a href="https://chrome.google.com/webstore/detail/webscrapbook/oegnpmiddfljlloiklpkeelagaeejfai">WebScrapBook - Chrome Web Store</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://github.com/danny0838/webscrapbook/wiki">WebScrapBook</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../scrapbook-x/">ScrapBook X</a> 的接替版本。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

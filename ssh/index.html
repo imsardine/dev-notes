@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/ssh/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SSH (Secure SHell) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/ssh.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#ssh-secure-shell">SSH (Secure SHell)</a></li>
+            <li class="second-level"><a href="#ssh-ssl">SSH 跟 SSL 是什麼關係?</a></li>
+                
+            <li class="second-level"><a href="#windows-ssh">Windows 支援 SSH 嗎?</a></li>
+                
+            <li class="second-level"><a href="#ssh">SSH 的驗證機制?</a></li>
+                
+            <li class="second-level"><a href="#fingerprint">Fingerprint ??</a></li>
+                
+            <li class="second-level"><a href="#ssh-agent">SSH Agent ??</a></li>
+                
+            <li class="second-level"><a href="#host-private-key">如何為不同的 host 指定不同的 private key?</a></li>
+                
+            <li class="second-level"><a href="#host-key">Host Key ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="ssh-secure-shell">SSH (Secure SHell)<a class="headerlink" href="#ssh-secure-shell" title="Permanent link"> #</a></h1>
+<ul>
+<li>SSH 是個加密通訊協定，最常見的應用是登入遠方的電腦 - 主要是 Unix-like OS，而 2015 年 Microsoft 宣稱未來會原生支援 SSH。</li>
+<li>SSH 在不安全的網路上提供一個安全通道 (secure channel)，走 SSH client -&gt; SSH server 的 client-server 架構，目前協定有 SSH-1 與 SSH-2 兩個版本。</li>
+<li>SSH 被設計用來取代 Telnet 或其他不安全的協定，例如 rlogin、rsh、rexec 等。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Secure Shell - Wikipedia <a href="https://en.wikipedia.org/wiki/Secure_Shell">https://en.wikipedia.org/wiki/Secure_Shell</a> #ril</li>
+</ul>
+<h2 id="ssh-ssl">SSH 跟 SSL 是什麼關係?<a class="headerlink" href="#ssh-ssl" title="Permanent link"> #</a></h2>
+<ul>
+<li>Secure Shell - Wikipedia <a href="https://en.wikipedia.org/wiki/Secure_Shell">https://en.wikipedia.org/wiki/Secure_Shell</a> 看起來 SSH 跟 SSL 都屬於 application layer，整份文件完全沒提到 SSL，但為何會有 &ldquo;any network service can be secured with SSH&rdquo; 的說法?</li>
+<li>SSL vs SSH - A Not-So-Technical Comparison <a href="http://www.jscape.com/blog/ssl-vs-ssh-simplified">http://www.jscape.com/blog/ssl-vs-ssh-simplified</a> SFTP 與 FTPS 分別基於 SSH 與 SSL/TLS，雖然 SSH 與 SSL 有相似之處，但確實是不同的東西。</li>
+</ul>
+<h2 id="windows-ssh">Windows 支援 SSH 嗎?<a class="headerlink" href="#windows-ssh" title="Permanent link"> #</a></h2>
+<ul>
+<li>Secure Shell - Wikipedia <a href="https://en.wikipedia.org/wiki/Secure_Shell">https://en.wikipedia.org/wiki/Secure_Shell</a> 提到 2015 後 Microsoft 會在未來原生支援 SSH。</li>
+<li>Comparison of SSH servers - Wikipedia <a href="https://en.wikipedia.org/wiki/Comparison_of_SSH_servers">https://en.wikipedia.org/wiki/Comparison_of_SSH_servers</a> 其實有不少工具支援 Windows 上的 SSH server。</li>
+<li>Microsoft bringing SSH to Windows and PowerShell | Ars Technica (2015-06-03) <a href="https://arstechnica.com/information-technology/2015/06/microsoft-bringing-ssh-to-windows-and-powershell/">https://arstechnica.com/information-technology/2015/06/microsoft-bringing-ssh-to-windows-and-powershell/</a> 最後提到，就算 Windows 原生支援 SSH，但 Windows 在 remote command-line management 這方面還是不如 Unix。</li>
+</ul>
+<h2 id="ssh">SSH 的驗證機制?<a class="headerlink" href="#ssh" title="Permanent link"> #</a></h2>
+<ul>
+<li>SSH 有兩種用法：<ul>
+<li>用自動產生的 public-private key pairs 對連線進行加密，然後用密碼 (password authentication) 登入；除非之前沒有連線過 (會記住 server-side key)，否則要小心連到假的 server，不小心交出密碼</li>
+<li>用手動產生的 public-private key paris 進行驗證 (可以用 <code>ssh-keygen</code> 產生)，不需要密碼就能登入，當然 private key 本身可能有密碼 (passhrase) 保護。public key 放在所有允許被存取的電腦上，而 private key 則由 ower 保存，SSH 只會驗證登入端是否持有對應的 private key。</li>
+</ul>
+</li>
+<li>在 Unix-like 上，authorized public keys 會放在 <code>~/.ssh/authorized_keys</code>，SSH 在該檔案只能被 owner &amp; root 寫入時才會參考它的內容，所以通常會設成 600。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Secure Shell - Wikipedia <a href="https://en.wikipedia.org/wiki/Secure_Shell">https://en.wikipedia.org/wiki/Secure_Shell</a></li>
+</ul>
+<h2 id="fingerprint">Fingerprint ??<a class="headerlink" href="#fingerprint" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://superuser.com/questions/421997/">What is a SSH key fingerprint and how is it generated? - Super User</a> fingerprint 是基於 host 的 public key，通常是 <code>/etc/ssh/ssh_host_rsa_key.pub</code> #ril</li>
+</ul>
+<h2 id="ssh-agent">SSH Agent ??<a class="headerlink" href="#ssh-agent" title="Permanent link"> #</a></h2>
+<ul>
+<li>Getting Started — Ansible Documentation <a href="http://docs.ansible.com/ansible/latest/intro_getting_started.html#your-first-commands">http://docs.ansible.com/ansible/latest/intro_getting_started.html#your-first-commands</a> 提到 <code>ssh-agent bash &amp;&amp; ssh-add ~/.ssh/id_rsa</code> 似乎是為了不用重複輸入 private key 的 passphrase。</li>
+<li>Inventory — Ansible Documentation <a href="http://docs.ansible.com/ansible/latest/intro_inventory.html#list-of-behavioral-inventory-parameters">http://docs.ansible.com/ansible/latest/intro_inventory.html#list-of-behavioral-inventory-parameters</a> 為何 <code>ansible_ssh_private_key_file</code> 會有 &ldquo;if using multiple keys and you don’t want to use SSH agent&rdquo; 的說法，這是兩件事?</li>
+<li><a href="https://coderwall.com/p/rdi_wq/fix-could-not-open-a-connection-to-your-authentication-agent-when-using-ssh-add">Fix &ldquo;Could not open a connection to your authentication</a> 原來 <code>ssh-agent</code> 的輸出是 <code>eval $(ssh-agent)</code> 這樣用的 &ndash; <code>eval $(ssh-agent)</code> #ril</li>
+</ul>
+<h2 id="host-private-key">如何為不同的 host 指定不同的 private key?<a class="headerlink" href="#host-private-key" title="Permanent link"> #</a></h2>
+<ul>
+<li>從 <code>ssh</code> 的 man page 看到 <code>-i identity_file</code> 可以指定 identity (private key)，SSH-1 預設採用 <code>~/.ssh/identity</code>，SSH-2 則預設用 <code>~/.ssh/id_dsa</code> 或 <code>~/.ssh/id_rsa</code>。</li>
+<li>Man page 還提到 configuration file 裡可以用 per-host basis 指定 private key?</li>
+</ul>
+<h2 id="host-key">Host Key ??<a class="headerlink" href="#host-key" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://man.openbsd.org/ssh-keygen">ssh-keygen(1) - OpenBSD manual pages</a> 提到 system admin 會用 <code>ssh-keygen</code> 來產生 host keys。</li>
+<li><a href="https://www.ssh.com/ssh/host-key">SSH Host Key - What, Why, How | SSH.COM</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../ssh-tunneling/">Tunneling</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../openssh/">OpenSSH</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

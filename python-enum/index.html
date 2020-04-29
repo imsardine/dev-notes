@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-enum/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Enum - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-enum.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-enum">Python / Enum</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#enum34">enum34 ??</a></li>
+                
+            <li class="second-level"><a href="#naming">Naming ??</a></li>
+                
+            <li class="second-level"><a href="#customization">Customization ??</a></li>
+                
+            <li class="second-level"><a href="#functional-api">Functional API ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-enum"><a href="../python/">Python</a> / Enum<a class="headerlink" href="#python-enum" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html">enum — Support for enumerations — Python 3.7.2 documentation</a></p>
+<ul>
+<li>
+<p>An enumeration is a set of SYMBOLIC NAMES (MEMBERS) bound to UNIQUE, CONSTANT VALUES. Within an enumeration, the members can be COMPARED BY IDENTITY, and the enumeration itself can be ITERATED OVER.</p>
+<p>其中 value 不一定要是數字。這裡 compared by identity 呼應下面 members == singletons 的說法。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#creating-an-enum">Creating an Enum - enum — Support for enumerations — Python 3.7.2 documentation</a></p>
+<ul>
+<li>
+<p>Enumerations are created using the <code>class</code> syntax, which makes them easy to read and write. An alternative creation method is described in Functional API. To define an enumeration, subclass <code>Enum</code> as follows:</p>
+<pre><code>&gt;&gt;&gt; from enum import Enum
+&gt;&gt;&gt; class Color(Enum):
+...     RED = 1
+...     GREEN = 2
+...     BLUE = 3
+...
+</code></pre>
+</li>
+<li>
+<p>Note: Enum member values &ndash; Member values can be anything: <code>int</code>, <code>str</code>, etc.. If the exact value is unimportant you may use <code>auto</code> instances and an appropriate value will be chosen for you. Care must be taken if you mix <code>auto</code> with other values.</p>
+<p>對照上面 &ldquo;unique, constant value&rdquo; 的說法，value 只要是唯一即可，是什麼值不重要，但為何下面 Ensuring unique enumeration values 又說 By default, enumerations allow multiple names as ALIASES for the same value? 看似 alias 是例外?</p>
+<pre><code>&gt;&gt;&gt; class Season(Enum):
+...     FALL = 1
+...     AUTUMN = 1
+...
+&gt;&gt;&gt; Season.FALL == Season.AUTUMN
+True
+&gt;&gt;&gt; id(Season.FALL), id(Season.AUTUMN)
+(4492624168, 4492624168) # alias 有相同的 identity
+&gt;&gt;&gt; Season.FALL.name, Season.AUTUMN.name
+('FALL', 'FALL')         # 後者是 alias，名字只有一個
+</code></pre>
+</li>
+<li>
+<p>Note: Nomenclature (術語表) &ndash; The class <code>Color</code> is an ENUMERATION (or ENUM). The attributes <code>Color.RED</code>, <code>Color.GREEN</code>, etc., are enumeration MEMBERs (or enum members) and are functionally constants. The enum members have NAMES and VALUES (the name of <code>Color.RED</code> is <code>RED</code>, the value of <code>Color.BLUE</code> is <code>3</code>, etc.)</p>
+<p>也就是說 enum/enumeration = members = name + value；注意 enumeration 的說法跟 <code>enumerate</code> built-in 無關。</p>
+</li>
+<li>
+<p>Enumeration members have HUMAN READABLE STRING REPRESENTATIONS: (含 <code>Color.</code>)</p>
+<pre><code>&gt;&gt;&gt; print(Color.RED)
+Color.RED
+</code></pre>
+<p>…while their <code>repr</code> has more information:</p>
+<pre><code>&gt;&gt;&gt; print(repr(Color.RED))
+&lt;Color.RED: 1&gt;
+</code></pre>
+</li>
+<li>
+<p>The type of an enumeration member is the enumeration it belongs to:</p>
+<pre><code>&gt;&gt;&gt;
+&gt;&gt;&gt; type(Color.RED)
+&lt;enum 'Color'&gt;
+&gt;&gt;&gt; isinstance(Color.GREEN, Color)
+True
+&gt;&gt;&gt;
+</code></pre>
+</li>
+<li>
+<p>Enum members also have a property that contains JUST THEIR ITEM NAME: (不含 <code>Color.</code>)</p>
+<pre><code>&gt;&gt;&gt; print(Color.RED.name)
+RED
+</code></pre>
+</li>
+<li>
+<p>Enumerations support iteration, in DEFINITION ORDER:</p>
+<pre><code>&gt;&gt;&gt; class Shake(Enum):
+...     VANILLA = 7
+...     CHOCOLATE = 4
+...     COOKIES = 9
+...     MINT = 3
+...
+&gt;&gt;&gt; for shake in Shake:
+...     print(shake)
+...
+Shake.VANILLA
+Shake.CHOCOLATE
+Shake.COOKIES
+Shake.MINT
+</code></pre>
+</li>
+<li>
+<p>Enumeration members are HASHABLE, so they can be used in dictionaries and sets:</p>
+<pre><code>&gt;&gt;&gt;
+&gt;&gt;&gt; apples = {}
+&gt;&gt;&gt; apples[Color.RED] = 'red delicious'
+&gt;&gt;&gt; apples[Color.GREEN] = 'granny smith'
+&gt;&gt;&gt; apples == {Color.RED: 'red delicious', Color.GREEN: 'granny smith'}
+True
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#programmatic-access-to-enumeration-members-and-their-attributes">Programmatic access to enumeration members and their attributes - enum — Support for enumerations — Python 3.7.2 documentation</a></p>
+<ul>
+<li>
+<p>Sometimes it’s useful to access members in enumerations PROGRAMMATICALLY (i.e. situations where <code>Color.RED</code> won’t do because the exact color is not known at program-writing time). Enum allows such access:</p>
+<pre><code>&gt;&gt;&gt; Color(1)
+&lt;Color.RED: 1&gt;
+&gt;&gt;&gt; Color(3)
+&lt;Color.BLUE: 3&gt;
+</code></pre>
+<p>傳入不對的值會丟出 <code>ValueError</code>，例如 <code>Color(4)</code> 會丟出 <code>ValueError: 4 is not a valid Color</code>。</p>
+</li>
+<li>
+<p>If you want to access enum members by name, use ITEM ACCESS:</p>
+<pre><code>&gt;&gt;&gt; Color['RED']
+&lt;Color.RED: 1&gt;
+&gt;&gt;&gt; Color['GREEN']
+&lt;Color.GREEN: 2&gt;
+</code></pre>
+<p>傳入不對的 name 會丟出 <code>KeyError</code>，例如 <code>Color['YELLOW']</code> 會丟出 <code>KeyError: 'YELLOW'</code>。</p>
+<p>注意 by value 跟 by name 的差別在於 <code>Enum(value)</code> 或 <code>Enum[name]</code>。</p>
+</li>
+<li>
+<p>If you have an enum member and need its name or value:</p>
+<pre><code>&gt;&gt;&gt; member = Color.RED
+&gt;&gt;&gt; member.name
+'RED'
+&gt;&gt;&gt; member.value
+1
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0435/">PEP 435 -- Adding an Enum type to the Python standard library | Python.org</a> The PEP was accepted by Guido on May 10<sup>th</sup>, 2013 #ril</p>
+</li>
+</ul>
+<h2 id="enum34">enum34 ??<a class="headerlink" href="#enum34" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/36932/">How can I represent an &lsquo;Enum&rsquo; in Python? - Stack Overflow</a><ul>
+<li>Alec Thomas: Enum 在 Python 3.4 加入 (PEP 435)，有個 <code>enum34</code> 的 backport 在 PyPI 上。進階的使用者可以試試 <a href="https://pypi.python.org/pypi/aenum">aenum</a> (但跟 Python 3 不相容)。</li>
+</ul>
+</li>
+<li><a href="https://bitbucket.org/stoneleaf/enum34">stoneleaf / enum34 — Bitbucket</a> #ril</li>
+</ul>
+<h2 id="naming">Naming ??<a class="headerlink" href="#naming" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3.5/library/enum.html">8.13. enum — Support for enumerations — Python 3.5.6 documentation</a> <code>Color.*</code> 在 3.5 的範例大部份都用小寫 (例如 <code>Color.red</code>)，但到了 3.6 全改用大寫了 (例如 <code>Color.RED</code>)。</li>
+</ul>
+<h2 id="customization">Customization ??<a class="headerlink" href="#customization" title="Permanent link"> #</a></h2>
+<pre><code>class Platform(Enum):
+
+    IOS         = ('ios', 'iOS')
+    MAC         = ('mac', 'Mac')
+    APPLE_TV    = ('appletv', 'Apple TV', ('tvOS',))
+    ANDROID     = ('android', 'Android')
+    ANDROID_TV  = ('androidtv', 'Android TV')
+    UWP         = ('uwp', 'Windows (UWP)', ('UWP',))
+    WPF         = ('wpf', 'Windows (WPF)', ('WPF',))
+
+    def __new__(cls, code, *args): # pylint: disable=unused-argument
+        obj = object.__new__(cls)
+        obj._value_ = code # pylint: disable=protected-access
+
+        return obj
+
+    def __init__(self, code, formal_name, alternative_names=None):
+        self.code = code
+        self.formal_name = formal_name
+        self.alternative_names = alternative_names
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#how-are-enums-different">How are Enums different? - enum — Support for enumerations — Python 3.7.2 documentation</a> 瞭解 <code>Enum</code> class 的特性，有助於理解如何自訂 <code>Enum</code> class。</p>
+<ul>
+<li>
+<p>Enums have a custom METACLASS that affects many aspects of both derived <code>Enum</code> classes and their INSTANCES (members).</p>
+</li>
+<li>
+<p>The <code>EnumMeta</code> metaclass is responsible for providing the <code>__contains__()</code>, <code>__dir__()</code>, <code>__iter__()</code> and other methods that allow one to do things with an <code>Enum</code> class that FAIL on a typical class, such as <code>list(Color)</code> or <code>some_enum_var in Color</code>.</p>
+<p><code>EnumMeta</code> is responsible for ensuring that various other methods on the final <code>Enum</code> class are correct (such as <code>__new__()</code>, <code>__getnewargs__()</code>, <code>__str__()</code> and <code>__repr__()</code>). ??</p>
+</li>
+<li>
+<p>Enum Members (aka instances) &ndash; The most interesting thing about <code>Enum</code> members is that they are SINGLETONS. <code>EnumMeta</code> creates them all while it is creating the <code>Enum</code> class itself, and then puts a custom <code>__new__()</code> IN PLACE to ensure that no new ones are ever instantiated by returning only the existing member instances.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#allowed-members-and-attributes-of-enumerations">Allowed members and attributes of enumerations - enum — Support for enumerations — Python 3.7.2 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#using-a-custom-new">Using a custom <code>__new__()</code> - enum — Support for enumerations — Python 3.7.2 documentation</a></p>
+<ul>
+<li>
+<p>Using an auto-numbering <code>__new__()</code> would look like:</p>
+<pre><code>&gt;&gt;&gt; class AutoNumber(NoValue):
+...     def __new__(cls):
+...         value = len(cls.__members__) + 1
+...         obj = object.__new__(cls)
+...         obj._value_ = value
+...         return obj
+...
+&gt;&gt;&gt; class Color(AutoNumber):
+...     RED = ()
+...     GREEN = ()
+...     BLUE = ()
+...
+&gt;&gt;&gt; Color.GREEN
+&lt;Color.GREEN&gt;
+&gt;&gt;&gt; Color.GREEN.value
+2
+</code></pre>
+</li>
+<li>
+<p>Note The <code>__new__()</code> method, if defined, is used during creation of the Enum members; it is then replaced by Enum’s <code>__new__()</code> which is used after class creation for LOOKUP OF EXISTING MEMBERS. 呼應上面 &ldquo;ensure that no new ones are ever instantiated&rdquo; 的說法。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#finer-points">Finer Points - enum — Support for enumerations — Python 3.7.2 documentation</a></p>
+<p>Supported <code>__dunder__</code> names</p>
+<ul>
+<li><code>__members__</code> is an <code>OrderedDict</code> of <code>member_name</code>:<code>member</code> items. It is only available on the class.</li>
+<li>
+<p><code>__new__()</code>, if specified, must create and return the enum members; it is also a very good idea to set the member’s <code>_value_</code> appropriately. Once all the members are created it is NO LONGER USED.</p>
+<p>事實上 <code>__new__()</code> 就是要生成 member 並給定 <code>_value_</code>，自然會有 <code>__members__</code> 的對照表。</p>
+</li>
+</ul>
+<p>Supported <code>_dunder_</code> names</p>
+<ul>
+<li><code>_name_</code> – name of the member</li>
+<li><code>_value_</code> – value of the member; can be set / modified in <code>__new__</code> 實驗發現，在 <code>__init__()</code> 才設定 <code>_value_</code> 已經來不及了。</li>
+<li><code>_missing_</code> – a LOOKUP FUNCTION used when a value is not found; may be overridden</li>
+<li><code>_ignore_</code> – a list of names, either as a <code>list()</code> or a <code>str()</code>, that will not be transformed into members, and will be removed from the final class</li>
+<li><code>_order_</code> – used in Python &#8532; code to ensure MEMBER ORDER is consistent (class attribute, removed during class creation)</li>
+<li><code>_generate_next_value_</code> – used by the Functional API and by <code>auto</code> to get an appropriate value for an enum member; may be overridden</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/enum.html#planet">Planet - enum — Support for enumerations — Python 3.7.2 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="http://xion.io/post/code/python-enums-are-ok.html">Enums are extensible - Karol Kuczmarski&rsquo;s Blog – Actually, Python enums are pretty OK</a> #ril</p>
+</li>
+</ul>
+<h2 id="functional-api">Functional API ??<a class="headerlink" href="#functional-api" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/enum.html#functional-api">Functional API - enum — Support for enumerations — Python 3.7.2 documentation</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/enum.html">enum — Support for enumerations</a></li>
+<li><a href="https://bitbucket.org/stoneleaf/enum34">stoneleaf / enum34 - Bitbucket</a></li>
+<li><a href="https://pypi.org/project/enum34/">enum34 - PyPI</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0435/">PEP 435 &ndash; Adding an Enum type to the Python standard library | Python.org</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

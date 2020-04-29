@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/sqlalchemy/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SQLAlchemy (Core) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/sqlalchemy.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sqlalchemy-core">SQLAlchemy (Core)</a></li>
+            <li class="second-level"><a href="#sqlalchemy-core-expression-language-orm">SQLAlchemy Core (Expression Language) &amp; ORM</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#engine-dialect">Engine, Dialect ??</a></li>
+                
+            <li class="second-level"><a href="#database-url">Database URL ??</a></li>
+                
+            <li class="second-level"><a href="#metadata-schema">Metadata, Schema ??</a></li>
+                
+            <li class="second-level"><a href="#textual-sql">Textual SQL ??</a></li>
+                
+            <li class="second-level"><a href="#connection-pooling">Connection Pooling ??</a></li>
+                
+            <li class="second-level"><a href="#transaction">Transaction ??</a></li>
+                
+            <li class="second-level"><a href="#sql">取得背後產生的 SQL 語法??</a></li>
+                
+            <li class="second-level"><a href="#logging">Logging??</a></li>
+                
+            <li class="second-level"><a href="#log-object">如何在 log 中印出 object?</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sqlalchemy-core">SQLAlchemy (Core)<a class="headerlink" href="#sqlalchemy-core" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.sqlalchemy.org/">SQLAlchemy - The Database Toolkit for Python</a> Python SQL toolkit + Object Relational Mapper (ORM)。SQL database (tables + rows) 重點在 performance，而 object collections 重點在 abstraction，SQLAlchemy 試著照顧到兩邊。</li>
+</ul>
+<h2 id="sqlalchemy-core-expression-language-orm">SQLAlchemy Core (Expression Language) &amp; ORM<a class="headerlink" href="#sqlalchemy-core-expression-language-orm" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.sqlalchemy.org/">SQLAlchemy - The Database Toolkit for Python</a> 最為人所知的 ORM，是 SQLAlchemy 的 optional component? 實作了 data mapper pattern，也就是 class 與 database 間的對應是開放的 (open ended)、低耦合 (decoupled) 的。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy Documentation — SQLAlchemy 1.2 Documentation</a> Core 的核心是 SQL Expression Language，是一種 schema-centric usage，不同於 ORM 的 domain-centric mode of usage。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/tutorial.html">SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a> Expression Language 讓你可以用 Python constructs 來表示 RDB 的 structures &amp; expressions &ndash; 儘可能貼近 DB，但又做了少量的 abstraction 隔開不同 DB backend 的差異 &ndash; backend-neutral SQL expressions。而 ORM 只是 Expression Lanauge 的一種用法。實務上可以只用 Expression Language，但用了 ORM 也可以搭配 Expression Language 使用。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/intro.html">Overview — SQLAlchemy 1.2 Documentation</a> 原來 SQL Expression Language、Engine、Connection Pooling 等都是 SQLAlchemy Core 的一員，底下是 DBAPI，上面才是 ORM，只是 ORM 跟 SQL Expression Language 站在台前 (front-facing) 而已。這裡提到 &ldquo;When using the ORM, the SQL Expression language remains part of the public facing API as it is used within object-relational configurations and queries.&rdquo; 看來兩者都得要學??</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>先看過 <a href="http://docs.sqlalchemy.org/en/latest/core/tutorial.html">SQL Expression Language Tutorial</a> 到 Insert Expressions 之前的那一段，再從 <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#declare-a-mapping">Declare a Mapping - Object Relational Tutorial</a> 開始。</li>
+<li><code>sqlalchemy.create_engine()</code> 搭配 <code>echo=True</code> 可以觀察背後產生的 SQL statements (例如某個用法會不會產生多餘的 SQL query?)，搭配 in-memory SQLite database 更方便，例如 <code>create_engine('sqlite:///:memory:', echo=True)</code>。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Object Relational Tutorial — SQLAlchemy 1.2 Documentation <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/">SQLAlchemy Documentation — SQLAlchemy 1.2 Documentation</a> #ril</li>
+</ul>
+<h2 id="engine-dialect">Engine, Dialect ??<a class="headerlink" href="#engine-dialect" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/tutorial.html#connecting">Connecting - SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a><ul>
+<li>建立連線用 <code>sqlalchemy.create_engine()</code>，例如 <code>engine = create_engine('sqlite:///:memory:', echo=True)</code></li>
+<li>這裡採用 in-memory SQLite database (<code>'sqlite:///:memory:'</code>)，搭配 <code>echo=True</code> 可以將背後產生的 SQL statements 印出來。</li>
+<li><code>create_engine()</code> 會傳回 <code>Engine</code>，做為跟 database 溝通的 core interface；內有 connection pool 與 dialect，而 dialect 決定了採用哪個 DBAPI 實作 (<code>sqlite</code> 這個 dialect 預設採用 Python 內建的 <code>sqlite3</code>)</li>
+<li><code>create_engine()</code> 只是傳回 <code>Engine</code>，但還沒真的建立連線，要等 <code>Engine.execute()</code> 或 <code>Engine.connect()</code> 被呼叫時才會建立。</li>
+</ul>
+</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#connecting">Connecting - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> When using the ORM, we typically don’t use the <code>Engine</code> directly once created; instead, it’s used behind the scenes by the ORM. 因為 engine 是 interface to the database，所以同 database URLs 都跟 Expression Language 及 ORM 有關，只不過用 ORM 時不太會直接操作 engine 而已 (而是透過 session)。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/engines.html">Engine Configuration — SQLAlchemy 1.2 Documentation</a> #ril<ul>
+<li>Engine 背後有 connection pool 跟 dialect，而 dialect 決定了用哪個 DBAPI 的實作，所以才會有 &ldquo;The MySQL dialect uses mysql-python as the default DBAPI&rdquo;、&rdquo;SQLite connects to file-based databases, using the Python built-in module sqlite3 by default&rdquo; 等說法。</li>
+</ul>
+</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/dialects/">Dialects — SQLAlchemy 1.2 Documentation</a> Dialect 是 SQLAlchemy 用來跟不同 DBAPI impl. 溝通的系統；要使用某個 dialect，要先安裝對應的 DBAPI driver #ril</li>
+</ul>
+<h2 id="database-url">Database URL ??<a class="headerlink" href="#database-url" title="Permanent link"> #</a></h2>
+<ul>
+<li>Database URL 的寫法會因 dialect 而有不同，通常是 <code>dialect+driver://username:password@host:port/database</code>。</li>
+</ul>
+<p>常用的 URL 有：</p>
+<ul>
+<li>MySQL 用 <code>mysql[+mysqldb]://{username}:{password}@{host}/{database}</code>，例如 <code>mysql://scott:tiger@localhost/foo</code>。</li>
+<li>SQLite 因為是 file-based，所以 host 的部份會省略 (形成 <code>///</code>)，用 <code>sqlite:///{filepath}</code>，例如 <code>sqlite:///foo.db</code> (相對路徑) 或 <code>sqlite:////absolute/path/to/foo.db</code> (絕對路徑)，若是要採用 in-memory database，<code>filepath</code> 可以用 <code>:memory:</code>，例如 <code>sqlite:///:memory:</code> 或 <code>sqlite://</code> (empty URL)</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls">Database Urls - Engine Configuration — SQLAlchemy 1.2 Documentation</a> #ril<ul>
+<li>URL 通常是 <code>dialect+driver://username:password@host:port/database</code>，其中 dialect 是 SQLAlchemy 支援的 dialect，而 driver 則是 DBAPI 的名稱 (module/package name?)，省略的話就會用 default DBAPI。事實上 <code>dialect+driver://</code> 後面的寫法會因 dialect 而有不同。</li>
+</ul>
+</li>
+<li>Object Relational Tutorial — SQLAlchemy 1.2 Documentation <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#connecting">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#connecting</a> 與 Engine Configuration — SQLAlchemy 1.2 Documentation <a href="http://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls">http://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls</a> 分別出現 <code>sqlite:///:memory:</code> 與 <code>sqlite://</code> 的寫法，都可以連到 in-memory database。</li>
+</ul>
+<h2 id="metadata-schema">Metadata, Schema ??<a class="headerlink" href="#metadata-schema" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/core/tutorial.html">SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</p>
+<ul>
+<li>SQL Expression Language 提供 &ldquo;representing RELATIONAL database structures and expressions using PYTHON CONSTRUCTS&rdquo; 的系統，儘可能貼近 underlying database 的用法，也為不同 database backend 間的差異提供抽象，也就是讓你可以寫 backend-neutral SQL expressions。</li>
+<li>ORM (Object Relational Mapper) 是 Expression Language 的一種高階應用 (high level and abstracted pattern of usage) &ndash; from the perspective of a user-defined domain model which is TRANSPARENTLY persisted and refreshed from its underlying storage model；而 Expression Language 則專注在提供 primitive constructs of the relational database directly，不限定特定用法 (without opinion) &ndash; from the perspective of LITERAL schema and SQL expression representations which are explicitly composed into messages consumed individually by the database.</li>
+<li>一個 application 完全只用 Expression Language 當然可以，只是要自己處理 database message 與 database result sets 而已。相反的，一個 application 可以主要用 ORM，偶爾需要直接跟 database 互動才混用 Expression Language。</li>
+<li><code>create_engine('sqlite:///:memory:', echo=True)</code> 會傳回 Engine (interface to the database)，內部會透過不同的 dialect 跟 DBAPI 溝通，就這個例子而就是 SQLite dialect -&gt; <code>sqlite3</code> module (Python 內建)。</li>
+<li>其中 <code>sqlite:///:memory:</code> 是 Database URL，<code>echo=True</code> 會印出過程中產生的 SQL statements。</li>
+<li>呼叫 <code>create_engine()</code> 時並不會建立連線，而是傳回 <code>sqlalchemy.engine.Engine</code>，所以不會有 SQL 產生。第一次呼叫 <code>Engine.execute()</code> 或 <code>Engine.connect()</code> 時才會建立 DBAPI connection。</li>
+<li>
+<p>資料庫的結構用 <code>sqlalchemy.schema.Table</code> 與 <code>sqlalchemy.schema.Column</code> 描述，所有 table 及 column 的集合稱做 schema metadata，用 <code>sqlalchemy.schema.MetaData</code> 表示。這三者有從屬關係 <code>Engine</code> -&gt; <code>MetaData</code> -&gt; <code>Table</code> -&gt; <code>Column</code>，以建立兩個 tables - <code>users</code> 與 <code>addresses</code> 為例 (一個使用者會有多個 email address)：</p>
+<pre><code>&gt;&gt;&gt; from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+&gt;&gt;&gt; metadata = MetaData()
+&gt;&gt;&gt; users = Table('users', metadata,
+...     Column('id', Integer, primary_key=True),
+...     Column('name', String),
+...     Column('fullname', String),
+... )
+
+&gt;&gt;&gt; addresses = Table('addresses', metadata,
+...   Column('id', Integer, primary_key=True),
+...   Column('user_id', None, ForeignKey('users.id')), # 型態是 None?
+...   Column('email_address', String, nullable=False)
+...  )
+</code></pre>
+</li>
+<li>
+<p>接著就可以呼叫 <code>metadata.create_all()</code> 建立 metadata 下的 tables &ndash; <code>metadata.create_all(engine)</code>。</p>
+<pre><code>CREATE TABLE users (
+    id INTEGER NOT NULL,
+    name VARCHAR,
+    fullname VARCHAR,
+    PRIMARY KEY (id)
+)
+()
+COMMIT
+CREATE TABLE addresses (
+    id INTEGER NOT NULL,
+    user_id INTEGER,
+    email_address VARCHAR NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(user_id) REFERENCES users (id)
+)
+()
+COMMIT
+</code></pre>
+</li>
+<li>
+<p>眼尖的人會發現，<code>VARCHAR</code> 為何沒有長度? 那是因為 SQLite 跟 PostgreSQL 都支持這種 datatype，但其他資料庫就不行，所以若改用 MySQL 時就會出錯，要改用類似 <code>String(50)</code> 的方式宣告才行，不過長度這項資訊也只在 create tables 時才會參考。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/core/tutorial.html#define-and-create-tables">Define and Create Tables - SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</p>
+</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/constraints.html#defining-foreign-keys">Defining Foreign Keys - Defining Constraints and Indexes — SQLAlchemy 1.2 Documentation</a> 即便 SQLAlchemy Core 沒有 relationship 的概念，但 foreign key 的定義仍屬於 Core 而非 ORM 特有 #ril</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/core/schema.html">Schema Definition Language — SQLAlchemy 1.2 Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/numeric-type-overview.html">MySQL :: MySQL 5.7 Reference Manual :: 11.1.1 Numeric Type Overview</a> <code>INT</code> 的值域是 -2147483648 ~ 2147483647。</p>
+</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/type_basics.html#sqlalchemy.types.BigInteger">class sqlalchemy.types.BigInteger - Column and Data Types — SQLAlchemy 1.2 Documentation</a> Typically generates a BIGINT in DDL, and otherwise acts like a normal Integer on the Python side. 也就是說 Python 這端是以 <code>int</code> 來與 DB 的 <code>BIGINT</code> 對應；相較於 <code>sqlalchemy.types.BIGINT</code> 屬 SQL Standard and Multiple Vendor Types，不一定能作用在所有的 backend。</li>
+</ul>
+<h2 id="textual-sql">Textual SQL ??<a class="headerlink" href="#textual-sql" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/13/core/tutorial.html#using-textual-sql">Using Textual SQL - SQL Expression Language Tutorial — SQLAlchemy 1.3 Documentation</a> #ril</p>
+<ul>
+<li>
+<p>Our last example really became a handful to type. Going from what one understands to be a textual SQL expression into a Python construct which groups components together in a programmatic style can be HARD.</p>
+<pre><code>&gt;&gt;&gt; s = select([(users.c.fullname +
+...               ", " + addresses.c.email_address).
+...                label('title')]).\
+...        where(users.c.id == addresses.c.user_id).\
+...        where(users.c.name.between('m', 'z')).\
+...        where(
+...               or_(
+...                  addresses.c.email_address.like('%@aol.com'),
+...                  addresses.c.email_address.like('%@msn.com')
+...               )
+...        )
+&gt;&gt;&gt; conn.execute(s).fetchall()
+</code></pre>
+<p>確實沒有比較好懂，尤其對寫過 SQL 的人來說。</p>
+</li>
+<li>
+<p>That’s why SQLAlchemy lets you just use strings, for those cases when the SQL is already known and there isn’t a strong need for the statement to support DYNAMIC FEATURES. The <code>text()</code> construct is used to compose a TEXTUAL STATEMENT that is passed to the database MOSTLY UNCHANGED. Below, we create a <code>text()</code> object and execute it:</p>
+<pre><code>&gt;&gt;&gt; from sqlalchemy.sql import text
+&gt;&gt;&gt; s = text(
+...     "SELECT users.fullname || ', ' || addresses.email_address AS title "
+...         "FROM users, addresses "
+...         "WHERE users.id = addresses.user_id "
+...         "AND users.name BETWEEN :x AND :y "
+...         "AND (addresses.email_address LIKE :e1 "
+...             "OR addresses.email_address LIKE :e2)")
+SQL&gt;&gt;&gt; conn.execute(s, x='m', y='z', e1='%@aol.com', e2='%@msn.com').fetchall()
+[(u'Wendy Williams, wendy@aol.com',)]
+</code></pre>
+<p>用 <code>:var</code> 來替換變數 (bound parameter)。</p>
+<p>上面 &ldquo;passed to the database mostly unchanged&rdquo; 的說法，是否意謂著 textual SQL 會綁定特定資料庫 ??</p>
+</li>
+<li>
+<p>Above, we can see that BOUND PARAMETERS are specified in text() using the NAMED COLON FORMAT; this format is consistent REGARDLESS OF DATABASE BACKEND. To send values in for the parameters, we passed them into the <code>execute()</code> method as additional arguments.</p>
+</li>
+</ul>
+<p>用 Textual SQL 就可以與資料庫隔開一層，不一定要包裝 mapping 或 domain model。</p>
+</li>
+<li>
+<p><a href="http://neekey.net/2017/05/19/using-raw-sql-with-flask-sqlalchemy/">Using raw SQL with Flask-SQLAlchemy – neekey</a> (2017-05-19) #ril</p>
+</li>
+<li><a href="http://zetcode.com/db/sqlalchemy/rawsql/">Raw SQL in SQLAlchemy</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/17972020/">python - How to execute raw SQL in SQLAlchemy-flask app - Stack Overflow</a> jpmc26: 也可搭配 session 使用!? #ril</li>
+<li><a href="https://chartio.com/resources/tutorials/how-to-execute-raw-sql-in-sqlalchemy/">How to Execute Raw SQL in SQLAlchemy</a> #ril</li>
+<li><a href="https://www.programcreek.com/python/example/51986/sqlalchemy.sql.text">sqlalchemy.sql.text Python Example</a> #ril</li>
+</ul>
+<h2 id="connection-pooling">Connection Pooling ??<a class="headerlink" href="#connection-pooling" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/pooling.html">Connection Pooling — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/pooling.html#dealing-with-disconnects">Dealing with Disconnects - Connection Pooling — SQLAlchemy 1.2 Documentation</a> #ril<ul>
+<li>Connection pool 有能力刷新 (refresh) 個別或全部的 connection、將之前的 connection 標示為 invalid，這樣可以比較溫格地渡過 DB 重啟，或是連線已經失效的狀況。</li>
+<li>策略上分為 Pessimistic (悲觀) 與 Optimistic (樂觀) 兩種</li>
+<li>所謂悲觀是指 &ldquo;不看好連線穩定&rdquo;，所以要從 pool 拿出 (checkout) connection 前，會先送出一個 test statement 以確定 connection 是有用的 (viable)，這個動作稱做 pre ping。雖然 pre ping 會對 checkout process 增加一些 overhead，但這是最簡單且可以完全排除拿到 stale pooled connection 的方法，應用端也不用擔心如何從 stale connection 回復的問題。</li>
+</ul>
+</li>
+<li><a href="http://flask-sqlalchemy.pocoo.org/2.3/config/">Configuration — Flask-SQLAlchemy Documentation (2.3)</a> #ril</li>
+</ul>
+<h2 id="transaction">Transaction ??<a class="headerlink" href="#transaction" title="Permanent link"> #</a></h2>
+<ul>
+<li>Glossary — SQLAlchemy 1.2 Documentation <a href="http://docs.sqlalchemy.org/en/latest/glossary.html#term-unit-of-work">http://docs.sqlalchemy.org/en/latest/glossary.html#term-unit-of-work</a> 提到 &ldquo;transparently keeps track of changes to objects and periodically flushes all those pending changes out to the database&rdquo; 且 SQLAlchemy session 有實作這個 pattern，在使用上會有什麼影響?</li>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/orm/session_transaction.html">Transactions and Connection Management — SQLAlchemy 1.2 Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/glossary.html#term-isolation">isolation - Glossary — SQLAlchemy 1.3 Documentation</a></p>
+<ul>
+<li>The isolation property of the ACID model ensures that the CONCURRENT EXECUTION of transactions results in a system state that would be obtained if transactions were EXECUTED SERIALLY, i.e. one after the other. Each transaction must execute in total isolation i.e. if T1 and T2 execute concurrently then each should remain independent of the other. (via Wikipedia)</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/orm/session_transaction.html#setting-transaction-isolation-levels">Setting Transaction Isolation Levels - Transactions and Connection Management — SQLAlchemy 1.3 Documentation</a> #ril</p>
+<ul>
+<li>
+<p>Isolation refers to the behavior of the transaction at the database level in relation to other transactions occurring concurrently. There are four well-known modes of isolation, and typically the Python DBAPI allows these to be set on a PER-CONNECTION BASIS, either through explicit APIs or via database-specific calls.</p>
+</li>
+<li>
+<p>SQLAlchemy’s dialects support SETTABLE ISOLATION MODES on a PER-ENGINE or PER-CONNECTION basis, using flags at both the <code>create_engine()</code> level as well as at the <code>Connection.execution_options()</code> level.</p>
+<p>預設是什麼??</p>
+</li>
+<li>
+<p>When using the ORM <code>Session</code>, it acts as a FACADE for engines and connections, but does NOT EXPOSE transaction isolation directly. So in order to affect transaction isolation level, we need to act upon the <code>Engine</code> or <code>Connection</code> as appropriate. 下面會說明做法</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine.params.isolation_level"><code>isolation_level</code> - <code>sqlalchemy.create_engine()</code> - Engine Configuration — SQLAlchemy 1.3 Documentation</a></p>
+<ul>
+<li>
+<p>this string parameter is interpreted by various dialects in order to affect the transaction isolation level of the database connection. The parameter essentially accepts some SUBSET of these string arguments: <code>"SERIALIZABLE"</code>, <code>"REPEATABLE_READ"</code>, <code>"READ_COMMITTED"</code>, <code>"READ_UNCOMMITTED"</code> and <code>"AUTOCOMMIT"</code>. BEHAVIOR HERE VARIES PER BACKEND, and individual dialects should be consulted directly.</p>
+</li>
+<li>
+<p>Note that the isolation level can also be set on a PER-CONNECTION BASIS as well, using the <code>Connection.execution_options.isolation_level</code> feature.</p>
+<p>感覺依 connection 設定 isolation level 比較合理，因為不是每項操作 (或 use case) 都會涉及資料的異動。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/dialects/mysql.html#mysql-isolation-level">Transaction Isolation Level - MySQL — SQLAlchemy 1.3 Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="http://rachbelaid.com/handling-race-condition-insert-with-sqlalchemy/">Handling concurrent INSERT with SQLAlchemy</a> (2015-08-17) #ril</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/6091168/">postgresql - SqlAlchemy: Table locking with `get or create` pattern - Stack Overflow</a> #ril</li>
+<li><a href="https://groups.google.com/forum/#!topic/sqlalchemy/neg7nXagaMQ">Lock table, do things to table, unlock table: Best way? - Google Groups</a> #ril</li>
+</ul>
+<h2 id="sql">取得背後產生的 SQL 語法??<a class="headerlink" href="#sql" title="Permanent link"> #</a></h2>
+<p>取得 <code>CREATE TABLE</code> 語法，可以透過 <code>CreateTable.compile()</code>，例如：</p>
+<pre><code>from sqlalchemy.schema import CreateTable
+from sqlalchemy.dialects import sqlite, mysql
+from sqlalchemy import Table
+
+engine = create_engine(...)
+table = Table(...)
+# sql = CreateTable(table).compile(engine) # 透過 Engine 也可以
+sql = CreateTable(table).compile(dialect=mysql.dialect())
+</code></pre>
+
+<p>建立 engine 時傳入 <code>echo=True</code>，例如 <code>engine = sqlalchemy.create_engine('sqlite://:memory:', echo=True)</code>。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://nicolascadou.com/blog/2014/01/printing-actual-sqlalchemy-queries/">Printing actual SQLAlchemy queries | Nicolas Cadou&rsquo;s Blog</a> (2014-01-17) #ril</li>
+<li><a href="https://www.johbo.com/2016/printing-the-generated-query-including-parameters.html">Printing the generated query including parameters - Johbo&rsquo;s Notes - Working on the Web</a> (2016-10-23) #ril</li>
+<li><a href="http://xion.io/post/code/sqlalchemy-query-to-sql.html">Karol Kuczmarski&rsquo;s Blog – Turn SQLAlchemy queries into literal SQL</a> (2015-11-12) #ril</li>
+<li><a href="https://stackoverflow.com/questions/5631078/">python - SQLAlchemy: print the actual query - Stack Overflow</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/2128717/">python - SQLAlchemy printing raw SQL from create() - Stack Overflow</a> 針對 <code>CREATE TABLE</code>；Antoine Leclair: 本來提出 <code>print(CreateTable(table))</code> 或 <code>print(CreateTable(Model.__table__))</code> 的做法 (<code>sqlalchemy.schema.CreateTable</code>)，但 klenwell 提到 <code>CreateTable.compile(engine)</code> 印出特定 DB 的 SQL，後來 jackotonye: 更提到連 engine 都不用，改用 <code>CreateTable.compile(dialect=...)</code> 即可</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#connecting">Connecting - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> 提到 <code>create_engine()</code> 搭配 <code>echo=True</code> 可以將產生的 SQL statements 印出來，而且是透過 Python 標準的 <code>logging</code> module。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/faq/metadata_schema.html#how-can-i-get-the-create-table-drop-table-output-as-a-string">How can I get the CREATE TABLE/ DROP TABLE output as a string? - MetaData / Schema — SQLAlchemy 1.2 Documentation</a> 一樣是 <code>print(CreateTable(mytable))</code> 或 <code>print(CreateTable(mytable).compile(engine))</code>，不過 <code>create_engine(url, strategy='mock', executor=dump)</code> 可以攔截到所有的 SQL statements 更有效? 不知道一般的 query、update 是否攔截得到?? #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine.params.strategy">strategy=&rsquo;plain&rsquo; - Engine Configuration — SQLAlchemy 1.2 Documentation</a> 提到 <code>mock</code> strategy 與 <code>executor</code> 的用法 #ril</li>
+<li><a href="https://stackoverflow.com/questions/2950385/">python - Debugging (displaying) SQL command sent to the db by SQLAlchemy - Stack Overflow</a> #ril</li>
+<li>pytest 的 <code>caplog</code> fixture 似乎還滿實用的??</li>
+</ul>
+<h2 id="logging">Logging??<a class="headerlink" href="#logging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/engines.html#configuring-logging">Configuring Logging - Engine Configuration — SQLAlchemy 1.2 Documentation</a> #ril</li>
+</ul>
+<h2 id="log-object">如何在 log 中印出 object?<a class="headerlink" href="#log-object" title="Permanent link"> #</a></h2>
+<ul>
+<li>Object Relational Tutorial — SQLAlchemy 1.2 Documentation <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#declare-a-mapping">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#declare-a-mapping</a> 提到 <code>__repr__()</code> 的實作並非必要，但輸出關鍵的值，當 instance 被印出來時，對於除錯似乎很有幫助，否則預設只有 object ID?</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 <code>pip install SQLAlchemy</code> 安裝。</li>
+<li>用 <code>python -c 'import sqlalchemy; print(sqlalchemy.__version__)'</code> 檢查。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/intro.html#installation">Installation Guide - Overview — SQLAlchemy 1.2 Documentation</a> 支援 Python 2.7+ 與 3.x，但目前只支援 CPython，還不支援 Jython 與 IronPython。用 pip 安裝 <code>SQLAlchemy</code> 套件即可。如何安裝 DBAPI??</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.sqlalchemy.org/">SQLAlchemy - The Database Toolkit for Python</a></li>
+<li><a href="https://github.com/zzzeek/sqlalchemy">zzzeek/sqlalchemy - GitHub</a></li>
+<li><a href="https://pypi.org/project/SQLAlchemy/">SQLAlchemy - PyPI</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/sqlalchemy">&lsquo;sqlalchemy&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../sqlalchemy-core/">Core</a></li>
+<li><a href="../sqlalchemy-orm/">ORM</a></li>
+<li><a href="../sqlalchemy-domain-model/">Domain Model</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>SQLAlchemy 底層也是透過 <a href="../dbapi/">DB-API</a> 跟 DB 溝通。</li>
+</ul>
+<p>手冊：</p>
+<pre><code>from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+
+from sqlalchemy import Column
+from sqlalchemy import String
+from sqlalchemy import Integer
+</code></pre>
+
+<ul>
+<li>
+<p><a href="https://www.pythonsheets.com/notes/python-sqlalchemy.html">Python SQLAlchemy Cheatsheet — pysheeet</a></p>
+</li>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine"><code>sqlalchemy.create_engine()</code></a></p>
+</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/extensions/declarative/api.html#sqlalchemy.ext.declarative.declarative_base"><code>sqlalchemy.ext.declarative.declarative_base()</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.MetaData"><code>sqlalchemy.MetaData</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/mapping_api.html#sqlalchemy.orm.mapper.Mapper"><code>sqlalchemy.orm.Mapper</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/session_api.html#sqlalchemy.orm.session.Session"><code>sqlalchemy.orm.Session</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/session_api.html#sqlalchemy.orm.session.sessionmaker"><code>sqlalchemy.orm.sessionmaker()</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query"><code>sqlalchemy.orm.Query</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Table"><code>sqlalchemy.Table</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Column"><code>sqlalchemy.Column</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/type_basics.html#sqlalchemy.types.String"><code>sqlalchemy.String</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/type_basics.html#sqlalchemy.types.Integer"><code>sqlalchemy.Integer</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/rwd/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Responsive Web Design (RWD) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/rwd.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#responsive-web-design-rwd">Responsive Web Design (RWD)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#viewport-meta">Viewport Meta ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="responsive-web-design-rwd">Responsive Web Design (RWD)<a class="headerlink" href="#responsive-web-design-rwd" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Responsive_web_design">Responsive web design - Wikipedia</a> #ril<ul>
+<li><a href="https://en.wikipedia.org/wiki/File:Content-is-like-water-1980.jpg">Content is like water, a saying that illustrates the principles of RWD</a> 這張圖好有感！</li>
+<li>Responsive web design (RWD) is an approach to web design that makes web pages RENDER WELL on a variety of devices and window or SCREEN SIZES.</li>
+<li>A site designed with RWD adapts the layout to the viewing environment by using FLUID, proportion-based GRIDS, flexible images, and CSS3 MEDIA QUERIES, an extension of the <code>@media</code> rule 其中 media query 可以根據裝置的特性 (通常是瀏覽器的寬度) 決定採用不同的 CSS style rules。</li>
+<li>RWD 在總 internet traffic 超過一半來自 mobile 後更形重要，也因此 Google 在 2015 宣布 Mobilegeddon 演算法 &ndash; 如果使用者從 mobile 上搜尋，mobile friendly 的網站會得到比較高的 rating。</li>
+</ul>
+</li>
+<li><a href="https://webmasters.googleblog.com/2015/04/rolling-out-mobile-friendly-update.html">Official Google Webmaster Central Blog: Rolling out the mobile-friendly update</a> (2015-04-21) #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.w3schools.com/css/css_rwd_intro.asp">Responsive Web Design Introduction</a><ul>
+<li>Web pages should not LEAVE OUT information to fit smaller devices, but rather ADAPT its content to fit any device 不是拿掉一些東西，而是根據 device 調適。</li>
+<li>It is called responsive web design when you use CSS and HTML to resize, HIDE, shrink, enlarge, or move the content to make it look good on any screen. 不含 JavaScript??</li>
+</ul>
+</li>
+<li><a href="https://www.w3schools.com/css/css_rwd_viewport.asp">Responsive Web Design Viewport</a><ul>
+<li>The viewport is the user&rsquo;s visible area of a web page. 會因 device 而異；不完全等同於 screen size? 因為手機畫面可能會切割</li>
+<li>在 tablet、mobile phone 出現之前，網頁只為 computer 設計 &ndash; static design + fixed size，但這樣的設計塞不進 viewport，瀏覽器的 quick fix 是把整個網頁縮小，但這不是最佳解。</li>
+<li>HTML5 可以透過 <code>viewport</code> 這個 metadata 控制 viewport，例如 <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>；其中 <code>width=device-width</code> 會把 screen/viewport width 當做 page width，而 <code>initial-scale=1.0</code> 則是設定一開始的 zoom level。下面的範例，光是加了 <code>viewport</code> meta tag 就有很明顯的差異。</li>
+<li>Users are used to scroll websites vertically on both desktop and mobile devices - but NOT HORIZONTALLY! So, if the user is forced to scroll horizontally, or zoom out, to see the whole web page it results in a poor user experience. 這一點很關鍵!! 有幾點建議 1) Do NOT use large fixed width elements 要隨 viewport width 調整 2) Do NOT let the content rely on a particular viewport width to render well (例如過往常見的 &ldquo;建議使用 1024 x 768 瀏覽&rdquo;) 3) Use CSS media queries to apply different styling for small and large screens</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.w3schools.com/css/css_rwd_grid.asp">Responsive Web Design Grid</a> #ril</p>
+<ul>
+<li>
+<p>首先要確保所有 HTML element 都套用 <code>box-sizing: border-box</code> &ndash; padding 跟 border 都算在 element 的大小裡；從 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing">box-sizing - CSS: Cascading Style Sheets | MDN</a> 看來，<code>box-sizing: border-box</code> 可以確保 child container 不會突出 parent container 外。</p>
+<pre><code>* {
+    box-sizing: border-box;
+}
+</code></pre>
+</li>
+<li>
+<p>目標是建立 responsive grid-view &ndash; 將畫面分割為 12 個欄位 (column)，所以每個 column 暫用的寬度是 100% / 12 = 8.33% &ndash; to have more control over the web page. 為此建立 12 個 class <code>.col-{1,12}</code>：</p>
+<pre><code>.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+</code></pre>
+<p>所有 column 會應往左靠 (floating to the left)：</p>
+<pre><code>[class*="col-"] {
+    float: left;
+    padding: 15px; // 下面這兩個 properties 只是為了方便說明
+    border: 1px solid red;
+}
+</code></pre>
+<p>搭配 `class=&rdquo;col-{1,12}&rdquo; 就可以定義某個區塊 (例如 menu、content 等) 要佔幾個 columns 的寬度：</p>
+<pre><code>&lt;div class="row"&gt;
+  &lt;div class="col-3"&gt;...&lt;/div&gt; &lt;!-- 25% --&gt;
+  &lt;div class="col-9"&gt;...&lt;/div&gt; &lt;!-- 75% --&gt;
+&lt;/div&gt;
+  - The columns inside a row are all floating to the left, and are therefore taken out of the flow of the page, and other elements will be placed AS IF THE COLUMNS DO NOT EXIST. To prevent this, we will add a style that clears the flow: 試不出來前後有什麼差別??
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.w3schools.com/css/css_rwd_mediaqueries.asp">Responsive Web Design Media Queries</a> #ril</p>
+<ul>
+<li>
+<p>Media query 是 CSS3 引進的做法 &ndash; It uses the <code>@media</code> rule to include a block of CSS properties only if a certain CONDITION is true. 例如：</p>
+<pre><code>@media only screen and (max-width: 600px) { // 視窗寬度 &lt;= 600 時才生效
+    body {
+        background-color: lightblue;
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>上一節 responsive grid view 的安排將在這裡發揮作用，設定一個分割點 (breakpoint) &ndash; 螢幕寬度多少要開始採用另一套 layout：</p>
+<pre><code>@media only screen and (max-width: 768px) { // 跨過 768px 這門檻，所有套用 `col-*` 的區塊，都會放大到 100%
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Progressive/Responsive/responsive_design_building_blocks">The building blocks of responsive design - App Center | MDN</a> #ril</p>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Progressive/Responsive/Responsive_navigation_patterns">Responsive Navigation Patterns - App Center | MDN</a> #ril</li>
+</ul>
+<h2 id="viewport-meta">Viewport Meta ??<a class="headerlink" href="#viewport-meta" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.w3schools.com/css/css_rwd_viewport.asp">Setting The Viewport - Responsive Web Design Viewport</a> 加了 <code>viewport</code> meta tag 就有很明顯的差異!!</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/viewport">Viewport - MDN Web Docs Glossary: Definitions of Web-related terms | MDN</a> 文件目前在 browser window 裡可以看到的部份 (除非是 full screen mode，否則 screen 不等同於 window)，要看到 viewport 外的東西就要捲動。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag">Using the viewport meta tag to control layout on mobile browsers - Mozilla | MDN</a> #ril<ul>
+<li>Narrow screen devices (e.g. mobiles) render pages in a virtual window or viewport, which is usually wider than the screen, and then shrink the rendered result down so it can all be seen at once. 關鍵就在比 screen 還大的 virtual windows!!</li>
+<li>This is done because many pages are not MOBILE OPTIMIZED, and break (or at least look bad) when rendered at a small viewport width. This virtual viewport is a way to make non-mobile-optimized sites in general look better on narrow screen devices. 加 <code>&lt;meta name="viewport" ...&gt;</code> 有宣告 mobile-optimized 的意味。</li>
+</ul>
+</li>
+<li><a href="https://css-tricks.com/snippets/html/responsive-meta-tag/">Responsive Meta Tag | CSS-Tricks</a> #ril</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#attr-name">&lt;meta>: The Document-level Metadata element - HTML: HyperText Markup Language | MDN</a> #ril</li>
+<li><a href="https://drafts.csswg.org/css-device-adapt/#viewport-meta">Viewport &lt;META> element - CSS Device Adaptation Module Level 1</a> #ril</li>
+<li><a href="https://medium.com/frochu/html-meta-viewport-setting-69fbb06ed3d8">Responsive Web Design 基礎 : &lt;meta name=”viewport” > 設定 – Frochu – Medium</a> (2018-02-05) #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

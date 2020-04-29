@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/sentry/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sentry - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/sentry.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sentry">Sentry</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sentry">Sentry<a class="headerlink" href="#sentry" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://sentry.io/welcome/">Sentry | Error Tracking Software — JavaScript, Python, PHP, Ruby, more</a> #ril</p>
+<ul>
+<li>
+<p>STOP HOPING your users will report errors</p>
+<p>Open-source ERROR TRACKING that helps developers monitor and fix crashes in real time. Iterate continuously. Boost efficiency. Improve user experience.</p>
+</li>
+<li>
+<p>Users and LOGS provide clues Sentry provides answers</p>
+<p>這裡的 log 應該只是 exception，沒有一般的 log ??</p>
+</li>
+<li>
+<p>Find out about exceptions right away</p>
+<p>Set up Sentry in minutes with just a few lines of code. Get notifications via email, SMS, or chat as part of an existing workflow when errors occur or RESURFACE.</p>
+</li>
+<li>
+<p>Quickly find and fix production errors</p>
+<p>Triage, reproduce, and resolve errors with max efficiency and visibility. Exception handling with Sentry helps developers build better apps and iterate faster.</p>
+</li>
+<li>
+<p>Error tracking built for community</p>
+<p>Sentry started as and remains a 100% open-source project, now delivered as a hosted service. Development aligns to security, observability, and production at scale.</p>
+<p>其中 hosted service 才是需要收費，但 Developer 方案不用錢 #ril</p>
+</li>
+<li>
+<p>Is your data secure?  You better believe it.</p>
+<p>Just look at all the high-quality security features all accounts get, regardless of plan.</p>
+<p>Security:</p>
+<ul>
+<li>Two-Factor Auth</li>
+<li>Single Sign On support</li>
+<li>Organization audit log</li>
+</ul>
+<p>Privacy:</p>
+<ul>
+<li>Privacy Shield certified</li>
+<li>PII data scrubbing ??</li>
+<li>SSL encryption</li>
+</ul>
+</li>
+<li>
+<p>Sentry tracks errors in all major languages and frameworks.</p>
+<p>泛稱為 platform，也包含 Cocoa (Objective-C、Swift) 及 Andorid、Kotlin 等；支援的平台比 HockeyApp / App Center 多很多。</p>
+</li>
+<li>
+<p>It also integrates with your favorite apps and services</p>
+<p>整合 Slack 送通知可以理解，整合 GitHub、Jira、Trello 等是要做什麼 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://sentry.io/platforms/">Platforms</a> #ril</p>
+</li>
+<li><a href="https://sentry.io/integrations/">Integrations</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://sentry.io/signup/">Sign up for Sentry - Get Started</a></p>
+<ul>
+<li>
+<p>提供 Sign up with GitHub 與 Sign up with Azure DevOps，在 Sign up 的過程中 New Identity 那一頁提到：</p>
+<p>If your Sentry organization already uses GitHub for Single Sign-On, click here.</p>
+</li>
+<li>
+<p>接著輸入 Name、Email 及 Organization Name，其中 Organization Name 一定要給。</p>
+<p>If you&rsquo;re signing up for a personal account, try using your own name.</p>
+</li>
+</ul>
+<p>Configure your application &gt; Configure Python (假設入門平台選 Python)</p>
+<ul>
+<li>
+<p>Install our Python SDK using pip:</p>
+<pre><code>$ pip install --upgrade sentry-sdk==0.9.1
+</code></pre>
+</li>
+<li>
+<p>Import and initialize the Sentry SDK EARLY in your application’s setup:</p>
+<pre><code>import sentry_sdk
+sentry_sdk.init("https://...@sentry.io/...") # 之後還可以看到
+</code></pre>
+<p>這樣就能設定 uncaught exception handler? 應該是透過 <a href="https://docs.python.org/3/library/sys.html#sys.excepthook"><code>sys.exceptionhook(type, value, traceback)</code></a> 辦到的 ??</p>
+</li>
+<li>
+<p>You can cause a Python error by inserting a divide by zero expression into your application:</p>
+<pre><code>division_by_zero = 1 / 0
+</code></pre>
+</li>
+</ul>
+<p>初步測試像是：</p>
+<pre><code>$ cat test.py
+import sentry_sdk
+sentry_sdk.init("https://...@sentry.io/...")
+division_by_zero = 1 / 0
+
+$ python test.py
+Traceback (most recent call last):
+  File "test.py", line 3, in &lt;module&gt;
+    division_by_zero = 1 / 0
+ZeroDivisionError: integer division or modulo by zero
+Sentry is attempting to send 0 pending error messages
+Waiting up to 2.0 seconds
+Press Ctrl-C to quit
+</code></pre>
+<p>從 &ldquo;Sentry is attempting to send &hellip; Waiting up to 2.0 seconds&rdquo; 看來，exception 往 Sentry 送並不是即時的 ?? 然後就可以 Issues 看到 <code>ZeroDivisionError</code>。</p>
+</li>
+<li>
+<p><a href="https://docs.sentry.io/error-reporting/quickstart/?platform=python">Getting Started - Docs</a> (Python) #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://sentry.io/">Sentry</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.sentry.io/">Sentry Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

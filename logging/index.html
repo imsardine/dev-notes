@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/logging/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Logging - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/logging.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#logging">Logging</a></li>
+            <li class="second-level"><a href="#_1">使用時機 ??</a></li>
+                
+            <li class="second-level"><a href="#event-message-levelseverity">Event, Message, Level/Severity ??</a></li>
+                
+            <li class="second-level"><a href="#log-level-debug-info-warning-error-critical">Log Level -- DEBUG, INFO, WARNING, ERROR, CRITICAL ??</a></li>
+                
+            <li class="second-level"><a href="#log-operation-function">Log 加在 operation 前/後? 加在 function 裡/外??</a></li>
+                
+            <li class="second-level"><a href="#log-message">如何在 log message 揭露重要的數據??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://docs.python.org/2/howto/logging.html">Logging HOWTO — Python 2.7.14 documentation</a> 用來記錄 software 執行過程式各種 event 的方式，用 logging call 來表示 &ldquo;certain events have occurred&rdquo;</li>
+</ul>
+<h2 id="_1">使用時機 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/howto/logging.html#when-to-use-logging">When to use logging - Logging HOWTO — Python 2.7.14 documentation</a> 除了要輸出訊息用 <code>print()</code> 外，其餘大部份都用 <code>logging.xxx()</code>，但若是 library 的 client code 改變用法就能避開的 warning 要用 <code>warnings.warn()</code> 而非 <code>logging.warning()</code>。</li>
+</ul>
+<h2 id="event-message-levelseverity">Event, Message, Level/Severity ??<a class="headerlink" href="#event-message-levelseverity" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/howto/logging.html">Logging HOWTO — Python 2.7.14 documentation</a> #ril<ul>
+<li>一個 event 由 (descriptive) message (裡面可能含有 variable data) 及 importanace 組成，其中 importance 也稱做 level/severity。</li>
+</ul>
+</li>
+<li><a href="https://logback.qos.ch/manual/architecture.html#basic_selection">Printing methods and the basic selection rule - Chapter 2: Architecture</a> 把 level 區分為 request level 與 effective level 兩種 #ril</li>
+</ul>
+<h2 id="log-level-debug-info-warning-error-critical">Log Level &ndash; DEBUG, INFO, WARNING, ERROR, CRITICAL ??<a class="headerlink" href="#log-level-debug-info-warning-error-critical" title="Permanent link"> #</a></h2>
+<ul>
+<li>就如同 comment 要說明一些假設時用 assertion 取代，當 comment 要說明接下來這一段 code 要做什麼時，可以考慮用 INFO/DEBUG log 取代。</li>
+<li>DEBUG 雖然做為 diagnostic 用途，但若是 variable data 用 debug 印出，平常 level 就要開 DEBUG? 看來做為能 reproduce 某個 error 的 input 都要用 INFO 寫出才行?? =&gt; 可以在發生錯誤時，挾帶足夠的資訊，平常不用輸出 debug 也沒關係，這樣似乎取得了折衷?</li>
+<li>最難區分的是 DEBUG 與 INFO；INFO 用在 business/domain 的層級，而 DEBUG 用在實作細節的層級。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/7839565/">Logging levels - Logback - rule-of-thumb to assign log levels - Stack Overflow</a> #ril<ul>
+<li>ecodan: 都在做大型系統，會從 production support 的角度來看。</li>
+<li>Phil Parker: INFO 是給 operator 看 (例如一個 request 就一個 INFO)，甚至覺得 DEBUG 完全不該用!? 開發時期用 TDD + Debugging。</li>
+</ul>
+</li>
+<li><a href="https://www.systemajik.com/blog/loglevels/">Choosing Log Levels | SysteMajik Consulting</a> #ril</li>
+<li><a href="http://blogs.perl.org/users/preaction/2017/03/choosing-a-log-level.html">Choosing a Log Level | preaction [blogs.perl.org]</a> (2017-03-27) #ril</li>
+</ul>
+<h2 id="log-operation-function">Log 加在 operation 前/後? 加在 function 裡/外??<a class="headerlink" href="#log-operation-function" title="Permanent link"> #</a></h2>
+<ul>
+<li>Caller 端用 INFO log，內部則用 DEBUG log?? 外部的 script 才知道步驟，而且 function 也可能被不同的 process 調用?</li>
+<li>Function 內可以用 debug 印出 argument，因為 caller 端的 parameter 可能是計算出來的，要同時做 logging 不太方便；log call 太多會降低可讀性。</li>
+<li>Function 的 return 值由 caller 來做 log，因為一個 function 可能有多個出口，但 function 內倒是可以 log 出 indirect input。</li>
+</ul>
+<h2 id="log-message">如何在 log message 揭露重要的數據??<a class="headerlink" href="#log-message" title="Permanent link"> #</a></h2>
+<ul>
+<li>Log message 會夾帶有助於診斷問題的資訊，例如 <code>Create user; name = [Jeremy], job = [Developer] ...</code>。</li>
+<li>其中 <code>[...]</code> 用中括號框起來方便識別空白字元，不過有些語言的 string formatting 支援 literal 輸出，例如 Python 的 <code>%r</code>，用起來像是 <code>logger.info('Create user; name = %r, job = %r', name, job)</code>，就不用自己加 <code>[...]</code> 這些框框。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../python-logging/">Python</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

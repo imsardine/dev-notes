@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/jupyter/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Jupyter - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/jupyter.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#jupyter">Jupyter</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#notebook">Jupyter Notebook -&gt; JupyterLab ??</a></li>
+                
+            <li class="second-level"><a href="#jupyterhub">JupyterHub</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="jupyter">Jupyter<a class="headerlink" href="#jupyter" title="Permanent link"> #</a></h1>
+<ul>
+<li>從 IPython 4.0 開始，把語言無關 (language-agnostic) 的部份 - 包括 notebook、qtconsole 等，都抽出到另一個 Jupyter 專案，之後 IPython 將專注在 INTERACTIVE Python，也為 Jupyter 提供 Python kernel &ndash; 眾多支援的 computational kernel 中的一種。</li>
+<li>專注在 interactive computing 的發展，但不限定程式語言。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://jupyter.org/">Project Jupyter | Home</a></p>
+<ul>
+<li>
+<p>Project Jupyter exists to develop open-source software, open-standards, and services for INTERACTIVE COMPUTING across dozens of PROGRAMMING LANGUAGES.</p>
+<p>專注在 interactive computing 的發展，但不限定程式語言。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://jupyter.org/about">Project Jupyter | About Us</a></p>
+<ul>
+<li>
+<p>Project Jupyter is a non-profit, open-source project, BORN OUT OF THE IPYTHON PROJECT in 2014 as it evolved to support INTERACTIVE DATA SCIENCE and SCIENTIFIC COMPUTING across all programming languages. Jupyter will always be 100% open-source software, free for all to use and released under the liberal terms of the modified BSD license.</p>
+</li>
+<li>
+<p><a href="https://ipython.org/#jupyter-and-the-future-of-ipython">Jupyter and the future of IPython - Jupyter and the future of IPython — IPython</a></p>
+<p>IPython is a growing project, with increasingly LANGUAGE-AGNOSTIC COMPONENTS. IPython 3.x was the last MONOLITHIC release of IPython, containing the notebook server, qtconsole, etc.</p>
+<p>As of IPython 4.0, the language-agnostic parts of the project: the notebook format, message protocol, qtconsole, notebook web application, etc. have moved to new projects under the name Jupyter. IPython itself is focused on interactive Python, PART of which is providing a PYTHON KERNEL FOR Jupyter.</p>
+<p>跟語言無關的部份抽出到 Jupyter，剛好成就了 Jupyter 橫跨多種語言的特性；IPython 會繼續在 Interactive Python 發展，定位上與 Jupyter 的 Interactive Computing 不同，但 Jupyter 的 Python kernel (對 Python 的支援) 是來自 IPython 沒錯。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://jupyter.org/#architecture">Open Standards for Interactive Computing - Project Jupyter | Home</a></p>
+<ul>
+<li>The Jupyter Notebook is based on a set of open standards for interactive computing. Think HTML and CSS for interactive computing on the web. These open standards can be leveraged by third party developers to build customized applications with embedded interactive computing.</li>
+</ul>
+<p>The Notebook Document Format</p>
+<ul>
+<li>
+<p>Jupyter Notebooks are an OPEN DOCUMENT FORMAT based on JSON. They contain a complete record of the USER&rsquo;S SESSIONS and include code, NARRATIVE TEXT, equations and rich output.</p>
+<p>在文件裡混雜這些東西沒什麼，但可以直接執行程式，跟文件搭配後的實用性就很高。</p>
+</li>
+</ul>
+<p>Interactive Computing Protocol</p>
+<ul>
+<li>
+<p>The Notebook communicates with COMPUTATIONAL KERNELS using the Interactive Computing Protocol, an open network protocol based on JSON data over <a href="http://zeromq.org/">ZMQ</a> (ZeroMQ) and WebSockets.</p>
+<p>Notebook 只是個 presentation，真正的運算發生在不同的 computational kernel，而 notebook 跟 kernel 的溝通就是走 Interactive Computing Protocol。</p>
+</li>
+</ul>
+<p>Kernels</p>
+<ul>
+<li>
+<p>Kernels are processes that run interactive code in a particular programming language and return output to the user. Kernels also respond to TAB COMPLETION and INTROSPECTION requests.</p>
+<p>跟語言相關的部份都在不同的 kernel 裡。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://jupyter.readthedocs.io/en/latest/tryjupyter.html">Try Jupyter — Jupyter Documentation 4.1.1 alpha documentation</a> #ril</li>
+<li><a href="https://jupyter.readthedocs.io/en/latest/running.html">Running the Notebook — Jupyter Documentation 4.1.1 alpha documentation</a> #ril</li>
+</ul>
+<h2 id="notebook">Jupyter Notebook -&gt; JupyterLab ??<a class="headerlink" href="#notebook" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://jupyter.org/#about-notebook">The Jupyter Notebook - Project Jupyter | Home</a></p>
+<ul>
+<li>
+<p>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text.</p>
+<p>Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more. 但巨量的資料要怎麼拿到? 似乎就得走 JupyterHub 了??</p>
+<p>Language of choice</p>
+<ul>
+<li>The Notebook has support for over 40 programming languages, including Python, R, Julia, and Scala.</li>
+</ul>
+<p>Share notebooks</p>
+<ul>
+<li>
+<p>Notebooks can be SHARED with others using email, Dropbox, GitHub and the Jupyter Notebook Viewer.</p>
+<p>因為 notebook 是採基於 JSON 的 Notebook Document Format，對方只要有 viewer 就可以看，但執行環境若需要某些特殊的套件呢??</p>
+<p>Jupyter Notebook Viewer 的命名會讓人誤以為它的功能就是個 viewer，但忽略了 &ldquo;線上分享&rdquo;，因為在本地若要看 notebook 要安裝的是 Jupyter Notebook。</p>
+</li>
+</ul>
+<p>Interactive output</p>
+<ul>
+<li>Your code can produce rich, interactive output: HTML, images, videos, LaTeX, and custom MIME types.</li>
+</ul>
+<p>Big data integration</p>
+<ul>
+<li>
+<p>Leverage big data tools, such as Apache Spark, from Python, R and Scala. Explore that same data with pandas, <a href="https://scikit-learn.org/">scikit-learn</a>, <a href="https://ggplot2.tidyverse.org/">ggplot2</a>, TensorFlow.</p>
+<p>要如何提供這樣的執行環境??</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/jupyterlab/jupyterlab">jupyterlab/jupyterlab: JupyterLab computational environment.</a> JupyterLab 做為 Project Jupyter 下一代的 UI，達 1.0 版時就會取代 Jupyter Notebook。</p>
+</li>
+</ul>
+<h2 id="jupyterhub">JupyterHub<a class="headerlink" href="#jupyterhub" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://jupyter.org/#jupyterhub">JupyterHub - Project Jupyter | Home</a></p>
+<ul>
+<li>
+<p>A MULTI-USER version of the notebook designed for companies, classrooms and research labs</p>
+<p>Google 的 <a href="https://colab.research.google.com/">Colaboratory</a> 就是 JupyterHub 的實例??</p>
+</li>
+</ul>
+<p>Pluggable authentication</p>
+<ul>
+<li>Manage users and authentication with PAM, OAuth or integrate with your own directory service system.</li>
+</ul>
+<p>Centralized deployment</p>
+<ul>
+<li>Deploy the Jupyter Notebook to thousands of users in your organization on centralized infrastructure on- or off-site.</li>
+</ul>
+<p>Container friendly</p>
+<ul>
+<li>Use Docker and Kubernetes to scale your deployment, ISOLATE USER PROCESSES, and simplify software installation.</li>
+</ul>
+<p>Code meets data</p>
+<ul>
+<li>Deploy the Notebook NEXT TO YOUR DATA to provide unified software management and data access within your organization.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/jupyterhub/jupyterhub">jupyterhub/jupyterhub: Multi-user server for Jupyter notebooks</a> #ril</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>安裝內含 Jupyter 的 <a href="../anaconda/#installation">Anaconda</a>，執行 <code>jupyter notebook</code> 就可以啟動 Notebook Server。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://jupyter.org/install.html">Project Jupyter | Installing the Jupyter Notebook</a></p>
+<ul>
+<li>Get up and running with the Jupyter Notebook on your computer within minutes!</li>
+</ul>
+<p>Prerequisite: Python</p>
+<ul>
+<li>
+<p>While Jupyter runs code in many programming languages, Python is a requirement (Python 3.3 or greater, or Python 2.7) for installing the Jupyter Notebook itself.</p>
+<p>有趣的關係，Jupyter 要有 Python kernel 以執行 Python code，但同時間自己也是用 Python 寫的。</p>
+</li>
+</ul>
+<p>Installing Jupyter using Anaconda</p>
+<ul>
+<li>
+<p>We strongly recommend installing Python and Jupyter using the Anaconda Distribution, which includes Python, the Jupyter Notebook, and other commonly used packages for SCIENTIFIC COMPUTING and DATA SCIENCE.</p>
+</li>
+<li>
+<p>First, download Anaconda. We recommend downloading Anaconda’s latest Python 3 version.</p>
+<p>Second, install the version of Anaconda which you downloaded, following the instructions on the download page.</p>
+<p>Congratulations, you have installed Jupyter Notebook! To run the notebook, run the following command at the Terminal (Mac/Linux) or Command Prompt (Windows): <code>jupyter notebook</code></p>
+<p>See Running the Notebook for more details.</p>
+</li>
+</ul>
+<p>Installing Jupyter with pip</p>
+<ul>
+<li>
+<p>As an existing or experienced Python user, you may wish to install Jupyter using Python’s package manager, pip, instead of Anaconda.</p>
+</li>
+<li>
+<p>If you have Python 3 installed (which is recommended):</p>
+<pre><code>python3 -m pip install --upgrade pip
+python3 -m pip install jupyter
+</code></pre>
+</li>
+<li>
+<p>If you have Python 2 installed:</p>
+<pre><code>python -m pip install --upgrade pip
+python -m pip install jupyter
+</code></pre>
+</li>
+<li>
+<p>Congratulations, you have installed Jupyter Notebook! To run the notebook, run the following command at the Terminal (Mac/Linux) or Command Prompt (Windows): <code>jupyter notebook</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://jupyter.readthedocs.io/en/latest/install-kernel.html">Optional: Installing Kernels — Jupyter Documentation 4.1.1 alpha documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://jupyter.org/">Projec Jupyter</a></li>
+<li><a href="https://blog.jupyter.org/">Jupyter Blog</a></li>
+<li><a href="https://github.com/jupyter/notebook">jupyter/notebook - GitHub</a></li>
+<li><a href="https://nbviewer.jupyter.org/">NBViewer (Jupyter Notebook Viewer)</a></li>
+<li><a href="https://github.com/jupyterhub/jupyterhub">jupyterhub/jupyterhub - GitHub</a> #ril</li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://jupyter.org/community">Project Jupyter | Community</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/jupyter">&lsquo;jupyter&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://jupyter.readthedocs.io/en/latest/index.html">Jupyter Documentation</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>最早從 <a href="ipython.md">IPython</a> 分出來。</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://jupyter-notebook.readthedocs.io/en/stable/">Jupyter Notebook Documentation</a></li>
+<li><a href="https://jupyterhub.readthedocs.io/en/latest/">JupyterHub Documentation</a></li>
+<li><a href="http://jupyterlab.readthedocs.io/en/stable/">JupyterLab Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

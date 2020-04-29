@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/fcitx/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Fcitx (小企鵝輸入法) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/fcitx.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#fcitx">Fcitx (小企鵝輸入法)</a></li>
+            <li class="second-level"><a href="#table-based-im">Table-based IM ??</a></li>
+                
+            <li class="second-level"><a href="#desktop-integration">Desktop Integration ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#arch-linux">Arch Linux ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="fcitx">Fcitx (小企鵝輸入法)<a class="headerlink" href="#fcitx" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://zh.wikipedia.org/wiki/Fcitx">Fcitx - 維基百科，自由的百科全書</a></p>
+<ul>
+<li>
+<p>Fcitx（/ˈfaɪtɪks/，源自「Free Chinese Input Tool for X」，又作「Flexible Context-aware Input Tool with eXtension」或「Flexible Input Method Framework」，暫無正式英文全稱，中文名稱為「小企鵝輸入法」）</p>
+</li>
+<li>
+<p>是一個在 X Window 中使用的輸入法框架，在原始碼包內包含了拼音，五筆字型以及區位、二筆的支援。可以輸入 UTF-8 編碼中的文字。可以在 Linux、FreeBSD 中執行。採用 GPL 授權。支援 XIM、GTK (版本2和3) 和 Qt 的輸入法模組。</p>
+<p>&rarr; 其中 &ldquo;區位&rdquo; 指的是 table-based；GTK 與 Qt 是分別給 GNOME (基於 GTK) 與 KDE (基於 Qt) 用的。但 XIM 跟 Fcitx 定位不是一樣??</p>
+</li>
+<li>
+<p>因雲帆論壇有人批評 Fcitx 程式碼寫的很差，原作者於 2007 年 7 月 10 日決定<a href="https://web.archive.org/web/20070712173307/http://www.fcitx.org/main/?q=node/123">終止本專案</a>。不過 2008 年 9 月開始作者又加入離開後愛好者建立的 Google Code 專案並頻繁更新，他發文談到<a href="https://web.archive.org/web/20090218001523/http://fcitx.org/main/?q=node%2F135">無法忘記 fcitx</a>。</p>
+<p>除了原作者之外，還有一些愛好者共同維護Fcitx。現在Fcitx程式碼代管在GitLab平台上進行開發。</p>
+<p>&rarr; 原本只是要解決自己的問題，但也意外地感動了許多人。</p>
+</li>
+<li>
+<p>支援的輸入法引擎</p>
+<p>&rarr; 提到許多輸入法，呼應了上面 &ldquo;輸入法框架&rdquo; 的說法，Fcitx 只是個框架，可以讓不同的輸入法在 X Window 環境下使用。</p>
+<ul>
+<li>fcitx-googlepinyin: 移植自 Android 的 Google 拼音支援</li>
+<li>fcitx-keyboard: 採用系統鍵盤配置作為輸入法，以及提供拼寫檢查</li>
+<li>citx-libpinyin: libpinyin 為後端的漢語拼音支援，fcitx 演算法最先進的輸入法</li>
+<li>fcitx-pinyin: 漢語拼音支援，fcitx 上速度最快的輸入法</li>
+<li>fcitx-table: 碼錶類輸入法支援，如五筆、鄭碼等</li>
+</ul>
+</li>
+<li>
+<p>優點：Fcitx 預設的拼音由於採用的演算法簡單 (前向最大符合)，以及採用自訂的二進位格式並且執行時將所有資料載入入記憶體，因此回應迅速。組態以及使用較為簡單，可以自行替換詞庫為開源詞庫以提高輸入法效率，提供有碼表的轉換器，定義快速鍵也較為簡單。</p>
+<p>4.0 版新加入組態程式、皮膚、SunPinyin 整合、以詞定字等新特性</p>
+</li>
+<li>
+<p>缺點：使用 XIM 時，若 XIM 崩潰，會導致 X 和基於 X 的應用程式的崩潰。使用 XIM 時，在目前版本（3.0）的 GTK 3 程式中無法正常使用（使用 GTK im module 時不受影響）。</p>
+<p>如果在 Emacs 中使用，Emacs 必須在 Fcitx 啟動之後才啟動，否則 Emacs 會無法使用輸入法，甚至卡死。</p>
+<p>&rarr; 這看起來不像是 Fcitx 的問題?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://fcitx-im.org/wiki/Special:MyLanguage/Fcitx">Fcitx - Fcitx</a></p>
+<ul>
+<li>
+<p>Fcitx [ˈfaɪtɪks] is an INPUT METHOD FRAMEWORK with extension support. Currently it supports Linux and Unix systems like freebsd. It has three built-in INPUT METHOD ENGINE, Pinyin, QuWei (區位) and Table-based input methods.</p>
+</li>
+<li>
+<p>Fcitx tries to provide a NATIVE FEELING under all desktop as well as a LIGHT WEIGHT CORE. You can easily customize it to fit your requirements.</p>
+<p>難怪同時提供 GTK 跟 Qt 兩種套件：</p>
+<pre><code>$ pacman -Sg fcitx-im
+fcitx-im fcitx
+fcitx-im fcitx-gtk2
+fcitx-im fcitx-gtk3
+fcitx-im fcitx-qt4
+fcitx-im fcitx-qt5
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/Fcitx">Fcitx - ArchWiki</a> #ril</p>
+<ul>
+<li>Fcitx is a lightweight input method framework aimed at providing ENVIRONMENT INDEPENDENT language support for Linux. It supports a lot of different languages and also provides many useful NON-CJK FEATURES.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://fcitx-im.org/wiki/Special:MyLanguage/FAQ">FAQ - Fcitx</a> #ril</p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Fcitx">Fcitx - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="table-based-im">Table-based IM ??<a class="headerlink" href="#table-based-im" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://fcitx-im.org/wiki/Special:MyLanguage/Table">Table - Fcitx</a> #ril</li>
+</ul>
+<h2 id="desktop-integration">Desktop Integration ??<a class="headerlink" href="#desktop-integration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://fcitx-im.org/wiki/Special:MyLanguage/Integrate_with_Desktop">Integrate with Desktop - Fcitx</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://fcitx-im.org/wiki/Special:MyLanguage/Install_and_Configure">Install and Configure - Fcitx</a> #ril</li>
+<li><a href="https://fcitx-im.org/wiki/Special:MyLanguage/Install_input_method">Install input method - Fcitx</a> #ril</li>
+</ul>
+<h3 id="arch-linux">Arch Linux ??<a class="headerlink" href="#arch-linux" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://www.jianshu.com/p/d7c8f29be182">manjaro下安装输入法 - 简书</a> (2018-05-12)</p>
+<ul>
+<li>
+<p>輸入法主要有ibus和fcitx。我常用fcitx，它自帶的雙拼用起來不錯，更適合大眾的搜狗輸入法也是基於fcitx的。在pamac裡搜索安裝fcitx-im（搜索出來的四個都裝上）、 fcitx-sogoupinyin、fcitx-configtool。也可以在終端裡輸入命令：</p>
+<pre><code>$ sudo pacman -S fcitx-sogoupinyin
+$ sudo pacman -S fcitx-im     # 全部安裝
+$ sudo pacman -S fcitx-configtool     # 圖形化配置工具
+</code></pre>
+</li>
+<li>
+<p>然後要將fcitx加入到環境變量中去，不然就不能激活fcitx輸入法</p>
+<pre><code>$ sudo vi ~/.xprofile  # vi可以換成系統現有的文本編輯器
+</code></pre>
+<p>然後在裡面添加：</p>
+<pre><code>export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+</code></pre>
+<p>最後註銷系統重新登錄，fcitx就可以使用了。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/Fcitx#Installation">Installation - Fcitx - ArchWiki</a> #ril</p>
+<ul>
+<li>Install the <code>fcitx</code> package.</li>
+</ul>
+<p>Input method engines</p>
+<ul>
+<li>Fcitx provides built-in input methods for Chinese Pinyin and table-based input (for example Wubi).</li>
+<li><code>fcitx-googlepinyin</code>, the Google pinyin IME for Android.</li>
+<li><code>fcitx-chewing</code> is a popular Zhuyin input engine for Traditional Chinese based on libchewing.</li>
+<li><code>fcitx-table-extra</code> adds Cangjie, Zhengma, Boshiamy support.</li>
+<li><code>fcitx-table-other</code>, tables for Latex, Emoji and others. 好特別的輸入法!</li>
+</ul>
+<p>Input method module</p>
+<ul>
+<li>
+<p>To obtain a better experience in Gtk+ and Qt programs, install the <code>fcitx-gtk2</code>, <code>fcitx-gtk3</code>, <code>fcitx-qt4</code> and <code>fcitx-qt5</code> input method modules as your need, or the <code>fcitx-im</code> group to install all of them.</p>
+<p>Without those modules, the input method may work on most applications but you may experience input method hang up, preview window screen location error or no preview error. 看起來就是要裝啊!!</p>
+</li>
+<li>
+<p>Applications below do not use Gtk+/Qt input module: 這會有什麼影響??</p>
+<ul>
+<li>Applications use Tk, motif or xlib</li>
+<li>Emacs, Opera, OpenOffice, LibreOffice, Skype, Wine, Java, Xterm, urxvt, WPS</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://fcitx-im.org/">Fcitx</a></li>
+<li><a href="https://gitlab.com/fcitx/fcitx">fcitx / fcitx - GitLab</a></li>
+<li><a href="https://fcitx-im.org/wiki/">Fcitx Wiki</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>用於 <a href="../xwindow/">X Window</a> 的輸入法框架</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

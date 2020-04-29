@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/graphql/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GraphQL - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/graphql.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#graphql">GraphQL</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="graphql">GraphQL<a class="headerlink" href="#graphql" title="Permanent link"> #</a></h1>
+<ul>
+<li>做為 <a href="../rest/">REST</a> 的替代方案，它讓 client 得以指定 (dictate) 需要哪些資料，避開 over-fetching/under-fetching of data 的問題；這一點讓我想到 <a href="dto.md">DTO</a> 很需要 client 端能描述需要拿多少資料，尤其是 relationship 要不要往下展開之類的&hellip;</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/GraphQL">GraphQL - Wikipedia</a></p>
+<ul>
+<li>
+<p>GraphQL is an open-source DATA QUERY AND MANIPULATION LANGUAGE for APIs, and A RUNTIME for fulfilling queries with existing data.</p>
+<p>這裡的 &ldquo;a runtime&rdquo; 指的是支援這種溝通方式的 server side。</p>
+</li>
+<li>
+<p>GraphQL was developed internally by Facebook in 2012 before being publicly released in 2015. On 7 November 2018, the GraphQL project was moved from Facebook to the newly-established GraphQL Foundation, hosted by the non-profit Linux Foundation.</p>
+</li>
+<li>
+<p>It provides an efficient, powerful and flexible approach to developing web APIs, and has been compared and contrasted with REST and other web service architectures. It ALLOWS CLIENTS TO DEFINE THE STRUCTURE OF THE DATA REQUIRED, and exactly the same structure of the data is returned from the server, therefore preventing EXCESSIVELY large amounts of data from being returned, but this has implications for how effective WEB CACHING of query results can be.</p>
+<p>The flexibility and richness of the query language also adds complexity that MAY NOT BE WORTHWHILE for simple APIs. It consists of a TYPE SYSTEM, query language and execution semantics, static validation, and type introspection.</p>
+<p>要給 client 這樣的彈性，自然增加了 server 的複雜性，上面 &ldquo;how effective web caching of query results can be&rdquo; 確實會是個問題，因為查詢方式變得多樣，將結果快取下來也不一定有機會被用上。</p>
+</li>
+<li>
+<p>GraphQL supports reading, writing (mutating) and SUBSCRIBING TO CHANGES TO DATA (realtime updates). #ril</p>
+</li>
+<li>
+<p>Major GraphQL clients include <a href="https://www.apollographql.com/docs/react/">Apollo Client</a> and <a href="https://facebook.github.io/relay/">Relay</a>.</p>
+<p>GraphQL servers are available for multiple languages, including Haskell, <a href="https://github.com/graphql/graphql-js">JavaScript</a>, <a href="https://graphene-python.org/">Python</a>, Ruby, Java, C#, Scala, Go, <a href="http://absinthe-graphql.org/">Elixir</a>, Erlang, PHP, R, and Clojure.</p>
+<p>Server side 的支援明顯比 client side 多，但為何 client side 只提供 JavaScript 方案 ?? server side 也可能要存取另一個 GraphQL API。</p>
+</li>
+<li>
+<p>On 9 February 2018, the GraphQL Schema Definition Language (SDL) was made part of the specification.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://graphql.org/">GraphQL | A query language for your API</a></p>
+<ul>
+<li>
+<p>Describe your data</p>
+<pre><code>type Project {
+  name: String
+  tagline: String
+  contributors: [User]
+}
+</code></pre>
+<p>Ask for what you want</p>
+<pre><code>{
+  project(name: "GraphQL") {
+    tagline
+  }
+}
+</code></pre>
+<p>Get predictable results</p>
+<pre><code>{
+  "project": {
+    "tagline": "A query language for APIs"
+  }
+</code></pre>
+</li>
+</ul>
+<p>A query language for your API</p>
+<ul>
+<li>
+<p>GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.</p>
+<p>GraphQL provides a COMPLETE AND UNDERSTANDABLE DESCRIPTION OF THE DATA in your API, gives clients the power to ASK FOR EXACTLY WHAT THEY NEED AND NOTHING MORE, makes it EASIER TO EVOLVE APIs OVER TIME, and enables powerful developer tools.</p>
+<p>其中 &ldquo;easier to evolve APIs over time&rdquo; 應該是因為只要定義好 data type，需要哪些資料就由 client 決定，不用為了不同的需求增加專用的 endpoint &ndash; GraphQL 只有一個 endpoint。</p>
+</li>
+</ul>
+<p>Ask for what you need, get exactly that</p>
+<ul>
+<li>
+<p>Send a GraphQL query to your API and get exactly what you need, nothing more and nothing less. GraphQL queries always return PREDICTABLE results. Apps using GraphQL are FAST AND STABLE because they control the data they get, not the server.</p>
+<p>快可以理解，但 stable 就不太懂了 ??</p>
+</li>
+</ul>
+<p>Get many resources in a single request</p>
+<ul>
+<li>
+<p>GraphQL queries access not just the properties of one resource but also smoothly FOLLOW REFERENCES between them.</p>
+<p>While typical REST APIs require LOADING FROM MULTIPLE URLs, GraphQL APIs get all the data your app needs in a single request. Apps using GraphQL can be quick even on slow mobile network connections.</p>
+<p>這可能是 RESTful API 天生的弱點，因為 RESTful 以 resource 的角度出發，不同的 resource 就有不同的 URL，所以要處理有關聯的不同 resource，就得發出多個 request。</p>
+<p>右側的動畫說明傳入：</p>
+<pre><code>{
+  hero {
+    name
+    friends {
+      name
+    }
+  }
+}
+</code></pre>
+<p>就能一次拿到：</p>
+<pre><code>{
+  "hero": {
+    "name": "Luke Skywalker",
+    "friends": [
+      { "name": "Obi-Wan Kenobi" },
+      { "name": "R2-D2" },
+      { "name": "Han Solo" },
+      { "name": "Leia Organa" }
+    ]
+  }
+}
+</code></pre>
+</li>
+</ul>
+<p>Describe what’s possible with a type system</p>
+<ul>
+<li>
+<p>GraphQL APIs are ORGANIZED IN TERMS OF TYPES AND FIELDS, NOT ENDPOINTS. Access the full capabilities of your data from a SINGLE ENDPOINT.</p>
+<p>很難想像單一個 endpoint 除了查詢資料外，還能應付資料的修改、其他操作 ??</p>
+</li>
+<li>
+<p>GraphQL uses types to ensure Apps only ask for what’s possible and provide clear and helpful errors. Apps can USE TYPES TO AVOID WRITING MANUAL PARSING CODE.</p>
+<p>類似 <a href="https://developers.google.com/protocol-buffers/">Protocol Buffers</a>，有了 type 就可以產生 parsing code，減少人為出錯的機會。</p>
+</li>
+</ul>
+<p>Move faster with powerful developer tools</p>
+<ul>
+<li>
+<p>Know exactly what data you CAN request from your API without leaving your editor, highlight potential issues BEFORE SENDING A QUERY, and take advantage of improved code intelligence.</p>
+<p>GraphQL makes it easy to build powerful tools like <a href="https://github.com/graphql/graphiql">GraphiQL</a> by leveraging your API’s type system.</p>
+<p>就 RESTful API 而言，如果有提供 OpenAPI/Swagger Specification 的話，一樣能做到類似的事。</p>
+</li>
+</ul>
+<p>Evolve your API without versions</p>
+<ul>
+<li>
+<p>Add new fields and types to your GraphQL API WITHOUT IMPACTING EXISTING QUERIES. Aging fields can be deprecated and hidden from tools.</p>
+<p>過去 RESTful API 增加欄位會出事嗎? 應該是檢查得太嚴格?</p>
+<p>By using a SINGLE EVOLVING VERSION, GraphQL APIs give apps CONTINUOUS ACCESS to new features and encourage cleaner, more maintainable server code.</p>
+</li>
+</ul>
+<p>Who’s using GraphQL?</p>
+<ul>
+<li>
+<p>Facebook&rsquo;s mobile apps have been powered by GraphQL since 2012. A GraphQL spec was open sourced in 2015 and is now available in many environments and used by teams of all sizes.</p>
+<p><a href="https://graphql.org/users/">Who&rsquo;s Using | GraphQL</a> 展開有點驚人。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://graphql.org/code/">Code | GraphQL</a> #ril</li>
+<li><a href="http://graphql.org/learn/best-practices/">GraphQL Best Practices | GraphQL</a> #ril</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/graphql/graphiql">graphql/graphiql: An in-browser IDE for exploring GraphQL.</a></li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://graphql.org/">GraphQL</a></li>
+<li><a href="https://github.com/facebook/graphql">facebook/graphql - GitHub</a></li>
+<li><a href="https://github.com/graphql">Facebook GraphQL - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/graphql">&lsquo;graphql&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://twitter.com/GraphQL">GraphQL (@GraphQL) | Twitter</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../rest/">RESTful API</a> / <a href="../swagger/">Swagger</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/APIs-guru/graphql-apis">APIs-guru/graphql-apis</a> - 支援 GraphQL 的 APIs。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/flask-uploading/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Flask / Uploading/Downloading - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/flask-uploading.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#flask-uploadingdownloading">Flask / Uploading/Downloading</a></li>
+            <li class="second-level"><a href="#downloading">Downloading</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="flask-uploadingdownloading"><a href="../flask/">Flask</a> / Uploading/Downloading<a class="headerlink" href="#flask-uploadingdownloading" title="Permanent link"> #</a></h1>
+<p><a href="https://github.com/imsardine/learning/blob/master/flask/tests/test_upload.py">learning/test_upload.py at master · imsardine/learning</a>:</p>
+<pre><code class="python">import base64
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/', methods=['POST'])
+def upload():
+    files = []
+    for name in request.files:
+        fs = request.files[name] # werkzeug.datastructures.FileStorage
+
+        # decoding is needed, or TypeError: Object of type 'bytes' is not JSON serializable
+        content = base64.standard_b64encode(fs.read()).decode('ascii')
+        entry = {
+            'name': fs.name,
+            'filename': fs.filename,
+            'content_length': fs.content_length,
+            'content_type': fs.content_type,
+            'content': content,
+        }
+        files.append(entry)
+
+    return jsonify(files)
+</code></pre>
+
+<pre><code>$ FLASK_APP=upload.py flask run &amp;
+...
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+
+$ curl -F 'file1=@logo.png' -F 'file2=@document.txt' http://127.0.0.1:5000/ | jq .
+[
+  {
+    &quot;content&quot;: &quot;iVBORw0...KGgoAAAAN&quot;,
+    &quot;content_length&quot;: 0,
+    &quot;content_type&quot;: &quot;application/octet-stream&quot;,
+    &quot;filename&quot;: &quot;logo.png&quot;,
+    &quot;name&quot;: &quot;file1&quot;
+  },
+  {
+    &quot;content&quot;: &quot;aW1wb3...J0IGJhc=&quot;,
+    &quot;content_length&quot;: 0,
+    &quot;content_type&quot;: &quot;application/octet-stream&quot;,
+    &quot;filename&quot;: &quot;document.txt&quot;,
+    &quot;name&quot;: &quot;file2&quot;
+  }
+]
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/patterns/fileuploads/">Uploading Files — Flask 1.0.2 documentation</a> #ril</p>
+<ul>
+<li>在 client 端，需要一個 <code>&lt;form enctype="multipart/form-data"&gt;</code> + <code>&lt;input type=file&gt;</code>，送出後在 server-side 可以從 request object 的 <code>files</code> 拿到檔案，接著就是呼叫 <code>save()</code> 存到檔案系統。<pre><code>from werkzeug.utils import secure_filename
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files: # key-value pairs str:FileStorage
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '': # 沒有選檔案，還是可以拿到 FileStorage
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename) # never trust user input
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return '''
+    &lt;!doctype html&gt;
+    &lt;title&gt;Upload new File&lt;/title&gt;
+    &lt;h1&gt;Upload new File&lt;/h1&gt;
+    &lt;form method=post enctype=multipart/form-data&gt;
+      &lt;input type=file name=file&gt; &lt;-- 會形成 request.files 的 key
+      &lt;input type=submit value=Upload&gt;
+    &lt;/form&gt;
+    '''
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/api/#flask.Request.files">files - API — Flask 1.0.2 documentation</a></p>
+<ul>
+<li><code>MultiDict</code> object containing all uploaded files. Each key in files is the name from the <code>&lt;input type="file" name=""&gt;</code>. Each value in <code>files</code> is a Werkzeug <code>FileStorage</code> object. 基本上它跟 Python 的 file object 很像，有 <a href="http://werkzeug.pocoo.org/docs/0.14/datastructures/#werkzeug.datastructures.FileStorage.save"><code>save()</code></a> 可以把內容寫到檔案系統；還有其他屬性 &ndash; <code>name</code>、<code>filename</code>、<code>content_length</code>、<code>content_type</code>、<code>mimetype</code> 等。</li>
+<li>Note that <code>files</code> will only contain data if the request method was POST, PUT or PATCH and the <code>&lt;form&gt;</code> that posted to the request had <code>enctype="multipart/form-data"</code>. It will be empty otherwise. 上面還有一種使用者沒選檔案就送出表單的狀況，會拿到 file object，但內容是空的。</li>
+</ul>
+</li>
+<li><a href="http://werkzeug.pocoo.org/docs/0.14/datastructures/#werkzeug.datastructures.FileStorage">FileStorage - Data Structures — Werkzeug Documentation (0.14)</a><ul>
+<li>The <code>FileStorage</code> class is a thin wrapper over incoming files. It is used by the request object to represent uploaded files.</li>
+<li>All the attributes of the wrapper STREAM are proxied by the file storage so it’s possible to do <code>storage.read()</code> instead of the long form <code>storage.stream.read()</code>. 按 <a href="https://docs.python.org/3/library/io.html">io — Core tools for working with streams — Python 3.7.1 documentation</a> 的說法，stream 就是 file-like object。</li>
+<li><code>stream</code> - The input stream for the uploaded file. This usually points to an open temporary file. 就當 file-like object 使用，不一定要呼叫 <code>save()</code> 存成檔案再讀出來。</li>
+<li><code>filename</code> - The filename of the file on the client.</li>
+<li><code>name</code> - The name of the form field.</li>
+<li><code>headers</code> - The multipart headers as <code>Headers</code> object. This usually contains irrelevant information but in combination with CUSTOM MULTIPART requests the raw headers might be interesting. ??</li>
+<li><code>close()</code> - Close the underlying file if possible. 釋放資源??</li>
+<li><code>content_length</code> - The content-length sent in the header. Usually not available</li>
+<li><code>content_type</code> - The content-type sent in the header. Usually not available 所以只能從 <code>filename</code> 推測??</li>
+<li><code>mimetype</code> - Like <code>content_type</code>, but without PARAMETERS (eg, without charset, type etc.) and always lowercase. For example if the content type is <code>text/HTML; charset=utf-8</code> the <code>mimetype</code> would be <code>'text/html'</code>. 也就是 <code>content_type</code> 前段正規化的結果，後段拆出去 <code>mimetype_params</code>。</li>
+<li><code>mimetype_params</code> - The mimetype parameters as dict. For example if the content type is <code>text/html; charset=utf-8</code> the params would be <code>{'charset': 'utf-8'}</code>.</li>
+<li><code>save(dst, buffer_size=16384)</code> - Save the file to a destination path or file object. If the destination is a file object YOU HAVE TO CLOSE IT YOURSELF after the call. The buffer size is the number of bytes held in memory during the copy process. It defaults to 16KB. 那自己的 <code>close</code> 要誰來呼叫??</li>
+</ul>
+</li>
+<li><a href="https://websistent.com/fix-client-intended-to-send-too-large-body-nginx-error/">Fix the client intended to send too large body nginx error - Jesin&rsquo;s Blog</a> (2013-02-25) 限制來自於前端的 nginx，調整 <code>nginx.conf</code> 裡的 <code>client_max_body_size 20M;</code> 即可。</li>
+</ul>
+<h2 id="downloading">Downloading<a class="headerlink" href="#downloading" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/patterns/fileuploads/">Uploading Files — Flask 1.0.2 documentation</a> 檔案上傳後若存在檔案系統裡，可以透過 <code>send_from_directory</code> 下載：</p>
+<pre><code>    from flask import send_from_directory
+
+    @app.route('/uploads/&lt;filename&gt;')
+    def uploaded_file(filename):
+        return send_from_directory(app.config['UPLOAD_FOLDER'],
+                                   filename)
+</code></pre>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/api/#flask.send_from_directory">flask.send_from_directory - API — Flask 1.0.2 documentation</a> Send a file from a given directory with <code>send_file()</code>. This is a SECURE way to quickly EXPOSE STATIC FILES from an upload folder or something similar.</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.Request.files"><code>flask.Request.files</code></a></li>
+<li><a href="http://werkzeug.pocoo.org/docs/0.14/datastructures/#werkzeug.datastructures.FileStorage">Class <code>werkzeug.datastructures.FileStorage</code></a></li>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.send_from_directory"><code>flask.send_from_directory()</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/rst/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>reStructuredText (RST, reST) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/rst.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#restructuredtext-rst-rest">reStructuredText (RST, reST)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#directive">Directive ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="restructuredtext-rst-rest">reStructuredText (RST, reST)<a class="headerlink" href="#restructuredtext-rst-rest" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/ReStructuredText">reStructuredText - Wikipedia</a> #ril</li>
+<li><a href="http://docutils.sourceforge.net/rst.html">reStructuredText - Docutils</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docutils.readthedocs.io/en/sphinx-docs/user/rst/quickstart.html">A ReStructuredText Primer — Docutils 3.0 documentation</a> #ril</li>
+<li><a href="https://learnxinyminutes.com/docs/rst/">Learn restructured text (RST) in Y Minutes</a> #ril</li>
+<li><a href="http://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</li>
+</ul>
+<h2 id="directive">Directive ??<a class="headerlink" href="#directive" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docutils.sourceforge.net/docs/ref/rst/directives.html">reStructuredText Directives</a> #ril</p>
+<ul>
+<li>
+<p>This document describes the directives implemented in the reference reStructuredText parser.</p>
+<p>Directives have the following syntax:</p>
+<pre><code>+-------+-------------------------------+
+| ".. " | directive type "::" directive |
++-------+ block                         |
+        |                               |
+        +-------------------------------+
+</code></pre>
+<p>Directives begin with an EXPLICIT MARKUP START (two periods and a space), followed by the DIRECTIVE TYPE and two colons (collectively, the &ldquo;DIRECTIVE MARKER&rdquo;).</p>
+</li>
+<li>
+<p>The directive block begins IMMEDIATELY after the directive marker, and includes all SUBSEQUENT INDENTED LINES.</p>
+<p>好特別的語法，整個用 <code>..</code> 內縮，然後是 directive type 後面跟著 directive block，中間用 <code>::</code> 隔開；在 directive block 跟 <code>::</code> 通常都會有個空白，但並不是必要 ??</p>
+</li>
+<li>
+<p>The directive block is divided into ARGUMENTS, OPTIONS (a field list), and CONTENT (in that order), any of which may appear. See the Directives section in the reStructuredText Markup Specification for syntax details.</p>
+<p>用空白行拆分 ??</p>
+</li>
+<li>
+<p>Descriptions below list &ldquo;doctree elements&rdquo; (document tree element names; XML DTD generic identifiers) corresponding to individual directives. For details on the hierarchy of elements, please see The Docutils Document Tree and the Docutils Generic DTD XML document type definition.</p>
+<p>Doctree elements 指的是這個 directive type 可能產生哪些 doctree element ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#directives">Directives - reStructuredText Markup Specification</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docutils.sourceforge.net/rst.html">reStructuredText - Docutils</a></li>
+<li><a href="https://pypi.org/project/docutils/">docutils - PyPI</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="http://rst.ninjs.org/">Online reStructuredText Editor</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html">reStructuredText Markup Specification</a></li>
+<li><a href="http://docutils.sourceforge.net/docs/ref/doctree.html">The Docutils Document Tree</a></li>
+<li><a href="http://docutils.sourceforge.net/docs/ref/docutils.dtd">Docutils Generic DTD</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../sphinx/">Sphinx</a> 的內容主要以 reStructuredText 撰寫。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/git-rebase/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Git / Rebasing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/git-rebase.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#git-rebasing">Git / Rebasing</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#interactive-rebasing">Interactive Rebasing ??</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="git-rebasing"><a href="../git/">Git</a> / Rebasing<a class="headerlink" href="#git-rebasing" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>有兩種方法可以將其他 branch 的異動併入 - <code>merge</code> 跟 <code>rebase</code>，前者將兩個 branch 的 endpoint 接在一起，所以會有一個新的 commit；後者則以另一個 commit/branch 為基礎 (rebase) 重新套用 (reapply/replay) changes (例如 <code>git rebase origin/master</code>)，也因此之後 merge 會走 fast-forward，結果就是 cleaner/linear history。</li>
+<li>Rebase 其實是打掉重練 (abandoning existing commits and creating new ones that are similar but different)，只是新的 commit 跟原來的很像而已，如果你 push 了些東西，其他人 pull 下去做了些修改，中間你又做了一次 rebase 再重新 push (用 <code>--force</code> 硬是覆寫遠端的 history)，這個動作會讓其他人抓狂。</li>
+<li>所以 rebase 跟 merge 要選哪一個? 這跟如何看待 commit history 有關 - &ldquo;record of what actually happened&rdquo; (有一堆 merge commits 又如何，那就是真實發生的事) 或 &ldquo;story of how your project was made&rdquo;，所以只是選擇的問題。建議是只對 local changes 做 rebase，不要對已經 push 的 changes 做 rebase。</li>
+<li>就 local changes 而言，最常見的狀況是同時有多個人在同一個 branch 上工作時，由於大家頻繁地 push &amp; pull，很可能因為 three-way merge 而產生多餘的 commit，可以在 <code>git pull</code> 後用 <code>git rebase</code> (不用加其他參數) 重新順一下 history。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://git-scm.com/book/en/v2/Git-Branching-Rebasing">Git - Rebasing</a> #ril</p>
+<ul>
+<li>Git 裡有 2 種方式可以整合 branch 間的 change &ndash; <code>merge</code> 跟 <code>rebase</code>，這裡將說明 rebasing 的妙用，以及什麼情況不要用它。</li>
+<li>
+<p>假設在 C2 分叉出 C3 (master) &amp; C4 (experiment)，此時 <code>git merge</code> (experiment 進 master) 會做 three-way merge &ndash; two latest branch snapshots (C3, C4) 及 most recent common ancestor of the two (C2)，進而產生一個新的 commit (C5) &ndash; 將兩個 branch 的 endpoint 接在一起。</p>
+<p><img alt="" src="https://git-scm.com/book/en/v2/images/basic-rebase-2.png" /></p>
+</li>
+<li>
+<p>還有另一種做法 &ndash; 把 C4 之於 C2 的 change，重新以 C3 為基礎重新套用 (reapply/replay) 一次，這就是 rebasing (<code>git rebase</code>)，也之所以新的 C4 (experiment) 要併進 C3 (master) 會是 fast-forward merge。</p>
+<p><img alt="" src="https://git-scm.com/book/en/v2/images/basic-rebase-3.png" /></p>
+<pre><code>$ git checkout experiment # C4
+$ git rebase master # C3
+First, rewinding head to replay your work on top of it.. # rebase == 改變目前 branch (C4) 的 base，從 C2 換成 C3
+Applying: added staged command
+
+$ git checkout master
+$ git merge experiment # fast-forward merge
+</code></pre>
+</li>
+<li>
+<p>就結果 (end product) 來看，merge 跟 rebasing 並沒有不同 (&hellip; is the same snapshot – it’s only the history that is different)，但 rebasing 有 clean/linear history 的效果，看起來所有的 commit 是依序發生；若要貢獻的專案你沒有權限，發 PR 時可以先根據 target branch 做 rebase，這樣接受 PR 的人就不用做 integration work &ndash; 單純的 fast-forward。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="interactive-rebasing">Interactive Rebasing ??<a class="headerlink" href="#interactive-rebasing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://hackernoon.com/beginners-guide-to-interactive-rebasing-346a3f9c3a6d">Beginner’s Guide to Interactive Rebasing – Hacker Noon</a> (2018-01-16) #ril<ul>
+<li>Interactive rebasing can be used for changing commits in many ways such as editing, deleting, and squashing (擠壓).</li>
+<li>To tell Git where to start the interactive rebase, use the SHA-1 or index of the commit that immediately PRECEDES the commit you want to modify. 要用前一個 commit 當 rebase 的基礎，剛開始會不太習慣；得先花點時間在 log 裡翻找特定的 commit。</li>
+<li>During an interactive rebase, when Git pauses at a commit you TAGGED TO EDIT, the workflow is no different than a normal commit process — you stage files and then commit them. The only difference is you use the command <code>git commit --amend</code> rather than <code>git commit</code>. 前者是修改 commit (用 <code>git log</code> 看現在是基於哪個 commit 在修改)，後者則會產生新的 commit。</li>
+<li>Interactive rebasing will create new SHA-1’s therefore it is best to use interactive rebasing on commits you have NOT PUSHED TO A REMOTE BRANCH.</li>
+</ul>
+</li>
+<li><a href="https://help.github.com/articles/using-git-rebase-on-the-command-line/">Using Git rebase on the command line - User Documentation</a> #ril</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/sjurba/rebase-editor">sjurba/rebase-editor: Simple terminal based sequence editor for git interactive rebase.</a> 置換 <code>sequence.editor</code> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://git-scm.com/docs/git-rebase"><code>git-rebase</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

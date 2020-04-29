@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/elasticsearch-analysis-ik/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>IK Analysis for Elasticsearch - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/elasticsearch-analysis-ik.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#ik-analysis-for-elasticsearch">IK Analysis for Elasticsearch</a></li>
+            <li class="second-level"><a href="#custom-dictionary">Custom Dictionary ??</a></li>
+                
+            <li class="second-level"><a href="#traditional-chinese">繁體中文 ??</a></li>
+                
+            <li class="second-level"><a href="#installation">安裝設定 ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="ik-analysis-for-elasticsearch">IK Analysis for Elasticsearch<a class="headerlink" href="#ik-analysis-for-elasticsearch" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://github.com/medcl/elasticsearch-analysis-ik">medcl/elasticsearch-analysis-ik: The IK Analysis plugin integrates Lucene IK analyzer into elasticsearch, support customized dictionary.</a> #ril<ul>
+<li>The IK Analysis plugin integrates Lucene IK analyzer into elasticsearch, support customized dictionary.</li>
+<li>Analyzer: <code>ik_smart</code>, <code>ik_max_word</code>, Tokenizer: <code>ik_smart</code>, <code>ik_max_word</code> 所以 analyzer 完全沒用到 filter??</li>
+<li><code>ik_max_word</code> 和 <code>ik_smart</code> 什么区别? <code>ik_max_word</code>: 会将文本做最细粒度的拆分，比如会将“中华人民共和国国歌 ”拆分为“ 中华人民共和国,中华人民,中华,华人,人民共和国,人民,人,民,共和国,共和,和,国国,国歌”，会穷尽各种可能的组合；<code>ik_smart</code>: 会做最粗粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,国歌”。 =&gt; 但為麼以 <code>ik_smart</code> 拆解的結果，用 <code>國</code> 找得到??</li>
+</ul>
+</li>
+<li><a href="https://code.google.com/archive/p/ik-analyzer/">ik-analyzer - Google Code Archive - Long-term storage for Google Code Project Hosting.</a> #ril</li>
+<li><a href="https://blog.csdn.net/zhu_tianwei/article/details/46607421">Lucene中文分词IK Analyzer - 任何技能都是从模仿开始，逐步升华。 - CSDN博客</a> (2015-06-23) #ril</li>
+</ul>
+<h2 id="custom-dictionary">Custom Dictionary ??<a class="headerlink" href="#custom-dictionary" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/medcl/elasticsearch-analysis-ik#dictionary-configuration">Dictionary Configuration - medcl/elasticsearch-analysis-ik: The IK Analysis plugin integrates Lucene IK analyzer into elasticsearch, support customized dictionary.</a> #ril<ul>
+<li><code>IKAnalyzer.cfg.xml</code> can be located at <code>{conf}/analysis-ik/config/IKAnalyzer.cfg.xml</code> or <code>{plugins}/elasticsearch-analysis-ik-*/config/IKAnalyzer.cfg.xml</code><pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+&lt;properties&gt;
+    &lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;
+    &lt;!--用户可以在这里配置自己的扩展字典 --&gt;
+    &lt;entry key="ext_dict"&gt;custom/mydict.dic;custom/single_word_low_freq.dic&lt;/entry&gt;
+     &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;
+    &lt;entry key="ext_stopwords"&gt;custom/ext_stopword.dic&lt;/entry&gt;
+    &lt;!--用户可以在这里配置远程扩展字典 --&gt;
+    &lt;entry key="remote_ext_dict"&gt;location&lt;/entry&gt;
+    &lt;!--用户可以在这里配置远程扩展停止词字典--&gt;
+    &lt;entry key="remote_ext_stopwords"&gt;http://xxx.com/xxx.dic&lt;/entry&gt;
+&lt;/properties&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="traditional-chinese">繁體中文 ??<a class="headerlink" href="#traditional-chinese" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/sunghau/elasticsearch-analysis-ik-config-traditional-chinese">sunghau/elasticsearch-analysis-ik-config-traditional-chinese: ik config files for traditional chinese</a> #ril<ul>
+<li>主要的差別似乎在於 <a href="https://github.com/sunghau/elasticsearch-analysis-ik-config-traditional-chinese/blob/master/config/ik/IKAnalyzer.cfg.xml">elasticsearch-analysis-ik-config-traditional-chinese/IKAnalyzer.cfg.xml at master · sunghau/elasticsearch-analysis-ik-config-traditional-chinese</a>，把 <code>custom/**/*.dic</code> 引進來：<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;  
+&lt;properties&gt;  
+    &lt;comment&gt;IK Analyzer 扩展配置&lt;/comment&gt;
+    &lt;!--用户可以在这里配置自己的扩展字典 --&gt;    
+    &lt;entry key="ext_dict"&gt;custom/mydict.dic;custom/single_word_low_freq.dic;custom/zhTW/main.dic;custom/zhTW/preposition.dic;custom/zhTW/quantifier.dic;custom/zhTW/suffix.dic;custom/zhTW/surname.dic&lt;/entry&gt;  
+     &lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;
+    &lt;entry key="ext_stopwords"&gt;custom/ext_stopword.dic;custom/zhTW/stopword.dic&lt;/entry&gt;
+    &lt;!--用户可以在这里配置远程扩展字典 --&gt; 
+    &lt;!-- &lt;entry key="remote_ext_dict"&gt;words_location&lt;/entry&gt; --&gt;
+    &lt;!--用户可以在这里配置远程扩展停止词字典--&gt;
+    &lt;!-- &lt;entry key="remote_ext_stopwords"&gt;words_location&lt;/entry&gt; --&gt;
+&lt;/properties&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="installation">安裝設定 ??<a class="headerlink" href="#installation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/medcl/elasticsearch-analysis-ik">medcl/elasticsearch-analysis-ik: The IK Analysis plugin integrates Lucene IK analyzer into elasticsearch, support customized dictionary.</a></p>
+<ul>
+<li>安裝方法都是將 plugin ZIP (只有 4.3 MB) 解開放進 <code>$ES_ROOT/plugins/xxx</code>，下面兩種做法只是手動/自動的差別而已，最後都要 restart ES。</li>
+<li>optional 1 - 1) download pre-build package from here: <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases">https://github.com/medcl/elasticsearch-analysis-ik/releases</a> 2) create plugin folder <code>cd your-es-root/plugins/ &amp;&amp; mkdir ik</code> 3) unzip plugin to folder <code>your-es-root/plugins/ik</code> 直接把 zip 解開到放到 <code>$ES_ROOT/plugins/xxx</code> 即可。</li>
+<li>
+<p>optional 2 - use <code>elasticsearch-plugin</code> to install (supported from version v5.5.1):</p>
+<pre><code>$ ES_VERSION=6.3.0
+$ ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v$ES_VERSION/elasticsearch-analysis-ik-$ES_VERSION.zip
+</code></pre>
+</li>
+<li>
+<p>為什麼不同 ES 的版本，就要採用不同的 IK，近期更是呈現 1-to-1 的關係，為什麼兩者綁得這麼緊??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/medcl/elasticsearch-analysis-ik">medcl/elasticsearch-analysis-ik - GitHub</a></li>
+<li><a href="https://code.google.com/archive/p/ik-analyzer/">IK Analyzer (Lucene)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

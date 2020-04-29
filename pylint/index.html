@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pylint/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Pylint - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pylint.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pylint">Pylint</a></li>
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#checker-message-message-category">Checker, Message, Message Category ??</a></li>
+                
+            <li class="second-level"><a href="#message-control">Message Control ??</a></li>
+                
+            <li class="second-level"><a href="#lint-tox">Lint 也要透過 tox 來做 ??</a></li>
+                
+            <li class="second-level"><a href="#pylintrc">在多個專案間共用 pylintrc ??</a></li>
+                
+            <li class="second-level"><a href="#jenkins-pylint">如何在 Jenkins 裡顯示 Pylint 檢查的結果??</a></li>
+                
+            <li class="second-level"><a href="#vim-pylint">如何在 Vim 裡就提示不符合 Pylint 要求的部份??</a></li>
+                
+            <li class="second-level"><a href="#uml-diagrams">如何產生 UML diagrams??</a></li>
+                
+            <li class="second-level"><a href="#no-else-return-r1705">no-else-return (R1705) ??</a></li>
+                
+            <li class="second-level"><a href="#unsubscriptable-object-e1136">unsubscriptable-object (E1136) ??</a></li>
+                
+            <li class="second-level"><a href="#useless-object-inheritance-r0205">useless-object-inheritance (R0205) ??</a></li>
+                
+            <li class="second-level"><a href="#en-as-condition-c1801">en-as-condition (C1801) ??</a></li>
+                
+            <li class="second-level"><a href="#broad-except-w0702">broad-except (W0702)</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#pylint-1x-2x">Pylint 1.x, 2.x ??</a></li>
+                <li class="third-level"><a href="#pylint_1">安裝 Pylint</a></li>
+                <li class="third-level"><a href="#jenkins">整合 Jenkins??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pylint">Pylint<a class="headerlink" href="#pylint" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.pylint.org/">Pylint - code analysis for Python | www.pylint.org</a> #ril<ul>
+<li>Slogan 是 Star your Python code!</li>
+<li>可以檢查單行程式是不是過長、變數命名是否合格、引入了沒用到的 module、重複的程式碼等。</li>
+</ul>
+</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/intro.html">Introduction — Pylint 2.0.0 documentation</a><ul>
+<li>用來要求 coding standard、找出 code smell，並提出建議；預設採用近似於 PEP 8 的 coding style。</li>
+<li>其他類似的專案有 pychecker (已死)、pyflakes、flake8 跟 mypy。</li>
+<li>分析過程會丟出一些不同 category 的 messages &ndash; error、warning，然後提供一個總體評分 (overall mark)</li>
+<li>What Pylint says is not to be taken as gospel (教義) and Pylint isn’t smarter than you are: it may warn you about things that you have conscientiously (負責盡職地) done. 這句話說得真好。Pylint 會儘力減少 false positive，面對 verboseness 的方式，就是調整哪些 message category 要啟用/停用，可以從 command line 做，也可以由 configuration file 提供 (可以用 <code>--generate-rcfile</code> 產生)</li>
+</ul>
+</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/tutorial.html">Tutorial — Pylint 2.0.0 documentation</a><ul>
+<li>&ldquo;become a more aware programmer&rdquo; 這說法有趣，若要讓別人參與其中 (shared code)，Pylint 可以確保你的 code 對其他人是友善的。</li>
+</ul>
+</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/faq.html#what-is-pylint">What is Pylint? - Frequently Asked Questions — Pylint 2.0.0 documentation</a> 是一個 static code checker。</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p><code>hello.py</code>:</p>
+<pre><code>def hello(who):
+    print 'Hello, %s!' % who
+
+if __name__ == '__main__':
+    print hello(sys.args[1] if len(sys.args) &gt;= 2 else 'World')
+</code></pre>
+
+<pre><code>$ pylint hello # 注意不是 hello.py
+No config file found, using default configuration
+************* Module hello
+C:  1, 0: Missing module docstring (missing-docstring)
+C:  1, 0: Missing function docstring (missing-docstring)
+E:  5,35: Undefined variable 'sys' (undefined-variable)
+E:  5,16: Undefined variable 'sys' (undefined-variable)
+
+----------------------------------------------------------------------
+Your code has been rated at -20.00/10 (previous run: -20.00/10, +0.00)
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/latest/tutorial.html">Tutorial — Pylint 2.0.0 documentation</a> #ril<ul>
+<li>觀察 <code>pylint --long-help</code> 的輸出，這裡只會用到 <code>--generate-rcfile=&lt;file&gt;</code>、<code>--help-msg=&lt;msg-id&gt;</code>、<code>--disable=&lt;msg-ids&gt;</code> 與 <code>--reports=&lt;y_or_n&gt;</code>，最後面的 <code>Output:</code> 提到有 5 種 message type - Convention、refactor、warning、error、fatal (造成 Pylint 無法解析)。</li>
+<li>第一次使用，最常見的抱怨是 Pylint 很吵 (noisy)，因為預設的 configuration 會啟用所有的檢查，可以調整為只做想要的檢查。</li>
+<li>這裡舉的範例其實有點複雜了，光是 Hello, World! 就可以檢查出很多問題。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/latest/user_guide/run.html">Running Pylint — Pylint 2.0.0 documentation</a> #ril<ul>
+<li>基本用法是 <code>pylint [OPTIONS] MODULES_OR_PACKAGES</code> (用空白隔開)，注意是 module/package，而非 filename；實驗發現，package 下就算是沒用到的 module 也會去掃描。</li>
+<li>Pylint 雖然不會 import module/package，但會用 Python 內部的機制 (internals) 來找到它們，所以一樣會受到 <code>PYTHONPATH</code> 的影響；也就是環境內要有 package，否則會丟出 <code>[E0401(import-error), ] Unable to import 'xxx'</code> 的錯誤。</li>
+<li>It is also possible to analyze python files, with a few restrictions. 若傳入 file name，會試著將它轉為 module name，而這個轉換可能失敗，還是少用&hellip;</li>
+</ul>
+</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/faq.html#running-pylint">Running Pylint - Frequently Asked Questions — Pylint 2.0.0 documentation</a> #ril</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/user_guide/output.html">Pylint output — Pylint 2.0.0 documentation</a> 看懂 CLI 的輸出<ul>
+<li>預設的 output format 是 raw text，可以用 <code>--output-format=&lt;FORMAT&gt;</code> 調整，可接受的 format 有 <code>text</code> (預設)、<code>json</code>、<code>parseable</code>、<code>colorized</code> 與 <code>msvs</code> (Visual Studio?) 訊息可以用 <code>--msg-template</code> 自訂 message，想起 <a href="https://plugins.jenkins.io/warnings">Jenkins Wranings Plugin</a> 就是解析 build log。</li>
+<li>輸出分為 3 塊 &ndash; Source code analysis section、Reports section (<code>--reports=y</code> 啟用) 與 Score section (<code>--score=n</code> 停用)。</li>
+<li>Source code analysis section 每個 module 都會以 <code>************* Module XXX</code> 劃分開來，接著條列長得像 <code>MESSAGE_TYPE: LINE_NUM:[OBJECT:] MESSAGE</code> 的訊息。其中 message type 可能是 [R]efactor for a &ldquo;good practice&rdquo; metric violation、[C]onvention for coding standard violation、[W]arning for stylistic problems, or minor programming issues、[E]rror for important programming issues (i.e. most probably bug) 或 [F]atal for errors which prevented further processing。</li>
+<li>Reports section 會從不同的面向統計 message，可以用 <code>--reports=y</code> 啟用；若一直都能維持 10 分，就沒必要看 report 了。</li>
+<li>最後的 Score section 會以滿分 10 來計分，公式可以用 <code>--evaluation</code> 來自訂，預設是 <code>10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)</code>；看起來是有任何 message，就不可能達到 10 分。</li>
+</ul>
+</li>
+</ul>
+<h2 id="checker-message-message-category">Checker, Message, Message Category ??<a class="headerlink" href="#checker-message-message-category" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/latest/tutorial.html#getting-started">Getting Started - Tutorial — Pylint 2.0.0 documentation</a> 從 &ldquo;There are 5 kind of message types&rdquo; 與 &ldquo;Messages by category&rdquo; 看來，message type/category 像是在為 message 分級 &ndash; convention、refactor、warning、error、fatal；跟 debug level 有點像，但 warning 往上是 refactor 跟 convention。</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/user_guide/run.html#command-line-options">Command line options - Running Pylint — Pylint 2.0.0 documentation</a> &ldquo;Pylint is architectured around several checkers. you can disable a specific checker or some of its messages or messages categories&hellip;&rdquo; 說明了 checker 定義了不同的 message，而每個 message 分屬不同的 category。</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/checkers.html">Checkers — Pylint 2.0.0 documentation</a> checker 都在 <code>pylint.checkers</code> 下，大部份的 checker 都是 AST-based，背後用 astroid。</li>
+<li><a href="https://github.com/PyCQA/pylint/tree/master/pylint/checkers">pylint/pylint/checkers at master · PyCQA/pylint</a> 底下有 imports、logging、python3、variables 等。</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/extensions.html">Optional Pylint checkers in the extensions module — Pylint 2.0.0 documentation</a> optional checkers 由 plugins 提供 #ril</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/tutorial.html">Tutorial — Pylint 2.0.0 documentation</a> <code>pylint --help-msg=missing-docstring</code> 說是來自 basic checker，但 <code>pylint/checkers</code> 下找不到 <code>basic.py</code>?</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html">Pylint features — Pylint 2.0.0 documentation</a> 不同 checker 的參考手冊；許多 checker 都有 Messages 的段落，每個 message ID/symbol 後會跟著一個號碼，例如 <code>E1701</code>、<code>W0106</code> 等，第一個英文字母就是 message type/category。 #ril</li>
+</ul>
+<h2 id="message-control">Message Control ??<a class="headerlink" href="#message-control" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://pylint.readthedocs.io/en/latest/user_guide/message-control.html">Messages control — Pylint 2.0.0 documentation</a></p>
+<p>用程式碼裡的註解 <code># pylint: disable=...</code> 或 <code># pylint: enable=...</code> 來微調。</p>
+<pre><code>"""pylint option block-disable""" &lt;-- 這裡也可以寫 pylint: disable=... 嗎??
+
+__revision__ = None
+
+class Foo(object):
+    """block-disable test"""
+
+    def __init__(self):
+        pass
+
+    def meth1(self, arg):
+        """this issues a message"""
+        print self
+
+    def meth2(self, arg):
+        """and this one not"""
+        # pylint: disable=unused-argument
+        print self\
+              + "foo"
+
+    def meth3(self):
+        """test one line disabling"""
+        # no error
+        print self.bla # pylint: disable=no-member &lt;-- 從這一行開始作用
+        # error
+        print self.blop
+
+    def meth4(self):
+        """test re-enabling"""
+        # pylint: disable=no-member
+        # no error
+        print self.bla
+        print self.blop
+        # pylint: enable=no-member &lt;-- 同一層 block，可以重新 enable/disable
+        # error
+        print self.blip
+
+    def meth5(self):
+        """test IF sub-block re-enabling"""
+        # pylint: disable=no-member &lt;-- 作用在所在的 block 及 sub-block
+        # no error
+        print self.bla
+        if self.blop:
+            # pylint: enable=no-member &lt;-- sub-block 也可以重新 enable/disable
+            # error
+            print self.blip
+        else:
+            # no error
+            print self.blip
+        # no error
+        print self.blip
+
+    def meth6(self):
+        """test TRY/EXCEPT sub-block re-enabling"""
+        # pylint: disable=no-member
+        # no error
+        print self.bla
+        try:
+            # pylint: enable=no-member
+            # error
+            print self.blip
+        except UndefinedName: # pylint: disable=undefined-variable &lt;-- except 可以分開控制
+            # no error
+            print self.blip
+        # no error
+        print self.blip
+
+    def meth7(self):
+        """test one line block opening disabling"""
+        if self.blop: # pylint: disable=no-member &lt;-- 可以寫在 block opening 那行
+            # error
+            print self.blip
+        else:
+            # error
+            print self.blip
+        # error
+        print self.blip
+
+    def meth8(self):
+        """test late disabling"""
+        # error
+        print self.blip
+        # pylint: disable=no-member
+        # no error
+        print self.bla
+        print self.blop
+</code></pre>
+</li>
+<li>
+<p><a href="https://pylint.readthedocs.io/en/latest/user_guide/options.html">Configuration — Pylint 2.0.0 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.pylint.org/">Pylint - code analysis for Python | www.pylint.org</a> Fully customizable 提到可以用 <code>pylintrc</code> 自訂 convention。</p>
+</li>
+<li>
+<p>Pylint features — Pylint documentation <a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html">https://pylint.readthedocs.io/en/latest/technical_reference/features.html</a> #ril</p>
+</li>
+</ul>
+<h2 id="lint-tox">Lint 也要透過 tox 來做 ??<a class="headerlink" href="#lint-tox" title="Permanent link"> #</a></h2>
+<ul>
+<li>Static analysis 應該發生在 build 之前；若 Pylint 會檢查 import 的套件在不在，就必須要把 dependencies 都裝起來。</li>
+<li><code>tox --disable=import-error</code> 似乎是個方法? 更何況這種錯誤本來就不像 lint，應該用 unit tests 去確保才對。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/pallets/flask/blob/master/tox.ini">flask/tox.ini at master · pallets/flask</a> <code>docs-html</code> 跟 <code>coverage-report</code> 都是跟測試無關的 test env，從 <code>[testenv:coverage-report]</code> 下的 <code>skip_install = true</code> 看來，所有的 test evn 預設都會裝 package；這樣好像也很合理，Pylint 也說會跟 <code>PYTHONPATH</code> 有關 &hellip;</li>
+<li><a href="https://github.com/cloudendpoints/endpoints-python/blob/9da60817aefbb0f2a4b9145c17ee39b9115067b0/tox.ini">endpoints-python/tox.ini at 9da60817aefbb0f2a4b9145c17ee39b9115067b0 · cloudendpoints/endpoints-python</a> <code>[testenv:pylint-full]</code> 裡出現 <code>pylint</code> 及 <code>-r{toxinidir}/test-requirements.txt</code></li>
+</ul>
+<h2 id="pylintrc">在多個專案間共用 pylintrc ??<a class="headerlink" href="#pylintrc" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 &ldquo;pylintrc share&rdquo; 找不到任何資料，或許自己維護幾個 template project 吧?</li>
+</ul>
+<h2 id="jenkins-pylint">如何在 Jenkins 裡顯示 Pylint 檢查的結果??<a class="headerlink" href="#jenkins-pylint" title="Permanent link"> #</a></h2>
+<ul>
+<li>Pylint - code analysis for Python | <a href="http://www.pylint.org">www.pylint.org</a> <a href="https://www.pylint.org/">https://www.pylint.org/</a> 在 Continuous integration 提到 Jenkins。</li>
+</ul>
+<h2 id="vim-pylint">如何在 Vim 裡就提示不符合 Pylint 要求的部份??<a class="headerlink" href="#vim-pylint" title="Permanent link"> #</a></h2>
+<ul>
+<li>Pylint - code analysis for Python | <a href="http://www.pylint.org">www.pylint.org</a> <a href="https://www.pylint.org/">https://www.pylint.org/</a> 提到 vim (pylint.vim, <a href="https://github.com/vim-syntastic/syntastic">syntastic</a>)</li>
+</ul>
+<h2 id="uml-diagrams">如何產生 UML diagrams??<a class="headerlink" href="#uml-diagrams" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.pylint.org/">Pylint - code analysis for Python | www.pylint.org</a> 提到整合 Pyreverse 可以產生 UML diagrams。</li>
+</ul>
+<h2 id="no-else-return-r1705">no-else-return (R1705) ??<a class="headerlink" href="#no-else-return-r1705" title="Permanent link"> #</a></h2>
+<ul>
+<li>如果做為 guard statements，當然不用 else，但如果是在做分支 &ndash; 模擬 swtich 互斥的結構，覺得還是用 else 比較好。</li>
+<li>當然，如果遵守 function 不該有多個 <code>return</code> 的原則，就不會有這個問題。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://pylint.pycqa.org/en/latest/whatsnew/1.7.html">What&rsquo;s New In Pylint 1.7 — Pylint 2.2.0 documentation</a> Pylint 1.7 新加入 <code>no-else-return</code> 的檢查。</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html#refactoring-checker-messages">Refactoring checker Messages - Pylint features — Pylint 2.2.0 documentation</a><ul>
+<li>Unnecessary &ldquo;%s&rdquo; after &ldquo;return&rdquo;</li>
+<li>Used in order to highlight an unnecessary block of code following an if containing a return statement. As such, it will warn when it encounters an else following a chain of ifs, all of them containing a return statement.</li>
+</ul>
+</li>
+<li><a href="https://github.com/SoCo/SoCo/issues/500">Does pylint warning no-else-return make sense to you · Issue #500 · SoCo/SoCo</a><ul>
+<li>KennethNielsen: Pylint 1.7.1 加入了 &ldquo;an else clause on a if statement after a return statement&rdquo; 的檢查，似乎是從 Chromium C++ style guide 來的，雖然同意大部份 Pylint 建議的，但就這一點他不行。第 2 種寫法比較可讀，不認為它應該被勸阻，雖然已經停用了 warning，但還是想聽聽大家的意見。</li>
+<li>robwebset: 兩種寫法各有優點，沒理由防止任一種寫法；DPH 也是持相同的看法。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/9191388/">python - It is more efficient to use if-return-return or if-else-return? - Stack Overflow</a><ul>
+<li>Jorge Leitão: 從 efficiency 的考量，<code>if</code> 裡有 <code>return</code>，後面加 <code>else</code> 比較好，還是不加?</li>
+<li>ams: compiled language 會自動優化它，並不需要我們擔心，重點是 code 的可讀性。</li>
+<li>Frédéric Hamidi: 由於 <code>return</code> 結束了 function，所以兩種寫法是等價的 (equivalent)，雖然第 2 種寫法比較好讀，但第 1 種的執行效率確實比較好。</li>
+<li>skeller88: 引用 <a href="https://chromium.googlesource.com/chromium/src/+/master/styleguide/c++/c++.md">Chromium C++ Style Guide</a> &ndash; Don&rsquo;t use else after return. Tim: 很訝異第一種寫法是比較清楚的，後來 skeller88: 重點是 code base 的風格要一致。</li>
+</ul>
+</li>
+<li><a href="https://blog.mozilla.org/nnethercote/2009/08/31/no-else-after-return-considered-harmful/">“No-else-after-return” considered harmful | Nicholas Nethercote</a> (2009-08-31) 提到 &ldquo;it’s just harder to read because the two return statements have different indentation levels despite the fact that they are CLOSELY RELATED.&rdquo;。</li>
+<li><a href="https://eslint.org/docs/rules/no-else-return">no-else-return - Rules - ESLint - Pluggable JavaScript linter</a> ESLint 也有同樣的檢查，覺得重點是 &ldquo;Its contents can be placed outside of the block&rdquo;，若這不是訴求，或許這個檢查就沒有意義?</li>
+</ul>
+<h2 id="unsubscriptable-object-e1136">unsubscriptable-object (E1136) ??<a class="headerlink" href="#unsubscriptable-object-e1136" title="Permanent link"> #</a></h2>
+<ul>
+<li>之前的例子，又沒有宣告 <code>-&gt; type</code>，Pylint 是如何知道有沒有 <code>__getitem__</code> 的??</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html#typecheck-checker-messages">Pylint features — Pylint 2.2.0 documentation</a><ul>
+<li>Value &lsquo;%s&rsquo; is unsubscriptable</li>
+<li>Emitted when a subscripted value doesn&rsquo;t support subscription (i.e. doesn&rsquo;t define <strong>getitem</strong> method).</li>
+</ul>
+</li>
+<li><a href="http://pylint-messages.wikidot.com/messages:e1136">E1136 - PyLint Messages</a> 因為 <code>files['txt']</code> 一開始被初始化為 <code>None</code>，即便後來有給值，但還是會回報為 unsubscriptable；不知道這在 Python 3 有 type hint 會不會好一點?</li>
+<li><a href="https://docs.pylint.org/en/1.6.0/whatsnew/changelog.html">Pylint NEWS — Pylint 1.6.5 documentation</a> Pylint 1.5.0 時加入 <code>unsubscriptable-objec</code>，但後來 Pylint 1.5.1 與 1.5.5 分別做了調整 &ndash; Don’t emit unsubscriptable-object if the node is found inside an abstract class. 與 Don’t emit unsubscriptable-value for classes with unknown base classes. 感覺會誤報?</li>
+<li><a href="https://github.com/PyCQA/pylint/issues/776">erroneous error: Value &lsquo;typing.Sequence&rsquo; is unsubscriptable (unsubscriptable-object) · Issue #776 · PyCQA/pylint</a> #ril</li>
+<li><a href="https://github.com/PyCQA/pylint/issues/1498">False positive with E1136 unsubscriptable-object · Issue #1498 · PyCQA/pylint</a> #ril</li>
+</ul>
+<h2 id="useless-object-inheritance-r0205">useless-object-inheritance (R0205) ??<a class="headerlink" href="#useless-object-inheritance-r0205" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html#classes-checker-messages">Classes chcker Message - Pylint features — Pylint 2.2.0 documentation</a><ul>
+<li>Class %r inherits from object, can be safely removed from bases in python3</li>
+<li>Used when a class inherit from object, which under python3 is implicit, hence can be safely removed from bases. 因此若專案必須相容於 Python 2，就應該停用這項檢查。</li>
+</ul>
+</li>
+</ul>
+<h2 id="en-as-condition-c1801">en-as-condition (C1801) ??<a class="headerlink" href="#en-as-condition-c1801" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html#refactoring-checker-messages">Pylint features — Pylint 2.4.0-dev0 documentation</a> #ril</p>
+<p>len-as-condition (C1801)</p>
+<ul>
+<li>
+<p>Do not use <code>len(SEQUENCE)</code> WITHOUT COMPARISON to determine if a sequence is empty.</p>
+</li>
+<li>
+<p>Used when Pylint detects that <code>len(sequence)</code> is being used WITHOUT EXPLICIT COMPARISON inside a condition to determine if a sequence is empty. Instead of COERCING THE LENGTH TO A BOOLEAN, either rely on the fact that empty sequences are false or compare the length AGAINST A SCALAR.</p>
+<p>為什麼拿 <code>len(sequence)</code> 跟數字比也不行 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/PyCQA/pylint/issues/2684">Allow `len-as-condition` for explicit comparison · Issue #2684 · PyCQA/pylint</a> #ril</p>
+</li>
+<li><a href="https://github.com/PyCQA/pylint/issues/1405">Add suggestion for `len-as-condition` message. · Issue #1405 · PyCQA/pylint</a> #ril</li>
+<li><a href="https://cloud.tencent.com/developer/ask/110361">为什么在Pylint认为不正确的条件值中使用len（SEQUENCE）？ - 问答 - 云+社区 - 腾讯云</a> #ril</li>
+</ul>
+<h2 id="broad-except-w0702">broad-except (W0702)<a class="headerlink" href="#broad-except-w0702" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html#exceptions-checker-messages">Pylint features — Pylint 2.4.0-dev0 documentation</a></p>
+<p>broad-except (W0703):</p>
+<ul>
+<li>
+<p>Catching too general exception %s Used when an except catches a too general exception, possibly BURYING unrelated errors.</p>
+<p>上面 &ldquo;burying unrelated errors&rdquo; 暗示著，只要在 handler 裡有 reraise 的話，就不會有警告。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="pylint-1x-2x">Pylint 1.x, 2.x ??<a class="headerlink" href="#pylint-1x-2x" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="http://pylint.pycqa.org/en/latest/faq.html#what-versions-of-python-is-pylint-supporting">What versions of Python is Pylint supporting? - Frequently Asked Questions — Pylint 2.2.0 documentation</a><ul>
+<li>Pylint 2.0 只支援 Python 3.4+，雖然它也可以用來分析 Python 2 的檔案，但有些檢查假設了執行環境是 Python 2 所以無法作用。</li>
+<li>採用 Python 2 的話，必然要選擇 Pylint 1.8 或 1.9，到 2020 年之前，會持續有 bug fix 的 backports，也會有 Python 3 compatibility checks，不過在 2020 後就會停止對 Python 2 的支援。</li>
+</ul>
+</li>
+</ul>
+<h3 id="pylint_1">安裝 Pylint<a class="headerlink" href="#pylint_1" title="Permanent link"> #</a></h3>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/latest/user_guide/installation.html">Installation — Pylint 2.0.0 documentation</a> 安裝 <code>pylint</code> 套件即可。</li>
+<li><a href="https://pylint.readthedocs.io/en/latest/user_guide/run.html">Running Pylint — Pylint 2.0.0 documentation</a> Pylint 雖然不會 import module/package，但會用 Python 內部的機制 (internals) 來找到它們，所以一樣會受到 <code>PYTHONPATH</code> 的影響。</li>
+</ul>
+<h3 id="jenkins">整合 Jenkins??<a class="headerlink" href="#jenkins" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.pylint.org/">Pylint - code analysis for Python | www.pylint.org</a> Continuous integration 提到 Jenkins 的 Vilations Plugin。</li>
+<li><a href="https://plugins.jenkins.io/violations">Violations - Jenkins Plugins</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.pylint.org/">Pylint</a></li>
+<li><a href="https://github.com/PyCQA/pylint">PyCQA/pylint - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/pylint">&lsquo;pylint&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://pylint.readthedocs.io/en/latest/">Pylint User Manual</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://pylint.pycqa.org/en/latest/technical_reference/features.html#pylint-global-options-and-switches">Pylint Global Options and Switches</a></li>
+<li><a href="http://pylint.pycqa.org/en/latest/technical_reference/features.html#pylint-checkers-options-and-switches">Pylint Checkers&rsquo; Options and Switches</a></li>
+<li><a href="https://pylint.readthedocs.io/en/latest/user_guide/run.html#command-line-options">Command Line Options</a></li>
+<li><a href="http://pylint.pycqa.org/en/latest/user_guide/run.html#exit-codes">Exit Codes</a></li>
+<li><a href="https://pylint.readthedocs.io/en/latest/technical_reference/features.html">Checker Messages</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

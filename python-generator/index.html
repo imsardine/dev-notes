@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-generator/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Generator - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-generator.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-generator">Python / Generator</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#generator-expression">Generator Expression ??</a></li>
+                
+            <li class="second-level"><a href="#async">Asynchronous Generator ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-generator"><a href="../python/">Python</a> / Generator<a class="headerlink" href="#python-generator" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://docs.python.org/3/glossary.html#term-generator">generator - Glossary — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/reference/datamodel.html#index-37">Generator functions - 3. Data model — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#generator-types">Generator Types - Built-in Types — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://wiki.python.org/moin/Generators">Generators - Python Wiki</a> #ril</li>
+<li><a href="https://realpython.com/introduction-to-python-generators/">Introduction to Python Generators – Real Python</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/classes.html#generators">Generators - 9. Classes — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/howto/functional.html#generators">Generators - Functional Programming HOWTO — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/whatsnew/2.3.html#pep-255-simple-generators">PEP 255: Simple Generators - What’s New in Python 2.3 — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/whatsnew/2.5.html#pep-342-new-generator-features">PEP 342: New Generator Features - What’s New in Python 2.5 — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/whatsnew/3.5.html#pep-479-change-stopiteration-handling-inside-generators">PEP 479: Change StopIteration handling inside generators - What’s New In Python 3.5 — Python 3.7.3 documentation</a> #ril</li>
+</ul>
+<h2 id="generator-expression">Generator Expression ??<a class="headerlink" href="#generator-expression" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/classes.html#generator-expressions">Generator Expressions - 9. Classes — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/reference/expressions.html#generator-expressions">Generator expressions - 6. Expressions — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/howto/functional.html#generator-expressions-and-list-comprehensions">Generator expressions and list comprehensions - Functional Programming HOWTO — Python 3.7.3 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/whatsnew/2.4.html#pep-289-generator-expressions">PEP 289: Generator Expressions - What’s New in Python 2.4 — Python 3.7.3 documentation</a> #ril</li>
+</ul>
+<h2 id="async">Asynchronous Generator ??<a class="headerlink" href="#async" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/whatsnew/3.6.html#pep-525-asynchronous-generators">PEP 525: Asynchronous Generators - What’s New In Python 3.6 — Python 3.7.3 documentation</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0255/">PEP 255 &ndash; Simple Generators</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0289/">PEP 289 &ndash; Generator Expressions</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0342/">PEP 342 &ndash; Coroutines via Enhanced Generators</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0479/">PEP 479 &ndash; Change StopIteration handling inside generators</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0525/">PEP 525 &ndash; Asynchronous Generators</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

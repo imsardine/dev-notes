@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/maven/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Maven - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/maven.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#maven">Maven</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#mvn-cli">mvn CLI</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="maven">Maven<a class="headerlink" href="#maven" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://maven.apache.org/">Maven – Welcome to Apache Maven</a></p>
+<p>Apache Maven is a software PROJECT MANAGEMENT and COMPREHENSION tool. Based on the concept of a PROJECT OBJECT MODEL (POM), Maven can manage a project&rsquo;s build, reporting and documentation from a central piece of information.</p>
+</li>
+<li>
+<p><a href="https://maven.apache.org/what-is-maven.html">Maven – Introduction</a> #ril</p>
+</li>
+<li>
+<p><a href="https://maven.apache.org/maven-features.html">Maven – Maven Features</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html">Maven – Maven in 5 Minutes</a> #ril</p>
+<p>Creating a Project</p>
+<ul>
+<li>
+<p>You will need somewhere for your project to reside, create a directory somewhere and start a shell in that directory. On your command line, execute the following Maven GOAL:</p>
+<pre><code>mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+</code></pre>
+</li>
+<li>
+<p>If you have just installed Maven, it may take a while on the first run. This is because Maven is downloading the most recent ARTIFACTS (PLUGIN jars and other files) into your LOCAL REPOSITORY.</p>
+<p>You may also need to execute the command a couple of times before it succeeds. This is because the remote server may time out before your downloads are complete. Don&rsquo;t worry, there are ways to fix that.</p>
+</li>
+<li>
+<p>You will notice that the <code>generate</code> goal created a directory with the same name given as the <code>artifactId</code>. Change into that directory.</p>
+<pre><code>cd my-app
+</code></pre>
+<p>Under this directory you will notice the following standard project structure.</p>
+<pre><code>my-app
+|-- pom.xml
+`-- src
+    |-- main
+    |   `-- java
+    |       `-- com
+    |           `-- mycompany
+    |               `-- app
+    |                   `-- App.java
+    `-- test
+        `-- java
+            `-- com
+                `-- mycompany
+                    `-- app
+                        `-- AppTest.java
+</code></pre>
+<p>The <code>src/main/java</code> directory contains the project source code, the <code>src/test/java</code> directory contains the test source, and the <code>pom.xml</code> file is the project&rsquo;s Project Object Model, or POM.</p>
+</li>
+</ul>
+<p>The POM</p>
+<ul>
+<li>The <code>pom.xml</code> file is the core of a project&rsquo;s configuration in Maven. It is a SINGLE CONFIGURATION FILE that contains the majority of information required to build a project in just the way you want. The POM is huge and can be daunting in its complexity, but it is not necessary to understand all of the intricacies just yet to use it effectively. This project&rsquo;s POM is:<pre><code>&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+  &lt;groupId&gt;com.mycompany.app&lt;/groupId&gt;
+  &lt;artifactId&gt;my-app&lt;/artifactId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+  &lt;properties&gt;
+    &lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;
+    &lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt;
+  &lt;/properties&gt;
+
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;4.12&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+</li>
+</ul>
+<p>What did I just do?</p>
+<ul>
+<li>
+<p>You executed the Maven goal <code>archetype:generate</code>, and passed in various parameters to that goal. The prefix <code>archetype</code> is the plugin that provides the goal. If you are familiar with Ant, you may conceive of this as similar to a task.</p>
+<p>This <code>archetype:generate</code> goal created a simple project based upon a <code>maven-archetype-quickstart</code> archetype. Suffice it to say for now that a plugin is a COLLECTION OF GOALS WITH A GENERAL COMMON PURPOSE. For example the <code>jboss-maven-plugin</code>, whose purpose is &ldquo;deal with various jboss items&rdquo;.</p>
+</li>
+</ul>
+<p>Build the Project</p>
+<ul>
+<li>
+<p><code>mvn package</code></p>
+<p>The command line will print out various actions, and end with the following:</p>
+<pre><code> ...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.953 s
+[INFO] Finished at: 2019-11-24T13:05:10+01:00
+[INFO] ------------------------------------------------------------------------
+</code></pre>
+</li>
+<li>
+<p>Unlike the first command executed (<code>archetype:generate</code>) you may notice the second is simply a single word - <code>package</code>. Rather than a goal, this is a PHASE. A phase is a step in the BUILD LIFECYCLE, which is an ORDERED SEQUENCE OF PHASES. When a phase is given, Maven will execute every phase in the sequence up to and including the one defined. For example, if we execute the <code>compile</code> phase, the phases that actually get executed are:</p>
+<ul>
+<li><code>validate</code></li>
+<li><code>generate-sources</code></li>
+<li><code>process-sources</code></li>
+<li><code>generate-resources</code></li>
+<li><code>process-resources</code></li>
+<li><code>compile</code></li>
+</ul>
+<p>按照 <a href="https://maven.apache.org/run.html">Maven – Running Apache Maven</a> 的說法，<code>validate</code> 跟 <code>generate-sources</code> 間還有個 <code>initialize</code>。</p>
+</li>
+<li>
+<p>You may test the newly compiled and packaged JAR with the following command:</p>
+<pre><code>java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
+</code></pre>
+<p>Which will print the quintessential:</p>
+<pre><code>Hello World!
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="mvn-cli"><code>mvn</code> CLI<a class="headerlink" href="#mvn-cli" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://maven.apache.org/run.html">Maven – Running Apache Maven</a></p>
+<ul>
+<li>
+<p>The syntax for running Maven is as follows:</p>
+<pre><code>mvn [options] [&lt;goal(s)&gt;] [&lt;phase(s)&gt;]
+</code></pre>
+<p>All available options are documented in the built in help that you can access with</p>
+<pre><code>mvn -h
+</code></pre>
+</li>
+<li>
+<p>The typical invocation for building a Maven project uses a Maven LIFE CYCLE PHASE. E.g.</p>
+<pre><code>mvn package
+</code></pre>
+<p>The built in LIFE CYCLES and their PHASES are IN ORDER are:</p>
+<ul>
+<li>
+<p>clean - pre-clean, clean, post-clean</p>
+</li>
+<li>
+<p>default - validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy</p>
+</li>
+<li>
+<p>site - pre-site, site, post-site, site-deploy</p>
+</li>
+</ul>
+<p>Life cycle 跟 phase 是什麼關係 ??</p>
+</li>
+<li>
+<p>A fresh build of a project generating all packaged outputs and the documentation site and deploying it to a repository manager could be done with</p>
+<pre><code>mvn clean deploy site-deploy
+</code></pre>
+<p>Just creating the package and installing it in the LOCAL REPOSITORY for re-use from other projects can be done with</p>
+<pre><code>mvn verify
+</code></pre>
+<p>This is the most common build invocation for a Maven project.</p>
+<p>從 <code>mvn clean deploy site-deploy</code> 的用法看來，life cycle 是獨立的，但若某個 phase 有被提及，同一 life cycle 前面的 phase 都會被走過。因此 <code>mvn verify</code> 只會走 <code>default</code> life cycle 的 <code>validate</code> ~ <code>verify</code>，跟 <code>clean</code> &amp; <code>site</code> life cycle 無關。</p>
+<p>這呼應了 <code>mvn [options] [&lt;goal(s)&gt;] [&lt;phase(s)&gt;]</code> 的用法，<code>mvn</code> 後面只會接 phase 或 goal，但不會是 life cycle。因此 <code>mvn clean</code> 會走過 <code>clean</code> life cycle 的 <code>pre-clean</code> ~ <code>clean</code>，但 <code>post-clean</code> 就永遠走不到，是不是哪裡怪怪的 ??</p>
+</li>
+<li>
+<p>When NOT WORKING WITH A PROJECT, and in some other use cases, you might want to invoke a specific TASK implemented by a part of Maven - this is called a GOAL of a PLUGIN. E.g.:</p>
+<pre><code>mvn archetype:generate
+</code></pre>
+<p>or</p>
+<pre><code>mvn checkstyle:check
+</code></pre>
+<p>There are many different plugins available and they all implement different goals.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://maven.apache.org/download.cgi">Maven – Download Apache Maven</a></p>
+<p>System Requirements</p>
+<ul>
+<li>
+<p>Java Development Kit (JDK)</p>
+<p>Maven 3.3+ require JDK 1.7 or above to execute - they still allow you to build against 1.3 and other JDK versions <a href="https://maven.apache.org/guides/mini/guide-using-toolchains.html">by Using Toolchains</a> #ril</p>
+</li>
+<li>
+<p>Memory</p>
+<p>No minimum requirement</p>
+</li>
+<li>
+<p>Disk</p>
+<p>Approximately 10MB is required for the Maven installation itself. In addition to that, additional disk space will be used for your LOCAL MAVEN REPOSITORY. The size of your local repository will vary depending on usage but expect at least 500MB.</p>
+</li>
+<li>
+<p>Operating System</p>
+<p>No minimum requirement. Start up scripts are included as shell scripts and Windows batch files.</p>
+</li>
+</ul>
+<p>Files</p>
+<ul>
+<li>
+<p>Maven is distributed in several formats for your convenience. Simply pick a ready-made binary distribution archive and follow the installation instructions. Use a source archive if you intend to build Maven yourself.</p>
+<ul>
+<li>Binary tar.gz archive &ndash; <code>apache-maven-3.6.3-bin.tar.gz</code></li>
+<li>Binary zip archive &ndash; <code>apache-maven-3.6.3-bin.zip</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://maven.apache.org/install.html">Maven – Installing Apache Maven</a></p>
+<ul>
+<li>
+<p>The installation of Apache Maven is a simple process of extracting the archive and adding the <code>bin</code> folder with the <code>mvn</code> command to the <code>PATH</code>.</p>
+</li>
+<li>
+<p>Confirm with <code>mvn -v</code> in a new shell. The result should look similar to</p>
+<pre><code>Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+Maven home: /opt/apache-maven-3.6.3
+Java version: 1.8.0_45, vendor: Oracle Corporation
+Java home: /Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: "mac os x", version: "10.8.5", arch: "x86_64", family: "mac"
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://maven.apache.org/">Maven</a></li>
+<li><a href="https://search.maven.org/">The Central Repository</a> (<a href="https://repo.maven.apache.org/maven2/">repo</a>)</li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../maven-repo/">Repository</a></li>
+<li><a href="../maven-archetype/">Archetype</a></li>
+<li><a href="../maven-plugin/">Plugin</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://maven.apache.org/docs/history.html">Release Notes</a></li>
+<li><a href="https://maven.apache.org/pom.html">POM Reference</a></li>
+<li><a href="http://maven.apache.org/ref/3.6.3/maven-core/lifecycles.html">Lifecycles Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

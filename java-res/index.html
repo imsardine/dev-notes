@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/java-res/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Java / Resource - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/java-res.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#java-resource">Java / Resource</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="java-resource"><a href="../java/">Java</a> / Resource<a class="headerlink" href="#java-resource" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://bl.ocks.org/gkhays/1d90f75d9347cc2d7bc70f7bd56f31e7">How to load resources and files in Java - bl.ocks.org</a> (2019-11-10) #ril</p>
+</li>
+<li>
+<p><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/lang/resources.html">Location-Independent Access to Resources</a> #ril</p>
+<p>Overview</p>
+<ul>
+<li>
+<p>A RESOURCE is data (images, audio, text, and so on) that a program needs to access in a way that is INDEPENDENT OF THE LOCATION OF THE PROGRAM CODE.</p>
+<p>Java programs can use two mechanisms to access resources:</p>
+<ul>
+<li>Applets use <code>Applet.getCodeBase()</code> to get the base URL for the applet code and then extend the base URL with a relative path to load the desired resource, for example with <code>Applet.getAudioClip(url)</code>.</li>
+<li>Applications use &ldquo;well known locations&rdquo; such as <code>System.getProperty("user.home")</code> or <code>System.getProperty("java.home")</code>, then add <code>"/lib/resource"</code>, and open that file.</li>
+</ul>
+<p>雖然這些做法適用廣義的 resource，但這裡要講的是 Java 狹意上的 resource &ndash; 透過 <code>Class</code>/<code>ClassLoader</code> 提供的方法存取。</p>
+</li>
+<li>
+<p>Methods in the classes <code>Class</code> and <code>ClassLoader</code> provide a LOCATION-INDEPENDENT way to locate resources. For example, they enable locating resources for:</p>
+<ul>
+<li>An applet loaded from the Internet using multiple HTTP connections.</li>
+<li>An applet loaded using JAR files.</li>
+<li>A Java Bean loaded or installed in the <code>CLASSPATH</code>.</li>
+<li>A &ldquo;library&rdquo; installed in the <code>CLASSPATH</code>.</li>
+</ul>
+</li>
+<li>
+<p>These methods do not provide specific support for locating LOCALIZED resources. Localized resources are supported by the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/index.html">internationalization facilities</a>. #ril</p>
+</li>
+</ul>
+<p>Resources, names, and contexts</p>
+<ul>
+<li>
+<p>A resource is identified by a string consisting of a sequence of SUBSTRINGS, delimited by slashes (<code>/</code>), followed by a RESOURCE NAME. Each substring must be a VALID JAVA IDENTIFIER.</p>
+<p>The resource name is of the form <code>shortName</code> or <code>shortName.extension</code>. Both <code>shortName</code> and <code>extension</code> must be Java identifiers.</p>
+<p>這裡 &ldquo;resource name&rdquo; 跟下面 &ldquo;name of a resource&rdquo; 的說法有點難分辨，感覺 &ldquo;resource name&rdquo; 不包含路徑的部份，但 &ldquo;name of a resource&rdquo; 又有 ??</p>
+</li>
+<li>
+<p>The name of a resource is independent of the Java implementation; in particular, the path separator is ALWAYS a slash (<code>/</code>). However, the Java implementation controls the details of how the contents of the resource are mapped into a file, DATABASE, or other object containing the actual resource.</p>
+</li>
+<li>
+<p>The interpretation of a resource name is relative to a CLASS LOADER INSTANCE. Methods implemented by the <code>ClassLoader</code> class do this interpretation.</p>
+</li>
+</ul>
+<p>System Resources</p>
+<ul>
+<li>
+<p>A system resource is a resource that is either built-in to the system, or kept by the HOST IMPLEMENTATION in, for example, a local file system. Programs access system resources through the <code>ClassLoader</code> methods <code>getSystemResource</code> and <code>getSystemResourceAsStream</code>.</p>
+<p>For example, in a particular implementation, locating a system resource may involve searching the entries in the <code>CLASSPATH</code>. The <code>ClassLoader</code> methods search each directory, ZIP file, or JAR file entry in the <code>CLASSPATH</code> for the resource file, and, if found, returns either an <code>InputStream</code>, or the resource name. If not found, the methods return <code>null</code>.</p>
+<p>這裡說的 &ldquo;resource name&rdquo;，根據 <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getResource-java.lang.String-"><code>Class.getResource()</code> 的 API 文件</a>，其實是 <code>URL</code>；好奇從 class path 裡拿到的 resource 其 protocol 是什麼?? 尤其 <code>URL</code> 只保證支持 <code>http(s)</code>、<code>file</code> 及 <code>jar</code> 這些 protocol。</p>
+</li>
+<li>
+<p>A resource may be found in a different entry in the <code>CLASSPATH</code> than the location where the class file was loaded.</p>
+</li>
+</ul>
+<p>Non-System Resources</p>
+<ul>
+<li>
+<p>The implementation of <code>getResource</code> on a class loader depends on the details of the <code>ClassLoader</code> class. For example, <code>AppletClassLoader</code>:</p>
+<ul>
+<li>First tries to locate the resource as a system resource; then, if not found,</li>
+<li>Searches through the resources in archives (JAR files) already loaded in this <code>CODEBASE</code>; then, if not found,</li>
+<li>Uses <code>CODEBASE</code> and attempts to locate the resource (which may involve contacting a remote site).</li>
+</ul>
+</li>
+<li>
+<p>All class loaders will search for a resource first as a system resource, in a manner analogous to searcing for class files. This search rule permits overwriting locally any resource. Clients should choose a resource name that will be unique (using the company or package name as a prefix, for instance). ??</p>
+</li>
+</ul>
+<p>Resource Names</p>
+<ul>
+<li>
+<p>A common convention for the name of a resource used by a class is to use the fully qualified name of the package of the class, but convert all periods (<code>.</code>) to slashes (<code>/</code>), and add a resource name of the form <code>name.extension</code>. To support this, and to simplify handling the details of system classes (for which <code>getClassLoader</code> returns <code>null</code>), the class <code>Class</code> provides two convenience methods that call the appropriate methods in <code>ClassLoader</code>.</p>
+</li>
+<li>
+<p>The resource name given to a <code>Class</code> method may have an initial starting &ldquo;/&rdquo; that identifies it as an &ldquo;ABSOLUTE&rdquo; name. Resource names that do not start with a &ldquo;/&rdquo; are &ldquo;RELATIVE&rdquo;.</p>
+<p>Absolute names are stripped of their starting &ldquo;/&rdquo; and are passed, without any further modification, to the appropriate <code>ClassLoader</code> method to locate the resource. Relative names are modified according to the convention described previously and then are passed to a <code>ClassLoader</code> method. ??</p>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

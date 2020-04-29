@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/appcenter-api/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>App Center / API - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/appcenter-api.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#app-center-api">App Center / API</a></li>
+            <li class="second-level"><a href="#hockeyapp-transition">HockeyApp Transition ??</a></li>
+                
+            <li class="second-level"><a href="#auth">Authentication &amp; Authorization</a></li>
+                
+            <li class="second-level"><a href="#apps">Apps ??</a></li>
+                
+            <li class="second-level"><a href="#versions">Versions</a></li>
+                
+            <li class="second-level"><a href="#crash">Crash ??</a></li>
+                
+            <li class="second-level"><a href="#cli">CLI</a></li>
+                
+            <li class="second-level"><a href="#client-library">Client Library ??</a></li>
+                
+            <li class="second-level"><a href="#diagnostics-api">Diagnostics API ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="app-center-api"><a href="app-center.md">App Center</a> / API<a class="headerlink" href="#app-center-api" title="Permanent link"> #</a></h1>
+<h2 id="hockeyapp-transition">HockeyApp Transition ??<a class="headerlink" href="#hockeyapp-transition" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/appcenter/transition/index">HockeyApp Transition - Visual Studio App Center | Microsoft Docs</a> #ril</li>
+</ul>
+<h2 id="auth">Authentication &amp; Authorization<a class="headerlink" href="#auth" title="Permanent link"> #</a></h2>
+<ul>
+<li>每一個 API request 都必須帶有 <code>X-API-Token</code> header，可以從 Account Settings &gt; API Tokens 產生 &ndash; 可輸入 description 識別，但 token 之後就看不到了。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/appcenter/api-docs/#acquiring-an-app-center-api-token">Acquiring an App Center API token - App Center API Documentation - Visual Studio App Center | Microsoft Docs</a></p>
+<p>Acquiring an App Center API token</p>
+<ul>
+<li>
+<p>Each API request must include an API token from your App Center account; to obtain a token:</p>
+<ul>
+<li>
+<p>Account Settings &gt; API Tokens. In the text field, enter a DESCRIPTIVE NAME for your token.</p>
+</li>
+<li>
+<p>Full Access: A full access API token has all the permissions that the associated user has FOR THAT APP. For example, if the user does not have manager or developer permissions for an app, the user cannot run a test (which requires developer or manager permissions) even though the user is using a full access API token.</p>
+<p>這裡 &ldquo;for that app&rdquo; 的說法有點怪，因為畫面上也無法選擇特定的 app。</p>
+</li>
+<li>
+<p>Read Only: A read only API token has viewer access permissions. For example, with a read only API token, the user can perform actions such as reading data from crashes, analytics, and getting basic app information. Users cannot perform actions such as changing the app settings, triggering a build, creating an export configuration etc.</p>
+</li>
+<li>For security reasons, you will not be able to see or generate the same token again after you click the Close button.</li>
+</ul>
+</li>
+</ul>
+<p>Using an API Token in an API request</p>
+<ul>
+<li>When sending API requests to App Center from an application, you must include the API token in the HEADER of every request sent to App Center. Pass the API token in the request&rsquo;s <code>X-API-Token</code> header property.</li>
+</ul>
+<p>Using an API Token with the App Center Swagger</p>
+<ul>
+<li>
+<p>The App Center Swagger handles API authentication for you, so you don&rsquo;t have to worry about pasting the API token into all of your requests.</p>
+<p>On the upper right corner, click on the Authorize button. Under the APIToken section, paste the API token value that you just copied into the text field titled Value and click Authorize.</p>
+<p>If it shows &ldquo;Authorized&rdquo; and a Logout-Button, authorization was successful. 但外面的按鈕還是會寫 Autorize，只是右邊的鎖頭變成鎖起來的狀態。</p>
+</li>
+</ul>
+<p>Find your App Center app name and owner name</p>
+<ul>
+<li>
+<p>Some of App Center&rsquo;s API and CLI require an APP NAME and OWNER NAME as parameters. An example is the API call to remove the user from the app, <code>DELETE /v0.1/apps/{owner_name}/{app_name}/users/{user_email}</code>.</p>
+<p>You can find the app name and owner name from your App Center app URL, or using the App Center CLI.</p>
+<p>URL 帶 owner/app name 而非 ID 的設計還滿妙的!!</p>
+</li>
+<li>
+<p>When you look at your app&rsquo;s URL, it is in the format <code>https://appcenter.ms/users/{owner-name}/apps/{app-name}</code>. OWNER CAN BE A USER OR AN ORGANIZATION. For example,</p>
+<ul>
+<li>User <code>https://appcenter.ms/users/joedeveloper/apps/DiceOut-01</code> &rarr; <code>joedeveloper</code> / <code>DiceOut-01</code></li>
+<li>Org  <code>https://appcenter.ms/orgs/CrystalGeyser/apps/MacOS-app</code> &rarr; <code>CrystalGeyser</code> / <code>MacOS-app</code></li>
+</ul>
+<p>注意 owner 會因 user 或 org 不同，而有 <code>users/{owner_name}</code> 與 <code>orgs/{owner_name}</code> 的差異。</p>
+</li>
+<li>
+<p>Execute the following command: <code>appcenter apps list</code> App Center displays a list of apps with the format <code>{owner-name}/{app-name}</code>.</p>
+<p>從 <code>owner-name</code> 無法直接分辦 owner 是 user 還是 organization，除非命名上有特別提示。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="apps">Apps ??<a class="headerlink" href="#apps" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://openapi.appcenter.ms/#operations-account-apps_listForOrg"><code>GET /v0.1/orgs/{org_name}/apps</code> - App Center API</a></p>
+<ul>
+<li>
+<p>Returns a list of apps for the organization</p>
+<p>實驗發現，即便只是讀取，用 Read Only 的 API token 會遇到 <code>{"message":"Forbidden","code":"Forbidden"}</code> 的錯誤，改用 Full Access 即可。</p>
+</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li><code>org_name</code> - The organization’s name</li>
+</ul>
+<p>Responses</p>
+<pre><code>[AppResponse {
+  id*: string($uuid) // The unique ID (UUID) of the app
+  description: string // The description of the app
+  display_name*: string // The display name of the app
+  release_type: string // A one-word descriptive release-type value that starts with a capital letter but is otherwise lowercase
+  icon_url: string // The string representation of the URL pointing to the app’s icon
+  icon_source: string // The string representation of the source of the app’s icon
+  name*: string // The name of the app used in URLs
+  os*: string // The OS the app will be running on (1)
+  owner*: Owner { // The information about the app’s owner
+    id*: string($uuid) // The unique id (UUID) of the owner
+    avatar_url: string // The avatar URL of the owner
+    display_name*: string // The owner’s display name
+    email: string // The owner’s email address
+    name*: string // The unique name that used to identify the owner
+    type*: string // The owner type. Can either be ‘org’ or ‘user’
+  }
+  app_secret*: string // A unique and secret key used to identify the app in communication with the ingestion endpoint for crash reporting and analytics
+  azure_subscription: AzureSubscriptionResponse { ... }
+  platform*: string // The platform of the app (2)
+  origin*: string // The creation origin of this app (3)
+  created_at: string // The created date of this app
+  updated_at: string // The last updated date of this app
+  member_permissions: [ // The permissions of the calling user (string) (4)
+  ]
+</code></pre>
+<ol>
+<li><code>os</code> 的值可以是 <code>[Android, iOS, macOS, Tizen, tvOS, Windows, Linux, Custom]</code></li>
+<li><code>platform</code> 的值可以是 <code>[Java, Objective-C-Swift, UWP, Cordova, React-Native, Unity, Electron, Xamarin, Unknown]</code></li>
+<li><code>origin</code> 的值可以是 <code>[appcenter, hockeyapp, codepush]</code></li>
+<li><code>member_permissions</code> 的內容可以是 <code>[manager, developer, viewer, tester]</code></li>
+</ol>
+</li>
+</ul>
+<h2 id="versions">Versions<a class="headerlink" href="#versions" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>跟 version 列表相關的 endpoint 有：</p>
+<ul>
+<li>
+<p>Distribute <code>GET /v0.1/apps/{owner_name}/{app_name}/releases</code></p>
+<p>Return basic information about releases.</p>
+</li>
+<li>
+<p>Analytics <code>GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions</code></p>
+<p>Count of active versions IN THE TIME RANGE ordered by version.</p>
+</li>
+</ul>
+<p>後者是用來取各版本的使用量，所以只能針對某個日期區間查詢，前者傳回的資料跟 App Center 介面 Distribute &gt; Releases 的資料很像，可以用來列舉所有的 version。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://openapi.appcenter.ms/#operations-distribute-releases_list">Distribute <code>GET /v0.1/apps/{owner_name}/{app_name}/releases</code> - App Center API</a></p>
+<ul>
+<li>Return basic information about releases.</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>published_only</code>: <code>boolean</code> (query)</p>
+<p>When <code>true</code>, filters out releases that were uploaded but were never distributed. Releases that under deleted distribution groups will not be filtered out.</p>
+<p>雖然型態是 <code>boolean</code>，其實就是要求字串 <code>true</code>/<code>false</code>；什麼是 distributed ??</p>
+</li>
+<li>
+<p><code>scope</code>: <code>string</code> (query)</p>
+<p>When the scope is <code>tester</code>, only includes releases that have been distributed to groups that the user belongs to.</p>
+</li>
+<li>
+<p><code>owner_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the owner</p>
+</li>
+<li>
+<p><code>app_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the application</p>
+</li>
+</ul>
+<p>Responses</p>
+<pre><code>[{
+  id: integer, // ID identifying this unique release.
+  version: string, // The release’s version.             (1)
+  short_version: string, // The release’s short version. (1)
+  enabled: bolean, // This value determines the whether a release currently is enabled or disabled. (2)
+  uploaded_at: string, // UTC time in ISO 8601 format of the uploaded time.
+  destination_type: string, // OBSOLETE. Will be removed in next version. The destination type. (3)
+  distribution_groups: [{...}], // OBSOLETE. Will be removed in next version. A list of distribution groups that are associated with this release.
+  distribution_stores: [{...}], // OBSOLETE. Will be removed in next version. A list of distribution stores that are associated with this release.
+  destinations: [{...}], // A list of distribution groups or stores.
+  build: {
+    branch: string, // The branch name of the build producing the release
+    commit_hash: string, // The commit hash of the build producing the release
+    commit_message: string, // The commit message of the build producing the release
+  }
+}]
+</code></pre>
+<ol>
+<li>
+<p><code>version</code> 跟 <code>short_version</code> 分別來自各平台提供的 metadata：</p>
+<p><code>version</code>: For iOS: <code>CFBundleVersion</code> from <code>info.plist</code>. For Android: <code>android:versionCode</code> from <code>AppManifest.xml</code>.</p>
+<p><code>short_version</code>: For iOS: <code>CFBundleShortVersionString</code> from <code>info.plist</code>. For Android: <code>android:versionName</code> from <code>AppManifest.xml</code>.</p>
+<p>有趣的是，就 Android 而言 <code>version</code> 指的是 version code，而 <code>short_version</code> 才是比較長的 version name。</p>
+</li>
+<li>
+<p><code>enabled</code> 的說明 &ldquo;whether a release currently is enabled or disabled&rdquo; 從字面上看不出指的是什麼，因為 HockeyApp 的管理介面有 2 個可能相關的選項：</p>
+<ul>
+<li>Status: This value should be identical to the app&rsquo;s approval or release status.</li>
+<li>Crash Reports: This option enables that the server accepts crash reports for this version.</li>
+</ul>
+<p>猜想跟 Crash Reports 的開關比較像 ??</p>
+</li>
+<li>
+<p><code>destination_type</code> 的值可以是 <code>group</code> 或 <code>store</code></p>
+<p><code>group</code>: The release distributed to internal groups and distribution_groups details will be returned.</p>
+<p><code>store</code>: The release distributed to external stores and distribution_stores details will be returned.</p>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://openapi.appcenter.ms/#operations-analytics-Analytics_Versions">Analytics <code>GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions</code> - App Center API</a></p>
+<ul>
+<li>
+<p>COUNT of ACTIVE versions in the TIME RANGE ordered by version.</p>
+<p>其中 count 感覺像是安裝數或 active user，但使用者若沒發生 crash，App Center 怎麼會知道 ??</p>
+</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>start</code>: <code>string($date-time)</code> (query, required)</p>
+<p>Start date time in data in ISO 8601 date time format</p>
+<p>離今天超過 90 天，會丟出 <code>From query parameter has to be less than 90 days old.</code> 的錯誤，不適合用來取得所有的 version ??</p>
+</li>
+<li>
+<p><code>end</code>: <code>string($date-time)</code> (query)</p>
+<p>Last date time in data in ISO 8601 date time format</p>
+</li>
+<li>
+<p><code>$top</code>: <code>integer($int64)</code> (query)</p>
+<p>The maximum number of results to return. (0 will fetch all results) Default value : 30</p>
+<p>參數名稱真有前置的 <code>$</code>，2019-06-03 實驗發現給 <code>0</code> 時反而拿不到結果，而且預設值是 10 而非 30。</p>
+</li>
+<li>
+<p><code>versions</code>: <code>array[string]</code> (query)</p>
+<p>實驗發現是只傳回指定 version 的數據。</p>
+</li>
+<li>
+<p><code>owner_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the owner</p>
+</li>
+<li>
+<p><code>app_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the application</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://openapi.appcenter.ms/#operations-crash-crashes_getAppVersions">Crash <code>GET /v0.1/apps/{owner_name}/{app_name}/versions</code> - App Center API</a></p>
+<ul>
+<li>
+<p>Gets a list of application versions. AVAILABLE FOR UWP APPS ONLY. (Deprecated)</p>
+<p>不像 <code>GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions</code> 需要提供時段，跟 <a href="https://support.hockeyapp.net/kb/api/api-versions#-u-get-api-2-apps-app_id-app_versions-u-">HockeyApp <code>GET /api/2/apps/APP_ID/app_versions</code></a> 的用法比較像。</p>
+</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>owner_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the owner</p>
+</li>
+<li>
+<p><code>app_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the application</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="crash">Crash ??<a class="headerlink" href="#crash" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://openapi.appcenter.ms/#operations-errors-Errors_GroupList">Errors <code>GET /v0.1/apps/{owner_name}/{app_name}/errors/errorGroups</code> - App Center API</a></p>
+<ul>
+<li>List of error groups</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>version</code>: <code>string($string)</code> (query)</p>
+<p>預設會傳回所有 version 的資料，提供 <code>version</code> 時才會只傳回該 version 的資料。</p>
+</li>
+<li>
+<p><code>groupState</code>: <code>string($string)</code> (query)</p>
+</li>
+<li>
+<p><code>start</code>: <code>string($date-time)</code> (query, required)</p>
+<p>Start date time in data in ISO 8601 date time format</p>
+<p>開始時間一定要給，跟 Analytics <code>GET /v0.1/apps/{owner_name}/{app_name}/analytics/versions</code> 一樣，超過 90 天會丟 <code>From query parameter has to be less than 90 days old.</code> 的錯誤。</p>
+</li>
+<li>
+<p><code>end</code>: <code>string($date-time)</code> (query)</p>
+<p>Last date time in data in ISO 8601 date time format</p>
+</li>
+<li>
+<p><code>$orderby</code>: <code>string</code> (query)</p>
+<p>controls the sorting order and sorting based on which column. Default value : <code>count desc</code></p>
+</li>
+<li>
+<p><code>$top</code>: <code>integer($int64)</code> (query)</p>
+<p>The maximum number of results to return. (0 will fetch all results till the max number.) Default value : 30</p>
+</li>
+<li>
+<p><code>errorType</code>: <code>string</code> (query)</p>
+<p>Type of error (handled vs unhandled), including All</p>
+<p>Available values : <code>all</code>, <code>unhandledError</code>, <code>handledError</code></p>
+</li>
+<li>
+<p><code>owner_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the owner</p>
+</li>
+<li>
+<p><code>app_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the application</p>
+</li>
+</ul>
+<p>Responses</p>
+<pre><code>{
+  nextLink: string, // (1)
+  errorGroups: [{
+    state*: string, // open, closed, ignored (2)
+    annotation: string,
+    errorGroupId*: string,
+    appVersion*: string, (3)
+    appBuild: string,
+    count*: integer($int64), // (4)
+    deviceCount*: integer($int64),
+    firstOccurrence*: string($date-time),
+    lastOccurrence*: string($date-time),
+    exceptionType: string,
+    exceptionMessage: string,
+    exceptionClassName: string,
+    exceptionClassMethod: boolean,
+    exceptionMethod: string,
+    exceptionAppCode: boolean,
+    exceptionFile: string,
+    exceptionLine: string,
+    codeRaw: string,
+    reasonFrames: [{...}],
+    }]
+  }]
+}
+</code></pre>
+<ol>
+<li><code>nextLink</code> 似乎跟分頁有關?? 會多一個 <code>$token</code> 參數</li>
+<li>
+<p>發現線上 API 會回傳 <code>Open</code> 而非 <code>open</code>，導致 Swagger Codegen 產生的程式在檢查結果時會出錯 XD</p>
+</li>
+<li>
+<p>觀察 <code>appVersion</code> 的值不論是 Android 或 iOS 都固定是 <code>GET /v0.1/apps/{owner_name}/{app_name}/releases</code> 的 <code>short_version</code> 而非 <code>version</code>。</p>
+<p>也因此，查詢時若要限定 version，傳入的也是 <code>short_version</code>。</p>
+</li>
+<li>
+<p><code>count</code> 是指該 error group 從 <code>start</code> 到 <code>end</code> (或現在) 發生的次數，若一個版本存在久一點，數字不一定會一直往上長 ??</p>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://openapi.appcenter.ms/#operations-errors-Errors_CountsPerDay">Errors <code>/v0.1/apps/{owner_name}/{app_name}/errors/errorCountsPerDay</code> - App Center API</a></p>
+<ul>
+<li>
+<p>Count of crashes or errors by day in the time range based the SELECTED VERSIONS. If <code>SingleErrorTypeParameter</code> is not provided, defaults to <code>handlederror</code>.</p>
+<p>文件怎麼可以錯成這樣 XD &hellip; 是 <code>errorType</code>，預設是 <code>handledError</code>。</p>
+</li>
+</ul>
+<p>Parameter</p>
+<ul>
+<li>
+<p><code>version</code>: <code>string($string)</code> (query)</p>
+</li>
+<li>
+<p><code>start</code>: <code>string($date-time)</code> (query, required)</p>
+<p>Start date time in data in ISO 8601 date time format</p>
+</li>
+<li>
+<p><code>end</code>: <code>string($date-time)</code> (query)</p>
+<p>Last date time in data in ISO 8601 date time format</p>
+</li>
+<li>
+<p><code>errorType</code>: <code>string</code> (query)</p>
+<p>Type of error (handled vs unhandled), excluding All. Available values : <code>unhandledError</code>, <code>handledError</code></p>
+<p>為什麼跟 <code>GET /v0.1/apps/{owner_name}/{app_name}/errors/errorGroups</code> 有 including/excluding All 的差別 ??</p>
+</li>
+<li>
+<p><code>owner_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the owner</p>
+</li>
+<li>
+<p><code>app_name</code>: <code>string</code> (path, required)</p>
+<p>The name of the application</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/appcenter/cli/">App Center Command Line Interface (CLI) - Visual Studio App Center | Microsoft Docs</a></p>
+<ul>
+<li>App Center command line interface is a unified tool for running App Center services from the command line. Our aim is to offer a concise and powerful tool for our developers to use App Center services and easily SCRIPT A SEQUENCE OF COMMANDS that they&rsquo;d like to execute. You can currently LOGIN and view/configure all the apps that you have access to in App Center.</li>
+<li>Although our current feature set is minimal, all the existing App Center services will be added going forward. Note that the App Center CLI is currently in PUBLIC PREVIEW.</li>
+<li>To get more information on CLI installation and currently supported commands, please refer to <a href="https://github.com/Microsoft/mobile-center-cli">App Center CLI GitHub repo</a>.</li>
+</ul>
+<p>Getting Started</p>
+<ul>
+<li>App Center CLI requires Node.js version 8 or better.</li>
+<li>
+<p>Open a terminal/command prompt, and run <code>npm install -g appcenter-cli</code>.</p>
+</li>
+<li>
+<p>Run <code>appcenter login</code>. This will open a BROWSER and generate a new API token. Copy the API token from the browser, and paste this into the command window.</p>
+<p>自動產生的 token 也可以在 Account Settings &gt; API Tokens 看到，description 是電腦名稱，access 固定是 Full Access。這個 token 會被存在 <code>~/.appcenter-cli/profile.json</code>。</p>
+<pre><code>$ cat ~/.appcenter-cli/profile.json | jq .
+{
+  "userId": "1234-abcd-5678",
+  "userName": "imsardine",
+  "displayName": "Jeremy Kao",
+  "email": "imsardine@gmail.com",
+  "tokenSuppliedByUser": false
+}
+</code></pre>
+</li>
+<li>
+<p>There are two ways to use App Center CLI commands without running appcenter login prior:</p>
+<ul>
+<li>
+<p>Using the <code>--token</code> parameter: Create a Full Access API token (See steps 1-5). Open a terminal/command window. Add the <code>--token</code> switch to the CLI command you are running. For example, run <code>appcenter apps list --token {API-token}</code> to get a list of your configured applications.</p>
+</li>
+<li>
+<p>Using the <code>APPCENTER_ACCESS_TOKEN</code> environment variable: You can set the <code>APPCENTER_ACCESS_TOKEN</code> environment variable with your API token. This will work without having to append the <code>--token</code> switch to each CLI command.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Running your first CLI command: Open a terminal/command window. Run <code>appcenter</code> to see a list of CLI commands. Run <code>appcenter profile list</code> to get the information about logged in user.</p>
+<p>For more details on a list of CLI commands, please refer to App Center CLI GitHub repo.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="client-library">Client Library ??<a class="headerlink" href="#client-library" title="Permanent link"> #</a></h2>
+<p>由於 API 用 OpenAPI Specification 定義，可以用 Swagger Codegen 產生 client library，以 Python 為例：</p>
+<pre><code>$ swagger-codegen generate -l python -DpackageName= -o /local/out \
+    -i https://api.appcenter.ms/preview/swagger.json
+</code></pre>
+
+<h2 id="diagnostics-api">Diagnostics API ??<a class="headerlink" href="#diagnostics-api" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/appcenter/diagnostics/using-the-diagnostics-api">Using the Diagnostics API - Visual Studio App Center | Microsoft Docs</a></p>
+<p>Transitioning to the new APIs</p>
+<ul>
+<li>
+<p>With our <a href="https://devblogs.microsoft.com/appcenter/announcing-the-general-availability-of-app-center-diagnostics/">App Center Diagnostics General Availability announcement</a>, we made some changes in our APIs to enable an improved BACKEND PIPELINE to process your crashes and errors. Depending on which APIs you use, there might be some action required on your end to ensure a smooth transition.</p>
+<p>按 &ldquo;crashes and errors&rdquo;，這兩種是不同的東西? 不過從 Old CrashesAPIs &rarr; New Crashes APIs 的對照表看來，只是將 crash 更名為 error 而已；另外 crash reason 也更名為 error group。</p>
+<p>There are three types of crashes APIs:</p>
+<ul>
+<li>Crashes APIs that map to new APIs after GA</li>
+<li>Crashes APIs that no longer exist after GA</li>
+<li>Crashes APIs that remain unaltered</li>
+</ul>
+</li>
+</ul>
+<p>Crashes APIs that map to new APIs</p>
+<ul>
+<li>
+<p>Old APIs that now map to new APIs will be DEPRECATED NO LATER THAN JANUARY 2019. The old APIs will continue to work until then but you will need to use the new diagnostics APIs as listed in the table below before January 2019.</p>
+<p>Old crashes APIs marked as deprecated will still be available past January 2019 for UWP apps.</p>
+<p>也就是依平台要分別往不同的 API endpoint 取資料，不過 App Center 前台看 UWP app 時會被提示 &ldquo;Crashes for this app can’t be forwarded from HockeyApp yet but we are working hard so that you can see all your data in one place.&rdquo;</p>
+</li>
+</ul>
+<p>Crashes APIs that no longer exist</p>
+<ul>
+<li>There are few crashes APIs that are deprecated due to changes in our backend pipeline. App Center is also now FORWARDING crashes from HockeyApp to App Center and these APIs are NO LONGER NEEDED. Read the HockeyApp migration documentation to learn more about the transition.</li>
+</ul>
+<p>Unaltered Crashes APIs</p>
+<ul>
+<li>
+<p>There are some crashes APIs that remain the same in the new pipeline. The following APIs will continue to work as expected and there is no action needed AT THIS TIME.</p>
+<p>只是暫時不會動到。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://openapi.appcenter.ms/#/analytics/Analytics_Versions"><code>/apps/.../analytics/versions</code> - App Center API</a> #ril</p>
+<ul>
+<li>Count of ACTIVE?? versions in the time range ordered by version.</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>start</code> (required) - Start date time in data in ISO 8601 date time format</p>
+<p>只能是 90 天內的日期，否則會遇到下面的錯誤：</p>
+<pre><code>{
+  "error": {
+    "code": "InvalidInput",
+    "message": "From query parameter has to be less than 90 days old."
+  }
+}
+</code></pre>
+</li>
+<li>
+<p><code>end</code> - Last date time in data in ISO 8601 date time format</p>
+</li>
+<li><code>$top</code> - The maximum number of results to return. (0 will fetch all results)</li>
+<li><code>versions</code> - ? 要取 version 為什麼又給 version?</li>
+<li><code>owner_name</code> (required) - The name of the owner</li>
+<li><code>app_name</code> (required) - The name of the application</li>
+</ul>
+<p>Responses</p>
+<ul>
+<li>
+<p>Example Value</p>
+<pre><code>{
+  "versions": [
+    {
+      "version": "string",
+      "count": 0,
+      "previous_count": 0
+    }
+  ],
+  "total": 0
+}
+</code></pre>
+</li>
+<li>
+<p>Model</p>
+<pre><code>Versions {
+  versions [
+    list of version count
+
+    Version{
+      version - string - version
+      count - integer($int64) - version count
+      previous_count - integer($int64) - the count of previous time range of the version
+  }]
+  total - integer($int64) - the total count of versions
+}
+</code></pre>
+<p>資料明顯比 HockeyApp 的 <a href="https://support.hockeyapp.net/kb/api/api-versions"><code>/apps/.../app_versions</code></a> 少很多。什麼是 version code?? 看似某個版本的安裝數量?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://openapi.appcenter.ms/#/distribute/releases_list"><code>/apps/.../releases</code> - App Center API</a> #ril</p>
+<p>Return basic information about releases.</p>
+<p>跟前端 Distribute &gt; Releases 顯示的內容一致，只是畫面上的 Unique、Totoal (xxx downloads) 在 response 裡看不到?</p>
+<p>Parameters</p>
+<ul>
+<li><code>published_only</code> (boolean) - When <code>true</code>, filters out releases that were uploaded but were never DISTRIBUTED. Releases that under DELETED DISTRIBUTION GROUPS will not be filtered out. 預設是 <code>false</code>。</li>
+<li><code>scope</code> (string) - When the scope is <code>tester</code>, only includes releases that have been distributed to groups that THE USER BELONGS TO.</li>
+<li><code>owner_name</code> (path) - The name of the owner</li>
+<li><code>app_name</code> (path) - The name of the application</li>
+</ul>
+<p>Responses</p>
+<ul>
+<li>
+<p>Example Value</p>
+<pre><code>[
+  {
+    "id": 0,
+    "version": "string",
+    "short_version": "string",
+    "enabled": true,
+    "uploaded_at": "string",
+    "destination_type": "group",
+    "distribution_groups": [
+      {
+        "name": "string",
+        "id": "string",
+        "is_latest": true
+      }
+    ],
+    "distribution_stores": [
+      {
+        "name": "string",
+        "id": "string",
+        "is_latest": true,
+        "type": "intune",
+        "publishing_status": "string"
+      }
+    ],
+    "destinations": [
+      {
+        "name": "string",
+        "id": "string",
+        "is_latest": true,
+        "type": "intune",
+        "publishing_status": "string",
+        "destination_type": "group"
+      }
+    ],
+    "build": {
+      "branch": "string",
+      "commit_hash": "string",
+      "commit_message": "string"
+    }
+  }
+]
+</code></pre>
+</li>
+<li>
+<p>Model</p>
+<p>展開很細!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://devblogs.microsoft.com/appcenter/announcing-the-general-availability-of-app-center-diagnostics/">Announcing the General Availability of App Center Diagnostics</a> (2018-11-15) #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/Microsoft/appcenter-cli">Microsoft/appcenter-cli - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://openapi.appcenter.ms/">App Center API</a></li>
+<li><a href="https://github.com/microsoft/appcenter-cli#commands">Commands - Microsoft/appcenter-cli - GitHub</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

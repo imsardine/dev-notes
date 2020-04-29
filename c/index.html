@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/c/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>C - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/c.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#c">C</a></li>
+            <li class="second-level"><a href="#_1">為什麼要學 ??</a></li>
+                
+            <li class="second-level"><a href="#c_1">跟 C++ 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#ansi-c99-c11">ANSI, C99, C11 ??</a></li>
+                
+            <li class="second-level"><a href="#debugging">Debugging ??</a></li>
+                
+            <li class="second-level"><a href="#c-standard-library">C Standard Library</a></li>
+                
+            <li class="second-level"><a href="#_2">慣例</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS</a></li>
+            <li class="second-level"><a href="#_3">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="c">C<a class="headerlink" href="#c" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/C_(programming_language)">C (programming language) - Wikipedia</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/">Learn to code using the C programming language on your Mac - Macworld UK</a> (2016-05-26)</p>
+<ul>
+<li>
+<p>The C programming language has been around since the 1970s, but it has NEVER GONE OUT OF STYLE, and learning C is one of the best computer skills you can acquire. Mac OS X comes with C built into it, and Apple has used C while making every aspect of OS X and iOS.</p>
+</li>
+<li>
+<p>Because C is such a popular language, it even forms the basis of many other programming languages, including two big names: C++ and Objective-C. And even though Apple is migrating from Objective-C to Swift, guess what languages Apple used to build Swift? Throughout the Swift code, you&rsquo;ll find C and C++ files.</p>
+<p>雖然 Apple 正把 Objective-C 往 Swift 遷移，但 Swift 本身就是 C 跟 C++ 寫的。</p>
+</li>
+<li>
+<p>You&rsquo;re almost SURE NEVER TO USE C PROFESSIONALLY, but learning it is a rite of passage for programmers. The C programming language has influenced many other languages. Learning C enables you to UNDERSTAND WHAT&rsquo;S GOING INSIDE A COMPUTER IN GENERAL.</p>
+</li>
+<li>
+<p>C is also a curious creature, in that it&rsquo;s a HIGH-LEVEL language (these are the easy ones to understand), but with LOW-LEVEL elements (so-called because they are &ldquo;close to the metal&rdquo;).</p>
+<p>The C syntax is similar to many modern programming languages. However, you have to learn how to allocate memory, free up memory to prevent leaks and use memory addresses and pointers (memory blocks that point to other memory blocks). All of this memory management will most likely drive you to tears at some point, but it&rsquo;s superb for understanding what a programming language is doing.</p>
+<p>This complexity is why C is used in courses such as Harvard&rsquo;s CS50: Introduction to Computer Science. More modern languages, like Python, take care of memory for you; which is better for day-to-day use, but not as good educationally.</p>
+<p>C 屬於高階語言 (high-level language)，但有許多低階的操作，尤其是要自己做記憶體管理，許多語言像 Python 已經幫你把記憶體的管理處理掉，使得 C 更適合拿來做為教材，讓你瞭解電腦內部的運作；Harvard&rsquo;s CS50 就是用 C 做為教材。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikibooks.org/wiki/C_Programming/Why_learn_C%3F">C Programming/Why learn C? - Wikibooks, open books for an open world</a> #ril</p>
+<ul>
+<li>C 最常被拿來寫 OS，最早是 Unix，然後是 Windows, Mac OS X, GNU/Linux。另外，許多 high-level languages 本身也都是用 C 寫的 (Perl, PHP, Python&hellip;)</li>
+<li>Assembly language 強調的是 speed 跟 maximum control (但每個 device/architecture 之間的 assembly language 並不相容)，而 C 則在上面疊加了 portability 但又能維持住 performance。</li>
+<li>有 &ldquo;what you see is all you get&rdquo; 一說，因為 C statement 直接跟少量的 assembly statements 對應。</li>
+<li>OS 用 C 寫，很自然地 high-level libraries (OpenGL, GTK 等) 大部份也會用 C 寫，之後特別要求效能的應用 (game, media players 等) 也會用 C 來寫 &hellip; (pattern)</li>
+</ul>
+</li>
+<li><a href="https://en.wikibooks.org/wiki/C_Programming/History">C Programming/History - Wikibooks, open books for an open world</a> #ril<ul>
+<li>UNIX 的 portability 讓 UNIX 跟 C 變得流行 (因為 UNIX 是用 C 寫的)</li>
+<li>只要為系統特有的部份寫一段程式，再搭配該系統的 C compiler，就可以讓程式執行在不同的系統上。</li>
+</ul>
+</li>
+<li>Chapter 1: Getting Started - Let Us C, 5<sup>th</sup> Edition (2004.) #ril<ul>
+<li>每個語言都有 4 個面向 &ndash; 如何儲存資料、如何操作資料、如何處理 input/output、如何控制程式的執行順序。</li>
+<li>C 在 1972 由 Dennis Ritchie 在 AT&amp;T Bell 實驗室發展出來，在 70 年代後期 C 開始取代其他常見的語言 (例如 PL/I、ALGOL 等)，沒有任何推廣，所以 Ritchie 自己也很意外；可能是它 reliable、simple 及 easy to use 的特性。</li>
+</ul>
+</li>
+<li><a href="[博客來-深入淺出 C](http://www.books.com.tw/products/0010564017)">1. 千里之行始於足下 - 歐萊禮 - 深入淺出 C</a> (2012-11) p2. 被應用在重視速度、空間和可攜性 (portability) 的地方，多數的作業系統跟程式語言都用 C 寫，大多數的遊戲更是。</li>
+<li><a href="http://www.books.com.tw/products/0010360466">旗標 - C 語言教學手冊 (第四版)</a> (2007-04) p1-4 C 語言具有低階語言的優點 (對硬體的控制能力佳)，同時兼顧了高階語言的特色 (易於撰寫、除錯)，有人稱之為 &ldquo;中階語言&rdquo;，此外 C 可以很容易與組合語言連結。</li>
+</ul>
+<h3 id="_1">為什麼要學 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h3>
+<ul>
+<li>由於 OS 底層是 C 的關係，其他語言也是在外層包裝，學習 C 有助於瞭解底層的高階包裝。</li>
+<li>Chapter 1: Getting Started - Let Us C, 5<sup>th</sup> Edition (2004.)<ul>
+<li>常聽到 &ldquo;C 已經被 C++、C# 和 Java 接替，為什麼還要學 C&rdquo;，除了先用 C 打好基礎、OS/kernel/driver 用 C 寫的事實、適合資源受限的 microprocessor，作者大部份的理由都是 &ldquo;C 的效能無人能及&rdquo;，但相對 C++ 也是嗎?</li>
+</ul>
+</li>
+</ul>
+<h3 id="c_1">跟 C++ 的關係 ??<a class="headerlink" href="#c_1" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://thebittheories.com/advantages-of-c-over-c-f31f61873997">Advantages of C over C++ – The Bit Theories</a> (2016-07-21) #ril<ul>
+<li>許多人宣稱 C++ 比 C 好，但有些人不這麼認為；但都認同有些 C 的經驗後，可以切到 C++，因為在寫 C 的同時，可以用到 C++ 的東西。</li>
+<li>作者列出一些 C 比 C++ 好的幾個點，包括 less runtime support、更適用於 kernel/driver development 等&hellip;</li>
+</ul>
+</li>
+<li><a href="http://www.ssipeople.com/2015/04/28/which-should-you-learn-first-c-or-c/">Should You Learn C Or C++ First? | Software Specialists</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/497786/">Why would anybody use C over C++? - Stack Overflow</a> #ril</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/113295/">When to use C over C++, and C++ over C? - Software Engineering Stack Exchange</a> #ril</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/16390/">What are the fundamental differences between C and C++? - Software Engineering Stack Exchange</a> #ril</li>
+<li><a href="https://www.quora.com/What-are-the-advantages-of-using-C-over-C-1">What are the advantages of using C over C++? - Quora</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Compatibility_of_C_and_C%2B%2B">Compatibility of C and C++ - Wikipedia</a> #rl</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code>$ vi hello.c
+$ make hello
+cc     hello.c   -o hello
+
+$ ./hello
+Hi, my name is Judy, and I'm 15 years old.
+</code></pre>
+
+<p><code>hello.c</code>:</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int age = 15;
+    char name[] = &quot;Judy&quot;;
+    printf(&quot;Hi, my name is %s, and I'm %d years old.\n&quot;, name, age);
+
+    return 0;
+}
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/#toc-3639920-2">How to set up C in OS X - Learn to code using the C programming language on your Mac - Macworld UK</a> (2016-05-26)</p>
+<ul>
+<li>
+<p>Like Python, it&rsquo;s easy to set up C in OS X. Mostly because it&rsquo;s already packaged in the system and you don&rsquo;t need to install anything.</p>
+</li>
+<li>
+<p>There are multiple standards for C, and the two you&rsquo;ll come across most are C99 and C11. As a newcomer, you don&rsquo;t need to worry too much about these, and you&rsquo;ll almost certainly learn C99 then discover the new features in C11.</p>
+<p>只要知道 C11 (2011) 比 C99 (1999) 新就好。</p>
+</li>
+<li>
+<p>C differs from other programming languages, like Python, in that you need to compile programs before you can run them. You&rsquo;ll typically do this in C using the command &ldquo;<code>make</code>&rdquo;. C programs end with the &ldquo;<code>.c</code>&rdquo; extension, and you&rsquo;ll run <code>make</code> to build a second file, that is the compiled program. The compiled file is what you run.</p>
+<pre><code>#include &lt;stdio.h&gt;
+#import
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+</code></pre>
+<p>執行 <code>make hello</code> 即可完成編譯。</p>
+<pre><code>$ make hello
+cc     hello.c   -o hello
+$ ./hello
+Hello, World!
+$ ls -l hello
+-rwxr-xr-x  1 jeremykao  wheel  8432 Apr 27 08:41 hello
+</code></pre>
+<p>小小的 <code>hello.c</code> 編出來有 8432 bytes，是因為 <code>stdio.h</code> 整個包進去了嗎??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>大朋友可以從 C Programming Language, 2<sup>nd</sup> Edition 下手。</li>
+<li>Head First C 好像很適合小朋友? 寫作風格很活潑；在那之前還可以先看過 Head First Programming。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><code>long long</code> 是什麼?</p>
+<ul>
+<li>c - What kind of data type is &ldquo;long long&rdquo;? - Stack Overflow <a href="http://stackoverflow.com/questions/2127473/">http://stackoverflow.com/questions/2127473/</a> C99 是 integer，但至少要 64-bits。</li>
+<li>types - long long in C/C++ - Stack Overflow <a href="http://stackoverflow.com/questions/1458923/">http://stackoverflow.com/questions/1458923/</a> <code>long long</code> 的 literal 要加後綴 <code>LL</code>，例如 <code>long long num = 123LL</code>。</li>
+</ul>
+</li>
+<li>
+<p>預設是 signed?? 跟 <code>short</code>/<code>long</code> 一起使用時的順序??</p>
+<ul>
+<li>c - Is the integer constant&rsquo;s default type signed or unsigned? - Stack Overflow <a href="http://stackoverflow.com/questions/11310456/">http://stackoverflow.com/questions/11310456/</a> Integer constant 沒有 suffix 時要視為 signed int 或 unsigned int? ouah 提到 decimal/octal/hexadecimal 的規則不同，但概念上都是 &ldquo;first type the value can fit in&rdquo;；就 decimal constant 而言，依序是 <code>int</code>, <code>long</code>, <code>long long</code>，而 hexadecimal 依序是 <code>int</code>, <code>unsigned int</code>, <code>long</code>, <code>unsigned long</code>, <code>long long</code>, <code>unsigned long long</code> (主要都是 <code>unsigned</code>) &hellip; 不過這還是沒有回答問題。</li>
+<li>language agnostic - Default int type: Signed or Unsigned? - Stack Overflow <a href="http://stackoverflow.com/questions/1555154/">http://stackoverflow.com/questions/1555154/</a> #ril</li>
+</ul>
+</li>
+<li>
+<p>C Programming Boot Camp <a href="http://gribblelab.org/cbootcamp/">http://gribblelab.org/cbootcamp/</a> #ril</p>
+</li>
+<li>Learn c in Y Minutes <a href="https://learnxinyminutes.com/docs/c/">https://learnxinyminutes.com/docs/c/</a> 跳太快? 看了一些就開始卡了&hellip; #ril</li>
+<li>C for Python Programmers <a href="http://www.toves.org/books/cpy/">http://www.toves.org/books/cpy/</a> #ril</li>
+<li>
+<p>C and C++ for Java Programmers - Cprogramming.com <a href="http://www.cprogramming.com/java/c-and-c++-for-java-programmers.html">http://www.cprogramming.com/java/c-and-c++-for-java-programmers.html</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.quora.com/Which-book-is-best-for-learning-C-programming-by-a-beginner">Which book is best for learning C programming by a beginner? - Quora</a> 最常出現的是 The C Programming Language、Let Us C、Head First C 及 Programming in ANSI C。</p>
+<ul>
+<li>Jack Sparrow: The C Programming Language、C Programming: A Modern Approach、C Programming in 12 Easy Lessons、C for Dummies、C for Dummies Vol. II</li>
+<li>Geet Gobind Singh: Let Us C、Pointers in C、Test Your C Skills、The C Programming Language (前 3 本都是 Yashwant Kanetkar 的書)</li>
+<li>Mohammed Raiyyan: Let Us C、</li>
+<li>Subhomoy Haldar: ANSI C、Let Us C、Programming in C、The C reference Guide、Head First C、C: How to Program</li>
+<li>Vinod Chuahan: Let Us C、Head First C</li>
+<li>Kamal Rana: Let Us C、The C Programming Language</li>
+<li>Ankit Bhasker: The C Programming Language、C: The Complete Reference、Programming in ANSI C、Let Us C、Head First C</li>
+<li>Bhairab Changkakoty: Head First C</li>
+<li>Shubham Yadav: Let Us C、The C Programming Language</li>
+<li>Kumar Subham: Programming in ANSI C</li>
+<li>Shrinath Bhosale: Head First C</li>
+<li>SANUJ BHADRA: Let Us C、Programming in ANSI C</li>
+</ul>
+</li>
+</ul>
+<h2 id="ansi-c99-c11">ANSI, C99, C11 ??<a class="headerlink" href="#ansi-c99-c11" title="Permanent link"> #</a></h2>
+<ul>
+<li>C 有許多標準，差別是什麼??<ul>
+<li>Learn to code using the C programming language on your Mac - How to - Macworld UK (2016-05-26) <a href="http://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/">http://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/</a> 最常見的是 C99 跟 C11，初學者主要是從 C99 開始，然後慢慢接觸 C11 的新功能。</li>
+</ul>
+</li>
+<li>跨平台 (portable) 是透過在不同平台上重新 compile。</li>
+<li><a href="[博客來-深入淺出 C](http://www.books.com.tw/products/0010564017)">1. 千里之行始於足下 - 歐萊禮 - 深入淺出 C</a> (2012-11) p2. 有 3 種語言標準 (C standard)，ANSI C 來自 80 年代後期，1999 的 C99 有許多修正，2011 年的 C11 添加了許多酷炫的功能；版本間的差異其實不太。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/C99">C99 - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="debugging">Debugging ??<a class="headerlink" href="#debugging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://towardsdatascience.com/an-introduction-to-debugging-in-c-and-lldb-part-i-e3c51991f83a">An introduction to Debugging (in C and lldb), Part- I</a> (2018-08-15) #ril</li>
+</ul>
+<h2 id="c-standard-library">C Standard Library<a class="headerlink" href="#c-standard-library" title="Permanent link"> #</a></h2>
+<ul>
+<li>C standard library - Wikipedia <a href="https://en.wikipedia.org/wiki/C_standard_library">https://en.wikipedia.org/wiki/C_standard_library</a> #ril</li>
+<li>Standard Library 的文件要去哪裡查? 拿 <code>stdio.h</code> 裡的 <code>printf</code> 就好 =&gt; <a href="http://en.cppreference.com/w/c/io/fprintf">http://en.cppreference.com/w/c/io/fprintf</a></li>
+</ul>
+<h2 id="_2">慣例<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<ul>
+<li>習慣內縮幾格??<ul>
+<li><a href="http://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/">http://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/</a> 建議用 4 格 (除非別人的專案已經用了 tab)，但不要混用 space 跟 tab 就好。</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="macos">macOS<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://www.macworld.co.uk/how-to/mac/learn-c-in-mac-os-x-3639920/#toc-3639920-2">How to set up C in OS X - Learn to code using the C programming language on your Mac - Macworld UK</a> (2016-05-26)</p>
+<ul>
+<li>
+<p>Open terminal and enter <code>clang --version</code>. Clang is the compiler built by Apple to compile C and A BUNCH OF OTHER LANGUAGES. We get Apple LLVM version 7.3.0 (clang-703.0.29) but whatever version you&rsquo;re using is good enough to compile beginner&rsquo;s code.</p>
+<p>為什麼這裡講 Clang，但下面又用 <code>make</code> &ndash; 背後走 <code>cc</code>? 因為 <code>cc</code> 在 macOS 上指向 Clang</p>
+<pre><code>$ ls -l `which cc`
+lrwxr-xr-x  1 root  wheel  5 Mar 30 15:28 /usr/bin/cc -&gt; clang
+</code></pre>
+<p>Clang 不是裝了 Command Line Tool 才有的 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://c.learncodethehardway.org/book/ex0.html">Exercise 0: The Setup - Learn C The Hard Way</a> - Mac OS X 上要安裝 Xcode #ril</p>
+</li>
+</ul>
+<h2 id="_3">參考資料<a class="headerlink" href="#_3" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.cprogramming.com/">Learn C and C++ Programming - Cprogramming.com</a></li>
+<li><a href="http://www.learn-c.org/">Learn C - Free Interactive C Tutorial</a></li>
+<li><a href="http://www.tutorialspoint.com/compile_c_online.php">Online C Compiler</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/tagged/c">&lsquo;c&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../c-programming/">Programming</a></li>
+<li><a href="../c-type/">Data Type</a></li>
+<li><a href="../c-pointer/">Pointer</a></li>
+<li><a href="../c-build/">Build Process</a></li>
+<li><a href="../c-preprocess/">Preprocessing</a></li>
+<li><a href="../c-library/">Library</a></li>
+<li><a href="../c-random/">Random</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="http://en.wikibooks.org/wiki/C_Programming">C Programming - Wikibooks</a></li>
+<li><a href="http://c.learncodethehardway.org/book/">Learn C The Hard Way</a> (Online)</li>
+<li><a href="https://www.amazon.com/Programming-Ansi-C-Balagurusamy/dp/933921966X">India Professional - Programming in ANSI C</a> (2016-12)</li>
+<li><a href="http://www.apress.com/9781430259114">Apress - Pointers in C</a> (2013-12)</li>
+<li><a href="http://www.apress.com/9781430264002">Apress - Advanced Topics in C</a> (2013-11)</li>
+<li><a href="http://www.informit.com/store/c-primer-plus-9780321928429">Addison-Wesley - C Primer Plus, 6<sup>th</sup> Edition</a> (2013-11)</li>
+<li><a href="http://www.apress.com/9781430250982">Apress - Cryptography in C and C++</a> (2013-07)</li>
+<li><a href="http://shop.oreilly.com/product/0636920028000.do">O&rsquo;Reilly - Understanding and Using C Pointers</a> (2013-05)</li>
+<li><a href="http://www.packtpub.com/c-programming-arduino/book">Packt - C Programming for Arduino</a> (2013-05)</li>
+<li><a href="http://www.apress.com/9781430248811">Apress - Beginning C, 5<sup>th</sup> Edition</a> (2013.03)</li>
+<li><a href="http://www.apress.com/9781430245339">Apress - Learn C on the Mac, 2<sup>nd</sup> Edition</a> (2013-01)</li>
+<li><a href="http://www.apress.com/9781430247760">Apress - Beginning C for Arduino</a> (2012-12)</li>
+<li><a href="[博客來-深入淺出 C](http://www.books.com.tw/products/0010564017)">歐萊禮 - 深入淺出 C</a> (2012-11)</li>
+<li><a href="http://shop.oreilly.com/product/0636920015482.do">O&rsquo;Reilly - Head First C</a> (2012.04)</li>
+<li><a href="http://www.apress.com/9781441906052">Apress - Embedded Software Development with C</a> (2009-07)</li>
+<li><a href="http://www.apress.com/9781430218098">Apress - Learn C on the Mac</a> (2008-12)</li>
+<li><a href="http://www.books.com.tw/products/0010360466">旗標 - C 語言教學手冊 (第四版)</a> (2007-04)</li>
+<li><a href="http://shop.oreilly.com/product/9780596006976.do">O&rsquo;Reilly - C in a Nutshell</a> (2005-12)</li>
+<li><a href="http://www.informit.com/store/c-primer-plus-9780672326967">Sams - C Primer Plus, 5<sup>th</sup> Edition</a> (2004.11)</li>
+<li>BPB - Let Us C, 5<sup>th</sup> Edition (2004.)</li>
+<li><a href="http://www.informit.com/store/programming-in-c-9780672326660">Sams - Programming in C, 3<sup>rd</sup> Edition</a> (2004-07)</li>
+<li><a href="http://shop.oreilly.com/product/9780596003944.do">O&rsquo;Reilly - Secure Programming Cookbook for C and C++</a> (2003-07)</li>
+<li><a href="http://shop.oreilly.com/product/9780596004361.do">O&rsquo;Reilly - C Pocket Reference</a> (2002-11)</li>
+<li><a href="https://www.amazon.com/Programming-ANSI-C-BALAGURUSAMY/dp/1259004619">MHE - Programming in ANSI C, 6<sup>th</sup> Edition</a> (2000)</li>
+<li><a href="http://shop.oreilly.com/product/9781565923065.do">O&rsquo;Reilly - Practical C Programming, 3<sup>rd</sup> Edition</a> (1997-08)</li>
+<li><a href="http://www.informit.com/store/expert-c-programming-9780131774292">Prentice Hall - Expert C Programming</a> (1994-06)</li>
+<li><a href="http://publications.gbdirect.co.uk/c_book/">Addison Wesley - The C Book</a> (1991, Online)</li>
+<li><a href="http://shop.oreilly.com/product/9780937175231.do">O&rsquo;Reilly - Using C on the UNIX System</a> (1989-01)</li>
+<li>
+<p><a href="https://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628">Prentice Hall - C Programming Language, 2<sup>nd</sup> Edition</a> (1988.04)</p>
+</li>
+<li>
+<p>The C Programming Language - Wikipedia <a href="https://en.wikipedia.org/wiki/The_C_Programming_Language">https://en.wikipedia.org/wiki/The_C_Programming_Language</a> #ril</p>
+</li>
+<li>C Programming - Wikibooks, open books for an open world <a href="https://en.wikibooks.org/wiki/C_Programming">https://en.wikibooks.org/wiki/C_Programming</a> #ril</li>
+<li>C Tutorial <a href="https://www.tutorialspoint.com/cprogramming/">https://www.tutorialspoint.com/cprogramming/</a> #ril</li>
+<li>free-programming-books/free-programming-books.md at master · vhf/free-programming-books <a href="https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#c">https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md#c</a> #ril</li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>macOS 內建 <a href="../clang/">Clang</a> 支援 C 相關的開發</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://en.cppreference.com/w/c">C Reference - cppreference.com</a></li>
+<li><a href="sizeof operator - cppreference.com http://en.cppreference.com/w/c/language/sizeof"><code>sizeof</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-jsonschema/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>jsonschema - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-jsonschema.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#jsonschema">jsonschema</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#performance">Performance</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="jsonschema">jsonschema<a class="headerlink" href="#jsonschema" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://github.com/Julian/jsonschema">Julian/jsonschema: An(other) implementation of JSON Schema for Python</a></p>
+<ul>
+<li>
+<p><code>jsonschema</code> is an implementation of JSON Schema for Python (supporting 2.7+ including Python 3).</p>
+</li>
+<li>
+<p>It can also be used from console:</p>
+<pre><code>$ jsonschema -i sample.json sample.schema
+</code></pre>
+</li>
+</ul>
+<p>Features</p>
+<ul>
+<li>
+<p>Full support for Draft 7, Draft 6, Draft 4 and Draft 3</p>
+</li>
+<li>
+<p>LAZY VALIDATION that can iteratively report all validation errors.</p>
+<p>不用走過整份文件才能回報第一個錯誤? 還是預設只會回報第一個錯誤 ??</p>
+</li>
+<li>
+<p>Programmatic querying of which properties or items failed validation.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/Julian/jsonschema">Julian/jsonschema: An(other) implementation of JSON Schema for Python</a></p>
+<pre><code>&gt;&gt;&gt; from jsonschema import validate
+
+&gt;&gt;&gt; # A sample schema, like what we'd get from json.load()
+&gt;&gt;&gt; schema = {
+...     "type" : "object",
+...     "properties" : {
+...         "price" : {"type" : "number"},
+...         "name" : {"type" : "string"},
+...     },
+... }
+
+&gt;&gt;&gt; # If no exception is raised by validate(), the instance is valid.
+&gt;&gt;&gt; validate(instance={"name" : "Eggs", "price" : 34.99}, schema=schema)
+
+&gt;&gt;&gt; validate(
+...     instance={"name" : "Eggs", "price" : "Invalid"}, schema=schema,
+... )                                   # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+    ...
+ValidationError: 'Invalid' is not of type 'number'
+</code></pre>
+<p>用法很單純，<code>jsonschema.validate(instance, schema)</code> 沒有丟出 <code>ValidationError</code> 就是通過檢查；其中 <code>instance</code> (JSON document) 及 <code>schema</code> 都跟 <code>json.load()</code> 的結果一樣。</p>
+<p>不過以這個例子而言，<code>ValidationError</code> 沒有指出是 <code>price</code> 的資料有問題，大一點的 JSON document 會不會很難找出問題 ??</p>
+</li>
+<li>
+<p><a href="https://python-jsonschema.readthedocs.io/en/stable/validate/#the-basics">The Basics - Schema Validation — jsonschema 3.0.1 documentation</a> #ril</p>
+<ul>
+<li>The simplest way to validate an instance under a given schema is to use the <code>validate()</code> function.</li>
+</ul>
+</li>
+<li>
+<p><a href="http://code.activestate.com/recipes/579135-validate-data-easily-with-json-schema/">Validate data easily with JSON Schema « Python recipes « ActiveState Code</a> #ril</p>
+</li>
+<li><a href="https://www.peterbe.com/plog/jsonschema-validate-10x-faster-in-python">How to JSON schema validate 10x (or 100x) faster in Python - Peterbe.com</a> (2018-11-04) #ril</li>
+</ul>
+<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/Julian/jsonschema#benchmarks">Benchmarks - Julian/jsonschema: An(other) implementation of JSON Schema for Python</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 pip 安裝 <code>jsonschema</code> 套件，支援 Python 2.7+ 與 Python 3。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/Julian/jsonschema#installation">Julian/jsonschema: An(other) implementation of JSON Schema for Python</a></p>
+<p><code>jsonschema</code> is available on PyPI. You can install using pip:</p>
+<pre><code>$ pip install jsonschema
+</code></pre>
+</li>
+<li>
+<p><a href="https://github.com/Julian/jsonschema/blob/v3.0.1/setup.cfg#L26">jsonschema/setup.cfg at v3.0.1 · Julian/jsonschema</a> 相依性不少?</p>
+<pre><code>install_requires =
+    attrs&gt;=17.4.0
+    pyrsistent&gt;=0.14.0
+    setuptools
+    six&gt;=1.11.0
+    functools32;python_version&lt;'3'
+
+[options.extras_require]
+format =
+    idna
+    jsonpointer&gt;1.13
+    rfc3987
+    strict-rfc3339
+    webcolors
+</code></pre>
+<p><a href="https://python-jsonschema.readthedocs.io/en/stable/validate/#jsonschema.FormatError">Schema Validation — jsonschema 3.0.1 documentation</a> 提到 <code>pip install jsonschema[format]</code>，跟部份 format 的檢查有關。</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://python-jsonschema.readthedocs.io/">jsonschema - Read the Docs</a></li>
+<li><a href="https://github.com/Julian/jsonschema">Julian/jsonschema - GitHub</a></li>
+<li><a href="https://pypi.org/project/jsonschema/">jsonschema - PyPI</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://python-jsonschema.readthedocs.io/en/stable/validate/#jsonschema.validate"><code>jsonschema.validate()</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

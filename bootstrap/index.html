@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/bootstrap/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Bootstrap - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/bootstrap.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#bootstrap">Bootstrap</a></li>
+            <li class="second-level"><a href="#jquery">jQuery ??</a></li>
+                
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#layout">Layout ??</a></li>
+                
+            <li class="second-level"><a href="#theme">Theme ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="bootstrap">Bootstrap<a class="headerlink" href="#bootstrap" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://getbootstrap.com/">Bootstrap · The most popular HTML, CSS, and JS library in the world.</a><ul>
+<li>Build RESPONSIVE, MOBILE-FIRST projects on the web with the world’s most popular front-end COMPONENT LIBRARY.</li>
+<li>Bootstrap is an open source toolkit for developing with HTML, CSS, and JS. Quickly prototype your ideas or build your entire app with our Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful plugins BUILT ON JQUERY.</li>
+</ul>
+</li>
+</ul>
+<h2 id="jquery">jQuery ??<a class="headerlink" href="#jquery" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/twbs/bootstrap/pull/23586">v5 without jQuery by Johann-S · Pull Request #23586 · twbs/bootstrap</a> 要拔除對 jQuery 的相依 #ril</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://expo.getbootstrap.com/">Bootstrap Expo</a></li>
+<li><a href="https://getbootstrap.com/docs/4.3/examples/">Examples · Bootstrap</a></li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://getbootstrap.com/docs/4.3/getting-started/introduction/">Introduction · Bootstrap</a></p>
+<ul>
+<li>Copy-paste the stylesheet <link> into your <head> before all other stylesheets to load our CSS.</li>
+<li>
+<p>Many of our components require the use of JavaScript to function. Specifically, they require jQuery, Popper.js, and our own JavaScript plugins. Place the following <code>&lt;script&gt;</code>s near the end of your pages, RIGHT BEFORE THE CLOSING <code>&lt;/body&gt;</code> TAG, to enable them. jQuery must COME FIRST, then Popper.js, and then our JavaScript plugins.</p>
+<p>Our <code>bootstrap.bundle.js</code> and <code>bootstrap.bundle.min.js</code> include Popper, but not jQuery.</p>
+</li>
+<li>
+<p>Be sure to have your pages set up with the latest design and development standards. That means using an HTML5 DOCTYPE and including a VIEWPORT META TAG for proper responsive behaviors. Put it all together and your pages should look like this:</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;!-- Required meta tags --&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"&gt;
+
+    &lt;!-- Bootstrap CSS --&gt;
+    &lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"&gt;
+
+    &lt;title&gt;Hello, world!&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+    &lt;!-- Optional JavaScript --&gt;
+    &lt;!-- jQuery first, then Popper.js, then Bootstrap JS --&gt;
+    &lt;script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</li>
+</ul>
+<p>Important globals</p>
+<ul>
+<li>
+<p>Bootstrap employs a handful of important global styles and settings that you’ll need to be aware of when using it, all of which are almost exclusively geared towards the normalization of cross browser styles. Let’s dive in.</p>
+<p>所謂 global setting 應該是 JavaScript variable，但什麼是 global style??</p>
+</li>
+</ul>
+<p>HTML doctype</p>
+<ul>
+<li>Bootstrap requires the use of the HTML5 doctype. Without it, you’ll see some funky incomplete styling, but including it shouldn’t cause any considerable hiccups.<pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+  ...
+&lt;/html&gt;
+</code></pre>
+</li>
+</ul>
+<p>Responsive meta tag</p>
+<ul>
+<li>Bootstrap is developed mobile first, a strategy in which we optimize code for mobile devices first and then SCALE UP COMPONENTS AS NECESSARY using CSS media queries. To ensure proper rendering and touch zooming for all devices, add the responsive viewport meta tag to your <code>&lt;head&gt;</code>.<pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"&gt;
+</code></pre>
+</li>
+</ul>
+<p>Box-sizing</p>
+<ul>
+<li>
+<p>For more straightforward sizing in CSS, we switch the global <code>box-sizing</code> value from <code>content-box</code> to <code>border-box</code>. This ensures <code>padding</code> DOES NOT AFFECT THE FINAL COMPUTED WIDTH of an element, but it can cause problems with some third party software like Google Maps and Google Custom Search Engine. 指內嵌其他元件時，可能因為 <code>box-sizing</code> 不是 <code>content-box</code> 的關係導致顯示上有異常。</p>
+</li>
+<li>
+<p>On the rare occasion you need to override it, use something like the following:</p>
+<pre><code>.selector-for-some-widget {
+  box-sizing: content-box;
+}
+</code></pre>
+</li>
+</ul>
+<p>Reboot</p>
+<ul>
+<li>For improved cross-browser rendering, we use <a href="https://getbootstrap.com/docs/4.3/content/reboot/">Reboot</a> to correct inconsistencies across browsers and devices while providing slightly more OPINIONATED RESETS to common HTML elements. 這不就是 global style 嗎??</li>
+</ul>
+</li>
+</ul>
+<h2 id="layout">Layout ??<a class="headerlink" href="#layout" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://getbootstrap.com/docs/4.3/layout/overview/">Layout Overview · Bootstrap</a> #ril</li>
+</ul>
+<h2 id="theme">Theme ??<a class="headerlink" href="#theme" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://getbootstrap.com/">Official Themes - Bootstrap · The most popular HTML, CSS, and JS library in the world.</a><ul>
+<li>Take Bootstrap 4 to the next level with official PREMIUM Themes—toolkits built on Bootstrap with new components and plugins, docs, and build tools. 都是要收費的</li>
+</ul>
+</li>
+<li><a href="https://themes.getbootstrap.com/">Bootstrap Themes Built &amp; Curated by the Bootstrap Team.</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://getbootstrap.com/">Installation - Bootstrap · The most popular HTML, CSS, and JS library in the world.</a></p>
+<ul>
+<li>
+<p>Installation &ndash; Include Bootstrap’s source <a href="../sass/">Sass</a> and JavaScript files via npm, <a href="https://getcomposer.org/">Composer</a> or <a href="https://www.meteor.com/">Meteor</a>. Package managed installs don’t include documentation, but do include our build system?? and readme.</p>
+<pre><code>npm install bootstrap
+gem install bootstrap -v 4.3.1
+</code></pre>
+</li>
+<li>
+<p>BootstrapCDN &ndash; When you only need to include Bootstrap’s COMPILED CSS or JS, you can use BootstrapCDN. 為什麼有 source/compile 的概念??</p>
+<p>CSS only</p>
+<pre><code>&lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"&gt;
+</code></pre>
+<p>JS, <a href="https://popper.js.org/">Popper.js</a>??, and jQuery</p>
+<pre><code>&lt;script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"&gt;&lt;/script&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://getbootstrap.com/docs/4.3/getting-started/download/">Download · Bootstrap</a></p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://getbootstrap.com/">Bootstrap</a></li>
+<li><a href="https://github.com/twbs/bootstrap">twbs/bootstrap - GitHub</a></li>
+<li><a href="https://blog.getbootstrap.com/">Bootstrap Blog</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/getbootstrap">Bootstrap (@getbootstrap) | Twitter</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/bootstrap-4">&lsquo;bootstrap-4&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>跟 <a href="../semantic-ui/">Semantic UI</a> 是一樣的東西。</li>
+<li><a href="../sass/">Sass</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

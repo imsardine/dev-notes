@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/xml-rpc/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>XML-RPC - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/xml-rpc.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#xml-rpc">XML-RPC</a></li>
+            <li class="second-level"><a href="#data-type">Data Type ??</a></li>
+                
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="xml-rpc">XML-RPC<a class="headerlink" href="#xml-rpc" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/XML-RPC">XML-RPC - Wikipedia</a></p>
+<ul>
+<li>XML-RPC is a REMOTE PROCEDURE CALL (RPC) protocol which uses XML to encode its calls and HTTP as a transport mechanism.</li>
+<li>
+<p>The XML-RPC protocol was created in 1998 by Dave Winer of UserLand Software and Microsoft, with Microsoft seeing the protocol as an essential part of scaling up its efforts in BUSINESS-TO-BUSINESS E-COMMERCE. As new functionality was introduced, the standard evolved into what is now SOAP.</p>
+</li>
+<li>
+<p>In XML-RPC, a client performs an RPC by sending an HTTP request to a server that implements XML-RPC and receives the HTTP response. A call can have MULTIPLE PARAMETERS and ONE RESULT. The protocol defines a few DATA TYPES for the parameters and result. Some of these data types are complex, i.e. nested. For example, you can have a parameter that is an array of five integers.</p>
+<p>The parameters/result structure and the set of data types are meant to MIRROR those used in common programming languages.</p>
+</li>
+<li>
+<p>Identification of clients for authorization purposes can be achieved using popular HTTP security methods. BASIC ACCESS AUTHENTICATION can be used for identification and authentication.</p>
+<p>The protocol DOES NOT allow HTTPS, but it is a common and obvious variation to use HTTPS in place of HTTP. 不允許 HTTPS 應該只是當時規格沒載明?</p>
+</li>
+<li>
+<p>In comparison to RESTful protocols, where RESOURCE REPRESENTATIONS (documents) are transferred, XML-RPC is designed to CALL METHODS. The practical difference is just that XML-RPC is much more structured, which means COMMON LIBRARY CODE can be used to implement clients and servers and there is LESS DESIGN AND DOCUMENTATION WORK for a specific application protocol.</p>
+<p>One salient technical difference between typical RESTful protocols and XML-RPC is that the RESTful protocol uses the HTTP URI for PARAMETER information whereas with XML-RPC, the URI just identifies the server.</p>
+<p>JSON-RPC is similar to XML-RPC.</p>
+<p>應該說 XML-RPC 比較受限 (JSON-RPC 會不會好點?)，但這也不完全是壞事；XML-RPC 的 parameter 也做為 XML payload 的一部份，不像 RESTful 會有部份在 URI。</p>
+</li>
+<li>
+<p>Recent critics (from 2010 and onwards) of XML-RPC argue that RPC calls can be made with plain XML, and that XML-RPC DOES NOT ADD ANY VALUE OVER XML. Both XML-RPC and XML require an application-level data model, such as which field names are defined in the XML schema or the parameter names in XML-RPC. Furthermore, XML-RPC uses about 4 times the number of bytes compared to plain XML to encode the same objects, which is itself verbose compared to JSON.</p>
+<p>言下之意，JSON-RPC 會是更好的選擇?? 不過 Python 只內建對 XML-RPC 的支援。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.tldp.org/HOWTO/XML-RPC-HOWTO/index.html">XML-RPC HOWTO</a> #ril</p>
+</li>
+<li><a href="http://xmlrpc-c.sourceforge.net/introspection.html">XML-RPC Introspection</a> #ril</li>
+<li><a href="http://effbot.org/zone/xmlrpc-errata.htm">Unofficial XML-RPC Errata</a> #ril</li>
+</ul>
+<h2 id="data-type">Data Type ??<a class="headerlink" href="#data-type" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/XML-RPC#Data_types">Data types - XML-RPC - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../trac-api/#xml-rpc">Trac Remote API</a></li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://xmlrpc.scripting.com/">XML-RPC Home</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/xml-rpc">&lsquo;xml-rpc&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../python-xml-rpc/">Python</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>XML-RPC 是 <a href="../soap/">SOAP</a> 的前身</li>
+<li>類似於 <a href="../json-rpc/">JSON-RPC</a></li>
+<li>常被拿來跟 <a href="../rest/">RESTful</a> 比較</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://xmlrpc.scripting.com/spec.html">XML-RPC Specification</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pytest-fixture/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pytest / Fixture - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pytest-fixture.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pytest-fixture">pytest / Fixture</a></li>
+            <li class="second-level"><a href="#capsys">capsys ??</a></li>
+                
+            <li class="second-level"><a href="#caplog">caplog ??</a></li>
+                
+            <li class="second-level"><a href="#tmpdir">tmpdir ??</a></li>
+                
+            <li class="second-level"><a href="#request">request ??</a></li>
+                
+            <li class="second-level"><a href="#fixture-plugin">自建 Fixture Plugin ??</a></li>
+                
+            <li class="second-level"><a href="#setupteardown">如何實現 setup/teardown??</a></li>
+                
+            <li class="second-level"><a href="#data-file">如何取得事先安排好的 data file?</a></li>
+                
+            <li class="second-level"><a href="#fixture">如何為 Fixture 提供參數??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pytest-fixture"><a href="../pytest/">pytest</a> / Fixture<a class="headerlink" href="#pytest-fixture" title="Permanent link"> #</a></h1>
+<ul>
+<li>別讓 fixture 有點 &ldquo;固定&rdquo; 的意思給誤導，fixture object 只是 pre-initialized objecti，單純就是傳統 setup 裡準備好的 object，可能是資料，也可能是工具，甚至是一種環境/狀況 (例如固定將 CWD 切換到全新的資料夾)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/fixture.html">pytest fixtures: explicit, modular, scalable — pytest documentation</a> Fixture 提供固定的 baseline，有助於讓測試達到 reliable &amp; repeatable；但 pytest fixture 有別於傳統 xUnit setup/teardown 的做法 (還是支援舊的做法)。</li>
+<li><a href="https://docs.pytest.org/en/latest/fixture.html#fixtures-as-function-arguments">Fixtures as Function arguments - pytest fixtures: explicit, modular, scalable — pytest documentation</a> #ril<ul>
+<li>Test function 透過 input argument 取得 fixture object &ndash; pytest 會去找同名的 fixture function (標示有 <code>@pytest.fixture</code>) 拿 fixture object。</li>
+<li>Fixtures: a prime example of dependency injection 提到 pytest fixture 的做法正是 dependency injection 最好的範例，test function 不需要知道 import/setup/cleanup 的細節，就可以拿到準備好的 (fixture) object。</li>
+</ul>
+</li>
+<li><a href="https://docs.pytest.org/en/latest/xunit_setup.html">classic xunit-style setup — pytest documentation</a> #ril</li>
+</ul>
+<h2 id="capsys">capsys ??<a class="headerlink" href="#capsys" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/builtin.html#builtin-fixtures-function-arguments">Builtin fixtures/function arguments - Pytest API and builtin fixtures — pytest documentation</a> 提到 <code>capsys</code> 與 <code>capsysbinary</code> #ril<ul>
+<li><code>capsys</code> 會啟用 sys.stdout/sys.stderr 的 capturing，呼叫 <code>capsys.readouterr()</code> 會得到一個 <code>(out, err)</code> tuple，分別是 stdout 與 stderr 在這個測試過程中抓取到的輸出。</li>
+</ul>
+</li>
+</ul>
+<h2 id="caplog">caplog ??<a class="headerlink" href="#caplog" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/3.3.2/logging.html">Logging — pytest documentation (3.3.2)</a><ul>
+<li>pytest 會自動補捉 (capture) 測試過程中寫出的 log messages，測試失敗時才會印出來 (連同補捉到的 stdout 與 stderr)；這項功能做為 pytest-catchlog plugin (從 pytest-capturelog 分出來) 的 drop-in replacement。</li>
+<li><code>pytest</code> 有許多參數可以調整 logging 的補捉行為，包括用 <code>--log-format</code> 與 <code>--log-date-format</code> 自訂 format，<code>--no-print-logs</code> 要求失敗時不印 captured logs，不過可以從 test 裡頭控制、驗證這些 log messages 才是比較有用的 &ndash; <code>caplog</code> fixture。</li>
+<li><code>caplog.records</code> 可以拿到 list of <code>logging.LogRecord</code>，而 <code>caplog.text</code> 可以取得 final log text。要比對 log message 也可以用 <code>aplog.record_tuples</code>，它是 (logger name, severity, message) 的 tuple。過程中也可以用 <code>caplog.clear()</code> 將之前補捉到的 logs 都清掉；實驗發現，清掉的 log messages 在 test 失敗時還是會出現，不影響 debugging。</li>
+</ul>
+</li>
+<li><a href="https://docs.pytest.org/en/3.6.1/logging.html">Logging — pytest documentation (3.6.1)</a> #ril<ul>
+<li>特別強調 3.3 開始支援，但 3.4 有重大改變；一樣會自動補捉測試過程中寫出的 log messages，但預設僅限於 level 高於 <code>WARNING</code> (含) 者。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/library/logging.html#logrecord-attributes">LogRecord attributes - 15.7. logging — Logging facility for Python — Python 2.7.14 documentation</a> 常用的有 <code>levelname</code>/<code>levelno</code>、<code>message</code>、<code>name</code>、<code>thread</code>/<code>threadName</code>；從 logs 來測 multi-threading 似乎很有用??</li>
+</ul>
+<h2 id="tmpdir">tmpdir ??<a class="headerlink" href="#tmpdir" title="Permanent link"> #</a></h2>
+<pre><code>import os, py
+
+def test_something(tmpdir):
+    assert isinstance(tmpdir, py.path.local)
+
+</code></pre>
+
+<p>不過 <code>py.path.local</code> 並不是 file-like，所以有許多地方不能用，還是得轉回路徑名稱：</p>
+<pre><code>def test_howto_get_fullpath(tmpdir):
+    fullpath = os.path.join(tmpdir.dirname, tmpdir.basename)
+    assert fullpath == tmpdir.strpath # undocumented
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/reference.html#tmpdir">Reference — pytest documentation</a> #ril</li>
+<li><a href="https://docs.pytest.org/en/latest/tmpdir.html">Temporary directories and files — pytest documentation</a><ul>
+<li><code>tmpdir</code> fixture 會在 base temporary directory 底下為 test 提供獨立的 temporary directory (<code>pytest-NNN</code>)。預設的 base dir 是 system temporary directory，可以用 <code>--basetemp</code> 自訂。</li>
+<li>型態是 <a href="http://py.readthedocs.io/en/latest/path.html#py-path-local-local-file-system-path"><code>py.path.local</code></a>，提供比 <code>os.path</code> 更多的 methods，可以簡化檔案的操作/檢查。</li>
+</ul>
+</li>
+<li><a href="https://github.com/pytest-dev/py">pytest-dev/py: Python development support library (note: maintenance only)</a> 這個 library 已經進入 maintenance mode，新的 code 不要再用它；這樣 test code 用它好嗎? =&gt; 用吧，確實能少做很做事，若之後 pytest 要換掉它，也會有替代方案。</li>
+<li><a href="https://stackoverflow.com/questions/20531072/">writing a pytest function to check outputting to a file in python? - Stack Overflow</a> flub: 提到 <code>tmp.strpath</code> (或 <code>str(tmpdir)</code>) 的用法；多數的 API 都不接受 <code>py.path.local</code>。</li>
+<li><a href="https://pypi.org/project/pytest-datafiles/">pytest-datafiles · PyPI</a> 看到 <code>str(datafiles)</code> 的用法，搭配 Convert from py.path object to path (str) 的註解。</li>
+</ul>
+<h2 id="request">request ??<a class="headerlink" href="#request" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/reference.html#request">Reference — pytest documentation</a> #ril<ul>
+<li>可以取得 requesting test function 的一些資訊。</li>
+</ul>
+</li>
+</ul>
+<h2 id="fixture-plugin">自建 Fixture Plugin ??<a class="headerlink" href="#fixture-plugin" title="Permanent link"> #</a></h2>
+<p>如何自己打包像 <a href="https://pypi.org/project/pytest-datafiles/">pytest-datafiles</a> 的套件，裝了就有 <code>datafiles</code> fixture 可以用，不用額外設定？</p>
+<p>參考資料：</p>
+<ul>
+<li>裝完 <code>pytest-datafiles</code>，透過 <code>pytest --fixtures</code> 就可以看到 &ldquo;fixtures defined from pytest_datafiles&rdquo;，確認 <code>datafiles</code> 的說明，是從<a href="https://github.com/omarkohl/pytest-datafiles/blob/master/pytest_datafiles.py#L64">標有 <code>@pytest.fixture</code> 的 <code>datafiles()</code></a> 來的。</li>
+<li><a href="https://github.com/omarkohl/pytest-datafiles/blob/master/setup.py#L36">pytest-datafiles/setup.py at master · omarkohl/pytest-datafiles</a> <code>entry_points={ 'pytest11': ['pytest_datafiles = pytest_datafiles'], }</code>，不需要設定就能使用 <code>datafiles</code> fixture 的關鍵就在這裡。</li>
+<li><a href="https://docs.pytest.org/en/latest/writing_plugins.html#setuptools-entry-points">Making your plugin installable by others - Writing plugins — pytest documentation</a> #ril<ul>
+<li></li>
+<li>建議為 plugin 加上 <code>Framework :: Pytest</code> 的 PyPI classifier，方便使用者找 plugins。</li>
+</ul>
+</li>
+</ul>
+<h2 id="setupteardown">如何實現 setup/teardown??<a class="headerlink" href="#setupteardown" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/fixture.html#fixture-finalization-executing-teardown-code">Fixture finalization / executing teardown code - pytest fixtures: explicit, modular, scalable — pytest documentation</a> 將 <code>return</code> 改為 yield 即可 #ril</li>
+</ul>
+<h2 id="data-file">如何取得事先安排好的 data file?<a class="headerlink" href="#data-file" title="Permanent link"> #</a></h2>
+<p><code>conftest.py</code>:</p>
+<pre><code>from os import path
+import pytest
+
+class DataFileHelper(object):
+
+    def __init__(self, base_dir):
+        self._base_dir = base_dir
+
+    def read(self, fn):
+        with open(path.join(self._base_dir, fn)) as f:
+            return f.read()
+
+    def json(self, fn):
+        import json
+        return json.loads(self.read(fn))
+
+@pytest.fixture
+def datafile(request):
+    # 以 request.module.__file__ 的位置為起點，找出 `data/`
+    base_dir = path.join(path.dirname(request.module.__file__), 'data')
+    return DataFileHelper(base_dir)
+</code></pre>
+
+<p>用起來像是：</p>
+<pre><code>def test_xxx(datafile):
+    json = datafile.json('api_output.json')
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/omarkohl/pytest-datafiles">omarkohl/pytest-datafiles: pytest plugin to create a tmpdir containing a preconfigured set of files and/or directories.</a> 把檔案複製到 tmpdir，所以測試不會影響原來的檔案；如果單純要讀 data files 好像不需要用到這個。</li>
+<li><a href="https://pypi.python.org/pypi/pytest-datafiles">pytest-datafiles 1.0 : Python Package Index</a> 出現 <code>FIXTURE_DIR = os.path.join( os.path.dirname(os.path.realpath(__file__)), 'test_files',)</code> 的用法。</li>
+</ul>
+<h2 id="fixture">如何為 Fixture 提供參數??<a class="headerlink" href="#fixture" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/omarkohl/pytest-datafiles">omarkohl/pytest-datafiles: pytest plugin to create a tmpdir containing a preconfigured set of files and/or directories.</a><ul>
+<li>用 <code>datafiles</code> fixture 搭配 <code>@pytest.mark.datafiles</code> 提供 data files。</li>
+<li><a href="https://github.com/omarkohl/pytest-datafiles/blob/master/pytest_datafiles.py#L64">pytest-datafiles/pytest_datafiles.py at master · omarkohl/pytest-datafiles</a> 用 <code>request.keywords.get('datafiles').args</code> 與 <code>request.keywords.get('datafiles').kwargs</code> 取得透過 <code>@pytest.mark.datafiles(...)</code> 傳進來的資料。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/builtin.html">Builtin fixtures/function arguments</a></li>
+<li><a href="https://docs.pytest.org/en/latest/reference.html#fixtures">Fixtures - Reference</a></li>
+<li><a href="https://py.readthedocs.io/en/latest/path.html#py-path-local-local-file-system-path">py.path.local</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

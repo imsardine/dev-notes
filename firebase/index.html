@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/firebase/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Firebase - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/firebase.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#firebase">Firebase</a></li>
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="firebase">Firebase<a class="headerlink" href="#firebase" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Firebase">Firebase - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>Firebase is a mobile and web application development platform developed by Firebase, Inc. in 2011, then acquired by Google in 2014.</p>
+<p>As of October 2018, the Firebase platform has 18 products, which are used by 1.5 million apps.</p>
+</li>
+</ul>
+<p>History</p>
+<ul>
+<li>
+<p>Firebase evolved from Envolve, a prior startup founded by James Tamplin and Andrew Lee in 2011. Envolve provided developers an API that enables the integration of online chat functionality into their websites.</p>
+<p>After releasing the chat service, Tamplin and Lee found that it was being used to pass application data that were not chat messages. Developers were using Envolve to SYNC APPLICATION DATA such as game state in real time across their users.</p>
+<p>Tamplin and Lee decided to separate the chat system and the real-time architecture that powered it. They founded Firebase as a separate company in September 2011 and it launched to the public in April 2012.</p>
+</li>
+<li>
+<p>Firebase&rsquo;s first product was the Firebase Real-time Database, an API that synchronizes application data across iOS, Android, and Web devices, and stores it on Firebase&rsquo;s cloud. The product assists software developers in building real-time, collaborative applications.</p>
+<p>In 2014, Firebase launched two products. Firebase Hosting and Firebase Authentication. This positioned the company as a MOBILE BACKEND as a service.</p>
+<p>In October 2014, Firebase was acquired by Google. A year later, in October 2015, Google acquired Divshot, an HTML5 web-hosting platform, to merge it with the Firebase team.</p>
+<p>In May 2016, at Google I/O, the company&rsquo;s annual developer conference, Firebase introduced Firebase Analytics and announced that it was expanding its services to become a unified BACKEND-AS-A-SERVICE (BaaS) platform for mobile developers.</p>
+</li>
+<li>
+<p>Firebase now integrates with various other Google services, including Google Cloud Platform, AdMob, and Google Ads to offer broader products and scale for developers.</p>
+<p>Google Cloud Messaging, the Google service to send push notifications to Android devices, was superseded by a Firebase product, Firebase Cloud Messaging, which added the functionality to deliver push notifications to BOTH iOS and web devices. In January 2017, Google acquired Fabric and Crashlytics from Twitter to add those services to Firebase.</p>
+</li>
+<li>
+<p>In October 2017, Firebase has launched Cloud Firestore, a real-time document database as the SUCCESSOR product to the original Firebase Realtime Database.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://firebase.google.com/">Firebase</a> #ril</p>
+<p>從 &ldquo;One console, with products that work together&rdquo; 與 &ldquo;Firebase projects are backed by Google Cloud Platform&rdquo; 看來，似乎是針對 app 開發 (支援 iOS、Android、Web 等)，將 Google 現有的工具 (針對 app 開發優化) 整合到一個 console；底下將工具分為 &ldquo;Develop &amp; test your app&rdquo; 與 &ldquo;Grow &amp; engage your audience&rdquo; 兩塊。</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=iosNuIdQoy8">Introducing Firebase - YouTube</a> (2017-03-23) #ril</p>
+<p>做為 app/web 的 backend infrastructure，幫忙處理 scaling up 的問題，蒐集使用者的行為、crash 等 (user engagement)。</p>
+</li>
+<li>
+<p><a href="https://firebase.googleblog.com/2016/05/firebase-expands-to-become-unified-app-platform.html">The Firebase Blog: Firebase expands to become a unified app platform</a> (2016-05-18) #ril</p>
+<p>Firebase Analytics 是基於 Google 在 Google Analytics 的經驗，更適合 mobile app 的版本。</p>
+</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://firebase.google.com/">Firebase</a></li>
+<li><a href="https://console.firebase.google.com/">Firebase Console</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://firebase.google.com/docs/">Firebase Documentation</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../firebase-analytics/">Firebase Analytics</a></li>
+<li><a href="../firebase-firestore/">Cloud Firestore</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

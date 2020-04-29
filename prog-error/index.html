@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/prog-error/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Programming / Error Handling - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/prog-error.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#programming-error-handling">Programming / Error Handling</a></li>
+            <li class="second-level"><a href="#error-handling-exception-handling">Error Handling != Exception Handling ??</a></li>
+                
+            <li class="second-level"><a href="#fail-fast">Fail Fast ??</a></li>
+                
+            <li class="second-level"><a href="#narrow-trycatch-blocks">Narrow try/catch Blocks ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="programming-error-handling"><a href="../prog/">Programming</a> / Error Handling<a class="headerlink" href="#programming-error-handling" title="Permanent link"> #</a></h1>
+<h2 id="error-handling-exception-handling">Error Handling != Exception Handling ??<a class="headerlink" href="#error-handling-exception-handling" title="Permanent link"> #</a></h2>
+<ul>
+<li>Error handling 的說法會比 exception handling 來得通用，因為 exception 只是處理 error 的一種機制。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Exception_handling">Exception handling - Wikipedia</a> #ril</li>
+<li><a href="http://teddy-chen-tw.blogspot.com/2013/12/blog-post_13.html">搞笑談軟工: 例外處理壞味道（上）</a> (2013-12-13) #ril</li>
+<li><a href="https://www.toptal.com/abap/clean-code-and-the-art-of-exception-handling">On Exception Handling and Clean Code | Toptal</a> #ril</li>
+</ul>
+<h2 id="fail-fast">Fail Fast ??<a class="headerlink" href="#fail-fast" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://martinfowler.com/ieeeSoftware/failFast.pdf">Fail Fast &ndash; ThoughtWorks</a> (2004-09, PDF)<ul>
+<li>軟體開發最惱人的是 debugging，尤其是那種經過長時間正常操作後才出現的錯誤、從 stack trace 追查不出原因的那種；Fail Fast 雖然無法減少錯誤的數量，但至少會讓 defect 更容易被找到。</li>
+<li>為了 robust (的假象) 而 work around problems automatically? 會造成 failing slowly &ndash; requiring tedious debugging，也就是發生錯誤後還會繼續運作，但終將以奇怪的方式 fail。</li>
+<li>而 fail fast 反其道而行，&rdquo;failing immediately and visibly&rdquo; 看似不直覺且會讓軟體變得 fragile，但其實是會讓它變得 robust。不過 &ldquo;Bugs are easier to find and fix, so fewer go into production&rdquo; 這句話是否暗示 fail fast 不適用 production?</li>
+<li>以 <code>maxConnections</code> 的 configuration 為例，讀不到時要回 null 或 default (10)，還是直接噴錯? 假設設定檔打錯 <code>maxConfiguration = 100</code> (最後少了個 &ldquo;s&rdquo;)，啟動 server 一切正常，但使用者可能覺得奇怪效能怎麼變差了?</li>
+<li>Fail fast 的關鍵是 assertion，但什麼時候加 assertion? 通常寫下 &ldquo;假設&rdquo; 的 comment 都應改寫成 assertion。大部份的語言都內建支援 assertion，不過因為它 generic、limiting expressiveness 的特性，也不一定會丟 exception (可以停用 assertion)，作者習慣包裝一層 assertion class。</li>
+<li>&ldquo;When you’re writing a method, avoid writing assertions for problems in the method itself&rdquo; 與 &ldquo;Assertions shine in their ability to flush out problems in the SEAMS of the system&rdquo; 這兩句有點難懂?? 可能是因為單一個 method 是 stateless 的關係? 有問題的話都是源自 input 或 output (包括往別人呼叫)，應該用 test 來檢查。</li>
+<li>大部份的情況下 null references 不用特別處理，出錯時 stack trace 會帶到問題的根源，但 &ldquo;assign a parameter to an instance variable&rdquo; 可能會讓問題延後發生，所以要特別做檢查 &ndash; 這比較像是 argument checking。</li>
+<li>這裡只是舉了些例子，重點還是思考的過程 (the thought process) &ndash; Think about what kinds of defects are possible and how they occur. 然後把 assertion 放在問題的源頭 (close to the original problem)，讓問題容易被找到。</li>
+<li>Eliminate the debugger 的觀點很特別 &ndash; 找到問題的點，也需要當時變數的內容，想想看假設這個 assertion 失敗了，你還需要哪些資訊 &ndash; Don’t just repeat the assertion’s condition; the stack trace will lead to that. Instead, put the error in context. 還有就是 Assertions are for programmers, so they don’t need to be user friendly, just informative.</li>
+<li>Robust failure 回應了 fail fast 是否適用 production 的疑慮；不要停用 assertion!! 因為有些發生在 customer site 的問題很難重製，但直接 crash 也不適合，還好 global exception handler 就是個折衷 &ndash; 統一處理 unexpected exceptions (包括 assertion)，並且通知到 developer；當然這要避免 catch-all exception handlers 才行，否則 exception 不會來到 global handler。</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Fail-fast">Fail-fast - Wikipedia</a> #ril</li>
+<li><a href="https://blog.codinghorror.com/whats-worse-than-crashing/">What&rsquo;s Worse Than Crashing?</a> (2007-08-02) #ril</li>
+<li><a href="http://enterprisecraftsmanship.com/2015/09/15/fail-fast-principle/">Fail Fast principle - Enterprise Craftsmanship</a> (2015-09-15) #ril</li>
+</ul>
+<h2 id="narrow-trycatch-blocks">Narrow try/catch Blocks ??<a class="headerlink" href="#narrow-trycatch-blocks" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://julio.meroh.net/2013/07/readability-narrow-trycatch-blocks.html">Readability: Narrow try/catch blocks - Julio Merino</a> (2013-07-29) #ril</li>
+<li><a href="https://stackoverflow.com/questions/2633834/">exception handling - Should java try blocks be scoped as tightly as possible? - Stack Overflow</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

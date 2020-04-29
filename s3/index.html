@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/s3/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>AWS S3 (Simple Storage Service) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/s3.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#aws-s3-simple-storage-service">AWS S3 (Simple Storage Service)</a></li>
+            <li class="second-level"><a href="#pricing">Pricing ??</a></li>
+                
+            <li class="second-level"><a href="#object-storage">為何有 object storage 的說法? 跟支援不同版本有關??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#s3-bucketfolderobject">S3 的結構? bucket、folder、object??</a></li>
+                
+            <li class="second-level"><a href="#object-keyvalue-metadata">Object, Key/Value, Metadata ??</a></li>
+                
+            <li class="second-level"><a href="#upload">Upload ??</a></li>
+                
+            <li class="second-level"><a href="#performance">Performance ??</a></li>
+                
+            <li class="second-level"><a href="#http-object">如何能透過 HTTP 存取 object??</a></li>
+                
+            <li class="second-level"><a href="#lifecycle">Lifecycle</a></li>
+                
+            <li class="second-level"><a href="#bucket-folder">如何計算某個 bucket 或 folder 的大小??</a></li>
+                
+            <li class="second-level"><a href="#s3-bucket-website-hosting">將 S3 bucket 做為 website hosting??</a></li>
+                
+            <li class="second-level"><a href="#s3">如何從遠端操作 S3 空間?</a></li>
+                
+            <li class="second-level"><a href="#presigned-url">Presigned URL</a></li>
+                
+            <li class="second-level"><a href="#cli">CLI</a></li>
+                
+                <li class="third-level"><a href="#_1">同步兩邊資料??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="aws-s3-simple-storage-service">AWS S3 (Simple Storage Service)<a class="headerlink" href="#aws-s3-simple-storage-service" title="Permanent link"> #</a></h1>
+<ul>
+<li>S3 是一種 object storage，為許多應用 (web、mobile、IoT 等) 提供簡單的方式存取，資料備份就是其中一項應用。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Getting Started – Amazon Simple Storage Service (S3) – AWS <a href="https://aws.amazon.com/s3/getting-started/">https://aws.amazon.com/s3/getting-started/</a> S3 有很多種用法，AWS Storage Gateway 可以做為 file server 或 local disk volume，有 AWS Management Console 可以操作檔案 (主要是建立 bucket)，也有 Java、Python、Node.js、Ruby、Mobile (iOS、Android、Unity) 等不同的 SDK。</li>
+<li>Introduction to Amazon Simple Storage Service (S3) - Cloud Storage on AWS - YouTube <a href="https://www.youtube.com/watch?v=rKpKHulqYOQ">https://www.youtube.com/watch?v=rKpKHulqYOQ</a> 透過 web service interface 上傳/下載資料，可以自選 region，建立 bucket 就可以存放資料，資料會複製到多處；會有 object storage 的說法，應該是支援同一資料不同版本的關係?</li>
+</ul>
+<h2 id="pricing">Pricing ??<a class="headerlink" href="#pricing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/s3/pricing/">Cloud Storage Pricing – Amazon Simple Storage Service (S3) – AWS</a> 主要分為 Storage、Request、Storage Management、Data Transfer，很意外其中 S3 Ojbect Tagging 要另外收費? #ril</li>
+</ul>
+<h2 id="object-storage">為何有 object storage 的說法? 跟支援不同版本有關??<a class="headerlink" href="#object-storage" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/s3/">Amazon Simple Storage Service (S3) — Cloud Storage — AWS</a> 一開始就寫著 &ldquo;OBJECT STORAGE built to store and retrieve any amount of data from anywhere&rdquo;。</li>
+<li><a href="https://aws.amazon.com/getting-started/tutorials/backup-files-to-amazon-s3/">How to Backup files to Amazon S3 – Amazon Web Services</a> 提到 bucket 可以啟用 versioning、logging、tags</li>
+<li><a href="https://aws.amazon.com/what-is-cloud-object-storage/">What is Cloud Object Storage? – AWS</a> #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/getting-started/tutorials/backup-files-to-amazon-s3/">Store and Retrieve a File – Amazon Web Services</a> 操作過一次比較有感覺，登入 AWS Console、知道什麼是 bucket、object。</li>
+<li><a href="https://aws.amazon.com/getting-started/tutorials/backup-to-s3-cli/">How to Script the Backup of Files to Amazon S3 – AWS</a> 前面一大段在講如何設定 IAM user #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/s3/getting-started/">Getting Started – Amazon Simple Storage Service (S3) – AWS</a> #ril</li>
+<li><a href="https://aws.amazon.com/getting-started/tutorials/backup-to-s3-cli/">How to Script the Backup of Files to Amazon S3 – AWS</a> #ril</li>
+<li><a href="https://www.youtube.com/watch?v=1qrjFb0ZTm8">Getting Started with Amazon S3 - YouTube</a> #ril</li>
+</ul>
+<h2 id="s3-bucketfolderobject">S3 的結構? bucket、folder、object??<a class="headerlink" href="#s3-bucketfolderobject" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/getting-started/tutorials/backup-files-to-amazon-s3/">How to Backup files to Amazon S3 – Amazon Web Services</a> A bucket is the container you store your files in.</li>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">Bucket Restrictions and Limitations - Amazon Simple Storage Service</a> #ril<ul>
+<li>Bucket 名稱在整個 AWS 上必須是唯一的，建議採用 DNS-compliant naming??</li>
+<li>雖然預設有 100 個 bucket 的上限 (可以擴充)，但單一個 bucket 可以存放的 object 數量是沒有限制的，效能也不會因為使用多個 bucket 而比較好 (bucket 內不能再建 bucket)。</li>
+<li>DNS-compliant 是指 3 ~ 63 個字元；可以由多個 label 組成 (用 <code>.</code> 分開)，每個 label 可以由小寫字母、數字跟 <code>-</code> 構成，但不能由 <code>-</code> 做為開頭。但最後又說因為 SSL 的關係，不建議在 bucket name 裡用 period (<code>.</code>)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="object-keyvalue-metadata">Object, Key/Value, Metadata ??<a class="headerlink" href="#object-keyvalue-metadata" title="Permanent link"> #</a></h2>
+<ul>
+<li>在 S3 console 裡新增 folder 時提示 &ldquo;When you create a folder, S3 console creates an object with the above name appended by suffix &ldquo;/&rdquo; and that object is displayed as a folder in the S3 console.&rdquo;，看起來都是 object，只是一種特殊的 object&hellip;</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingObjects.html">Working with Amazon S3 Objects - Amazon Simple Storage Service</a> #ril</p>
+<ul>
+<li>S3 被設計為 key/value store，可以在一或多個 bucket 裡存放任意數量的 object。</li>
+<li>Key 是 object 的 name，對應的 value 可以 sequence of bytes (最大 5 TB)。</li>
+<li>Value 可以變更，透過 name + version ID 才能識別到特定的 object。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html">Object Key and Metadata - Amazon Simple Storage Service</a> #ril</p>
+<ul>
+<li>每個 S3 object 由 key、data 與 metadata 組成，其中 key (name) 可以在一個 bucket 裡識別出特定的 object，而 metadata 則是用來說明 data 的 key-value pairs。特別的是 metadata 只能在 upload 的當下給，一旦上傳後就不能再修改；變通的方式是建立 object 的複本，過程中再調整 metadata。</li>
+<li>Key 是一連串的 Unicode 字元，其 UTF-8 編碼最大不能超過 1024 bytes；但若能符合 naming guideline 之後其他應用比較不會遇到相容性的問題 (例如 sync 到檔案系統時，某些字元不能做為檔名)，建議 key name 裡只用 <code>[0-9a-zA-Z]</code>、<code>!</code>、<code>-</code>、<code>_</code>、<code>.</code>、<code>*</code>、<code>'</code>、<code>(</code> 及 <code>)</code>，例如 <code>videos/2014/birthday/video1.wmv</code>。</li>
+<li>If you anticipate that your workload against Amazon S3 will exceed 100 requests per second, follow the Amazon S3 key naming guidelines for best performance. 為什麼 key name 跟 performace 有關??</li>
+<li>事實上 S3 的 data model 是偏平的 (flat structure) &ndash; bucket 下就是 object，沒有 subbucket/subfolder 的概念，但可以像 S3 console 一樣利用 key name prefix 及 delimiter 來推導邏輯上的階層 (infer logical hierarchy)。</li>
+<li>S3 console 支援 folder 的概念。假設 bucket 下有 4 個 object：<code>Development/Projects1.xls</code>、<code>Finance/statement1.pdf</code>、<code>Private/taxdocument.pdf</code> 與 <code>s3-dg.pdf</code>，S3 console 採用 <code>/</code> 做為 delimiter，將 <code>Development/</code>、<code>Finance/</code> 及 <code>Private/</code> 視為 key name prefix，顯示為 3 個資料夾，外加一個根目錄下的檔案 <code>s3-dg.pdf</code>。</li>
+<li>Characters That Might Require Special Handling 及 Characters to Avoid 在講的不是 key 不能用哪些字元，而是應用端 (application) 像是 &ldquo;瀏覽器無法正確表現某些字元&rdquo; 的問題，例如 </li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-key-guidelines">Object Key Naming Guidelines - Object Key and Metadata - Amazon Simple Storage Service</a></p>
+<ul>
+<li>
+<p>You can use any UTF-8 character in an object key name. However, using certain characters in key names may cause problems with some applications and protocols. The following guidelines help you maximize compliance with DNS, web-safe characters, XML parsers, and other APIs.</p>
+<p>或許檔名用 metadata 來記會比較好??</p>
+</li>
+</ul>
+<p>Safe Characters</p>
+<ul>
+<li>
+<p>The following character sets are generally safe for use in key names:</p>
+<ul>
+<li>Alphanumeric characters: 0-9, a-z, A-Z</li>
+<li>Special characters: <code>! - _ . * ' ( )</code></li>
+</ul>
+</li>
+<li>
+<p>The following are examples of valid object key names:</p>
+<ul>
+<li><code>4my-organization</code></li>
+<li><code>my.great_photos-2014/jan/myvacation.jpg</code></li>
+<li><code>videos/2014/birthday/video1.wmv</code></li>
+</ul>
+</li>
+<li>
+<p>Important: If an object key name consists of a single period (<code>.</code>), or two periods (<code>..</code>), you can’t download the object using the Amazon S3 console. To download an object with a key name of “.” or “..”, you must use the AWS CLI, AWS SDKs, or REST API.</p>
+<p>呼應上面會因 application/protocol 而異的說法。</p>
+</li>
+</ul>
+<p>Characters That Might Require SPECIAL HANDLING</p>
+<ul>
+<li>
+<p>The following characters in a key name might require ADDITIONAL CODE HANDLING and likely need to be URL encoded or referenced as HEX. Some of these are NON-PRINTABLE characters and your browser might not handle them, which also requires special handling:</p>
+<ul>
+<li>Ampersand (&ldquo;&amp;&rdquo;)</li>
+<li>Dollar (&ldquo;$&rdquo;)</li>
+<li>ASCII character ranges 00–1F hex (0–31 decimal) and 7F (127 decimal)</li>
+<li>&lsquo;At&rsquo; symbol (&ldquo;@&rdquo;)</li>
+<li>Equals (&ldquo;=&rdquo;)</li>
+<li>Semicolon (&ldquo;;&rdquo;)</li>
+<li>Colon (&ldquo;:&rdquo;)</li>
+<li>Plus (&ldquo;+&rdquo;)</li>
+<li>Space – Significant sequences of spaces may be lost in some uses (especially multiple spaces)</li>
+<li>Comma (&ldquo;,&rdquo;)</li>
+<li>Question mark (&ldquo;?&rdquo;)</li>
+</ul>
+<p>所謂 &ldquo;referenced as HEX&rdquo; 是什麼?? 對 non-printable characters 似乎尤其重要?</p>
+</li>
+</ul>
+<p>Characters to Avoid</p>
+<ul>
+<li>
+<p>Avoid the following characters in a key name because of SIGNIFICANT SPECIAL HANDLING for consistency across all applications.</p>
+<ul>
+<li>Backslash (&ldquo;")</li>
+<li>Left curly brace (&ldquo;{&ldquo;)</li>
+<li>Non-printable ASCII characters (128–255 decimal characters)</li>
+<li>Caret (&ldquo;^&rdquo;)</li>
+<li>Right curly brace (&ldquo;}&rdquo;)</li>
+<li>Percent character (&ldquo;%&rdquo;)</li>
+<li>Grave accent / back tick (&ldquo;`&rdquo;)</li>
+<li>Right square bracket (&ldquo;]&rdquo;)</li>
+<li>Quotation marks</li>
+<li>&lsquo;Greater Than&rsquo; symbol (&ldquo;&gt;&rdquo;)</li>
+<li>Left square bracket (&ldquo;[&ldquo;)</li>
+<li>Tilde (&ldquo;~&rdquo;)</li>
+<li>&lsquo;Less Than&rsquo; symbol (&ldquo;&lt;&rdquo;)</li>
+<li>&lsquo;Pound&rsquo; character (&ldquo;#&rdquo;)</li>
+<li>Vertical bar / pipe (&ldquo;|&rdquo;)</li>
+</ul>
+<p>注意 non-printable character 0 ~ 31 及 128 ~ 255 的差別，前者是需要特別處理，後者則要完全避免。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="upload">Upload ??<a class="headerlink" href="#upload" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadingObjects.html">Uploading Objects - Amazon Simple Storage Service</a> #ril</li>
+</ul>
+<h2 id="performance">Performance ??<a class="headerlink" href="#performance" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html">Request Rate and Performance Considerations - Amazon Simple Storage Service</a> #ril</li>
+</ul>
+<h2 id="http-object">如何能透過 HTTP 存取 object??<a class="headerlink" href="#http-object" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">Bucket Restrictions and Limitations - Amazon Simple Storage Service</a> 提到 &ldquo;virtual-host style access to buckets&rdquo; 及 <code>http://MyAWSBucket.s3.amazonaws.com/yourobject</code> 的用法。</li>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual Hosting of Buckets - Amazon Simple Storage Service</a> #ril</li>
+<li>在 S3 console 上傳檔案後，直接用 curl 取用 <code>https://s3-ap-northeast-1.amazonaws.com/bucketname/filename.ext</code> 會出現 403 Forbidden，但做了 make public 之後 (不能再變成 private??)，URL 不會變，但就可以存取了。</li>
+</ul>
+<h2 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object Lifecycle Management - Amazon Simple Storage Service</a></p>
+<ul>
+<li>
+<p>To manage your objects so that they are stored COST EFFECTIVELY throughout their LIFECYCLE, configure their lifecycle. A lifecycle configuration is a set of RULES that define ACTIONS that Amazon S3 applies to a group of objects. There are two types of actions:</p>
+</li>
+<li>
+<p>Transition actions</p>
+<p>Define when objects transition to another STORAGE CLASS. For example, you might choose to transition objects to the <code>STANDARD_IA</code> storage class 30 days after you created them, or archive objects to the <code>GLACIER</code> storage class one year after creating them.</p>
+<p>There are costs associated with the lifecycle TRANSITION REQUESTS. For pricing information, see Amazon S3 Pricing.</p>
+<p>按 <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Amazon S3 Storage Classes</a> 的說法，不同 storage class 的差別在於 availability，所以價格也不同；最常用的資料可以留在 <code>STANDARD</code>，較不常用的可以慢慢移往其他較低的 class。</p>
+</li>
+<li>
+<p>Expiration actions</p>
+<p>Define when objects EXPIRE. Amazon S3 DELETES expired objects on your behalf.</p>
+<p>The lifecycle expiration COSTS depend on when you choose to expire objects. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-expire-general-considerations.html">Configuring Object Expiration</a>. #ril</p>
+<p>刪資料也有 cost ??</p>
+</li>
+<li>
+<p>For more information about lifecycle rules, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html">Lifecycle Configuration Elements</a>. #ril</p>
+</li>
+</ul>
+<p>When Should I Use Lifecycle Configuration?</p>
+<ul>
+<li>
+<p>Define lifecycle configuration rules for objects that have a well-defined lifecycle. For example:</p>
+<ul>
+<li>
+<p>If you upload periodic logs to a bucket, your application might need them for a week or a month. After that, you might want to delete them.</p>
+</li>
+<li>
+<p>Some documents are FREQUENTLY accessed for a limited period of time. After that, they are INFREQUENTLY accessed. At some point, you might not need REAL-TIME ACCESS to them, but your organization or regulations might require you to ARCHIVE them for a specific period. After that, you can delete them.</p>
+</li>
+<li>
+<p>You might upload some types of data to Amazon S3 primarily for ARCHIVAL PURPOSES. For example, you might archive digital media, financial and healthcare records, raw genomics sequence data, long-term database backups, and data that must be retained for REGULATORY COMPLIANCE.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>With lifecycle configuration rules, you can tell Amazon S3 to transition objects to LESS EXPENSIVE storage classes, or archive or delete them.</p>
+</li>
+</ul>
+<p>How Do I Configure a Lifecycle?</p>
+<ul>
+<li>
+<p>A lifecycle configuration, an XML file, comprises a set of rules with predefined actions that you want Amazon S3 to perform on objects during their lifetime.</p>
+</li>
+<li>
+<p>Amazon S3 provides a set of API operations for managing lifecycle configuration on a bucket. Amazon S3 stores the configuration as a LIFECYCLE SUBRESOURCE that is ATTACHED to your bucket. For details, see the following:</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlifecycle.html">PUT Bucket lifecycle</a> #ril</li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETlifecycle.html">GET Bucket lifecycle</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketDELETElifecycle.html">DELETE Bucket lifecycle</a></li>
+</ul>
+</li>
+<li>
+<p>You can also configure the lifecycle by using the Amazon S3 console or programmatically by using the AWS SDK wrapper libraries. If you need to, you can also make the REST API calls directly. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html">Setting Lifecycle Configuration on a Bucket</a>. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/getting-started/tutorials/backup-files-to-amazon-s3/">How to Backup files to Amazon S3 – Amazon Web Services</a> Step 5: Delete the Object and Bucket 建議沒用到的 object 就該刪除，才不會被收費。</p>
+</li>
+<li>S3 Console &gt; Management 有 Lifecycle 的概念，Expire your objects: Using a lifecycle rule, you can automatically expire objects based on your retention needs or clean up incomplete multipart uploads.</li>
+<li><a href="https://aws.amazon.com/s3/pricing/#Amazon_S3_Storage_Management_Pricing">Amazon S3 Storage Management Pricing - Cloud Storage Pricing – Amazon Simple Storage Service (S3) – AWS</a> 這裡並沒有提到 lifecycle 相關的費用。</li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-expire-general-considerations.html">Expiring Objects: General Considerations - Amazon Simple Storage Service</a> #ril</li>
+</ul>
+<h2 id="bucket-folder">如何計算某個 bucket 或 folder 的大小??<a class="headerlink" href="#bucket-folder" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/8975959/">amazon s3 - AWS S3: how do I see how much disk space is using - Stack Overflow</a> thaavik: <code>aws s3 ls s3://mybucket --recursive --human-readable --summarize</code> #ril</li>
+</ul>
+<h2 id="s3-bucket-website-hosting">將 S3 bucket 做為 website hosting??<a class="headerlink" href="#s3-bucket-website-hosting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.aws.amazon.com/AmazonS3/latest/user-guide/static-website-hosting.html">How Do I Configure an S3 Bucket for Static Website Hosting? - Amazon Simple Storage Service</a> #ril</li>
+</ul>
+<h2 id="s3">如何從遠端操作 S3 空間?<a class="headerlink" href="#s3" title="Permanent link"> #</a></h2>
+<ul>
+<li>安裝 Python 的 <code>awscli</code> 套件，執行 <code>aws configure</code> 先給定 AWS Access Key ID 與 AWS Secret Access Key (以明碼記錄在 <code>~/.aws/credentials</code>)，之後就可以執行 <code>aws s3 &lt;COMMAND&gt;</code> 了。</li>
+</ul>
+<h2 id="presigned-url">Presigned URL<a class="headerlink" href="#presigned-url" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>S3 跟 CloudFront 都提供有 URL signing 的功能，但兩邊的說法不太一樣；S3 稱之為 Presigned URL，而 CloudFront 則稱之為 Signed URL。</p>
+<p>不過 Signed URL 確實是比較通用的說法，像 <a href="https://cloud.google.com/storage/docs/access-control/signed-urls">Google Cloud Storage</a> 也是稱做 Signed URL。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/20862195/">c# - What is difference between Pre-Signed Url and Signed Url? - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>jia chen: Both S3 and CloudFront have URL signing features that work differently. However, only S3 refers to them as Pre-signed URLs CloudFront refers to them as Signed URLs and Signed Cookies.</p>
+<p>Note the service names in the URLs in the documentation below.</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html">https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-signed-urls.html#private-content-how-signed-urls-work">https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-signed-urls.html#private-content-how-signed-urls-work</a></li>
+</ul>
+<p>For a more in depth comparison of the different services check out the link below. If I had to guess, I would guess that AWS chose to name their signing services differently to AVOID CONFUSION. <a href="https://tutorialsdojo.com/aws-cheat-sheet-s3-pre-signed-urls-vs-cloudfront-signed-urls-vs-origin-access-identity-oai/">https://tutorialsdojo.com/aws-cheat-sheet-s3-pre-signed-urls-vs-cloudfront-signed-urls-vs-origin-access-identity-oai/</a> #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html">Share an Object with Others - Amazon Simple Storage Service</a></p>
+<ul>
+<li>
+<p>All objects by default are private. Only the object OWNER has permission to access these objects. However, the object owner can optionally SHARE objects with others by creating a PRESIGNED URL, using their own security credentials, to grant TIME-LIMITED permission to download the objects.</p>
+<p>這裡的 share 指的就是 GET method。</p>
+</li>
+<li>
+<p>When you create a presigned URL for your object, you must provide your security credentials, specify a bucket name, an object key, specify the HTTP method (<code>GET</code> to download the object) and expiration date and time. The presigned URLs are valid only for the specified duration.</p>
+<p>Anyone who receives the presigned URL can then access the object. For example, if you have a video in your bucket and both the bucket and the object are private, you can share the video with others by generating a presigned URL.</p>
+<p>後來才發現產生 presigned URL 的過程，並不是透過 API 跟 AWS 拿，而是 SDK 自己根據 credentials 算出來的，也難怪這裡一直強調 &ldquo;security credentials&rdquo;。</p>
+<p><a href="https://github.com/aws/aws-sdk-java/blob/7b1e5b87b0bf03456df9e77716b14731adf9a7a7/aws-java-sdk-s3/src/main/java/com/amazonaws/services/s3/AmazonS3Client.java#L3332">aws-sdk-java/AmazonS3Client.java at master · aws/aws-sdk-java</a></p>
+<pre><code>public URL generatePresignedUrl(GeneratePresignedUrlRequest req) {
+  ...
+  Request&lt;GeneratePresignedUrlRequest&gt; request = createRequest(
+      bucketName, key, req, httpMethod);
+  request.addHandlerContext(HandlerContextKey.OPERATION_NAME, "GeneratePresignedUrl");
+
+  Signer signer = createSigner(request, bucketName, key);
+  if (signer instanceof Presigner) {
+    // If we have a signer which knows how to presign requests,
+    // delegate directly to it.
+    ((Presigner) signer).presignRequest(request, ...);
+  } else {
+    // Otherwise use the default presigning method, which is hardcoded
+    // to use QueryStringSigner.
+    presignRequest(request, ...);
+  }
+
+  // Remove the leading slash (if any) in the resource-path
+  return ServiceUtils.convertRequestToUrl(request, true, false);
+</code></pre>
+<p>只是把 request 準備好，最後轉換成 URL 而已，難怪：</p>
+<ul>
+<li>在 <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_Operations.html">API Reference</a> 裡完全找不到 <code>GeneratePresignedUrl</code> 的說明。</li>
+<li>下面會有 &ldquo;Anyone with valid security credentials can create a presigned URL&rdquo; 的說法，暗示在產生 URL 的當下，並沒有真的去後端做什麼檢查。</li>
+</ul>
+<p>Python SDK 也是；<a href="https://github.com/boto/botocore/blob/210e04c0caef14aea8f5f5db4d3f80021e85cbbd/botocore/signers.py#L245">botocore/signers.py at develop · boto/botocore</a>:</p>
+<pre><code>def generate_presigned_url(self, request_dict, operation_name,
+                           expires_in=3600, region_name=None,
+                           signing_name=None):
+    request = create_request_object(request_dict)
+    self.sign(operation_name, request, region_name,
+              'presign-url', expires_in, signing_name)
+
+    request.prepare()
+    return request.url
+</code></pre>
+<p>並沒有送出 request。</p>
+</li>
+<li>
+<p>Note: Anyone with valid security credentials can create a presigned URL. However, in order to successfully access an object, the presigned URL must be created by someone who has permission to perform the operation that the presigned URL is based upon.</p>
+<p>The credentials that you can use to create a presigned URL include:</p>
+<ul>
+<li>
+<p>IAM instance profile: Valid up to 6 hours</p>
+<p>這跟 <a href="../aws-iam/#iam-role">EC2 才有的 IAM Role</a> 有關，不知道它跟 Maximum CLI/API session duration 有什麼關係 (介於 1 ~ 12 hour) ??</p>
+</li>
+<li>
+<p>AWS Security Token Service : Valid up to 36 hours when signed with permanent credentials, such as the credentials of the AWS account root user or an IAM user</p>
+</li>
+<li>
+<p>IAM user: Valid up to 7 days when using AWS Signature Version 4</p>
+<p>To create a presigned URL that&rsquo;s valid for up to 7 days, first designate IAM user credentials (the access key and secret access key) to the SDK that you&rsquo;re using. Then, generate a presigned URL using AWS Signature Version 4.</p>
+</li>
+<li>
+<p>If you created a presigned URL using a TEMPORARY token, then the URL expires when the token expires, even if the URL was created with a later expiration time.</p>
+<p>IAM instance profile 就是其中一種。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>You can generate presigned URL programmatically using the AWS SDK for Java and .NET.</p>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURLJavaSDK.html">Generate a presigned Object URL Using the AWS SDK for Java - Amazon Simple Storage Service</a> 的用法像是：</p>
+<pre><code>GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, objectKey)
+    .withMethod(HttpMethod.GET)
+    .withExpiration(expiration);
+URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+</code></pre>
+<p>跟下面 Uploading Objects Using Presigned URLs 的用法一樣，只是 HTTP method 不同而已。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObject.html">Uploading Objects Using Presigned URLs - Amazon Simple Storage Service</a> #ril</p>
+<ul>
+<li>
+<p>A presigned URL gives you access to the object identified in the URL, provided that the creator of the presigned URL has permissions to access that object.</p>
+<p>That is, if you receive a presigned URL to upload an object, you can upload the object only if the creator of the presigned URL has the necessary permissions to upload that object.</p>
+</li>
+<li>
+<p>All objects and buckets by default are private. The presigned URLs are useful if you want your user/customer to be able to upload a specific object to your bucket, but you don&rsquo;t require them to have AWS security credentials or permissions. When you create a presigned URL, you must provide your security credentials and then specify a bucket name, AN OBJECT KEY, an HTTP method (PUT for uploading objects), and an expiration date and time. The presigned URLs are valid only for the specified duration.</p>
+<p><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/PresignedUrlUploadObjectJavaSDK.html">Upload an Object Using a Presigned URL (AWS SDK for Java) - Amazon Simple Storage Service</a> 的用法像是：</p>
+<pre><code>GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, objectKey)
+    .withMethod(HttpMethod.PUT)
+    .withExpiration(expiration);
+URL url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+</code></pre>
+</li>
+<li>
+<p>You can generate a presigned URL programmatically using the AWS SDK for Java or the AWS SDK for .NET. If you are using Microsoft Visual Studio, you can also use AWS Explorer to generate a presigned object URL without writing any code. Anyone who receives a valid presigned URL can then programmatically upload an object.</p>
+</li>
+<li>
+<p>Note: Anyone with valid security credentials can create a presigned URL. However, in order for you to successfully upload an object, the presigned URL must be created by someone who has permission to perform the operation that the presigned URL is based upon.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-signed-urls.html">Using Signed URLs - Amazon CloudFront</a> #ril</p>
+</li>
+</ul>
+<h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<ul>
+<li>為什麼 <code>aws s3 ls</code> 不加 <code>s3://</code> 也可以??</li>
+<li><a href="https://aws.amazon.com/cli/#File_Commands_for_Amazon_S3">File Commands for Amazon S3 - AWS Command Line Interface</a> #ril</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-s3.html">Using Amazon S3 with the AWS Command Line Interface - AWS Command Line Interface</a> #ril</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/reference/s3/index.html">s3 — AWS CLI 1.14.14 Command Reference</a> #ril</li>
+</ul>
+<h3 id="_1">同步兩邊資料??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://aws.amazon.com/cli/#File_Commands_for_Amazon_S3">File Commands for Amazon S3 - AWS Command Line Interface</a> <code>aws s3 sync</code> 可以同步 local folder 與 S3 bucket，例如 <code>aws s3 sync myfolder s3://mybucket/myfolder --exclude *.tmp</code>。</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/reference/s3/sync.html">sync — AWS CLI 1.14.14 Command Reference</a> 有 <code>--content-type</code> 可以指定 MIME type，但預設會自動偵測；<code>--dryrun</code> 可以試跑，也可以同步兩個 S3 bucket 的資料!! 預設就是 recursive #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/s3/">Amazon Simple Storage Service (S3) — Cloud Storage — AWS</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 Developer Guide</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html">S3 REST API Reference</a></li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/reference/s3/index.html">s3 - AWS CLI Command Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/http-auth/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>HTTP / Authentication - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/http-auth.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#http-authentication">HTTP / Authentication</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#authentication-flow-methodscheme">Authentication Flow, Method/Scheme ??</a></li>
+                
+            <li class="second-level"><a href="#basic-authentication">Basic Authentication</a></li>
+                
+            <li class="second-level"><a href="#digest-access-authentication">Digest Access Authentication ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="http-authentication"><a href="../http/">HTTP</a> / Authentication<a class="headerlink" href="#http-authentication" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication">HTTP authentication - HTTP | MDN</a> #ril</p>
+<ul>
+<li>
+<p>HTTP provides a GENERAL FRAMEWORK for ACCESS CONTROL and AUTHENTICATION. The most common HTTP authentication is based on the &ldquo;Basic&rdquo; SCHEMA. This page shows an introduction to the HTTP framework for authentication and shows how to restrict access to your server using the HTTP &ldquo;Basic&rdquo; schema.</p>
+<p>下面 Authentication schemes 一開始提到 The general HTTP authentication framework is used by several authentication schemes 大概因為所有的 authentication scheme 都用 <code>WWW-Authenticate</code> 與 <code>Authorization</code> 兩個 header 在運作，所以才說是 general framework。</p>
+<p>只有這裡講 schema，接下來都講 scheme ??</p>
+</li>
+</ul>
+<p>The general HTTP authentication framework</p>
+<ul>
+<li>
+<p>RFC 7235 defines the HTTP authentication framework which can be used by a server to CHALLENGE a client request and by a client to provide authentication information.</p>
+</li>
+<li>
+<p>The CHALLENGE AND RESPONSE FLOW works like this: The server responds to a client with a <code>401</code> (Unauthorized) response status and provides information on HOW TO AUTHORIZE with a <code>WWW-Authenticate</code> response header containing at least one CHALLENGE.</p>
+<p>雖然 <code>WWW-Authenticat</code> 裡放的是 authentication scheme，但這跟接下來 client 要如何代為盤問 (challenge) 使用者有關，所以才會有 &ldquo;at least one challenge&rdquo; 的說法。</p>
+<p>A client that wants to authenticate itself with a server can then do so by including an <code>Authorization</code> request header field with the credentials. Usually a client will present a password prompt to the user and will then issue the request including the correct <code>Authorization</code> header.</p>
+<p><img alt="" src="https://mdn.mozillademos.org/files/14689/HTTPAuth.png" /></p>
+<p>In the case of a &ldquo;Basic&rdquo; authentication like shown in the figure, the exchange must happen over an HTTPS (TLS) connection to be secure.</p>
+</li>
+</ul>
+<p>Authentication schemes</p>
+<ul>
+<li>
+<p>The general HTTP authentication framework is used by several authentication schemes. Schemes can differ in security strength and in their availability in client or server software.</p>
+</li>
+<li>
+<p>The most common authentication scheme is the &ldquo;Basic&rdquo; authentication scheme which is introduced in more details below. IANA maintains a list of authentication schemes, but there are other schemes offered by HOST SERVICES, such as Amazon AWS. Common authentication schemes include:</p>
+<ul>
+<li>
+<p><code>Basic</code> (see RFC 7617, base64-encoded credentials. See below for more information.),</p>
+</li>
+<li>
+<p><code>Bearer</code> (see RFC 6750, bearer tokens to access OAuth 2.0-protected resources),</p>
+<p><a href="https://tools.ietf.org/html/rfc6750#section-1.2">1.2. Terminology - RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage</a></p>
+<blockquote>
+<p>Bearer Token - A security token with the property that any party in possession of the token (a &ldquo;bearer&rdquo;) can use the token in any way that ANY OTHER party in possession of it can. Using a bearer token does not require a bearer to prove possession of cryptographic key material (proof-of-possession).</p>
+</blockquote>
+<p>其實也不一定跟 OAuth 2.0 有關，不像 <code>Basic</code> 需要出示真正的 credentials，只認 token 不認人。</p>
+</li>
+<li>
+<p><code>Digest</code> (see RFC 7616, only md5 hashing is supported in Firefox, see bug 472823 for SHA encryption support),</p>
+</li>
+<li><code>HOBA</code> (see RFC 7486, Section 3, HTTP Origin-Bound Authentication, digital-signature-based),</li>
+<li><code>Mutual</code> (see RFC 8120),</li>
+<li><code>AWS4-HMAC-SHA256</code> (see AWS docs).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Glossary/challenge">Challenge-response authentication - MDN Web Docs Glossary: Definitions of Web-related terms | MDN</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://httpbin.org/">httpbin(1): HTTP Client Testing Service</a> 用 <code>/basic-auth/:user/:passwd</code> 測試?</li>
+</ul>
+<h2 id="authentication-flow-methodscheme">Authentication Flow, Method/Scheme ??<a class="headerlink" href="#authentication-flow-methodscheme" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication">HTTP authentication - HTTP | MDN</a><ul>
+<li>流程 (challenge and response flow) 上，server 會先回應 401 (Unauthorized) 並透過 <code>WWW-Authenticate</code> response header 提供 &ldquo;how to authorize&rdquo; 的資訊 &ndash; 裡面至少有一個 &ldquo;口令&rdquo; (challenge)，接著 client 再送出一個 request 並附上 <code>Authorization</code> request header，內含 credentials (可能經過編碼)。此時若驗證失敗，會得到 403 Forbidden。</li>
+<li>流程圖以 Basic authentication 舉例 (走 HTTPS (TLS) 才安全)，401 帶 <code>WWW-Authenticate: Basic realm="Access to the staging site"</code>，之後再送一次 request 帶 <code>Authorization: Basic XYZ12345...</code>；所以接下來所有 request 都要帶 <code>Authorization</code> 這個 header 才行。</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#WWW-Authenticate_and_Proxy-Authenticate_headers">WWW-Authenticate and Proxy-Authenticate headers - HTTP authentication - HTTP | MDN</a> #ril<ul>
+<li><code>WWW-Authenticate</code> response header 定義了存取該 resource 的 authentication method；正確地來說，是指明要採用的 authentication scheme，這樣 client 才知到要如何提供 credentials。</li>
+<li>語法是 <code>WWW-Authenticate: &lt;type&gt; realm=&lt;realm&gt;</code>，其中 <code>&lt;type&gt;</code> 就是 authentication scheme (以 <code>Basic</code> 最為常見)，而 <code>&lt;realm&gt;</code> 則用來描述 &ldquo;protected area&rdquo; 或 &ldquo;scope of protection&rdquo;，實務上會成為使用者會看到的訊息，例如 &ldquo;Access to the staging site&rdquo;，得以判斷正要存取哪個 space 的資源。</li>
+<li><code>Authorization</code> request header 包含 credentials，語法上是 <code>Authorization: &lt;type&gt; &lt;credentials&gt;</code>，其中 <code>&lt;type&gt;</code> 跟 <code>WWW-Authenticate</code> 中的一樣，不過後面 <code>&lt;credentials&gt;</code> 的寫法 (是否需要 encode/encrypt) 則依 authentication scheme 而定。</li>
+</ul>
+</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Authentication_schemes">Authentication schemes - HTTP authentication - HTTP | MDN</a> #ril</li>
+</ul>
+<h2 id="basic-authentication">Basic Authentication<a class="headerlink" href="#basic-authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://swagger.io/docs/specification/authentication/basic-authentication/">Basic Authentication - Swagger</a> #ril</p>
+<ul>
+<li>Basic authentication 是內建在 HTTP potocol 裡的驗證方案 (scheme) &ndash; client 送出 HTTP request 時帶有 <code>Authorization</code> header，內容是 <code>Basic CREDENTIAL</code>，其中 <code>CREDENTIAL</code> 是 <code>username:password</code> 做過 Base64 encoding 的結果，例如 <code>demo / p@55w0rd</code> 要送出 <code>Authorization: Basic ZGVtbzpwQDU1dzByZA==</code>。</li>
+<li>由於 Base64 很容易 decode，所以只應用在安全的連線，例如 HTTPS/SSL。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic access authentication - Wikipedia</a> #ril</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization">Authorization - HTTP | MDN</a></p>
+<ul>
+<li>The HTTP <code>Authorization</code> request header contains the credentials to AUTHENTICATE a user agent with a server, usually AFTER the server has responded with a <code>401 Unauthorized</code> status and the <code>WWW-Authenticate</code> header.</li>
+</ul>
+<p>Syntax</p>
+<pre><code>    Authorization: &lt;type&gt; &lt;credentials&gt;
+</code></pre>
+<p>Directives</p>
+<ul>
+<li>
+<p>`<type></p>
+<p>AUTHENTICATION type. A common type is <code>Basic</code>. Other types:</p>
+<ul>
+<li>IANA registry of Authentication schemes</li>
+<li>Authentification for AWS servers (<code>AWS4-HMAC-SHA256</code>)</li>
+</ul>
+<p>只有 header name 是 authorization，這裡講的都是 authentication ??</p>
+</li>
+<li>
+<p><code>&lt;credentials&gt;</code></p>
+<p>If the <code>Basic</code> authentication scheme is used, the credentials are constructed like this:</p>
+<ul>
+<li>The username and the password are combined with a colon (<code>aladdin:opensesame</code>).</li>
+<li>The resulting string is base64 encoded (<code>YWxhZGRpbjpvcGVuc2VzYW1l</code>).</li>
+</ul>
+<p>Note: Base64 encoding does not mean encryption or hashing! This method is equally secure as sending the credentials in clear text (base64 is a reversible encoding). Prefer to use HTTPS in conjunction with Basic Authentication.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="digest-access-authentication">Digest Access Authentication ??<a class="headerlink" href="#digest-access-authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Digest_access_authentication">Digest access authentication - Wikipedia</a> #ril</li>
+<li><a href="https://tools.ietf.org/html/rfc7616">RFC 7616 - HTTP Digest Access Authentication</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc7235">RFC 7235 - Hypertext Transfer Protocol (HTTP/1.1): Authentication</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7616">RFC 7616 - HTTP Digest Access Authentication</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

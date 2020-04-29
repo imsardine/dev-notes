@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/c-pointer/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>C / Pointer - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/c-pointer.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#c-pointer">C / Pointer</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+                <li class="third-level"><a href="#null">NULL ??</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="c-pointer"><a href="../c/">C</a> / Pointer<a class="headerlink" href="#c-pointer" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.programiz.com/c-programming/c-pointers">C Pointers: A Complete Beginner&rsquo;s Guide - Programiz</a></p>
+<ul>
+<li>
+<p>Pointers are powerful features of C and (C++) programming that differentiates it from other popular programming languages like Java and Python.</p>
+<p>Pointers are used in C program to access the memory and MANIPULATE THE ADDRESS.</p>
+</li>
+</ul>
+<p>Address in C</p>
+<ul>
+<li>
+<p>Before you get into the concept of pointers, let&rsquo;s first get familiar with address in C.</p>
+<p>If you have a variable <code>var</code> in your program, <code>&amp;var</code> will give you its ADDRESS in the memory, where <code>&amp;</code> is commonly called the REFERENCE OPERATOR.</p>
+<p>可以將 <code>&amp;</code> 取得的 address 視為 reference；反過來要取得 referece 背後的值則稱做 dereference。</p>
+</li>
+<li>
+<p>You must have seen this notation while using <code>scanf()</code> function.</p>
+<pre><code>scanf("%d", &amp;var);
+</code></pre>
+<p>It was used in the function to store the user inputted value in the address of <code>var</code>.</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+  int var = 5;
+  printf("Value: %d\n", var);
+  printf("Address: %u", &amp;var);  //Notice, the ampersand(&amp;) before var.
+  return 0;
+}
+</code></pre>
+<p>Output</p>
+<pre><code>Value: 5
+Address: 2686778
+</code></pre>
+<p>Note: You may obtain different value of address while using this code.</p>
+<p>In above source code, value 5 is stored in the memory location 2686778. <code>var</code> is JUST THE NAME GIVEN TO THAT LOCATION.</p>
+</li>
+</ul>
+<p>Pointer variables</p>
+<ul>
+<li>
+<p>In C, you can create a special variable that STORES THE ADDRESS (rather than the value). This variable is called POINTER VARIABLE or simply a pointer.</p>
+</li>
+<li>
+<p>How to create a pointer variable?</p>
+<pre><code>data_type* pointer_variable_name;
+int* p;
+</code></pre>
+<p>Above statement defines, <code>p</code> as pointer variable of type <code>int</code>.</p>
+<p>注意 &ldquo;pointer variable of type XXX&rdquo; 的說法；雖然 pointer variable 裡面存的都是 address，但該 address 可以指向不同的型態。</p>
+</li>
+</ul>
+<p>Reference operator (&amp;) and Dereference operator (*)</p>
+<ul>
+<li>
+<p>As discussed, <code>&amp;</code> is called reference operator. It gives you the address of a variable.</p>
+<p>Likewise, there is another operator that gets you the value from the address, it is called a DEREFERENCE OPERATOR <code>*</code>.</p>
+<p>面對一般的 variable 時，透過 variable name 讀寫的是它的 value，要搭配 <code>&amp;</code> 才能拿到 address；面對 pointer variable 時，透過 varialbe name 讀寫也是它的 value，不過此時 value 是指向它處的 address (因 pointer variable 自己的 address 不同)，要搭配 <code>*</code> 才能取到存放在它處 address 的值。</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+  int val;
+  int *addr;
+  int **addr2;
+
+  val = 2;
+  addr = &amp;val;
+  addr2 = &amp;addr;
+
+  printf("&amp;val = %u\n", &amp;val);
+  printf("val = %u\n", val);
+  printf("&amp;addr = %u\n", &amp;addr);
+  printf("addr = %u\n", addr);
+  printf("*addr = %u\n", *addr);
+  printf("addr2 = %u\n", addr2);
+  printf("**addr2 = %u\n", **addr2);
+}
+</code></pre>
+<p>輸出：</p>
+<pre><code>&amp;val = 3806188364  # 在 3806188364 有個放得進 int 的空間
+val = 2            # 取出 3806188364 這空間裡的值
+&amp;addr = 3806188352 # 在 3806188352 有個放得進 adderess 的空間，裡面放著 3806188364
+addr = 3806188364  # 取出 3806188352 這空間裡的值 (一個 address)
+*addr = 2          # 取出 3806188352 --&gt; 3806188364 這空間裡的值
+addr2 = 3806188352
+**addr2 = 2        # 取出 &amp;addr2 --&gt; 3806188352 --&gt; 3806188364 這空間裡的值
+</code></pre>
+</li>
+<li>
+<p>Below example clearly demonstrates the use of pointers, reference operator and dereference operator.</p>
+<p>Note: The <code>*</code> sign when declaring a pointer is not a dereference operator. It is just a similar notation that creates a pointer.</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+   int* pc, c;
+
+   c = 22;
+   printf("Address of c: %u\n", &amp;c);
+   printf("Value of c: %d\n\n", c);
+
+   pc = &amp;c;
+   printf("Address of pointer pc: %u\n", pc);
+   printf("Content of pointer pc: %d\n\n", *pc);
+
+   c = 11;
+   printf("Address of pointer pc: %u\n", pc);
+   printf("Content of pointer pc: %d\n\n", *pc);
+
+   *pc = 2;
+   printf("Address of c: %u\n", &amp;c);
+   printf("Value of c: %d\n\n", c);
+   return 0;
+}
+</code></pre>
+<p>Output</p>
+<pre><code>Address of c: 2686784
+Value of c: 22
+
+Address of pointer pc: 2686784
+Content of pointer pc: 22
+
+Address of pointer pc: 2686784
+Content of pointer pc: 11
+
+Address of c: 2686784
+Value of c: 2
+</code></pre>
+<p>Explanation of the program</p>
+<ol>
+<li>
+<p><code>int* pc, c;</code></p>
+<p><img alt="A pointer variable and a normal variable is created." src="https://cdn.programiz.com/sites/tutorial2program/files/pointer-1.jpg" /></p>
+<p>Here, a pointer <code>pc</code> and a NORMAL VARIABLE <code>c</code>, both of type <code>int</code>, is created.</p>
+<p>Since <code>pc</code> and <code>c</code> are not initialized at first, pointer <code>pc</code> points to either no address or a RANDOM ADDRESS. And, variable <code>c</code> HAS AN ADDRESS BUT CONTAINS A RANDOM GARBAGE VALUE.</p>
+</li>
+<li>
+<p><code>c = 22;</code></p>
+<p><img alt="22 is assigned to variable c." src="https://cdn.programiz.com/sites/tutorial2program/files/pointer-2.jpg" /></p>
+<p>This assigns 22 to the variable <code>c</code>, i.e., 22 is stored in the memory location of variable <code>c</code>.</p>
+<p>Note that, when printing <code>&amp;c</code> (address of <code>c</code>), we use <code>%u</code> rather than <code>%d</code> since address is usually expressed as an unsigned integer (always positive).</p>
+</li>
+<li>
+<p><code>pc = &amp;c;</code></p>
+<p><img alt="Address of variable c is assigned to pointer pc." src="https://cdn.programiz.com/sites/tutorial2program/files/pointer-3.jpg" /></p>
+<p>This assigns the address of variable <code>c</code> to the pointer <code>pc</code>.</p>
+<p>You see the value of <code>pc</code> is same as the address of <code>c</code> and the content of <code>pc</code> is 22 as well.</p>
+</li>
+<li>
+<p><code>c = 11;</code></p>
+<p><img alt="11 is assigned to variable c." src="https://cdn.programiz.com/sites/tutorial2program/files/pointer-4.jpg" /></p>
+<p>This assigns 11 to variable <code>c</code>.</p>
+<p>Since, pointer <code>pc</code> points to the same address as <code>c</code>, value pointed by pointer <code>pc</code> is 11 as well.</p>
+</li>
+<li>
+<p><code>*pc = 2;</code></p>
+<p><img alt="5 is assigned to pointer variable's address." src="https://cdn.programiz.com/sites/tutorial2program/files/pointer-5.jpg" /></p>
+<p>This change the value at the memory location pointed by pointer <code>pc</code> to 2.</p>
+<p>Since the address of the pointer <code>pc</code> is same as the address of <code>c</code>, value of <code>c</code> is also changed to 2.</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>Common mistakes when working with pointers</p>
+<ul>
+<li>
+<p>Suppose, you want pointer <code>pc</code> to point to the address of <code>c</code>. Then,</p>
+<pre><code>int c, *pc; // 等同於 int* pc, c 的寫法 (1)
+
+// Wrong! pc is address whereas,
+// c is not an address.
+pc = c;
+
+// Wrong! *pc is the value pointed by address whereas,
+// &amp;c is an address.
+*pc = &amp;c;                          // (2)
+
+// Correct! pc is an address and,
+// &amp;c is also an address.
+pc = &amp;c;                          // (2)
+
+// Correct! *pc is the value pointed by address and,
+// c is also a value (not address).
+*pc = c;                         // (2)
+</code></pre>
+<ol>
+<li>
+<p>雖然上面語法的定義是 <code>data_type* pointer_variable_name;</code>，但從 <code>int c, *pc</code> 的用法看來，星號往 variable name 靠 (<code>data_type *pointer_variable_name</code>) 的寫法比較對，否則 <code>int* pc, c</code> 很容易被解讀成 <code>pc</code> 跟 <code>c</code> 都是 pointer variable，但事實上是 <code>int *pc, c</code>，只有 <code>pc</code> 才是 pointer。</p>
+</li>
+<li>
+<p>也就是 assignment 的兩側要一致 &ndash; value 或 address，其中 value 可以是 normal variable 或是 pointer variable + dereference (<code>*</code>)，而 address 可以是 pointer variable 或 normal variable + reference (<code>&amp;</code>)</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.geeksforgeeks.org/pointers-in-c-and-c-set-1-introduction-arithmetic-and-array/">Pointers in C and C++ | Set 1 (Introduction, Arithmetic and Array) - GeeksforGeeks</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.tutorialspoint.com/cprogramming/c_pointers.htm">Pointers in C</a> #ril</p>
+</li>
+</ul>
+<h3 id="null">NULL ??<a class="headerlink" href="#null" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/few-bytes-on-null-pointer-in-c/">NULL pointer in C - GeeksforGeeks</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/1296843/">c - What is the difference between NULL, &lsquo;\0&rsquo; and 0 - Stack Overflow</a> #ril</li>
+<li><a href="https://en.cppreference.com/w/cpp/types/NULL">NULL - cppreference.com</a> 其實是個 macro? #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Null_pointer#C">C - Null pointer - Wikipedia</a> #ril</li>
+<li><a href="https://c-for-dummies.com/blog/?p=177">The Difference Between NULL and Zero | C For Dummies Blog</a> (2013-07-27) #ril</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/321798/">In C, why is NULL and 0 triggering an if statement - Software Engineering Stack Exchange</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

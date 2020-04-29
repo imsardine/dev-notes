@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/ubuntu/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Ubuntu - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/ubuntu.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#ubuntu">Ubuntu</a></li>
+            <li class="second-level"><a href="#version-code-name">Version, Code Name ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#standard-system-utilities">沒有安裝 standard system utilities 會怎樣? 事後要如何安裝?</a></li>
+                <li class="third-level"><a href="#lts-patch-majorminor">昇級 LTS 到最新的 patch (major.minor 不變) ??</a></li>
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="ubuntu">Ubuntu<a class="headerlink" href="#ubuntu" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.ubuntu.com/">The leading operating system for PCs, IoT devices, servers and the cloud | Ubuntu</a> #ril<ul>
+<li>Ubuntu is an open source software operating system that runs from the desktop, to the cloud, to all your internet connected things 平台有 Cloud??, Server, Containers??, Desktop 與 IoT??。</li>
+</ul>
+</li>
+</ul>
+<h2 id="version-code-name">Version, Code Name ??<a class="headerlink" href="#version-code-name" title="Permanent link"> #</a></h2>
+<p>用 <code>lsb_release -cs</code> 或 <code>lsb_release -a</code> 都可以取得，前者單純取 codename，後者則顯示更多版本相關的資訊。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#set-up-the-repository">Get Docker CE for Ubuntu | Docker Documentation</a> <code>lsb_release -cs</code> 可以取得 distribution 的名稱；<code>-c, --codename</code> 與 <code>-s, --short</code>。</li>
+<li><a href="https://help.ubuntu.com/community/Repositories/CommandLine#Other_Versions">Other Version - Repositories/CommandLine - Community Help Wiki</a> 一樣提到用 <code>lsb_release -sc</code> 取得 code name。</li>
+<li><code>man lsb_release</code> 發現 <code>-a</code> 可以顯示更多的資訊。</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="standard-system-utilities">沒有安裝 standard system utilities 會怎樣? 事後要如何安裝?<a class="headerlink" href="#standard-system-utilities" title="Permanent link"> #</a></h3>
+<ul>
+<li>沒有安裝不會怎樣；事實上裡面的套件大部份都用不到，需要時再安裝即可。</li>
+<li><code>tasksel --new-install --list-tasks | grep standard</code> 就可以看到 &ldquo;standard    standard system utilities&rdquo; (加 <code>--new-install</code> 才會有)，用 <code>tasksel --task-package standard</code> 會列出 <code>standard</code> task 內含的套件 (只會列出未安裝的套件?)</li>
+<li>事後可以用 <code>sudo tasksel install standard</code> 安裝。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>What&rsquo;s the consequences if I don&rsquo;t install the &ldquo;standard system utilities&rdquo; of Debian? - Unix &amp; Linux Stack Exchange <a href="https://unix.stackexchange.com/questions/307600/">https://unix.stackexchange.com/questions/307600/</a> Matija Nalis: 選擇不裝，日後需要時再安裝 #ril</li>
+<li>安装debian时的&rdquo;Standard system utilities&rdquo;都包括哪些软件包? | 大象的blog <a href="http://lexdene.github.io/md-blog/debian/what_does_the_standard_system_task_include.md.html">http://lexdene.github.io/md-blog/debian/what_does_the_standard_system_task_include.md.html</a> 大多數的套件都用不到，作者選擇先不安裝。</li>
+<li>what&rsquo;s in &ldquo;standard system utilities&rdquo; w/ 16.04 server? - Ask Ubuntu <a href="https://askubuntu.com/questions/766419/">https://askubuntu.com/questions/766419/</a> <code>sudo tasksel --task-package standard</code> 可以看安裝的套件? 為什麼只有 <code>ubuntu-advantage-tools</code>?</li>
+<li>apt - Ubuntu server 16.04 - standard system utilities - Ask Ubuntu <a href="https://askubuntu.com/questions/820001/">https://askubuntu.com/questions/820001/</a> 事後安裝 <code>ubuntu-standard</code> 套件即可；但 <code>ubuntu-standard</code> 的說明是 &ldquo;The Ubuntu standard system&rdquo;。</li>
+<li>csmojo <a href="http://csmojo.com/posts/what-debian-standard-system-utilities-include.html">http://csmojo.com/posts/what-debian-standard-system-utilities-include.html</a> <code>tasksel --task-packages standard</code> 似乎沒有安裝 <code>standard system utilities</code> 時才有效果?</li>
+</ul>
+<h3 id="lts-patch-majorminor">昇級 LTS 到最新的 patch (major.minor 不變) ??<a class="headerlink" href="#lts-patch-majorminor" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://askubuntu.com/questions/961143/">upgrade - update Ubuntu 16.04.1 to 16.04.3 - Ask Ubuntu</a><ul>
+<li>gorbedani: 如何從 16.04.1 昇級到 16.04.3? 做了 <code>apt update</code>、<code>upgrade</code> 跟 <code>dist-upgrade</code> 都沒有用，<code>uname -a</code> 的輸出還是 <code>Linux lawyer 4.10.0-35-generic #39~16.04.1-Ubuntu ...</code>。</li>
+<li>gertvdijk: Kernel build string 並不會指出 &ldquo;state of the packages your system has installed&rdquo;，要用 <code>lsb_release</code> 看。</li>
+</ul>
+</li>
+<li><a href="https://askubuntu.com/questions/597341/">Point Release upgrade from 14.04.1 to 14.04.2? - Ask Ubuntu</a> #ril</li>
+<li><a href="https://ubuntuforums.org/showthread.php?t=2371186">[ubuntu] No upgrade from LTS 16.04.2 to LTS 16.04.3</a> #ril</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p>Ubuntu 官方為不同 release 提供有不同 &ldquo;最小安裝&rdquo; 的 image，並以 code name 做為tag：</p>
+<ul>
+<li>19.04 &ndash; <code>ubuntu:disco</code>, <code>ubuntu:rolling</code></li>
+<li>18.10 &ndash; <code>ubuntu:cosmic</code></li>
+<li>18.04 LTS &ndash; <code>ubuntu:bionic</code>, <code>ubuntu:latest</code></li>
+<li>16.04 LTS &ndash; <code>ubuntu:xenial</code></li>
+<li>14:04 LTS &ndash; <code>ubuntu:trusty</code></li>
+</ul>
+<p>注意 <code>ubuntu:latest</code> 並非指向最新的 19.04，是因為 <code>latest</code> tag 會指向最新的 LTS，最新版則用 <code>rolling</code> tag 來表示。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes">Backup, restore, or migrate data volumes - Use volumes | Docker Documentation</a> 大量用 <code>ubuntu</code> image 說明。</p>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/ubuntu">ubuntu - Docker Hub</a></p>
+<p>Supported tags and respective Dockerfile links 不同的 release 有不同的 tag</p>
+<ul>
+<li>18.04, bionic-20190424, bionic, latest (bionic/Dockerfile)</li>
+<li>18.10, cosmic-20190418, cosmic (cosmic/Dockerfile)</li>
+<li>19.04, disco-20190423, disco, rolling (disco/Dockerfile)</li>
+<li>14.04, trusty-20190425, trusty (trusty/Dockerfile)</li>
+<li>16.04, xenial-20190425, xenial (xenial/Dockerfile)</li>
+</ul>
+<p>What&rsquo;s in this image?</p>
+<ul>
+<li>
+<p>This image is built from OFFICIAL ROOTFS TARBALLS provided by Canonical (specifically, <a href="https://partner-images.canonical.com/core/">https://partner-images.canonical.com/core/</a>).</p>
+</li>
+<li>
+<p>The <code>ubuntu:latest</code> tag points to the &ldquo;latest LTS&rdquo;, since that&rsquo;s the version RECOMMENDED FOR GENERAL USE. The <code>ubuntu:rolling</code> tag points to the latest release (regardless of LTS status).</p>
+<p>注意 <code>latest</code> 跟一般認知不同，這裡指的是 latest LTS，至於真的最新版，則要改用 <code>rolling</code> tag。</p>
+</li>
+</ul>
+<p>Locales</p>
+<ul>
+<li>
+<p>Given that it is a MINIMAL INSTALL of Ubuntu, this image only includes the <code>C</code>, <code>C.UTF-8</code>, and <code>POSIX</code> locales by default. For most uses requiring a <code>UTF-8</code> locale, <code>C.UTF-8</code> is LIKELY SUFFICIENT (<code>-e LANG=C.UTF-8</code> or <code>ENV LANG C.UTF-8</code>).</p>
+<p>For uses where that is not sufficient, other locales can be installed/generated via the <code>locales</code> package. PostgreSQL has a good example of doing so, copied below:</p>
+<pre><code>RUN apt-get update &amp;amp;&amp;amp; apt-get install -y locales &amp;amp;&amp;amp; rm -rf /var/lib/apt/lists/* \
+    &amp;amp;&amp;amp; localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ubuntu.com/">Ubuntu</a></li>
+<li><a href="https://blog.ubuntu.com/">Ubuntu Blog</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../ubuntu-desktop/">Desktop</a></li>
+<li><a href="../ubuntu-server/">Server</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://wiki.ubuntu.com/Releases">Releases - Ubuntu Wiki</a> version - code name - release date - EOL date 的對照</li>
+<li><a href="https://packages.ubuntu.com/">Ubuntu Packages Search</a> 查詢不同 Ubuntu 版本 package manager 裡包裝的版本</li>
+<li><a href="http://manpages.ubuntu.com/">Ubuntu Manpage</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

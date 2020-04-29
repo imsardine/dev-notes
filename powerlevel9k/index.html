@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/powerlevel9k/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Powerlevel9k (PL9k) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/powerlevel9k.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#powerlevel9k-pl9k">Powerlevel9k (PL9k)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#prompt-segment">Prompt, Segment ??</a></li>
+                
+            <li class="second-level"><a href="#configuration-customization">Configuration, Customization ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="powerlevel9k-pl9k">Powerlevel9k (PL9k)<a class="headerlink" href="#powerlevel9k-pl9k" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://github.com/bhilburn/powerlevel9k">bhilburn/powerlevel9k: The most awesome Powerline theme for ZSH around!</a> #ril<ul>
+<li>Powerlevel9k is a theme for ZSH which uses Powerline Fonts. It can be used with vanilla ZSH or ZSH frameworks such as Oh-My-Zsh, Prezto, Antigen, and many others. 是 Zsh theme，只是用了 Powerline 的字型，單純的 Zsh 可以用，也可以搭配 Zsh framework 使用。</li>
+<li>There are a number of Powerline ZSH themes available, now. The developers of this theme focus on four primary goals: 1. Give users a great out-of-the-box configuration with no additional configuration required. 2. Make customization easy for users who do want to tweak their prompt. 開箱即用，但又方便客製。</li>
+<li>There are two installation steps to go from a vanilla terminal to a PL9k terminal. 意外出現 PL9k 的說法。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://medium.com/@alex285/get-powerlevel9k-the-most-cool-linux-shell-ever-1c38516b0caa">Get PowerLevel9k — The Most Cool Linux Shell EVER! – alex285 – Medium</a> (2018-04-06) #ril</li>
+</ul>
+<h2 id="prompt-segment">Prompt, Segment ??<a class="headerlink" href="#prompt-segment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/bhilburn/powerlevel9k">bhilburn/powerlevel9k: The most awesome Powerline theme for ZSH around!</a> #ril<ul>
+<li>Provide useful SEGMENTS that you can enable to make your PROMPT even more effective and helpful. We have PROMPT SEGMENTS for everything from unit test coverage to your AWS instance. 看似 prompt 裡 segment 組成</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuration-customization">Configuration, Customization ??<a class="headerlink" href="#configuration-customization" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/bhilburn/powerlevel9k/wiki/Show-Off-Your-Config">Show Off Your Config · bhilburn/powerlevel9k Wiki</a> Theme 還有自己的 configuration，變化出很不一樣的效果 #ril</p>
+<ul>
+<li>Tony Lambiris&rsquo; Configuration 字型很可愛，採 ShureTechMono Nerd Font Regular (pt. 13)</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/bhilburn/powerlevel9k/wiki/Stylizing-Your-Prompt">Stylizing Your Prompt · bhilburn/powerlevel9k Wiki</a> #ril</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/bhilburn/powerlevel9k#installation">Installation - bhilburn/powerlevel9k: The most awesome Powerline theme for ZSH around!</a> #ril</p>
+<ul>
+<li>There are two installation steps to go from a vanilla terminal to a PL9k terminal. Once you are done, you can optionally customize your prompt. 安裝 Zsh theme 跟 Powerline fonts 後就可以用，但有很多 segment customization options 可以調整。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#step-1-install-powerlevel9k">Step 1: Install Powerlevel9k - Install Instructions · bhilburn/powerlevel9k Wiki</a> 透過 Oh My Zsh 安裝看似最容易</p>
+<ul>
+<li>Option 2: Install for Oh-My-ZSH &ndash; clone this repository into your OMZ <code>custom/themes</code> directory. You then need to select this theme in your <code>~/.zshrc</code>:<pre><code>$ git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+$ cat ~/.zshrc
+...
+ZSH_THEME="powerlevel9k/powerlevel9k"
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/bhilburn/powerlevel9k/wiki/Install-Instructions#step-2-install-a-powerline-font">Step 2: Install a Powerline Font - Install Instructions · bhilburn/powerlevel9k Wiki</a> 除了 Powerline Fonts 也支援其他字型，其中又以 Nerd-Fonts 規模最大? #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/bhilburn/powerlevel9k">bhilburn/powerlevel9k - GitHub</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../zsh/">Zsh</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

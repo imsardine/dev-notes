@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/maven-repo/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Maven / Repository - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/maven-repo.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#maven-repository">Maven / Repository</a></li>
+            <li class="second-level"><a href="#local">Local Repository</a></li>
+                
+            <li class="second-level"><a href="#central">Central Repository</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="maven-repository"><a href="../maven/">Maven</a> / Repository<a class="headerlink" href="#maven-repository" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://maven.apache.org/guides/introduction/introduction-to-repositories.html">Maven – Introduction to Repositories</a> #ril</p>
+</li>
+<li>
+<p><a href="https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html">Maven – Guide to installing 3<sup>rd</sup> party JARs</a> #ril</p>
+</li>
+<li><a href="https://maven.apache.org/guides/mini/guide-3rd-party-jars-remote.html">Maven – Guide to deploying 3<sup>rd</sup> party JARs to remote repository</a> #ril</li>
+<li><a href="https://maven.apache.org/guides/mini/guide-coping-with-sun-jars.html">Maven – Guide to Coping with Sun JARs</a> #ril</li>
+<li><a href="https://maven.apache.org/guides/mini/guide-repository-ssl.html">Maven – Remote repository access through authenticated HTTPS</a> #ril</li>
+<li><a href="https://maven.apache.org/guides/mini/guide-relocation.html">Maven – Guide to relocation</a> #ril</li>
+</ul>
+<h2 id="local">Local Repository<a class="headerlink" href="#local" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.baeldung.com/maven-local-repository">Where is the Maven Local Repository? | Baeldung</a> (2020-01-16)</p>
+<ul>
+<li>
+<p>This quick writeup will focus on where Maven stores all the local dependencies locally – which is in the Maven local repository.</p>
+<p>Simply put, when we run a Maven build, all the dependencies of our project (jars, plugin jars, other artifacts) are all stored locally for later use.</p>
+</li>
+<li>
+<p>Also keep in mind that, beyond just this type of local repository, Maven does support 3 types of repos:</p>
+<ul>
+<li>Local – Folder location on the local Dev machine</li>
+<li>Central – Repository provided by Maven community</li>
+<li>Remote – Organization owned CUSTOM REPOSITORY</li>
+</ul>
+<p>Let&rsquo;s now focus on the local repository.</p>
+</li>
+<li>
+<p>The local repository of Maven is a folder location on the developer&rsquo;s machine, where all the project artifacts are stored locally.</p>
+<p>When maven build is executed, Maven automatically downloads all the dependency jars into the local repository.</p>
+<p>Usually this folder is named <code>.m2</code>.</p>
+</li>
+<li>
+<p>Here&rsquo;s where the default path to this folder is – based on OS:</p>
+<ul>
+<li>Windows: <code>C:\Users\&lt;User_Name&gt;\.m2</code></li>
+<li>Linux: <code>/home/&lt;User_Name&gt;/.m2</code></li>
+<li>Mac: <code>/Users/&lt;user_name&gt;/.m2</code></li>
+</ul>
+<p>And of course, for both on Linux or Mac: <code>~/.m2</code></p>
+</li>
+<li>
+<p>If the repo is not present in this default location, it&rsquo;s likely because some pre-existing configuration.</p>
+<p>That config file is located in the Maven installation directory – in a folder called <code>conf</code> – and is named <code>settings.xml</code>.</p>
+<p>Here&rsquo;s the relevant configuration that determines the location of our missing local repo:</p>
+<pre><code>&lt;settings&gt;
+    &lt;localRepository&gt;C:/maven_repository&lt;/localRepository&gt;
+    ...
+</code></pre>
+<p>That&rsquo;s essentially how we can change the location of the local repo – and of course, if that location is changed, we&rsquo;ll no longer find the repo at the default location.</p>
+<p>Note: The files stored in the earlier location will not be moved automatically.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="central">Central Repository<a class="headerlink" href="#central" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://maven.apache.org/repository/index.html">Maven – Maven Central Repository</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://search.maven.org/">The Central Repository</a> (<a href="https://repo.maven.apache.org/maven2/">repo</a>)</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

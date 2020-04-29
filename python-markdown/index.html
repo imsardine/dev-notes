@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-markdown/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python-Markdown - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-markdown.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-markdown">Python-Markdown</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#markdown">Markdown ??</a></li>
+                
+            <li class="second-level"><a href="#extension">Extension ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-markdown">Python-Markdown<a class="headerlink" href="#python-markdown" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://python-markdown.github.io/reference/#the-basics">The Basics - Library Reference — Python-Markdown 3.0.1 documentation</a> #ril<pre><code>import markdown
+html = markdown.markdown(your_text_string) # 一個動作就把 Markdown 轉 HTML 了
+</code></pre>
+</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/1.0.4/setup.py#L62">mkdocs/setup.py at 1.0.4 · mkdocs/mkdocs</a></li>
+</ul>
+<h2 id="markdown">Markdown ??<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://python-markdown.github.io/#differences">Differences - Python-Markdown — Python-Markdown 3.0.1 documentation</a> #ril<ul>
+<li>While Python-Markdown strives to fully implement markdown as described in the syntax rules, the rules can be interpreted in different ways and different implementations occasionally vary in their behavior (see the <a href="http://johnmacfarlane.net/babelmark2/faq.html#what-are-some-examples-of-interesting-divergences-between-implementations">Babelmark FAQ</a> for some examples). Known and INTENTIONAL differences found in Python-Markdown are summarized below: 有些部份 Markdown 原作者沒講清楚，衍生出實作上的差異</li>
+<li>Middle-Word Emphasis &ndash; Python-Markdown defaults to ignoring MIDDLE-WORD EMPHASIS (and strong emphasis). In other words, <code>some_long_filename.txt</code> will not become <code>some&lt;em&gt;long&lt;/em&gt;filename.txt</code>. This can be switched off if desired. See the Legacy EM Extension for details. 這對中文很重要 (否則要刻意寫成 <code>用 _底線_ 標示重點</code>)，啟用 <code>legacy_em</code> extension 即可，確認過在 code span 裡的底線不受影響。</li>
+</ul>
+</li>
+</ul>
+<h2 id="extension">Extension ??<a class="headerlink" href="#extension" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://python-markdown.github.io/extensions/">Extensions — Python-Markdown 3.0.1 documentation</a> #ril</li>
+<li><a href="https://github.com/Python-Markdown/markdown/wiki/Third-Party-Extensions">Third Party Extensions · Python-Markdown/markdown Wiki</a> #ril</li>
+<li><a href="https://python-markdown.github.io/extensions/api/">Extension API — Python-Markdown 3.0.1 documentation</a> #ril</li>
+<li><a href="https://facelessuser.github.io/pymdown-extensions/extensions/arithmatex/">Arithmatex - PyMdown Extensions Documentation</a> 提供好多 extension，數量很誇張! #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://python-markdown.github.io/">Python-Markdown</a></li>
+<li><a href="https://github.com/Python-Markdown/markdown">Python-Markdown/markdown - GitHub</a></li>
+<li><a href="https://pypi.org/project/Markdown/">Markdown - PyPI</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://python-markdown.github.io/reference/">Library Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

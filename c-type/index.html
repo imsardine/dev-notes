@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/c-type/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>C / Data Type - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/c-type.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#c-data-type">C / Data Type</a></li>
+            <li class="second-level"><a href="#boolean">Boolean</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="c-data-type"><a href="../c/">C</a> / Data Type<a class="headerlink" href="#c-data-type" title="Permanent link"> #</a></h1>
+<h2 id="boolean">Boolean<a class="headerlink" href="#boolean" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Boolean_data_type#C,_C++,_Objective-C,_AWK">C, C++, Objective-C, AWK - Boolean data type - Wikipedia</a></p>
+<ul>
+<li>C 最早在 1972 年的實作並未提供 boolean type，當時普遍的做法是用 <code>int</code> 來表示 &ndash; comparison operator (<code>&gt;</code>、<code>==</code> 等) 會傳回 <code>0</code> (false) 或 <code>1</code> (true)，還有 logical operator (<code>&amp;&amp;</code>、<code>||</code>、<code>!</code> 等)、condition-testing statement (<code>if</code>、<code>while</code> 等) 會將 0 視為 false，其餘 non-zero 都視為 true。</li>
+<li>ANSI C (1989) 推出後，開始有人用 <code>enum</code> 來定義自己的 boolean type 以提昇程式碼的可讀性，但 enum 實質上等同於 integer。</li>
+<li>直到 C99 提供標準的 boolean type &ndash; <code>_Bool</code>，只要引用 <code>stdbool.h</code> 就可以用 <code>bool</code>、<code>true</code>、<code>false</code>，它保證任何兩個 true value 等同?? (這在過去是辦不到的)。不過 boolean 還是可以當 integer 用，也就是 &ldquo;boolean values are just integers&rdquo; 的概念在不同版本的 C 都通用。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/1921539/">Using boolean values in C - Stack Overflow</a> #ril</p>
+<ul>
+<li>neuromancer: C 沒有 built-in boolean type，要怎麼在 C 裡實現? AraK: 至少在最新的標準裡有。</li>
+<li>
+<p>Andreas Bonini: 有 4 種選擇，基本上 Option 1 ~ 3 等效，但作者偏好 Option 2 &amp; 3，因為沒用到 <code>#define</code>。</p>
+<ul>
+<li>Option 1 - <code>typedef int bool;</code> 搭配 <code>#define true 1</code> 與 <code>#define false 0</code>。</li>
+<li>Option 2 - <code>typedef int bool;</code> 搭配 <code>enum { false, true };</code> (內部數值由 0 起算?)</li>
+<li>Option 3 - <code>typedef enum { false, true } bool;</code> 不知道怎麼選就用這個</li>
+<li>Option 4 - <code>#include &lt;stdbool.h&gt;</code> C99 才標準化，如果條件允許就用這個。</li>
+</ul>
+</li>
+<li>
+<p>Dale Hagglund: <code>!0</code> 的結果並不是 1，不過重點是 <code>0</code> 是唯一的 false，其他 non-zero 都是 true，所以直接比較 true/false 有點危險。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/C_data_types#stdbool.h">Boolean type - C data types - Wikipedia</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

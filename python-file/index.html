@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-file/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / File I/O - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-file.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-file-io">Python / File I/O</a></li>
+            <li class="second-level"><a href="#file-object">File Object ??</a></li>
+                
+            <li class="second-level"><a href="#file-like-object">File-like Object ??</a></li>
+                
+            <li class="second-level"><a href="#open-close">open(), close() ??</a></li>
+                
+            <li class="second-level"><a href="#mode">Mode ??</a></li>
+                
+            <li class="second-level"><a href="#cwd-current-working-directory">CWD (Current Working Directory)</a></li>
+                
+            <li class="second-level"><a href="#directory-listing">Directory Listing</a></li>
+                
+            <li class="second-level"><a href="#file-descriptor-fd">File Descriptor (FD) ??</a></li>
+                
+            <li class="second-level"><a href="#pathname">Pathname ??</a></li>
+                
+            <li class="second-level"><a href="#file-directory">File, Directory ??</a></li>
+                
+            <li class="second-level"><a href="#directory-listing_1">Directory Listing ??</a></li>
+                
+            <li class="second-level"><a href="#filedirectory-operation-copy-moverename-delete">File/Directory Operation - Copy, Move/Rename, Delete ??</a></li>
+                
+            <li class="second-level"><a href="#temporary-filedir">Temporary File/Dir ??</a></li>
+                
+            <li class="second-level"><a href="#_1">如何操作檔案?</a></li>
+                
+            <li class="second-level"><a href="#open-r-mode">open() 的 r+ mode 是什麼?</a></li>
+                
+            <li class="second-level"><a href="#_2">如何刪除檔案或目錄?</a></li>
+                
+            <li class="second-level"><a href="#_3">如何判斷檔案是不是資料夾??</a></li>
+                
+            <li class="second-level"><a href="#_4">如何建立資料夾??</a></li>
+                
+            <li class="second-level"><a href="#pattern">如何找出檔名符合某個 pattern 的檔案?</a></li>
+                
+            <li class="second-level"><a href="#_5">如何檢查檔案是否存在?</a></li>
+                
+            <li class="second-level"><a href="#_6">如何一次讀寫檔案內容?</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-file-io"><a href="../python/">Python</a> / File I/O<a class="headerlink" href="#python-file-io" title="Permanent link"> #</a></h1>
+<h2 id="file-object">File Object ??<a class="headerlink" href="#file-object" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/glossary.html#term-file-object">file object - Glossary — Python 3.6.5rc1 documentation</a><ul>
+<li>File object 對外提供 file-oriented API (例如 <code>read()</code>、<code>write()</code> 等)，居間協調對底層 resource 的存取 &ndash; 可能是 on-disk file、standard I/O、in-memory buffer、socket 等。</li>
+<li>事實上有 3 種 file object &ndash; raw/buffered binary file??、text file，這些 interface 定義在 <code>io</code> module，而建立 file object 最標準的方法是透過 <code>open()</code>。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2.7/library/functions.html#file">file(name[, mode[, buffering]]) - 2. Built-in Functions — Python 2.7.14 documentation</a> <code>file()</code> 做為 <code>file</code> type 的 constructor function，接受的參數跟 <code>open()</code> 一樣。不過開啟檔案建議用 <code>open()</code>，而 <code>file</code> 可以用在 type testing，例如 <code>isinstance(f, file)</code>。</li>
+<li><a href="https://docs.python.org/2/library/stdtypes.html#file-objects">File Objects - 5. Built-in Types — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2.7/library/io.html">15.2. io — Core tools for working with streams — Python 2.7.14 documentation</a> 提供 stream handling 的 interface，在 Python 2 可以跟 <code>file</code> 替換，但在 Python 3 就反過來變成 default interface #ril</li>
+</ul>
+<h2 id="file-like-object">File-like Object ??<a class="headerlink" href="#file-like-object" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/glossary.html#term-file-object">file object - Glossary — Python 3.6.5rc1 documentation</a> File object 也稱做 file-like object 或 stream，就是個同義字 (synonym)；雖然這麼說，但 <code>isinstance(StringIO.StringIO(), file)</code> 結果卻是 false。</li>
+<li><a href="https://docs.python.org/2/library/stringio.html">7.5. StringIO — Read and write strings as files — Python 2.7.14 documentation</a> 也實作了 file-like #ril</li>
+<li><a href="https://stackoverflow.com/questions/1661262/">Check if object is file-like in Python - Stack Overflow</a> 提到 &ldquo;behave like a real file&rdquo;，所以 <code>isinstance(fp, file)</code> 這樣的檢查不好，但要怎麼檢查 file-like 呢? #ril</li>
+<li><a href="https://docs.python.org/2/library/os.html#os-file-dir">15.1.4. Files and Directories - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+</ul>
+<h2 id="open-close">open(), close() ??<a class="headerlink" href="#open-close" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>open().read()</code> 後沒 close 會怎樣?? 放 context manager 裡最安全</li>
+<li><a href="https://docs.python.org/2.7/library/functions.html#open">open(name[, mode[, buffering]]) - 2. Built-in Functions — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/1834556/">python - Does a File Object Automatically Close when its Reference Count Hits Zero? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="mode">Mode ??<a class="headerlink" href="#mode" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/tutorial/inputoutput.html#reading-and-writing-files">7.2. Reading and Writing Files - 7. Input and Output — Python 2.7.15 documentation</a> #ril<ul>
+<li><code>open(filename, mode)</code> 最常搭配 2 個參數，第 2 個參數 <code>mode</code> &ndash; string containing a few characters describing the way in which the file will be used (依用途不同)，預設是 <code>r</code>。</li>
+<li>上述的 character 可以是 <code>r</code> (reading)、<code>w</code> (writing) (覆寫現有的檔案)、<code>a</code> (appending) (接在檔尾)。另外 <code>r+</code> 用在 reading &amp; writing? 如何控制讀寫的位置??</li>
+<li>在 Windows 上可以額外加上 <code>b</code> 要求以 binary mode 開啟檔案 (例如 <code>rb</code>、<code>wb</code> 或 <code>r+b</code>)，因為 Python 會在讀寫 text data 時改變 EOL character，所以不適用 binary data，不過在 Unix-like 上加上 <code>b</code> 也不會有問題，反而可以讓 code 達到 platform-independent。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files">7.2. Reading and Writing Files - 7. Input and Output — Python 3.7.1 documentation</a> Python 2 加不加 <code>b</code> 沒差，但 Python 就有差了 #ril</li>
+<li><a href="https://docs.python.org/3/glossary.html#term-text-file">text file, binary file - Glossary — Python 3.7.1 documentation</a> #ril<ul>
+<li>Text file - A file object able to read and write <code>str</code> objects. Often, a text file actually accesses a byte-oriented datastream and handles the text encoding AUTOMATICALLY. 但 <code>open()</code> 時也沒給 encoding，如何自動做?? Examples of text files are files opened in text mode (<code>'r'</code> or <code>'w'</code>), <code>sys.stdin</code>, <code>sys.stdout</code>, and instances of <code>io.StringIO</code>. 有 system encoding 這種東西嗎??</li>
+<li>Binary file - A file object able to read and write bytes-like objects. Examples of binary files are files opened in binary mode (<code>'rb'</code>, <code>'wb'</code> or <code>'rb+'</code>), <code>sys.stdin.buffer</code>, <code>sys.stdout.buffer</code>, and instances of <code>io.BytesIO</code> and <code>gzip.GzipFile</code>.</li>
+<li>顯然 <code>open()</code> 時有沒有加 <code>b</code>，決定了讀寫時可接受的型態 <code>str</code> 或 bytes-like；會有下面的狀況：<pre><code>&gt;&gt;&gt; with open('data', 'w') as f: f.write(b'data')
+...
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: write() argument must be str, not bytes
+&gt;&gt;&gt; with open('data', 'wb') as f: f.write('data')
+...
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: a bytes-like object is required, not 'str'
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="cwd-current-working-directory">CWD (Current Working Directory)<a class="headerlink" href="#cwd-current-working-directory" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/os.html#os.getcwd">os.getcwd() - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> <code>os.getcwd()</code> 與 <code>os.getcwdu()</code> 都會傳回 current working directory，只是型態不同分別是 <code>str</code> 與 <code>unicode</code>。</li>
+<li><a href="https://docs.python.org/2/library/os.html#os.chdir">os.chdir(path) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> <code>os.chdir(path)</code> 跟 <code>os.fchrid(fd)</code> 都可以切換 CWD，只是前者接受 pathname，後者接受 file descriptor；注意不是 <code>chcwd()</code>。</li>
+</ul>
+<h2 id="directory-listing">Directory Listing<a class="headerlink" href="#directory-listing" title="Permanent link"> #</a></h2>
+<p>要知道某個目錄底下有哪些檔案或目錄，最簡單的方式就是用 <code>os.listdir()</code>。</p>
+<pre><code>$ pwd; tree -aNF
+/tmp/dir
+.
+|-- file.txt
+|-- .hidden.txt
+|-- subdir/
+|   |-- file.png
+|   |-- file.txt
+|   |-- .hidden.txt
+|   |-- subdir2-1/
+|   |   |-- file.png
+|   |   |-- file.txt
+|   |   `-- .hidden.txt
+|   |-- subdir2-2/
+|   `-- subdir2-3/
+`-- 子目錄/
+    |-- a.png
+    |-- b.png
+    |-- c.png
+    `-- 檔案.txt
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; import os
+&gt;&gt;&gt; files = os.listdir('/tmp/dir') # &lt;1&gt;
+&gt;&gt;&gt; print files
+['.hidden.txt', 'subdir', '\xe5\xad\x90\xe7\x9b\xae\xe9\x8c\x84', 'file.txt']
+&gt;&gt;&gt; for file in files: print file,
+...
+.hidden.txt subdir 子目錄 file.txt
+&gt;&gt;&gt;
+&gt;&gt;&gt; print os.getcwd(), os.listdir('subdir') # &lt;2&gt;
+/tmp/dir ['subdir2-2', 'subdir2-1', '.hidden.txt', 'file.png', 'subdir2-3', 'file.txt']
+&gt;&gt;&gt;
+&gt;&gt;&gt; files = os.listdir('/tmp/dir/\xe5\xad\x90\xe7\x9b\xae\xe9\x8c\x84'.decode('utf-8')) # &lt;3&gt;
+&gt;&gt;&gt; print files
+[u'a.png', u'c.png', u'\u6a94\u6848.txt', u'b.png']
+&gt;&gt;&gt; for file in files: print file,
+...
+a.png c.png 檔案.txt b.png
+</code></pre>
+
+<ol>
+<li><code>listdir(path)</code> 可以列出 <code>path</code> 底下的檔案跟子目錄（包括隱藏檔，但不包含 <code>.</code> 跟 <code>..</code> 這兩個項目）。</li>
+<li><code>listdir(path)</code> 的 <code>path</code> 也可以是相對於 CWD 的路徑。</li>
+<li><code>listdir()</code> 回傳的結果並沒有排序過，而且回傳結果的字串型態（<code>str</code> 或 <code>unicode</code>）會跟著 <code>path</code> 走。</li>
+</ol>
+<p>如果要過濾路徑名稱符合某些條件的檔案，改用 <code>glob.glob()</code> 可以省掉一些工。</p>
+<pre><code>&gt;&gt;&gt; import glob
+&gt;&gt;&gt; glob.glob('/tmp/dir/*') # &lt;1&gt;
+['/tmp/dir/subdir', '/tmp/dir/\xe5\xad\x90\xe7\x9b\xae\xe9\x8c\x84', '/tmp/dir/file.txt']
+&gt;&gt;&gt; print os.getcwd(), glob.glob(u'*')
+/tmp/dir [u'subdir', u'\u5b50\u76ee\u9304', u'file.txt']
+&gt;&gt;&gt;
+&gt;&gt;&gt; for entry in glob.iglob(u'*'): print repr(entry), # &lt;2&gt;
+... 
+u'subdir' u'\u5b50\u76ee\u9304' u'file.txt'
+&gt;&gt;&gt;
+&gt;&gt;&gt; glob.glob('.*.txt') # &lt;3&gt;
+['.hidden.txt']
+&gt;&gt;&gt;
+&gt;&gt;&gt; glob.glob(u'*/*.txt') # &lt;4&gt;
+[u'subdir/file.txt', u'\u5b50\u76ee\u9304/\u6a94\u6848.txt']
+&gt;&gt;&gt; glob.glob(u'**/*.txt')
+[u'subdir/file.txt', u'\u5b50\u76ee\u9304/\u6a94\u6848.txt']
+&gt;&gt;&gt;
+</code></pre>
+
+<ol>
+<li>
+<p><code>glob(pathname)</code> 會列出符合 <code>pathname</code> 這個 pattern 的檔案或目錄（但不包含隱藏檔）。</p>
+<p>由於 <code>glob()</code> 背後也是呼叫 <code>listdir()</code>，回傳結果的字串型態（<code>str</code> 或 <code>unicode</code>）會跟著 <code>pathname</code> 走。</p>
+<p><code>pathname</code> 也可以是相對於 CWD 的路徑，但注意結果也變成相對路徑了。也就是說結果是用絕對路徑或相對路徑來表示，跟 <code>pathname</code> 的表示法有關。另外 <code>pathname</code> 支援 shell-style wildcards 的用法，包括 <code>*</code>、<code>?</code> 以及 <code>[]</code>，更多的細節可以參考 <code>fnmatch</code> 模組。</p>
+</li>
+<li>
+<p><code>iglob()</code> 跟 <code>glob()</code> 一樣，只是回傳 iterator 而已，適用目錄下的檔案數很多時。</p>
+</li>
+<li>在 pattern 前面明確加上 <code>.</code> 可以列出隱藏檔，但這麼一來非隱藏檔就都被濾除了。</li>
+<li><code>glob()</code> 支援 <code>*/*</code> 的用法，但也僅限於該層目錄，並不會自動往下鑽（改成 <code>**/*</code> 的寫法也沒用）。</li>
+</ol>
+<p>如果搜尋的範圍是整個樹狀結構（directory tree）而非單個目錄，<code>os.walk()</code> 會更為適用。</p>
+<pre><code>walk(top, topdown=True, onerror=None, followlinks=False)
+</code></pre>
+<pre><code>&gt;&gt;&gt; for dirpath, dirnames, filenames in os.walk('/tmp/dir/subdir'): # &lt;1&gt;
+...     print dirpath
+...     print '    sub directories:', dirnames
+...     print '    files:', filenames
+...
+/tmp/dir/subdir
+    sub directories: ['subdir2-2', 'subdir2-1', 'subdir2-3']
+    files: ['.hidden.txt', 'file.png', 'file.txt']
+/tmp/dir/subdir/subdir2-2
+    sub directories: []
+    files: []
+/tmp/dir/subdir/subdir2-1
+    sub directories: []
+    files: ['.hidden.txt', 'file.png', 'file.txt']
+/tmp/dir/subdir/subdir2-3
+    sub directories: []
+    files: []
+&gt;&gt;&gt;
+&gt;&gt;&gt; for dirpath, dirnames, filenames in os.walk(u'subdir', topdown=False): # &lt;2&gt;
+...     print dirpath
+...     print '    sub directories:', dirnames
+...     print '    files:', filenames
+...
+subdir/subdir2-2
+    sub directories: []
+    files: []
+subdir/subdir2-1
+    sub directories: []
+    files: [u'.hidden.txt', u'file.png', u'file.txt']
+subdir/subdir2-3
+    sub directories: []
+    files: []
+subdir
+    sub directories: [u'subdir2-2', u'subdir2-1', u'subdir2-3']
+    files: [u'.hidden.txt', u'file.png', u'file.txt']
+</code></pre>
+
+<ol>
+<li><code>walk()</code> 會鑽進樹狀結構，傳回每一層目錄的內容 (3-tuple <code>(dirpath, dirnames, filenames)</code>)。其中 <code>dirpath</code> 是某一層目錄的路徑名稱，至於是用絕對路徑或相對路徑來表示，則跟一開始傳入的 <code>top</code> 有關。<code>dirnames</code> 是 <code>dirpath</code> 底下零或多個子目錄的清單，至於檔案的清單則在 <code>filenames</code>。</li>
+<li>改用 <code>topdown=False</code> 後，目錄處理的順序變成由下而上（bottom-up; <code>subdir/subdir2-*</code> &rarr; <code>subdir</code>），跟預設 <code>topdown=True</code> 的由上而下（top-down; <code>subdir</code> &rarr; <code>subdir/subdir2-*</code>）不同。</li>
+</ol>
+<p>使用 <code>walk()</code> 時，最關鍵的就是瞭解 top-down 跟 bottom-up 的差異，因為這將關係到能否在過程中對 <code>dirnames</code> 動手腳，進而影響 <code>walk()</code> 接下來處理子目錄的順序，甚至選擇性地只處理某些目錄。</p>
+<p>觀察上面的例子，處理到 <code>/tmp/dir/subdir</code> 時，子目錄的處理順序是 <code>subdir2-2</code> &rarr; <code>subdir2-1</code> &rarr; <code>subdir2-3</code>。如果想讓處理的順序變成 <code>subdir2-1</code> &rarr; <code>subdir2-2</code> &rarr; <code>subdir2-3</code>，就必須在處理到 <code>/tmp/dir/subdir</code> 時，對 <code>dirnames</code> 動點手腳：</p>
+<pre><code>&gt;&gt;&gt; for dirpath, dirnames, filenames in os.walk('/tmp/dir/subdir'):
+...     dirnames.sort() # &lt;1&gt;
+...     print dirpath
+...     print '    sub directories:', dirnames
+...     print '    files:', filenames
+...
+/tmp/dir/subdir
+    sub directories: ['subdir2-1', 'subdir2-2', 'subdir2-3']
+    files: ['.hidden.txt', 'file.png', 'file.txt']
+/tmp/dir/subdir/subdir2-1
+    sub directories: []
+    files: ['.hidden.txt', 'file.png', 'file.txt']
+/tmp/dir/subdir/subdir2-2
+    sub directories: []
+    files: []
+/tmp/dir/subdir/subdir2-3
+    sub directories: []
+    files: []
+&gt;&gt;&gt;
+&gt;&gt;&gt; for dirpath, dirnames, filenames in os.walk('/tmp/dir/subdir', topdown=False): # &lt;2&gt;
+...     dirnames.sort()
+...     print dirpath
+...     print '    sub directories:', dirnames
+...     print '    files:', filenames
+...
+/tmp/dir/subdir/subdir2-2
+    sub directories: []
+    files: []
+/tmp/dir/subdir/subdir2-1
+    sub directories: []
+    files: ['.hidden.txt', 'file.png', 'file.txt']
+/tmp/dir/subdir/subdir2-3
+    sub directories: []
+    files: []
+/tmp/dir/subdir
+    sub directories: ['subdir2-1', 'subdir2-2', 'subdir2-3']
+    files: ['.hidden.txt', 'file.png', 'file.txt']
+</code></pre>
+
+<ol>
+<li>對 <code>dirnames</code> 做 in-place 的排序，就可以影響 &ldquo;接下來&rdquo; 處理子目錄的順序。</li>
+<li>同樣的動作在 bottom-up 時起不了作用，因為處理到 <code>/tmp/dir/subdir</code> 之前，<code>walk()</code> 早已走過底下的子目錄。</li>
+</ol>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/3/library/os.html#os.listdir"><code>os.listdir()</code> - os — Miscellaneous operating system interfaces — Python 3.7.2 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/library/os.html#os.walk"><code>os.walk()</code> - os — Miscellaneous operating system interfaces — Python 3.7.2 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/library/glob.html">glob — Unix style pathname pattern expansion — Python 3.7.2 documentation</a> #ril</li>
+</ul>
+<h2 id="file-descriptor-fd">File Descriptor (FD) ??<a class="headerlink" href="#file-descriptor-fd" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/os.html#os.fdopen"><code>os.fdopen(fd[, mode[, bufsize]])</code> - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.16 documentation</a></p>
+<ul>
+<li>Return an open file object connected to the file descriptor <code>fd</code>. The <code>mode</code> and <code>bufsize</code> arguments have the same meaning as the corresponding arguments to the built-in <code>open()</code> function. If <code>fdopen()</code> raises an exception, it leaves <code>fd</code> UNTOUCHED (UNCLOSED).</li>
+<li>Availability: Unix, Windows.</li>
+<li>Changed in version 2.3: When specified, the <code>mode</code> argument must now start with one of the letters <code>'r'</code>, <code>'w'</code>, or <code>'a'</code>, otherwise a <code>ValueError</code> is raised.</li>
+<li>Changed in version 2.5: On Unix, when the <code>mode</code> argument starts with <code>'a'</code>, the <code>O_APPEND</code> flag is set on the file descriptor (which the <code>fdopen()</code> implementation already does on most platforms).</li>
+</ul>
+<p>這裡沒提到 <code>mode</code> 參數要跟當初 file descriptor 開啟的一樣，否則會丟 <code>OSError: [Errno 22] Invalid argument</code>：</p>
+<pre><code>&gt;&gt;&gt; f = open('/tmp/file', 'wb')
+&gt;&gt;&gt; f.fileno(), os.fstat(f.fileno())
+(3, posix.stat_result(st_mode=33188, st_ino=8614118475, st_dev=16777220, st_nlink=1, st_uid=502, st_gid=0, st_size=0, st_atime=1557967095, st_mtime=1557967122, st_ctime=1557967122))
+&gt;&gt;&gt; f2 = os.fdopen(f.fileno())
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+OSError: [Errno 22] Invalid argument
+&gt;&gt;&gt; f2 = os.fdopen(f.fileno(), 'rb')
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+OSError: [Errno 22] Invalid argument
+&gt;&gt;&gt; f2 = os.fdopen(f.fileno(), 'wb') # mode 要一樣才不會丟錯
+&gt;&gt;&gt; assert f.fileno() == f2.fileno()
+&gt;&gt;&gt; f2.fileno(), os.fstat(f2.fileno())
+(3, posix.stat_result(st_mode=33188, st_ino=8614118475, st_dev=16777220, st_nlink=1, st_uid=502, st_gid=0, st_size=0, st_atime=1557967095, st_mtime=1557967122, st_ctime=1557967122))
+&gt;&gt;&gt; del f
+&gt;&gt;&gt; os.fstat(f2.fileno())
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+OSError: [Errno 9] Bad file descriptor
+</code></pre>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/os.html#file-descriptor-operations">File Descriptor Operations - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.16 documentation</a> #ril</p>
+<ul>
+<li>
+<p>These functions operate on I/O streams referenced using file descriptors.</p>
+</li>
+<li>
+<p>File descriptors are small integers corresponding to a file that HAS BEEN OPENED BY THE CURRENT PROCESS.</p>
+<p>For example, standard input is usually file descriptor 0, standard output is 1, and standard error is 2. Further files opened by a process will then be assigned 3, 4, 5, and so forth. The name “file descriptor” is slightly DECEPTIVE; on Unix platforms, sockets and pipes are also referenced by file descriptors.</p>
+<p>例如 Bash redirection 常用的 <code>2&gt;&amp;1</code> 就是 file descriptor，因為是針對目前的 process，所以數字都從 0, 1, 2 起算；不過它不只用來表示 file，也可以是 socket 或 pipe。</p>
+</li>
+<li>
+<p>The <code>fileno()</code> method can be used to obtain the file descriptor associated with a file object when required. Note that using the file descriptor directly will BYPASS THE FILE OBJECT methods, ignoring aspects such as INTERNAL BUFFERING of data.</p>
+<p>從 file object 可以取得 file descriptor/no：</p>
+<pre><code>&gt;&gt;&gt; f = open('/tmp/file', 'wb')
+&gt;&gt;&gt; f.fileno()
+3
+</code></pre>
+<p>要將 file descriptor 包裝成 file object，則可以用 <code>os.fdopen()</code>，例如從 <code>tempfile.mkstemp()</code> 拿到 file descriptor 時。</p>
+</li>
+<li>
+<p><code>os.close(fd)</code></p>
+<p>Close file descriptor fd. Availability: Unix, Windows.</p>
+<p>Note This function is intended for low-level I/O and must be applied to a file descriptor as returned by <code>os.open()</code> or <code>pipe()</code>. To close a “file object” returned by the built-in function <code>open()</code> or by <code>popen()</code> or <code>fdopen()</code>, use its <code>close()</code> method.</p>
+</li>
+<li>
+<p><code>os.open(file, flags[, mode])</code></p>
+<p>Open the file file and set various flags according to <code>flags</code> and possibly its mode according to <code>mode</code>. The default mode is <code>0777</code> (octal), and the current UMASK VALUE ?? is first masked out. Return the file descriptor for the newly opened file.</p>
+<p>For a description of the flag and mode values, see the C run-time documentation; flag constants (like <code>O_RDONLY</code> and <code>O_WRONLY</code>) are defined in this module too (see <code>open()</code> flag constants). In particular, on Windows adding <code>O_BINARY</code> is needed to open files in binary mode.</p>
+<p>Availability: Unix, Windows.</p>
+<p>Note This function is intended for low-level I/O. For normal usage, use the built-in function <code>open()</code>, which returns a “file object” with <code>read()</code> and <code>write()</code> methods (and many more). To wrap a file descriptor in a “file object”, use <code>fdopen()</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="pathname">Pathname ??<a class="headerlink" href="#pathname" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/os.path.html">10.1. os.path — Common pathname manipulations — Python 2.7.14 documentation</a> #ril</li>
+</ul>
+<h2 id="file-directory">File, Directory ??<a class="headerlink" href="#file-directory" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/os.html#os.stat">os.stat(path) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+</ul>
+<h2 id="directory-listing_1">Directory Listing ??<a class="headerlink" href="#directory-listing_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/os.html#os.listdir">os.listdir() - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/os.html#os.walk">os.walk() - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril<ul>
+<li><code>os.walk(top, topdown=True, onerror=None, followlinks=False)</code> 是個 generator，會遶行 <code>top</code> directory 底下所有的目錄 (分為 top-down 跟 bottom-up 兩個方向)，每一層目錄 (包括 <code>top</code> 自己)，都會產出 (yield) 一個 3-tuple <code>(dirpath, dirnames, filenames)</code>。</li>
+<li>其中 <code>dirpath</code> 是目前要處理的目錄 (可能是相對或絕對路徑)，底下的子目錄 (不含 <code>.</code> 與 <code>..</code>) 跟檔案則分別在 <code>dirnames</code> 與 <code>filenames</code> 裡。</li>
+<li><code>topdown=True</code> 時，3-tuple 裡的 <code>dirnames</code> 還沒遶進去，所以有機會調整它 (in-place)，進而影響 <code>os.walk()</code> 接下來會依序遶進哪些 subdirectory。而當 <code>topdown=False</code> 時，由於拿到 3-tuple 時 <code>dirnames</code> 裡的 subdirectory 都已經走過，所以修改它並沒有效果。</li>
+<li>背後是用 <code>listdir()</code> 來取得每一層目錄的內容，過程中若遇到錯誤，預設會忽略，除非有指定 <code>onerror</code> 一個 function，發生錯誤時會被呼叫並傳入 <code>OSError</code>，可以從 <code>filename</code> attribute 拿到出狀況的 directory。</li>
+<li><code>followlinks=False</code> 表示預設不會遶進 symbolic link 型態的目錄。</li>
+</ul>
+</li>
+</ul>
+<h2 id="filedirectory-operation-copy-moverename-delete">File/Directory Operation - Copy, Move/Rename, Delete ??<a class="headerlink" href="#filedirectory-operation-copy-moverename-delete" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/os.html#os.mkdir">os.mkdir(path[, mode]) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a></li>
+<li><a href="https://docs.python.org/2/library/os.html#os.makedirs">os.makedirs(path[, mode]) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a></li>
+<li><a href="https://docs.python.org/2/library/os.html#os.rmdir">os.rmdir(path) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/os.html#os.remove">os.remove(path) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/os.html#os.removedirs">os.removedirs(path) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/os.html#os.rename">os.rename(src, dst) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/os.html#os.renames">os.renames(old, new) - 15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/shutil.html">10.10. shutil — High-level file operations — Python 2.7.14 documentation</a> #ril</li>
+</ul>
+<h2 id="temporary-filedir">Temporary File/Dir ??<a class="headerlink" href="#temporary-filedir" title="Permanent link"> #</a></h2>
+<p>單純要取得系統的暫存目錄，呼叫 <code>tempfile.gettempdir()</code> 即可。</p>
+<pre><code>&gt;&gt;&gt; import tempfile # Linux
+&gt;&gt;&gt; tempfile.gettempdir() # 傳回值的型態是字串。
+'/tmp'
+&gt;&gt;&gt;
+
+&gt;&gt;&gt; import tempfile # Windows
+&gt;&gt;&gt; print tempfile.gettempdir()
+c:\docume~1\user\locals~1\temp
+&gt;&gt;&gt;
+</code></pre>
+
+<p>但有時候為了保有原來的檔名，也為了避開相同檔名的衝突，把檔案放在某個暫存目錄下是個不錯的做法。</p>
+<pre><code>tempfile.mkdtemp([sufﬁx='' [, preﬁx='tmp' [, dir=None]]])
+</code></pre>
+<pre><code>&gt;&gt;&gt; d = tempfile.mkdtemp()
+&gt;&gt;&gt; type(d), d
+(&lt;type 'str'&gt;, '/tmp/tmplpylEJ') # 傳回暫存目錄的絕對路徑。跟 `NamedTemporaryFile` 一樣，是 'prefix' 加上 6 個亂數字元，再串上 'suffix'。
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/tempfile.html">10.6. tempfile — Generate temporary files and directories — Python 2.7.16 documentation</a> #ril</p>
+<ul>
+<li>
+<p>This module generates temporary files and directories. It works on all supported platforms.</p>
+</li>
+<li>
+<p>In version 2.3 of Python, this module was overhauled for ENHANCED SECURITY. It now provides three new functions, <code>NamedTemporaryFile()</code>, <code>mkstemp()</code>, and <code>mkdtemp()</code>, which should eliminate all remaining need to use the INSECURE <code>mktemp()</code> function.</p>
+<p>Temporary file names created by this module NO LONGER CONTAIN THE PROCESS ID; instead a string of SIX RANDOM CHARACTERS is used.</p>
+</li>
+<li>
+<p>Also, all the user-callable functions now take additional arguments which allow direct control over the location and name of temporary files. It is no longer necessary to use the global <code>tempdir</code> and <code>template</code> variables. To maintain backward compatibility, the argument order is somewhat odd; it is recommended to USE KEYWORD ARGUMENTS FOR CLARITY.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/tempfile.html">tempfile — Generate temporary files and directories — Python 3.7.3 documentation</a> #ril</p>
+<ul>
+<li>
+<p><code>TemporaryFile</code>, <code>NamedTemporaryFile</code>, <code>TemporaryDirectory</code>, and <code>SpooledTemporaryFile</code> are high-level interfaces which provide AUTOMATIC CLEANUP and can be used as CONTEXT MANAGERS. <code>mkstemp()</code> and <code>mkdtemp()</code> are lower-level functions which require MANUAL CLEANUP.</p>
+<p>這裡 context manager 跟 automatic cleanup 都是 Python 3 才有的。</p>
+</li>
+<li>
+<p>Files names used by this module include a string of random characters which allows those files to be SECURELY CREATED IN SHARED TEMPORARY DIRECTORIES.</p>
+<p>為什麼檔名加進了一些亂數就變安全了? &rarr; 用 <code>mkstemp()</code> 產生的檔案只有執行身份的 user ID 可以讀寫。</p>
+</li>
+</ul>
+<p><code>tempfile.mkstemp(suffix=None, prefix=None, dir=None, text=False)</code></p>
+<ul>
+<li>
+<p>Creates a temporary file in the MOST SECURE manner possible. There are no race conditions in the file’s creation, assuming that the platform properly implements the <code>os.O_EXCL</code> flag for <code>os.open()</code>.</p>
+<p>The file is READABLE AND WRITABLE ONLY BY THE CREATING USER ID. If the platform uses permission bits to indicate whether a file is executable, the file is executable by no one. The file descriptor is not inherited by child processes.</p>
+<p>用起來像這樣：</p>
+<pre><code>$ python
+&gt;&gt;&gt; import tempfile
+&gt;&gt;&gt; tempfile.mkstemp()
+(3, '/var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ')
+
+$ ls -l /var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ
+-rw-------  1 jeremykao  staff  0 May 16 07:27 /var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ
+</code></pre>
+</li>
+<li>
+<p>Unlike <code>TemporaryFile()</code>, the user of <code>mkstemp()</code> is responsible for deleting the temporary file when done with it.</p>
+</li>
+<li>If <code>suffix</code> is not <code>None</code>, the file name will end with that suffix, otherwise there will be no suffix. <code>mkstemp()</code> does NOT PUT A DOT between the file name and the suffix; if you need one, put it at the beginning of <code>suffix</code>.</li>
+<li>
+<p>If <code>prefix</code> is not <code>None</code>, the file name will begin with that prefix; otherwise, a default prefix is used. The default is the return value of <code>gettempprefix()</code> or <code>gettempprefixb()</code>, as appropriate.</p>
+</li>
+<li>
+<p>If <code>dir</code> is not <code>None</code>, the file will be created in that directory; otherwise, a default directory is used. The default directory is chosen from a platform-dependent list, but the user of the application can control the directory location by setting the <code>TMPDIR</code>, <code>TEMP</code> or <code>TMP</code> environment variables.</p>
+<p>There is thus no guarantee that the generated filename will have any nice properties, such as not requiring quoting when passed to external commands via <code>os.popen()</code>.</p>
+</li>
+<li>
+<p>If any of <code>suffix</code>, <code>prefix</code>, and <code>dir</code> are not <code>None</code>, they must be the SAME TYPE. If they are bytes, the returned name will be <code>bytes</code> instead of <code>str</code>. If you want to force a <code>bytes</code> return value with otherwise default behavior, pass <code>suffix=b''</code>.</p>
+<p>Changed in version 3.5: <code>suffix</code>, <code>prefix</code>, and <code>dir</code> may now be supplied in <code>bytes</code> in order to obtain a <code>bytes</code> return value. Prior to this, only <code>str</code> was allowed. <code>suffix</code> and <code>prefix</code> now accept and default to <code>None</code> to cause an appropriate default value to be used.</p>
+</li>
+<li>
+<p>If <code>text</code> is specified, it indicates whether to open the file in BINARY MODE (THE DEFAULT) or text mode. On some platforms, this makes no difference.</p>
+<p><code>mkstemp()</code> returns a TUPLE containing an OS-LEVEL HANDLE to an open file (as would be returned by <code>os.open()</code>) and the absolute pathname of that file, in that order.</p>
+<pre><code>$ python
+&gt;&gt;&gt; import tempfile
+&gt;&gt;&gt; tempfile.mkstemp()
+(3, '/var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/tmpALF3BQ')
+</code></pre>
+<p>只是 file descriptor 要怎麼用? 可以直接用 <code>os.read()</code> 跟 <code>os.write()</code> 讀寫，要轉成 file object 的話則用 <code>os.fdopen()</code> 搭配 mode <code>wb</code> 或 <code>wt</code>，依 <code>text=False</code> (default) 或 <code>text=True</code> 而定。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="_1">如何操作檔案?<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>5.9. File Objects - 5. Built-in Types — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/stdtypes.html#bltin-file-objects">https://docs.python.org/2/library/stdtypes.html#bltin-file-objects</a> #ril</li>
+</ul>
+<h2 id="open-r-mode">open() 的 <code>r+</code> mode 是什麼?<a class="headerlink" href="#open-r-mode" title="Permanent link"> #</a></h2>
+<pre><code>with open('file', 'w') as f:
+    f.write('content')
+
+with open('file', 'r') as f:
+    assert f.read() == 'content'
+
+with open('file', 'r+') as f:
+    assert f.read(3) == 'con'
+    f.write('-modified')
+    assert f.read() == '' # 因為 write() 的關係，file pointer 已移到檔尾
+
+# 雖然只讀了 3 個字元，但寫入還是從檔尾
+with open('file', 'r') as f:
+    assert f.read() == 'content-modified'
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<ol>
+<li>Input and Output — Python 2.7.14 documentation <a href="https://docs.python.org/2/tutorial/inputoutput.html#reading-and-writing-files">https://docs.python.org/2/tutorial/inputoutput.html#reading-and-writing-files</a> 提到 <code>r+</code> 是 &ldquo;opens the file for both reading and writing&rdquo;。</li>
+</ol>
+</li>
+<li>
+<ol>
+<li>Built-in Functions — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/functions.html#open">https://docs.python.org/2/library/functions.html#open</a> 不只有 <code>r+</code>，還有 <code>w+</code> 跟 <code>a+</code>，都是 &ldquo;for updating&rdquo;，但好像只有 <code>r+</code> 比較有意義? 因為 <code>w+</code> 一開始就會把檔案清空，而 <code>a+</code> 一開始讀取的位置就指向檔尾 &hellip;</li>
+</ol>
+</li>
+<li>Python Files I/O <a href="https://www.tutorialspoint.com/python/python_files_io.htm">https://www.tutorialspoint.com/python/python_files_io.htm</a> 提到 file pointer 的概念，而 <code>r+</code> 一開始的 file pointer 在檔頭。</li>
+</ul>
+<h2 id="_2">如何刪除檔案或目錄?<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<ul>
+<li>python - How to delete a file or folder? - Stack Overflow <a href="https://stackoverflow.com/questions/6996603/">https://stackoverflow.com/questions/6996603/</a> 分別用 <code>os.remove()</code>、<code>os.rmdir()</code> (資料夾要是空的)，而 <code>shutil.rmtree()</code> 可以刪除有內容的資料夾。</li>
+<li><code>/Users/jeremykao/dropbox/Public/site/note//files/python/listing.asciidoc</code></li>
+</ul>
+<h2 id="_3">如何判斷檔案是不是資料夾??<a class="headerlink" href="#_3" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/3204782/">how to check if a file is a directory or regular file in python? - Stack Overflow</a> 用 <code>os.path.isdir(path)</code> 與 <code>os.path.isdir(path)</code> 檢查 #ril</li>
+</ul>
+<h2 id="_4">如何建立資料夾??<a class="headerlink" href="#_4" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/os.html#os.mkdir">15.1. os — Miscellaneous operating system interfaces — Python 2.7.14 documentation</a> <code>os.mkdir(path)</code> 與 <code>os.makedirs(path)</code>，後者會自動建立中間的資料夾 #ril</li>
+</ul>
+<h2 id="pattern">如何找出檔名符合某個 pattern 的檔案?<a class="headerlink" href="#pattern" title="Permanent link"> #</a></h2>
+<ul>
+<li>10.7. glob — Unix style pathname pattern expansion — Python 2.7.14rc1 documentation <a href="https://docs.python.org/2/library/glob.html">https://docs.python.org/2/library/glob.html</a> #ril</li>
+</ul>
+<h2 id="_5">如何檢查檔案是否存在?<a class="headerlink" href="#_5" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 <code>os.path.exists(path)</code> 檢查 <code>path</code> 所表示的檔案/目錄是否存在，例如 <code>os.path.exists('filename')</code></li>
+<li>若 <code>path</code> 指向一個 symblic，要目標檔案/目錄也存在才會傳回 <code>True</code>。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>10.1. os.path — Common pathname manipulations — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/os.path.html#os.path.exists">https://docs.python.org/2/library/os.path.html#os.path.exists</a> <code>os.path.exists(path)</code> 當 &ldquo;refers to an existing path&rdquo; 時傳回 <code>True</code>，若是 &ldquo;broken symbolic link&rdquo; 則傳回 <code>False</code>；測試當 <code>path</code> 指向一個 symbolic link 時，要目標檔案/目錄也存在才會回傳 <code>True</code>。</li>
+</ul>
+<h2 id="_6">如何一次讀寫檔案內容?<a class="headerlink" href="#_6" title="Permanent link"> #</a></h2>
+<pre><code>with open('filename', 'r') as f:
+    content = f.read()
+</code></pre>
+
+<ul>
+<li><a href="https://docs.python.org/2/tutorial/inputoutput.html#reading-and-writing-files">Reading and Writing Files - 7. Input and Output — Python 2.7.14 documentation</a> <code>f.read([size])</code> 沒有提供 <code>size</code> 時，會把檔案的內容整個讀出來；自己要注意檔案可能太大的問題。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

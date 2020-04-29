@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/sre/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SRE (Site Reliability Engineering) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/sre.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sre-site-reliability-engineering">SRE (Site Reliability Engineering)</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sre-site-reliability-engineering">SRE (Site Reliability Engineering)<a class="headerlink" href="#sre-site-reliability-engineering" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Site_Reliability_Engineering">Site Reliability Engineering - Wikipedia</a> #ril</p>
+</li>
+<li>
+<p><a href="https://cloud.google.com/blog/products/devops-sre/how-to-start-and-assess-your-sre-journey">Do you have an SRE team yet? How to start and assess your journey | Google Cloud Blog</a> (2019-01-26) #ril</p>
+</li>
+<li>
+<p><a href="https://cloud.google.com/blog/products/devops-sre/how-sre-teams-are-organized-and-how-to-get-started">How SRE teams are organized, and how to get started | Google Cloud Blog</a> (2019-06-27) #ril</p>
+<ul>
+<li>
+<p>At Google, Site Reliability Engineering (SRE) is our practice of continually defining RELIABILITY GOALS, measuring those goals, and working to improve our services as needed. We recently walked you through a guided tour of the SRE workbook.</p>
+<p>You can think of that guidance as what SRE teams generally do, paired with when the teams tend to perform these tasks given their MATURITY LEVEL. We believe that many companies can start and grow a new SRE team by following that guidance.</p>
+</li>
+<li>
+<p>Since then, we have heard that folks understand what SREs generally do at Google and understand which best practices should be implemented at various levels of SRE MATURITY. We have also heard from many of you how you’re defining your own levels of team maturity. But the next step—how the SRE teams are actually organized—has been largely undocumented, until now!</p>
+</li>
+<li>
+<p>In this post, we’ll cover how different IMPLEMENTATIONS of SRE teams establish BOUNDARIES ?? to achieve their goals. We describe six different implementations that we’ve experienced, and what we have observed to be their most important pros and cons.</p>
+<p>Keep in mind that your implementations of SRE can be different—this is not an exhaustive list. In recent years, we’ve seen all of these types of teams here in the Google SRE organization (i.e., a set of SRE teams) except for the “kitchen sink.” The order of implementations here is a fairly common path of evolution as SRE teams gain experience.</p>
+<p>雖然是按 SRE 在 Google 內部發展的軌跡，但不同類型的 SRE team 同時存在，最新的型式不一定最好、最適合。</p>
+</li>
+</ul>
+<p>Before you begin implementing SRE</p>
+<ul>
+<li>
+<p>Before choosing any of the implementations discussed here, do a little prep work with your team. We recommend allocating some engineering time of multiple folks and finding at least one part-time advocate for SRE-related practices within your company. This type of initial, less formal setup has some pros and cons:</p>
+<p>Pros</p>
+<ul>
+<li>Easy to get started on an SRE journey without organizational change.</li>
+<li>Lets you test and adapt SRE practices to your environment at low cost.</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>Time management between day-to-day job demands vs. adoption of SRE practices.</li>
+</ul>
+<p>Recommended for: Organizations without the scale to justify dedicated SRE team staffing, and/or organizations experimenting with SRE practices before broader adoption.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>書籍：</p>
+<ul>
+<li>
+<p><a href="https://landing.google.com/sre/books/">SRE Books</a></p>
+<ul>
+<li><a href="https://landing.google.com/sre/sre-book/toc/">Google - Site Reliability Engineering (SRE Book)</a></li>
+<li><a href="https://landing.google.com/sre/workbook/toc/">Google - Site Reliability Engineering (Work Book)</a></li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/fritzing/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Firtzing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/fritzing.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#firtzing">Firtzing</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="firtzing">Firtzing<a class="headerlink" href="#firtzing" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=Hxhd4HKrWpg">Fritzing - An Introduction - YouTube</a> Fritzing 唸做 <code>free(t)zing</code></li>
+<li><a href="http://fritzing.org/download/">Fritzing Download</a> Version 0.9.3b was released on June 2, 2016. 2018 年底看來，開發有點停滯?</li>
+<li><a href="http://blog.fritzing.org/2017/02/21/fritzing-fab-now-powered-by-aisler/">Fritzing Fab now powered by AISLER | Fritzing Blog</a> (2017-02-21) 宣佈與 AISLER 合作後，至今 (2018 年底) 仍沒有新版釋出，一堆人在問這專案是不是死了&hellip;</li>
+<li><a href="https://en.wikipedia.org/wiki/Fritzing">Fritzing - Wikipedia</a> #ril</li>
+<li><a href="https://hackaday.com/2016/10/11/creating-a-pcb-in-everything-friends-dont-let-friends-use-fritzing/">Creating A PCB In Everything: Friends Don’t Let Friends Use Fritzing | Hackaday</a> (2016-10-11) #ril</li>
+<li><a href="https://www.arduino.cc/en/Tutorial/Blink">Arduino - Blink</a> 電路圖用 Fritzing 畫。</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=Hxhd4HKrWpg">Fritzing - An Introduction - YouTube</a> #ril<ul>
+<li>Electronic projects, document your projects -&gt; prepare them for production</li>
+<li>有許多 views，在一個 view 的修改也會反應到其他 views</li>
+<li>Breadboard view (不在 Fritzing part library 裡的可以用 part editor 自訂)</li>
+<li>Schematic view (formal representation of the circuit)</li>
+<li>PCB view 可以調整 parts 在印刷電路板 (printed curcuit board) 的位置，透過 auto router 可以自動調整 layout (很神奇!)</li>
+<li>可以直接分享到 fritzing.org (<code>.fzz</code>)</li>
+<li>Fritzing 可以安裝在 Windows, Mac 跟 Linux (德國團隊製作)</li>
+</ul>
+</li>
+<li><a href="http://fritzing.org/faq/">Fritzing FAQ</a> #ril<ul>
+<li>Fritzing 是個設計工具而非 simulator，強調動手做還是很重要。</li>
+<li>發佈 breadboard view 時至少要載明這是用 Fritzing 做的。</li>
+<li>Fritzing 本身用 C++ 跟 Qt 開發 (本來是用 Eclipse GMF，但遭遇一些困難)</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://fritzing.org/download/">Fritzing Download</a><ul>
+<li>支援 Windows、Mac 10.7+ 跟 Linux; Linux 要 libc &gt;= 2.6 的版本 (在 Ubuntu 上測試過)</li>
+<li>Mac 下載 <code>Fritzing&lt;VERSION&gt;.dmg</code>，掛載起來將 Fritzing 拉到 <code>/Applications</code> 即可；啟動時遇到 <code>"Fritzing" can't be opened because it is from an unidentified develooper</code> 的錯誤，要進 System Preferences &gt; Security &amp; Privacy &gt; General 另外設定。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://fritzing.org/">Fritzing</a></li>
+<li><a href="https://github.com/fritzing/fritzing-app">fritzing/fritzing-app - GitHub</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../circuit-diagram/#tools">Circuit Diagram 電路圖</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

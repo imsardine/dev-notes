@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/chrome/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Chrome - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/chrome.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-chrome">Google Chrome</a></li>
+            <li class="second-level"><a href="#search-engine-autodiscovery">Search Engine, Autodiscovery ??</a></li>
+                
+            <li class="second-level"><a href="#this-site-cant-be-reached">This site can’t be reached</a></li>
+                
+            <li class="second-level"><a href="#per-tab-zoom">Per-tab Zoom</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#manjaro-linux">Manjaro Linux ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-chrome">Google Chrome<a class="headerlink" href="#google-chrome" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Google_Chrome">Google Chrome - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="search-engine-autodiscovery">Search Engine, Autodiscovery ??<a class="headerlink" href="#search-engine-autodiscovery" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://productforums.google.com/forum/#!topic/chrome/SHGWhqU-rTs">Why chrome adds search engines automatically? - Google Product Forums</a> #ril</li>
+<li><a href="https://www.chromium.org/tab-to-search">Tab to Search - The Chromium Projects</a> #ril</li>
+<li><a href="https://martin-thoma.com/search-engine-autodiscovery/">Search Engine Autodiscovery · Martin Thoma</a> (2011-10-22) #ril</li>
+<li><a href="https://support.google.com/chrome/answer/95426">Set your default search engine - Computer - Google Chrome Help</a> #ril</li>
+<li><a href="https://www.ghacks.net/2018/03/30/custom-search-engines-in-google-chrome/">Custom Search Engines in Google Chrome - gHacks Tech News</a> (2018-03-30) #ril</li>
+<li><a href="https://superuser.com/questions/276069/">Google Chrome automatically adding websites to my list of search engines? - Super User</a> #ril</li>
+</ul>
+<h2 id="this-site-cant-be-reached">This site can’t be reached<a class="headerlink" href="#this-site-cant-be-reached" title="Permanent link"> #</a></h2>
+<p>Chrome 在訪問某些 port 時，會出現 This site can’t be reached (<code>ERR_UNSAFE_PORT</code>) 的錯誤。</p>
+<p>因為 Chrome 內部有個黑名單，列出哪些 port 是不能存取的。通常自訂 port 會選 1024+，可能踩到的有 2049、3659、6000、6665-6669。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://javasgl.github.io/chrome-unsafe-port-err/">Chrome 非安全端口限制 | javasgl</a> (2017-08-19) #ril</li>
+<li><a href="https://superuser.com/questions/188058/">Which ports are considered unsafe on Chrome - Super User</a> #ril</li>
+<li><a href="https://src.chromium.org/viewvc/chrome/trunk/src/net/base/net_util.cc?view=markup">[chrome] Contents of /trunk/src/net/base/net_util.cc</a> 原始碼列出哪些 port 是不安全的，通常會選 1024+，可能踩到的有 2049、3659、6000、6665-6669。</li>
+</ul>
+<h2 id="per-tab-zoom">Per-tab Zoom<a class="headerlink" href="#per-tab-zoom" title="Permanent link"> #</a></h2>
+<p>推薦 <a href="https://chrome.google.com/webstore/detail/zoom-page-we/bcdjhkphgmiapajkphennjfgoehpodpk">Zoom Page WE</a>：</p>
+<ul>
+<li>進 Options 就能調整 Zoom Mode &ndash; Per-Site / Per-Tab</li>
+<li>延用 Ctrl + &plusmn; 的習慣即可。</li>
+<li>重整頁面後，縮放比例會自動回到 default level (100%)</li>
+</ul>
+<p>後來發現，透過 Zoom Page WE 把 Zoom Mode 改為 Per-Site 後，就算把該 extension 停用，效果還是在；呼應了 <a href="https://superuser.com/questions/677967">Chrome: any way to zoom a single page, not all pages in domain?</a> 討論中 Jon Freed 的說法，大概是 <code>zoomSettingsScope</code> 設定停在 <code>per-tab</code> 的關係。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.quora.com/How-do-I-increase-the-font-size-on-only-one-of-the-tabs-in-Google-Chrome-while-allowing-it-to-remain-normal-on-the-other-tabs">How do I increase the font size on only one of the tabs in Google Chrome, while allowing it to remain normal on the other tabs? - Quora</a></p>
+<p>There is a Chrome extension called zoomWheel that has a cute work around. A magnifier appears in the upper right of the page, and you point at it, then mouse-wheel, and it will scale the page. If you go to another page from the same site, you can do the same again, WITHOUT CHANGING THE FIRST PAGE’S ZOOM. The extension is here: <a href="https://chrome.google.com/webstore/detail/zoomwheel/kdfgigbjonaniokmpfflpflkhahhbaej">zoomWheel</a></p>
+</li>
+<li>
+<p><a href="https://superuser.com/questions/677967">Chrome: any way to zoom a single page, not all pages in domain? - Super User</a></p>
+<p>Jason Clark: I often use Chrome&rsquo;s Cmd+ and Cmd- (Ctrl+ and Ctrl- on Windows) to zoom in and out on a web page. However, the new zoom level affects every tab showing a page from the SAME DOMAIN. Sometimes this is handy, but other times it&rsquo;s a big problem. Right now, I want to zoom a page containing a video on one tab, while continuing to read text at a normal size in another tab. Is there any method for controlling zoom independently of other tabs? For now I&rsquo;m stuck using another two browsers.</p>
+<ul>
+<li>
+<p>Matias: I have read once that it is one of Chrome&rsquo;s disadvantages. However, there is an extension that may help you, called zoomWheel. You can find it here.</p>
+</li>
+<li>
+<p>Jason Clark: Just discovered that the issue linked by @Qtax in the comments above was marked &ldquo;WONTFIX&rdquo; by the Chromium dev team a couple of years ago - they state that this behavior is BY DESIGN, and they do not intent to provide per-page zoom. The extensions mentioned in other answers appear to be the only resolution for this issue.</p>
+</li>
+<li>
+<p>Tim: I was looking for this too and found an extension that&rsquo;s precisly for this. It&rsquo;s called Per Tab Zoom.</p>
+<p>It lets you customize these 4 shortcuts: Ctrl+Mouse wheel, Ctrl+Shift+Mouse wheel, Ctrl+&plusmn;, Ctrl+Shift+&plusmn; 其中 &ldquo;Ctrl + &plusmn;&rdquo; 不就取代了原有的行為?</p>
+<p>For each one, you can choose what kind of zoom to perform, either per-tab zoom or per-domain zoom.</p>
+<p>還要裝 <a href="https://www.autocontrol.app/native-component">Native Component</a>，不推! 難怪 Zoom Page WE 的使用者人數比較多。</p>
+</li>
+<li>
+<p>Jon Freed: To set Chrome&rsquo;s zoom per tab rather than per site, change &ldquo;zoomSettingsScope&rdquo; to &ldquo;per-tab&rdquo;.</p>
+<p>Unfortunately as of today (2017-10-05), that setting is only accessible through an extension. (It is not changeable via Chrome&rsquo;s settings and flags page, nor through policies.)</p>
+<p>有調整底層設定的工具嗎??</p>
+</li>
+<li>
+<p>studgeek: The extension Zoom Page WE - Chrome Web Store let you switch between per-tab and per-site zooming. Once you just per-tab, then all the existing mechanisms for changing zoom only apply to the current tab. It also allows you to zoom the full page or just zoom text size.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=390775">390775 - zoom in or out affects all tabs within one domain, not just the individual tab (page) being zoomed - chromium</a> (2014-07-02) #ril</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="manjaro-linux">Manjaro Linux ??<a class="headerlink" href="#manjaro-linux" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.fosslinux.com/2103/how-to-install-google-chrome-in-manjaro-linux.htm">How to install Google Chrome in Manjaro Linux | FOSS Linux</a> (2017-10-26) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.google.com/chrome/">Chrome Web Browser</a></li>
+<li><a href="https://blog.google/products/chrome/">Chrome | Google Blog</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../chrome-ext/">Extension</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-type/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Data Type - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-type.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-data-type">Python / Data Type</a></li>
+            <li class="second-level"><a href="#equality">Equality</a></li>
+                
+            <li class="second-level"><a href="#none">None</a></li>
+                
+            <li class="second-level"><a href="#hashable-hash-hash-pythonhashseed">Hashable, hash(), hash(), PYTHONHASHSEED ??</a></li>
+                
+            <li class="second-level"><a href="#new-style-class">New-style Class ??</a></li>
+                
+            <li class="second-level"><a href="#bound-unbound">Bound &amp; Unbound ??</a></li>
+                
+            <li class="second-level"><a href="#super">super() ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-data-type"><a href="../python/">Python</a> / Data Type<a class="headerlink" href="#python-data-type" title="Permanent link"> #</a></h1>
+<h3 id="equality">Equality<a class="headerlink" href="#equality" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/reference/datamodel.html#object.__eq__">object.<strong>eq</strong>(self, other) - 3. Data model — Python 3.7.1 documentation</a></p>
+<ul>
+<li><code>__lt__()</code>、<code>__le__()</code>、<code>__eq__()</code>、<code>__ne__()</code>、<code>__gt__</code> 跟 <code>__ge__()</code> 統稱為 &ldquo;rich comparison methods&rdquo;，很直覺分別對應 <code>&lt;</code>、<code>&lt;=</code>、<code>==</code>、<code>!=</code>、<code>&gt;</code> 及 <code>&gt;=</code>；例如 <code>x != y</code> 背後會呼叫 <code>x.__ne__(y)</code>。</li>
+<li>A rich comparison method may return the singleton <code>NotImplemented</code> if it does not implement the operation for a given PAIR OF ARGUMENTS (例如 <code>__eq__(self, other)</code> 就是比較 <code>self</code> 與 <code>other</code>). By convention, <code>False</code> and <code>True</code> are returned for a SUCCESSFUL COMPARISON. 雖然可以回傳其他值，在 boolean context 時會透過 <code>bool()</code> 分出 true/false。例如 <code>if a &gt; b:</code> 可以想成 <code>if bool(a.__gt__(b)):</code>。</li>
+<li>By default, <code>__ne__()</code> delegates to <code>__eq__()</code> and inverts the result unless it is <code>NotImplemented</code>. 也就是只要實作 <code>__eq__()</code> 即可，不過 Python 2 還是得實作 <code>__ne__()</code>。</li>
+<li>See the paragraph on <code>__hash__()</code> for some important notes on creating hashable objects which support custom comparison operations and are usable as dictionary keys. =&gt; 自訂 hashable 的 comparison 時，要注意 </li>
+<li>There are no swapped-argument versions of these methods &hellip; ??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/reference/datamodel.html#object.__eq__">object.<strong>eq</strong>(self, other) - 3. Data model — Python 2.7.15 documentation</a> #ril</p>
+<ul>
+<li>There are no implied relationships among the comparison operators. The truth of <code>x==y</code> does not imply that <code>x!=y</code> is false. Accordingly, when defining <code>__eq__()</code>, one should also define <code>__ne__()</code> so that the operators will behave as expected. </li>
+</ul>
+</li>
+</ul>
+<h3 id="none">None<a class="headerlink" href="#none" title="Permanent link"> #</a></h3>
+<p>Python 中的 <code>None</code> 等同於其他語言的 <code>null</code>，不過它是個 object，型態是 <code>types.NoneType</code>：</p>
+<pre><code>import types
+
+def test_none_singleton():
+    assert isinstance(None, types.NoneType)
+</code></pre>
+
+<p>按照 <a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">Programming Recommendations - PEP 8 -- Style Guide for Python Code | Python.org</a> 的說法：</p>
+<blockquote>
+<p>Comparisons to singletons like <code>None</code> should always be done with <code>is</code> or <code>is not</code>, never the equality operators.</p>
+</blockquote>
+<p>由於 <code>None</code> 是 singleton，比對時要用 <code>is</code>/<code>is not</code> (identity)，如果用 <code>==</code>/<code>!=</code> (equality) 可能會受到 operator overloading 的影響：</p>
+<pre><code>class Negator(object):
+
+    def __eq__(self, other):
+        return not other # doesn't make sense
+
+    def __ne__(self, other): # requried for py2
+        return not self.__eq__(other)
+
+def test_none_identity__use_is():
+    none = None
+    thing = Negator()
+
+    assert none is None # singleton
+    assert thing is not None
+
+def test_none_equality__donot_use_equality():
+    none = None
+    thing = Negator()
+
+    assert none == None
+    assert not (none != None)
+
+    # weird? the result dependes on thing.__eq__()
+    assert thing == None
+    assert not (thing != None)
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/constants.html#None">None - 4. Built-in Constants — Python 2.7.14 documentation</a> <code>types.NoneType</code> 唯一的值就是 <code>None</code>，表示 &ldquo;absence of a value&rdquo;。</li>
+<li><a href="https://www.pythoncentral.io/python-null-equivalent-none/">Python&rsquo;s null equivalent: None | Python Central</a> (2013-06-28) 由於 <code>null</code> 圈內人才懂 (esoteric)，所以 Python 用 <code>None</code> 來表示。<code>None</code> 是個 object (一個 class)，<code>type(None)</code> 會得到 <code>&lt;type 'NoneType'&gt;</code>，在檢查是不是 <code>None</code> 時，表面上看來 <code>is</code> 跟 <code>==</code> 是一樣的，但若 class 有覆寫 comparison operator (<code>__eq__()</code>)，那 <code>==</code> 的結果就會受到影響，所以還是用 <code>is</code>/<code>is not</code> 來檢查 <code>None</code>。</li>
+<li><a href="https://stackoverflow.com/questions/14247373/">Python None comparison: should I use &ldquo;is&rdquo; or ==? - Stack Overflow</a> user4815162342: 引用了 PEP 8 的說法，用 <code>is</code> 比較 faster &amp; more predictable，因為 <code>==</code> 會受到兩側運算子的影響。</li>
+<li><a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">Programming Recommendations - PEP 8 -- Style Guide for Python Code | Python.org</a> 直接寫明了 &ldquo;Comparisons to singletons like None should always be done with is or is not, never the equality operators.&rdquo;，就是用 <code>is None</code> 或 <code>is not None</code>。</li>
+<li><a href="https://docs.python.org/2/library/stdtypes.html#comparisons">Comparisons - 5. Built-in Types — Python 2.7.14 documentation</a> <code>is</code>/<code>is not</code> 用在 object identity，而 <code>==</code>/<code>!=</code> 用在 equality。</li>
+<li><a href="https://docs.quantifiedcode.com/python-anti-patterns/readability/comparison_to_none.html">Comparing things to None the wrong way — Python Anti-Patterns documentation</a> PEP 8 只是個 guideline? &ldquo;It can be ignored if needed&rdquo;? 但可以增加 readability。</li>
+<li><a href="http://jaredgrubb.blogspot.tw/2009/04/python-is-none-vs-none.html">Python: &ldquo;is None&rdquo; vs &ldquo;==None&rdquo;</a> 作者覺得常看到 <code>== None</code> 也沒什麼問題，事實上也很少人自訂 comparison operators &hellip; 這倒是?</li>
+</ul>
+<h3 id="hashable-hash-hash-pythonhashseed">Hashable, hash(), <strong>hash</strong>(), PYTHONHASHSEED ??<a class="headerlink" href="#hashable-hash-hash-pythonhashseed" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/3/glossary.html#term-hashable">hashable - Glossary — Python 3.7.1rc1 documentation</a><ul>
+<li>明確定義了 An object is hashable if it has a hash value which NEVER CHANGES DURING ITS LIFETIME (it needs a <code>__hash__()</code> method), and can be compared to other objects (it needs an <code>__eq__()</code> or <code>__cmp__()</code> method). Hashable objects which compare equal must have the same hash value. 也就是 hash value 相同不一定 equal，但 equal 的一定有相同的 hash value。</li>
+<li>Hashable 表示可以做為 dictionary key 或是 set member，因為這些資料結構內部會用到 hash value。</li>
+<li>All of Python’s immutable built-in objects are hashable, while no mutable containers (such as lists or dictionaries) are. 明確指出所有的 immutable built-in object 都是 hashable，但 mutable container 都不是。</li>
+<li>所有 user-defined class 雖然都是 hashable，但它的 hash value 都是來是 <code>id()</code>，所以不同 instance 一定是 unequal。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/library/functions.html#hash">hash(object) - Built-in Functions — Python 3.7.1rc1 documentation</a><ul>
+<li>取得 object 的 hash value (integer)；實驗發現，非 hashable 會丟出 <code>TypeError</code>，例如 <code>hash({})</code> 會丟出 <code>TypeError: unhashable type: 'dict'</code>。</li>
+<li>Numeric values that compare equal have the same hash value (even if they are of different types, as is the case for 1 and 1.0). 這還滿有趣的，大概是 numeric type 的 <code>__hash__()</code> 有特別考量到數值本身。</li>
+<li>For objects with custom <code>__hash__()</code> methods, note that <code>hash()</code> TRUNCATES the return value based on the bit width of the host machine. 為什麼要這麼做? 不過好像也沒差，hash 本來就不是唯一值。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/reference/datamodel.html#object.__hash__">object.<strong>hash</strong>(self) - 3. Data model — Python 3.7.1rc1 documentation</a> #ril<ul>
+<li>Called by built-in function <code>hash()</code> and for operations on members of hashed collections including <code>set</code>, <code>frozenset</code>, and <code>dict</code>. 看起來 hashed collections 內部並不是透過 <code>hash()</code> 取得 hash value，而是直接調用 <code>__hash__()</code>?</li>
+<li>實作上的要求很簡單，只有 &ldquo;objects which compare equal have the same hash value&rdquo;，提到 mix together the hash values of the components of the object that also play a part in comparison of objects by PACKING THEM INTO A TUPLE AND HASHING THE TUPLE，這招還滿直觀的，例如 <code>return hash((self.name, self.nick, self.color))</code>；因為透過 tuple 拿 hash value 的關係，也已經是被 truncate 後的版本了。</li>
+<li>接下來有一大串實作 <code>__hash__()</code> 要注意的地方 XD #ril</li>
+</ul>
+</li>
+</ul>
+<h3 id="new-style-class">New-style Class ??<a class="headerlink" href="#new-style-class" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/2/glossary.html#term-new-style-class">new-style class - Glossary — Python 2.7.15 documentation</a> #ril</li>
+</ul>
+<h3 id="bound-unbound">Bound &amp; Unbound ??<a class="headerlink" href="#bound-unbound" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/2/library/functions.html#super">super(type[, object-or-type]) - 2. Built-in Functions — Python 2.7.15 documentation</a> <code>super(type[, object-or-type])</code> 提到 If the second argument is omitted, the super object returned is unbound. 搭配 If the second argument is a type, <code>issubclass(type2, type)</code> must be true (this is useful for classmethods) 的說法，似乎跟 class 產生關聯就不算 unbound?</li>
+</ul>
+<h3 id="super">super() ??<a class="headerlink" href="#super" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/2/library/functions.html#super">super(type[, object-or-type]) - 2. Built-in Functions — Python 2.7.15 documentation</a> #ril<ul>
+<li>Return a PROXY OBJECT that delegates method calls to a PARENT or SIBLING class of <code>type</code>. This is useful for accessing inherited methods that have been OVERRIDDEN in a class. 看起來就是呼叫 super class method 的方法，但怎麼會跟 sibling class 有關?</li>
+<li>The SEARCH ORDER is same as that used by <code>getattr()</code> except that the TYPE ITSELF IS SKIPPED. 這裡指的是找尋 &ldquo;parent or sibling class&rdquo; 的過程，跟 <code>getattr()</code> 一樣，會拿 <code>type.__mro__</code> (tuple of classes) 依序檢查 <code>isinstance(obj, type)</code> (若 <code>object-or-type</code> 是個 object) 或 <code>issubclass(type2, type)</code> (檢查 <code>type2</code> 是否為 <code>type</code> 的 subclass?) ==&gt; 所以 <code>super(ChildClass, self)</code> 的用法很合理 (也很多餘，或許 Python 3 的 <code>super()</code> 會自帶這些預設值?)，但 <code>super(ParentClass, ChildClass)</code> 沒道理啊!?</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/library/functions.html#super">super([type[, object-or-type]]) - 2. Built-in Functions — Python 3.7.0 documentation</a> #ril<ul>
+<li><code>super([type[, object-or-type]])</code> 跟 Python 2 的 <code>super(type[, object-or-type])</code> 有些微不同，在 Python 3 第一個參數 <code>type</code> 也可以省略了。</li>
+</ul>
+</li>
+<li><a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/">Python’s super() considered super! | Deep Thoughts by Raymond Hettinger</a> (2011-05-26) #ril</li>
+<li><a href="https://www.pythonforbeginners.com/super/working-python-super-function">Working with the Python Super Function</a> (2017-02-22) #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

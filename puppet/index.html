@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/puppet/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Puppet - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/puppet.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#puppet">Puppet</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#enterprise-vs-opensource">Puppet Enterprise (PE) vs. Open Source</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="puppet">Puppet<a class="headerlink" href="#puppet" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://puppet.com/">Powerful infrastructure automation and delivery | Puppet | Puppet.com</a></p>
+<p>What does Puppet do?</p>
+<ul>
+<li>
+<p>Puppet helps teams move on to more valuable work by automating four key use cases.</p>
+<p>Continuous Delivery</p>
+<ul>
+<li>Deliver customer value faster with SELF-SERVICE INFRASTRUCTURE and application delivery.</li>
+</ul>
+<p>Continuous Compliance</p>
+<ul>
+<li>Reduce failed audits and financial risk with POLICY-AS-CODE and audit reporting.</li>
+</ul>
+<p>Incident Remediation</p>
+<ul>
+<li>Reduce attack opportunities and protect your brand with vulnerability remediation built for SecOps ??.</li>
+</ul>
+<p>Configuration Management</p>
+<ul>
+<li>
+<p>Eliminate manual errors and scale your team with AGENTLESS automation and infrastructure-as-code.</p>
+<p>Puppet 可以不需要 agent ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>DevOps automation for a multi-cloud world</p>
+<ul>
+<li>Puppet spans across your HYBRID environments to automate infrastructure and application workflows and ongoing management. We meet teams where they are and take them to where they need to be by leveraging automation code across teams, deployments, applications, and infrastructure in a secure and scalable way.</li>
+</ul>
+<p>Community-driven modules on the Puppet Forge to help you get started</p>
+<ul>
+<li>Get a head start with 6,000+ Forge modules by Puppet and our community. Use these building blocks to automate everything from DNS and NTP, to Apache web servers, MySQL database server, AWS, Docker containers, Kubernetes cluster, and much more.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://puppet.com/use-cases/configuration-management/">Configuration management with Puppet - IT automation for everyone | Puppet.com</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://puppet.com/docs/puppet/latest/quick_start_essential_config.html">Managing essential configuration with Puppet | Puppet.com</a> #ril</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/configuration-management-101-writing-puppet-manifests">Configuration Management 101: Writing Puppet Manifests | DigitalOcean</a> (2019-05-17) #ril</li>
+</ul>
+<h2 id="enterprise-vs-opensource">Puppet Enterprise (PE) vs. Open Source<a class="headerlink" href="#enterprise-vs-opensource" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://puppet.com/resources/solution-brief/value-puppet-enterprise-pe-and-open-source/">The Value of Puppet Enterprise – PE and Open Source | Puppet.com</a> #ril</p>
+<p>As the most popular collection of open source projects for defining infrastructure as code and enforcing system configurations, open source Puppet is great for individuals managing a SMALL SET of servers. But when you have complex or large infrastructure that’s used and managed by different teams, Puppet Enterprise is the way to go.</p>
+</li>
+<li>
+<p><a href="https://www.upguard.com/articles/open-source-puppet-vs.-puppet-enterprise-which-is-right-for-you">Puppet Enterprise vs Free Open Source Puppet: Which Is Right For You?</a> (2020-03-11) #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://puppet.com/">Puppet</a></li>
+<li><a href="https://puppet.com/blog/">Puppet Blog</a></li>
+<li><a href="https://forge.puppet.com/">Puppet Forge</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

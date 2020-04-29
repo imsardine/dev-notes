@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/perfboard/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Perfboard 洞洞板 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/perfboard.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#perfboard">Perfboard 洞洞板</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#planning">Planning ??</a></li>
+                
+            <li class="second-level"><a href="#wiring">Wiring 接線 ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="perfboard">Perfboard 洞洞板<a class="headerlink" href="#perfboard" title="Permanent link"> #</a></h1>
+<ul>
+<li>洞洞板正式的名稱為 <a href="https://www.google.com/search?q=perfboard&amp;tbm=isch">Perfboard</a>，由於它配置的自由度很高 (所有孔洞都是獨立的) 適合做原型，所以也稱做 <a href="https://www.google.com/search?q=protoboard&amp;tbm=isch">Protoboard</a> 或 <a href="https://www.google.com/search?q=universal+board&amp;tbm=isch">Universal Board</a>；常用在 PCB 原型的試驗，所以常跟 &ldquo;PCB Prototyping&rdquo; 的說法一起出現。</li>
+<li>洞洞板還有其他名稱，所以網路賣家會把全部的說法都用上，例如 &ldquo;電木板 / 洞洞板 / 萬用板 / 電路板 / PCB 板 / 實驗板&rdquo;，其中 &ldquo;電木&rdquo; 只是一種材質，另外還有合成樹脂、玻璃纖維等。</li>
+<li>洞洞板跟 PCB 印刷電路板的差別在於，PCB 的電路是印上去的 (可以多層)，而洞洞板的電路是手動配置的；兩者的電子元件都要另外焊接，但因為 PCB 因為沒有孔洞 (要另外鑽)，線路較精細，通常會搭配 黏著元件 (service mount device)，而洞洞板因為有孔洞，通常會搭配直插式元件。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Perfboard">Perfboard - Wikipedia</a></p>
+<ul>
+<li>Perfboard is a material for PROTOTYPING electronic circuits (also called DOT PCB). It is a thin, rigid sheet with holes pre-drilled at standard intervals across a grid, usually a square grid of 0.1 INCHES (2.54 mm) spacing. &ldquo;DOT PCB&rdquo; 這說法有 &ldquo;洞洞板&rdquo; 的影子，間隔 0.1 inch (2.54 mm)。</li>
+<li>These holes are ringed by round or square COPPER PADs, though BARE BOARDs are also available. Inexpensive perfboard may have pads on only one side of the board, while better quality perfboard can have pads on both sides (plate-through holes). 為什麼雙面都有 (copper) pad 的比較好?? 確實有些洞洞板完全沒有焊點，要自己用金屬線接起來。</li>
+<li>Since each pad is ELECTRICALLY ISOLATED, the builder makes all connections with either <a href="https://www.google.com/search?q=wire+wrap+circuit&amp;tbm=isch">wire wrap</a> (繞接) or miniature <a href="https://www.google.com/search?q=point-to-point+wiring&amp;tbm=isch">point to point wiring</a> (點對點接線) techniques.</li>
+<li>The substrate is typically made of paper laminated with phenolic resin (such as FR-2) or a fiberglass-reinforced epoxy laminate (FR-4). 合成樹脂、玻璃纖維</li>
+<li>The 0.1 inches (2.54 mm) grid system accommodates integrated circuits in DIP packages (積體電路的雙列直插封裝) and many other types of through-hole components. Perfboard is not designed for prototyping SURFACE MOUNT devices (黏著元件).</li>
+<li>Circuits assembled on perfboard are not necessarily fragile but may be less impact-resistant than printed circuit boards. 許多電器還是走 perfboard，不一定會用 PCB 印刷電路板吧?</li>
+<li>Perfboard differs from stripboard in that each pad on perfboard is isolated. Stripboard is made with rows of copper conductors that form DEFAULT CONNECTIONS, which are broken into isolated segments as required by SCRAPING THROUGH THE COPPER. This is similar to the pattern of default connections on a solderless breadboard. However, the absence of default connectivity on perfboard gives the designer more FREEDOM in positioning components and lends itself more readily to software-aided design than stripboard or breadboard. 清楚解釋了 perfboard 跟 stripboard/breadboard 的差異，perfboard 最大的優點在於沒有對線路的安排做任何假設 &ndash; 所有的孔洞都是獨立的 (雖然 stripboard 也可以把銅質刮除)，容易實現 EDA 設計出來的電路。</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.makezine.com.tw/476-2/">如何使用洞洞板 - Make 國際中文版 &gt; DIY Projects, Inspiration, How-tos, Hacks, Mods &amp; More @ Makezine.com.tw - Tweak Technology to Your Will</a> (2016-11-18) #ril</p>
+</li>
+<li>
+<p><a href="http://darkerview.com/wordpress/?p=21795">Perfboard – A Darker View</a> (2017-06-30) #ril</p>
+</li>
+<li>
+<p><a href="https://electronics.stackexchange.com/questions/55236/">best practice - How to make traces on an universal PCB? - Electrical Engineering Stack Exchange</a> 出現 universal PCB、protoboard 等不同的說法；有些 protoboard 已安排好 bus lines，會省下不少工 #ril</p>
+</li>
+<li>
+<p><a href="https://en.wikibooks.org/wiki/Practical_Electronics/perfboard">Practical Electronics/perfboard - Wikibooks, open books for an open world</a> #ril</p>
+<ul>
+<li>There are many types of &ldquo;PERFORATED prototyping board&rdquo;. 原來 perfboard 的 perf 是 perforated (有排孔的) 的縮寫。</li>
+<li>The vast majority of such boards are perforated at 10 holes per inch both horizontally and vertically (also called &ldquo;tenth inch spacing&rdquo;), made out of either &ldquo;synthetic resin bonded paper&rdquo; or fiberglass, and have some kind of copper pattern on one or both sides of the board. 在 1 inch 裡鑽 10 個孔，也就是間距 2.54 mm，板上會有銅質的圖樣。</li>
+<li>Perhaps the most popular pattern is &ldquo;STRIPBOARD&rdquo; &ndash; which has wide strips of copper running one way all the way along one side of the board, but no copper on the other side.</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.instructables.com/id/How-to-Prototype-Without-Using-Printed-Circuit-Boa/">How to Prototype Without Using Printed Circuit Boards: 8 Steps</a> #ril</li>
+<li><a href="https://www.instructables.com/id/Breadboard-to-Perfboard/">Breadboard to Perfboard: 4 Steps (with Pictures)</a> #ril</li>
+</ul>
+<h2 id="planning">Planning ??<a class="headerlink" href="#planning" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Perfboard">Perfboard - Wikipedia</a><ul>
+<li>Before building a circuit on perfboard, the locations of the components and connections are typically planned in detail on paper or with software tools (electronic design automation, EDA). Small scale prototypes, however, are often built ad hoc, using an OVERSIZED perfboard. 沒有設計過，空間運用的效率會較差。</li>
+<li>Software for PCB LAYOUT can often be used to generate PERFBOARD LAYOUTs as well. In this case, the designer positions the components so all leads fall on intersections of a 0.1 inches (2.54 mm) grid. When routing the connections more than 2 copper layers can be used, as multiple overlaps are not a problem for insulated wires. 顯然 PCB layout 與 perboard layout 不同，後者要考量洞洞板 2.54 mm 的間距，其中 &ldquo;more than 2 copper layers&rdquo; 應該是印刷電路才有的東西，但洞洞板上用絕緣的電線交錯還是可以達成。</li>
+</ul>
+</li>
+</ul>
+<h2 id="wiring">Wiring 接線 ??<a class="headerlink" href="#wiring" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Perfboard">Perfboard - Wikipedia</a> #ril</p>
+<ul>
+<li>One school of thought is to make as many connections as possible WITHOUT ADDING EXTRA WIRE. This is done by bending the existing leads on resistors, capacitors, etc. into position, trimming off extra length, and soldering the lead to make the required electrical connection. Another school of thought refuses to bend the excessive leads of components and use them for wiring, on the ground that this makes REMOVING A COMPONENT LATER HARD or impossible, e.g. when a repair is needed. 有些人主張少用導線，所以會折彎電子元線的接腳當做導線使用，但有些人反對這麼做，因為會增加之後移除元件的困難度。</li>
+<li>If extra wires need to be used, or are used for principal reasons, they are typically ROUTED ENTIRELY ON THE COPPER SIDE of perfboards, because, as opposed to stripboards, nearby holes aren&rsquo;t connected, and the only hole in a pad is already occupied by a component&rsquo;s lead. Wires used range from isolated wires, including <a href="https://www.google.com/search?q=verowire&amp;tbm=isch">VEROWIRE</a> (enameled copper wire with a polyurethane insulation supposed to melt when soldered 焊點的絕緣會自動熔掉?), to bare copper wire, depending on individual preference, and often also on what is currently at hand in the workshop. 線路只會在印有焊盤的那邊走，主要分絕緣與不絕緣兩種；verowire 在台灣好像買不到?? 裸銅線沒有絕緣感覺不實用，但其實不然&hellip;</li>
+<li>For insulated wires thin SOLID CORE wire with temperature-resistant insulation such as <a href="https://www.google.com/search?q=kynar+wire&amp;tbm=isch">KYNAR</a> or <a href="https://www.google.com/search?q=tefzel+wire&amp;tbm=isch">TEFZEL</a> is preferred. The wire gauge is typically 24 - 30 AWG. A special stripping tool (剝線器) can be used, incorporating a thin steel blade with a slit that the wire is simply inserted into and then pulled loose, leaving a clean stripped end. This wire was developed initially for circuit assembly by the WIRE WRAP technique but also serves well for miniature POINT-TO-POINT WIRING on perfboard. 原設計用在 wire wrap 的 Kynar/Tefzel Wire 可以拿來做 point-to-point wiring，線徑介於 24 ~ 30 AWG，搭配剝線器去掉外皮。</li>
+<li>Bare copper wire is useful when merging a number of connections to form an ELECTRICAL BUS such as the circuit&rsquo;s ground, and when there is enough space to properly route connections, instead of wiring them <a href="https://www.google.com/search?q=rats-nest+wiring&amp;tbm=isch">rats-nest style</a>. 裸銅線可以用來架匯流排 (electrical bus)，例如共接地線。</li>
+<li>Intentional SOLDER BRIDGEs (錫橋) can be used to connect adjacent pads when necessary. Careful hand–eye coordination is needed to avoid causing inadvertent short circuits. 有時 solder bridge 是必要的，畢竟不像 stripboard 已經幫忙連通。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.instructables.com/id/How-to-Prototype-Without-Using-Printed-Circuit-Boa/">How to Prototype Without Using Printed Circuit Boards: 8 Steps</a> Step 1: What You&rsquo;ll Need 邊邊的金手指用金屬線連接起來，電路上的藍線會走過來 (GND)，應該是共同接地 #ril</p>
+</li>
+<li><a href="https://www.instructables.com/id/PCB-Prototyping-With-Verowire/">PCB Prototyping With Verowire: 6 Steps</a> #ril</li>
+<li><a href="http://bugworkshop.blogspot.com/2018/06/wire-wrapping-wire.html">BugWorkShop - 甲蟲工作室: 萬用板繞線專用線（Wire-wrapping Wire）選擇</a> (2018-06-14) 用繞線專用線焊接? #ril</li>
+<li><a href="https://www.amobbs.com/thread-681125-1-1.html">技术资料：Wire-wapping 线的使用方法介绍 (amoBBS 阿莫电子论坛)</a> (2006-10-22)<ul>
+<li>Wire-wrapping 線也叫 OK 線；Wire Wrapping Hand Tools 具有剝線、繞線、拆線三種功能。</li>
+<li>繞接也是一種 &ldquo;無錫焊接法&rdquo;。與錫焊相比，繞線具有方便、可靠和經濟等優點 &hellip; 用電動繞接器對單股實心裸導線施加一定的拉力，並按規定的圈數緊密地繞在帶有棱邊的接線柱上，使導線與接線柱形成緊密連接，以達到可靠的電氣連接目的。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../soldering/">Soldering 焊接</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

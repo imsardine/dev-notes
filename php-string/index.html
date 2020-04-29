@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/php-string/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>PHP Programming / String - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/php-string.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#php-programming-string">PHP Programming / String</a></li>
+            <li class="second-level"><a href="#heredoc">Heredoc</a></li>
+                
+            <li class="second-level"><a href="#nowdoc">Nowdoc</a></li>
+                
+            <li class="second-level"><a href="#variable-parsing">Variable Parsing</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="php-programming-string"><a href="../php-prog/">PHP Programming</a> / String<a class="headerlink" href="#php-programming-string" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.php.net/manual/en/language.types.string.php">PHP: Strings - Manual</a> #ril</li>
+</ul>
+<h2 id="heredoc">Heredoc<a class="headerlink" href="#heredoc" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc">PHP: Strings - Manual</a> #ril</li>
+</ul>
+<h2 id="nowdoc">Nowdoc<a class="headerlink" href="#nowdoc" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/language.types.string.php#language.types.string.syntax.nowdoc">PHP: Strings - Manual</a> #ril</li>
+</ul>
+<h2 id="variable-parsing">Variable Parsing<a class="headerlink" href="#variable-parsing" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/language.types.string.php#language.types.string.parsing">Variable parsing - PHP: Strings - Manual</a></p>
+<ul>
+<li>
+<p>When a string is specified in DOUBLE QUOTES or with HEREDOC, variables are parsed within it.</p>
+<p>There are two types of syntax: a simple one and a complex one. The simple syntax is the most common and convenient. It provides a way to EMBED a variable, an array value, or an object property in a string with a minimum of effort.</p>
+<p>The complex syntax can be recognised by the curly braces surrounding the expression.</p>
+</li>
+</ul>
+<p>Simple syntax</p>
+<ul>
+<li>
+<p>If a dollar sign (<code>$</code>) is encountered, the parser will GREEDILY take as many tokens as possible to form a valid variable name. Enclose the variable name in curly braces to explicitly specify the end of the name.</p>
+<pre><code>&lt;?php
+$juice = "apple";
+
+echo "He drank some $juice juice.".PHP_EOL;
+// Invalid. "s" is a valid character for a variable name, but the variable is $juice.
+echo "He drank some juice made of $juices.";
+// Valid. Explicitly specify the end of the variable name by enclosing it in braces:
+echo "He drank some juice made of ${juice}s.";
+?&gt;
+</code></pre>
+<p>The above example will output:</p>
+<pre><code>He drank some apple juice.
+He drank some juice made of .
+He drank some juice made of apples.
+</code></pre>
+<p>注意 <code>$juices</code> 雖然沒被定義，但也不會引發錯誤，就默默被置換成空字串了。</p>
+</li>
+<li>
+<p>Similarly, an array index or an object property can be parsed. With array indices, the closing square bracket (<code>]</code>) marks the end of the index. The same rules apply to object properties as to simple variables.</p>
+</li>
+<li>
+<p>Example #10 Simple syntax example</p>
+<pre><code>&lt;?php
+$juices = array("apple", "orange", "koolaid1" =&gt; "purple");
+
+echo "He drank some $juices[0] juice.".PHP_EOL;
+echo "He drank some $juices[1] juice.".PHP_EOL;
+echo "He drank some $juices[koolaid1] juice.".PHP_EOL;
+
+class people {
+    public $john = "John Smith";
+    public $jane = "Jane Smith";
+    public $robert = "Robert Paulsen";
+
+    public $smith = "Smith";
+}
+
+$people = new people();
+
+echo "$people-&gt;john drank some $juices[0] juice.".PHP_EOL;
+echo "$people-&gt;john then said hello to $people-&gt;jane.".PHP_EOL;
+echo "$people-&gt;john's wife greeted $people-&gt;robert.".PHP_EOL;
+echo "$people-&gt;robert greeted the two $people-&gt;smiths."; // Won't work
+?&gt;
+</code></pre>
+<p>The above example will output:</p>
+<pre><code>He drank some apple juice.
+He drank some orange juice.
+He drank some purple juice.
+John Smith drank some apple juice.
+John Smith then said hello to Jane Smith.
+John Smith's wife greeted Robert Paulsen.
+Robert Paulsen greeted the two .
+</code></pre>
+<p>As of PHP 7.1.0 also negative numeric indices are supported.</p>
+</li>
+<li>
+<p>Example #11 Negative numeric indices</p>
+<pre><code>&lt;?php
+$string = 'string';
+echo "The character at index -2 is $string[-2].", PHP_EOL;
+$string[-3] = 'o';
+echo "Changing the character at index -3 to o gives $string.", PHP_EOL;
+?&gt;
+</code></pre>
+<p>The above example will output:</p>
+<pre><code>The character at index -2 is n.
+Changing the character at index -3 to o gives strong.
+</code></pre>
+<p>For anything more complex, you should use the complex syntax.</p>
+</li>
+</ul>
+<p>Complex (curly) syntax</p>
+<ul>
+<li>
+<p>This isn&rsquo;t called complex because the syntax is complex, but because it allows for the use of COMPLEX EXPRESSIONS.</p>
+</li>
+<li>
+<p>Any scalar variable, array element or object property with a string representation can be included via this syntax. Simply write the expression the same way as it would appear outside the string, and then wrap it in <code>{</code> and <code>}</code>.</p>
+<p>Since <code>{</code> can not be escaped, this syntax will only be recognised when the <code>$</code> immediately follows the <code>{</code>. Use <code>{\$</code> to get a literal <code>{$</code>. Some examples to make it clear:</p>
+<pre><code>&lt;?php
+// Show all errors
+error_reporting(E_ALL);
+
+$great = 'fantastic';
+
+// Won't work, outputs: This is { fantastic}
+echo "This is { $great}";
+
+// Works, outputs: This is fantastic
+echo "This is {$great}";
+
+// Works
+echo "This square is {$square-&gt;width}00 centimeters broad.";
+
+// Works, quoted keys only work using the curly brace syntax
+echo "This works: {$arr['key']}";
+
+// Works
+echo "This works: {$arr[4][3]}";
+
+// This is wrong for the same reason as $foo[bar] is wrong  outside a string.
+// In other words, it will still work, but only because PHP first looks for a
+// constant named foo; an error of level E_NOTICE (undefined constant) will be
+// thrown.
+echo "This is wrong: {$arr[foo][3]}";
+
+// Works. When using multi-dimensional arrays, always use braces around arrays
+// when inside of strings
+echo "This works: {$arr['foo'][3]}";
+
+// Works.
+echo "This works: " . $arr['foo'][3];
+
+echo "This works too: {$obj-&gt;values[3]-&gt;name}";
+
+echo "This is the value of the var named $name: {${$name}}";
+
+echo "This is the value of the var named by the return value of getName(): {${getName()}}";
+
+echo "This is the value of the var named by the return value of \$object-&gt;getName(): {${$object-&gt;getName()}}";
+
+// Won't work, outputs: This is the return value of getName(): {getName()}
+echo "This is the return value of getName(): {getName()}";
+?&gt;
+</code></pre>
+</li>
+<li>
+<p>It is also possible to access class properties using variables within strings using this syntax.</p>
+<pre><code>&lt;?php
+class foo {
+    var $bar = 'I am bar.';
+}
+
+$foo = new foo();
+$bar = 'bar';
+$baz = array('foo', 'bar', 'baz', 'quux');
+echo "{$foo-&gt;$bar}\n";
+echo "{$foo-&gt;{$baz[1]}}\n";
+?&gt;
+</code></pre>
+<p>The above example will output:</p>
+<pre><code>I am bar.
+I am bar.
+</code></pre>
+</li>
+<li>
+<p>Note: Functions, method calls, static class variables, and class constants inside <code>{$}</code> work since PHP 5. However, the value accessed will be interpreted as the name of a variable IN THE SCOPE IN WHICH THE STRING IS DEFINED.</p>
+<p>Using single curly braces (<code>{}</code>) will not work for accessing the return values of functions or methods or the values of class constants or static class variables.</p>
+<pre><code>&lt;?php
+// Show all errors.
+error_reporting(E_ALL);
+
+class beers {
+    const softdrink = 'rootbeer';
+    public static $ale = 'ipa';
+}
+
+$rootbeer = 'A &amp; W';
+$ipa = 'Alexander Keith\'s';
+
+// This works; outputs: I'd like an A &amp; W
+echo "I'd like an {${beers::softdrink}}\n";
+
+// This works too; outputs: I'd like an Alexander Keith's
+echo "I'd like an {${beers::$ale}}\n";
+?&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

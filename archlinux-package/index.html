@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/archlinux-package/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Arch Linux / Package Management - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/archlinux-package.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#arch-linux-package-management">Arch Linux / Package Management</a></li>
+            <li class="second-level"><a href="#pacman">Pacman ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="arch-linux-package-management"><a href="../archlinux/">Arch Linux</a> / Package Management<a class="headerlink" href="#arch-linux-package-management" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.linode.com/docs/tools-reference/linux-package-management/#package-management-in-arch-linux-with-pacman">Package Management in Arch Linux with Pacman - Linux Package Management</a> #ril</li>
+</ul>
+<h2 id="pacman">Pacman ??<a class="headerlink" href="#pacman" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.archlinux.org/pacman/">Pacman Home Page</a></p>
+<ul>
+<li>pacman is a utility which manages software packages in Linux. It uses SIMPLE COMPRESSED FILES as a package format, and maintains a TEXT-BASED PACKAGE DATABASE (more of a hierarchy), just in case some hand tweaking is necessary.</li>
+<li>pacman does not strive to &ldquo;do everything.&rdquo; It will add, remove and upgrade packages in the system, and it will allow you to query the package database for INSTALLED PACKAGES, FILES AND OWNERS??. It also attempts to handle DEPENDENCIES automatically and can download packages FROM A REMOTE SERVER.</li>
+</ul>
+<p>History</p>
+<ul>
+<li>
+<p>Version 2.0 of pacman introduced the ability to SYNC packages (the <code>--sync</code> option) with a MASTER SERVER through the use of package databases. Prior to this, packages would have to be installed manually using the <code>--add</code> and <code>--upgrade</code> operations.</p>
+<p>從現在 Pacman 5.1.3 的說明看來，<code>--upgrade</code> 接受 URL 或 file path，但沒有 <code>--add</code>。</p>
+</li>
+<li>
+<p>Version 3.0 was the switch to a TWO-PART pacman — a BACK-END named <code>libalpm</code> (library for Arch Linux Package Management) and the familiar <code>pacman</code> FRONT-END. Speed in many cases was improved, along with dependency and conflict resolution being able to handle a much wider variety of cases. The switch to a library-based program should also make it easier in the future to develop ALTERNATIVE FRONT ENDS.</p>
+</li>
+<li>
+<p>Version 4.0 added package signing and verification capabilities to the entire <code>makepkg</code>/<code>repo-add</code>/<code>pacman</code> TOOLCHAIN via GnuPG and GPGME.</p>
+</li>
+<li>
+<p>Version 5.0 added support for PRE/POST-TRANSACTION HOOKS and sync database file list operations.</p>
+<p>5.0 版在 2016-01-30 釋出。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.archlinux.org/pacman/pacman.8.html">pacman(8)</a> 先簡單聊解一下它的用法，因為 CLI 的體驗比較不同 #ril</p>
+<ul>
+<li><code>pacman &lt;operation&gt; [options] [targets]</code></li>
+<li>
+<p>CLI 的體驗有點特別，因為現有的 <code>&lt;operation&gt;</code> 看起來像是 option (例如 <code>-Q, --query</code>)，而真正的 option 像是 <code>-s, --search &lt;regexp&gt;</code>，因此會有像是 <code>pacman -Ss keyword</code> (找 package database) 或 <code>pacman -Qs keyword</code> (找已安裝的套件) 的用法。</p>
+</li>
+<li>
+<p>Man page 一開始有點難懂，關鍵在於識別出 &ldquo;XXX Options (apply to -A, -B and -C)&rdquo; 的區段，以上面 <code>-Ss</code> 與 <code>-Qs</code> 中的 <code>-s</code> 可以分別在 &ldquo;Sync Options (apply to -S)&rdquo; 與 &ldquo;Query Options (apply to -Q)&rdquo; 找到。</p>
+<ul>
+<li><code>-s, --search &lt;regexp&gt;</code> (<code>-S</code>) - This will search each package in the SYNC DATABASES for names or descriptions that match regexp.</li>
+<li><code>-s, --search &lt;regexp&gt;</code> (<code>-Q</code>)- Search each LOCALLY-INSTALLED PACKAGE for names or descriptions that match regexp.</li>
+</ul>
+</li>
+<li>
+<p>常用的操作還有 <code>-Si &lt;package&gt;</code> (查看套件說明)、<code>-Sg &lt;group&gt;</code> 查看 group 成員。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/pacman">pacman - ArchWiki</a> #ril</p>
+<ul>
+<li>The pacman package manager is one of the major distinguishing features of Arch Linux. It combines a simple BINARY PACKAGE FORMAT with an easy-to-use build system. The goal of pacman is to make it possible to easily manage packages, whether they are from the official repositories or the USER&rsquo;S OWN BUILDS.</li>
+<li>Pacman keeps the system up to date by synchronizing package lists with the MASTER SERVER. This server/client model also allows the user to download/install packages with a simple command, complete with all required dependencies.</li>
+<li>Pacman is written in the C programming language and uses the <a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/bsdtar.1">bsdtar(1)</a> TAR FORMAT for packaging.</li>
+<li>Tip: The pacman package contains tools such as <code>makepkg</code> and <code>vercmp</code>. Other useful tools such as <code>pactree</code> and <code>checkupdates</code> are found in <code>pacman-contrib</code> (formerly part of pacman). Run <code>pacman -Ql pacman pacman-contrib | grep -E 'bin/.+'</code> to see the full list.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.archlinux.org/pacman/">pacman</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.archlinux.org/pacman/pacman.8.html">pacman(8)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

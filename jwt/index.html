@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/jwt/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JWT (JSON Web Token) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/jwt.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#jwt-json-web-token">JWT (JSON Web Token)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#claim">Claim</a></li>
+                
+            <li class="second-level"><a href="#scope">Scope</a></li>
+                
+            <li class="second-level"><a href="#token-generation">Token Generation</a></li>
+                
+            <li class="second-level"><a href="#authentication-scheme">Authentication Scheme</a></li>
+                
+            <li class="second-level"><a href="#revocation">Revocation</a></li>
+                
+            <li class="second-level"><a href="#lib">Libraries</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="jwt-json-web-token">JWT (JSON Web Token)<a class="headerlink" href="#jwt-json-web-token" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://jwt.io/">JSON Web Tokens - jwt.io</a></p>
+<ul>
+<li>
+<p>SON Web Tokens are an open, industry standard RFC 7519 method for representing CLAIMS securely between two parties.</p>
+</li>
+<li>
+<p>JWT.IO allows you to decode, verify and generate JWT.</p>
+<p>因為資料只做 Base64 編碼，所以是 decode 不是 decrypt；但要驗證 signature，不就要把 secret 放在 JWT.IO ?? 什麼情況下會有由 JWT.IO 產生 token 的需求??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/JSON_Web_Token">JSON Web Token - Wikipedia</a></p>
+<ul>
+<li>
+<p>JSON Web Token (JWT, sometimes pronounced /dʒɒt/ ??) is an Internet standard for creating JSON-based ACCESS TOKENS that ASSERT some number of CLAIMS.</p>
+<p>For example, a server could generate a token that has the CLAIM &ldquo;logged in as admin&rdquo; and provide that to a client. The client could then use that token to PROVE that it is logged in as admin.</p>
+</li>
+<li>
+<p>The tokens are SIGNED by one party&rsquo;s private key (usually the server&rsquo;s), so that both parties (the other already being, by some suitable and trustworthy means, in possession of the corresponding public key) are able to VERIFY that the token is LEGITIMATE.</p>
+</li>
+<li>
+<p>The tokens are designed to be COMPACT, URL-SAFE, and usable especially in a web-browser single-sign-on (SSO) context. JWT claims can be typically used to pass identity of authenticated users between an identity provider and a service provider, or any other type of claims as required by business processes.</p>
+<p>反正 SSO 也是拿到一個 token，但 JWT 如果不是靠 cookie，是如何達到 SSO 的??</p>
+</li>
+<li>
+<p>JWT relies on other JSON-based standards: JSON Web Signature and JSON Web Encryption. ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://jwt.io/introduction/">JSON Web Token Introduction - jwt.io</a></p>
+<p>What is JSON Web Token?</p>
+<ul>
+<li>
+<p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and SELF-CONTAINED way for securely transmitting information between parties as a JSON object.</p>
+<p>This information can be VERIFIED and trusted because it is DIGITALLY SIGNED. JWTs can be signed using a SECRET (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.</p>
+<p>HMAC 是算出 hash，但 public/private key 是對內容加密，後者如何產生 header.payload.signature 中的 signature ??</p>
+</li>
+<li>
+<p>Although JWTs can be ENCRYPTED to also provide secrecy between parties, we will focus on SIGNED TOKENS.</p>
+<p>Signed tokens can verify the INTEGRITY of the claims contained within it, while encrypted tokens HIDE THOSE CLAIMS from other parties. When tokens are signed using public/private key pairs, the signature also certifies that only the party holding the private key is the one that signed it.</p>
+<p>加密並非必要，但至少可以驗證 token (內含 claims) 是可信任的。</p>
+</li>
+</ul>
+<p>When should you use JSON Web Tokens?</p>
+<ul>
+<li>
+<p>Here are some scenarios where JSON Web Tokens are useful:</p>
+</li>
+<li>
+<p>Authorization</p>
+<p>This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token.</p>
+<p>也就是 JWT 跟 authentication 無關，而是身份驗證後的 authorization &ndash; 是什麼身份、可以做什麼事。</p>
+<p>Single Sign On is a feature that widely uses JWT nowadays, because of its SMALL OVERHEAD and its ability to be easily used across different domains.</p>
+</li>
+<li>
+<p>Information Exchange</p>
+<p>JSON Web Tokens are a good way of securely transmitting information between parties. Because JWTs can be signed—for example, using public/private key pairs—you can be sure the senders are who they say they are.</p>
+<p>Additionally, as the signature is calculated using the header and the payload, you can also verify that the content hasn&rsquo;t been tampered with.</p>
+<p>有夾帶額外資訊的能力 (又可驗證)，增加了 JWT 的應用能力。</p>
+</li>
+</ul>
+<p>Why should we use JSON Web Tokens?</p>
+<ul>
+<li>
+<p>Let&rsquo;s talk about the benefits of JSON Web Tokens (JWT) when compared to Simple Web Tokens (SWT) and Security Assertion Markup Language Tokens (SAML).</p>
+<p>As JSON is less verbose than XML, when it is encoded its size is also smaller, making JWT more compact than SAML. This makes JWT a good choice to be passed in HTML and HTTP environments.</p>
+<p>Security-wise, SWT can only be symmetrically signed by a SHARED SECRET using the HMAC algorithm. However, JWT and SAML tokens can use a public/private key pair in the form of a X.509 certificate for signing. Signing XML with XML Digital Signature without introducing obscure security holes is very difficult when compared to the simplicity of signing JSON.</p>
+<p>XML 怎麼可以有這麼多問題!!?</p>
+</li>
+<li>
+<p>JSON parsers are common in most programming languages because they MAP DIRECTLY to objects. Conversely, XML doesn&rsquo;t have a natural document-to-object mapping. This makes it easier to work with JWT than SAML assertions.</p>
+</li>
+<li>
+<p>Regarding usage, JWT is used at INTERNET SCALE. This highlights the ease of client-side processing of the JSON Web token on multiple platforms, especially mobile.</p>
+<p>為何 SAML 就不行?? 不過要在 brower 裡處理 SAML 確實費工 &hellip;</p>
+<p><img alt="Comparing the length of an encoded JWT and an encoded SAML" src="https://cdn.auth0.com/content/jwt/comparing-jwt-vs-saml2.png" /></p>
+</li>
+<li>
+<p>If you want to read more about JSON Web Tokens and even start using them to perform authentication in your own applications, browse to the JSON Web Token landing page at Auth0.</p>
+<p>對照上面 How do JSON Web Tokens work? 的一張圖，Auth0 雖然被標上 &ldquo;Authorization Server&rdquo;，但它主要的定位是 authentication ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>JWT 就只是一種結構化的 access token， 它的特性是 compact, signed, self-contained，本身就是一種 credential</p>
+<ul>
+<li>
+<p>因為是 credential，拿到的人要善盡保管的義務，所以這裡不討論 token 外流的問題，也不討論 token 的來源是否正確。</p>
+<p>當初把 token 交付給誰，誰能出示 token，就認定是當初交付的人。</p>
+</li>
+<li>
+<p>因為是 signed、只有我們有 secret，所以可以確保這 token 沒有被動過手腳；裡面的 claim 宣稱可以做什麼，我們就信了，不用再查表 (self-contained)。</p>
+<p>我們不會把 secret (假設採用 HMAC algorithm) 給 client，因為可以做什麼事，不是由 client 決定的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>它跟 authorization 有關，但跟 authentication request 無關；當然，authentication response 採 JWT 又是另一回事。</p>
+<p>透過 autentication 拿到 JWT (有人稱之為 &ldquo;自動簽證&rdquo;)，本質上就是拿 credentials (通常是帳密) 來換另一個有時效的 credentials (這裡指的是 JWT)；自動產生的 JWT 通常有 expiration，但 &ldquo;純驗證&rdquo; (事先發給 token，而不是動態透過 authentication 拿到) 比較難做到這裡，除非雙方覺得定期換 token 不麻煩。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://jwt.io/introduction/">What is the JSON Web Token structure? - JSON Web Token Introduction - jwt.io</a></p>
+<ul>
+<li>
+<p>In its compact form, JSON Web Tokens consist of three parts separated by DOTS (<code>.</code>), which are:</p>
+<ul>
+<li>Header</li>
+<li>Payload</li>
+<li>Signature</li>
+</ul>
+</li>
+<li>
+<p>Therefore, a JWT typically looks like the following.</p>
+<pre><code>xxxxx.yyyyy.zzzzz
+</code></pre>
+<p>Let&rsquo;s break down the different parts.</p>
+</li>
+</ul>
+<p>Header</p>
+<ul>
+<li>
+<p>The header typically consists of two parts: the type of the token, which is JWT, and the SIGNING ALGORITHM being used, such as HMAC SHA256 or RSA.</p>
+<p>For example:</p>
+<pre><code>{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+</code></pre>
+<p><a href="https://tools.ietf.org/html/rfc7519#section-8">8. Implementation Requirements - RFC 7519 - JSON Web Token (JWT)</a>:</p>
+<blockquote>
+<p>Of the signature and MAC algorithms specified in JSON Web Algorithms [JWA], only HMAC SHA-256 (&ldquo;HS256&rdquo;) and &ldquo;none&rdquo; MUST be implemented by conforming JWT implementations.</p>
+</blockquote>
+<p>所有的 algorithm 都定義在 RFC 7518 - JSON Web Algorithms (JWA) 裡，而 <code>HS256</code> 指的就是 HMAC SHA-256。</p>
+<p>如果用 public/private key 要怎麼表示?? 光有 <code>alg</code> 跟 <code>typ</code> 是不夠的。</p>
+</li>
+<li>
+<p>Then, this JSON is Base64Url encoded to form the first part of the JWT.</p>
+</li>
+</ul>
+<p>Payload</p>
+<ul>
+<li>
+<p>The second part of the token is the payload, which contains the claims. Claims are STATEMENTS ABOUT AN ENTITY (typically, the user) and additional data. There are three types of claims: registered, public, and private claims.</p>
+<p>An example payload could be:</p>
+<pre><code>{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true
+}
+</code></pre>
+<p>實務上設計成 <code>scope</code> (array) 會比這裡的 <code>"admin": true</code> 好擴充，而且可以根據 scope 給予不同長度的效期 (<code>exp</code> claim) ??</p>
+</li>
+<li>
+<p>The payload is then Base64Url encoded to form the second part of the JSON Web Token.</p>
+</li>
+<li>
+<p>Do note that for signed tokens this information, though protected against tampering, is readable by anyone. DO NOT PUT SECRET information in the payload or header elements of a JWT UNLESS IT IS ENCRYPTED.</p>
+<p>走 public/private key 就沒這個問題，但 JWT 的重點是 signed 而非 encrypted。</p>
+</li>
+</ul>
+<p>Signature</p>
+<ul>
+<li>
+<p>To create the signature part you have to take the ENCODED header, the encoded payload, a SECRET, the algorithm specified in the header, and sign that.</p>
+<p>文件一直在講 secret，暗示著 HMAC 比較常用，而 public/private key 比較少用??</p>
+</li>
+<li>
+<p>For example if you want to use the HMAC SHA256 algorithm, the signature will be created in the following way:</p>
+<pre><code>HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+</code></pre>
+</li>
+<li>
+<p>The signature is used to verify the message wasn&rsquo;t changed along the way, and, in the case of tokens signed with a private key, it can also verify that the sender of the JWT is who it says it is.</p>
+</li>
+</ul>
+<p>Putting all together</p>
+<ul>
+<li>
+<p>The output is three Base64-URL strings separated by dots that can be easily passed in HTML and HTTP environments, while being more compact when compared to XML-based standards such as SAML.</p>
+<p>也就是 SSO 若有用到 JWT 就跟 SAML 無關。</p>
+</li>
+<li>
+<p>The following shows a JWT that has the previous header and payload encoded, and it is signed with a secret.</p>
+<p><img alt="Encoded JWT" src="https://cdn.auth0.com/content/jwt/encoded-jwt3.png" /></p>
+<p>這裡 &ldquo;a JWT&rdquo; 的說法有點特別? JWT 既是一種規格，也是一種符合這規格的 token。</p>
+</li>
+<li>
+<p>If you want to play with JWT and put these concepts into practice, you can use jwt.io Debugger to decode, verify, and generate JWTs.</p>
+<p><img alt="JWT.io Debugger" src="https://cdn.auth0.com/blog/legacy-app-auth/legacy-app-auth-5.png" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://jwt.io/introduction/">How do JSON Web Tokens work? - JSON Web Token Introduction - jwt.io</a></p>
+<ul>
+<li>
+<p>In authentication, when the user successfully logs in using their credentials, a JSON Web Token will be returned. Since tokens ARE CREDENTIALS, great care must be taken to prevent security issues. In general, you should NOT KEEP TOKENS LONGER THAN REQUIRED.</p>
+<p>這裡提到兩個 credentials &ndash; 除了使用者登入時提供的 credentials，通過身份認證後拿到的 access token 也是一種 credentials!! 由於持有 access token 可以以該使用者的身份做事，應該要有 expiration 的概念!!</p>
+</li>
+<li>
+<p>You also <a href="https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html#local-storage">should not store sensitive session data in browser storage due to lack of security</a>. #ril</p>
+<p>但有些情況下還是得存 access token，例如 server 對 server 的應用??</p>
+</li>
+<li>
+<p>Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the <code>Authorization</code> header using the <code>Bearer</code> schema. The content of the header should look like the following:</p>
+<pre><code>Authorization: Bearer &lt;token&gt;
+</code></pre>
+<p><a href="https://tools.ietf.org/html/rfc6750#section-1.2">1.2. Terminology - RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage</a></p>
+<blockquote>
+<p>Bearer Token - A security token with the property that any party in possession of the token (a &ldquo;bearer&rdquo;) can use the token in any way that ANY OTHER party in possession of it can. Using a bearer token does not require a bearer to prove possession of cryptographic key material (proof-of-possession).</p>
+</blockquote>
+<p><code>Bearer</code> authentication scheme 的使用不一定跟 OAuth 2.0 有關，它不像 <code>Basic</code> 需要出示真正的 credentials。</p>
+</li>
+<li>
+<p>This can be, in certain cases, a STATELESS authorization mechanism. The server&rsquo;s protected routes will check for a valid JWT in the <code>Authorization</code> header, and if it&rsquo;s present, the user will be allowed to access protected resources.</p>
+<p>所謂 stateless 是對 server 而言；每個 request 都要檢查一次 token 是否 (還) 有效。</p>
+</li>
+<li>
+<p>If the JWT contains the necessary data, the NEED TO QUERY THE DATABASE for certain operations may be reduced, though this may not always be the case.</p>
+<p>拜 JWT self-contained 的特性所賜；呼應上面 Information Exchange 的應用?</p>
+</li>
+<li>
+<p>If the token is sent in the <code>Authorization</code> header, Cross-Origin Resource Sharing (CORS) won&rsquo;t be an issue as it doesn&rsquo;t use cookies. ??</p>
+</li>
+<li>
+<p>The following diagram shows how a JWT is obtained and used to access APIs or resources:</p>
+<p><img alt="How does a JSON Web Token work" src="https://cdn2.auth0.com/docs/media/articles/api-auth/client-credentials-grant.png" /></p>
+<ol>
+<li>
+<p>The application or client requests authorization to the authorization server. This is performed through one of the different authorization flows.</p>
+<p>For example, a typical OpenID Connect compliant web application will go through the <code>/oauth/authorize</code> endpoint using the authorization code flow. ??</p>
+</li>
+<li>
+<p>When the authorization is granted, the authorization server returns an ACCESS TOKEN to the application.</p>
+</li>
+<li>
+<p>The application uses the access token to access a protected resource (like an API).</p>
+</li>
+</ol>
+<p>Do note that with signed tokens, all the information contained within the token is EXPOSED to users or other parties, even though they are UNABLE TO CHANGE IT. This means you should not put secret information within the token.</p>
+<p>呼應了上面說 JWT 是 credential 的說法。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://auth0.com/learn/json-web-tokens/">Get Started with JSON Web Tokens - Auth0</a> #ril</p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/JSON_Web_Token#Structure">Structure - JSON Web Token - Wikipedia</a> #ril</li>
+<li><a href="https://medium.com/vandium-software/5-easy-steps-to-understanding-json-web-tokens-jwt-1164c0adfcec">5 Easy Steps to Understanding JSON Web Tokens (JWT)</a> (2016-05-17) #ril</li>
+</ul>
+<h2 id="claim">Claim<a class="headerlink" href="#claim" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://jwt.io/introduction/">Payload - What is the JSON Web Token structure? - JSON Web Token Introduction - jwt.io</a></p>
+<ul>
+<li>
+<p>The second part of the token is the payload, which contains the claims. Claims are STATEMENTS ABOUT AN ENTITY (typically, the user) and additional data. There are three types of claims: registered, public, and private claims.</p>
+<ul>
+<li>
+<p>Registered claims</p>
+<p>These are a set of PREDEFINED claims which are NOT MANDATORY BUT RECOMMENDED, to provide a set of useful, INTEROPERABLE claims. Some of them are: <code>iss</code> (issuer), <code>exp</code> (expiration time), <code>sub</code> (subject), <code>aud</code> (audience), and others.</p>
+<p>從 <a href="https://tools.ietf.org/html/rfc7519#section-4.1">4.1. Registered Claim Names - RFC 7519 - JSON Web Token (JWT)</a> 對 <code>iss</code>、<code>sub</code>、<code>aud</code> 的說明看來，一再強調 application specific 與 optional，好像很難達到 registered claims 的目的 &ndash; interoperable?</p>
+<p>Notice that the claim names are only three characters long as JWT is meant to be compact.</p>
+<p>下面提到的 IANA JSON Web Token Registry，除了這裡列舉的幾個 3 個字元的 claim 外，有不少 claim name 是超過 3 個字元的 (例如 <code>nickname</code>)，甚至有些是由多個用底線隔開的單字組成 (例如 <code>family_name</code>)。</p>
+</li>
+<li>
+<p>Public claims</p>
+<p>These can be defined AT WILL by those using JWTs. But to avoid collisions they should be defined in the <a href="https://www.iana.org/assignments/jwt/jwt.xhtml">IANA JSON Web Token Registry</a> or be defined as a URI that contains a collision resistant namespace. ??</p>
+<p>跟 private claims 也可以自定義，有人麼不同??</p>
+</li>
+<li>
+<p>Private claims</p>
+<p>These are the CUSTOM claims created to share information between parties that agree on using them and are NEITHER registered or public claims.</p>
+</li>
+</ul>
+<p>但因為所有 claims 的 key/value 都寫在同一層，共用了 namespace，所以要注意命名衝突的問題。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tools.ietf.org/html/rfc7519#section-4.1">4.1. Registered Claim Names - RFC 7519 - JSON Web Token (JWT)</a></p>
+<ul>
+<li>
+<p>The following Claim Names are registered in the IANA &ldquo;JSON Web Token Claims&rdquo; registry established by Section 10.1. NONE of the claims defined below are intended to be MANDATORY to use or implement in all cases, but rather they provide a starting point for a set of useful, interoperable claims.</p>
+<p>Applications using JWTs should define which specific claims they use and when they are REQUIRED OR OPTIONAL. All the names are short because a core goal of JWTs is for the representation to be compact.</p>
+<p>Spec 本身只是給建議，這些 claim 都是 optional，但個別 application 應該自己明定哪些是 required。</p>
+</li>
+<li>
+<p>The &ldquo;iss&rdquo; (issuer) claim identifies the PRINCIPAL (當事人) that issued the JWT. The processing of this claim is generally application specific. The &ldquo;iss&rdquo; value is a CASE-SENSITIVE string containing a StringOrURI value. Use of this claim is OPTIONAL.</p>
+<p><a href="https://tools.ietf.org/html/rfc7519#section-2">2. Terminology - RFC 7519 - JSON Web Token (JWT)</a> 對 StringOrURI 的說明是：</p>
+<blockquote>
+<p>A JSON string value, with the additional requirement that while arbitrary string values MAY be used, any value containing a &ldquo;:&rdquo; character MUST be a URI [RFC3986]. StringOrURI values are compared as case-sensitive strings with no transformations or canonicalizations applied.</p>
+</blockquote>
+<p>因為是 StringOrURI，所以網路上很常看到 <code>"iss": "https://..."</code> 的用法，例如 <a href="https://tools.ietf.org/id/draft-bertocci-oauth-access-token-jwt-00.html">JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens</a> 的 <code>"iss": "https://authorization-server.example.com/"</code> 與 <code>"aud": "https://rs.example.com/"</code>，其中 <code>iss</code> 代表從哪個網站拿到這個 token，而 <code>aud</code> 則表示這個 token 可以用在哪幾個網站。</p>
+</li>
+<li>
+<p>The &ldquo;sub&rdquo; (subject) claim identifies the principal that is the SUBJECT of the JWT. The claims in a JWT are normally STATEMENTS ABOUT THE SUBJECT. The subject value MUST either be scoped to be LOCALLY UNIQUE in the context of the issuer or be GLOBALLY UNIQUE.</p>
+<p>Subject 可以解釋成文法上的 &ldquo;主詞&rdquo;，其實就是 user ID；<a href="https://auth0.com/docs/tokens/jwt-claims#reserved-claims">Reserved claims - JSON Web Token Claims</a> 明確指出 <code>sub</code> claim 就是 Subject of the JWT (the user)。</p>
+<p>The processing of this claim is generally application specific. The &ldquo;sub&rdquo; value is a case-sensitive string containing a StringOrURI value. Use of this claim is OPTIONAL.</p>
+</li>
+<li>
+<p>The &ldquo;aud&rdquo; (audience) claim identifies the RECIPIENTS that the JWT is intended for. Each principal intended to process the JWT MUST identify ITSELF with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the &ldquo;aud&rdquo; claim when this claim is present, then the JWT MUST be REJECTED.</p>
+<p>表示 issuer 當初只授權這個 JWT 被用在哪些地方 (類似證件影本會標註限定做為什麼用途)；收到這個 JWT 的人，如果有 <code>aud</code> 就要先判斷自己是否在授權範圍內，否則就算有能力驗證 signature 的合法性，也不該同意存取。</p>
+<p>相對於 subject，這裡的 audience 指的應該是驗證 JWT 合法性的這一端；當多個 service 共用一個 secret 時，若想進一步限定只能將 token 用在哪些 service，就需要 <code>aud</code> 來區隔。給了一個 token 裡載明 <code>aud: ['service-a']</code>，拿去用在 service B 就應該被擋下，因為 B 不在 <code>aud</code> 裡。</p>
+<p>In the general case, the &ldquo;aud&rdquo; value is an ARRAY of case-sensitive strings, each containing a StringOrURI value. In the special case when the JWT has one audience, the &ldquo;aud&rdquo; value MAY be a single case-sensitive string containing a StringOrURI value. The interpretation of audience values is generally application specific. Use of this claim is OPTIONAL.</p>
+</li>
+<li>
+<p>The &ldquo;exp&rdquo; (expiration time) claim identifies the expiration time on or after which the JWT MUST NOT be accepted for processing. The processing of the &ldquo;exp&rdquo; claim requires that the current date/time MUST be before the expiration date/time listed in the &ldquo;exp&rdquo; claim.</p>
+<p>Implementers MAY provide for some small LEEWAY, usually no more than A FEW MINUTES, to account for clock skew. Its value MUST be a number containing a NumericDate value. Use of this claim is OPTIONAL.</p>
+<p>雖然說是 optional，但如果將 revocation 考量進來，它就會是 required/mandatory!!</p>
+<p><a href="https://tools.ietf.org/html/rfc7519#section-2">2. Terminology - RFC 7519 - JSON Web Token (JWT)</a> 對 NumericDate 的說明是：</p>
+<blockquote>
+<p>A JSON numeric value representing the number of SECONDS from 1970-01-01T00:00:00Z UTC until the specified UTC date/time, ignoring leap seconds. This is equivalent to the IEEE Std 1003.1, 2013 Edition [POSIX.1] definition &ldquo;Seconds Since the Epoch&rdquo;, in which each day is accounted for by exactly 86400 seconds, other than that non-integer values can be represented. See RFC 3339 [RFC3339] for details regarding date/times in general and UTC in particular.</p>
+</blockquote>
+<p>簡單地講就是 Unix timestamp (不是 millisecond)。</p>
+</li>
+<li>
+<p>The &ldquo;nbf&rdquo; (not before) claim identifies the time before which the JWT MUST NOT be accepted for processing. The processing of the &ldquo;nbf&rdquo; claim requires that the current date/time MUST be after or equal to the not-before date/time listed in the &ldquo;nbf&rdquo; claim.</p>
+<p>可以解釋為 &ldquo;生效時間&rdquo;。</p>
+<p>Implementers MAY provide for some small leeway, usually no more than a few minutes, to account for clock skew. Its value MUST be a number containing a NumericDate value. Use of this claim is OPTIONAL.</p>
+</li>
+<li>
+<p>The &ldquo;iat&rdquo; (issued at) claim identifies the time at which the JWT was issued. This claim can be used to determine the AGE of the JWT. Its value MUST be a number containing a NumericDate value. Use of this claim is OPTIONAL.</p>
+<p>算出 JWT 的 age 在實務上的應用??</p>
+</li>
+<li>
+<p>The &ldquo;jti&rdquo; (JWT ID) claim provides a unique identifier for the JWT. The identifier value MUST be assigned in a manner that ensures that there is a NEGLIGIBLE probability that the same value will be accidentally assigned to a different data object; if the application uses multiple issuers, collisions MUST be prevented among values produced by different issuers as well.</p>
+<p>The &ldquo;jti&rdquo; claim can be used to prevent the JWT from being REPLAYED. The &ldquo;jti&rdquo; value is a case- sensitive string. Use of this claim is OPTIONAL. 可以用在 revoke ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://auth0.com/docs/tokens/jwt-claims">JSON Web Token Claims</a> #ril</p>
+</li>
+</ul>
+<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link"> #</a></h2>
+<ul>
+<li>撇開 OAuth 不談，把 JWT 做為 API 的 access token，就是一種 API key 的應用。</li>
+<li>JWT 做為 APK key 最大的好處是 granular security/control，可以利用 <code>scopes</code> custom claim 明確指出這個 APK key 可以做哪些事情。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://auth0.com/blog/using-json-web-tokens-as-api-keys/">Using JSON Web Tokens as API Keys</a></p>
+<ul>
+<li>
+<p>Most APIs today use an API Key to authenticate legitimate clients. API Keys are very simple to use from the consumer perspective:</p>
+<ul>
+<li>You get an API key from the service (in essence a shared secret).</li>
+<li>Add the key to an <code>Authorization</code> header.</li>
+<li>Call the API.</li>
+</ul>
+<p>It can&rsquo;t get simpler than that, but this approach has some limitations.</p>
+</li>
+<li>
+<p>The last couple of months, we&rsquo;ve been working on our API v2. We wanted to share what we&rsquo;ve learnt implementing a more powerful security model using JSON Web Tokens.</p>
+<p>Using a JSON Web Token offers many advantages:</p>
+<ul>
+<li>Granular Security: API Keys provide an ALL-OR-NOTHING access. JSON Web Tokens can provide much finer grained control.</li>
+<li>Homogenous Auth Architecture: Today we use cookies, API keys, home grown SSO solutions, OAuth etc. Standardizing on JSON Web Tokens gives you an HOMOGENOUS TOKEN FORMAT across the board.</li>
+<li>Decentralized Issuance: API keys depend on a central storage and a service to issue them. JSON Web Tokens can be &ldquo;self-issued&rdquo; or be completely EXTERNALIZED, opening interesting scenarios as we will see below.</li>
+<li>OAuth2 Compliance: OAuth2 uses an OPAQUE token that relies on a CENTRAL STORAGE. You can return a STATELESS JWT instead, with the allowed SCOPES and expiration.</li>
+<li>Debuggability: API keys are opaque random strings. JSON Web Tokens can be inspected.</li>
+<li>Expiration Control: API keys usually don&rsquo;t expire unless you revoke them. JSON Web Tokens can (and often do) have an expiration.</li>
+<li>Devices: You can&rsquo;t put an API key that has full access on a device, because what is on a phone or tablet can easily be stolen. But you can put a JWT with the right set of permissions.</li>
+</ul>
+</li>
+</ul>
+<p>Granular Security</p>
+<ul>
+<li>
+<p>One of the most interesting benefits of using JWTs is the first one listed above. Back in the old days, when databases were at the center of our client-server applications, we could create users with specific permissions on the database:</p>
+</li>
+<li>
+<p>APIs are becoming central pieces of our distributed systems architecture. They are now the &ldquo;GATEKEEPERS&rdquo; of our data. But in contrast with what was available in databases, virtually all API keys provide ALL-OR-NOTHING ACCESS.</p>
+<p>Readers will likely be familiar with the <code>scope</code> parameter of OAuth2 based systems that offers this finer grained consent to access.</p>
+</li>
+<li>
+<p>There are many situations in which you want to keep the simplicity of an API Key but only for a subset of all possible API operations.</p>
+<p>GitHub acknowledged this requirement and now provides a way of creating a token with the scopes you need (mimicking the OAuth2 consent):</p>
+<p>GitHub &gt; Settings &gt; Developer settings &gt; Personal access tokens 可以做到很細的控制。例如 <code>read:org</code>、<code>read:user</code>、<code>admin:repo_hook</code>、<code>repo:invite</code>、<code>repo_deployment</code> 都是分開控制的 (命名有點亂?)，<code>user</code> 下細分出 <code>read:user</code>、<code>user:email</code>、<code>user:follow</code> (<code>user</code> 包含 <code>user:email</code> 與 <code>user:follow</code>)。更多細節可以參考 <a href="https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">Understanding scopes for OAuth Apps | GitHub Developer Guide</a> #ril</p>
+<p>In the next section, we will go through the details of how this can be implemented.</p>
+</li>
+</ul>
+<p>How to implement it?</p>
+<ul>
+<li>
+<p>We don&rsquo;t know how GitHub implemented it (they probably used Ruby), but we will use it as an example. Let&rsquo;s say we want to implement an endpoint in the API to create new repos. You could MODEL this with the following JSON Web Token payload. If you provide any of those scopes, then you can create repos:</p>
+<pre><code>{
+  iat: 1416929109, // when the token was issued (seconds since epoch)
+  jti: "aa7f8d0a95c", // a unique id for this token (for revocation purposes)
+  scopes: ["repo", "public_repo"]  // what capabilities this token has
+}
+</code></pre>
+</li>
+<li>
+<p>The API endpoint would simply check for the presence of the right scope atribute (this example is written in node.js but any language would work):</p>
+<pre><code>// intercept all calls to API and validae the token
+app.use('/api', express_jwt({secret: SECRET, userProperty: 'token_payload'}));
+
+// for POST /user/repo validate that there is a scope `repo` OR `public_repo`
+app.post('/api/user/repo',
+        check_scopes(['repo', 'public_repo']),
+        function(req, res, next) {
+    // create a repo
+    ....
+});
+</code></pre>
+<p>Notice the <code>check_scopes</code> middleware on the <code>/api/user/repo</code> route. This is how the <code>check_scopes</code> function is implemented:</p>
+<pre><code>function check_scopes(scopes) {
+  return function(req, res, next) {
+    //
+    // check if any of the scopes defined in the token,
+    // is ONE OF the scopes declared on check_scopes
+    //
+    var token = req.token_payload;
+    for (var i =0; i&lt;token.scopes.length; i++){
+      for (var j=0; j&lt;scopes.length; j++){
+          if(scopes[j] === token.scopes[i]) return next();
+      }
+    }
+
+    return res.send(401, 'insufficient scopes')
+  }
+}
+</code></pre>
+<p>Notice that no one can change the scopes variables. JWTs are digitally signed, so its content cannot be tampered with.</p>
+<p>為什麼只要符合其中一個 scope 即可? 以 GitHub <code>user:follow</code> (<code>user</code> 包含 <code>user:email</code> 與 <code>user:follow</code>) 為例，若要 follow 某個 user，有 <code>user</code> 或 <code>user:follow</code> 都可以。</p>
+</li>
+<li>
+<p>Documenting an API is equally important. What would be a good way for surfacing this on an API explorer?</p>
+<p>For Auth0, we decided to build our own documentation using swagger. Since we are a multi-tenant system, each tenant has an API Key and Secret that is used to sign the token. As a developer, you mark which scopes you need and a token will be auto-generated. You can copy and paste it to jwt.io to see the structure (this is the debuggable piece, by the way).</p>
+<p>Scopes required by each operation are clearly identified:</p>
+<p><img alt="" src="https://s3.amazonaws.com/blog.auth0.com/api-scopes2.png" /></p>
+<p>下面提到 Swagger&rsquo;s support for arbitrary authorizations objects and a slightly customized swagger-ui template to render the scopes per operation. 原來是要客制才有的</p>
+</li>
+<li>
+<p>Our token format is a bit different from the one in the example we showed for GitHub. The good thing about JWTs is that they can contain ANY DATA STRUCTURE:</p>
+<pre><code>{
+  iat: 1416929061,
+  jti: "802057ff9b5b4eb7fbb8856b6eb2cc5b",
+  scopes: {
+    users: {
+      actions: ['read', 'create']
+    },
+    users_app_metadata: {
+      actions: ['read', 'create']
+    }
+  }
+}
+</code></pre>
+<p>如何讓使用者選擇 scope 是一回事，在 JWT 裡如何表現又是另一回事；因為 JSON 的關係，所以 JWT 的表現能力也很強!!</p>
+<p>The string representation of the scope is <code>read:users</code> but in the JSON Web Token, we are using a MORE STRUCTURED REPRESENTATION (note the hierarchy), this allows us to be more consistent. It also allows us to have an easy way to extend it for other scenarios.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/mitreid-connect/OpenID-Connect-Java-Spring-Server/issues/1239">Can an access token contain scope-values · Issue #1239 · mitreid-connect/OpenID-Connect-Java-Spring-Server</a></p>
+<ul>
+<li>
+<p>gueuselambix: the access token mitreid provides is a JWT. Can it contain the scope values, so the resource server is NOT REQUIRED TO PERFORM THE TOKEN INTROSPECTION?</p>
+<p>I thought introspection was optional, because the resource server could validate the access token based on its signature (except for revocation of course), but it needs the scope values to authorize the request.</p>
+<p>根據 <a href="https://oauth.net/2/token-introspection/">OAuth 2.0 Token Introspection</a> 的說法：</p>
+<blockquote>
+<p>The Token Introspection extension defines a mechanism for resource servers to obtain information about access tokens. With this spec, resource servers can check the validity of access tokens, and find out other information such as which user and which SCOPES are ASSOCIATED with the token.</p>
+</blockquote>
+<p>如果 JWT 還要到其他地方問 token 的其他細節，就是把 JWT 當成 <a href="https://stackoverflow.com/questions/31919067/">oauth 2.0 - How can I revoke a JWT token? - Stack Overflow</a> 中 João Angelo 所說的 by-reference token 來用了，完全沒有發揮到 JWT 的特性。</p>
+</li>
+<li>
+<p>bodewig: <code>.claim("scope", String.join(" ", accessToken.getScope()))</code> 把 OAuth 的 <code>scope</code> (空白隔開) 直接塞進 <code>scope</code> claim?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/53002693/">Is it OK to include the OAuth scopes inside a JWT? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Lahiru Chandima: When a token issued for specific OAuth scopes, it looks better to embed the scopes for which the token is issued inside the token itself, because it is easier to validate whether the token has access to perform a CERTAIN ACTION BY LOOKING AT THE TOKEN, when the client uses the issued token later to perform some action.</p>
+<p>But, the standard claim fields of a JWT doesn&rsquo;t seem to include a suitable field to stamp the OAuth scopes. So, would it be OK to include the scopes as custom claims in the JWT? Is there any other way to embed the scope details in the JWT?</p>
+</li>
+<li>
+<p>Kavindu Dodanduwa: Also, if you are after standard registered claims, they can be found here - <a href="https://www.iana.org/assignments/jwt/jwt.xhtml">https://www.iana.org/assignments/jwt/jwt.xhtml</a></p>
+<p>在 public domain 裡還真的有 <code>scope</code> claim!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.iana.org/assignments/jwt/jwt.xhtml">JSON Web Token (JWT)</a></p>
+<ul>
+<li>
+<p><code>scope</code> &ndash; Scope Values</p>
+</li>
+<li>
+<p>它的參考資料指向 <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-token-exchange/?include_text=1">4.2. &ldquo;scope&rdquo; (Scopes) Claim - OAuth 2.0 Token Exchange draft-ietf-oauth-token-exchange-19</a></p>
+<p>The value of the &ldquo;scope&rdquo; claim is a JSON string containing a SPACE-SEPARATED list of scopes associated with the token, in the format described in Section 3.3 of [RFC6749].</p>
+<p>Figure 7 illustrates the &ldquo;scope&rdquo; claim within a JWT Claims Set.</p>
+<pre><code>{
+  "aud":"https://consumer.example.com",
+  "iss":"https://issuer.example.com",
+  "exp":1443904177,
+  "nbf":1443904077,
+  "sub":"dgaf4mvfs75Fci_FL3heQA",
+  "scope":"email profile phone address"
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/goadesign/goa/issues/1398">JWT security apparently incompatible with Auth0 · Issue #1398 · goadesign/goa</a></p>
+<ul>
+<li>
+<p>iancmcc: Auth0 generates JWTs that include scopes using the claim <code>scope</code>, and, as far as I can tell, there&rsquo;s no way to control that. Goa is hardcoded to look for the claim <code>scopes</code>, and there&rsquo;s no way to control that, either, short of patching it.</p>
+</li>
+<li>
+<p>raphael: However I&rsquo;m wondering if it wouldn&rsquo;t be better to just modify the middleware to check for both <code>scope</code> and - if not present - <code>scopes</code>.</p>
+<p>不過為什麼 goa 一開始會設計成只考慮 <code>scopes</code> ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://ldapwiki.com/wiki/Scp%20%28Scopes%29%20Claim">Ldapwiki: Scp (Scopes) Claim</a></p>
+<ul>
+<li>
+<p>Scp (Scopes) Claim is described in OAuth 2.0 Token Exchange as an ARRAY OF STRINGS, each of which represents an OAuth Scope granted for the issued security token.</p>
+<p>Each array entry of the claim value is a SCOPE-TOKEN, as defined in Section 3.3 of OAuth 2.0 RFC 6749.</p>
+</li>
+<li>
+<p>The following example illustrates the &ldquo;scp&rdquo; claim within a JWT Claims Set with four scope-tokens.</p>
+<pre><code>{
+  "aud":"https://consumer.example.com",
+  "iss":"https://issuer.example.com",
+  "exp":1443904177,
+  "nbf":1443904077,
+  "sub":"dgaf4mvfs75Fci_FL3heQA",
+  "scp":["email","address","profile","phone"]
+}
+</code></pre>
+</li>
+<li>
+<p>OAuth 2.0 Token Introspection RFC 7662 defines the &ldquo;scope&rdquo; parameter to convey the scopes associated with the token.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://auth0.com/docs/scopes/current/sample-use-cases#add-custom-claims-to-a-token">Sample Use Cases - Scopes and Claims</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.jsonwebtoken.io/">JSON Web Token (JWT)</a> 出現 <code>"scope": ["self","admins"]</code> 的用法 #ril</p>
+</li>
+<li>
+<p><a href="https://exante.eu/clientsarea/tutorials/jwt/">JWT authentication Basics</a> 把 <code>aud</code> claim 拿來當 <code>scope</code> 用 &ndash; <code>"aud":["symbols","ohlc","feed","change","crossrates"]</code> ?!</p>
+</li>
+<li>
+<p><a href="https://tools.ietf.org/id/draft-bertocci-oauth-access-token-jwt-00.html">JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens</a> - 出現 <code>"scope": "openid profile reademail"</code> 的用法</p>
+</li>
+<li>
+<p><a href="https://babelouest.github.io/glewlwyd/docs/OIDC.html">Glewlwyd OpenID Connect Plugin documentation | glewlwyd</a> 出現 <code>"scope":"scope1 g_profile"</code> 的用法。</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/44036579/">go - Scopes Not Present in JWT Claim in Golang and Goa - Stack Overflow</a> 出現 <code>"scopes": "read:meta"</code> 的用法。</p>
+</li>
+</ul>
+<h2 id="token-generation">Token Generation<a class="headerlink" href="#token-generation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://jwt.io/#debugger-io">Debugger - JSON Web Tokens - jwt.io</a></p>
+<p>Warning: JWTs are credentials, which can grant access to resources. Be careful where you paste them! We do not record tokens, all validation and debugging is done on the CLIENT SIDE.</p>
+<p>雖然說 jwt.io 聲稱運算都在 client 端，但最好要有自己的 operation tool。</p>
+<p>另外發現 jwt.io 在對 header 跟 payload 做 Base64 運算前，因為 compact 的考量，會先對 JSON 做 minify，例如：</p>
+<pre><code>{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+</code></pre>
+<p>會變成 <code>{"alg":"HS256","typ":"JWT"}</code>，對它做 Base64 的結果就跟 jwt.io 的範例一致：</p>
+<pre><code>$ echo -n '{"alg":"HS256","typ":"JWT"}' | base64
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+$ echo -n 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' | base64 -d
+{"alg":"HS256","typ":"JWT"}
+</code></pre>
+<p>但有趣的是，一樣是 compact 的考量，會把結尾的 padding 去掉：</p>
+<pre><code>$ echo -n 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ' | base64 -d
+{"sub":"1234567890","name":"John Doe","iat":1516239022
+
+$ echo -n 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ===' | base64 -d
+{"sub":"1234567890","name":"John Doe","iat":1516239022}
+
+$ echo -n '{"sub":"1234567890","name":"John Doe","iat":1516239022}' | base64
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ==
+</code></pre>
+</li>
+</ul>
+<h2 id="authentication-scheme">Authentication Scheme<a class="headerlink" href="#authentication-scheme" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://jwt.io/introduction/">How do JSON Web Tokens work? - JSON Web Token Introduction - jwt.io</a></p>
+<p>Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the <code>Authorization</code> header using the <code>Bearer</code> schema. The content of the header should look like the following:</p>
+<pre><code>  Authorization: Bearer &lt;token&gt;
+</code></pre>
+</li>
+<li>
+<p><a href="https://codeburst.io/jwt-to-authenticate-servers-apis-c6e179aa8c4e">Part 2: JWT to authenticate Servers API’s - codeburst</a> (2018-01-13)</p>
+<p>The best HTTP header for your client to send an access token (JWT or any other token) is the <code>Authorization</code> header with the <code>Bearer</code> authentication scheme.</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/33265812/">Best HTTP Authorization header type for JWT - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>Zag zag..: I&rsquo;m wondering what is the best appropriate <code>Authorization</code> HTTP header type for JWT tokens.</p>
+<p>One of the probably most popular type is <code>Basic</code>. For instance:</p>
+<pre><code>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+</code></pre>
+<p>It handle two parameters such as a login and a password. So it is not relevant for JWT tokens.</p>
+<p>Also, I heard about <code>Bearer</code> type, for instance:</p>
+<pre><code>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
+</code></pre>
+<p>However, I don&rsquo;t know its meaning. Is it related to bears?</p>
+<p>Is there a particular way to use JWT tokens in the HTTP <code>Authorization</code> header? Should we use <code>Bearer</code>, or should we simplify and just use:</p>
+<pre><code>Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
+</code></pre>
+<p>Or maybe, just a <code>JWT</code> HTTP header:</p>
+<pre><code>JWT: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
+</code></pre>
+</li>
+<li>
+<p>Florent Morselli: The best HTTP header for your client to send an access token (JWT or any other token) is the <code>Authorization</code> header with the <code>Bearer</code> authentication scheme.</p>
+<p>This scheme is described by the RFC6750.</p>
+<p>Example:</p>
+<pre><code>GET /resource HTTP/1.1
+Host: server.example.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIXVCJ9TJV...r7E20RMHrHDcEfxjoYZgeFONFh7HgQ
+</code></pre>
+<p>Note that even if this RFC and the above specifications are related to the OAuth2 Framework protocol, they can be used in ANY OTHER CONTEXTS that require a TOKEN EXCHANGE BETWEEN A CLIENT AND A SERVER.</p>
+<p>Unlike the custom <code>JWT</code> scheme you mention in your question, the <code>Bearer</code> one is registered at the IANA.</p>
+<p>Concerning the <code>Basic</code> and <code>Digest</code> authentication schemes, they are dedicated to authentication using a username and a secret (see RFC7616 and RFC7617) so not applicable in that context.</p>
+</li>
+<li>
+<p>cassiomolin: The <code>Bearer</code> authentication scheme is registered in IANA and originally defined in the RFC 6750 for the OAuth 2.0 authorization framework, but NOTHING STOPS YOU from using the <code>Bearer</code> scheme for access tokens in applications that don&rsquo;t use OAuth 2.0.</p>
+<p>Stick to the standards as much as you can and don&rsquo;t create your own authentication schemes.</p>
+<p>很衷肯的建議!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://codeburst.io/jwt-authorization-in-flask-c63c1acf4eeb">JWT authorization in Flask - codeburst</a></p>
+<p>Now to access this resource you need to add a header to your request in format <code>Authorization: Bearer &lt;JWT&gt;</code>.</p>
+</li>
+<li>
+<p><a href="https://flask-jwt-extended.readthedocs.io/en/stable/basic_usage/">Basic Usage — flask-jwt-extended 3.24.1 documentation</a></p>
+<p>To access a <code>jwt_required</code> protected view, all we have to do is send in the JWT with the request. By default, this is done with an authorization header that looks like:</p>
+<pre><code>Authorization: Bearer &lt;access_token&gt;
+</code></pre>
+<p><a href="https://flask-jwt-extended.readthedocs.io/en/stable/options/#header-options">Configuration Options — flask-jwt-extended 3.24.1 documentation</a>:</p>
+<p><code>JWT_HEADER_TYPE</code> - What type of header the JWT is in. Defaults to <code>'Bearer'</code>. This can be an EMPTY STRING, in which case the header contains only the JWT (insead of something like <code>HeaderName: Bearer &lt;JWT&gt;</code>)</p>
+<p>但不帶 authentication scheme 好像不符合 <code>Authorization</code> header 的規定?</p>
+</li>
+<li>
+<p><a href="https://pythonhosted.org/Flask-JWT/">Flask-JWT — Flask-JWT 0.3.2 documentation</a></p>
+<ul>
+<li>
+<p><code>Authorization: JWT eyJhbGciOiJIUzI1Ni ...</code></p>
+</li>
+<li>
+<p><code>JWT_AUTH_HEADER_PREFIX</code></p>
+<p>The <code>Authorization</code> header value prefix. Defaults to <code>JWT</code> as to NOT CONFLICT with OAuth2 <code>Bearer</code> tokens. This is not a case sensitive value.</p>
+<p><code>JWT</code> authencation scheme 這用法似乎不常見? 用 <code>Bearer</code> 會怎樣嗎??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="revocation">Revocation<a class="headerlink" href="#revocation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/31919067/">oauth 2.0 - How can I revoke a JWT token? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>João Angelo: In general the easiest answer would be to say that you CANNOT revoke a JWT token, but that&rsquo;s simply not true. The honest answer is that the COST of supporting JWT revocation is SUFFICIENTLY BIG FOR NOT BEING WORTH most of the times or plainly reconsider an alternative to JWT.</p>
+<p>就算成本太高，也要先想過 revocation 的可能性，否則遇到了卻苦無對策也不對。</p>
+<p>Having said that, in some scenarios you might need both JWT and IMMEDIATE token revocation so lets go through what it would take, but first we&rsquo;ll cover some concepts.</p>
+<p>JWT (Learn JSON Web Tokens) just specifies a TOKEN FORMAT, this revocation problem would also apply to any format used in what&rsquo;s usually known as a self-contained or BY-VALUE TOKEN. I like the latter terminology, because it makes a good contrast with by-reference tokens.</p>
+<p>這問題是 JWT 的特性使然，不是 JWT 才有。</p>
+<ul>
+<li>
+<p>by-value token - associated information, including token LIFETIME, is contained in the token itself and the information can be verified as originating from a trusted source (digital signatures to the rescue)</p>
+<p>如果一開始有把 revocation 考量進來，<code>exp</code> claim 就不會是 optional。</p>
+</li>
+<li>
+<p>by-reference token - associated information is KEPT ON SERVER-SIDE STORAGE that is then obtained using the token value as the KEY; being server-side storage the associated information is implicitly trusted</p>
+</li>
+</ul>
+<p>Before the JWT Big Bang we already dealt with tokens in our authentication systems; it was common for an application to create a SESSION IDENTIFIER upon user login that would then be used so that the user did not had to repeat the login process each time. These session identifiers were used as key indexes for server-side storage and if this sounds similar to something you recently read, you&rsquo;re right, this indeed classifies as a by-reference token.</p>
+<p>Using the same analogy, understanding revocation for by-reference tokens is TRIVIAL; we just delete the server-side storage mapped to that key and the next time the key is provided it will be invalid.</p>
+<p>For by-value tokens we just need to implement the OPPOSITE. When you request the revocation of the token you STORE SOMETHING that allows you to uniquely identify that token so that next time you receive it you can additionally check if it was revoked. If you&rsquo;re already thinking that something like this will NOT SCALE, have in mind that you only need to store the data until the time the token would expire and in most cases you could probably just store an HASH OF THE TOKEN so it would always be something of a known size.</p>
+<p>這更突顯了 <code>exp</code> claim 的重要性，否則一旦開始做 revocation，黑名單只能往上增加。放 Redis 可以減少為了檢查是否在 revocation 的黑名單裡而對 DB 的存取 ??</p>
+<p>As a last note and to center this on OAuth 2.0, the revocation of by-value access tokens is currently NOT STANDARDIZED. Nonetheless, the OAuth 2.0 Token revocation specifically states that it can still be achieved as long as both the authorization server and resource server agree to a CUSTOM WAY of handling this:</p>
+<blockquote>
+<p>In the former case (self-contained tokens), some (currently non-standardized) BACKEND INTERACTION between the authorization server and the resource server may be used when IMMEDIATE access token revocation is desired.</p>
+</blockquote>
+<p>If you control both the authorization server and resource server this is very easy to achieve. On the other hand if you delegate the authorization server role to a cloud provider like Auth0 or a third-party component like Spring OAuth 2.0 you most likely need to approach things differently as you&rsquo;ll probably only get what&rsquo;s already standardized.</p>
+</li>
+<li>
+<p>Huanghq: The JWT cann&rsquo;t be revoked. But here is the a alternative solution called as JWT old for new exchange schema.</p>
+<p>Because we can’t invalidate the issued token BEFORE EXPIRE TIME, we always use SHORT-TIME TOKEN, such as 30 minute. When the token expired, we use the old token exchange a new token. The critical point is one old token can exchange one new token only.</p>
+<p>任何發出去的 JWT 都要記起來 (至少是 hash)，好像哪裡怪怪的?</p>
+</li>
+<li>
+<p>kstra: One way to revoke a JWT is by leveraging a distributed event system that notifies services when refresh tokens have been revoked. The identity provider broadcasts an event when a refresh token is revoked and other backends/services listen for the event. When an event is received the backends/services update a local cache that maintains a set of users whose refresh tokens have been revoked.</p>
+<p>This cache is then checked whenever a JWT is verified to determine if the JWT should be revoked or not. This is all based on the duration of JWTs and EXPIRATION INSTANT of individual JWTs.</p>
+<p>Authorization server 跟 resource server 間可以透過 event system 通報要擋下哪些 token，但前題還是 JWT 自己要有 <code>exp</code> claim。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://flask-jwt-extended.readthedocs.io/en/stable/blacklist_and_token_revoking/">Blacklist and Token Revoking — flask-jwt-extended 3.24.1 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/28907831/">node.js - How to use jti claim in a JWT - Stack Overflow</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.dinochiesa.net/?p=1388">I don’t see the point in Revoking or Blacklisting JWT – Getting Connected</a> (2015-06-01) #ril</p>
+</li>
+<li><a href="https://auth0.com/blog/blacklist-json-web-token-api-keys/">Blacklisting JSON Web Token API Keys</a> (2015-03-10) #ril</li>
+<li><a href="https://developer.okta.com/blog/2018/06/20/what-happens-if-your-jwt-is-stolen">What Happens If Your JWT Is Stolen? | Okta Developer</a> (2018-06-20) #ril</li>
+<li><a href="https://fusionauth.io/learn/expert-advice/tokens/revoking-jwts">Revoking JWTs - FusionAuth</a> #ril</li>
+</ul>
+<h2 id="lib">Libraries<a class="headerlink" href="#lib" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://jwt.io/#libraries-io">JSON Web Tokens - jwt.io</a></p>
+<p>Python</p>
+<ul>
+<li>星星數 PyJWT 最高，Authlib 其次；另一方面，Authlib 支援所有的 check，而 PyJWT 少了 <code>sub</code> check 與 <code>jti</code> check。</li>
+</ul>
+<p>Java</p>
+<ul>
+<li>星星數 JJWT 最高，Auth0 的 Java JWT 其次；JJWT 與 jose4j 支援所有的 check。答案顯然是 JJWT 了，它同時也支援 Android。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://jwt.io/">JSON Web Tokens - jwt.io</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/jwt">&lsquo;jwt&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://community.auth0.com/">Auth0 Community</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="https://jwt.io/#debugger-io">Debugger - JWT.IO</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://auth0.com/resources/ebooks/jwt-handbook">JWT Handbook</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../rest-security/">REST / Security</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.iana.org/assignments/jwt/jwt.xhtml">IANA JSON Web Token Registry</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7519">RFC 7519 - JSON Web Token (JWT)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7518">RFC 7518 - JSON Web Algorithms (JWA)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7515">RFC 7515 - JSON Web Signature (JWS)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7516">RFC 7516 - JSON Web Encryption (JWE)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/opensearch/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>OpenSearch - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/opensearch.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#opensearch">OpenSearch</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#browser-support">Browser Support ??</a></li>
+                
+            <li class="second-level"><a href="#description-document-osd">Description Document (OSD) ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="opensearch">OpenSearch<a class="headerlink" href="#opensearch" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/OpenSearch">OpenSearch - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/OpenSearch">OpenSearch description format | MDN</a> #ril</p>
+<ul>
+<li>
+<p>The OpenSearch description format lets a website DESCRIBE A SEARCH ENGINE FOR ITSELF, so that a browser or other client application can USE that search engine. OpenSearch is supported by (at least) Firefox, Edge, Internet Explorer, Safari, and Chrome. 描述自己的 search engine 怎麼用，讓 browser 可以利用。</p>
+<p>觀察到 Firefox 會在 search box 提示有 search engine 可以加，但 Chrome 只會默默將它列在 Settings &gt; Search engine &gt; Manage search engines &gt; Other search engine 裡。</p>
+<p><img alt="" src="../imgs/opensearch/firefox-search-box.png" /></p>
+</li>
+<li>
+<p>Firefox also supports additional features not in the OpenSearch standard, such as search suggestions and the <code>&lt;SearchForm&gt;</code> element. This article focuses on creating OpenSearch-compatible search PLUGINs that support these additional Firefox features. 為什麼是 plugin?? 如何通用於各 browser?</p>
+</li>
+<li>OpenSearch DESCRIPTION FILES can be ADVERTISED as described in Autodiscovery of search plugins, and can be installed programmatically as described in Adding search engines from web pages. 只有 Firefox 支援用 JavaScript 要求權限安裝 search engine plugin，但通用的方法是提供 description file 讓 browser 知道，有各自的實作讓使用者方便安裝。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://books.google.com.tw/books?id=iHCADwAAQBAJ&amp;pg=PA217&amp;lpg=PA217&amp;dq=opensearch+head+profile">Building Digital Libraries, Second Edition - Kyle Banerjee , Terry Reese, Jr. - Google Books</a></p>
+</li>
+<li>
+<p><a href="https://www.algolia.com/doc/guides/building-search-ui/resources/ui-and-ux-patterns/in-depth/opensearch/js/">Opensearch | Building Search UI Guide | Algolia Documentation</a> 提到 URL synchronization 的概念 (2018-12-20) #ril</p>
+</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/opensearch.xml">https://github.com/opensearch.xml</a><pre><code>&lt;OpenSearchDescription
+    xmlns="http://a9.com/-/spec/opensearch/1.1/"
+    xmlns:moz="http://www.mozilla.org/2006/browser/search/"&gt;
+    &lt;script/&gt;
+    &lt;ShortName&gt;GitHub&lt;/ShortName&gt;
+    &lt;Description&gt;Search GitHub&lt;/Description&gt;
+    &lt;InputEncoding&gt;UTF-8&lt;/InputEncoding&gt;
+    &lt;Image width="16" height="16" type="image/x-icon"&gt;https://github.com/favicon.ico&lt;/Image&gt;
+    &lt;Url type="text/html" method="get" template="https://github.com/search?q={searchTerms}&amp;ref=opensearch"/&gt;
+    &lt;moz:SearchForm&gt;https://github.com/search&lt;/moz:SearchForm&gt;
+&lt;/OpenSearchDescription&gt;
+</code></pre>
+</li>
+</ul>
+<h2 id="browser-support">Browser Support ??<a class="headerlink" href="#browser-support" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.chromium.org/tab-to-search">Tab to Search - The Chromium Projects</a></p>
+<ul>
+<li>Among the many features Chromium&rsquo;s Omnibox offers is the ability to search a site WITHOUT NAVIGATING TO THE SITES HOMEPAGE. Once Chromium has DETERMINED it can search a site, any time the user types the URL of the site into the Omnibox the user is offered the ability to search the site. Once the user presses TAB, then types in a string and presses the enter, the site is searched and the results shown to the user. 問題就在 Chrome 如何認定 &ldquo;it can search a site&rdquo;? 其中 omnibox 唸做 <code>[‵ɑmnɪbɑks]</code>，前綴 omni- 有 &ldquo;全/總/泛&rdquo; 的意思。</li>
+<li>Chromium provides two heuristics that automatically add a site to the list of SEARCHABLE sites. &hellip; For 1 and 2 Chromium only adds sites that the user navigated to WITHOUT A PATH. For example <code>http://mysite.com</code>, but not <code>http://mysite.com/foo</code>. (啟發 Chrome 的方式?) 其一是提供 description document，其二是 HTML form 符合一些條件時，會自動加入；但結果都是 searchable sites。</li>
+<li>
+<p>On your site&rsquo;s homepage provide a link to an OpenSearch description document. The link to the OSDD is placed in the head of the html file.</p>
+<pre><code>&lt;head&gt;
+ &lt;link type="application/opensearchdescription+xml" rel="search"
+       href="url_of_osdd_file"/&gt;
+&lt;/head&gt;
+</code></pre>
+<p>The important part of this document is the URL used to search your site. The following is an example that contains the bare minimum needed</p>
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"&gt;
+ &lt;ShortName&gt;Search My Site&lt;/ShortName&gt;
+ &lt;Description&gt;Search My Site&lt;/Description&gt;
+ &lt;Url type="text/html" method="get" template="http://my_site/{searchTerms}"/&gt;
+&lt;/OpenSearchDescription&gt;
+</code></pre>
+<p>When the user presses enter in the Omnibox the string <code>{searchTerms}</code> in the url is replaced with the string the user typed. 然後是 URL 編碼過的</p>
+</li>
+<li>
+<p>You can also include a suggestion service by adding another URL element with rel=&rdquo;suggestions&rdquo; such as: </p>
+<pre><code>&lt;Url type="application/json" rel="suggestions" template="http://my_site/suggest?q={searchTerms}" /&gt;
+</code></pre>
+<p>If you include this, the omnibox will use your suggestion service to provide query suggestions based on the user&rsquo;s partial query. 原來不只 Firefox 支援 suggestion。</p>
+</li>
+<li>
+<p>If the site does not provide a link to an OpenSearch description document but the user SUBMITS A FORM, then Chrome AUTOMATICALLY adds the site to the list of searchable sites. There are a number of RESTRICTIONS with this approach though. In particular the form must generate a GET, must result in a HTTP url, and the form must not have <code>OnSubmit</code> script. Additionally there must be ONLY ONE input element of type <code>text</code>, no passwords, files or text areas and all other input elements must be in their DEFAULT STATE. 難怪 Settings &gt; Search engine &gt; Manage search engines 一堆!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.apple.com/library/archive/releasenotes/General/WhatsNewInSafari/Articles/Safari_8_0.html">Quick Website Search - Safari 8.0</a> #ril</p>
+<ul>
+<li>A new feature, Quick Website Search, allows users to access content from a specified website directly from Safari’s SMART SEARCH FIELD, bypassing their normal search engine. For example, a user might type “app solitaire” to search for solitaire games on the App Store, or “wiki OS X Yosemite” to find the Wikipedia article on OS X Yosemite. The desired result would then appear AT THE TOP OF THE SUGGESTED COMPLETION LIST for that search. 實際操作，跟 Chrome 一樣要按 Tab 才會用該 search engine 搜尋；以 GitHub 為例，瀏覽過 github.com 後，Safari &gt; Preferences &gt; Search &gt; Manage Websites&hellip; 下面就會多了 github.com，要勾選左側 Enable Quick Website Search 才會自動加入。</li>
+</ul>
+</li>
+<li>
+<p>Firefox 的操作有沒有文件，在 Preferences &gt; Search &gt; Search 採用 Add search bar in toolbar 時，第一次瀏覽 github.com 會出現 &ldquo;放大鏡與加號&rdquo;，使用者可以明確把 search engine 加入 #ril</p>
+</li>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/microsoft-edge/dev-guide/browser-features/search-provider-discovery">Dev guide - Search provider discovery - Microsoft Edge Development | Microsoft Docs</a> #ril</p>
+</li>
+<li><a href="https://aaronparecki.com/2011/07/11/3/how-to-let-google-power-opensearch-on-your-website">How to let Google power OpenSearch on your website • Aaron Parecki</a> (2011-07-11) #ril</li>
+</ul>
+<h2 id="description-document-osd">Description Document (OSD) ??<a class="headerlink" href="#description-document-osd" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/OpenSearch#OpenSearch_description_file">OpenSearch description file - OpenSearch description format | MDN</a> #ril</p>
+<ul>
+<li>
+<p>The XML file that describes a search engine follows the basic template below. Sections in [square brackets] should be customized for the specific plugin you&rsquo;re writing.</p>
+<pre><code>&lt;OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/"&gt; &lt;-- moz namespace 用在 &lt;SearchForm&gt;
+  &lt;ShortName&gt;[SNK]&lt;/ShortName&gt;
+  &lt;Description&gt;[Search engine full name and summary]&lt;/Description&gt;
+  &lt;InputEncoding&gt;[UTF-8]&lt;/InputEncoding&gt;
+  &lt;Image width="16" height="16" type="image/x-icon"&gt;[https://example.com/favicon.ico]&lt;/Image&gt;
+  &lt;Url type="text/html" template="[searchURL]"&gt;
+    &lt;Param name="[key name]" value="{searchTerms}"/&gt;
+    &lt;!-- other Params if you need them… --&gt;
+    &lt;Param name="[other key name]" value="[parameter value]"/&gt;
+  &lt;/Url&gt;
+  &lt;Url type="application/x-suggestions+json" template="[suggestionURL]"/&gt; &lt;-- 以下是 Firefox 特有的
+  &lt;moz:SearchForm&gt;[https://example.com/search]&lt;/moz:SearchForm&gt;
+&lt;/OpenSearchDescription&gt;
+</code></pre>
+</li>
+<li>
+<p><code>ShortName</code> - A short name for the search engine. It must be 16 or fewer characters of plain text, with no HTML or other markup.</p>
+</li>
+<li><code>Description</code> - A brief description of the search engine. It must be 1024 or fewer characters of plain text, with no HTML or other markup.</li>
+<li><code>InputEncoding</code> - The character encoding to use when submitting input to the search engine.</li>
+<li>
+<p><code>Image</code> - URI of an icon for the search engine. When possible, include a 16×16 image of type <code>image/x-icon</code> (such as <code>/favicon.ico</code>) and a 64×64 image of type <code>image/jpeg</code> or <code>image/png</code>. The URI may also use the <code>data:</code> URI scheme. 可以多個??</p>
+<pre><code>&lt;Image height="16" width="16" type="image/x-icon"&gt;https://example.com/favicon.ico&lt;/Image&gt;
+  &lt;!-- or --&gt;
+&lt;Image height="16" width="16"&gt;data:image/x-icon;base64,AAABAAEAEBAAA … DAAA=&lt;/Image&gt;
+</code></pre>
+</li>
+<li>
+<p><code>Url</code> - Describes the URL or URLs to use for the search. The <code>template</code> attribute indicates the base URL for the search query.</p>
+<p>Firefox supports three URL types: (後 2 個 URL type 其他 browser 都不支援)</p>
+<ul>
+<li><code>type="text/html"</code> - specifies the URL for the actual search query.</li>
+<li><code>type="application/x-suggestions+json"</code> specifies the URL for fetching search suggestions. In Firefox 63 onwards, <code>type="application/json"</code> is accepted as an alias of this.</li>
+<li><code>type="application/x-moz-keywordsearch"</code> specifies the URL used when a keyword search is entered in the LOCATION BAR. This is supported only in Firefox.</li>
+</ul>
+<p>For these URL types, you can use <code>{searchTerms}</code> to substitute the search terms entered by the user in the search bar or location bar. Other supported DYNAMIC search parameters are described in OpenSearch 1.1 parameters. 其中 location bar 跟 search bar 有什麼不同?? Chrome 並沒有像 Firefox 這樣區分</p>
+</li>
+<li>
+<p><code>Param</code> - The parameters that must be passed in along with the search query as key/value pairs. When specifying values, you can use <code>{searchTerms}</code> to insert the search terms entered by the user in the search bar.</p>
+</li>
+<li>
+<p><code>moz:SearchForm</code> - The URL for the site&rsquo;s search page for which the plugin. This lets Firefox users visit the web site directly.</p>
+<p>Since this element is Firefox-specific, and not part of the OpenSearch specification, we use the <code>moz:</code> XML namespace prefix in the example above to ensure that other user agents that don&rsquo;t support this element can SAFELY IGNORE IT.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md">opensearch/opensearch-1-1-draft-6.md at master · dewitt/opensearch</a> #ril</p>
+</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.opensearch.org/Home">OpenSearch.org</a></li>
+<li><a href="https://github.com/dewitt/opensearch">dewitt/opensearch - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/opensearch">&lsquo;opensearch&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="http://7is7.com/software/firefox/opensearch.html">OpenSearch plugin generator</a> - 產生 description file，支持 Firefox 特有功能</li>
+<li><a href="http://ready.to/search/en/">Ready2Search</a> - 產生 description file</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md">OpenSearch 1.1 Draft 6</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

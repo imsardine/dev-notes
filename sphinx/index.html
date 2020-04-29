@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/sphinx/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sphinx - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/sphinx.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sphinx">Sphinx</a></li>
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#domain">Domain ??</a></li>
+                
+            <li class="second-level"><a href="#docstring-google-style">Docstring, Google Style ??</a></li>
+                
+            <li class="second-level"><a href="#tox">tox Integration</a></li>
+                
+            <li class="second-level"><a href="#markdown">Markdown ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sphinx">Sphinx<a class="headerlink" href="#sphinx" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/">Overview — Sphinx 3.0.0+/f7bf66012 documentation</a></p>
+<ul>
+<li>
+<p>Sphinx is a tool that makes it easy to create intelligent and beautiful documentation, written by Georg Brandl and licensed under the BSD license.</p>
+</li>
+<li>
+<p>It was originally created for the <a href="https://docs.python.org/">Python documentation</a>, and it has excellent facilities for the documentation of software projects in A RANGE OF LANGUAGES. Of course, this site is also created from reStructuredText sources using Sphinx! The following features should be highlighted:</p>
+<ul>
+<li>
+<p>Output formats: HTML (including Windows HTML Help), LaTeX (for printable PDF versions), ePub, Texinfo, manual pages, plain text</p>
+</li>
+<li>
+<p>Extensive CROSS-REFERENCES: semantic markup and AUTOMATIC links for functions, classes, citations, glossary terms and similar pieces of information</p>
+<p>若改用 Google Style Docstring，這些還會有嗎 ??</p>
+</li>
+<li>
+<p>Hierarchical structure: easy definition of a DOCUMENT TREE, with automatic links to siblings, parents and children</p>
+</li>
+<li>Automatic indices: general index as well as a LANGUAGE-SPECIFIC module indices</li>
+<li>
+<p>Code handling: automatic highlighting using the Pygments highlighter</p>
+</li>
+<li>
+<p>Extensions: automatic testing of code snippets, inclusion of docstrings from Python modules (API DOCS), and more</p>
+<p>API doc 只是 project documentation 的一部份而已。</p>
+</li>
+<li>
+<p>Contributed extensions: more than 50 extensions contributed by users in a second repository; most of them installable from PyPI</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Sphinx uses reStructuredText as its markup language, and many of its strengths come from the power and straightforwardness of reStructuredText and its parsing and translating suite, the <a href="http://docutils.sourceforge.net/">Docutils</a>.</p>
+<p>就算 Docstring 改用 Google style 寫，API doc 以外的文件還是得用 reStructuredText 寫? 事實上 Google style 裡的 formatting 也是 reStructuredText。</p>
+</li>
+</ul>
+<p>Examples</p>
+<ul>
+<li>Links to documentation generated with Sphinx can be found on the Projects using Sphinx page.</li>
+<li>For examples of how Sphinx SOURCE FILES look, use the “Show source” links on all pages of the documentation apart from this welcome page.</li>
+</ul>
+<p>Hosting</p>
+<ul>
+<li>Need a place to host your Sphinx docs? readthedocs.org hosts a lot of Sphinx docs already, and INTEGRATES well with projects&rsquo; source control. It also features a powerful BUILT-IN SEARCH that exceeds the possibilities of Sphinx&rsquo; JAVASCRIPT-BASED OFFLINE SEARCH.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Sphinx_(documentation_generator)">Sphinx (documentation generator) - Wikipedia</a> #ril</p>
+</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/">Python 2.7.16 documentation</a> / <a href="https://docs.python.org/3/">3.7.3 Documentation</a></li>
+<li><a href="http://www.sphinx-doc.org/en/master/examples.html">Projects using Sphinx — Sphinx 3.0.0+/f7bf66012 documentation</a></li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<p>這裡以 Python docstring (用 Google style) 為例，說明如何產生 API doc。專案結構如下：</p>
+<pre><code>$ tree -F
+.
+├── docs/
+│   ├── api/
+│   └── site/
+├── pypkg/
+│   └── __init__.py
+├── setup.py
+└── tests/
+    └── __init__.py
+
+5 directories, 3 files
+
+$ cat pypkg/__init__.py
+def hello(who=None):
+    &quot;&quot;&quot;Says hello to someone.
+
+    Args:
+      who (str): Someone you want to say hello to. Defaults to ``World``
+
+    Returns:
+      str: A greeting.
+    &quot;&quot;&quot;
+    who = 'World' if who is None else who
+    return 'Hello, %s!' % who
+</code></pre>
+
+<ol>
+<li>
+<p>用 <code>sphinx-apidoc</code> 產生 Sphinx source 在 <code>docs/api</code>，裡面會安排好 <code>autodoc</code>：</p>
+<pre><code>$ sphinx-apidoc -o docs/api --full . setup.py tests/
+Creating file docs/api/pypkg.rst.
+Creating file docs/api/conf.py.
+Creating file docs/api/index.rst.
+Creating file docs/api/Makefile.
+Creating file docs/api/make.bat.
+</code></pre>
+<p>其中 <code>. setup.py tests</code> 會從當前的目錄找 Python package，但不含 <code>setup.py</code> 與 <code>tests/</code>。</p>
+</li>
+<li>
+<p>在 <code>docs/api/conf.py</code> 裡啟用 Napoleon plugin：</p>
+<pre><code>extensions = [
+    'sphinx.ext.autodoc',
+    ...
+    'sphinx.ext.napoleon',
+]
+</code></pre>
+</li>
+<li>
+<p>用 <code>sphinx-build</code> 產生 HTML API doc 到 <code>build/apidocs/</code>：</p>
+<pre><code>$ PYTHONPATH=$(PWD) sphinx-build -b html docs/api build/apidocs
+Running Sphinx v1.8.5
+loading translations [en]... done
+making output directory...
+building [mo]: targets for 0 po files that are out of date
+building [html]: targets for 2 source files that are out of date
+updating environment: 2 added, 0 changed, 0 removed
+reading sources... [100%] pypkg
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... done
+preparing documents... done
+writing output... [100%] pypkg
+generating indices... genindex py-modindex
+highlighting module code... [100%] pypkg
+writing additional pages... search
+copying static files... done
+copying extra files... done
+dumping search index in English (code: en) ... done
+dumping object inventory... done
+build succeeded.
+
+The HTML pages are in build/apidocs.
+</code></pre>
+<p>開啟 <code>build/apidocs/index.html</code> 就可以看到 API doc，結果就像：</p>
+<pre><code>pypkg.hello(who=None)                                            [source]
+  Says hello to someone.
+
+  Parameters:  who (str) – Someone you want to say hello to. Defaults to World
+  Returns:     A greeting.
+  Return type: str
+</code></pre>
+</li>
+<li>
+<p>首頁的內容來自 <code>docs/api/index.rst</code>，用 reStructuredText 補上一些敘述性的文字，就更完整了。</p>
+<pre><code>$ cat docs/api/index.rst
+.. pylib documentation master file, created by
+   sphinx-quickstart on Sat Jun  1 16:43:25 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to pylib's documentation!
+=================================
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Contents:
+
+   pypkg
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+</code></pre>
+</li>
+</ol>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/usage/quickstart.html">Getting Started — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</p>
+<ul>
+<li>Once Sphinx is installed, you can proceed with setting up your first Sphinx project. To ease the process of getting started, Sphinx provides a tool, <code>sphinx-quickstart</code>, which will generate a documentation source directory and populate it with some defaults. We’re going to use the <code>sphinx-quickstart</code> tool here, though its use is by no means necessary.</li>
+</ul>
+<p>Setting up the documentation sources</p>
+<ul>
+<li>
+<p>The root directory of a Sphinx collection of reStructuredText document sources is called the SOURCE DIRECTORY. This directory also contains the Sphinx configuration file <code>conf.py</code>, where you can configure ALL ASPECTS of how Sphinx reads your sources and builds your documentation.</p>
+<p>This is the usual layout. However, <code>conf.py</code> can also live in another directory, the configuration directory. Refer to the <code>sphinx-build</code> man page for more information.</p>
+</li>
+<li>
+<p>Sphinx comes with a script called <code>sphinx-quickstart</code> that sets up a source directory and creates a default <code>conf.py</code> with the most useful configuration values from a few questions it asks you. To use this, run:</p>
+<pre><code>$ sphinx-quickstart
+</code></pre>
+<p>Answer each question asked. Be sure to say “yes” to the <code>autodoc</code> extension, as we will use this later.</p>
+</li>
+<li>
+<p>There is also an automatic “API documentation” generator called <code>sphinx-apidoc</code>; see <code>sphinx-apidoc</code> for details.</p>
+<p><code>sphinx-apidoc</code> 是自動產生內含 <code>autodoc</code> 的 Sphinx source (並沒有抄寫 docstring)，跟把 Sphinx source 視為 input 的 <code>sphinx-build</code> 不同。</p>
+</li>
+</ul>
+<p>Defining document structure</p>
+<ul>
+<li>
+<p>Let’s assume you’ve run <code>sphinx-quickstart</code>. It created a source directory with <code>conf.py</code> and a MASTER DOCUMENT, <code>index.rst</code> (if you accepted the defaults).</p>
+<p>The main function of the master document is to serve as a WELCOME PAGE, and to contain the root of the “table of contents tree” (or toctree). This is one of the main things that Sphinx ADDS to reStructuredText, a way to CONNECT multiple files to a SINGLE HIERARCHY OF DOCUMENTS.</p>
+</li>
+<li>
+<p>The <code>toctree</code> directive initially is empty, and looks like so:</p>
+<pre><code>.. toctree::
+   :maxdepth: 2
+</code></pre>
+<p>You add documents listing them in the CONTENT of the directive:</p>
+<pre><code>.. toctree::
+   :maxdepth: 2
+
+   usage/installation
+   usage/quickstart
+   ...
+</code></pre>
+<p>(Directive 的 content 與 options 間會隔一行空白)</p>
+</li>
+<li>
+<p>This is exactly how the toctree for this documentation looks. The documents to include are given as DOCUMENT NAMES, which in short means that you leave off the file name extension and use forward slashes (<code>/</code>) as directory separators.</p>
+</li>
+<li>
+<p>You can now create the files you listed in the toctree and add content, and their SECTION TITLES will be inserted (up to the <code>maxdepth</code> level) at the place where the <code>toctree</code> directive is placed. Also, Sphinx now knows about the ORDER and HIERARCHY of your documents.</p>
+<p>(They may contain <code>toctree</code> directives themselves, which means you can create DEEPLY NESTED HIERARCHIES if necessary.)</p>
+</li>
+</ul>
+<p>Adding content</p>
+<ul>
+<li>
+<p>In Sphinx source files, you can use most features of standard reStructuredText. There are also several features ADDED BY SPHINX.</p>
+<p>For example, you can add cross-file references in a PORTABLE WAY (which works for all output types) using the <code>ref</code> ROLE. ??</p>
+</li>
+<li>
+<p>For an example, if you are viewing the HTML version, you can look at the source for this document – use the “Show Source” link in the sidebar. 這就是 cross-file reference ??</p>
+</li>
+</ul>
+<p>Running the build</p>
+<ul>
+<li>
+<p>Now that you have added some files and content, let’s make a first build of the docs. A build is started with the <code>sphinx-build</code> program:</p>
+<pre><code>$ sphinx-build -b html sourcedir builddir
+</code></pre>
+<p>where <code>sourcedir</code> is the source directory, and <code>builddir</code> is the directory in which you want to place the built documentation. The <code>-b</code> option selects a BUILDER; in this example Sphinx will build HTML files.</p>
+</li>
+<li>
+<p>However, <code>sphinx-quickstart</code> script creates a <code>Makefile</code> and a <code>make.bat</code> which make life even easier for you. These can be executed by running <code>make</code> with the name of the builder. For example.</p>
+<pre><code>$ make html
+</code></pre>
+<p>This will build HTML docs in the build directory you chose. Execute <code>make</code> without an argument to SEE WHICH TARGETS ARE AVAILABLE.</p>
+</li>
+<li>
+<p>How do I generate PDF documents? <code>make latexpdf</code> runs the LaTeX builder and readily invokes the pdfTeX toolchain for you.</p>
+</li>
+</ul>
+<p>Documenting objects</p>
+<ul>
+<li>
+<p>One of Sphinx’s main objectives is easy documentation of OBJECTS (in a very general sense) in ANY DOMAIN.</p>
+<p>A domain is a collection of object types that belong together, complete with markup to create and reference descriptions of these objects.</p>
+</li>
+<li>
+<p>The most prominent domain is the PYTHON DOMAIN. For example, to document Python’s built-in function <code>enumerate()</code>, you would add this to one of your source files.</p>
+<pre><code>.. py:function:: enumerate(sequence[, start=0])
+
+   Return an iterator that yields tuples of an index and an item of the
+   *sequence*. (And so on.)
+</code></pre>
+<p>This is rendered like this:</p>
+<pre><code>enumerate(sequence[, start=0])
+Return an iterator that yields tuples of an index and an item of the sequence. (And so on.)
+</code></pre>
+<p>The argument of the directive is the SIGNATURE of the object you describe, the content is the documentation for it. MULTIPLE SIGNATURES can be given, each in its own line.</p>
+<p><a href="http://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html">Domains — Sphinx 3.0.0+/f7bf66012 documentation</a> 除了 Python domain，還有 C domain、C++ domain 等。</p>
+<p>這是自己用 reStructuredText directive 寫文件，但如果是寫在 Python source code 裡的 docstring 呢 &rarr; <code>autodoc</code> extension + Napoleon pre-processor。</p>
+</li>
+<li>
+<p>The Python domain also happens to be the DEFAULT DOMAIN, so you don’t need to prefix the markup with the domain name.</p>
+<pre><code>.. function:: enumerate(sequence[, start=0])
+
+   ...
+</code></pre>
+<p>does the same job if you keep the default setting for the default domain.</p>
+<p>所以 <code>py:function::</code> 中的 <code>py:function</code> 一樣是 directive type，而 <code>py:</code> 是 domain；當 domain 是 Python (<code>py:</code>) 時，domain 可以省略。</p>
+</li>
+<li>
+<p>There are several more directives for documenting other types of Python objects, for example <code>py:class</code> or <code>py:method</code>.</p>
+<p>There is also a cross-referencing role for each of these object types. This markup will create a link to the documentation of <code>enumerate()</code>.</p>
+<pre><code>The :py:func:`enumerate` function can be used for ...
+</code></pre>
+<p>And here is the proof: A link to <a href="http://www.sphinx-doc.org/en/master/usage/quickstart.html#enumerate">enumerate()</a>. 直接連回上述 &ldquo;This is rendered like this:&rdquo; 的地方。</p>
+</li>
+<li>
+<p>Again, the <code>py:</code> can be left out if the Python domain is the default one. It doesn’t matter which file contains the actual documentation for <code>enumerate()</code>; Sphinx will find it and create a link to it.</p>
+</li>
+<li>
+<p>Each domain will have special rules for how the signatures can look like, and make the formatted output look pretty, or add specific features like links to parameter types, e.g. in the C/C++ domains.</p>
+<p>more info See Domains for all the available domains and their directives/roles.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://samnicholls.net/2016/06/15/how-to-sphinx-readthedocs/">An idiot’s guide to Python documentation with Sphinx and ReadTheDocs – Samposium</a> (2016-06-15) #ril</p>
+</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.sphinx-doc.org/en/master/usage/quickstart.html#basic-configuration">Basic configuration - Getting Started — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</li>
+<li><a href="http://www.sphinx-doc.org/en/master/usage/configuration.html">Configuration — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</li>
+</ul>
+<h2 id="domain">Domain ??<a class="headerlink" href="#domain" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html">Domains — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</li>
+</ul>
+<h2 id="docstring-google-style">Docstring, Google Style ??<a class="headerlink" href="#docstring-google-style" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/usage/quickstart.html#autodoc">Autodoc - Getting Started — Sphinx 3.0.0+/f7bf66012 documentation</a></p>
+<ul>
+<li>
+<p>When documenting Python code, it is common to put a lot of documentation in the source files, in documentation strings. Sphinx supports the INCLUSION OF DOCSTRINGS FROM YOUR MODULES with an extension (an extension is a Python module that provides additional features for Sphinx projects) called <code>autodoc</code>.</p>
+<p>概念上是把 Python source 的 signature 及 docstring 引到 Sphinx 文件裡來，在 build time 將 API doc 併入一般文件內容。</p>
+<p>如果單純是引入 docstring，也就預期 docstring 用 reStructuredText 語法寫；所以就算啟用 Napoleon plugin 可以用 Google style 寫 docstring，Sphinx 實際上拿到的還是即時轉換過的 reStructuredText。</p>
+</li>
+<li>
+<p>In order to use <code>autodoc</code>, you need to ACTIVATE it in <code>conf.py</code> by putting the string <code>sphinx.ext.autodoc</code> into the list assigned to the <code>extensions</code> config value. Then, you have a few additional directives at your disposal.</p>
+</li>
+<li>
+<p>For example, to document the function <code>io.open()</code>, READING its signature and docstring from the source file, you’d write this:</p>
+<pre><code>.. autofunction:: io.open
+</code></pre>
+<p>You can also document whole classes or even modules automatically, using member options for the auto directives, like</p>
+<pre><code>.. automodule:: io
+   :members:
+</code></pre>
+</li>
+<li>
+<p><code>autodoc</code> needs to IMPORT your modules in order to extract the docstrings. Therefore, you must add the appropriate path to <code>sys.path</code> in your <code>conf.py</code>.</p>
+<p>在 <code>sphinx-quickstart</code> 產生的 <code>conf.py</code> 有這麼一段：</p>
+<pre><code># -- Path setup --------------------------------------------------------------
+
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. If the directory is relative to the
+# documentation root, use os.path.abspath to make it absolute, like shown here.
+#
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
+</code></pre>
+<p>所謂 another directory 是指 &ldquo;modules to document with autodoc&rdquo; 不在 Sphinx 自己的 source directory 底下，也之所以範例才會用 <code>os.path.abspath('.')</code>。用 <a href="https://github.com/sphinx-doc/sphinx/issues/2390"><code>PYTHONPATH</code> 環境變數</a>就不用操作 <code>sys.path</code> 了 (有點髒)。</p>
+<p>若 Sphinx + <code>autodoc</code> 在 build time 會走過程式 &ndash; 要能 import 成功，就需要執行在 tox 管理的 virtualenv 裡才行；這表示 Sphinx 無法由事先安裝好的 Docker image 提供。</p>
+</li>
+</ul>
+<p>Warning</p>
+<ul>
+<li>
+<p><code>autodoc</code> imports the modules to be documented. If any modules have SIDE EFFECTS on import, these will be executed by <code>autodoc</code> when <code>sphinx-build</code> is run.</p>
+<p>本來設定上 import time 就不該做事，否則單元測試也會有問題。</p>
+</li>
+<li>
+<p>If you document SCRIPTS (as opposed to library modules), make sure their <code>main</code> routine is protected by a if <code>__name__ == '__main__'</code> condition.</p>
+</li>
+<li>
+<p>more info See <code>sphinx.ext.autodoc</code> for the complete description of the features of <code>autodoc</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.sphinx-doc.org/en/master/changes.html#release-1-3b1-released-oct-10-2014">Release 1.3b1 (released Oct 10, 2014) - Changes in Sphinx — Sphinx 3.0.0+/f7bf66012 documentation</a></p>
+<p>Added <code>sphinx.ext.napoleon</code> extension for NumPy and Google style docstring support.</p>
+</li>
+<li>
+<p><a href="https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html">sphinx.ext.napoleon – Support for NumPy and Google style docstrings — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</p>
+<p>Overview</p>
+<ul>
+<li>
+<p>Are you TIRED of writing docstrings that look like this:</p>
+<pre><code>:param path: The path of the file to wrap
+:type path: str
+:param field_storage: The :class:`FileStorage` instance to wrap
+:type field_storage: FileStorage
+:param temporary: Whether or not to delete the file when the File
+   instance is destructed
+:type temporary: bool
+:returns: A buffered writable file descriptor
+:rtype: BufferedFileStorage
+</code></pre>
+<p>reStructuredText is great, but it creates VISUALLY DENSE, HARD TO READ docstrings. Compare the jumble above to the same thing rewritten according to the Google Python Style Guide:</p>
+<pre><code>Args:
+    path (str): The path of the file to wrap
+    field_storage (FileStorage): The :class:`FileStorage` instance to wrap
+    temporary (bool): Whether or not to delete the file when the File
+       instance is destructed
+
+Returns:
+    BufferedFileStorage: A buffered writable file descriptor
+</code></pre>
+<p>Much more legible, no? 原本用一堆 directive option 來描述，確實很亂!!</p>
+</li>
+<li>
+<p>Napoleon is a extension that enables Sphinx to parse both NumPy and Google style docstrings - the style recommended by <a href="https://github.com/Khan/style-guides/blob/master/style/python.md#docstrings">Khan Academy</a>. #ril</p>
+</li>
+<li>
+<p>Napoleon is a PRE-PROCESSOR that parses NumPy and Google style docstrings and CONVERTS THEM TO reStructuredText before Sphinx attempts to parse them.</p>
+<p>This happens in an intermediate step while Sphinx is processing the documentation, so it doesn’t modify any of the docstrings in your actual source code files.</p>
+<p>原來如此，用 <code>autodoc</code> 引入 Sphinx 文件的，還是 reStructuredText，只不過是動態將 Google style 轉換的結果。</p>
+</li>
+</ul>
+<p>Getting Started</p>
+<ul>
+<li>
+<p>After setting up Sphinx to build your docs, enable napoleon in the Sphinx <code>conf.py</code> file:</p>
+<pre><code># conf.py
+
+# Add napoleon to the extensions list
+extensions = ['sphinx.ext.napoleon']
+</code></pre>
+</li>
+<li>
+<p>Use <code>sphinx-apidoc</code> to build your API documentation:</p>
+<pre><code>$ sphinx-apidoc -f -o docs/source projectdir
+</code></pre>
+<p>若用 <code>sphinx-build</code> 則要有一份 Sphinx 文件用 <code>autodoc</code> directive 引用 docstring。安排在 <code>docs/source</code>，看起來就是要進 version control。</p>
+<p><a href="https://stackoverflow.com/questions/9570382">python - Which files should I tell my VCS to ignore when using Sphinx for documentation? - Stack Overflow</a></p>
+<blockquote>
+<p>jcollado: If you take a look at the contents of <code>Makefile</code> you&rsquo;ll see something as follows: &hellip; This means that <code>make clean</code> just removes the build directory so, with regard to version control, ignoring the contents of the build directory should be enough as you already suspected.</p>
+</blockquote>
+</li>
+</ul>
+<p>Docstrings</p>
+<ul>
+<li>
+<p>Napoleon interprets every docstring that <code>autodoc</code> can find, including docstrings on: modules, classes, attributes, methods, functions, and variables.</p>
+</li>
+<li>
+<p>Inside each docstring, specially formatted Sections are parsed and converted to reStructuredText.</p>
+<p>All standard reStructuredText formatting still works as expected.</p>
+<p>也就是說，Google style 用比較好讀的編排取代 directive options 的用法，其餘還是 reStructuredText 的用法 (可以是 markdown 嗎 ??)；在裡面要如何引用其他 Python object ??</p>
+</li>
+</ul>
+<p>Docstring Sections</p>
+<ul>
+<li>
+<p>All of the following section headers are supported:</p>
+<ul>
+<li>Args (alias of Parameters)</li>
+<li>Arguments (alias of Parameters)</li>
+<li>Attention</li>
+<li>Attributes</li>
+<li>Caution</li>
+<li>Danger</li>
+<li>Error</li>
+<li>Example</li>
+<li>Examples</li>
+<li>Hint</li>
+<li>Important</li>
+<li>Keyword Args (alias of Keyword Arguments)</li>
+<li>Keyword Arguments</li>
+<li>Methods</li>
+<li>Note</li>
+<li>Notes</li>
+<li>Other Parameters</li>
+<li>Parameters</li>
+<li>Return (alias of Returns)</li>
+<li>Returns</li>
+<li>Raises</li>
+<li>References</li>
+<li>See Also</li>
+<li>Tip</li>
+<li>Todo</li>
+<li>Warning</li>
+<li>Warnings (alias of Warning)</li>
+<li>Warns</li>
+<li>Yield (alias of Yields)</li>
+<li>Yields</li>
+</ul>
+</li>
+</ul>
+<p>Google vs NumPy</p>
+<ul>
+<li>
+<p>Napoleon supports two styles of docstrings: Google and NumPy. The main difference between the two styles is that Google uses INDENTATION to separate sections, whereas NumPy uses UNDERLINES.</p>
+<p>Google style:</p>
+<pre><code>def func(arg1, arg2):
+    """Summary line.
+
+    Extended description of function.
+
+    Args:
+        arg1 (int): Description of arg1
+        arg2 (str): Description of arg2
+
+    Returns:
+        bool: Description of return value
+
+    """
+    return True
+</code></pre>
+<p>NumPy style:</p>
+<pre><code>def func(arg1, arg2):
+    """Summary line.
+
+    Extended description of function.
+
+    Parameters
+    ----------
+    arg1 : int
+        Description of arg1
+    arg2 : str
+        Description of arg2
+
+    Returns
+    -------
+    bool
+        Description of return value
+
+    """
+    return True
+</code></pre>
+</li>
+<li>
+<p>NumPy style tends to require MORE VERTICAL SPACE, whereas Google style tends to use more horizontal space. Google style tends to be easier to read for SHORT AND SIMPLE DOCSTRINGS, whereas NumPy style tends be easier to read for LONG AND IN-DEPTH DOCSTRINGS.</p>
+<p>The <a href="https://github.com/Khan/style-guides/blob/master/style/python.md#docstrings">Khan Academy</a> recommends using Google style.</p>
+</li>
+<li>
+<p>The choice between styles is largely aesthetic, but the two styles should not be mixed. Choose one style for your project and be consistent with it.</p>
+<p>For complete examples:</p>
+<ul>
+<li><a href="https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html">Example Google Style Python Docstrings</a></li>
+<li><a href="https://www.sphinx-doc.org/en/master/usage/extensions/example_numpy.html">Example NumPy Style Python Docstrings</a></li>
+</ul>
+<p>因為 Google style 用內縮來區分 section，所以水平空間被壓縮了；就 module docstring 而言，NumPy style 比較好讀，但 function/method docstring 則是 Google style 比較好讀，可惜這兩者不能混用。</p>
+</li>
+</ul>
+<p>Type Annotations</p>
+<ul>
+<li>
+<p>PEP 484 introduced a standard way to express types in Python code. This is an alternative to expressing types directly in docstrings. One benefit of expressing types according to PEP 484 is that type checkers and IDEs can take advantage of them for STATIC CODE ANALYSIS.</p>
+</li>
+<li>
+<p>Google style with Python 3 type annotations:</p>
+<pre><code>def func(arg1: int, arg2: str) -&gt; bool:
+    """Summary line.
+
+    Extended description of function.
+
+    Args:
+        arg1: Description of arg1
+        arg2: Description of arg2
+
+    Returns:
+        Description of return value
+
+    """
+    return True
+</code></pre>
+<p>Google style with types in docstrings:</p>
+<pre><code>def func(arg1, arg2):
+    """Summary line.
+
+    Extended description of function.
+
+    Args:
+        arg1 (int): Description of arg1
+        arg2 (str): Description of arg2
+
+    Returns:
+        bool: Description of return value
+
+    """
+    return True
+</code></pre>
+<p>做為 library，若要同時滿足 Python 2 &amp; 3，也只好將 type 寫在 docstring 裡。</p>
+</li>
+<li>
+<p>Note: <a href="https://www.python.org/dev/peps/pep-0484/#suggested-syntax-for-python-2-7-and-straddling-code">Python &#8532; compatible annotations</a> aren’t currently supported by Sphinx and won’t show up in the docs.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html">sphinx-apidoc — Sphinx 3.0.0+/ce3c5735c documentation</a></p>
+<p>Synopsis</p>
+<pre><code>sphinx-apidoc [OPTIONS] -o &lt;OUTPUT_PATH&gt; &lt;MODULE_PATH&gt; [EXCLUDE_PATTERN, …]
+</code></pre>
+<p>Description</p>
+<ul>
+<li>
+<p><code>sphinx-apidoc</code> is a tool for automatic generation of SPHINX SOURCES that, using the <code>autodoc</code> extension, document a whole package in the style of other automatic API documentation tools.</p>
+<p>只是產生 Sphinx source，之後還是得交由 <code>sphinx-build</code> 去 build；搭配 <code>--full</code> 就不用自己寫 <code>conf.py</code>。</p>
+</li>
+<li>
+<p><code>MODULE_PATH</code> is the path to a Python package to document, and <code>OUTPUT_PATH</code> is the directory where the generated sources are placed.</p>
+<p>這裡 &ldquo;path to a Python package to document&rdquo; 的說法有點怪，尤其搭配 <code>-a</code> 使用時，會將該路徑加入 Python 的 module search path。所以是 package 的上層，例如 <code>path/to/myproj/pypkg/__init__.py</code>，<code>MODULE_PATH</code> 應指向 <code>path/to/myproj/</code> 而非 <code>path/to/myproj/pypkg/</code>。</p>
+<p>Any <code>EXCLUDE_PATTERN</code>s given are fnmatch-style file and/or directory patterns that will be excluded from generation.</p>
+</li>
+<li>
+<p>Warning: <code>sphinx-apidoc</code> generates source files that use <code>sphinx.ext.autodoc</code> to document all found modules. If any modules have side effects on import, these will be executed by autodoc when <code>sphinx-build</code> is run.</p>
+<p>If you document scripts (as opposed to library modules), make sure their <code>main</code> routine is protected by a <code>if __name__ == '__main__'</code> condition.</p>
+</li>
+</ul>
+<p>Options</p>
+<ul>
+<li>
+<p><code>-o &lt;OUTPUT_PATH&gt;</code></p>
+<p>Directory to place the output files. If it does not exist, it is created.</p>
+</li>
+<li>
+<p><code>-f, --force</code></p>
+<p>Force overwriting of any existing generated files.</p>
+</li>
+<li>
+<p><code>-l, --follow-links</code></p>
+<p>Follow symbolic links.</p>
+</li>
+<li>
+<p><code>-n, --dry-run</code></p>
+<p>Do not create any files.</p>
+</li>
+<li>
+<p><code>-s &lt;suffix&gt;</code></p>
+<p>Suffix for the source files generated. Defaults to <code>rst</code>.</p>
+</li>
+<li>
+<p><code>-d &lt;MAXDEPTH&gt;</code></p>
+<p>Maximum depth for the generated TABLE OF CONTENTS file.</p>
+</li>
+<li>
+<p><code>--tocfile</code></p>
+<p>Filename for a table of contents file. Defaults to <code>modules</code>.</p>
+</li>
+<li>
+<p><code>-T, --no-toc</code></p>
+<p>Do not create a table of contents file. Ignored when <code>--full</code> is provided.</p>
+</li>
+<li>
+<p><code>-F, --full</code></p>
+<p>Generate a full Sphinx project (<code>conf.py</code>, <code>Makefile</code> etc.) using the same mechanism as <code>sphinx-quickstart</code>.</p>
+<p>對於只想拿 Sphinx 來產生 API doc 而非 project site 時，這很方便 (只有第一次會用到)；不過因為跟 <code>sphinx-quickstart</code> 的機制一樣，所以產生出來的 <code>conf.py</code> 也很雜。</p>
+</li>
+<li>
+<p><code>-e, --separate</code></p>
+<p>Put documentation for each module on its own page.</p>
+<p>New in version 1.2.</p>
+</li>
+<li>
+<p><code>-E, --no-headings</code></p>
+<p>Do not create headings for the modules/packages. This is useful, for example, when docstrings already contain headings.</p>
+</li>
+<li>
+<p><code>-P, --private</code></p>
+<p>Include <code>_private</code> modules.</p>
+<p>New in version 1.2.</p>
+</li>
+<li>
+<p><code>--implicit-namespaces</code></p>
+<p>By default <code>sphinx-apidoc</code> processes <code>sys.path</code> searching for modules only. Python 3.3 introduced PEP 420 implicit namespaces that allow module path structures such as <code>foo/bar/module.py</code> or <code>foo/bar/baz/__init__.py</code> (notice that bar and foo are namespaces, not modules). ??</p>
+<p>Interpret paths recursively according to PEP-0420.</p>
+</li>
+<li>
+<p><code>-M, --module-first</code></p>
+<p>Put module documentation BEFORE SUBMODULE documentation.</p>
+<p>These options are used when <code>--full</code> is specified:</p>
+</li>
+<li>
+<p><code>-a</code></p>
+<p>Append <code>module_path</code> to <code>sys.path</code>.</p>
+<p>搭配 <code>-F, --full</code> 時才會有作用，產生的 <code>conf.py</code> 裡，會直接將 <code>MODULE_PATH</code> 的 &ldquo;絕對路徑&rdquo;，一開始就加到 <code>sys.path</code> 裡，所以實用性不高。例如：</p>
+<pre><code>sys.path.insert(0, u'/path/to/mylib')
+</code></pre>
+</li>
+<li>
+<p><code>-H &lt;project&gt;</code></p>
+<p>Sets the project name to put in generated files (see project).</p>
+</li>
+<li>
+<p><code>-A &lt;author&gt;</code></p>
+<p>Sets the author name(s) to put in generated files (see copyright).</p>
+</li>
+<li>
+<p><code>-V &lt;version&gt;</code></p>
+<p>Sets the project version to put in generated files (see version).</p>
+</li>
+<li>
+<p><code>-R &lt;release&gt;</code></p>
+<p>Sets the project release to put in generated files (see release).</p>
+</li>
+</ul>
+<p>Environment</p>
+<ul>
+<li>
+<p><code>SPHINX_APIDOC_OPTIONS</code></p>
+<p>A comma-separated list of option to append to generated <code>automodule</code> directives. Defaults to <code>members,undoc-members,show-inheritance</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html">sphinx.ext.autodoc – Include documentation from docstrings — Sphinx 3.0.0+/f7bf66012 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="tox">tox Integration<a class="headerlink" href="#tox" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://tox.readthedocs.io/en/latest/example/documentation.html">Generate documentation — tox 3.12.2.dev5 documentation</a> #ril</p>
+<p>It’s possible to generate the projects documentation with tox itself. The advantage of this path is that now generating the documentation can be part of the CI, and whenever any validations/checks/operations fail while generating the documentation you’ll catch it within tox.</p>
+</li>
+<li>
+<p><a href="https://tox.readthedocs.io/en/latest/example/unittest.html#running-unittest2-and-sphinx-tests-in-one-go">Running unittest2 and sphinx tests in one go - unittest2, discover and tox — tox 3.12.2.dev6 documentation</a> Sphinx test ?? #ril</p>
+</li>
+<li><a href="https://tox.readthedocs.io/en/latest/example/jenkins.html#integrating-sphinx-documentation-checks-in-a-jenkins-job">Integrating “sphinx” documentation checks in a Jenkins job - Using tox with the Jenkins Integration Server — tox 3.12.2.dev6 documentation</a> #ril</li>
+</ul>
+<h2 id="markdown">Markdown ??<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.sphinx-doc.org/en/master/usage/markdown.html">Markdown — Sphinx 3.0.0+/ce3c5735c documentation</a></p>
+<ul>
+<li>
+<p>Markdown is a lightweight markup language with a simplistic plain text formatting syntax. It exists in many syntactically different flavors. To support Markdown-based documentation, Sphinx can use <a href="https://recommonmark.readthedocs.io/en/latest/index.html">recommonmark</a>.</p>
+<p>recommonmark is a Docutils BRIDGE to CommonMark-py, a Python package for parsing the CommonMark Markdown flavor.</p>
+</li>
+</ul>
+<p>Configuration</p>
+<ul>
+<li>
+<p>To configure your Sphinx project for Markdown support, proceed as follows:</p>
+</li>
+<li>
+<p>Install the Markdown parser <code>recommonmark</code>:</p>
+<pre><code>pip install --upgrade recommonmark
+</code></pre>
+<p>Note: The configuration as explained here requires recommonmark version 0.5.0 or later.</p>
+</li>
+<li>
+<p>Add <code>recommonmark</code> to the list of configured extensions:</p>
+<pre><code>extensions = ['recommonmark']
+</code></pre>
+<p>Changed in version 1.8: Version 1.8 deprecates and version 3.0 removes the <code>source_parsers</code> configuration variable that was used by older recommonmark versions.</p>
+</li>
+<li>
+<p>If you want to use Markdown files with extensions other than <code>.md</code>, adjust the <code>source_suffix</code> variable. The following example configures Sphinx to parse all files with the extensions <code>.md</code> and <code>.txt</code> as Markdown:</p>
+<pre><code>source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown',
+}
+</code></pre>
+</li>
+<li>
+<p>You can further configure recommonmark to allow custom syntax that standard CommonMark doesn’t support. Read more in the recommonmark documentation.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/usage/installation.html#installation-from-pypi">Installation from PyPI - Installing Sphinx — Sphinx 3.0.0+/f7bf66012 documentation</a></p>
+<ul>
+<li>
+<p>Sphinx packages are published on the Python Package Index. The preferred tool for installing packages from PyPI is <code>pip</code>. This tool is provided with all modern versions of Python.</p>
+</li>
+<li>
+<p>On Linux or MacOS, you should open your terminal and run the following command.</p>
+<pre><code>$ pip install -U sphinx
+</code></pre>
+<p>On Windows, you should open Command Prompt (⊞Win-r and type <code>cmd</code>) and run the same command.</p>
+<pre><code>C:\&gt; pip install -U sphinx
+</code></pre>
+</li>
+<li>
+<p>After installation, type <code>sphinx-build --version</code> on the command prompt. If everything worked fine, you will see the version number for the Sphinx package you just installed.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.sphinx-doc.org/en/master/">Sphinx</a></li>
+<li><a href="https://github.com/sphinx-doc/sphinx">sphinx-doc/sphinx - GitHub</a></li>
+<li><a href="https://pypi.python.org/pypi/Sphinx">Sphinx - PyPI</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/python-sphinx">&lsquo;python-sphinx&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>Sphinx 的語法是基於 <a href="../rst/">reStructuredText</a> 再進行擴充。</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://www.sphinx-doc.org/en/master/man/sphinx-build.html"><code>sphinx-build</code></a></li>
+<li><a href="http://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html"><code>sphinx-apidoc</code></a></li>
+<li><a href="https://www.sphinx-doc.org/en/master/man/sphinx-autogen.html"><code>sphinx-autogen</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

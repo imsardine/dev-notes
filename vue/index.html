@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/vue/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Vue.js - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/vue.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#vuejs">Vue.js</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="vuejs">Vue.js<a class="headerlink" href="#vuejs" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://vuejs.org/">Vue.js</a></p>
+<p>The PROGRESSIVE JavaScript Framework</p>
+<ul>
+<li>
+<p>Approachable</p>
+<p>Already know HTML, CSS and JavaScript? Read the guide and start building things in no time!</p>
+</li>
+<li>
+<p>Versatile</p>
+<p>An incrementally adoptable ecosystem that scales between a library and a full-featured framework.</p>
+</li>
+<li>
+<p>Performant</p>
+<p>20KB min+gzip Runtime. Blazing Fast Virtual DOM. Minimal Optimization Efforts</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vuejs.org/v2/guide/#What-is-Vue-js">What is Vue.js? - Introduction — Vue.js</a></p>
+<ul>
+<li>
+<p>Vue (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be INCREMENTALLY ADOPTABLE.</p>
+</li>
+<li>
+<p>The core library is focused on the VIEW LAYER ONLY, and is easy to pick up and integrate with other libraries or existing projects. On the other hand, Vue is also perfectly capable of powering sophisticated SINGLE-PAGE APPLICATIONS when used in combination with <a href="https://vuejs.org/v2/guide/single-file-components.html">modern tooling</a> and <a href="https://github.com/vuejs/awesome-vue#components--libraries">supporting libraries</a>. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vuejs.org/">WHY VUE.JS - Vue.js</a></p>
+<ul>
+<li>
+<p>Over the last 10 years, our web pages have become more dynamic and powerful. thanks to JavaScript. We&rsquo;ve moved a lot of code that was normally on the server side into our browsers, leaving us with thousands of lines of JavaScript code connecting to various HTML and CSS files WITH NO FORMAL ORGANIZATION. This is why more and more developers are using JavaScript frameworks like Angular, React, or Vue.</p>
+</li>
+<li>
+<p>Vue is an approachable, versatile, and performant JavaScript framework that helps you create a more maintainable, and TESTABLE code base.</p>
+<p>Vue is a PROGRESSIVE JavaScript framework, which means if you have an existing server-side applications, you can plug Vue into JUST ONE PART of your application that needs a richer, more interactive experience. Or, if you want to build more BUSINESS LOGIC INTO YOUR FRONTEND from the get go, Vue has the core libraries and the ecosystem you&rsquo;ll need to scale.</p>
+<p>什麼時候會想把 business logic 放 frontend? 這裡提到 Core + <a href="https://vuex.vuejs.org/">Vuex</a> + <a href="https://router.vuejs.org/">Vue-Router</a> #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vuejs.org/v2/guide/comparison.html">Comparison with Other Frameworks — Vue.js</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://vuejs.org/">WHY VUE.JS - Vue.js</a> #ril</p>
+<ul>
+<li>
+<p>Like other frontend frameworks, Vue allows you to take a web page and split it up into reusable components, each having its own HTML, CSS and JavaScript needed to render that piece of the page.</p>
+</li>
+<li>
+<p>Next, we&rsquo;ll take a look at Vue in action by building a product inventory page, but stay tuned to the end of the video for a message from Vue&rsquo;s creator, Evan You.</p>
+</li>
+<li>
+<p>We won&rsquo;t be teaching you how to use Vue, but we&rsquo;ll introduce a couple key concepts that make Vue so useful. As with many JavaScript applications, we start from the need to display data on to our web page.</p>
+<pre><code>&lt;div id="app"&gt;
+  &lt;h2&gt;X are in stock.&lt;/h2&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var product = 'Boots'
+&lt;/script&gt;
+</code></pre>
+</li>
+<li>
+<p>With Vue, it starts out really simple. We include the Vue library, create a Vue instance, and PLUG INTO OUR ROOT ELEMENT with the ID of app. E L stands for element, we&rsquo;ll also move our data inside an object, and change X into an EXPRESSION with the double curly braces. As you can see, it works.</p>
+<pre><code>&lt;div id="app"&gt;
+  &lt;h2&gt;{{ product }} are in stock.&lt;/h2&gt;
+&lt;/div&gt;
+&lt;script src="https://unpkg.com/vue"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const app = new Vue({
+    el: '#app',
+    data: {
+      product: 'Boots'
+    }
+  })
+&lt;/script&gt;
+</code></pre>
+</li>
+<li>
+<p>Pretty cool, but the magic of Vue starts when data changes. If we jump into the console, we &hellip;</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.vuemastery.com/courses/intro-to-vue-js/vue-instance/">The Vue Instance - Intro to Vue.js | Vue Mastery</a> #ril</p>
+</li>
+<li>
+<p><a href="https://vuejs.org/v2/guide/#Getting-Started">Getting Started - Introduction — Vue.js</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.freecodecamp.org/news/eab5aa193d77/">A Vue.js introduction for people who know just enough jQuery to get by</a> #ril</p>
+<ul>
+<li>
+<p>I’ve had a LOVE-HATE relationship with JavaScript for years.</p>
+<p>I got to know the language by way of the design and development community’s favorite WHIPPING BOY (代罪羔羊), jQuery. You see, at the time I began learning JavaScript, as a “DESIGNER WHO CODES,” working with jQuery was a magical experience. I could make modals <code>fadeIn</code> and <code>fadeOut</code>. With a third-party library, I could add parallax scrolling to my portfolio with just a single function call. Nearly everything I could have possibly dreamed of was encapsulated in a single, ~100kb file…</p>
+<p>And then Angular came out. I had NO CHOICE but to redo my entire portfolio with the framework. And then React came out. I had no choice but to redo my entire portfolio with the library. And then Vue.js came out. I had no choice but to redo my entire portfolio with the library… You see where this is going.</p>
+</li>
+<li>
+<p>All jokes aside, I have greatly enjoyed honing my JavaScript chops through building things here and there with these different frameworks and libraries. I have read countless articles and tutorials in the process, but none has stuck with me more than Shu Uesugi’s piece, “React.js Introduction For People Who Know Just Enough jQuery To Get By.”</p>
+<p>Shu takes readers — who are presumed to have some level of proficiency with JavaScript fundamentals and jQuery — on a journey through the world of React as they build a clone of Twitter’s “compose tweet” component.</p>
+<p>This conceptual frame was quite helpful to me as someone who learns best by doing. Indeed, any time a new JavaScript library comes out, I find myself going back to the example from this article to test the waters. And so, I would like to borrow this frame as I step you all through my recent experience of learning Vue.</p>
+<p>Before you begin the steps below, I highly encourage you to read Shu’s article. He does a fantastic job of walking you through the jQuery code you might write in order to implement some of these features. Thus, and so as to mitigate the risk of redundancy, I will focus on showing you the ins-and-outs of Vue.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://vuejs.org/v2/guide/installation.html">Installation — Vue.js</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://vuejs.org/">Vue.js</a></li>
+<li><a href="https://github.com/vuejs/vue">vuejs/vue - GitHub</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../vue-component/">Component</a></li>
+<li><a href="../vue-testing/">Testing</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../html-javascript/#framework">JavaScript Framework</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

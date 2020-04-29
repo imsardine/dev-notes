@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gnome/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GNOME - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gnome.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gnome">GNOME</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#keyboard">Keyboard ??</a></li>
+                
+            <li class="second-level"><a href="#input-method">Input Method</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gnome">GNOME<a class="headerlink" href="#gnome" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/GNOME">GNOME - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>GNOME (/(ɡ)noʊm/) is a free and open-source DESKTOP ENVIRONMENT for Unix-like operating systems. GNOME was originally an acronym for GNU Network Object Model Environment, but the acronym was dropped because it no longer reflected the vision of the GNOME project.</p>
+</li>
+<li>
+<p>GNOME is part of the GNU Project and developed by The GNOME Project which is composed of both volunteers and PAID CONTRIBUTORS, the largest corporate contributor being Red Hat.</p>
+<p>It is an INTERNATIONAL project that aims to develop SOFTWARE FRAMEWORKS for the development of software, to program end-user applications based on these frameworks, and to coordinate efforts for internationalization and localization and accessibility of that software.</p>
+</li>
+<li>
+<p>GNOME 3 is the default desktop environment on many major Linux distributions including Fedora, Debian, Ubuntu, SUSE Linux Enterprise (exclusively), Red Hat Enterprise Linux, CentOS, Oracle Linux, Scientific Linux, SteamOS, Tails, Kali Linux, Antergos and Endless OS; it is also default on Solaris, a major Unix operating system.</p>
+<p>Also, the continued fork of the last GNOME 2 release that goes under the name <a href="https://en.wikipedia.org/wiki/MATE_(software)">MATE</a> is default on many distributions that targets LOW USAGE OF SYSTEM RESOURCES. 為什麼不是基於 GNOME 3 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/GNOME#History">History - GNOME - Wikipedia</a> #ril</p>
+<p>GNOME 1</p>
+<ul>
+<li>
+<p>GNOME was started on August 15 1997 by Miguel de Icaza and Federico Mena as a free software project to develop a desktop environment and applications for it.</p>
+<p>It was founded in part because K Desktop Environment, which was growing in popularity, relied on the Qt widget toolkit which used a PROPRIETARY SOFTWARE LICENSE until version 2.0 (June 1999). In place of Qt, the GTK toolkit was chosen as the base of GNOME.</p>
+<p>難怪有提供 UI 的套件，可能會提供 <code>-gtk</code> 與 <code>-qt</code> 兩種版本。</p>
+</li>
+<li>
+<p>GTK uses the GNU Lesser General Public License (LGPL), a free software license that allows software linking to it to use a MUCH WIDER SET OF LICENSES, including proprietary software licenses. GNOME itself is licensed under the LGPL for its libraries, and the GNU General Public License (GPL) for its applications.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/3794372/">Can I write an application in Qt that runs with Gnome? - Stack Overflow</a></p>
+<ul>
+<li>I know KDE is coded in Qt and Gnome isn&rsquo;t. Is it still possible to write a program in Qt for Gnome?</li>
+<li>
+<p>Stefan Monov: If you write a Qt app, it will run fine under GNOME, provided that the user has the Qt libraries installed (or, and this is often better, you ship them with your app)</p>
+<p>Your Qt app will look almost NATIVE under GNOME if you make it use <code>QGtkStyle</code> as its widgetstyle (this is done via <code>QApplication::setStyle</code>). This means the app won&rsquo;t look ugly or FOREIGN under GNOME (except for some very small details)</p>
+<p>只要有安裝 Qt library (最好自帶) 就可以執行，只是看起來風格會明顯跟 GNOME 不同，套用 <a href="https://en.wikipedia.org/wiki/QGtkStyle">QGtkStyle</a> 可以讓它跟 GNOME 融合得更好。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.gnome.org/">GNOME – An easy and elegant way to use your computer, GNOME 3 is designed to put you in control and get things done.</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://help.gnome.org/users/gnome-help/stable/gnome-version.html.en">Determine which version of GNOME is running</a></p>
+<ul>
+<li>You can determine the version of GNOME that is running on your system by going to the Details/About panel in Settings.</li>
+</ul>
+</li>
+</ul>
+<h2 id="keyboard">Keyboard ??<a class="headerlink" href="#keyboard" title="Permanent link"> #</a></h2>
+<ul>
+<li>Show Desktop 的組合鍵預設被停用，將 Settings &gt; Devices &gt; Keyboard &gt; Navigation &gt; Hide all normal windows 設定為 Super+D (Windows 慣用) 或 Ctrl+Super+D (Ubuntu 慣用) 即可。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://help.gnome.org/users/gnome-help/stable/keyboard-key-super.html.en">What is the Super key?</a></p>
+<ul>
+<li>When you press the Super key, the ACTIVITIES OVERVIEW is displayed. This key can usually be found on the BOTTOM-LEFT of your keyboard, next to the Alt key, and usually has a WINDOWS LOGO on it. It is sometimes called the WINDOWS KEY or system key.</li>
+<li>If you have an Apple keyboard, you will have a ⌘ (Command) key instead of the Windows key, while Chromebooks have a <a href="https://support.google.com/chromebook/answer/1047364?hl=en">MAGNIFYING GLASS</a> instead.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://itsfoss.com/show-desktop-gnome-3/">How To Show Desktop In GNOME 3 - It&rsquo;s FOSS</a> (2015-10-24)</p>
+<ul>
+<li>How do you show desktop in GNOME 3? GNOME is a wonderful desktop environment but it focuses more on switching between the applications. What if you want to close all the running windows and display just the desktop?</li>
+<li>In Windows, you can do this by pressing Windows+D. In Ubuntu Unity, it is done with Ctrl+Super+D shortcut keys. But for some reason, GNOME has the shortcut key to show desktop DISABLED FOR SOME REASONS.</li>
+</ul>
+</li>
+</ul>
+<h2 id="input-method">Input Method<a class="headerlink" href="#input-method" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>為了提供一致的體驗，GNOME 3.6 開始預先安裝/整合了 IBus，如果想用其他 input method framework 可以將它停用。</p>
+</li>
+<li>
+<p>輸人法在 Settings &gt; Region &amp; Language &gt; Input Sources 下增加。以 Manjaro 下安裝倉頡為例：</p>
+<pre><code>$ sudo pacman -Sy
+$ sudo pacman -S ibus-table-chinese
+</code></pre>
+<p>重新登入後，到 Settings &gt; Region &amp; Language &gt; Input Sources 搜尋 Chinese，選 Other 後就能看到 Chinese (XXX) 不同的輸入法。增加 input source 後在畫面右上方會出現 keyboard indicator，用 Super+Space 切換輸入法，就能看到變化。</p>
+</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://help.gnome.org/misc/release-notes/3.6/i18n-ibus.html.en">Integrated Input Methods</a></p>
+<ul>
+<li>
+<p>For the very first time, GNOME comes with support for input methods OUT OF THE BOX. It is no longer necessary to manually choose and install an INPUT METHOD FRAMEWORK that may not fit very well into the overall user experience. Input methods are now a part of the core GNOME user experience, just like KEYBOARD LAYOUTS.</p>
+<p>The input method support in GNOME 3.6 is based on IBus.</p>
+<p>也就是預先安裝/整合了某個 input method framework &ndash; IBus；如果這不是你要的 (還有其他 framework 可供選擇)，可以將這項整合停用。</p>
+</li>
+<li>
+<p>INTEGRATED input methods is a major new feature, and changes functionality that is important to many users. We recognize this and want to hear about how you want the new feature to develop in the future.</p>
+<p>If you do not wish to make use of this functionality, or prefer to use ANOTHER FRAMEWORK to provide you with input methods, this remains possible as the IBus integration can be DISABLED.</p>
+</li>
+<li>
+<p>Both KEYBOARD LAYOUTS and INPUT METHODS appear as Input Sources in the Region &amp; Language settings and in the GNOME shell KEYBOARD INDICATOR. &lsquo;Candidate windows&rsquo; that are used by some input methods are presented by GNOME shell, and have the same appearance regardless of whether you are typing in an application window or in the GNOME shell search entry.</p>
+<p>呼應上面 &ldquo;fit overall user experience&rdquo; 的說法，input soruce = keyboard layouts + input methods，或許有些西方國家，換個 keyboard layout 就可以了，有些語言則要有 input method 幫忙，但 input source 似乎模糊了兩者的界線。</p>
+</li>
+<li>
+<p>The integrated input methods feature has resulted in the rearrangement of some existing keyboard preferences. If you customize your keyboard layout, there are changes you need to be aware of.</p>
+<ul>
+<li>
+<p>The keyboard combination to CHANGE THE INPUT SOURCE or keyboard layout can now be customized by using the Shortcuts tab of the Keyboard settings.</p>
+<p>不在 Settings &gt; Region &amp; Language 下，而是在 Settings &gt; Devices &gt; Keyboard &gt; Typing 下，有 Switch to next input source (Super+Space)、Switch to previous input source (Shift+Super+Space)。</p>
+</li>
+<li>
+<p>Options for the Compose Key, as well as the Alternative Characters Key (also known as the 3<sup>rd</sup> level chooser key) can also be found in the Shortcuts tab of the Keyboard settings.</p>
+<p>在 Settings &gt; Devices &gt; Keyboard 下找不到，後來 GNONE 3.32.0 在 GNOME Tweaks 下的 Keyboard &amp; Mouse &gt; Keyboard 找到了 Compose Key。</p>
+<p>使用上像是 compose key + <code>a</code> <code>'</code> 會得到 <code>á</code> (按下 compose key 時會出現特別的提示字元)，而 compose key 可以是 Scroll Lock、PrtScn、Caps Lock、Right Super、Left/Right Ctrl、Right Alt 等，在 Mac 鍵盤上 Right Super/Alt 是不錯的選擇，Left Ctrl 明顯與常用的快捷鍵衝突了。</p>
+</li>
+<li>
+<p>Other keyboard layout customization options can now be found in GNOME Tweak Tool.</p>
+<p>GNOME Tweaks &gt; Keyboard &amp; Mouse &gt; Additional Layout Options 的設定好細。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wiki.gnome.org/ThreePointFive/Features/IBus">Input Sources - ThreePointFive/Features/IBus - GNOME Wiki!</a> #ril</p>
+</li>
+<li><a href="https://briancaffey.github.io/2017/08/03/arch-linux-installation-guide.html#languages-and-input-sources">Languages and Input Sources - Arch Linux Installation Guide</a> #ril</li>
+<li><a href="https://wiki.archlinux.org/index.php/Localization#Input_methods">Input methods - Localization - ArchWiki</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnome.org/">GNOME</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/gnome">GNOME (@gnome) | Twitter</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://help.gnome.org/users/gnome-help/stable/">GNOME Help</a></li>
+<li><a href="https://wiki.gnome.org/">GNOME Wiki</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>常跟 <a href="../kde/">KDE</a> 比較</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

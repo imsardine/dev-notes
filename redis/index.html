@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/redis/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Redis - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/redis.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#redis">Redis</a></li>
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#cli">CLI ??</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+            <li class="second-level"><a href="#type">Type ??</a></li>
+                
+            <li class="second-level"><a href="#cache">Cache ??</a></li>
+                
+            <li class="second-level"><a href="#messaging">Messaging ??</a></li>
+                
+            <li class="second-level"><a href="#session-store">Session Store ??</a></li>
+                
+            <li class="second-level"><a href="#rate-limiter">Rate Limiter ??</a></li>
+                
+            <li class="second-level"><a href="#primary-database">Primary Database ??</a></li>
+                
+            <li class="second-level"><a href="#time-series-database">Time Series Database ??</a></li>
+                
+            <li class="second-level"><a href="#performance">Performance ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="redis">Redis<a class="headerlink" href="#redis" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://redis.io/">Redis</a></p>
+<ul>
+<li>
+<p>Redis is an open source (BSD licensed), IN-MEMORY DATA STRUCTURE STORE, used as a DATABASE, CACHE and MESSAGE BROKER.</p>
+<p>本質上是 key-value store，除了 cache 跟 messaging，也可以是 in-memory database，因為可以長期儲存資料，是個名符其實的 NoSQL database，不一定要跟 cache 有關。</p>
+<p>這裡的 message broker，呼應了 <a href="../celery/#broker">Celery</a> 將 RabbitMQ、Redis、SQS 定位成 message broker 的用法。</p>
+</li>
+<li>
+<p>It supports data structures such as strings, hashes, lists, sets, sorted sets with RANGE QUERIES, bitmaps, hyperloglogs, geospatial indexes with RADIUS QUERIES and streams.</p>
+<p>不只資料型態豐富，查詢方式也很多元。</p>
+</li>
+<li>
+<p>Redis has built-in REPLICATION, LUA SCRIPTING, LRU eviction ??, TRANSACTIONS and different levels of ON-DISK PERSISTENCE, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.</p>
+<p>做為 database，支援 persistence 與 transaction 自然不意外。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dzone.com/articles/redis-mysql-fast-economic-scaling">Redis + MySQL = Fast, Economic Scaling - DZone Database</a> (2018-10-04)</p>
+<ul>
+<li>
+<p>One of the things that is so great about Redis is how well it can COMPLEMENT AND EXTEND OTHER DATABASES in your ecosystem. While replacing LEGACY BACKEND DATABASES with newer ones is often seen as expensive and risky, they don&rsquo;t easily scale in the linear fashion required for users&rsquo; &lsquo;instant experience&rsquo; expectations.</p>
+</li>
+<li>
+<p>Some of the things that make it difficult to accommodate modern application needs using a traditional MySQL architecture are:</p>
+<ul>
+<li>Read/write speeds of traditional databases are not good enough for use cases such as SESSION STORES.</li>
+<li>
+<p>Introducing new tables or modifying an existing schema can be EXTREMELY COMPLEX, which makes adding new features and applications extremely difficult.</p>
+</li>
+<li>
+<p>Legacy databases are limited by the number of OPERATIONS YOU CAN PERFORM PER SECOND and by the number of concurrent connections you can have. As a result, you end up having to invest in more database instances - increasing your infrastructure and maintenance costs.</p>
+<p>如果遇到交易衝突，locking 還會讓時間拉得更長。</p>
+</li>
+<li>
+<p>On the other hand, in-memory databases like Redis can help you future-proof and increase the value of your investment. For instance, if your application stores data in MySQL or any other relational database, you can easily insert Redis as a FRONT-END DATABASE in between the application and MySQL.</p>
+<p>By designing LOOK-ASIDE AND WRITE-THROUGH CACHING solutions, session stores and RATE-LIMITERS with Redis, you&rsquo;ll boost performance, speed innovation, scale with fewer resources and ultimately deliver the best experience for your users.</p>
+<p><a href="https://www.ehcache.org/documentation/3.7/caching-patterns.html">Cache Usage Patterns - Ehcache</a> 清楚說明了 cache-aside 與 write-through。所謂 cache-aside 是 app 會先去問 cache，沒有才去跟資料來源 system-of-record (SoR) 拿並更新回 cache，而 write-through 則是經由 cache 寫入 SoR (也要搭配 read-through?)，所以 cache 總有最新的資料可以拿。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Redis as a &lsquo;System of Engagement&rsquo;</p>
+<ul>
+<li>
+<p>Redis&rsquo; in-memory key-value data store can deliver LOW LATENCY RESPONSES for your users because it&rsquo;s extremely fast and flexible and includes built-in data structures (e.g. Lists, Hashes, Sets, Sorted Sets, Bitmaps, Hyperloglog, and Geospatial Indices) that perform some data operations more efficiently and effectively than relational databases.</p>
+<p>We recommend USING REDIS BEHIND THE DATA ACCESS LAYER as a &lsquo;system of engagement&rsquo; to store the HOT DATA users engage with, while designating your MySQL as the &lsquo;system of record.&rsquo;</p>
+<p>用 ORM 的話，ORM 本身就是 DAO，要把 cache 做在裡面可能有困難? 或許做在 repository 是個折衷，況且 repository 本來就可以做 cache，例如 <a href="https://www.rahulpnath.com/blog/using-repository-pattern-for-abstracting-data-access-from-a-cache-and-data-store/">Using Repository Pattern for Abstracting Data Access from a Cache and Data Store • Rahul Nath</a> (2014-11-22) #ril</p>
+</li>
+<li>
+<p>To avoid creating a bottleneck in their application, database or network layers, many developers use Redis for the following use cases:</p>
+<ul>
+<li>
+<p>Cache: This provides a TIERED MODEL FOR MEMORY ACCESS, in which applications store COMMON, REPEATEDLY READ OBJECTS in Redis. Caching helps applications retrieve data quickly and limit the load on the database server.</p>
+</li>
+<li>
+<p>Session Store: In all interactive apps, the server maintains a unique session for each active user. Rather than relying on MySQL-like relational databases to persist session data, a single cluster of Redis on decently sized servers with sufficient RAM can manage thousands, if not millions of sessions.</p>
+</li>
+<li>
+<p>Real-time Analytics: Gamification through leaderboards, dashboards, polls, messages, counters and other real-time aggregators require constant processing and communication with end-users. Redis&rsquo; powerful and highly efficient data structures enable you to collect, process and dissipate millions of simultaneous activities or objects to thousands of active users in real time.</p>
+<p>但 Redis 跟 constant processing 似乎沒什麼關係? 只是 Redis 適合用來存放消化後的結果，大量的取用也沒問題。</p>
+</li>
+<li>
+<p>Metering: Redis can also help developers cost-effectively manage the load on legacy servers during peak usage times by rate limiting the number of calls applications make every few seconds.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>In addition to the examples above, Redis can be used as a MESSAGE BROKER, data structure store, and TEMPORARY DATA STORE for a variety of use cases. Essentially, Redis gets your data closer and faster to your end user while collecting their data more quickly.</p>
+<p>Taking things to the next level, REDIS ENTERPRISE offers high availability, in-memory replication, auto-scaling, and re-sharding along with leading-edge CRDT-based active-active support for distributed databases and built-in Redis modules such as RediSearch, ReJSON, Rebloom, and Redis Graph.</p>
+<p>所以 HA 是 Redis Enterprise 收費版本才有的東西 ??</p>
+</li>
+<li>
+<p>Thanks to this powerful database, today&rsquo;s &lsquo;instant experience&rsquo; demands can be met without ripping out your legacy solutions. Using a bit of creativity, you can instead leverage Redis to BALANCE the need for business continuity and time-to-market with the benefits of superior performance, flexibility, extensibility and scalability.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Redis">Redis - Wikipedia</a> #ril</p>
+</li>
+<li><a href="https://redislabs.com/why-redis/">Why Redis Open Source | Redis Labs</a> #ril</li>
+<li><a href="https://redis.io/topics/introduction">Introduction to Redis – Redis</a> #ril</li>
+<li><a href="https://redis.io/topics/faq">FAQ – Redis</a> #ril</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/elasticache/">Amazon ElastiCache- In-memory data store and cache</a></p>
+<ul>
+<li>
+<p>Amazon ElastiCache offers fully managed Redis and Memcached. Seamlessly deploy, run, and scale popular open source compatible in-memory data stores. Build DATA-INTENSIVE apps or improve the performance of your existing apps by RETRIEVING DATA FROM high throughput and low latency IN-MEMORY DATA STORES.</p>
+<p>Amazon ElastiCache is a popular choice for Gaming, Ad-Tech, Financial Services, Healthcare, and IoT apps.</p>
+<p>會提到 IoT apps，大概是因為 client 的數量很多??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>先走過一遍 <a href="http://try.redis.io/">Try Redis</a>。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://try.redis.io/">Try Redis</a></p>
+<ul>
+<li>
+<p>Welcome to Try Redis, a demonstration of the REDIS DATABASE!</p>
+</li>
+<li>
+<p>Please type <code>TUTORIAL</code> to begin a brief tutorial, <code>HELP</code> to see a list of supported commands, or any valid REDIS COMMAND to play with the database.</p>
+<p>例如 <code>HELP SET</code> 可以顯示 <code>SET</code> Redis command 的用法；不分大小寫。</p>
+</li>
+</ul>
+<p>STEP 1</p>
+<ul>
+<li>
+<p>Redis is what is called a KEY-VALUE STORE, often referred to as a NoSQL DATABASE. The essence of a key-value store is the ability to store some data, called a value, inside a key. This data can later be retrieved only if we know the EXACT KEY used to store it. We can use the command <code>SET</code> to store the value <code>"fido"</code> at key <code>"server:name"</code>:</p>
+<pre><code>SET server:name "fido"
+</code></pre>
+<p>注意 key <code>server:name</code> 不用引號，但 value <code>"fido"</code> 就要加引號。</p>
+</li>
+<li>
+<p>Redis will store our data PERMANENTLY, so we can later ask &ldquo;What is the value stored at key <code>server:name</code>?&rdquo; and Redis will reply with <code>"fido"</code>:</p>
+<pre><code>GET server:name =&gt; "fido"
+</code></pre>
+</li>
+<li>
+<p>Tip: You can click the commands above to automatically execute them. The text after the arrow (=&gt;) shows the expected output.</p>
+</li>
+</ul>
+<p>STEP 2</p>
+<ul>
+<li>
+<p>Other common operations provided by key-value stores are <code>DEL</code> to delete a given key and ASSOCIATED VALUE, SET-if-not-exists (called <code>SETNX</code> on Redis) that sets a key only if it does not already exist, and <code>INCR</code> to atomically increment a number stored at a given key:</p>
+<pre><code>SET connections 10
+INCR connections =&gt; 11
+INCR connections =&gt; 12
+DEL connections
+INCR connections =&gt; 1
+</code></pre>
+<p><code>INCR</code> 不用讀出來就可以加 1，少了一次與 Redis 的溝通，用來實現計數器很有效率。</p>
+</li>
+</ul>
+<p>STEP 3</p>
+<ul>
+<li>
+<p>There is something special about <code>INCR</code>. Why do we provide such an operation if we can do it ourself with a bit of code? After all it is as simple as:</p>
+<pre><code>x = GET count
+x = x + 1
+SET count x
+</code></pre>
+</li>
+<li>
+<p>The problem is that doing the increment in this way will only work as long as there is a SINGLE CLIENT USING THE KEY. See what happens if two clients are accessing this key at the same time:</p>
+<pre><code>Client A reads count as 10.
+Client B reads count as 10.
+Client A increments 10 and sets count to 11.
+Client B increments 10 and sets count to 11.
+</code></pre>
+<p>We wanted the value to be 12, but instead it is 11! This is because incrementing the value in this way is not an ATOMIC OPERATION. Calling the <code>INCR</code> command in Redis will prevent this from happening, because it is an atomic operation. Redis provides many of these atomic operations on different types of data.</p>
+<p>複雜一點的操作就得透過 transaction。</p>
+</li>
+</ul>
+<p>STEP 4</p>
+<ul>
+<li>
+<p>Redis can be told that a key should only EXIST FOR A CERTAIN LENGTH OF TIME. This is accomplished with the <code>EXPIRE</code> and <code>TTL</code> commands.</p>
+<pre><code>SET resource:lock "Redis Demo"
+EXPIRE resource:lock 120
+</code></pre>
+</li>
+<li>
+<p>This causes the key <code>resource:lock</code> to be deleted in 120 seconds. You can test how long a key will exist with the <code>TTL</code> command. It returns the number of seconds until it will be deleted.</p>
+<pre><code>TTL resource:lock =&gt; 113
+// after 113s
+TTL resource:lock =&gt; -2
+</code></pre>
+<p>The <code>-2</code> for the <code>TTL</code> of the key means that THE KEY DOES NOT EXIST (ANYMORE). A <code>-1</code> for the <code>TTL</code> of the key means that it will NEVER EXPIRE.</p>
+</li>
+<li>
+<p>Note that if you <code>SET</code> a key, its <code>TTL</code> will be RESET.</p>
+<pre><code>SET resource:lock "Redis Demo 1"
+EXPIRE resource:lock 120
+TTL resource:lock =&gt; 119
+SET resource:lock "Redis Demo 2"
+TTL resource:lock =&gt; -1
+</code></pre>
+<p>所謂 reset 不是回到上次的 TTL 重新倒數，而是沒有 TTL 了，也就是不會過期。</p>
+</li>
+</ul>
+<p>STEP 5</p>
+<ul>
+<li>
+<p>Redis also supports several more complex data structures. The first one we&rsquo;ll look at is a LIST. A list is a series of ordered values. Some of the important commands for interacting with lists are <code>RPUSH</code>, <code>LPUSH</code>, <code>LLEN</code>, <code>LRANGE</code>, <code>LPOP</code>, and <code>RPOP</code>.</p>
+<p>大部份 list 相關的指都以 <code>L</code> 開頭，但區分 left/right 兩側時，<code>L</code> 代表 left，例如 <code>LPOP</code>/<code>RPOP</code>。</p>
+<p>You can IMMEDIATELY BEGIN WORKING WITH A KEY AS A LIST, as long as it doesn&rsquo;t already exist as a different type.</p>
+<p>不用先放進一個 (空的) list，就能直接用操作 list 的指令，例如下面 `RPUSH friends &ldquo;Alice&rdquo;。</p>
+</li>
+<li>
+<p><code>RPUSH</code> puts the new value at the end of the list.</p>
+<pre><code>RPUSH friends "Alice"
+RPUSH friends "Bob"
+</code></pre>
+</li>
+<li>
+<p><code>LPUSH</code> puts the new value at the start of the list.</p>
+<pre><code>LPUSH friends "Sam"
+</code></pre>
+</li>
+<li>
+<p><code>LRANGE</code> gives a SUBSET of the list. It takes the index of the first element you want to retrieve as its first parameter and the index of the last element you want to retrieve as its second parameter. A value of <code>-1</code> for the second parameter means to retrieve elements UNTIL THE END of the list.</p>
+<pre><code>LRANGE friends 0 -1 =&gt; 1) "Sam", 2) "Alice", 3) "Bob"
+LRANGE friends 0 1 =&gt; 1) "Sam", 2) "Alice"
+LRANGE friends 1 2 =&gt; 1) "Alice", 2) "Bob"
+</code></pre>
+<p>從結果來看，index 是 0-based，而且第 2 個 index 會包含在結果裡，也就是 <code>[start, end]</code> 而非 <code>[start, end)</code>。</p>
+</li>
+</ul>
+<p>STEP 6</p>
+<ul>
+<li>
+<p><code>LLEN</code> returns the current length of the list.</p>
+<pre><code>LLEN friends =&gt; 3
+</code></pre>
+</li>
+<li>
+<p><code>LPOP</code> removes the first element from the list and returns it.</p>
+<pre><code>LPOP friends =&gt; "Sam"
+</code></pre>
+</li>
+<li>
+<p><code>RPOP</code> removes the last element from the list and returns it.</p>
+<pre><code>RPOP friends =&gt; "Bob"
+</code></pre>
+</li>
+<li>
+<p>Note that the list now only has one element:</p>
+<pre><code>LLEN friends =&gt; 1
+LRANGE friends 0 -1 =&gt; 1) "Alice"
+</code></pre>
+</li>
+</ul>
+<p>STEP 7</p>
+<ul>
+<li>
+<p>The next data structure that we&rsquo;ll look at is a SET. A set is similar to a list, except it does not have a specific order and each element may only appear once. Some of the important commands in working with sets are <code>SADD</code>, <code>SREM</code>, <code>SISMEMBER</code>, <code>SMEMBERS</code> and <code>SUNION</code>.</p>
+<p>跟 list 相關的指令以 <code>L</code> 開頭一樣，set 相關的指令都以 <code>S</code> 開頭。</p>
+</li>
+<li>
+<p><code>SADD</code> adds the given value to the set.</p>
+<pre><code>SADD superpowers "flight"
+SADD superpowers "x-ray vision"
+SADD superpowers "reflexes"
+</code></pre>
+</li>
+<li>
+<p><code>SREM</code> removes the given value from the set.</p>
+<pre><code>SREM superpowers "reflexes"
+</code></pre>
+</li>
+</ul>
+<p>STEP 8</p>
+<ul>
+<li>
+<p><code>SISMEMBER</code> tests if the given value is in the set. It returns <code>1</code> if the value is there and <code>0</code> if it is not.</p>
+<pre><code>SISMEMBER superpowers "flight" =&gt; 1
+SISMEMBER superpowers "reflexes" =&gt; 0
+</code></pre>
+</li>
+<li>
+<p><code>SMEMBERS</code> returns a list of all the members of this set.</p>
+<pre><code>SMEMBERS superpowers =&gt; 1) "flight", 2) "x-ray vision"
+</code></pre>
+</li>
+<li>
+<p><code>SUNION</code> COMBINES two or more sets and returns the list of all elements.</p>
+<pre><code>SADD birdpowers "pecking"
+SADD birdpowers "flight"
+SUNION superpowers birdpowers =&gt; 1) "pecking", 2) "x-ray vision", 3) "flight"
+</code></pre>
+<p>原來 Redis command 也可以同時操作兩個 key。</p>
+</li>
+</ul>
+<p>STEP 9</p>
+<ul>
+<li>
+<p>Sets are a very handy data type, but as they are unsorted they don&rsquo;t work well for a number of problems. This is why Redis 1.2 introduced SORTED SETS.</p>
+</li>
+<li>
+<p>A sorted set is similar to a regular set, but now each value has an ASSOCIATED SCORE. This score is used to sort the elements in the set.</p>
+<pre><code>ZADD hackers 1940 "Alan Kay"            # 3
+ZADD hackers 1906 "Grace Hopper"        # 0
+ZADD hackers 1953 "Richard Stallman"    # 4
+ZADD hackers 1965 "Yukihiro Matsumoto"  # 6
+ZADD hackers 1916 "Claude Shannon"      # 2
+ZADD hackers 1969 "Linus Torvalds"      # 7
+ZADD hackers 1957 "Sophie Wilson"       # 5
+ZADD hackers 1912 "Alan Turing"         # 1
+</code></pre>
+<p>In these examples, the scores are years of birth and the values are the names of famous hackers.</p>
+<pre><code>ZRANGE hackers 2 4 =&gt; 1) "Claude Shannon", 2) "Alan Kay", 3) "Richard Stallman"
+</code></pre>
+<p>也就是跟加入的順序無關，而是依 score 排序；這裡對 sorted set 的說明不多，相關的指令還有 <code>ZCARD</code> (總數)、<code>ZPOPMIN</code> (取出分數最低者)、<code>ZPOPMAX</code> (取出分數最高者) 等，完整的列表在 <a href="https://redis.io/commands#sorted_set">Command Reference</a>。</p>
+</li>
+</ul>
+<p>STEP 10</p>
+<ul>
+<li>
+<p>Simple strings, sets and sorted sets already get a lot done but there is one more data type Redis can handle: HASHES.</p>
+<p>Hashes are MAPS BETWEEN STRING FIELDS AND STRING VALUES, so they are the perfect data type to represent OBJECTS (eg: A User with a number of fields like <code>name</code>, <code>surname</code>, <code>age</code>, and so forth):</p>
+<pre><code>HSET user:1000 name "John Smith"
+HSET user:1000 email "john.smith@example.com"
+HSET user:1000 password "s3cret"
+</code></pre>
+<p>原來 hash 可以用來表現 object，且 value 並不是只能用 string，下一頁就會明數字做為 value。</p>
+</li>
+<li>
+<p>To get back the saved data use <code>HGETALL</code>:</p>
+<pre><code>HGETALL user:1000
+</code></pre>
+</li>
+<li>
+<p>You can also set multiple fields at once:</p>
+<pre><code>HMSET user:1001 name "Mary Jones" password "hidden" email "mjones@example.com"
+</code></pre>
+</li>
+<li>
+<p>If you only need a single field value that is possible as well:</p>
+<pre><code>HGET user:1001 name =&gt; "Mary Jones"
+</code></pre>
+</li>
+</ul>
+<p>STEP 11</p>
+<ul>
+<li>Numerical values in hash fields are handled exactly the same as in simple strings and there are operations to increment this value in an ATOMIC WAY.<pre><code>HSET user:1000 visits 10
+HINCRBY user:1000 visits 1 =&gt; 11
+HINCRBY user:1000 visits 10 =&gt; 21
+HDEL user:1000 visits
+HINCRBY user:1000 visits 1 =&gt; 1
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://redislabs.com/resources/get-started-with-redis/">Get Started with Redis | Redis Labs</a> #ril</p>
+</li>
+<li><a href="https://redis.io/topics/twitter-clone">Tutorial: Design and implementation of a simple Twitter clone using PHP and the Redis key-value store – Redis</a> #ril</li>
+</ul>
+<h2 id="cli">CLI ??<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://redis.io/topics/rediscli">redis-cli, the Redis command line interface – Redis</a> #ril</p>
+<ul>
+<li>
+<p><code>redis-cli</code> is the Redis command line interface, a simple program that allows to send commands to Redis, and read the replies sent by the server, directly from the terminal.</p>
+</li>
+<li>
+<p>It has two MAIN MODES: an INTERACTIVE MODE where there is a REPL (Read Eval Print Loop) where the user types commands and get replies; and another mode where the command is sent as arguments of <code>redis-cli</code>, executed, and printed on the standard output.</p>
+<p>In interactive mode, <code>redis-cli</code> has basic LINE EDITING capabilities to provide a good typing experience.</p>
+</li>
+<li>
+<p>However <code>redis-cli</code> is not just that. There are options you can use to launch the program in order to put it into SPECIAL MODES, so that <code>redis-cli</code> can definitely do more complex tasks, like simulate a SLAVE and print the REPLICATION STREAM it receives from the master, check the LATENCY of a Redis server and show STATISTICS or even an ASCII-art spectrogram of latency samples and frequencies, and many other things.</p>
+<p>This guide will cover the different aspects of <code>redis-cli</code>, starting from the simplest and ending with the more advanced ones.</p>
+</li>
+</ul>
+<p>Command line usage</p>
+<ul>
+<li>
+<p>To just run a command and have its reply printed on the standard output is as simple as typing the command to execute as separated arguments of <code>redis-cli</code>:</p>
+<pre><code>$ redis-cli incr mycounter
+(integer) 7
+</code></pre>
+</li>
+<li>
+<p>The reply of the command is &ldquo;7&rdquo;. Since Redis replies are TYPED (they can be strings, arrays, integers, <code>NULL</code>, errors and so forth), you see the TYPE OF THE REPLY between brackets. However that would be not exactly a great idea when the output of <code>redis-cli</code> must be used as input of another command, or when we want to redirect it into a file.</p>
+<p>Actually <code>redis-cli</code> only shows additional information which improves readability for humans when it detects the STANDARD OUTPUT IS A TTY (a terminal basically). Otherwise it will AUTO-ENABLE THE RAW OUTPUT MODE, like in the following example:</p>
+<pre><code>$ redis-cli incr mycounter &gt; /tmp/output.txt
+$ cat /tmp/output.txt
+8
+</code></pre>
+<p>This time <code>(integer)</code> was omitted from the output since the CLI detected the output was no longer written to the terminal. You can FORCE RAW OUTPUT even on the terminal with the <code>--raw</code> option:</p>
+<p>$ redis-cli &ndash;raw incr mycounter
+  9</p>
+<p>Similarly, you can force human readable output when writing to a file or in pipe to other commands by using <code>--no-raw</code>.</p>
+</li>
+<li>
+<p>If you are going to use Redis extensively, or if you already do, chances are you happen to use <code>redis-cli</code> a lot. Spending some time to familiarize with it is likely a very good idea, you&rsquo;ll see that you&rsquo;ll work more effectively with Redis once you know all the TRICKS of its command line interface.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="redis-py.md">redis-py</a></li>
+<li><a href="https://github.com/aio-libs/aioredis">aioredis</a></li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/get-started/part2/">Get Started, Part 2: Containers | Docker Documentation</a> 用 Docker + Flask + Redis 來做計數器</p>
+<pre><code>from flask import Flask
+from redis import Redis, RedisError
+import os
+import socket
+
+# Connect to Redis
+redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    try:
+        visits = redis.incr("counter")
+    except RedisError:
+        visits = "&lt;i&gt;cannot connect to Redis, counter disabled&lt;/i&gt;"
+
+    html = "&lt;h3&gt;Hello {name}!&lt;/h3&gt;" \
+           "&lt;b&gt;Hostname:&lt;/b&gt; {hostname}&lt;br/&gt;" \
+           "&lt;b&gt;Visits:&lt;/b&gt; {visits}"
+    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
+</code></pre>
+<p>搭配的 Redis 在 <a href="https://docs.docker.com/get-started/part5/#persist-the-data">Get Started, Part 5: Stacks | Docker Documentation</a> 在 <code>docker-compose.yml</code> 裡設定：</p>
+<pre><code>version: "3"
+services:
+  web:
+    ...
+  visualizer:
+    ...
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "/home/docker/data:/data"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    command: redis-server --appendonly yes
+    networks:
+      - webnet
+networks:
+  webnet:
+</code></pre>
+</li>
+<li>
+<p><a href="https://redis.io/clients#python">Python Clients - Redis</a> - 星星數最高的是 <code>redis-py</code>，也就是 PyPI 下的 <code>redis</code>；有 async 裡星星數最高的則是 <a href="https://github.com/aio-libs/aioredis"><code>aioredis</code></a>。</p>
+</li>
+</ul>
+<h2 id="type">Type ??<a class="headerlink" href="#type" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redis.io/topics/data-types">Data types – Redis</a> #ril</li>
+<li><a href="https://redis.io/topics/data-types-intro">An introduction to Redis data types and abstractions – Redis</a> #ril</li>
+</ul>
+<h2 id="cache">Cache ??<a class="headerlink" href="#cache" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redis.io/">Redis</a> 可以做為 cache，也支援 LRU eviction (逐出/收回)。</li>
+<li><a href="https://redis.io/commands/expire">EXPIRE – Redis</a> #ril</li>
+<li><a href="https://redis.io/topics/lru-cache">Using Redis as an LRU cache – Redis</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)">Least recently used (LRU) - Cache replacement policies - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="messaging">Messaging ??<a class="headerlink" href="#messaging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redis.io/topics/pubsub">Pub/Sub – Redis</a> #ril</li>
+</ul>
+<h2 id="session-store">Session Store ??<a class="headerlink" href="#session-store" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redislabs.com/blog/cache-vs-session-store/">Cache vs. Session Store | Redis Labs</a> (2017-11-15) #ril</li>
+</ul>
+<h2 id="rate-limiter">Rate Limiter ??<a class="headerlink" href="#rate-limiter" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://dzone.com/articles/redis-mysql-fast-economic-scaling">Redis + MySQL = Fast, Economic Scaling - DZone Database</a> (2018-10-04)</p>
+<ul>
+<li>Metering: Redis can also help developers cost-effectively manage the LOAD ON LEGACY SERVERS during peak usage times by RATE LIMITING the number of calls applications make every few seconds.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://redislabs.com/redis-best-practices/basic-rate-limiting/">Basic Rate Limiting Pattern | Redis Labs</a> 若 rate limiting 可以做在 Redis 這一層，猜想 API key 也是存在 Redis 裡? #ril</p>
+</li>
+<li>
+<p><a href="https://flask-limiter.readthedocs.io/en/stable/">Flask-Limiter — Flask-Limiter 1.0.1+0.gb390e64.dirty documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="primary-database">Primary Database ??<a class="headerlink" href="#primary-database" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://redislabs.com/blog/results-redis-enterprise-primary-database-session-store-high-speed-transactions/">Redis Enterprise for Primary Database and More! | Redis Labs</a> (2018-03-06)</p>
+<p>Lastly, but most noteworthy, we were delighted to learn that a staggering 67% of respondents use Redis Enterprise as their PRIMARY DATABASE, NOT STORING DATA IN ANY OTHER SYSTEM. What this means to us (and to you) is that companies are graduating from using Redis Enterprise as a caching service to using it as a full-fledged database。</p>
+</li>
+<li>
+<p><a href="https://www.quora.com/When-should-I-use-redis-as-my-primary-data-store">When should I use redis as my primary data store? - Quora</a> (2018-08-22) #ril</p>
+<ul>
+<li>
+<p>Mani Gandham: Redis is a key/value database with some advanced data structures and functionality. It can work as the primary database for many situations with the following considerations:</p>
+<ul>
+<li>
+<p>If you don’t need COMPLEX ACCESS BY SQL - Redis is a key/value store with some advanced operations but it does not provide the rich indexing, querying and analytics available in a relational database.</p>
+</li>
+<li>
+<p>If your dataset is SMALL OR FITS IN MEMORY - Redis has persistence but the entire database must also fit in RAM which has practical limits. You can use Redis cluster to scale this out though.</p>
+</li>
+<li>
+<p>If you don’t need lots of concurrent access or performance beyond 250k ops/sec - Redis is SINGLE-THREADED and will only use a single CPU core. It’s still very fast but if you have a heavy workload, you might run into performance issues. You can run more instances on the same server using different CPUs or use Redis cluster to run on multiple machines.</p>
+</li>
+</ul>
+<p>As always, there are ways around everything (like using Redis clustering or Lua scripting and the newly released modules feature) but you should try to pick the database that best FITS YOUR DATA MODEL AND ACCESS PATTERNS.</p>
+<p>If that’s Redis, then you’re in luck because it’s a great database that’s easy to run, maintain and use.</p>
+</li>
+<li>
+<p>Scott McNulty: When you need VERY FAST ACCESS. When the questions you ask your database tend to be ABOUT THE SAME. For example, if a user logs in and you store their session key in redis you get a lot of hits on it over a period of time until they log out.</p>
+<p>As a primary data store…</p>
+<ul>
+<li><a href="https://muut.com/blog/technology/redis-as-primary-datastore-wtf.html">Redis as the primary data store? WTF?!</a> #ril</li>
+<li><a href="https://www.slideshare.net/RedisLabs/redisconf17-redis-as-a-primary-data-store">RedisConf17- Redis as a Primary Data Store</a> #ril</li>
+<li><a href="https://redis.io/topics/persistence">Redis Persistence - Redis</a></li>
+</ul>
+<p>Hope that helps.</p>
+<p>IMO, it shines best as a caching layer rather than a persistence layer db. But who ever told you you couldn’t have a HYBRID ARCHITECTURE?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.slideshare.net/RedisLabs/redisconf17-redis-as-a-primary-data-store">RedisConf17- Redis as a Primary Data Store</a> (2017-06-02) #ril</p>
+</li>
+<li>
+<p><a href="https://muut.com/blog/technology/redis-as-primary-datastore-wtf.html">Redis as the primary data store? WTF?!</a> (2013-04-08) #ril</p>
+</li>
+<li>
+<p><a href="https://shawngrover.ca/redis-as-a-primary-database-not-yet/">Redis == Primary Database?</a> (2017-09-12) #ril</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=3010345">Ask HN: Is it feasible to use redis as the only datastore? | Hacker News</a> (2011-09-18) #ril</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/4718832/">javascript - Redis as a database - Stack Overflow</a> (2011-01-17) #ril</p>
+</li>
+</ul>
+<h2 id="time-series-database">Time Series Database ??<a class="headerlink" href="#time-series-database" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.infoq.com/articles/redis-time-series">Using Redis as a Time Series Database: Why and How</a> (2016-01-02) #ril</li>
+</ul>
+<h2 id="performance">Performance ??<a class="headerlink" href="#performance" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redis.io/topics/pipelining">Using pipelining to speedup Redis queries – Redis</a> #ril</li>
+<li><a href="https://redis.io/topics/memory-optimization">Memory optimization - Redis</a> #ril</li>
+<li><a href="https://redis.io/topics/mass-insert">Redis Mass Insertion – Redis</a> 可能跟 IoT 有關? #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redis.io/download">Download - Redis</a> #ril</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>$ REDIS_VERSION=5.0.4
+$ docker run --rm -d --name myredis \
+    --publish 6379:6379 \
+    --volume ${PWD}/data:/data \
+    redis:${REDIS_VERSION}-alpine \
+    redis-server --appendonly yes
+
+$ ls data
+appendonly.aof
+
+$ docker run --rm -it --link myredis redis \
+    redis-cli -h myredis ping
+PONG
+</code></pre>
+
+<p>讓 CLI 用起來更直覺：</p>
+<pre><code>$ alias redis-cli=&quot;docker run -it --rm redis redis-cli -h host.docker.internal&quot;
+$ redis-cli ping
+PONG
+$ redis-cli ping -h other-redis-server
+...
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://redis.io/download">Download - Redis</a></p>
+<ul>
+<li>It is possible to get Docker images of Redis from the Docker Hub. Multiple versions are available, usually updated in a short time after a new release is available.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/redis#how-to-use-this-image">How to use this image - redis - Docker Hub</a> #ril</p>
+<p>Start a redis instance</p>
+<pre><code>$ docker run --name some-redis -d redis
+</code></pre>
+<p>Start with PERSISTENT STORAGE</p>
+<ul>
+<li>
+<p>If persistence is enabled, data is stored in the VOLUME <code>/data</code>, which can be used with <code>--volumes-from some-volume-container</code> or <code>-v /docker/host/dir:/data</code>.</p>
+<pre><code>$ docker run --name some-redis -d redis redis-server --appendonly yes
+</code></pre>
+<p>其中 <code>--appendonly yes</code> 表示採用 AOF persistence。</p>
+</li>
+</ul>
+<p>Connecting via redis-cli</p>
+<pre><code>$ docker run -it --network some-network --rm redis redis-cli -h some-redis
+</code></pre>
+<p>Additionally, If you want to use your own <code>redis.conf</code> &hellip;</p>
+<ul>
+<li>
+<p>You can create your own <code>Dockerfile</code> that adds a <code>redis.conf</code> from the context into <code>/data/</code>, like so.</p>
+<pre><code>FROM redis
+COPY redis.conf /usr/local/etc/redis/redis.conf
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+</code></pre>
+</li>
+<li>
+<p>Alternatively, you can specify something along the same lines with <code>docker run</code> options.</p>
+<pre><code>$ docker run -v /myredis/conf/redis.conf:/usr/local/etc/redis/redis.conf \
+         --name myredis redis redis-server /usr/local/etc/redis/redis.conf
+</code></pre>
+<p>Where <code>/myredis/conf/</code> is a local directory containing your <code>redis.conf</code> file. Using this method means that there is no need for you to have a <code>Dockerfile</code> for your redis container.</p>
+</li>
+</ul>
+<p><code>32bit</code> variant</p>
+<ul>
+<li>This variant is not a 32bit image (and will not run on 32bit hardware), but includes Redis compiled as a 32BIT BINARY, especially for users who need the DECREASED MEMORY REQUIREMENTS associated with that.</li>
+</ul>
+<p><code>redis:&lt;version&gt;</code></p>
+<ul>
+<li>This is the defacto image. If you are unsure about what your needs are, you probably want to use this one. It is designed to be used both as a THROW AWAY CONTAINER (mount your source code and start the container to start your app), as well as the BASE TO BUILD OTHER IMAGES off of.</li>
+</ul>
+<p><code>redis:&lt;version&gt;-alpine</code></p>
+<ul>
+<li>
+<p>This image is based on the popular Alpine Linux project, available in the alpine official image. Alpine Linux is MUCH SMALLER than most distribution base images (~5MB), and thus leads to much slimmer images in general.</p>
+</li>
+<li>
+<p>This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use musl libc instead of glibc and friends, so CERTAIN SOFTWARE MIGHT RUN INTO ISSUES depending on the depth of their libc requirements. However, most software doesn&rsquo;t have an issue with this, so this variant is usually a VERY SAFE CHOICE.</p>
+<p>如果是這樣，為什麼不是它成為 defacto image? 因為通常不會在 Redis container 裡再運作其他東西，上面的問題應該不存在。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://redis.io/">Redis</a></li>
+<li><a href="https://github.com/antirez/redis">antirez/redis - GitHub</a></li>
+<li><a href="https://redislabs.com/community/tech-blog/">Tech Blog | Redis Labs</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/redis/">&lsquo;redis&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://twitter.com/redisfeed">Redis News Feed (@redisfeed) | Twitter</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://redislabs.com/community/ebook/">Redis in Action | Redis Labs</a> (free)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/redis-4x-cookbook">Redis 4.x Cookbook - PACKT</a> (2018-02)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/mastering-redis">Mastering Redis - PACKT</a> (2016-05)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/redis-essentials">Redis Essentials - PACKT</a> (2015-09)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/learning-redis">Learning Redis - PACKT</a> (2015-06)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/redis-applied-design-patterns">Redis Applied Design Patterns - PACKT</a> (2014-09)</li>
+<li><a href="https://www.packtpub.com/web-development/building-scalable-apps-redis-and-nodejs">Building Scalable Apps with Redis and Node.js - PACKT</a> (2014-09)</li>
+<li><a href="https://www.manning.com/books/redis-in-action">Redis in Action - Manning</a> (2013-06)</li>
+<li><a href="https://www.openmymind.net/2012/1/23/The-Little-Redis-Book/">The Little Redis Book</a> (2012-01)</li>
+<li><a href="http://shop.oreilly.com/product/0636920020127.do">Redis Cookbook - O&rsquo;Reilly</a> (2011-07)</li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://redis.io/documentation">Redis Docuementation</a></li>
+<li><a href="https://redis.io/topics/faq">FAQ – Redis</a></li>
+<li><a href="https://redislabs.com/community/redis-best-practices/">Best Practices | Redis Labs</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../redis-persistence/">Persistence</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://redis.io/commands">Command Reference – Redis</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

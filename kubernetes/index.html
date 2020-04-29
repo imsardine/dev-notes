@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/kubernetes/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Kubernetes (K8s) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/kubernetes.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#kubernetes-k8s">Kubernetes (K8s)</a></li>
+            <li class="second-level"><a href="#docker">跟 Docker 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#nomad">跟 Nomad 的差別 ??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#minikube">Minikube ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="kubernetes-k8s">Kubernetes (K8s)<a class="headerlink" href="#kubernetes-k8s" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://kubernetes.io/">Kubernetes | Production-Grade Container Orchestration</a></p>
+<ul>
+<li>
+<p>Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications.</p>
+</li>
+<li>
+<p>It GROUPS containers that make up an application into LOGICAL UNITS for easy management and DISCOVERY.</p>
+<p>Kubernetes builds upon 15 years of experience of running production workloads at Google, combined with best-of-breed ideas and practices from the community.</p>
+</li>
+<li>
+<p>Planet Scale &ndash; Designed on the same principles that allows Google to run billions of containers a week, Kubernetes can scale without increasing your ops team.</p>
+</li>
+<li>Never Outgrow &ndash; Whether testing locally or running a global enterprise, Kubernetes flexibility grows with you to deliver your applications consistently and easily no matter how complex your need is.</li>
+<li>Run Anywhere &ndash; Kubernetes is open source giving you the freedom to take advantage of on-premises, hybrid, or public cloud infrastructure, letting you effortlessly MOVE WORKLOADS TO WHERE IT MATTERS TO YOU.</li>
+</ul>
+<p>Kubernetes Features</p>
+<ul>
+<li>
+<p>Service discovery and load balancing</p>
+<p>No need to modify your application to use an unfamiliar SERVICE DISCOVERY MECHANISM. Kubernetes gives containers their own IP addresses and a single DNS name for a set of containers, and can load-balance across them.</p>
+<p>類 Docker Compose 裡 <code>docker-compose scale</code> 在做的事，當同一個 servcie 有多個 container 時，透過 service name 會自動分配到其中一個 container，自動做 load-balance。</p>
+</li>
+</ul>
+<p>Automatic bin packing</p>
+<ul>
+<li>
+<p>Automatically places containers based on their resource requirements and other constraints, while not sacrificing availability. Mix critical and best-effort workloads in order to drive up utilization and save even more resources.</p>
+<p>可以參考 <a href="https://en.wikipedia.org/wiki/Bin_packing_problem">Bin packing problem - Wikipedia</a> 瞭解 bin packing 的概念。</p>
+</li>
+</ul>
+<p>Storage orchestration</p>
+<ul>
+<li>Automatically mount the storage system of your choice, whether from local storage, a public cloud provider such as GCP or AWS, or a network storage system such as NFS, iSCSI, Gluster, Ceph, Cinder, or Flocker.</li>
+</ul>
+<p>Self-healing</p>
+<ul>
+<li>
+<p>Restarts containers that fail, replaces and reschedules containers when nodes die, kills containers that don’t respond to your USER-DEFINED HEALTH CHECK, and doesn’t ADVERTISE them to clients until they are READY TO SERVE.</p>
+<p>啟動完成，確定 ready to serve 後才開始接 request。</p>
+</li>
+</ul>
+<p>Automated rollouts and rollbacks</p>
+<ul>
+<li>
+<p>Kubernetes PROGRESSIVELY ROLLS OUT changes to your application or its configuration, while monitoring application health to ensure it DOESN’T KILL ALL YOUR INSTANCES AT THE SAME TIME.</p>
+<p>If something goes wrong, Kubernetes will rollback the change for you. Take advantage of a growing ecosystem of deployment solutions.</p>
+</li>
+</ul>
+<p>Secret and configuration management</p>
+<ul>
+<li>
+<p>Deploy and update secrets and application configuration without rebuilding your image and without exposing secrets in your stack configuration.</p>
+<p>本來 secrets/configuration 就不該寫在 image 裡；感覺 secret 與 configuration 的處理方式很不一樣 ??</p>
+</li>
+</ul>
+<p>Batch execution</p>
+<ul>
+<li>In addition to services, Kubernetes can manage your batch and CI workloads, replacing containers that fail, if desired.</li>
+</ul>
+<p>Horizontal scaling</p>
+<ul>
+<li>Scale your application up and down with a simple command, with a UI, or automatically based on CPU usage.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/">What is Kubernetes - Kubernetes</a> #ril</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Kubernetes">Kubernetes - Wikipedia</a> #ril</p>
+</li>
+</ul>
+<h2 id="docker">跟 Docker 的關係 ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.docker.com/kubernetes">Kubernetes | Docker</a> Docker 已支援 K8s - 用 Docker 開發的 app 可以佈署到 Docker Swarm 或 Kubernetes，兩者都是基於 Moby 專案的開發成果，其中之一就是 containerd #ril</li>
+<li><a href="https://www.forbes.com/sites/mikekavis/2017/04/28/docker-and-kubernetes-friends-or-foes/">Docker And Kubernetes: Friends Or Foes?</a> (2017-04-28) #ril</li>
+</ul>
+<h2 id="nomad">跟 Nomad 的差別 ??<a class="headerlink" href="#nomad" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.nomadproject.io/intro/vs/kubernetes.html">Nomad vs. Kubernetes - Nomad by HashiCorp</a> Kubernetes 專注在 Docker，但 Nomad 的應用更為廣泛 #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/#create-a-docker-container-image">Create a Docker container image - Hello Minikube | Kubernetes</a><ul>
+<li>先設定好 Minikube cluster &ndash; <code>kubectl</code> 可以跟該 cluster 互動，可以看到 dashboard。</li>
+<li>確認 Node.js 的 Hello World 執行沒問題，接著打包 Docker image。因為這裡用 Minikube 所以不用把 image 推到另一個 Docker registry，但為什麼要用 <code>eval $(minikube docker-env)</code> 來強制採用 Minikube Docker daemon? 這不是同一個嗎??</li>
+<li>用 <code>docker build -t hello-node:v1 .</code> 產生 image，接著 Minikube VM 就可以執行該 image 了。</li>
+</ul>
+</li>
+<li><a href="https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/#create-a-deployment">Create a Deployment - Hello Minikube | Kubernetes</a> 這裡開始才跟 Kubernetes 比較有關&hellip; #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/">Learn Kubernetes Basics - Kubernetes</a></p>
+<ul>
+<li>
+<p>This tutorial provides a walkthrough of the basics of the Kubernetes CLUSTER ORCHESTRATION SYSTEM. Each module (課程單元) contains some background information on major Kubernetes features and concepts, and includes an INTERACTIVE online tutorial. These interactive tutorials let you manage a simple cluster and its containerized applications for yourself.</p>
+</li>
+<li>
+<p>Using the interactive tutorials, you can learn to:</p>
+<ul>
+<li>Deploy a containerized application on a cluster</li>
+<li>Scale the deployment</li>
+<li>Update the containerized application with a new software version 指 image 的版本 ??</li>
+<li>Debug the containerized application</li>
+</ul>
+</li>
+<li>
+<p>The tutorials use <a href="https://www.katacoda.com/">Katacoda</a> to run a VIRTUAL TERMINAL in your web browser that runs Minikube, a SMALL-SCALE LOCAL DEPLOYMENT of Kubernetes that can run anywhere. There&rsquo;s no need to install any software or configure anything; each interactive tutorial runs directly out of your web browser itself.</p>
+</li>
+</ul>
+<p>What can Kubernetes do for you?</p>
+<ul>
+<li>
+<p>With modern web services, users expect applications to be available 24/7, and developers expect to deploy new versions of those applications SEVERAL TIMES A DAY. Containerization helps package software to serve these goals, enabling applications to be released and updated in an easy and fast way WITHOUT DOWNTIME.</p>
+</li>
+<li>
+<p>Kubernetes helps you make sure those containerized applications run where and when you want, and helps them FIND THE RESOURCES AND TOOLS THEY NEED TO WORK.</p>
+<p>也就是 service discovery。</p>
+</li>
+<li>
+<p>Kubernetes is a production-ready, open source platform designed with Google&rsquo;s accumulated experience in container orchestration, combined with best-of-breed ideas from the community.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-intro/">Using Minikube to Create a Cluster - Kubernetes</a></p>
+<p>Kubernetes Clusters</p>
+<ul>
+<li>
+<p>Kubernetes coordinates a highly available cluster of computers that are connected to work as a single unit. The abstractions in Kubernetes allow you to deploy containerized applications to a cluster without tying them specifically to individual machines.</p>
+<p>跟 Docker Swarm 的概念一樣。</p>
+</li>
+<li>
+<p>To make use of this new model of deployment, applications need to be packaged in a way that DECOUPLES THEM FROM INDIVIDUAL HOSTS: they need to be CONTAINERIZED. Containerized applications are more flexible and available than in past deployment models, where applications were installed directly onto specific machines as PACKAGES DEEPLY INTEGRATED INTO THE HOST.</p>
+<p>Kubernetes automates the distribution and scheduling of application containers across a cluster in a more efficient way. Kubernetes is an open-source platform and is production-ready.</p>
+</li>
+<li>
+<p>A Kubernetes cluster consists of two types of resources:</p>
+<ul>
+<li>The MASTER coordinates the cluster</li>
+<li>NODEs are the WORKERS that run applications</li>
+</ul>
+</li>
+</ul>
+<p>Cluster Diagram</p>
+<ul>
+<li>
+<p>The Master is responsible for managing the cluster. The master coordinates all activities in your cluster, such as scheduling applications, maintaining applications&rsquo; desired state, scaling applications, and rolling out new updates.</p>
+</li>
+<li>
+<p>A node is a VM or a physical computer that serves as a worker machine in a Kubernetes cluster. Each node has a KUBELET, which is an AGENT for managing the node and communicating with the Kubernetes master.</p>
+<p>用 VM 來當 node 的效果會不好 ??</p>
+</li>
+<li>
+<p>The node should also have tools for handling CONTAINER OPERATIONS, such as Docker or <a href="https://coreos.com/rkt/">rkt</a>. A Kubernetes cluster that handles production traffic should have a MINIMUM OF THREE NODES.</p>
+<p>Masters manage the cluster and the nodes are used to host the running applications.</p>
+</li>
+<li>
+<p>When you deploy applications on Kubernetes, you tell the master to start the application containers. The master schedules the containers to run on the cluster&rsquo;s nodes. The nodes communicate with the master using the Kubernetes API, which the master exposes.</p>
+<p>End users can also use the Kubernetes API directly to interact with the cluster.</p>
+</li>
+<li>
+<p>A Kubernetes cluster can be deployed on either physical or virtual machines. To get started with Kubernetes development, you can use Minikube.</p>
+<p>Minikube is a lightweight Kubernetes implementation that creates a VM on your local machine and deploys a simple cluster containing ONLY ONE NODE.</p>
+<p>Minikube is available for Linux, macOS, and Windows systems. The Minikube CLI provides basic bootstrapping operations for working with your cluster, including start, stop, status, and delete. For this tutorial, however, you&rsquo;ll use a provided online terminal with Minikube pre-installed.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-interactive/">Interactive Tutorial - Creating a Cluster - Kubernetes</a> #ril</p>
+<ul>
+<li>
+<p>The goal of this interactive scenario is to deploy a local development Kubernetes cluster using minikube</p>
+<p>The online terminal is a pre-configured Linux environment that can be used as a regular console (you can type commands). Clicking on the blocks of code followed by the ENTER sign will execute that command in the terminal.</p>
+<p>按 Start Scenario 開始，例如在右側看到 <code>minikube version</code> 時，按下去就會在右側的 terminal 執行。</p>
+</li>
+</ul>
+<p>Cluster up and running</p>
+<ul>
+<li>
+<p>We already installed minikube for you. Check that it is properly installed, by running the <code>minikube version</code> command:</p>
+<pre><code>$ minikube version
+minikube version: v0.34.1
+</code></pre>
+<p>OK, we can see that minikube is in place.</p>
+</li>
+<li>
+<p>Start the cluster, by running the <code>minikube start</code> command:</p>
+<pre><code>$ minikube start
+o   minikube v0.34.1 on linux (amd64)
+&gt;   Configuring local host environment ...
+&gt;   Creating none VM (CPUs=2, Memory=2048MB, Disk=20000MB) ...
+-   "minikube" IP address is 172.17.0.32
+-   Configuring Docker as the container runtime ...
+-   Preparing Kubernetes environment ...
+@   Downloading kubeadm v1.13.3
+@   Downloading kubelet v1.13.3
+-   Pulling images required by Kubernetes v1.13.3 ...
+-   Launching Kubernetes v1.13.3 using kubeadm ...
+-   Configuring cluster permissions ...
+-   Verifying component health .....
++   kubectl is now configured to use "minikube"
+=   Done! Thank you for using minikube!
+</code></pre>
+<p>Great! You now have a running Kubernetes cluster in your online terminal. Minikube started a virtual machine for you, and a Kubernetes cluster is now running in that VM.</p>
+<p>從 &ldquo;Configuring Docker as the container runtime&rdquo; 看來，Docker 對 Kubernetes 而言就只是一種 container runtime。</p>
+</li>
+</ul>
+<p>Cluster version</p>
+<ul>
+<li>
+<p>To interact with Kubernetes during this bootcamp we’ll use the command line interface, <code>kubectl</code>. We’ll explain <code>kubectl</code> in detail in the next modules, but for now, we’re just going to look at some cluster information. To check if <code>kubectl</code> is installed you can run the <code>kubectl version</code> command:</p>
+<pre><code>$ kubectl version
+Client Version: version.Info{Major:"1", Minor:"13", GitVersion:"v1.13.3", GitCommit:"721bfa751924da8d1680787490c54b9179b1fed0", GitTreeState:"clean", BuildDate:"2019-02-01T20:08:12Z", GoVersion:"go1.11.5", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"13", GitVersion:"v1.13.3", GitCommit:"721bfa751924da8d1680787490c54b9179b1fed0", GitTreeState:"clean", BuildDate:"2019-02-01T20:00:57Z", GoVersion:"go1.11.5", Compiler:"gc", Platform:"linux/amd64"}
+</code></pre>
+<p>OK, <code>kubectl</code> is configured and we can see both the version of the CLIENT and as well as the SERVER. The client version is the <code>kubectl</code> version; the server version is the Kubernetes version installed on the master. You can also see details about the build.</p>
+<p>這裡的 client/server 是就 Kubernetes API，所以 client 是 <code>kubectl</code>，而 server 是 Minikube &ndash; 對外揭露了 Kubernetes API。</p>
+</li>
+</ul>
+<p>Cluster details</p>
+<ul>
+<li>
+<p>Let’s view the cluster details. We’ll do that by running <code>kubectl cluster-info</code>:</p>
+<pre><code>$ kubectl cluster-info
+Kubernetes master is running at https://172.17.0.32:8443
+KubeDNS is running at https://172.17.0.32:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+</code></pre>
+</li>
+<li>
+<p>We have a running master and a DASHBOARD. The Kubernetes dashboard allows you to view your applications in a UI. During this tutorial, we’ll be focusing on the command line for deploying and exploring our application. To view the nodes in the cluster, run the <code>kubectl get nodes</code> command:</p>
+<pre><code>$ kubectl get nodes
+NAME       STATUS   ROLES    AGE    VERSION
+minikube   Ready    master   8m5s   v1.13.3
+</code></pre>
+<p>看起來 dashboard 一樣由 master 提供。</p>
+<p>This command shows all nodes that can be used to host our applications. Now we have only one node, and we can see that its status is ready (it is ready to ACCEPT APPLICATIONS FOR DEPLOYMENT).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/">Using kubectl to Create a Deployment - Kubernetes</a> #ril</p>
+</li>
+<li>
+<p><a href="http://omerio.com/2015/12/18/learn-the-kubernetes-key-concepts-in-10-minutes/">Learn the Kubernetes Key Concepts | IT with Passion</a> (2015-12-18) #ril</p>
+</li>
+<li><a href="https://medium.com/@evenchange4/%E4%BA%94%E5%88%86%E9%90%98-kubernetes-%E6%9C%89%E6%84%9F-e51f093cb10b">五分鐘 Kubernetes 有感 – Michael Hsu – Medium</a> (2017-09-25) #ril</li>
+<li><a href="https://blog.gcp.expert/kubernetes-gke-introduction/">GKE 系列文章(一) – 為什麼使用 Kubernetes | GCP專門家</a> #ril</li>
+<li><a href="https://tachingchen.com/tw/blog/kubernetes-service/">Kubernetes Service 概念詳解 | Kubernetes</a> (2017-03-26) #ril</li>
+</ul>
+<h2 id="minikube">Minikube ??<a class="headerlink" href="#minikube" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/kubernetes/minikube">kubernetes/minikube: Run Kubernetes locally</a> Minikube 在 VM 裡裡跑一個 single-node Kubernetes cluster</li>
+<li><a href="https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/">Hello Minikube | Kubernetes</a> 可以在本機執行 Kubernetes，文中提到 Minikube VM ??</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://kubernetes.io/docs/tutorials/stateless-application/hello-minikube/#create-a-minikube-cluster">Create a Minikube cluster - Hello Minikube | Kubernetes</a> #ril</p>
+<ul>
+<li>把 Hello World (Node.js) 轉成 Docker image 並執行在 Minikube 上；Minikube 讓你可以在本機上執行 Kubernetes &ndash; 建立 local cluster。</li>
+<li>假設用 OS X，必須先有 Homebrew (裝 <code>xhyve</code> driver)、Node.js、Docker</li>
+<li>用 curl 下載 <code>minikube</code> 並移動到 <code>/usr/local/bin</code>。</li>
+<li>安裝 <code>xhyve</code> driver 並修改權限。</li>
+<li>用 Homebrew 安裝 <code>kubectl</code> 可以跟 Kubernetes cluster 互動。</li>
+<li>用 <code>minikube start --vm-driver=xhyve</code> 啟動 Minikube cluster，其中 <code>--vm-driver=xhyve</code> 是指 VM driver 採用 Docker for Mac，而非預設的 VirtualBox。</li>
+</ul>
+<p><code>$ minikube start --vm-driver=xhyve
+Starting local Kubernetes v1.9.4 cluster...
+Starting VM...
+Downloading Minikube ISO
+...
+Getting VM IP address...
+Moving files into cluster...
+Downloading localkube binary
+...
+Connecting to cluster...
+Setting up kubeconfig...
+Starting cluster components...
+Kubectl is now configured to use the cluster.
+Loading cached images from config file.</code></p>
+<ul>
+<li><code>kubectl config use-context minikube</code> 指定 context，也就是 <code>kubectrl</code> 要操作的 cluster；在 <code>~/.kube/config</code> 可以找到所有的 context。</li>
+<li>用 <code>kubectl cluster-info</code> 驗證 <code>kubectl</code> 可以跟 cluster 溝通：</li>
+</ul>
+</li>
+</ul>
+<pre><code>$ kubectl cluster-info
+Kubernetes master is running at https://192.168.64.2:8443
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+</code></pre>
+
+<pre><code>  - 用 `minikube dashboard` 開啟 Dashboard。
+</code></pre>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://kubernetes.io/">Kubernetes</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

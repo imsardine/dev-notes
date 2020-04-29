@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/aws-sdk/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>AWS / SDK - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/aws-sdk.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#aws-sdk">AWS / SDK</a></li>
+            <li class="second-level"><a href="#python">Python ??</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#signaturedoesnotmatch-signature-expired-is-now-earlier-than">SignatureDoesNotMatch ... Signature expired: ... is now earlier than ...</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="aws-sdk"><a href="../aws/">AWS</a> / SDK<a class="headerlink" href="#aws-sdk" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://aws.amazon.com/tools/#sdk">SDK - SDKs and Programming Toolkits for AWS</a> #ril</li>
+</ul>
+<h2 id="python">Python ??<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="aws-python.md">AWS SDK for Python</a></li>
+<li><a href="https://github.com/aio-libs/aiobotocore">aio-libs/aiobotocore: asyncio support for botocore library using aiohttp</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="signaturedoesnotmatch-signature-expired-is-now-earlier-than">SignatureDoesNotMatch &hellip; Signature expired: &hellip; is now earlier than &hellip;<a class="headerlink" href="#signaturedoesnotmatch-signature-expired-is-now-earlier-than" title="Permanent link"> #</a></h3>
+<p>曾經在 Docker container 的 root logger 攔截到錯誤 (時間 2019-06-29T11:37:43.546Z)，但 Slack 記錄的時間卻是 2019-06-29T13:43:34Z，也就是 container 內部的時間比外面真的實世界慢了 2 個小時。</p>
+<pre><code>...
+File &quot;/usr/local/lib/python3.6/site-packages/botocore/client.py&quot;, line 661, in _make_api_call
+  raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (SignatureDoesNotMatch) when calling the ReceiveMessage operation: Signature expired: 20190629T113743Z is now earlier than 20190629T132834Z (20190629T134334Z - 15 min.)
+</code></pre>
+
+<p>這符合錯誤訊息的說法：</p>
+<pre><code>                            +---- Container 內部視角
+                            v
+Signature expired: 20190629T113743Z is now earlier than 20190629T132834Z (20190629T134334Z - 15 min.)
+                                                                                   ^
+                                                                                   +--- AWS 視角
+</code></pre>
+
+<p>這個問題的根源是 AWS SDK 所在的系統，其時間與 AWS server 有太大的偏差 (clock skew)，所以根本的解決就是讓時間同步。</p>
+<p>很妙的是，AWS JavaScript SDK 另外提供 <code>correctClockSkew: true</code> 的參數，遇到時間偏差時會自動修正重試，但這樣真的好嗎？這種解法 Boto (AWS Python SDK) 倒是堅決不採用，認為系統的問題就要系統解。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/aws/aws-sdk-js/issues/527">InvalidSignatureException: Signature expired · Issue #527 · aws/aws-sdk-js</a></p>
+<ul>
+<li>
+<p>evansolomon: I have a bunch of apps that run on AWS + Docker and at some point will randomly start throwing these errors. I think the error usually comes up WHEN i HAVEN&rsquo;T WORKED ON THE APP FOR A COUPLE DAYS, so the &ldquo;expiration&rdquo; is pretty extreme. For example, the one I just got is &ldquo;expired&rdquo; by 2 days.</p>
+<pre><code>Signature expired: 20150307T194740Z is now earlier than 20150309T203545Z
+</code></pre>
+</li>
+<li>
+<p>lsegal: (contributor) @evansolomon I&rsquo;m not sure why clock skew would be ruled out, it seems to coincide precisely with your usage pattern described above:</p>
+<blockquote>
+<p>I think the error usually comes up when I haven&rsquo;t worked on the app for a couple days,</p>
+</blockquote>
+<p>If Docker images only resync NTP when they are re-activated through commands and they have not been activated in multiple days, that would explain the skew pretty accurately. The SDK definitely relies on &ldquo;current system time&rdquo; when making requests, so it needs to be synced prior to sending requests. You might see the exact same behavior on a development machine right after waking the machine up from sleep (prior to clock sync), for example.</p>
+<p>I would recommend taking stock of the <code>date</code> command in your Docker image next time you run into this issue. Knowing the current system time would be very helpful to diagnosing the issue.</p>
+</li>
+<li>
+<p>kyriesent: Turns out mine was a clock syncing issue on my VM. Running a sync between the VM and the host cleared it up. 指 Docker 執行在 VM 上的狀況?</p>
+</li>
+<li>
+<p>AdityaManohar: @evansolomon I&rsquo;ve just pushed a patch that OFFSETS THE SDK CLOCK when a clock skew error is detected. Simply set the correctClockSkew option when constructing a service client. Here&rsquo;s an example:</p>
+<pre><code>var dynamodb = new AWS.DynamoDB({correctClockSkew: true});
+</code></pre>
+<p>更是忽略兩邊的時間差，這樣好嗎?</p>
+</li>
+<li>
+<p>Iraulier: same issue &lsquo;Signature expired&rsquo; on aws command line resolved by &lsquo;calling ntpd&rsquo; (The Network Time Protocol (NTP) is used to synchronize the time of a computer).</p>
+</li>
+<li>
+<p>Clee681: I encountered this issue locally, and restarting my docker daemon fixed it. (最多人按讚!?)</p>
+<p>tonyjiang: @Clee681 thank you for sharing your experience and solution! Restarting docker daemon fixed my problem as well - could take much longer to solve it without seeing your comment.</p>
+</li>
+<li>
+<p>mankins: The upload was actually taking more than 5 minutes and consequently giving the <code>SignatureDoesNotMatch</code> error.</p>
+<p>為什麼跟單次操作的時間長短有關?</p>
+</li>
+<li>
+<p>zeeshanjamal16: Run the command to sync clock <code>ntpdate pool.ntp.org</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/boto/boto3/issues/1252">Support for clock skew correction? · Issue #1252 · boto/boto3</a></p>
+<ul>
+<li>
+<p>shawnbro: I know the javascript sdk offers <code>correctClockSkew</code> param in the config and allows the specification of an offset. Is this offered in this lib? If not are there any workarounds?</p>
+</li>
+<li>
+<p>JordonPhillips: We don&rsquo;t support this functionality, NO. The only workaround unfortunately is to FIX THE TIME ON THE SYSTEM. Marking this as a feature request.</p>
+<p>就是系統的時間跑掉，堅決不採用 AWS JavaScript SDK <code>correctClockSkew</code> 自動修正時間偏移 (clock skew) 的問題。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../aws-sdk-java/">AWS SDK for Java</a></li>
+<li><a href="../aws-sdk-php/">AWS SDK for PHP</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

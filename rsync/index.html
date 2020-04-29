@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/rsync/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>rsync - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/rsync.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#rsync">rsync</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#cli">rsync CLI</a></li>
+                
+            <li class="second-level"><a href="#_1">過程中檔案有異動 ??</a></li>
+                
+            <li class="second-level"><a href="#sudo">遠端要 sudo 才能讀取/寫入檔案</a></li>
+                
+            <li class="second-level"><a href="#_2">如何顯示整體進度?</a></li>
+                
+            <li class="second-level"><a href="#_3">如何避開尖峰時間?</a></li>
+                
+            <li class="second-level"><a href="#_4">同步大量檔案 ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="rsync">rsync<a class="headerlink" href="#rsync" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Rsync">rsync - Wikipedia</a> #ril<ul>
+<li>rsync 能在不同系統間根據 timestamp 及檔案大小傳輸/同步檔案的工具 (演算法屬 delta encoding，減少網路傳輸量)，在 Unix-like 上很常見；用 zlib 進行壓縮，傳輸期間的安全性則可以靠 SSH/stunnel。</li>
+<li>例如 <code>rsync local-file user@remote-host:remote-file</code> 可以跟遠端同步 &ndash; 用 <code>user</code> 的身份登入 <code>remote-host</code>，一旦 SSH 連線成功後，兩端的 rsync 就會一同決定哪些檔案 (或部份) 需要交換。</li>
+<li>rsync 能以 daemon mode 運作，可以用 <code>rsync://</code> (native protocol) 交換檔案。</li>
+</ul>
+</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps">How To Use Rsync to Sync Local and Remote Directories on a VPS | DigitalOcean</a> (2013-09-10)<ul>
+<li>rsync = remote sync，主要用來同步 remote 與 local 兩端的檔案，利用演算法來最小化需要交換的資料量 &ndash; 只交換有變動的部份。</li>
+<li>rsync 是個工具，同時也可以是 network protocol (搭配 rsync 工具使用)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<pre><code>$ rsync --archive [--delete] [--verbose] [--dry-run] src-dir/ dest-dir
+</code></pre>
+
+<h2 id="cli"><code>rsync</code> CLI<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps">How To Use Rsync to Sync Local and Remote Directories on a VPS | DigitalOcean</a> (2013-09-10) #ril<ul>
+<li><code>rsync -r dir1/ dir2</code> 可以將 <code>dir1</code> 內容 (recursively) 同步到 <code>dir2</code>，跟 <code>cp</code> 一樣，第 1 個參數是 source，第 2 個參數是 destination。</li>
+<li>不過實務上更常用 <code>-a</code> (archive mode)，除了有 <code>-r</code> 的效果，還會保留 symbolic link、device file、mtime、group、owner 權限等。</li>
+<li>注意 <code>dir/</code> 後面的 slash，表示 &ldquo;the content of dir1&rdquo;，若沒有加 <code>/</code> 的話，會變成 <code>dir2/dir1/[files]</code> 多一層目錄。</li>
+<li>可以先用 <code>-n</code>/<code>--dry-run</code> 跑一次，搭配 <code>-v</code>/<code>--verbose</code> 看細節 (事實上，不加 <code>-v</code> 預設看不到任何東西 XD)；就能看出 <code>rsync -a dir1/ dir2</code> 與 <code>rsync -a dir1 dir2</code> 的差異。</li>
+<li>要跟 remote 同步，只要將 source 或 destination 改成 <code>username@remote_host:file</code> 即可。</li>
+<li>如果要同步的檔案未經壓縮，加 <code>-z</code>/<code>--compress</code> 會在傳輸過程中進行壓縮。</li>
+<li><code>-P</code> (等同於 <code>--progress --partial</code>)，其中 <code>--progress</code> 可以看到 progress bar，而 <code>--partial</code> 則可以支援續傳 (發現 dest 有傳到一半的檔案時，預設會被刪除)</li>
+<li>當 dest 比 src 多了一些檔案時，預設並不會從 dest 刪除 (避免 data loss)，可以加 <code>--delete</code> 要求刪除 (最好用 <code>--dry-run</code> 先測試過)。</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Rsync#Uses">Use - rsync - Wikipedia</a> <code>rsync</code> 要描述 source 跟 destination，同時間只能有一邊是 remote &ndash; <code>[USER@]HOST:FILE</code></li>
+<li><a href="https://wiki.archlinux.org/index.php/rsync">rsync - ArchWiki</a> #ril</li>
+</ul>
+<h2 id="_1">過程中檔案有異動 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://superuser.com/questions/847850/">linux - Behavior of rsync with file that&rsquo;s still being written? - Super User</a> #ril</li>
+<li><a href="https://unix.stackexchange.com/questions/90245/">backup - Is using rsync while source is being updated safe? - Unix &amp; Linux Stack Exchange</a> #ril</li>
+</ul>
+<h2 id="sudo">遠端要 sudo 才能讀取/寫入檔案<a class="headerlink" href="#sudo" title="Permanent link"> #</a></h2>
+<p>某個 user 在 remote 端可以 <code>sudo</code>，但 <code>rsync</code> 期間如何 <code>sudo</code>？</p>
+<ul>
+<li>在 remote 端的 <code>/etc/sudoers</code> 增加一筆 <code>username ALL=NOPASSWD: /usr/bin/rsync</code> (執行 <code>sudo rsync</code> 時不會問密碼)</li>
+<li><code>rsync username@hostname</code> 再搭配 <code>--rsync-path="sudo rsync"</code> 即可。</li>
+</ul>
+<p>例如：</p>
+<pre><code>$ rsync -avzP --rsync-path=&quot;sudo rsync&quot; jeremykao@source-host:/var/log .
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://askubuntu.com/questions/719439/">permissions - Using rsync with sudo on the destination machine - Ask Ubuntu</a> Thomas Weller: 編輯 <code>/etc/sudoers</code> 加上 <code>&lt;username&gt; ALL=NOPASSWD:&lt;path to rsync&gt;</code>，再搭配 <code>--rsync-path="sudo rsync"</code> 即可。</li>
+<li><a href="https://crashingdaily.wordpress.com/2007/06/29/rsync-and-sudo-over-ssh/">rsync and sudo over SSH | crashingdaily</a> (2007-06-29) 也提到 <code>ALL= NOPASSWD:/usr/bin/rsync</code> 的做法 (之一) #ril</li>
+<li><a href="https://www.devops.zone/tricks/rsync-using-sudo-over-ssh/[Rsync">https://www.devops.zone/tricks/rsync-using-sudo-over-ssh/[Rsync</a> using sudo over SSH | DevOps Zone] (2016-07-27) <code>user1    ALL=NOPASSWD: /usr/bin/rsync *</code> 會讓 <code>user1</code> 登入後，執行 <code>sudo rsync</code> 時不會被問密碼；搭配 <code>-e "ssh" --rsync-path="sudo rsync"</code> 使用。</li>
+<li><a href="https://superuser.com/questions/270911/">ubuntu - Run rsync with root permission on remote machine - Super User</a> #ril</li>
+</ul>
+<h2 id="_2">如何顯示整體進度?<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<p>rsync 3.1.0 後支援 <code>--info=progress2</code> 顯示整體傳輸進度，要避免與 <code>-v</code>/<code>--verbose</code> 一起使用 (螢幕會因輸出檔名而一直捲動)。另外 rsync 3.0 後 recursive 會採用 incremental scan (掃過部份目錄就開始傳輸)，要停用 incremental scan 算出來的整體進度才有參考價值 (<code>--no-i-r</code>/<code>--no-inc-recursive</code>)，例如：</p>
+<pre><code>$ rsync -azP --info=progress2 --no-inc-recursive jermeykao@source-host:/var/log .
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://serverfault.com/questions/219013/">linux - Showing total progress in rsync: is it possible? - Server Fault</a><ul>
+<li>Avio: rsync v3.1.0 支援 <code>--info=progress2</code> 的用法</li>
+<li>Alex: 要搭配 <code>--no-i-r</code>/<code>--no-inc-recursive</code> 使用，在開始 copy 才會掃過整個目錄結構，知道還剩多少要傳。</li>
+<li>sanmai, Geremia: <code>--info=progress2</code> 不能/不要搭配 <code>-v</code> 使用，否則畫面會充滿 file name。</li>
+</ul>
+</li>
+<li><a href="https://download.samba.org/pub/rsync/rsync.html">-r, &ndash;recursive - rsync</a> rsync 3.0.0 開始，recursive 會採用 incremental scan 以節省記憶體，也就是掃完前面幾個目錄後就開始傳輸。有些操作需要 rsync 知道 full file list，可以用 <code>--no-i-r</code>/<code>--no-inc-recursive</code> 停用。</li>
+<li><a href="https://download.samba.org/pub/rsync/rsync.html">-P - rsync</a> 提到 <code>--info=progress2</code> 會顯示整體進度 (statistics based on the whole transfer)，明確指出不想看一堆 filename 在捲動，就要避免 <code>-v</code> 或 <code>--info=name0</code> 的使用。</li>
+</ul>
+<h2 id="_3">如何避開尖峰時間?<a class="headerlink" href="#_3" title="Permanent link"> #</a></h2>
+<p>網路上存在 <code>--time-limit</code> 與 <code>--stop-at</code> 的說法，但這需要套用 patch，多數人建議搭配 <code>timeout</code> 使用，例如：</p>
+<pre><code>timeout rsync ...
+</code></pre>
+
+<p>若要搭配 cron job 在 non-busy hours 同步，過程中不需要輸入密碼才行。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://serverfault.com/questions/45083/">linux - Favorite rsync tips and tricks - Server Fault</a> <code>--time-limit</code> 指定 T 分鐘後停止，或是 <code>--stop-at=y-m-dTh:m</code> 在指定時間停止，可以在 non-busy hours 做備份。可惜 RedHat/CentOS 或 Ubuntu dist 都沒有這個 option。</li>
+<li><a href="https://askubuntu.com/questions/548287/">backup - How to put running time constraints on rsync processes? - Ask Ubuntu</a> 沒有 <code>--time-limit</code>，可以搭配 <code>timeout</code>。</li>
+<li><a href="https://lists.samba.org/archive/rsync/2009-September/023938.html">Limit rsync running time</a> (2009-09-17) 用 <code>timeout</code>。</li>
+</ul>
+<h2 id="_4">同步大量檔案 ??<a class="headerlink" href="#_4" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://serverfault.com/questions/746551/">synchronization - Faster rsync of huge directory which was not changed - Server Fault</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://rsync.samba.org/">rsync</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://download.samba.org/pub/rsync/rsync.html">rsync(1)</a></li>
+<li><a href="https://download.samba.org/pub/rsync/rsyncd.conf.html">rsyncd.conf(5)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

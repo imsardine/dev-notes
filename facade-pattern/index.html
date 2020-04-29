@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/facade-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Facade Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/facade-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#facade-pattern">Facade Pattern</a></li>
+            <li class="second-level"><a href="#_1">基礎</a></li>
+                
+                <li class="third-level"><a href="#workflow-use-case-security-transaction-demarcation">Workflow, Use Case, Security, Transaction Demarcation ??</a></li>
+                <li class="third-level"><a href="#remote-facade">Remote Facade ??</a></li>
+                <li class="third-level"><a href="#facade-output-dto">Facade 的 Output 是 DTO ??</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="facade-pattern">Facade Pattern<a class="headerlink" href="#facade-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Facade_pattern">Facade pattern - Wikipedia</a> #ril</li>
+<li><a href="http://best-practice-software-engineering.ifs.tuwien.ac.at/patterns/facade.html">Best Practice Software Engineering - Facade</a> #ril</li>
+<li><a href="https://dzone.com/articles/fa%C3%A7ade-design-pattern-%E2%80%93-design">Façade Design Pattern – Design Standpoint - DZone Java</a> (2012-12-06) #ril</li>
+<li><a href="https://www.javacodegeeks.com/2015/09/facade-design-pattern.html">Facade Design Pattern Example | Java Code Geeks - 2018</a> (2015-09-30) #ril</li>
+<li><a href="https://dictionary.cambridge.org/pronunciation/english/facade">façade Pronunciation in English</a> 唸做 fer-sa-de</li>
+<li><a href="https://www.ldoceonline.com/dictionary/facade">facade | meaning of facade in Longman Dictionary of Contemporary English | LDOCE</a> 唸做 &ldquo;fəˈsɑːd&rdquo;，意思是建築物的 &ldquo;正面&rdquo;</li>
+</ul>
+<h2 id="_1">基礎<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="workflow-use-case-security-transaction-demarcation">Workflow, Use Case, Security, Transaction Demarcation ??<a class="headerlink" href="#workflow-use-case-security-transaction-demarcation" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="http://www.oracle.com/technetwork/java/sessionfacade-141285.html">Core J2EE Patterns - Session Facade</a> #ril<ul>
+<li>Centralizes Security Management: 由於 facade 面對 client，對外提供 coarse-grained access &ndash; 數量較少 (相較於背後 business components 提供的 fine-grained control points)，在這一層管理 security policies 相對容易。</li>
+<li>Centralizes Transaction Control: 由於 facade 包裝不同 use case 的 workflow (全有全無的單位)，跟 centralized security 一樣是 coarse-grained access 的考量，在這一層做 transaction management/demarcation 更合乎邏輯。</li>
+</ul>
+</li>
+<li><a href="https://www.infoq.com/articles/ddd-in-practice">Domain Driven Design and Development In Practice</a> #ril<ul>
+<li>Table 1. Security Concerns in Various Application Layers 提到 facade 要負責 &ldquo;Role based authorization&rdquo;。</li>
+</ul>
+</li>
+</ul>
+<h3 id="remote-facade">Remote Facade ??<a class="headerlink" href="#remote-facade" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://martinfowler.com/eaaCatalog/dataTransferObject.html">P of EAA: Data Transfer Object</a> 面對 Remote Facade 這類的 remote interface 時，要減少 call 的數量，因為 call 的成本不低，也就是 call 要回傳更多/夠用的資料。</li>
+</ul>
+<h3 id="facade-output-dto">Facade 的 Output 是 DTO ??<a class="headerlink" href="#facade-output-dto" title="Permanent link"> #</a></h3>
+<ul>
+<li>若吐出 JSON 結構是不是個選項? 搭配 GraphQL 甚至可以只拿必要的資料項??</li>
+<li><a href="https://stackoverflow.com/questions/43319743/">java - Data Transfer Object DTO Where to build - Stack Overflow</a> #ril</li>
+<li><a href="https://xebia.com/blog/jpa-implementation-patterns-service-facades-and-data-transfers-objects/">JPA implementation patterns: Service Facades and Data Transfers Objects — Xebia Blog</a> (2009-05-11) #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

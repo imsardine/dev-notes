@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tmux/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>tmux - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tmux.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tmux">tmux</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#session-window-pane">Session, Window, Pane ??</a></li>
+                
+            <li class="second-level"><a href="#questions">Questions</a></li>
+                
+            <li class="second-level"><a href="#_1">其他</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#windows">Windows 視窗</a></li>
+                
+            <li class="second-level"><a href="#panes">Panes 窗格</a></li>
+                
+                <li class="third-level"><a href="#_2">如何切割/切換窗格?</a></li>
+            <li class="second-level"><a href="#pane">Pane</a></li>
+                
+        <li class="first-level "><a href="#open-a-new-windowpane-in-the-current-working-directory">Open a new window/pane in the current working directory.</a></li>
+            <li class="second-level"><a href="#commands">Commands</a></li>
+                
+            <li class="second-level"><a href="#buffer">Buffer</a></li>
+                
+            <li class="second-level"><a href="#clipboard">剪貼簿 Clipboard</a></li>
+                
+            <li class="second-level"><a href="#_3">教程規劃</a></li>
+                
+            <li class="second-level"><a href="#shared-sessions">Shared Sessions</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#the-window-server-could-not-be-contacted">The window server could not be contacted</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tmux">tmux<a class="headerlink" href="#tmux" title="Permanent link"> #</a></h1>
+<ul>
+<li>tmux 唸做 &ldquo;tee-mucks&rdquo;。</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>如何讓 status line 顯示目前 prefix 已經被按下去? =&gt; <a href="https://github.com/tmux-plugins/tmux-prefix-highlight">https://github.com/tmux-plugins/tmux-prefix-highlight</a> #ril</li>
+<li>文件裡怎麼表示 prefix?? =&gt; 暫時用 <code>prefix Ctrl-o</code> 來表示</li>
+<li>連線到一個新環境時，要怎麼知道 prefix? =&gt; 先用 <code>tmux ls</code> 查看 session，再用 <code>tmux show -g prefix</code> 查看 prefix</li>
+</ul>
+<h2 id="session-window-pane">Session, Window, Pane ??<a class="headerlink" href="#session-window-pane" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://coderwall.com/p/_g2vpq/workflow-in-tmux">Workflow in Tmux (Example)</a> #ril<ul>
+<li>Sessions are groups of windows, and a window is a layout of panes. 某種程度上 window 跟 pane 是可以互換的 (interchangeable)，而 session 概代上近似於 workspace。</li>
+</ul>
+</li>
+</ul>
+<h2 id="questions">Questions<a class="headerlink" href="#questions" title="Permanent link"> #</a></h2>
+<ul>
+<li>有沒有指令可以很快回覆整個配置??</li>
+<li>plugin 怎麼用??</li>
+<li>Session 是無法跨使用者的??</li>
+<li>一個 client 同時間只能 attach 到一個 session，但可以在不同 session 間切換??</li>
+<li>所謂 client 是指 terminal 嗎?? 好像是，<code>list-clients</code> 列出來都是 <code>/dev/ttysXXX</code></li>
+<li>如何調整 pane 的 size??</li>
+<li>安裝 tmux 套件即可 -&gt; 啟用 vi mode，並將 window 編號改為 1 開始 (0 不太直覺)</li>
+<li>執行 <code>tmux</code> 會建立一個 session，一開始有個 window (內含一個 pane)，可以進一步分割 pane。</li>
+<li><code>Ctrl-b ?</code> 叫出說明 (也在 copy mode)；tmux 的 man page 很長，怎麼看??</li>
+<li>設計一個流程，練習 window、pane 的建立、切換&hellip;</li>
+<li>在 <code>~/.tmux.conf</code> 做一些簡單的設定 (以 <code>#</code> 開頭的行為註解，但不能在設定後加註解??)，知道怎麼做調整；改 config 後執行 <code>source-file ~/.tmux.conf</code> 可以更新，不用重啟 session。</li>
+<li><code>Ctrl-b s</code> 用樹狀表現所有 session 及 session 下的 window，用上/下鍵移動，按 Enter 決定。</li>
+<li><code>Ctrl-b [</code> 進入 copy mode，按 <code>q</code> 離開<ul>
+<li><code>man tmux</code> 中 &ldquo;WINDOWS AND PANES&rdquo; 一節有所有 copy mode 支援的 keys，區分 vi/emacs mode；如何知道在哪個 mode?</li>
+<li>上/下鍵就可以捲動 history</li>
+<li>Mac 上如何快速換頁? 可以搜尋嗎? 用 vi mode 就可以用 Ctrl-F 或 Ctrl-B 翻頁。 </li>
+<li>按 Space 開始用方向鍵選取 (或其他 vi 慣用的其他方式，例如 <code>w</code> 一個字、<code>$</code>/<code>^</code> 行首行尾等)，按 Enter 結束選取完成複製，之後可以用 <code>Ctrl-b ]</code> 貼上。</li>
+<li><code>set -g mouse on</code> 使能在捲動滑鼠滾輪時自動進/出 copy mode，雖然用 trackpad 選取文字的動作會失效，但還是可以用 Space -&gt; Enter -&gt; <code>Ctrl-b ]</code> 的方式做 copy-paste。(雖然 mouse mode 還可以用 mouse 做很多事，但既然用了 tmux，就儘可能放掉 mouse/trackpad 吧，連到遠端時 mouse mode 好像不會有作用?? 但在 Ubuntu 上是可以的?)</li>
+<li>copy mode 在一個 session 複製的內容，可以用 <code>PREFIX ]</code> 則到另一個 session。</li>
+</ul>
+</li>
+<li>
+<p>tmux 可以從 attached client 使用 prefix key (預設是 <code>Ctrl-b</code> 或 <code>C-b</code>)，再接著其他 key binding</p>
+</li>
+<li>
+<p>如果從本機 tmux 連到另一台的 tmux，會有兩個 status line?? 而且 prefix 若一樣會被 local 處理掉，或許將遠端的 prefix 及 status line 的顏色改掉? 在 status line 顯示 prefix??</p>
+<ul>
+<li>按兩次 <code>Ctrl-b</code> 就能把 key binding 送到遠端，好特別? &hellip; 原來是 <code>C-b</code> 被設定成 <code>send-prefix</code> 了。</li>
+<li>改設定時有沒有辦法針對特定 client，不影響 attach 到同一 session 的其他 client??</li>
+<li>改了 prefix 後，拿來當 prefix 的組合鍵就失去原來的用途，有沒有辦法按第 2 次時回到原來的功能 =&gt; 原來的設計就是這樣，<code>C-b C-b</code> 會執行 <code>send-key</code>，所以一旦改了 prefix，要將原有的 <code>prefix C-b</code> 停用，再 rebind 到新的。</li>
+</ul>
+</li>
+<li>
+<p>Option 會改變 tmux 的行為</p>
+<ul>
+<li>Option 分為 server option、session option 跟 window option。</li>
+<li>直覺上會覺得 window option 繼承自 session option，最終繼承自 server option，但其實不會。這三種 option 各自有 global option，若某個 server/session/window 沒有特別設定，就會分別從 global option 取預設值。</li>
+</ul>
+</li>
+<li>
+<p>session 可以 detach 跟 re-attach，是什麼意思??</p>
+<ul>
+<li>背後有個 server，沒有 session 時執行 <code>tmux list-sessions</code> 會出現 &ldquo;no server running on /private/tmp/tmux-502/default&rdquo;</li>
+<li>一個 terminal 同時間只能 attach 到一個 session；實驗發現一個 session 也可以被多個 client attach，只是看到的畫面是連動的。</li>
+<li>每執行一次 <code>tmux</code> 就會建立一個 session，用 <code>tmux attach</code> 可以 reattach 之前建立的 session，怎麼選??</li>
+<li><code>tmux list-sessions</code> 可以列出所有的 session，以及 attach 的狀態。</li>
+<li>detach 是登出了還在背景，之後登入可重新 reattach??</li>
+<li>或許可以為不同 session 設定專用的組態，再用 <code>source-file &lt;CONFIG_FILE&gt;</code> 載入??</li>
+<li>連到一個新的環境，用 <code>tmux list-session</code> 看現有的 session，再用 <code>tmux attach</code> 掛上去??</li>
+</ul>
+</li>
+<li>
+<p>除了用 command 自訂環境外，安裝 plugin 也是少不了的?? 先把 plugin manager 裝起來</p>
+</li>
+<li>在 copy mode 搜尋時，能否 highlight keyword?? 又 keyword 可否用 regex 表示??</li>
+<li>tmux 有 theme 的概念?? <a href="https://github.com/seebi/tmux-colors-solarized">seebi/tmux-colors-solarized: A color theme for the tmux terminal multiplexer using Ethan Schoonover’s Solarized color scheme</a></li>
+<li>command line 的自動完成似乎不太需要，因為 prefix + <code>:</code> 叫出 command prompt 後，就有自動完成。</li>
+</ul>
+<h2 id="_1">其他<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>看到 iTerm 2 &gt; Preferences &gt; General 下有個 tmux integration??</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6041178/">linux - Keep the window&rsquo;s name fixed in tmux - Stack Overflow</a> preaction: 設定 <code>set-option -g allow-rename off</code> 就不會自動更新；但仍然可以手動改名字。</li>
+<li><a href="https://github.com/gpakosz/.tmux">gpakosz/.tmux: Oh My Tmux! My pretty + versatile tmux configuration that just works (imho the best tmux configuration)</a> 搞得好像 Oh My Zsh #ril</li>
+</ul>
+<h2 id="windows">Windows 視窗<a class="headerlink" href="#windows" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>多視窗時，有新的 output 時，status line 能否提示??</p>
+</li>
+<li>
+<p><code>prefix c</code> 新增視窗，<code>prefix &amp;</code> 關閉視窗 (不是針對單一個 pane)</p>
+</li>
+<li><code>prefix f</code> 可以用關鍵字找 window name 或所有 window/pane 目前顯示的內容，只有一個符合會直接切換，有多個符合則可以選擇；只會切到 window，而非特定的 pane。</li>
+<li>每個 window 都有一個編號 (預設以 0 開始)，在 status line 看得到，目前的視窗名稱後會加星號，上一個視窗會有減號。(如何快速回到上一個視窗??)</li>
+<li><code>prefix &lt;NUM&gt;</code> 直接切換到特定編號的視窗，速度會比 <code>prefix w</code> 快，但超過 9 就無法用 <code>prefix &lt;NUM&gt;</code> 切換。</li>
+<li><code>prefix w</code> 用上/下鍵選 (但會被限制在目前 pane 的大小)；每個視窗前有數字 1 ~ 9 (超過 9 用字母表示)，沒有視窗編號超過 9 的問題。</li>
+<li>假設有編號 1, 2, 3 三個視窗，關閉中間的視窗，並不會讓視窗 3 變成 2；但關閉視窗 3 再開新視窗，編號還是 3 &hellip; 會自動補空位，但舊的號碼不會變 (有點特別? 但用久了覺得數字不要重排似乎滿直覺的?)</li>
+<li><code>prefix ,</code> 可以修改 window name，預設以目前的 process 為名</li>
+</ul>
+<h2 id="panes">Panes 窗格<a class="headerlink" href="#panes" title="Permanent link"> #</a></h2>
+<h3 id="_2">如何切割/切換窗格?<a class="headerlink" href="#_2" title="Permanent link"> #</a></h3>
+<ul>
+<li>分割視窗/窗格用 <code>prefix %</code> (垂直分割) 或 <code>prefix "</code> (水平分割)；事後可否切換分割方向??</li>
+<li><code>prefix Up/Down/Left/Right</code> 可以根據方位切換 pane</li>
+<li><code>prefix q</code> - 每個 pane 上會浮現代號，按下數字就能切換；時間可否拉長一點點??</li>
+<li><code>prefix z</code> - 將目前的 pane 放大/縮小 (status line 的視窗名稱後會多個 &ldquo;*Z&rdquo;)，切換 pane 時也會回到原來大小。</li>
+<li><code>prefix !</code> 將目前的 pane 拉出來新的 window；如何將它併回原來的 window?? 或許當初應該用 <code>prefix z</code> 將它放大就好?</li>
+</ul>
+<h2 id="pane">Pane<a class="headerlink" href="#pane" title="Permanent link"> #</a></h2>
+<ul>
+<li>如何搬動 pane 到另一個 window?? 或者把目前 window 併入另一個 window??</li>
+<li>如何在水平切割、垂直切割間切換??</li>
+<li>同時開很多個 pane 可以做 monitoring，但如果可以執行 script 就自動安排好所有的配置會更好??</li>
+<li>
+<p>Pane 似乎只能編號，不能像 window 一樣加以命名??</p>
+</li>
+<li>
+<p><code>prefix o</code> 可以在兩個 pane 之間來回切換。</p>
+<ul>
+<li><a href="http://unix.stackexchange.com/questions/136631/">http://unix.stackexchange.com/questions/136631/</a> <code>set -g display-panes-time 4000</code> (單位是 ms，時間到之前可以按 Esc)</li>
+</ul>
+</li>
+<li>
+<p>開新 window 或 pane 時，如果保持 cwd? =&gt; 利用 <code>new-window</code> (或 <code>split-window</code>) 搭配 <code>-c '#{pane_current_path}'</code> 重新將 <code>prefix c</code> (及 <code>%</code>、<code>"</code>) 重新 bind 過即可。</p>
+<p>```</p>
+<h1 id="open-a-new-windowpane-in-the-current-working-directory">Open a new window/pane in the current working directory.<a class="headerlink" href="#open-a-new-windowpane-in-the-current-working-directory" title="Permanent link"> #</a></h1>
+<p>unbind c; bind c new-window -c &ldquo;#{pane_current_path}&rdquo;
+unbind &lsquo;&ldquo;&rsquo;; bind &lsquo;&ldquo;&rsquo; split-window -v -c &lsquo;#{pane_current_path}&rsquo;
+unbind %; bind % split-window -h -c &ldquo;#{pane_current_path}&rdquo;
+```</p>
+</li>
+</ul>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link"> #</a></h2>
+<ul>
+<li>Command 可以用在很多地方；shell 裡用 <code>$tmux COMMAND</code>、在 config file 裡、或按 <code>prefix :</code> 輸入</li>
+<li>Command 可能有 alias，例如 <code>$tmux attach</code> 中的 <code>attach</code> 其實是 <code>attach-session</code>；在 config 裡常看到的 <code>set</code> 其實是 <code>set-option</code>。</li>
+<li>所謂的 key binding，就是按下組合鍵時執行 command，在 command line 執行 <code>$tmux COMMAND</code> 有相同的效果。</li>
+<li>參數裡出現 <code>target-pane</code> (或 <code>src-pane</code>、<code>dst-pane</code>)，例如 <code>-t target-pane</code>， ??</li>
+<li>有些 command 還是要記住，連到一個不熟悉的環境時，可以馬上做調整，例如切換 vi mode、查詢prefix key 等。</li>
+<li>從目前的 key binding 來瞭解 command 的用法似乎不錯?? tmux 可以調整的配置很多，從別人的組態得到靈感也不錯。</li>
+</ul>
+<h2 id="buffer">Buffer<a class="headerlink" href="#buffer" title="Permanent link"> #</a></h2>
+<ul>
+<li>能否把 buffer 的內容另存成檔案，用 vi 看比較方便??</li>
+<li><code>Ctrl-l</code> - 清除 window/pane 內容，但 buffer 仍保留；其實就是將 window/pane 的內容推進 buffer。在 Mac 上不小心按到 Cmd-K 清掉整個畫面時，可以用 <code>Ctrl-b r</code> 要求重畫。要清掉 buffer 可以執行 <code>clear-history</code></li>
+</ul>
+<h2 id="clipboard">剪貼簿 Clipboard<a class="headerlink" href="#clipboard" title="Permanent link"> #</a></h2>
+<ul>
+<li>如何讓兩邊的 tmux clipboard 互動?? <a href="https://github.com/wincent/clipper">https://github.com/wincent/clipper</a> #ril</li>
+<li>如何複製到系統的剪貼簿?? <a href="https://github.com/tmux-plugins/tmux-yank">tmux-plugins/tmux-yank: Tmux plugin for copying to system clipboard. Works on OSX, Linux and Cygwin.</a> #ril</li>
+<li>copy mode 可以有多個剪貼簿嗎??</li>
+</ul>
+<h2 id="_3">教程規劃<a class="headerlink" href="#_3" title="Permanent link"> #</a></h2>
+<ul>
+<li>實際上你可能不需要裝 tmux，做為使用者，你要知道有哪些 session，又 prefix 是什麼?</li>
+<li>什麼是 keybinding、prefix key，要如何送出 prefix key 本身</li>
+<li>Session (attach / detach / re-attach) -&gt; Window -&gt; Pane 的關係</li>
+<li>Session 的狀態 - attached / unattached</li>
+<li>如何使用 tmux command，從 shell、tmux 自己的 command prompt；keybinding 背後就是 tmux commands</li>
+<li>先知道如何開新視窗、分割視窗、調整大小，並在其間切換，再來談組態。</li>
+<li>Man page 要怎麼看，尤其 command、alias、taret-session/client/window</li>
+</ul>
+<h2 id="shared-sessions">Shared Sessions<a class="headerlink" href="#shared-sessions" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.hamvocke.com/blog/remote-pair-programming-with-tmux/">Remote Pair Programming Made Easy with SSH and tmux</a> (2015-11-03)</p>
+<ul>
+<li>
+<p>A simple combination of SSH and tmux is all we need to setup a really effective and lightweight REMOTE PAIR PROGRAMMING environment. We can use all of our beloved command line tools with FINELY TUNED DOTFILES and pat ourselves on the backs for working on our hacker credibility.</p>
+<p>重點是各自的 tmux 套用各自喜好的設定，不用互相牽就。</p>
+</li>
+</ul>
+<p>What are we going to do?</p>
+<ul>
+<li>
+<p>Let’s imagine we have two developers, Alice and Bob. They want to collaborate on a task and since they both are comfortable using the command line they decide to set up a shared terminal environment to work together.</p>
+<p>Alice and Bob connect to the same machine using SSH. They decide to use a DEDICATED PAIRING SERVER that both of them ssh into. Setting up a server with SSH access on DigitalOcean or AWS is a no-brainer nowadays. They simply add their public keys to the <code>~/.ssh/authorized_keys</code> file and then can connect securely without needing a password.</p>
+<p>Alternatively they cold also designate Alice’s or Bob’s machine as the pairing host. In this case the respective other person has to ssh into the other dev’s machine and they’re set.</p>
+<p>連到個人的機器可能有隱私的疑慮，連到專用的機器比較可行。</p>
+</li>
+<li>
+<p>Once they are connected to the same machine, they can use tmux for a shared environment. tmux’s client-server architecture allows multiple clients to connect to the same sessions on a server (we’ve got all that session handling stuff covered in the intro guide). That’s perfect for our plans. We can have one session that holds all the windows and panes and can connect one client for each developer.</p>
+<p><img alt="synchronized session sharing with tmux" src="https://www.hamvocke.com/assets/img/uploads/ssh_tmux_simple.png" /></p>
+</li>
+</ul>
+<p>Sharing a tmux session</p>
+<ul>
+<li>
+<p>The simplest setup is using the exact SAME SESSION with multiple tmux client instances. The following steps will get us there:</p>
+<ul>
+<li>Alice and Bob ssh into the same server</li>
+<li>Alice creates a new tmux sesssion: <code>tmux new -s shared</code></li>
+<li>Bob connects to that session: <code>tmux attach -t shared</code></li>
+</ul>
+<p>Please note that “shared” will be the name of the session, feel free to give it any name you like.</p>
+</li>
+<li>
+<p>From here Alice and Bob can happily hack away on their terminal and make use of all the fancy features offered by tmux. They can create panes and windows, launch different command line applications and pair happily on their tasks. They can even detach from that session and return at any later point. Both will see the exact same output in their respective terminal window.</p>
+<p>But somehow Alice and Bob feel that this is not quite perfect. There are situations where they want to WORK ON DIFFERENT STUFF WHILE STILL BEING IN THAT SESSION. But as soon as Alice switches to a different window to work on her tasks, Bob’s terminal will also switch along.</p>
+<p>雖然跟傳統看著同一個螢幕的做法不同，但分頭進行改同一個 commit 也不錯，避開了要互相 merge code 或解 conflict 的麻煩。</p>
+</li>
+</ul>
+<p>Independent window switching</p>
+<ul>
+<li>
+<p>Instead of sharing the exact same session between multiple tmux clients, we can also create MULTIPLE SESSION WITHIN THE SAME WINDOW GROUP. The result is similar to what we’ve seen above with one difference: Each developer can switch tmux windows independently.</p>
+<p>All contents of the windows will be synchronized between all clients. But each client can decide individually which window’s content should be shown at the moment. This allows Alice and Bob to work independently on different tasks IF THEY FEEL THE NEED TO DO SO. Whenever they want to go back to NORMAL PAIRING they can switch back to the same tmux window and will see the same content again.</p>
+<p>在裡面執行指令時，身份當然是分享 session 的那位。</p>
+</li>
+<li>
+<p>The steps for this setup are a little different:</p>
+<ul>
+<li>
+<p>Again, Alice and Bob ssh into the same server</p>
+</li>
+<li>
+<p>Alice, as before, creates a new tmux session: <code>tmux new -s alice</code>. tmux will IMPLICITLY create a new WINDOW GROUP</p>
+</li>
+<li>
+<p>Bob does not join that same session. Instead he starts a new session and connects that session to the same window group as Alice’s session: <code>tmux new -s bob -t alice</code></p>
+<p>根據 <a href="http://man7.org/linux/man-pages/man1/tmux.1.html">man page</a> 的用法 <code>new-session [-s session-name] [-t group-name]</code></p>
+<blockquote>
+<p>If <code>-t</code> is given, it specifies a SESSION GROUP. Sessions in the same group SHARE THE SAME SET OF WINDOWS - new windows are linked to all sessions in the group and any windows closed removed from all sessions. &hellip; The <code>group-name</code> argument may be: &hellip; 2. the name of an existing session - the new session is added to the same group as that session, creating a new group if necessary;</p>
+<p>正確的說法是 session group，而非 window group；在 man page 裡完全找不到 window group 的說法。</p>
+</blockquote>
+</li>
+</ul>
+<p>That’s it. Now both can move between tmux windows independently. The content (including panes) within those windows will be synchronized between all clients.</p>
+</li>
+<li>
+<p>If you want to get a feeling for what’s happening behind the scenes you can simply look up what sessions and window groups have been created after Alice has created her session. A simple <code>tmux ls</code> will reveal what’s happening:</p>
+<pre><code>bob: 2 windows (created Mon Nov  2 22:51:24 2015) [80x23] (group 0) (attached)
+alice: 2 windows (created Mon Nov  2 22:50:36 2015) [80x23] (group 0) (attached)
+</code></pre>
+<p>As you can see, there are two sessions with their respective name. Both sessions are IN THE SAME GROUP (group 0) and therefore SHARE THE SAME WINDOWS.</p>
+<p>是因為 Bob 透過 <code>-t alice</code> 將自己的 session 跟 Alice 的 session 在同一個 group，所以 <code>tmux ls</code> 才看得到其他人的 session 嗎? 不過上面 Sharing a tmux session 的做法就已經能看到對方的 session ?? 感覺在開發機上面工作會被看光光 ??</p>
+</li>
+</ul>
+<p>Benefits and drawbacks</p>
+<ul>
+<li>
+<p>To me this is a really nice and lightweight solution if you want to collaborate remotely. You can use it for pair programming, to TROUBLESHOOT ISSUES on your servers together and much more. However, you need to be aware that this is a solution with a lot of restrictions. You’re completely bound to the command line and its tools, there’s no way around it. You also need to have a SEPARATE CHANNEL TO TALK TO EACH OTHER</p>
+<p>這份文件寫於 2015-11-03，現在要搭配其他工具交談並不是什麼問題。</p>
+</li>
+<li>
+<p>One last honorable mention goes out to <a href="https://tmate.io/">tmate.io</a>. Tmate is a service that creates the setup I’ve just described to you in an ad-hoc fashion. If you want to avoid the (quite small) hassle of setting up your own ssh server, tmate might be interesting for you. #ril</p>
+<p>下面有人提到為什麼不用 <a href="https://github.com/zolrath/wemux">wemux</a> #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://medium.com/@MicroPyramid/tmux-sharing-terminal-between-users-84f2e311c64f">TMUX — Sharing terminal between Users - MicroPyramid - Medium</a> (2017-04-07)</p>
+<p>Connecting to existing session:</p>
+<pre><code>tmux attach -t &lt;session-number&gt;
+tmux attach -t &lt;session-name&gt;
+</code></pre>
+<ul>
+<li>The above will only be possible if you’re logged in as THE SAME USER AS ONE SHARING THE SESSION.</li>
+</ul>
+<p>Using Sockets for different users to connect:</p>
+<ul>
+<li>
+<p>To Start a new session</p>
+<pre><code>tmux -S /tmp/socket
+</code></pre>
+</li>
+<li>
+<p>Change its permission for other users to access</p>
+<pre><code>chmod 777 /tmp/socket
+</code></pre>
+<p>for other users to attach to the session</p>
+<pre><code>tmux -S /tmp/socket attach
+</code></pre>
+<p>注意 <code>-S socketpath</code> 是 <code>tmux</code> 的參數，而非 <code>new-session</code>、<code>attach</code> 這類 tmux command 的參數。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://ryanlue.com/posts/2018-01-13-pair-programming-over-ssh">ssh + tmux = Pair Programming for Command Line Junkies</a> (2018-01-13) 在講 wemux，要連到其中一方的電腦，設置似乎有點麻煩，還是到共用 server 單純 #ril</p>
+</li>
+<li>
+<p><a href="https://binarapps.com/blog/pair-programming-with-docker-ssh-and-tmux/">BinarApps - Pair programming with Docker, SSH and TMUX</a> (2017-11-07) 跟 Docker 什麼關係? #ril</p>
+</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="the-window-server-could-not-be-contacted">The window server could not be contacted<a class="headerlink" href="#the-window-server-could-not-be-contacted" title="Permanent link"> #</a></h3>
+<pre><code>$ open image.png
+The window server could not be contacted.  open must be run with a user logged in at the console, either as that user or as root.
+</code></pre>
+
+<ul>
+<li><a href="http://www.elmund.io/2015/07/10/open-command-in-osx-tmux/">Unable to use &lsquo;open&rsquo; command in OSX tmux</a> (2015-07-10) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/tmux/tmux">tmux/tmux - GitHub</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="https://github.com/zolrath/wemux">zolrath/wemux: Multi-User Tmux Made Easy</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://pragprog.com/book/bhtmux2/tmux-2">tmux 2: Productive Mouse-Free Development - The Pragmatic</a> (2016-11)</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://man7.org/linux/man-pages/man1/tmux.1.html"><code>tmux(1)</code> - Linux manual page</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

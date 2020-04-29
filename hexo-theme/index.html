@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/hexo-theme/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Hexo / Theme - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/hexo-theme.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#hexo-theme">Hexo / Theme</a></li>
+            <li class="second-level"><a href="#theme-template-layout">Theme, Template, Layout ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="hexo-theme"><a href="../hexo/">Hexo</a> / Theme<a class="headerlink" href="#hexo-theme" title="Permanent link"> #</a></h1>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://hexo.io/docs/configuration#Extensions">Extensions - Configuration | Hexo</a><ul>
+<li><code>theme_config</code> &ndash; theme configuration，用來覆寫 theme defaults。</li>
+<li><code>theme</code> &ndash; theme name，設定為 <code>false</code> 表示停用 theming。</li>
+</ul>
+</li>
+<li><a href="https://hexo.io/docs/configuration#Overriding-Theme-Config">Overriding Theme Config - Configuration | Hexo</a> Hexo theme 是獨立的專案，有自己的 <code>_config.yml</code>，不過要調整它的設定，並不用 fork 才能維護自己的 settings，而是從 site’s primary configuration file 就能設定；例如 <code>_config.yml</code> 裡的 <code>theme_config: bio: "My awesome bio"</code>，就可以覆寫 <code>themes/my-theme/_config.ym</code> 裡 <code>bio: "Some generic bio"</code> 的設定。</li>
+<li><a href="https://hexo.io/docs/themes">Themes | Hexo</a> 如何自製 theme? #ril</li>
+<li><a href="https://hexo.io/docs/templates">Templates | Hexo</a> 每一種 page 有不同的 template #ril</li>
+<li>
+<p><a href="https://hexo.io/docs/variables">Variables | Hexo</a> #ril</p>
+</li>
+<li>
+<p>覺得 theme 的用法，clone 到自家後，應該自己宣告 submodule 吧? 又如果有修改，可能就要 fork?</p>
+<ul>
+<li>但這也滿怪的，因為一個 repo 只能 fork 一次，如果 NexT 要用在許多網站怎麼辦?</li>
+<li>或許可以另外維護自訂的版本，待 checkout 出來後，再覆蓋上去? 目前在 hexo folder 加一個 <code>_config_{theme}.yml</code>，而 <code>themes/{theme}/_config.yml</code> 則只是個 symbolic link</li>
+<li>為什麼一開始的 <code>Submodule 'themes/landscape' (https://github.com/hexojs/hexo-theme-landscape.git) registered for path 'themes/landscape'</code> 沒有產生 <code>.gitmodules</code>? 或許這才是正確的用法?</li>
+<li>在 <code>.gitmodules</code> 加上 <code>ignore = dirty</code> 即可。</li>
+</ul>
+</li>
+</ul>
+<h3 id="theme-template-layout">Theme, Template, Layout ??<a class="headerlink" href="#theme-template-layout" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://hexo.io/docs/configuration">Configuration | Hexo</a> <code>default_layout</code> - Default layout，預設是 <code>post</code>。</li>
+<li><a href="https://hexo.io/docs/themes#layout">Layout - Themes | Hexo</a> Layout folder. This folder contains the THEME’S TEMPLATE FILES, which define the appearance of your website.</li>
+<li><a href="https://hexo.io/docs/templates#Layouts">Layouts - Templates | Hexo</a> #ril<ul>
+<li>When pages share a similar structure - for instance, when two templates have both a header and a footer - you can consider using a layout to declare these structural similarities. Every layout file should contain a body variable to display the contents of the template in question.</li>
+</ul>
+</li>
+<li><a href="https://hexo.io/docs/writing#Layout">Layout - Writing | Hexo</a> #ril<ul>
+<li>用 <code>hexo new [&lt;layout&gt;] &lt;title&gt;</code> 建立 page/post，其中 <code>layout</code> 預設是 <code>post</code> (可以用 <code>default_layout</code> 自訂)</li>
+<li>Hexo 有 3 個 default layouts &ndash; <code>post</code>、<code>page</code> 及 <code>draft</code>，分別存放 <code>soruce/</code> 下不同的地方，<code>page</code> 直接放 <code>source/</code> 下，<code>post</code> 與 <code>draft</code> 則分別放 <code>source/_posts/</code> 與 <code>source/_drafts/</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

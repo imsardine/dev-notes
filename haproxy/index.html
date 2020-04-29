@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/haproxy/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>HAProxy - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/haproxy.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#haproxy">HAProxy</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#http-mode">HTTP Mode ??</a></li>
+                
+            <li class="second-level"><a href="#timeout">Timeout ??</a></li>
+                
+            <li class="second-level"><a href="#healthy-check">Healthy Check ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="haproxy">HAProxy<a class="headerlink" href="#haproxy" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://www.haproxy.org/">HAProxy - The Reliable, High Performance TCP/HTTP Load Balancer</a></p>
+<ul>
+<li>The Reliable, High Performance TCP/HTTP Load Balancer</li>
+<li>HAProxy is a free, very fast and reliable solution offering high availability, load balancing, and proxying for TCP and HTTP-based applications. It is particularly suited for VERY HIGH TRAFFIC web sites and powers quite a number of the world&rsquo;s most visited ones. Over the years it has become the de-facto standard opensource LOAD BALANCER, is now shipped with most mainstream Linux distributions, and is often deployed by default in cloud platforms. Since it does not advertise itself, we only know it&rsquo;s used when the admins report it :-)</li>
+<li>
+<p>Its MODE OF OPERATION (主要是 TCP mode 跟 HTTP mode) makes its integration into existing architectures very easy and riskless, while still offering the possibility not to expose FRAGILE web servers to the net, such as below :</p>
+<p><img alt="" src="http://www.haproxy.org/img/haproxy-pmode.png" /></p>
+</li>
+<li>
+<p>We always support at least two active versions in parallel and an extra old one in critical fixes mode only.</p>
+</li>
+<li>Each version brought its set of features on top of the previous one. UPWARDS COMPATIBILITY (指 configuration) is a very important aspect of HAProxy, and even version 1.5 is able to run with configurations made for version 1.0 13 years before. Version 1.6 dropped a few long-deprecated keywords and suggests alternatives.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/HAProxy">HAProxy - Wikipedia</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://cbonte.github.io/haproxy-dconv/1.8/intro.html">HAProxy version 1.8.19 - Starter Guide</a> #ril</li>
+<li><a href="http://cbonte.github.io/haproxy-dconv/1.8/intro.html#chapter-2">Quick introduction to load balancing and load balancers - HAProxy version 1.8.19 - Starter Guide</a> #ril</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#chapter-2.1">Configuration file format - HAProxy version 1.7.11 - Configuration Manual</a></p>
+<ul>
+<li>HAProxy&rsquo;s configuration process involves 3 major sources of parameters :<ul>
+<li>the arguments from the command-line, which always take precedence</li>
+<li>the &ldquo;global&rdquo; section, which sets PROCESS-WIDE parameters</li>
+<li>the proxies sections which can take form of &ldquo;defaults&rdquo;, &ldquo;listen&rdquo;, &ldquo;frontend&rdquo; and &ldquo;backend&rdquo;.</li>
+</ul>
+</li>
+<li>The configuration file syntax consists in lines beginning with a KEYWORD referenced in this manual, optionally followed by one or several parameters delimited by SPACES.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#chapter-4">Proxies - HAProxy version 1.7.11 - Configuration Manual</a> #ril</p>
+<ul>
+<li>Proxy configuration can be located in a set of sections : <code>defaults [&lt;name&gt;]</code>, <code>frontend &lt;name&gt;</code>, <code>backend  &lt;name&gt;</code>, <code>listen   &lt;name&gt;</code> 其中 <code>&lt;name&gt;</code> 只是為了提高可讀性。</li>
+<li>
+<p>A &ldquo;defaults&rdquo; section sets default parameters for all other sections following its declaration. Those default parameters are reset by the next &ldquo;defaults&rdquo; section. See below for the list of parameters which can be set in a &ldquo;defaults&rdquo; section. The name is OPTIONAL but its use is encouraged for better READABILITY.</p>
+<p>作用在宣告處以下，直到另一個 defaults section 出現。</p>
+</li>
+<li>
+<p>A &ldquo;frontend&rdquo; section describes a set of LISTENING SOCKETS accepting CLIENT CONNECTIONS.</p>
+</li>
+<li>
+<p>A &ldquo;backend&rdquo; section describes a set of SERVERS to which the proxy will connect to forward incoming connections.</p>
+<pre><code>           FRONTEND | &lt;--- connection ---&gt; | BACKEND
+client --&gt;  request |        proxy         | request --&gt; server
+       &lt;-- response |                      |         &lt;-- response
+</code></pre>
+</li>
+<li>
+<p>A &ldquo;listen&rdquo; section defines a COMPLETE PROXY with its frontend and backend parts combined in one section. It is generally useful for TCP-ONLY traffic. 為什麼 HTTP traffic 要分開來看? 因為多了 alalyze 的步驟??</p>
+</li>
+<li>All proxy names must be formed from upper and lower case letters, digits, &lsquo;-&lsquo; (dash), &lsquo;_&rsquo; (underscore) , &lsquo;.&rsquo; (dot) and &lsquo;:&rsquo; (colon). ACL names are case-sensitive, which means that &ldquo;www&rdquo; and &ldquo;WWW&rdquo; are two different proxies. 所以 ACL name 跟 proxy name 一樣??</li>
+<li>Historically, all proxy names could overlap, it just caused troubles in the logs. Since the introduction of CONTENT SWITCHING??, it is mandatory that two proxies with OVERLAPPING CAPABILITIES?? (frontend/backend) have different names. However, it is still permitted that a frontend and a backend share the same name, as this configuration seems to be commonly encountered.</li>
+<li>Right now, two major PROXY MODES are supported : &ldquo;tcp&rdquo;, also known as layer 4, and &ldquo;http&rdquo;, also known as layer 7. In layer 4 mode, HAProxy SIMPLY FORWARDS bidirectional traffic between two sides. In layer 7 mode, HAProxy ANALYZES the protocol, and can interact with it by allowing, blocking, SWITCHING??, adding, modifying, or removing arbitrary contents in requests or responses, based on arbitrary criteria.</li>
+</ul>
+</li>
+<li>
+<p><a href="http://cbonte.github.io/haproxy-dconv/1.8/configuration.html">HAProxy version 1.8.19 - Configuration Manual</a> #ril</p>
+</li>
+</ul>
+<h2 id="http-mode">HTTP Mode ??<a class="headerlink" href="#http-mode" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#1">Quick reminder about HTTP - HAProxy version 1.7.11 - Configuration Manual</a> #ril</p>
+</li>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#chapter-4">Proxies - HAProxy version 1.7.11 - Configuration Manual</a></p>
+<ul>
+<li>
+<p>In HTTP mode, the processing applied to REQUESTS and RESPONSES flowing over a CONNECTION depends in the COMBINATION of the frontend&rsquo;s HTTP options and the backend&rsquo;s. HAProxy supports 5 CONNECTION MODES :</p>
+<p>別將 connection mode 與 proxy mode 搞混，這是 HTTP 這個 proxy mode 下細分的 connection mode。</p>
+<ul>
+<li>KAL : keep alive (&ldquo;option <code>http-keep-alive</code>&rdquo;) which is the DEFAULT mode : all requests and responses are processed, and CONNECTIONS REMAIN OPEN but IDLE between responses and new requests.</li>
+<li>TUN: tunnel (&ldquo;option <code>http-tunnel</code>&rdquo;) : this was the default mode for versions 1.0 to 1.5-dev21 : only the first request and response are processed, and everything else is forwarded WITH NO ANALYSIS at all. This mode should not be used as it creates lots of trouble with logging and HTTP processing. 好奇怪的需求?</li>
+<li>PCL: passive close (&ldquo;option <code>httpclose</code>&rdquo;) : exactly the same as tunnel mode, but with &ldquo;Connection: close&rdquo; appended in BOTH DIRECTIONS to try to make both ends close after the first request/response exchange.</li>
+<li>SCL: server close (&ldquo;option http-server-close&rdquo;) : the SERVER-FACING CONNECTION is closed after the end of the response is received, but the CLIENT-FACING CONNECTION remains open. 對 client 而言，connection 不曾中斷。</li>
+<li>FCL: forced close (&ldquo;option forceclose&rdquo;) : the connection is actively closed after the end of the response.<pre><code>                         Backend mode
+
+               | KAL | TUN | PCL | SCL | FCL
+           ----+-----+-----+-----+-----+----
+           KAL | KAL | TUN | PCL | SCL | FCL
+           ----+-----+-----+-----+-----+----
+           TUN | TUN | TUN | PCL | SCL | FCL
+Frontend   ----+-----+-----+-----+-----+----
+  mode     PCL | PCL | PCL | PCL | FCL | FCL
+           ----+-----+-----+-----+-----+----
+           SCL | SCL | SCL | FCL | SCL | FCL
+           ----+-----+-----+-----+-----+----
+           FCL | FCL | FCL | FCL | FCL | FCL
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="timeout">Timeout ??<a class="headerlink" href="#timeout" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#chapter-1.3.1">The Response line - HAProxy version 1.7.11 - Configuration Manual</a></p>
+<ul>
+<li>408  when the REQUEST TIMEOUT strikes before the request is COMPLETE</li>
+<li>504  when the RESPONSE TIMEOUT strikes before the server RESPONDS</li>
+</ul>
+<p>注意 &ldquo;request is complete&rdquo; 與 &ldquo;the server responds&rdquo; 的差別，408 是指 &ldquo;request 超過時限內沒傳完&rdquo; (complete)，而 504 是指 &ldquo;response 超過時限內沒有出現&rdquo; (responds)。</p>
+<pre><code>               FRONTEND | &lt;--- connection ---&gt; | BACKEND
+    client --&gt;  request |        proxy         | request --&gt; server
+          *&lt;-- response |                      |        *&lt;-- response
+</code></pre>
+<p>就 response timeout 而言，除了 proxy &rarr; server 這一段，要注意 client &rarr; proxy 這段也會有；以 Python requests 而言，<a href="http://docs.python-requests.org/en/master/user/quickstart/#timeouts">預設是不會 timeout</a>，看似沒什麼問題？但其實可能會卡住。</p>
+<blockquote>
+<p>Nearly all production code SHOULD USE this parameter in nearly all requests. Failure to do so can cause your program to HANG INDEFINITELY:</p>
+</blockquote>
+</li>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20client"><code>timeout client</code> - HAProxy version 1.7.11 - Configuration Manual</a> #ril</p>
+<ul>
+<li>Set the maximum INACTIVITY time on the CLIENT SIDE. 不能用在 backend!!</li>
+<li>
+<p>The inactivity timeout applies when the CLIENT is expected to acknowledge or send data.</p>
+<ul>
+<li>
+<p>In HTTP mode, this timeout is particularly important to consider during the FIRST PHASE??, when the client sends the request, and during the response while it is reading data sent by the server. That said, for the first phase, it is preferable to set the &ldquo;<code>timeout http-request</code>&rdquo; to better protect HAProxy from Slowloris like attacks. The value is specified in milliseconds by default, but can be in any other unit if the number is suffixed by the unit, as specified at the top of this document.</p>
+<p><a href="https://en.wikipedia.org/wiki/Slowloris_(computer_security)">Slowloris (computer security) - Wikipedia</a> 說明了這種攻擊是因為 &ldquo;request 慢慢送，使得有限的 connection 被覇佔住&rdquo;，也因此 request timeout 指的是 request 在多久內要送完，呼應上面 &ldquo;request is complete&rdquo; 的說法。</p>
+</li>
+<li>
+<p>In TCP mode (and to a lesser extent, in HTTP mode), it is highly recommended that the client timeout remains equal to the server timeout in order to avoid complex situations to debug. It is a good practice to cover one or several TCP packet losses by specifying timeouts that are slightly above multiples of 3 seconds (eg: 4 or 5 seconds). If some long-lived sessions are mixed with short-lived sessions (eg: WebSocket and HTTP), it&rsquo;s worth considering &ldquo;<code>timeout tunnel</code>&rdquo;, which overrides &ldquo;<code>timeout client</code>&rdquo; and &ldquo;<code>timeout server</code>&rdquo; for tunnels, as well as &ldquo;<code>timeout client-fin</code>&rdquo; for HALF-CLOSED connections.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#4-timeout%20client"><code>timeout connect</code> - HAProxy version 1.8.19 - Configuration Manual</a> #ril</p>
+<ul>
+<li>Set the maximum time to wait for a CONNECTION ATTEMPT TO A SERVER to succeed.</li>
+<li>If the server is located on the same LAN as haproxy, the connection should be IMMEDIATE (less than a few milliseconds). Anyway, it is a good practice to cover one or several TCP PACKET LOSSES by specifying timeouts that are slightly above multiples of 3 seconds (e.g. 4 or 5 seconds). By default, the connect timeout also presets both queue and tarpit?? timeouts to the same value if these have not been specified.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#4.2-timeout%20server"><code>timeout server</code> - HAProxy version 1.8.19 - Configuration Manual</a> #ril</p>
+<ul>
+<li>Set the maximum INACTIVITY time on the SERVER SIDE. 指遲遲沒有回應? 沒有持續寫出東西??</li>
+<li>
+<p>The inactivity timeout applies when the SERVER is expected to acknowledge or send data.</p>
+<p>跟 <code>timeout client</code> 的方向相反，從 proxy 自己的觀點來看，<code>timeout client</code> 是在等 client 的 request &ldquo;送完&rdquo;，而 <code>timeout server</code> 則是在等 server 的 response &ldquo;開始&rdquo;。</p>
+</li>
+<li>
+<p>In HTTP mode, this timeout is particularly important to consider during the first phase of the server&rsquo;s response, when it has to send the HEADERS, as it directly represents the server&rsquo;s processing time for the request. To find out what value to put there, it&rsquo;s often good to start with what would be considered as UNACCEPTABLE response times, then check the logs to observe the RESPONSE TIME DISTRIBUTION, and adjust the value accordingly.</p>
+<p>&ldquo;represents the server&rsquo;s processing time for the request&rdquo; 是指收到 header 後就開始起算??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20http-keep-alive"><code>timeout http-keep-live</code> - HAProxy version 1.7.11 - Configuration Manual</a> #ril</p>
+</li>
+<li><a href="https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4-timeout%20http-request"><code>timeout http-request</code> - HAProxy version 1.7.11 - Configuration Manual</a> #ril</li>
+</ul>
+<h2 id="healthy-check">Healthy Check ??<a class="headerlink" href="#healthy-check" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.haproxy.com/documentation/aloha/7-0/traffic-management/lb-layer7/health-checks/">Performing Health Checks - HAProxy Technologies</a> #ril</li>
+<li><a href="https://www.serverlab.ca/tutorials/linux/network-services/how-to-configure-haproxy-health-checks/">How to Configure HAProxy Health Checks - Serverlab</a> (2015-07-02) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.haproxy.org/">HAProxy.org</a></li>
+<li><a href="https://www.haproxy.com/">HAProxy.com</a></li>
+<li><a href="https://github.com/haproxy/haproxy">haproxy/haproxy - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://cbonte.github.io/haproxy-dconv/1.8/configuration.html">Configuration Manual (1.8)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

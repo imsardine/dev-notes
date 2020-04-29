@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/anki/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Anki - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/anki.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#anki">Anki</a></li>
+            <li class="second-level"><a href="#media">Media ??</a></li>
+                
+            <li class="second-level"><a href="#carddecknotefieldcardnote-type">Card、Deck、Note、Field、Card/Note Type?</a></li>
+                
+            <li class="second-level"><a href="#custom-study">Custom Study</a></li>
+                
+            <li class="second-level"><a href="#template">Template ??</a></li>
+                
+                <li class="third-level"><a href="#cloze">如何做出克漏字 (Cloze) 的效果?</a></li>
+            <li class="second-level"><a href="#_1">如何多人使用?</a></li>
+                
+            <li class="second-level"><a href="#_2">如何事先準備好很多卡片，但按照學習進度練習?</a></li>
+                
+            <li class="second-level"><a href="#_3">如何匯入文字檔??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="anki">Anki<a class="headerlink" href="#anki" title="Permanent link"> #</a></h1>
+<ul>
+<li>智能 flash cards 使輕鬆記住東西 &ndash; 只練習快忘記的部份；縮短學習時間，可以學更多。</li>
+<li>支援圖片、音訊、視訊、科學符號 (LaTeX) 等，可以用於語言學習、準備考試、記住人名&amp;臉、記住琴譜等。</li>
+<li>透過 AnkiWeb 可以在多個裝置上同步 flash cards。</li>
+<li>支援 Windows、Mac、Linux、iOS、Android 等不同平台，有許多 add-on 可以用。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://apps.ankiweb.net/">Anki - powerful, intelligent flashcards</a> #ril</p>
+<ul>
+<li>Powerful, intelligent FLASH CARDS. Remembering things just became much easier.</li>
+<li>Remember Anything - From images to scientific markup, Anki has got you covered.</li>
+<li>Remember Anywhere - Review on Windows, Mac, Linux, iOS, Android, and any device with a web browser.</li>
+<li>Remember EFFICIENTLY - Only practice the material that you&rsquo;re about to forget.</li>
+</ul>
+<p>About Anki</p>
+<ul>
+<li>Anki is a program which makes remembering things easy. Because it&rsquo;s a lot more efficient than traditional study methods, you can either greatly decrease your time spent studying, or greatly increase the amount you learn.</li>
+<li>
+<p>Anyone who needs to remember things in their daily life can benefit from Anki. Since it is CONTENT-AGNOSTIC and supports images, audio, videos and scientific markup (via LaTeX), the possibilities are endless.</p>
+<p>For example: 單看卡片/問句怎麼設計</p>
+<ul>
+<li>Learning a language</li>
+<li>Studying for medical and law exams</li>
+<li>Memorizing people&rsquo;s names and faces &larr; 有趣的應用</li>
+<li>Brushing up on geography</li>
+<li>Mastering long poems</li>
+<li>Even practicing guitar chords!</li>
+</ul>
+</li>
+</ul>
+<p>Features</p>
+<ul>
+<li>Synchronization &ndash; Use the free AnkiWeb synchronization service to keep your cards in sync across multiple devices.</li>
+<li>Flexibility &ndash; From card layout to review timing, Anki has a wealth of options for you to customize.</li>
+<li>Media-Rich &ndash; Embed audio clips, images, videos and scientific markup on your cards, with precise control over how it&rsquo;s shown. 媒體可以放網路上嗎??</li>
+<li>Optimized &ndash; Anki will handle decks of 100,000+ cards with no problems.</li>
+<li>Fully Extensible &ndash; There are a large number of ADD-ONS available.</li>
+<li>Open Source &ndash; Because the code and storage format is open, your important data is safe.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://apps.ankiweb.net/docs/manual.html#introduction">Introduction - Anki Manual</a> #ril</p>
+</li>
+</ul>
+<h2 id="media">Media ??<a class="headerlink" href="#media" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://apps.ankiweb.net/docs/manual.html#media">Media - Anki Manual</a></p>
+<ul>
+<li>
+<p>Anki stores the sounds and images used in your notes in a folder NEXT TO THE COLLECTION. For more on the folder location, please see the file locations section. When you add media within Anki, either by using the paperclip icon in the editor or by pasting it into a field, Anki will COPY it from its original location into the MEDIA FOLDER. This makes it easy to back up your collection’s media or move it to another computer.</p>
+</li>
+<li>
+<p>You can use the Tools &gt; Check Media menu option to scan your notes and media folder. It will generate a report of files in the media folder that are NOT USED BY ANY NOTES, and media referenced in notes but missing from your media folder.</p>
+<p>It does not scan question or answer templates, which is why you CAN’T place media references to fields in the template. If you need a STATIC image or sound on every card, name it with a leading <code>_</code> (e.g., <code>_dog.jpg</code>) to tell Anki to ignore it when checking for media. If you delete media using the unused media check, Anki will move it into your operating system’s trash folder, so you can recover if you accidentally delete media that shouldn’t have been deleted. 避免在 template 用到的圖檔被 Check Media 誤報為 unused 而被刪除。</p>
+</li>
+<li>
+<p>Anki uses a program called <code>mplayer</code> in order to support sounds and videos. A wide variety of file formats are supported, but not all of these formats will work on AnkiWeb and the mobile clients. MP3 audio and MP4 video seems to be the most universally supported.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://apps.ankiweb.net/docs/manual.html#file-locations">File Locations - Anki Manual</a></p>
+<ul>
+<li>On Mac computers, recent Anki versions store all their files in the <code>~/Library/Application Support/Anki2</code> folder. The <code>Library</code> folder is hidden by default, but can be revealed in Finder by holding down the option key while clicking on the Go menu. If you’re on an older Anki version, your Anki files will be in your <code>Documents/Anki</code> folder.</li>
+<li>
+<p>On Linux, recent Anki versions store your data in <code>~/.local/share/Anki2</code>, or <code>$XDG_DATA_HOME/Anki2</code> if you have set a custom data path. Older versions of Anki stored your files in <code>~/Documents/Anki</code> or <code>~/Anki</code>.</p>
+</li>
+<li>
+<p>Within the ANKI FOLDER, the PROGRAM-LEVEL and PROFILE-LEVEL preferences are stored in a file called <code>prefs.db</code>. There is also A SEPARATE FOLDER FOR EACH PROFILE. The folder contains:</p>
+<ul>
+<li>Your notes, decks, cards and so on in a file called <code>collection.anki2</code></li>
+<li>Your audio and images in a <code>collection.media/</code> folder</li>
+<li>A <code>backups/</code> folder</li>
+<li>Some system files</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="carddecknotefieldcardnote-type">Card、Deck、Note、Field、Card/Note Type?<a class="headerlink" href="#carddecknotefieldcardnote-type" title="Permanent link"> #</a></h2>
+<ul>
+<li>Note - 具有 note type，決定有哪些 fields 記錄一組相關的資訊 (事實)；Tools &gt; Manage Node Types &hellip;</li>
+<li>Card - 具有 card type，決定正反面 (問題 + 答案) 的 template；一個 note type 有多個 card type，新增 note 時，會自動為每個 card types 產生一張 card。</li>
+<li>Deck - 由多張 card 組成 (可能來自不同的 note type)，但一張 card 只能歸入一個 deck。</li>
+<li>以學習不同語言為例，French 跟 English 會是不同的 deck，但背後可以有相同的 note type &ndash; Language。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://apps.ankiweb.net/docs/manual.html#the-basics">The Basics - Anki Manual</a> 集中說明了 card (type)、deck、note (type)、field、collection 間的關係 #ril</p>
+<ul>
+<li>
+<p>A QUESTION AND ANSWER PAIR is called a CARD. This is based on a paper flashcard with a question on one side and the answer on the back. In Anki a card doesn’t actually look like a physical card, and when you show the answer the question remains visible by default. For example, if you’re studying basic chemistry, you might see a question like:</p>
+<pre><code>Q: Chemical symbol for oxygen?
+</code></pre>
+<p>After thinking about it, and deciding the answer is O, you click the show answer button, and Anki shows you:</p>
+<pre><code>Q: Chemical symbol for oxygen?
+A: O
+</code></pre>
+<p>After confirming that you are correct, you can tell Anki HOW WELL you remembered, and Anki will choose a next time to show you again.</p>
+<p>關鍵在於，必須誠實地告訴 Anki 你自己對這個問題的掌握度，否則 Anki 的演算法將無法發揮功效，學習效果會不理想。</p>
+</li>
+</ul>
+<p>Decks</p>
+<ul>
+<li>
+<p>A DECK is a GROUP OF CARDS. You can place cards in different decks to study parts of your CARD COLLECTION instead of studying everything at once. Each deck can have different settings, such as how many new cards to show each day, or how long to wait until cards are shown again.</p>
+<p>實務上，通常會把不同性質的卡片放在不同 deck；一張 card (有兩面) 同時間只能屬於一個 deck，跟實體卡片一樣。</p>
+<p>事實上，card 背後是由 note 產生的，而 note 又由 fields 組成；note 套用一或多個 card type (有 front/recognition template 跟 back/production template 組成) 後產生多個 card。至於 card 要放到哪個 deck 跟它源自哪個 note type 是無關的，當我們在看 card 跟 deck 時，已經不用管 note type 了，跟實體的卡片一樣。</p>
+</li>
+<li>
+<p>DECKS CAN CONTAIN OTHER DECKS, which allows you to organize decks into a TREE. Anki uses “::” to show different levels. A deck called “Chinese::Hanzi” refers to a “Hanzi” deck, which is part of a “Chinese” deck. If you select “Hanzi” then only the Hanzi cards will be shown; if you select “Chinese” then all Chinese cards, including Hanzi cards, will be shown.</p>
+</li>
+<li>
+<p>To place decks into a tree, you can either name them with “::” between each level, or DRAG AND DROP them from the deck list.</p>
+<p>Decks that have been nested under another deck (that is, that have at least one “::” in their names) are often called SUBDECKS, and top-level decks are sometimes called SUPERDECKS or PARENT DECKS.</p>
+</li>
+<li>
+<p>Anki starts with a deck called “default”; any cards which have somehow become separated from other decks will go here. Anki will HIDE the default deck if it contains no cards and you have added other decks. Alternatively, you may rename this deck and use it for other cards.</p>
+</li>
+<li>
+<p>Decks are best used to hold BROAD CATEGORIES of cards, rather than specific topics such as “food verbs” or “lesson 1”. For more info on this, please see the using decks appropriately section.</p>
+<p>這跟下面 &ldquo;a separate note type for each broad topic&rdquo; 的說法是否有衝突?? 又或者 topic 比 category 更為廣泛?</p>
+</li>
+</ul>
+<p>Notes &amp; Fields</p>
+<ul>
+<li>
+<p>When making flashcards, it’s often desirable to make more than one card that relates to some information. For example, if you’re learning French, and you learn that the word “bonjour” means “hello”, you may wish to create one card that shows you “bonjour” and asks you to remember “hello”, and another card that shows you “hello” and asks you to remember “bonjour”.</p>
+<p>One card is testing your ability to RECOGNIZE the foreign word, and the other card is testing your ability to PRODUCE IT.</p>
+<p>確實 card 的兩面所訓練的能力不同，而且要分開追蹤。</p>
+</li>
+<li>
+<p>When using paper flashcards, your only option in this case is to write out the information twice, once for each card. Some computer flashcard programs make life easier by providing a feature to flip the front and back sides. This is an improvement over the paper situation, but there are two major downsides:</p>
+<ul>
+<li>Because such programs don’t TRACK YOUR PERFORMANCE OF RECOGNITION AND PRODUCTION SEPARATELY, cards will tend not to be shown to you at the optimum time, meaning you forget more than you’d like, or you study more than is necessary.</li>
+<li>Reversing the question and answer only works when you want exactly the same content on each side. This means it’s not possible to display extra info on the back of each card for example.</li>
+</ul>
+</li>
+<li>
+<p>Anki solves these problems by allowing you to split the CONTENT of your cards up into separate PIECES OF INFORMATION. You can then tell Anki which pieces of information you want on each card, and Anki will take care of creating the cards for you and updating them if you make any edits in the future.</p>
+</li>
+<li>
+<p>Imagine we want to study French vocabulary, and we want to include the PAGE NUMBER on the back of each card. We want our cards to look like this:</p>
+<pre><code>Q: Bonjour
+A: Hello
+   Page #12
+</code></pre>
+<p>And:</p>
+<pre><code>Q: Hello
+A: Bonjour
+   Page #12
+</code></pre>
+</li>
+<li>
+<p>In this example, we have three pieces of related information: a French word, an English meaning, and a page number. If we put them together, they’d look like this:</p>
+<pre><code>French: Bonjour
+English: Hello
+Page: 12
+</code></pre>
+</li>
+<li>
+<p>In Anki, this related information is called a NOTE, and each piece of information is called a FIELD. So we can say that this type of note has three fields: French, English, and Page.</p>
+</li>
+<li>To add and edit fields, click the “Fields…” button while adding or editing notes. For more information on fields, please see the Customizing Fields section.</li>
+</ul>
+<p>Card Types</p>
+<ul>
+<li>
+<p>In order for Anki to create cards based on our notes, we need to give it a BLUEPRINT that says which fields should be displayed on the front or back of each card. This blueprint is called a CARD TYPE. Each type of note can have ONE OR MORE card types; when you add a note, Anki will create one card for each card type.</p>
+</li>
+<li>
+<p>Each card type has TWO TEMPLATES, one for the QUESTION and one for the ANSWER. In the above French example, we wanted the RECOGNITION CARD to look like this:</p>
+<pre><code>Q: Bonjour
+A: Hello
+   Page #12
+</code></pre>
+<p>To do this, we can set the question and answer templates to:</p>
+<pre><code>Q: {{French}}
+A: {{English}}&lt;br&gt;
+   Page #{{Page}}
+</code></pre>
+<p>By surrounding a field name in DOUBLE CURLY BRACKETS, we tell Anki to replace that section with the actual information in the field. Anything not surrounded by curly brackets remains the same on each card. (For instance, we don’t have to type “Page #” into the Page field when adding material – it’s added automatically to every card.)</p>
+<p><code>&lt;br&gt;</code> is a special code that tells Anki to move to the next line; more details are available in the templates section.</p>
+<p>The PRODUCTION CARD templates work in a similar way:</p>
+<pre><code>Q: {{English}}
+A: {{French}}&lt;br&gt;
+   Page #{{Page}}
+</code></pre>
+</li>
+<li>
+<p>Once a card type has been created, every time you add a new note, a card will be created based on that card type. Card types make it easy to keep the formatting of your cards consistent and can greatly reduce the amount of effort involved in adding information.</p>
+<p>They also mean Anki can ensure RELATED CARDS DON’T APPEAR TOO CLOSE TO EACH OTHER, and they allow you to fix a typing mistake or factual error once and have all the related cards updated at once.</p>
+</li>
+<li>
+<p>To add and edit card types, click the “Cards…” button while adding or editing notes. For more information on card types, please see the Cards and Templates section.</p>
+</li>
+</ul>
+<p>Note Types</p>
+<ul>
+<li>Anki allows you to create different types of notes for different material. Each type of note has ITS OWN set of fields and card types. It’s a good idea to create a separate note type for each BROAD TOPIC you’re studying. In the above French example, we might create a note type called “French” for that. If we wanted to learn capital cities, we could create a separate note type for that as well, with fields such as “Country” and “Capital City”.</li>
+<li>
+<p>When Anki checks for duplicates, it only compares other notes of the same type. Thus if you add a capital city called “Orange” using the capital city note type, you won’t see a duplicate message when it comes time to learn how to say “orange” in French.</p>
+</li>
+<li>
+<p>When you create a new COLLECTION??, Anki automatically adds some standard note types to it. These note types are provided to make Anki easier FOR NEW USERS, but in the long run it’s recommended you define your own note types for the content you are learning. The standard note types are as follows:</p>
+<ul>
+<li>Basic &ndash; Has Front and Back fields, and will create ONE card. Text you enter in Front will appear on the front of the card, and text you enter in Back will appear on the back of the card.</li>
+<li>Basic (and reversed card) &ndash; Like Basic, but creates TWO cards for the text you enter: one from front→back and one from back→front.</li>
+<li>Basic (OPTIONAL reversed card) &ndash; This is a front→back card, and optionally a back→front card. To do this, it has a third field called “Add Reverse.” If you enter ANY TEXT into that field, a reverse card will be created. More information about this is available in the Cards and Templates section.</li>
+<li>Cloze &ndash; A note type which makes it easy to select text and turn it into a CLOZE DELETION (e.g., “Man landed on the moon in […]” → “Man landed on the moon in 1969”). More information is available in the cloze deletion section.</li>
+</ul>
+<p>To add your own note types and modify existing ones, you can use Tools → Manage Note Types from the main Anki window.</p>
+</li>
+<li>
+<p>Note: Notes and note types are common to your WHOLE COLLECTION rather than limited to an individual deck. This means you can use many different types of notes in a particular deck, or have different cards generated from a particular note in different decks.</p>
+<p>When you add notes using the Add window, you can select what note type to use and what deck to use, and these choices are COMPLETELY INDEPENDENT OF EACH OTHER. You can also change the note type of some notes after you’ve already created them.</p>
+<p>也難怪 UI 最外層只看得到 Deck 與 Note Type (選單 Tools &gt; Manage Note Types)，其他 card、field 都是由 note type 展開的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://apps.ankiweb.net/docs/manual.html#manydecks">Using Decks Appropriately - Anki Manual</a> #ril</p>
+</li>
+</ul>
+<h2 id="custom-study">Custom Study<a class="headerlink" href="#custom-study" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://apps.ankiweb.net/docs/manual.html#custom-study">Custom Study - Anki Manual</a></p>
+<ul>
+<li>
+<p>The easiest way to create a FILTERED DECK is with the Custom Study button, which appears at the bottom of the screen when you click on a deck. It offers some convenient presets for common tasks like reviewing the cards you’ve failed (回答 1 Again 者) that day. It will create a filtered deck called &ldquo;Custom Study Session&rdquo; and automatically open it for you.</p>
+<p>If an existing &ldquo;Custom Study Session&rdquo; deck exists, it will be emptied before a new one is created. If you wish to keep a custom study deck, you can RENAME it from the deck list.</p>
+</li>
+<li>
+<p>Here is a summary of each of the options:</p>
+<ul>
+<li>
+<p>Increase today’s new card limit</p>
+<p>Add more new cards to the deck you are currently studying. Note that unlike other options, this DOES NOT create a new filtered deck, it modifies the existing deck.</p>
+<p>改變 current deck &ldquo;今天&rdquo; 的 new card limit，不會影響 deck option 的設定值。</p>
+</li>
+<li>
+<p>Increase today’s review card limit</p>
+<p>If not all reviews due today were shown due to the daily review limit ??, this option allows you to show more of them. Like with the new cards option, this modifies the existing deck.</p>
+</li>
+<li>
+<p>Review forgotten cards</p>
+<p>Show all cards that you’ve answered AGAIN (1) to within a number of days you specify.</p>
+</li>
+<li>
+<p>Review ahead</p>
+<p>Show cards that will be due in the near future (a number of days you specify). This is useful for working through some of your older cards BEFORE A VACATION, but it will not help with cards you have learnt recently. Please see the reviewing ahead section below for more info.</p>
+</li>
+<li>
+<p>Preview new cards</p>
+<p>Show cards that you have recently added, WITHOUT converting them to review cards as they are answered.</p>
+</li>
+<li>
+<p>Study by card state or tag</p>
+<p>Select a certain number of cards from the current deck to study. You can choose to select new cards only, due cards only, or all cards; after you click &ldquo;Choose Tags&rdquo;, you can also limit the selected cards by tags. If you wish to see all the cards in the deck (for instance, to study BEFORE A BIG TEST), you can set the number of cards to more than the number of cards in the deck.</p>
+<p>除了 New cards only 與 Due cards only 兩個選項外，All review cards in random order 與 All cards in random older (don&rsquo;t reschedule) 比較特別。後兩者的差別在於 filtered deck 的 options 裡 Reschedule cards based on my answers in this deck 有沒有被勾選，但就實驗結果來看並沒有什麼差別??</p>
+<p>按 Choose Tags 後開出的新視窗可以根據 tag 過濾 &ndash; Require one or more of these tags (OR 運算) 及 Select tags to exclude，彈性很大。事實上，自動建立的 filtered deck，除了可以 rename，也可以再調整它的 options。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.reddit.com/r/Anki/comments/59q52a/">Help! How do I only study cards with a certain tag? : Anki</a></p>
+<p>ElfjeTinkerBell: Click the deck. On the bottom, click custom study. Choose &ldquo;study by card state or tag&rdquo; and enter the number of cards you want to study. Click ok. Select tag(s). Click ok. Go.</p>
+<p>After your study session, you will find a CUSTOM DECK in your list of decks. You can delete that one without deleting the cards, they will go back to their original decks.</p>
+<p>意思是被 custom study/deck 選定，就不會出現在原來的 deck ??</p>
+</li>
+</ul>
+<h2 id="template">Template ??<a class="headerlink" href="#template" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#templates">Cards and Templates - Anki Manual</a> #ril</li>
+</ul>
+<h3 id="cloze">如何做出克漏字 (Cloze) 的效果?<a class="headerlink" href="#cloze" title="Permanent link"> #</a></h3>
+<ul>
+<li>利用 Cloze 這個內建的 note type，在 Text 欄位裡可以用 <code>{{c1::ANSWER}}</code> 或 <code>{{c1::ANSWER::HINT}}</code> 把某些字挖空。</li>
+<li>Text 裡可以挖空多處，預設會以 <code>{{cN::...}}</code> 表示 (N 會以 2, 3, 4 累加上去)，會產生多張卡片，但相同的 N 只會產生一張卡片。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#_note_types">Note Types - Anki Manual</a> 可以把句子中的某些字挖空 (cloze deletion)</li>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#cloze">Cloze Deletion - Anki Manual</a> Anki 內建 Cloze note type，它的 Text 欄位接受類似 <code>{{c1::ANSWER}}</code> 或 <code>{{c1::ANSWER::HINT}}</code> 的表示法，另外在 Extra 欄位可以提供額外的資訊；可自訂，但一定要源自於 Cloze 這個 note type。挖空第一個會出現 <code>{{c2::...}}</code>，表示會產生第二張卡片。</li>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#clozetemplates">Cloze Templates - Anki Manual</a> 用 {{cloze::FIELD_NAME}} 引用有 <code>{{cN::...}}</code> 的欄位。</li>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#typinganswers">Checking Your Answer - Anki Manual</a> 用 <code>{{type:cloze:FILED_NAME}}</code> 表示需要輸入的地方，多個挖空處在輸入答案時用逗號分開。</li>
+</ul>
+<h2 id="_1">如何多人使用?<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>利用 File &gt; Switch Profile&hellip; 建立不同的 profile，卡片跟設定都是分開的。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#profiles">Profiles - Anki Manual</a> 假如同一台電腦有多個人要用 Anki 的話，可以為每個使用者分開建 profile (獨立的 collection、各項設定)，從 File &gt; Switch Profile&hellip; 進去；AnkiWeb 也只能跟一個 profile 同步。</li>
+</ul>
+<h2 id="_2">如何事先準備好很多卡片，但按照學習進度練習?<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<ul>
+<li>利用被 suspend 的卡片不會被 review 的特性 (直到被 unsuspend)，可以事先把卡片準備好並標示為 suspend，按照學習進度 unsuspend。</li>
+<li>為了找出不同學習進度的卡片，必須安排額外的欄位記錄進度，例如 <code>lesson</code> 或 <code>page</code>，之後就可以利用像是 <code>deck:English lesson:3</code> 很快找出 Lesson 3 的卡片並將它 unsuspend。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>卡片若全部事先建好，但剛學完第 3 課，如果限定只會出現第 1 - 3 課的卡片?</li>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#_limiting_to_a_field">Searching &amp; Limiting to a field - Anki Manual</a> 用 <code>deck:DECK FIELD:KEYWORD</code> 的表示法可以找出 <code>DECK</code> 裡 <code>FIELD</code> 欄位是 <code>KEYWORD</code> 的卡片，例如 <code>deck:English front:dog</code> 會找出 English 這個 deck 裡 Front 欄位是 &ldquo;dog&rdquo; 的卡片。</li>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#editmore">Editing and More - Anki Manual</a> 被 suspend 的卡片不會被 review，直到被 unsuspend。</li>
+</ul>
+<h2 id="_3">如何匯入文字檔??<a class="headerlink" href="#_3" title="Permanent link"> #</a></h2>
+<ul>
+<li>Anki 不是很好輸入 (尤其中文輸入很卡)，如何匯入外部檔案?</li>
+<li><a href="https://apps.ankiweb.net/docs/manual.html#importing">Importing - Anki Manual</a> 文字檔可以接受 UTF-8 編碼的 CSV (用逗號、分號或 tab 隔開)，第一行決定欄位名稱與分隔字元，匯入時可以選定與 note field 的對應關係。</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="macos">macOS<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://apps.ankiweb.net/#mac">下載 <code>.dmg</code></a>，打開後將 Anki 拖到 <code>/Applications</code> 即可；之後昇級也是一樣的動作，只是要先把 Anki 關閉。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://apps.ankiweb.net/#mac">Mac - Anki - powerful, intelligent flashcards</a></p>
+<ul>
+<li>Choose the standard version if your macOS version is up to date, as the alternate version uses an older toolkit which lacks some improvements.</li>
+<li>Save the file to your desktop or downloads folder. Open it, and drag Anki to your Applications folder or desktop.</li>
+<li>Upgrading is as simple as installing the new version over the old version, and your data will be preserved. Simply close Anki if it&rsquo;s currently running, then follow the steps in the Installation section above.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://apps.ankiweb.net/">Anki</a></li>
+<li><a href="https://github.com/dae/anki">dae/anki - GitHub</a></li>
+<li><a href="https://ankiweb.net/about">AnkiWeb</a></li>
+<li><a href="https://ankiweb.net/shared/addons/">Add-ons for Anki 2.0</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://anki.tenderapp.com/">Anki Support</a></li>
+<li><a href="https://www.reddit.com/r/Anki/">Anki - reddit</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://apps.ankiweb.net/docs/manual.html">Anki User Manual</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../anki-dev/">Development</a></li>
+<li><a href="../anki-addon/">Add-on</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

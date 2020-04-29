@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-text/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Text Processing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-text.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-text-processing">Python / Text Processing</a></li>
+            <li class="second-level"><a href="#str">str ??</a></li>
+                
+            <li class="second-level"><a href="#string-interpolationformatting">String Interpolation/Formatting ??</a></li>
+                
+                <li class="third-level"><a href="#printf-style">printf Style ??</a></li>
+                <li class="third-level"><a href="#new-style">New Style ??</a></li>
+                <li class="third-level"><a href="#literal-interpolation">Literal Interpolation ??</a></li>
+                <li class="third-level"><a href="#template-string">Template String ??</a></li>
+            <li class="second-level"><a href="#unicode">Unicode ??</a></li>
+                
+                <li class="third-level"><a href="#unicode-sandwich">Unicode Sandwich ??</a></li>
+                <li class="third-level"><a href="#unicodeencodeerror-ascii-codec-cant-encode-character-uxe9-in-position-3-ordinal-not-in-range128">UnicodeEncodeError: 'ascii' codec can't encode character u'\xe9' in position 3: ordinal not in range(128) ??</a></li>
+                <li class="third-level"><a href="#unicodedecodeerror-ascii-codec-cant-decode-byte-0xc3-in-position-3-ordinal-not-in-range128">UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 3: ordinal not in range(128) ??</a></li>
+            <li class="second-level"><a href="#_1">如何用分隔字元拆解字串?</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-text-processing"><a href="../python/">Python</a> / Text Processing<a class="headerlink" href="#python-text-processing" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.oreilly.com/library/view/fluent-python/9781491946237/ch04.html">4. Text versus Bytes - Fluent Python [Book]</a> #ril</li>
+</ul>
+<h2 id="str">str ??<a class="headerlink" href="#str" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str">Text Sequence Type — str - Built-in Types — Python 3.7.2 documentation</a> #ril</li>
+</ul>
+<h2 id="string-interpolationformatting">String Interpolation/Formatting ??<a class="headerlink" href="#string-interpolationformatting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#string-methods">String Methods - Built-in Types — Python 3.7.2 documentation</a><ul>
+<li>Strings also support TWO STYLES of string formatting, one providing a large degree of FLEXIBILITY and customization (see <code>str.format()</code>, Format String Syntax and Custom String Formatting) and the other based on C <code>printf</code> style formatting that handles a NARROWER range of types and is slightly HARDER TO USE CORRECTLY, but is often FASTER for the cases it can handle (printf-style String Formatting). 有 2 種方式 (style) 可以做 string formatting，一個是 printf-style (較快，但功能較受限)，另一個 <code>str.format()</code> 彈性比較大，兩者語法不同。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/howto/logging.html#formatters">Formatter - Logging HOWTO — Python 3.7.1 documentation</a> If the style is <code>%</code>, the message format string uses <code>%(&lt;dictionary key&gt;)s</code> styled string substitution; the possible keys are documented in <code>LogRecord</code> attributes. If the style is <code>{</code>, the message format string is assumed to be compatible with <code>str.format()</code> (using keyword arguments), while if the style is <code>$</code> then the message format string should conform to what is expected by <code>string.Template.substitute()</code>. 插值的選擇這麼多種，導致 library 也要支援多種不同的用法。</li>
+<li><a href="https://dbader.org/blog/python-string-formatting">The 4 Major Ways to Do String Formatting in Python – dbader.org</a> (2018-07-04) #ril</li>
+</ul>
+<h3 id="printf-style">printf Style ??<a class="headerlink" href="#printf-style" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#printf-style-string-formatting">printf-style String Formatting - Built-in Types — Python 3.7.2 documentation</a> #ril</li>
+</ul>
+<h3 id="new-style">New Style ??<a class="headerlink" href="#new-style" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/stdtypes.html#str.format"><code>str.format(*args, **kwargs)</code> - Built-in Types — Python 3.7.2 documentation</a> #ril</p>
+<ul>
+<li>Perform a string formatting operation. The string ON WHICH THIS METHOD IS CALLED can contain literal text or REPLACEMENT FIELDS delimited by braces <code>{}</code>. 也就是 string 本身是 template，裡面用 <code>{}</code> 來安插 replacement field。</li>
+<li>Each replacement field contains either the numeric index of a POSITIONAL ARGUMENT, or the name of a KEYWORD ARGUMENT. Returns a copy of the string where each replacement field is replaced with the string value of the corresponding argument. 對照 <code>*args, **kwargs</code>，前者 (positional argument) 透過 numeric index 引用，後者 (keyword argument) 透過 keyword name 引用，例如：<pre><code>&gt;&gt;&gt; "The sum of 1 + 2 is {0}".format(1+2) # {0} 對應第一個 positional argument
+'The sum of 1 + 2 is 3'
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3.4/library/string.html#string-formatting">String Formatting - 6.1. string — Common string operations — Python 3.4.9 documentation</a></p>
+<ul>
+<li>The built-in string class provides the ability to do complex variable substitutions and value formatting via the <code>format()</code> method described in PEP 3101. The <code>Formatter</code> class in the <code>string</code> module allows you to create and customize your own string formatting behaviors using the same implementation as the built-in <code>format()</code> method. 這裡的 <code>format()</code> 泛指 <code>str.format()</code> 與 <code>format()</code> built-in；實務上似乎要自訂 formatter 時才會用到 <code>string</code> module。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/string.html#formatstrings">Format String Syntax - string — Common string operations — Python 3.7.2 documentation</a> #ril</p>
+<ul>
+<li>The <code>str.format()</code> method and the <code>Formatter</code> class share the SAME SYNTAX for format strings (although in the case of <code>Formatter</code>, subclasses can define their own format string syntax).</li>
+<li>Format strings contain “replacement fields” surrounded by curly braces <code>{}</code>. Anything that is not contained in braces is considered LITERAL TEXT, which is copied unchanged to the output. If you need to include a brace character in the literal text, it can be escaped by doubling: <code>{{</code> and <code>}}</code>.</li>
+<li>
+<p>The grammar for a replacement field is as follows:</p>
+<pre><code>replacement_field ::=  "{" [field_name] ["!" conversion] [":" format_spec] "}"
+field_name        ::=  arg_name ("." attribute_name | "[" element_index "]")*
+arg_name          ::=  [identifier | integer]
+attribute_name    ::=  identifier
+element_index     ::=  integer | index_string
+index_string      ::=  &lt;any source character except "]"&gt; +
+conversion        ::=  "r" | "s" | "a"
+format_spec       ::=  &lt;described in the next section&gt;
+</code></pre>
+<p>In less formal terms, the replacement field can start with a <code>field_name</code> that specifies the object whose value is to be formatted and inserted into the output instead of the replacement field. The <code>field_name</code> is optionally followed by a <code>conversion</code> field, which is preceded by an exclamation point <code>'!'</code>, and a <code>format_spec</code>, which is preceded by a colon <code>':'</code>. These specify a non-default format for the replacement value. 除了 <code>field_name</code> 前面不用有符號，<code>conversion</code> 跟 <code>format_spec</code> (如果有指定的話) 前面的符號一定要有 <code>!</code> 跟 <code>:</code>。</p>
+</li>
+<li>
+<p>The <code>field_name</code> itself begins with an <code>arg_name</code> that is either a number or a keyword. If it’s a number, it refers to a positional argument, and if it’s a keyword, it refers to a named keyword argument. If the numerical <code>arg_names</code> in a format string are 0, 1, 2, … IN SEQUENCE, they can all be OMITTED (NOT JUST SOME) and the numbers 0, 1, 2, … will be automatically inserted in that order. Because <code>arg_name</code> is not quote-delimited, it is not possible to specify arbitrary dictionary keys (e.g., the strings <code>'10'</code> or <code>':-]'</code>) within a format string. 其中 <code>field_name</code> 可以用 integer/identifier 引用 positional/keyword argument，發現兩種用法可以混用，但 integer 不能一下子省略，一下子又指定：</p>
+<pre><code>&gt;&gt;&gt; '{} {key}'.format(123, key='value')
+'123 value'
+&gt;&gt;&gt; '{} {1} {key}'.format(123, 456, key='value')
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: cannot switch from automatic field numbering to manual field specification
+</code></pre>
+</li>
+<li>
+<p>The <code>arg_name</code> can be followed by any number of index or attribute expressions. An expression of the form <code>'.name'</code> selects the named attribute using <code>getattr()</code>, while an expression of the form <code>'[index]'</code> does an index lookup using <code>__getitem__()</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-3101/">PEP 3101 -- Advanced String Formatting | Python.org</a> String Methods 同時提到 <code>str.format()</code> 跟 <code>format()</code> built-in #ril #ril</p>
+</li>
+</ul>
+<h3 id="literal-interpolation">Literal Interpolation ??<a class="headerlink" href="#literal-interpolation" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">Formatted string literals - 2. Lexical analysis — Python 3.7.2 documentation</a> #ril</li>
+<li><a href="https://www.python.org/dev/peps/pep-0498/">PEP 498 -- Literal String Interpolation | Python.org</a> #ril</li>
+</ul>
+<h3 id="template-string">Template String ??<a class="headerlink" href="#template-string" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.python.org/3/library/string.html#template-strings">Template strings - string — Common string operations — Python 3.7.2 documentation</a> #ril</li>
+<li><a href="https://www.python.org/dev/peps/pep-0292/">PEP 292 -- Simpler String Substitutions | Python.org</a> #ril</li>
+</ul>
+<h2 id="unicode">Unicode ??<a class="headerlink" href="#unicode" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pythonhosted.org/kitchen/unicode-frustrations.html">Overcoming frustration: Correctly using unicode in python2 — kitchen 1.2.1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/howto/unicode.html">Unicode HOWTO — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/howto/unicode.html">Unicode HOWTO — Python 3.6.4 documentation</a> #ril</li>
+<li><a href="https://www.azavea.com/blog/2014/03/24/solving-unicode-problems-in-python-2-7/">Solving Unicode Problems in Python 2.7 - Azavea - Beyond Dots on a Map</a> (2014-03-24) #ril</li>
+<li><a href="http://lucumr.pocoo.org/2014/1/5/unicode-in-2-and-3/">More About Unicode in Python 2 and 3 | Armin Ronacher&rsquo;s Thoughts and Writings</a> (2014-01-05) #ril</li>
+<li><a href="https://gist.github.com/gornostal/1f123aaf838506038710">Python 2.7. Unicode Errors Simply Explained</a> #ril</li>
+</ul>
+<h3 id="unicode-sandwich">Unicode Sandwich ??<a class="headerlink" href="#unicode-sandwich" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6480723/">python - urllib.urlencode doesn&rsquo;t like unicode values: how about this workaround? - Stack Overflow</a><ul>
+<li>John Machin 提到 &ldquo;decode at input time, work exclusively in unicode, encode at output time&rdquo;，這話說得真好!! 往外輸出時要用 byte string</li>
+</ul>
+</li>
+<li><a href="https://nedbatchelder.com/text/unipain/unipain.html#35">Pragmatic Unicode</a> 出現 &ldquo;Unicode Sandwich&rdquo; 的說法 &ndash; Bytes on the outside, unicode on the inside Encode/decode at the edges 另一種不錯的說法。</li>
+<li><a href="http://johnbachman.net/building-a-python-23-compatible-unicode-sandwich.html">John A. Bachman – Building a Python &#8532; compatible Unicode Sandwich</a> (2017-03-10) #ril</li>
+</ul>
+<h3 id="unicodeencodeerror-ascii-codec-cant-encode-character-uxe9-in-position-3-ordinal-not-in-range128">UnicodeEncodeError: &lsquo;ascii&rsquo; codec can&rsquo;t encode character u&rsquo;\xe9&rsquo; in position 3: ordinal not in range(128) ??<a class="headerlink" href="#unicodeencodeerror-ascii-codec-cant-encode-character-uxe9-in-position-3-ordinal-not-in-range128" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://gist.github.com/gornostal/1f123aaf838506038710">Python 2.7. Unicode Errors Simply Explained</a> #ril<ul>
+<li><code>str(u'café')</code> 就會引發 <code>UnicodeDecodeError</code>，因為 <code>str()</code> 會試著用 default encoding (ASCII) 編碼，結果不認得 0..127 以外的字元。</li>
+</ul>
+</li>
+</ul>
+<h3 id="unicodedecodeerror-ascii-codec-cant-decode-byte-0xc3-in-position-3-ordinal-not-in-range128">UnicodeDecodeError: &lsquo;ascii&rsquo; codec can&rsquo;t decode byte 0xc3 in position 3: ordinal not in range(128) ??<a class="headerlink" href="#unicodedecodeerror-ascii-codec-cant-decode-byte-0xc3-in-position-3-ordinal-not-in-range128" title="Permanent link"> #</a></h3>
+<ul>
+<li>發現 <code>str</code> 與 <code>unicode</code> 串接時，內部會先將 <code>str</code> 轉成 <code>unicode</code>，若 <code>str</code> 內含 ASCII 不認得的字元，就會遇到 <code>UnicodeDecodeError</code>；有文件講到這個嗎??</li>
+<li><a href="https://gist.github.com/gornostal/1f123aaf838506038710">Python 2.7. Unicode Errors Simply Explained</a> #ril<ul>
+<li><code>unicode(u'café'.encode('utf-8'))</code> 就會引發 <code>UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 3: ordinal not in range(128)</code>，因為 Python 用 default encoding (ASCII) 試著要把 UTF-8 編碼的 byte string 解碼成 unicode，結果不認得 0..127 以外的字元。</li>
+<li>你可能從某些地方拿到 byte string (<code>str</code>)，當我們把它交給其他 function 處理，內部可能會調用 <code>unicode()</code> 而引發上面的錯誤；避開這類錯誤的方法就是用 <code>.decode('utf-8')</code> 先轉成 Unicode。</li>
+</ul>
+</li>
+</ul>
+<h2 id="_1">如何用分隔字元拆解字串?<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>如何拆出 <code>''</code>、<code>' '</code> 與 <code>1, 2,3, 4 , 5</code>? =? 利用 list comprehension 搭配 <code>filter()</code> 濾除空字串。也就是 <code>filter(None, [x.strip() for x in input.split(',')])</code>。</li>
+<li>但如果是正規化後的字串 (沒有多餘的空白)，例如 <code>''</code> 與 <code>1,2,3,4</code>，就不用 <code>strip()</code> 處理，用 <code>filter(None, input.split(','))</code> 即可。</li>
+<li>如果有多種分隔字元，可以事先將其他分隔字元取代成同一個，再統一拆分? 例如 <code>filter(None, [x.strip() for x in input.replace(';', ',').split(',')])</code></li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>7.1. string — Common string operations — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/string.html#string.split">https://docs.python.org/2/library/string.html#string.split</a> 提到 <code>string.split(s[, sep[, maxsplit]])</code> 的用法，若 <code>sep</code> 省略或傳入 <code>None</code>，會依 whitespace 分割，結果可能是個 empty list，但如果自訂分隔字元的話，結果就會內含一個 empty string。</li>
+<li>When splitting an empty string in Python, why does split() return an empty list while split(&lsquo;
+&lsquo;) returns [&lsquo;&rsquo;]? - Stack Overflow <a href="https://stackoverflow.com/questions/16645083/">https://stackoverflow.com/questions/16645083/</a> 為什麼 <code>''.split()</code> 傳回 <code>[]</code>，但 <code>''.split('\n')</code> 卻傳回 <code>['']</code>? Lennart Regebro: 沒有參數的 <code>split()</code> 用來取出 words，有參數的 <code>split()</code> 用來切割字串；一刀劃下去就會有兩邊。</li>
+<li>python - Why are empty strings returned in split() results? - Stack Overflow <a href="https://stackoverflow.com/questions/2197451/">https://stackoverflow.com/questions/2197451/</a> 若要問為什麼要有空字串，John La Rooy 的答案很具說服力，因為跟 <code>join()</code> 互補，例如 <code>"/".join(['', 'segment', 'segment', ''])</code> 可以組出 <code>/segment/segment/</code>，少了前後的 empty string 反而不行。若是要拆解字串的話，Franck Dernoncourt 提出 <code>filter(None, '/segment/segment/'.split('/'))</code> 的做法還滿妙的。</li>
+<li>
+<ol>
+<li>Built-in Functions — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/functions.html#filter">https://docs.python.org/2/library/functions.html#filter</a> <code>filter(function, iterable)</code> 會將傳入 <code>function</code> 傳回 <code>false</code> 的項目去除，若 <code>function</code> 是 <code>None</code> 的話會用 identity function (大概是傳回自己的 function，像是 <code>lambda x: x</code>)，所以空字串自然被去除。</li>
+</ol>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str">Text Sequence Type - <code>str</code></a></li>
+<li><a href="https://docs.python.org/3/library/string.html#format-specification-mini-language">Format String Syntax</a></li>
+<li><a href="https://docs.python.org/3/library/codecs.html#standard-encodings">Standard Encodings - The Python Standard Library</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

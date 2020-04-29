@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/uml/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>UML - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/uml.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#uml">UML</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="uml">UML<a class="headerlink" href="#uml" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Unified_Modeling_Language">Unified Modeling Language - Wikipedia</a></p>
+<ul>
+<li>
+<p>The Unified Modeling Language (UML) is a GENERAL-PURPOSE, developmental, modeling language in the field of software engineering that is intended to provide a standard way to VISUALIZE THE DESIGN OF A SYSTEM.</p>
+<p>The creation of UML was originally motivated by the desire to STANDARDIZE the disparate notational systems and approaches to software design. It was developed by Grady Booch, Ivar Jacobson and James Rumbaugh at Rational Software in 1994–1995, with further development led by them through 1996.</p>
+</li>
+<li>
+<p>In 1997 UML was adopted as a standard by the Object Management Group (OMG), and has been managed by this organization ever since. In 2005 UML was also published by the International Organization for Standardization (ISO) as an approved ISO standard. Since then the standard has been PERIODICALLY REVISED to cover the latest revision of UML.</p>
+<p>工具能否跟得上是一回事，但看圖的人一定要能跟上才能看懂，達到溝通的目的。</p>
+</li>
+</ul>
+<p>Design</p>
+<ul>
+<li>
+<p>UML offers a way to visualize a system&rsquo;s architectural blueprints in a diagram, including elements such as:</p>
+<ul>
+<li>any activities (jobs);</li>
+<li>individual components of the system;</li>
+<li>and how they can interact with other software components;</li>
+<li>how the system will run;</li>
+<li>how entities interact with others (components and interfaces);</li>
+<li>external user interface.</li>
+</ul>
+</li>
+<li>
+<p>Although originally intended for OBJECT-ORIENTED design documentation, UML has been extended to a larger set of design documentation (as listed above), and been found useful in many contexts.</p>
+</li>
+</ul>
+<p>Modeling</p>
+<ul>
+<li>
+<p>It is important to distinguish between the UML model and the set of diagrams of a system. A diagram is a PARTIAL graphic representation of a system&rsquo;s model. The set of diagrams NEED NOT COMPLETELY cover the model and deleting a diagram does not change the model. The model may also contain DOCUMENTATION that drives the model elements and diagrams (such as written USE CASES).</p>
+<p>System model 是個整體，由 diagrams 跟 documentation 組成，每個 diagram 通常只會描繪 model 的某個面向 (view)。</p>
+</li>
+<li>
+<p>UML diagrams represent two different VIEWS of a system model:</p>
+<ul>
+<li>
+<p>STATIC (or STRUCTURAL) view: emphasizes the static structure of the system using objects, attributes, operations and RELATIONSHIPS. It includes class diagrams and composite structure diagrams.</p>
+</li>
+<li>
+<p>DYNAMIC (or BEHAVIORAL) view: emphasizes the dynamic behavior of the system by showing COLLABORATIONS among objects and changes to the internal states of objects. This view includes sequence diagrams, activity diagrams and state machine diagrams.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>UML models can be exchanged among UML tools by using the XML Metadata Interchange (XMI) format.</p>
+<p>真有這麼容易轉?</p>
+</li>
+<li>
+<p>In UML, one of the key tools for behavior modelling is the USE-CASE MODEL, caused by OOSE. Use cases are a way of specifying required usages of a system. Typically, they are used to capture the requirements of a system, that is, what a system is supposed to do.</p>
+<p>從上面 &ldquo;written use cases&rdquo; 的說法看來，use case diagram 的重點是伴隨的文件 ??</p>
+</li>
+</ul>
+<p>Diagrams</p>
+<ul>
+<li>
+<p>UML 2 has many types of diagrams, which are divided into two categories. Some types represent structural information, and the rest represent general types of behavior, including a few that represent different aspects of interactions. These diagrams can be categorized hierarchically as shown in the following class diagram:</p>
+<p><img alt="Hierarchy of UML 2.2 Diagrams, shown as a class diagram" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/UML_diagrams_overview.svg/1200px-UML_diagrams_overview.svg.png" /></p>
+<p>These diagrams may all contain COMMENTS or NOTES explaining usage, constraint, or intent.</p>
+<p>總會有 UML 語法受限的地方，都靠 note 來補。</p>
+</li>
+<li>
+<p>Structure diagrams emphasize the things that must be PRESENT in the system being modeled.</p>
+<p>Since structure diagrams represent the structure, they are used extensively in documenting the software ARCHITECTURE of software systems. For example, the component diagram describes how a software system is split up into components and shows the DEPENDENCIES among these components.</p>
+</li>
+<li>
+<p>Behavior diagrams emphasize what must HAPPEN in the system being modeled.</p>
+<p>Since behavior diagrams illustrate the behavior of a system, they are used extensively to describe the FUNCTIONALITY of software systems. As an example, the activity diagram describes the business and operational step-by-step activities of the components in a system.</p>
+</li>
+<li>
+<p>Interaction diagrams, a subset of behavior diagrams, emphasize the FLOW OF CONTROL AND DATA among the things in the system being modeled. For example, the sequence diagram shows how objects communicate with each other regarding a sequence of MESSAGES.</p>
+<p>跟 behavior diagram 比較明顯的區分是 data flow? 因為 activity diagram 加上 swim lane 也可以表示 flow of control ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>可以將文字轉成圖表最好；目前以 PlantUML 的支援最完整，可惜不像 yUML 或 WebSequenceDiagrams 支援手繪風。<ul>
+<li>用文字的好處是可以來回修改設計，不用等 test code 的 design feedback，尤其適用設計初期。</li>
+</ul>
+</li>
+<li>多數輕量化的工具不支援所有類型的圖表，只要關鍵的 class diagram、sequence diagram 有支援就夠了。</li>
+<li>一張 class diagram 看要溝通什麼，只會將相關的 class 拉進來，也只會揭露必要的結節。呼應 DependencyAndAssociation - Martin Fowler (2013-09-17) <a href="https://martinfowler.com/bliki/DependencyAndAssociation.html">https://martinfowler.com/bliki/DependencyAndAssociation.html</a> 所說的 &ldquo;You need to be very selective and show only those that are important to whatever it is you are communicating&rdquo;。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.uml.org/">UML.org</a></li>
+<li><a href="https://www.uml-diagrams.org/">UML Diagrams</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../uml-use-case/">Use Case Diagram</a></li>
+<li><a href="../uml-class/">Class Diagram</a></li>
+<li><a href="../uml-state/">State Diagram</a></li>
+<li><a href="../uml-activity/">Activity Diagram</a></li>
+<li><a href="../uml-sequence/">Sequence Diagram</a></li>
+<li><a href="../uml-component/">Component Diagram</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../plantuml/">PlantUML</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

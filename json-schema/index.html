@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/json-schema/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JSON Schema - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/json-schema.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#json-schema">JSON Schema</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#type-nullable">Type, Nullable ??</a></li>
+                
+            <li class="second-level"><a href="#validator">Validator</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="json-schema">JSON Schema<a class="headerlink" href="#json-schema" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://json-schema.org/">JSON Schema | The home of JSON Schema</a></p>
+<ul>
+<li>JSON Schema is a vocabulary that allows you to ANNOTATE and VALIDATE JSON documents.</li>
+</ul>
+<p>Advantages &gt; JSON Schema</p>
+<ul>
+<li>DESCRIBES your existing data format(s).</li>
+<li>
+<p>Provides clear human- and machine- readable documentation.</p>
+</li>
+<li>
+<p>Validates data which is useful for:</p>
+<ul>
+<li>
+<p>Automated testing.</p>
+</li>
+<li>
+<p>Ensuring quality of client submitted data.</p>
+<p>以為會比較常用在驗證 server 吐出來的資料。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Advantages &gt; JSON Hyper-Schema ??</p>
+<ul>
+<li>Make any JSON format a hypermedia format with no constraints on document structure</li>
+<li>Allows use of URI Templates with instance data</li>
+<li>Describe client data for use with links using JSON Schema.</li>
+<li>Recognizes collections and collection items.</li>
+</ul>
+<p>The Path to Standardization</p>
+<ul>
+<li>
+<p>The JSON Schema project intends to shepherd all FOUR draft series to RFC status. Currently, we are continuing to improve our SELF-PUBLISHED INTERNET-DRAFTS. The next step will be to get the drafts adopted by an IETF Working Group.</p>
+<p>We are actively investigating how to accomplish this. If you have experience with such things and would like to help, please contact us!</p>
+</li>
+<li>
+<p>In the meantime, publication of Internet-Draft documents can be tracked through the IETF:</p>
+<ul>
+<li>JSON Schema (core)</li>
+<li>JSON Schema Validation</li>
+<li>JSON Hyper-Schema</li>
+<li>Relative JSON Pointers ??</li>
+</ul>
+</li>
+<li>
+<p>Internet-Drafts expire after six months, so our goal is to publish often enough to always have a set of unexpired drafts available. There may be brief gaps as we wrap up each draft and finalize the text.</p>
+</li>
+<li>
+<p>The intention, particularly for vocabularies such as validation which have been widely implemented, is to remain as compatible as possible from draft to draft. However, these are still drafts, and given a clear enough need validated with the user community, major changes can occur.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://json-schema.org/#quickstart">Quickstart - JSON Schema | The home of JSON Schema</a></p>
+<ul>
+<li>
+<p>The JSON document being validated or described we call the INSTANCE, and the document containing the DESCRIPTION is called the SCHEMA.</p>
+</li>
+<li>
+<p>The most basic schema is a BLANK JSON object, which constrains nothing, ALLOWS ANYTHING, and describes nothing:</p>
+<pre><code>{}
+</code></pre>
+</li>
+<li>
+<p>You can apply constraints on an instance by adding VALIDATION KEYWORDS to the schema. For example, the “<code>type</code>” keyword can be used to restrict an instance to an object, <code>array</code>, <code>string</code>, <code>number</code>, <code>boolean</code>, or <code>null</code>:</p>
+<pre><code>{ "type": "string" }
+</code></pre>
+<p>為什麼要檢查 &ldquo;一定是 null&rdquo;? 應該是檢查 nullable 吧 ??</p>
+</li>
+<li>
+<p>JSON Schema is HYPERMEDIA READY, and ideal for annotating your existing JSON-based HTTP API. JSON Schema documents are IDENTIFIED BY URIs, which can be used in HTTP Link headers, and inside JSON Schema documents to allow RECURSIVE DEFINITIONS. ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://json-schema.org/learn/getting-started-step-by-step.html">Getting Started Step-By-Step | JSON Schema</a> #ril</p>
+<p>Introduction</p>
+<ul>
+<li>
+<p>The following example is by no means definitive of all the value JSON Schema can provide. For this you will need to go deep into the specification itself – learn more at <a href="http://json-schema.org/specification.html">http://json-schema.org/specification.html</a>.</p>
+</li>
+<li>
+<p>Let’s pretend we’re interacting with a JSON based product catalog. This catalog has a product which has:</p>
+<ul>
+<li>An identifier: <code>productId</code></li>
+<li>A product name: <code>productName</code></li>
+<li>A selling cost for the consumer: <code>price</code></li>
+<li>An optional set of tags: <code>tags</code>.</li>
+</ul>
+<p>For example:</p>
+<pre><code>{
+  "productId": 1,
+  "productName": "A green door",
+  "price": 12.50,
+  "tags": [ "home", "green" ]
+}
+</code></pre>
+</li>
+<li>
+<p>While generally straightforward, the example leaves some OPEN QUESTIONS. Here are just a few of them:</p>
+<ul>
+<li>What is <code>productId</code>?</li>
+<li>Is <code>productName</code> required?</li>
+<li>Can the price be zero (0)?</li>
+<li>Are all of the tags string values?</li>
+</ul>
+<p>When you’re talking about a DATA FORMAT, you want to have METADATA about what keys mean, including the valid inputs for those keys. JSON Schema is a proposed IETF standard how to answer those questions for data.</p>
+</li>
+</ul>
+<p>Starting the schema</p>
+<ul>
+<li>
+<p>To start a schema definition, let’s begin with a basic JSON schema.</p>
+<p>We start with four properties called KEYWORDS which are expressed as JSON keys.</p>
+<p>Yes. the standard uses a JSON data document to describe data documents, most often that are also JSON data documents but could be in any number of other content types like <code>text/xml</code>. 也可以用 XML 寫 ??</p>
+<ul>
+<li>
+<p>The <code>$schema</code> keyword states that this schema is written according to a specific draft of the standard and used for a variety of reasons, primarily version control.</p>
+<p>The <code>$id</code> keyword defines a URI for the schema, and the base URI that other URI references within the schema are resolved against.</p>
+<p>其中 <code>$schema</code> 應該是必要的，否則 validator 不知道要以哪個版本來解讀 schema，但 <code>$id</code> 是必要的嗎 ??</p>
+</li>
+<li>
+<p>The <code>title</code> and <code>description</code> annotation keywords are DESCRIPTIVE ONLY. They do not add constraints to the data being validated. The INTENT of the schema is stated with these two keywords.</p>
+</li>
+<li>
+<p>The <code>type</code> validation keyword defines the FIRST CONSTRAINT on our JSON data and in this case it has to be a JSON Object.</p>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product in the catalog",
+  "type": "object"
+}
+</code></pre>
+</li>
+<li>
+<p>We introduce the following pieces of terminology when we start the schema:</p>
+<ul>
+<li>Schema Keyword: <code>$schema</code> and <code>$id</code>.</li>
+<li>Schema Annotations: <code>title</code> and <code>description</code>.</li>
+<li>Validation Keyword: <code>type</code>.</li>
+</ul>
+<p>雖然 Keyword 分 schema/validation keyword 兩種，但也只有 validation keyword 跟 validation 有關 (產生實質的 constraints)，而 schema annotation 就如字面所示只有說明性質，不影響 validation。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Defining the properties</p>
+<ul>
+<li>
+<p><code>productId</code> is a numeric value that uniquely identifies a product. Since this is the canonical identifier for a product, it doesn’t make sense to have a product without one, so it is required.</p>
+<p>從 <code>{}</code> 代表 allow anything 看來，schema 只要描述 JSON document 有用到的部份即可? 以下面一開始的 schema 為例，只宣告了 <code>productId</code> 與 <code>productName</code>，拿來檢查上面帶有 <code>price</code> 及 <code>tags</code> 的 JSON document 並不會出錯。</p>
+</li>
+<li>
+<p>In JSON Schema terms, we update our schema to add:</p>
+<ul>
+<li>
+<p>The <code>properties</code> validation keyword.</p>
+</li>
+<li>
+<p>The <code>productId</code> key.</p>
+<p><code>description</code> schema annotation and <code>type</code> validation keyword is noted – we covered both of these in the previous section.</p>
+</li>
+<li>
+<p>The <code>required</code> validation keyword listing <code>productId</code>.</p>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product from Acme's catalog",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    }
+  },
+  "required": [ "productId" ]
+}
+</code></pre>
+<p>注意 <code>required</code> 不是寫在各別的 property 底下，而是跟 <code>type</code>、<code>properties</code> 同一層。</p>
+</li>
+<li>
+<p><code>productName</code> is a string value that describes a product. Since there isn’t much to a product without a name it also is required.</p>
+<p>Since the <code>required</code> validation keyword is an array of strings we can note multiple keys as required; We now include <code>productName</code>.</p>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product from Acme's catalog",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    },
+    "productName": {
+      "description": "Name of the product",
+      "type": "string"
+    }
+  },
+  "required": [ "productId", "productName" ]
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>Going deeper with properties</p>
+<ul>
+<li>
+<p>According to the store owner there are no free products. ;)</p>
+<p>The <code>price</code> key is added with the usual description schema annotation and <code>type</code> validation keywords covered previously. It is also included in the array of keys defined by the <code>required</code> validation keyword.</p>
+<p>We specify the value of <code>price</code> must be something other than zero using the <code>exclusiveMinimum</code> validation keyword.</p>
+<p>If we wanted to include zero as a valid price we would have specified the <code>minimum</code> validation keyword.</p>
+<pre><code>  {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/product.schema.json",
+    "title": "Product",
+    "description": "A product from Acme's catalog",
+    "type": "object",
+    "properties": {
+      ...,
+      "price": {
+        "description": "The price of the product",
+        "type": "number",
+        "exclusiveMinimum": 0
+      }
+    },
+    "required": [ "productId", "productName", "price" ]
+  }
+</code></pre>
+<p><code>number</code> 跟 <code>integer</code> 的差別在於，<code>number</code> 可以表現小數點。</p>
+</li>
+<li>
+<p>Next, we come to the <code>tags</code> key.</p>
+<p>The store owner has said this:</p>
+<ul>
+<li>If there are tags there must be at least one tag,</li>
+<li>All tags must be unique; no duplication within a single product.</li>
+<li>All tags must be text.</li>
+<li>Tags are nice but they aren’t required to be present.</li>
+</ul>
+<p>Therefore:</p>
+<ul>
+<li>The <code>tags</code> key is added with the usual annotations and keywords.</li>
+<li>This time the <code>type</code> validation keyword is <code>array</code>.</li>
+<li>We introduce the <code>items</code> validation keyword so we can define what appears in the array. In this case: <code>string</code> values via the <code>type</code> validation keyword.</li>
+<li>The <code>minItems</code> validation keyword is used to make sure there is at least one item in the array.</li>
+<li>The <code>uniqueItems</code> validation keyword notes all of the items in the array must be unique relative to one another.</li>
+</ul>
+<p>We did not add this key to the <code>required</code> validation keyword array because it is optional.</p>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product from Acme's catalog",
+  "type": "object",
+  "properties": {
+    ...,
+    "tags": {
+      "description": "Tags for the product",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [ "productId", "productName", "price" ]
+}
+</code></pre>
+<p>搭配 <code>minItems</code> 來看，<code>"tags": []</code> 就無法通過 validation；要允許這種狀況，把 <code>"minItems": 1</code> 拿掉即可。</p>
+</li>
+</ul>
+<p>Nesting data structures</p>
+<ul>
+<li>
+<p>Up until this point we’ve been dealing with a very FLAT schema – only one level. This section demonstrates nested data structures.</p>
+<p>We omitted the <code>description</code> annotation keyword for brevity in the example. While it’s usually preferable to annotate thoroughly in this case the structure and key names are fairly familiar to most developers.</p>
+</li>
+<li>
+<p>The <code>dimensions</code> key is added using the concepts we’ve previously discovered. Since the <code>type</code> validation keyword is <code>object</code> we can use the <code>properties</code> validation keyword to define a nested data structure.</p>
+<p>You will note the SCOPE of the <code>required</code> validation keyword is applicable to the <code>dimensions</code> key and NOT BEYOND.</p>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product from Acme's catalog",
+  "type": "object",
+  "properties": {
+    ...,
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [ "length", "width", "height" ]
+    }
+  },
+  "required": [ "productId", "productName", "price" ]
+}
+</code></pre>
+</li>
+</ul>
+<p>References outside the schema</p>
+<ul>
+<li>
+<p>So far our JSON schema has been wholly SELF CONTAINED. It is very common to share JSON schema across many data structures for reuse, readability and maintainability among other reasons.</p>
+</li>
+<li>
+<p>For this example we introduce a new JSON Schema RESOURCE and for both properties therein:</p>
+<ul>
+<li>We use the <code>minimum</code> validation keyword noted earlier.</li>
+<li>We add the <code>maximum</code> validation keyword.</li>
+</ul>
+<p>Combined, these give us a range to use in validation.</p>
+<pre><code>{
+  "$id": "https://example.com/geographical-location.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Longitude and Latitude",
+  "description": "A geographical coordinate on a planet (most commonly Earth).",
+  "required": [ "latitude", "longitude" ],
+  "type": "object",
+  "properties": {
+    "latitude": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "longitude": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    }
+  }
+}
+</code></pre>
+</li>
+<li>
+<p>Next we add a reference to this new schema so it can be INCORPORATED.</p>
+<pre><code>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product from Acme's catalog",
+  "type": "object",
+  "properties": {
+    ...,
+    "warehouseLocation": {
+      "description": "Coordinates of the warehouse where the product is located.",
+      "$ref": "https://example.com/geographical-location.schema.json"
+    }
+  },
+  "required": [ "productId", "productName", "price" ]
+}
+</code></pre>
+</li>
+</ul>
+<p>Taking a look at data for our defined JSON Schema</p>
+<ul>
+<li>We’ve certainly expanded on the concept of a product since our earliest sample data (scroll up to the top). Let’s take a look at data which matches the JSON Schema we have defined.<pre><code>{
+  "productId": 1,
+  "productName": "An ice sculpture",
+  "price": 12.50,
+  "tags": [ "cold", "ice" ],
+  "dimensions": {
+    "length": 7.0,
+    "width": 12.0,
+    "height": 9.5
+  },
+  "warehouseLocation": {
+    "latitude": -78.75,
+    "longitude": 20.4
+  }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://json-schema.org/understanding-json-schema/">Understanding JSON Schema — Understanding JSON Schema 7.0 documentation</a> #ril</p>
+</li>
+<li><a href="https://cswr.github.io/JsonSchema/spec/introduction/">Introduction - JSON Schema</a> #ril</li>
+</ul>
+<h2 id="type-nullable">Type, Nullable ??<a class="headerlink" href="#type-nullable" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1.1">6.1.1. type - JSON Schema Validation: A Vocabulary for Structural Validation of JSON</a></p>
+<ul>
+<li>The value of this keyword MUST be either a string or an ARRAY. If it is an array, elements of the array MUST be strings and MUST be unique.</li>
+<li>String values MUST be one of the six primitive types (<code>"null"</code>, <code>"boolean"</code>, <code>"object"</code>, <code>"array"</code>, <code>"number"</code>, or <code>"string"</code>), or <code>"integer"</code> which matches any number with a zero fractional part.</li>
+<li>An instance validates if and only if the instance is IN ANY OF THE SETS listed for this keyword.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/22565005/">python - JSON Schema: validate a number-or-null value - Stack Overflow</a> #ril</p>
+</li>
+<li><a href="https://www.ibm.com/support/knowledgecenter/en/SS4SVW_beta/designing/api_null_type.html">Handling the null type in JSON schema</a> 出現 <code>type": [ "null", "string" ]</code> 的用法。</li>
+</ul>
+<h2 id="validator">Validator<a class="headerlink" href="#validator" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://json-schema.org/implementations.html#validators">Validators - Implementations | JSON Schema</a></p>
+<p>JavaScript</p>
+<ul>
+<li>
+<p><a href="https://github.com/epoberezkin/ajv">ajv</a> draft-07, -06, -04 for Node.js and browsers - supports custom keywords and $data reference (MIT)</p>
+<p>星星數最多!! 遠超過下面兩個。</p>
+</li>
+<li>
+<p><a href="https://github.com/korzio/djv">djv</a> draft-06, -04 for Node.js and browsers (MIT)</p>
+</li>
+<li><a href="https://github.com/mokkabonna/vue-vuelidate-jsonschema">vue-vuelidate-jsonschema</a> draft-06 (MIT)</li>
+</ul>
+<p>Python</p>
+<ul>
+<li><a href="https://github.com/Julian/jsonschema">jsonschema</a> draft-07, -06, -04, -03 (MIT)</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://json-schema.org/">JSON Schema</a></li>
+<li><a href="https://github.com/json-schema-org/json-schema-spec">json-schema-org/json-schema-spec - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://groups.google.com/forum/#!forum/json-schema">JSON Schema - Google Groups</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="../python-jsonschema/"><code>jsonschema</code></a> - Python 唯一的 validator</li>
+<li><a href="https://www.jsonschemavalidator.net/">JSON Schema Validator - Newtonsoft</a></li>
+<li><a href="https://jsonschemalint.com/#/version/draft-07/markup/json">JSON Schema Lint</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://json-schema.org/latest/json-schema-core.html">JSON Schema: A Media Type for Describing JSON Documents</a></li>
+<li><a href="https://json-schema.org/latest/json-schema-validation.html">JSON Schema Validation: A Vocabulary for Structural Validation of JSON</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

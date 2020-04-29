@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/json/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JSON - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/json.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#json">JSON</a></li>
+            <li class="second-level"><a href="#structure">Structure</a></li>
+                
+            <li class="second-level"><a href="#string">String</a></li>
+                
+            <li class="second-level"><a href="#number">Number</a></li>
+                
+            <li class="second-level"><a href="#boolean">Boolean</a></li>
+                
+            <li class="second-level"><a href="#null">Null</a></li>
+                
+            <li class="second-level"><a href="#datetime">Date/Time</a></li>
+                
+            <li class="second-level"><a href="#comment">Comment</a></li>
+                
+            <li class="second-level"><a href="#json_1">在本地端將 JSON 格式化??</a></li>
+                
+            <li class="second-level"><a href="#schema">Schema</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+            <li class="second-level"><a href="#key-list">Key 重複時，如何轉成 list?</a></li>
+                
+            <li class="second-level"><a href="#key">輸出時如何控制 key 的順序?</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="json">JSON<a class="headerlink" href="#json" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.json.org/json-en.html">JSON</a></p>
+<ul>
+<li>
+<p>JSON (JavaScript Object Notation) is a LIGHTWEIGHT DATA-INTERCHANGE FORMAT. It is easy for humans to read and write. It is easy for machines to parse and generate.</p>
+<p>It is based on a subset of the JavaScript Programming Language Standard ECMA-262 3<sup>rd</sup> Edition - December 1999. JSON is a text format that is completely LANGUAGE INDEPENDENT but uses conventions that are familiar to programmers of the C-family of languages, including C, C++, C#, Java, JavaScript, Perl, Python, and many others.</p>
+<p>These properties make JSON an ideal data-interchange LANGUAGE.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.json.org/json-en.html">JSON</a></p>
+<ul>
+<li>
+<p>JSON is built on two structures:</p>
+<ul>
+<li>A collection of NAME/VALUE PAIRS. In various languages, this is realized as an object, record, struct, dictionary, hash table, keyed list, or associative array.</li>
+<li>An ORDERED LIST of values. In most languages, this is realized as an array, vector, list, or sequence.</li>
+</ul>
+<p>These are universal data structures. Virtually all modern programming languages support them in one form or another. It makes sense that a data format that is interchangeable with programming languages also be based on these structures.</p>
+</li>
+<li>
+<p>In JSON, they take on these forms:</p>
+<ul>
+<li>
+<p>An OBJECT is an UNORDERED set of name/value pairs. An object begins with <code>{</code> and ends with <code>}</code>. Each name is followed by <code>:</code> and the name/value pairs are separated by <code>,</code>.</p>
+<p><img alt="" src="https://www.json.org/img/object.png" /></p>
+<p>其中 name 只能是 string，但 value 則可以是 string, number, object, array 等。</p>
+</li>
+<li>
+<p>An ARRAY is an ordered collection of values. An array begins with <code>[</code> and ends with <code>]</code>. Values are separated by <code>,</code>.</p>
+<p><img alt="" src="https://www.json.org/img/array.png" /></p>
+</li>
+<li>
+<p>A VALUE can be a string in DOUBLE quotes, or a number, or <code>true</code> or <code>false</code> or <code>null</code>, or an object or an array. These structures can be NESTED.</p>
+<p><img alt="" src="https://www.json.org/img/value.png" /></p>
+</li>
+<li>
+<p>Whitespace can be inserted between any pair of TOKENS. Excepting a few encoding details ??, that completely describes the language.</p>
+<p>允許 linefeed、carriage retur、horizontal tab 出現是為了增加 JSON 本身的可讀性，但這些字元在 string 裡都要被 escape。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="string">String<a class="headerlink" href="#string" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.json.org/json-en.html">JSON</a></p>
+<ul>
+<li>
+<p>A string is a sequence of zero or more UNICODE characters, wrapped in DOUBLE quotes, using BACKSLASH ESCAPES.</p>
+<p><img alt="" src="https://www.json.org/img/string.png" /></p>
+<p>圖形本身揭露了更多資訊 &ndash; Any codepoint except &rdquo; or \ or control characters，表示 Unicode 不需要做 escaping，但 <code>"</code>、<code>\</code> 及其他控制字元一定要，例如 <code>\"</code>、<code>\\</code>、<code>\t</code>、<code>\r</code>、<code>\n</code> 等。</p>
+<p>最特別的地方是 <code>/</code> (solidus/slash) 也在其中? 什麼情況下要有 <code>\/</code> 的用法??</p>
+<p>A character is represented as a SINGLE CHARACTER STRING. A string is very much like a C or Java string.</p>
+<p>也就是 JSON 不像 Java 有 <code>char</code> 型態 (單引號)，只能用只有一個字元的 string 來表現 (雙引號)。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/1580647/">javascript - JSON: why are forward slashes escaped? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>JSON escapes the forward slash, so a hash <code>{a: "a/b/c"}</code> is serialized as <code>{"a":"a\/b\/c"}</code> instead of <code>{"a":"a/b/c"}</code>.</p>
+<p>Walter Tross: PHP&rsquo;s <code>json_encode()</code> escapes forward slashes by default, but has the <a href="https://www.php.net/manual/en/json.constants.php#constant.json-unescaped-slashes"><code>JSON_UNESCAPED_SLASHES</code></a> option starting from PHP 5.4.0</p>
+</li>
+<li>
+<p>Ruben: JSON doesn&rsquo;t require you to do that, it allows you to do that. It also allows you to use &ldquo;\u0061&rdquo; for &ldquo;A&rdquo;, but it&rsquo;s NOT REQUIRED. Allowing <code>\/</code> helps when embedding JSON in a <code>&lt;script&gt;</code> tag, which doesn&rsquo;t allow <code>&lt;/</code> inside strings, like Seb points out.</p>
+<p>這只是選擇的問題。</p>
+<p>Some of Microsoft&rsquo;s ASP.NET Ajax/JSON API&rsquo;s use this loophole to add extra information, e.g., a datetime will be sent as <code>"\/Date(milliseconds)\/"</code>. (Yuck) 為什麼要這麼做?</p>
+<p>Ruben: That would be a good thing, escaping just <code>&lt;/</code>. Though JSON is not often embedded in script tags anyway.</p>
+</li>
+<li>
+<p>Simon East: PHP escapes forward slashes BY DEFAULT which is probably why this appears so commonly. I&rsquo;m not sure why, but possibly because embedding the string <code>"&lt;/script&gt;"</code> inside a <code>&lt;script&gt;</code> tag is considered unsafe.</p>
+<p>This functionality can be disabled by passing in the <code>JSON_UNESCAPED_SLASHES</code> flag but most developers will not use this since THE ORIGINAL RESULT IS ALREADY VALID JSON.</p>
+<p>若只供程式讀取，slash 有沒有 escape 其實沒差。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="number">Number<a class="headerlink" href="#number" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.json.org/json-en.html">JSON</a></p>
+<ul>
+<li>
+<p>A number is very much like a C or Java number, except that the octal and hexadecimal formats are not used.</p>
+<p><img alt="" src="https://www.json.org/img/number.png" /></p>
+<p>可以表現正負數、小數、指數。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="boolean">Boolean<a class="headerlink" href="#boolean" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.json.org/json-en.html">JSON</a></p>
+<p>A VALUE can be a string in DOUBLE quotes, or a number, or <code>true</code> or <code>false</code> or <code>null</code>, or an object or an array. These structures can be NESTED.</p>
+<p>這是 JSON 首頁對 <code>true</code>/<code>false</code> 唯一的說明。</p>
+</li>
+</ul>
+<h2 id="null">Null<a class="headerlink" href="#null" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.json.org/json-en.html">JSON</a></p>
+<p>A VALUE can be a string in DOUBLE quotes, or a number, or <code>true</code> or <code>false</code> or <code>null</code>, or an object or an array. These structures can be NESTED.</p>
+<p>這是 JSON 首頁對 <code>null</code> 唯一的說明。</p>
+</li>
+</ul>
+<h2 id="datetime">Date/Time<a class="headerlink" href="#datetime" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://weblogs.asp.net/bleroy/dates-and-json">Tales from the Evil Empire - Dates and JSON</a> (2008-01-18) #ril</li>
+</ul>
+<h2 id="comment">Comment<a class="headerlink" href="#comment" title="Permanent link"> #</a></h2>
+<ul>
+<li>How do I write comments inside a JSON document? - Quora <a href="https://www.quora.com/How-do-I-write-comments-inside-a-JSON-document">https://www.quora.com/How-do-I-write-comments-inside-a-JSON-document</a> #ril<ul>
+<li>Clarence Leung: JSON 不支援 comment，引用了 JSON 作者 <a href="https://plus.google.com/+DouglasCrockfordEsq/posts/RK8qyGVaGSr">Douglas Crockford</a> 的說法，如果需要加註的話 (尤其是 configuration file)，可以在送往 JSON parser 前先經過 <a href="http://www.crockford.com/javascript/jsmin.html">JSMin</a> 之類的套件處理。</li>
+<li>Tatu Saloranta: 雖然 JSON 的規格不支援，但大部份 decoder 都支援 C 或 C++ style 的註解，也就是 <code>/* ... */</code> 與 <code>// ...</code>。覺得不支援 comment 是一個粗糙的決定 - &ldquo;textual data formats really ought to have human-readable non-machine-usable annotations&rdquo;，也之所以 decoder 通常都支援它。</li>
+</ul>
+</li>
+<li>Can comments be used in JSON? - Stack Overflow <a href="http://stackoverflow.com/questions/244777/">http://stackoverflow.com/questions/244777/</a> #ril</li>
+</ul>
+<h2 id="json_1">在本地端將 JSON 格式化??<a class="headerlink" href="#json_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/352098/">How can I pretty-print JSON in a (Unix) shell script? - Stack Overflow</a> 很多人推 <code>jq</code>。</li>
+</ul>
+<h2 id="schema">Schema<a class="headerlink" href="#schema" title="Permanent link"> #</a></h2>
+<ul>
+<li>JSON Schema <a href="http://json-schema.org/">http://json-schema.org/</a> #ril</li>
+<li>FasterXML/jackson: Main Portal page for Jackson project <a href="https://github.com/FasterXML/jackson">https://github.com/FasterXML/jackson</a> #ril</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li>18.2. json — JSON encoder and decoder — Python 2.7.13 documentation <a href="https://docs.python.org/2/library/json.html">https://docs.python.org/2/library/json.html</a> #ril</li>
+</ul>
+<h2 id="key-list">Key 重複時，如何轉成 list?<a class="headerlink" href="#key-list" title="Permanent link"> #</a></h2>
+<ul>
+<li>python - json.loads allows duplicate keys in a dictionary, overwriting the first value - Stack Overflow <a href="https://stackoverflow.com/questions/14902299/">https://stackoverflow.com/questions/14902299/</a> Key 重複時，後者的 value 會覆蓋前者，要如何丟出例外? 提到 <code>json.loads()</code> 的 <code>object_pairs_hook</code> 參數 #ril</li>
+<li>python - SimpleJson handling of same named entities - Stack Overflow <a href="https://stackoverflow.com/questions/7825261/">https://stackoverflow.com/questions/7825261/</a> 自訂 <code>json.JSONDecorder</code>，將重複的 key 轉成 list #ril</li>
+<li>Python json parser allow duplicate keys - Stack Overflow <a href="https://stackoverflow.com/questions/29321677/">https://stackoverflow.com/questions/29321677/</a> #ril</li>
+</ul>
+<h2 id="key">輸出時如何控制 key 的順序?<a class="headerlink" href="#key" title="Permanent link"> #</a></h2>
+<ul>
+<li>python - Items in JSON object are out of order using &ldquo;json.dumps&rdquo;? - Stack Overflow <a href="https://stackoverflow.com/questions/10844064/">https://stackoverflow.com/questions/10844064/</a> <code>dict</code> 是 unordered collection，原始資料改用 <a href="https://docs.python.org/2/library/collections.html#collections.OrderedDict"><code>collections.OrderedDict</code></a> 即可，載入時則可以搭配 <code>object_pairs_hook=OrderedDict</code> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://json.org/">JSON</a></li>
+<li><a href="https://mvnrepository.com/artifact/org.json/json">Maven Repository: org.json » json</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="https://github.com/antonmedv/fx">fx</a> - terminal JSON viewer</li>
+<li><a href="../jq/">jq</a> - command-line JSON processor</li>
+<li><a href="../myjson/">Myjson</a> - 自己安排 API 回傳的 JSON</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc7159">RFC 7159 - The JavaScript Object Notation (JSON) Data Interchange Format</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

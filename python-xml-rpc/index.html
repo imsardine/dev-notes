@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-xml-rpc/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / XML-RPC - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-xml-rpc.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#getting-started">新手上路</a></li>
+        <li class="first-level "><a href="#serverproxy">ServerProxy</a></li>
+        <li class="first-level "><a href="#data-type">Data Type</a></li>
+        <li class="first-level "><a href="#error-handling">Error Handling</a></li>
+        <li class="first-level "><a href="#instrospection-api">Instrospection API</a></li>
+        <li class="first-level "><a href="#reference">參考資料</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<p><a href="../python/">Python</a> / <a href="../xml-rpc/">XML-RPC</a></p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html">20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</p>
+<ul>
+<li>
+<p>The <code>xmlrpclib</code> module has been renamed to <code>xmlrpc.client</code> in Python 3. The <code>2to3</code> tool will automatically adapt imports when converting your sources to Python 3.</p>
+</li>
+<li>
+<p>XML-RPC is a Remote Procedure Call method that uses XML passed via HTTP(S) as a transport. With it, a client can call methods WITH PARAMETERS on a remote server (the server is named by a URI) and get back STRUCTURED DATA.</p>
+<p>Changed in version 2.7.9: For HTTPS URIs, <code>xmlrpclib</code> now performs all the necessary CERTIFICATE AND HOSTNAME CHECKS by default.</p>
+</li>
+<li>
+<p>This module supports writing XML-RPC client code; it handles all the details of TRANSLATING between conformable Python objects and XML on the wire.</p>
+<p>The <code>xmlrpclib</code> module is not secure against maliciously constructed data. If you need to parse untrusted or unauthenticated data see XML vulnerabilities.</p>
+<p>自動把 ODM (Object Document Mapping) 做掉了；因為會自動解析/轉換 XML response 的關係，有可能遭到攻擊。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/xmlrpc.html">xmlrpc — XMLRPC server and client modules — Python 3.7.3 documentation</a> #ril</p>
+</li>
+<li><a href="https://docs.python.org/3/library/xmlrpc.client.html">xmlrpc.client — XML-RPC client access — Python 3.7.2 documentation</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#example-of-client-usage">Example of Client Usage - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a></p>
+<pre><code># simple test program (from the XML-RPC specification)
+from xmlrpclib import ServerProxy, Error
+
+# server = ServerProxy("http://localhost:8000") # local server
+server = ServerProxy("http://betty.userland.com")
+
+print server
+
+try:
+    print server.examples.getStateName(41)
+except Error as v:
+    print "ERROR", v
+</code></pre>
+<p>透過 <code>ServerProxy</code> 跟 XML-RPC server 溝通，範例 <code>.examples.getStateName(41)</code> 中的 <code>getStateName(41)</code> 是 method 與 parameters，那 <code>examples</code> 是什麼 ??</p>
+</li>
+</ul>
+<h2 id="serverproxy">ServerProxy<a class="headerlink" href="#serverproxy" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#xmlrpclib.ServerProxy">class <code>xmlrpclib.ServerProxy</code> - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a></p>
+<pre><code>class xmlrpclib.ServerProxy(uri[, transport[, encoding[, verbose[, allow_none[, use_datetime[, context]]]]]])
+</code></pre>
+<ul>
+<li>
+<p>A <code>ServerProxy</code> instance is an object that manages communication with a remote XML-RPC server. The required first argument is a URI (Uniform Resource Indicator), and will normally be the URL of the server.</p>
+<p><code>Server</code> is retained as an alias for <code>ServerProxy</code> for backwards compatibility. New code should use <code>ServerProxy</code>.</p>
+</li>
+<li>
+<p>The optional second argument is a TRANSPORT FACTORY instance; by default it is an internal <code>SafeTransport</code> instance for https: URLs and an internal HTTP <code>Transport</code> instance otherwise.</p>
+<p>The optional third argument is an encoding, by default UTF-8. The optional fourth argument is a debugging flag.</p>
+</li>
+<li>
+<p>The following parameters govern the use of the RETURNED PROXY INSTANCE. If <code>allow_none</code> is true, the Python constant <code>None</code> will be translated into XML; the default behaviour is for <code>None</code> to raise a <code>TypeError</code>. This is a commonly-used extension to the XML-RPC specification, but isn’t supported by all clients and servers; see <a href="http://ontosys.com/xml-rpc/extensions.php">http://ontosys.com/xml-rpc/extensions.php</a> for a description.</p>
+<p><code>allow_none</code> 是控制 Python &rarr; XML-RPC 的轉換，預設 <code>None</code> 會丟出 <code>TypeError</code>，好奇 <code>None</code> 在 XML 裡會怎麼表現 ??</p>
+<p>The <code>use_datetime</code> flag can be used to cause date/time values to be presented as <code>datetime.datetime</code> objects; this is false by default. <code>datetime.datetime</code> objects may be passed to calls.</p>
+<p>搭配 &ldquo;to be presented as&rdquo; 與 &ldquo;may be passed to calls&rdquo; 的說法，呼叫時一定可以傳 <code>datetime.datetime</code>，<code>use_datetime</code> 是在控制 XML-RPC &rarr; Python 的轉換。</p>
+</li>
+<li>
+<p>Both the HTTP and HTTPS transports support the URL syntax extension for HTTP Basic Authentication: <code>http://user:pass@host:port/path</code>. The <code>user:pass</code> portion will be BASE64-ENCODED as an HTTP ‘Authorization’ header, and sent to the remote server as part of the connection process when invoking an XML-RPC method. You only need to use this if the remote server requires a Basic Authentication user and password.</p>
+<p>不用自己做 Base64 編碼，寫成 <code>user:pass</code> 內部會自動處理編碼。</p>
+<p>If an HTTPS URL is provided, context may be <code>ssl.SSLContext</code> and configures the SSL settings of the underlying HTTPS connection.</p>
+<p>只能用這種方式驗證身份嗎 ??</p>
+</li>
+<li>
+<p>The returned instance is a PROXY OBJECT with methods that can be used to invoke corresponding RPC calls on the remote server.</p>
+<p><code>ServerProxy</code> 名副其實是個 proxy object !!</p>
+</li>
+<li>
+<p>Changed in version 2.5: The <code>use_datetime</code> flag was added.</p>
+</li>
+<li>
+<p>Changed in version 2.6: Instances of new-style classes can be passed in if they have an <code>__dict__</code> attribute and don’t have a base class that is marshalled in a special way.</p>
+</li>
+<li>
+<p>Changed in version 2.7.9: Added the <code>context</code> argument.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#serverproxy-objects">ServerProxy Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</p>
+<ul>
+<li>
+<p>A <code>ServerProxy</code> instance has a method corresponding to each remote procedure call accepted by the XML-RPC server. Calling the method performs an RPC, dispatched by both name and argument signature (e.g. the same method name can be OVERLOADED with multiple argument signatures).</p>
+<p>The RPC finishes by returning a value, which may be either returned data in a conformant type or a <code>Fault</code> or <code>ProtocolError</code> object indicating an error.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="data-type">Data Type<a class="headerlink" href="#data-type" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#xmlrpclib.ServerProxy">class <code>xmlrpclib.ServerProxy</code> - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a></p>
+<ul>
+<li>
+<p>Types that are conformable (e.g. that can be MARSHALLED through XML), include the following (and except where noted, they are UNMARSHALLED as the same Python type):</p>
+<p>XML-RPC type -&gt; Python type</p>
+<ul>
+<li><code>boolean</code> -&gt; <code>bool</code></li>
+<li><code>int</code> / <code>i4</code> &rarr; <code>int</code> or <code>long</code> in range from -2147483648 to 2147483647.</li>
+<li><code>double</code> -&gt; <code>float</code></li>
+<li><code>string</code> -&gt; <code>str</code> or <code>unicode</code></li>
+<li>
+<p><code>array</code> -&gt; <code>list</code> or <code>tuple</code> containing conformable elements. Arrays are returned as <code>list</code>s.</p>
+</li>
+<li>
+<p><code>struct</code> -&gt; <code>dict</code>.</p>
+<p>Keys must be strings, values may be any conformable type. Objects of user-defined classes can be passed in; only their <code>__dict__</code> attribute is transmitted.</p>
+</li>
+<li>
+<p><code>dateTime.iso8601</code> -&gt; <code>xmlrpclib.DateTime</code> or <code>datetime.datetime</code>. Returned type depends on values of the <code>use_datetime</code> flags.</p>
+<p>預設傳回 <code>xmlrpclib.DateTime</code>，啟用 <code>use_datetime</code> 才會傳回 <code>datetime.datetime</code>；但有什麼理由不用 <code>datetime.datetime</code> ??</p>
+</li>
+<li>
+<p><code>base64</code> -&gt; <code>xmlrpclib.Binary</code></p>
+<p>為什麼不是 <code>str</code> (Python 2) 或 <code>bytes</code> (Python 3)? 會跟 <code>string</code> -&gt; <code>str</code>/<code>unicode</code> 混淆 ??</p>
+</li>
+<li>
+<p><code>nil</code> -&gt; The <code>None</code> constant. Passing is allowed only if <code>allow_none</code> is true.</p>
+<p>若 XML-RPC 有 <code>nil</code> 的概念，為什麼傳入 <code>None</code> 要特別用 <code>allow_none</code> 控制，而且預設還沒開啟 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Note that even though starting with Python 2.2 you can subclass built-in types, the <code>xmlrpclib</code> module currently does not marshal instances of such subclasses. ??</p>
+<p>這跟上面的一段說明有關：</p>
+<blockquote>
+<p>Changed in version 2.6: Instances of new-style classes can be passed in if they have an <code>__dict__</code> attribute and don’t have a base class that is marshalled in a special way.</p>
+</blockquote>
+</li>
+<li>
+<p>When passing strings, characters special to XML such as <code>&lt;</code>, <code>&gt;</code>, and <code>&amp;</code> will be AUTOMATICALLY ESCAPED. However, it’s the caller’s responsibility to ensure that the string is free of characters that aren’t allowed in XML, such as the CONTROL CHARACTERS with ASCII values between 0 and 31 (except, of course, tab, newline and carriage return); failing to do this will result in an XML-RPC request that ISN’T WELL-FORMED XML.</p>
+<p>If you have to pass arbitrary strings via XML-RPC, use the <code>Binary</code> wrapper class described below.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#boolean-objects">Boolean Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</p>
+</li>
+<li><a href="https://docs.python.org/2/library/xmlrpclib.html#datetime-objects">DateTime Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/xmlrpclib.html#binary-objects">Binary Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</li>
+</ul>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#xmlrpclib.ServerProxy">class <code>xmlrpclib.ServerProxy</code> - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a></p>
+<ul>
+<li>
+<p>This is the full set of data types supported by XML-RPC. Method calls may also raise a special <code>Fault</code> instance, used to signal XML-RPC server errors, or <code>ProtocolError</code> used to signal an error in the HTTP/HTTPS transport layer. Both <code>Fault</code> and <code>ProtocolError</code> derive from a base class called <code>Error</code>.</p>
+<p>可以把 <code>Fault</code> 理解成 server-side error，而 <code>ProtocolError</code> 是 connection error；而 <code>xmlrpclib.Error</code> 則是<a href="https://github.com/python/cpython/blob/2.7/Lib/xmlrpclib.py#L223">繼承自 <code>Exception</code></a>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#fault-objects">Fault Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</p>
+</li>
+<li><a href="https://docs.python.org/2/library/xmlrpclib.html#protocolerror-objects">ProtocolError Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</li>
+</ul>
+<h2 id="instrospection-api">Instrospection API<a class="headerlink" href="#instrospection-api" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#xmlrpclib.ServerProxy">class <code>xmlrpclib.ServerProxy</code> - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a></p>
+<ul>
+<li>If the remote server supports the INTROSPECTION API, the proxy can also be used to QUERY the remote server for the methods it supports (SERVICE DISCOVERY) and fetch other server-associated metadata.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#serverproxy-objects">ServerProxy Objects - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> #ril</p>
+<p>Servers that support the XML introspection API support some common methods grouped under the RESERVED <code>system</code> attribute:</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../xml-rpc/">XML-RPC</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/python/cpython/blob/2.7/Lib/xmlrpclib.py">cpython/xmlrpclib.py at 2.7 · python/cpython</a></li>
+<li><a href="https://github.com/python/cpython/blob/3.7/Lib/xmlrpc/client.py">cpython/client.py at 3.7 · python/cpython</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

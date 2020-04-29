@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/ldap/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>LDAP - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/ldap.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#ldap">LDAP</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#_1">運作方式 ??</a></li>
+                
+            <li class="second-level"><a href="#directory-tree-entry-attribute">Directory, Tree, Entry, Attribute??</a></li>
+                
+            <li class="second-level"><a href="#attribute-type-value-option">Attribute, Type, Value, Option ??</a></li>
+                
+            <li class="second-level"><a href="#dnrdn">DN、RDN??</a></li>
+                
+            <li class="second-level"><a href="#ldap-url">LDAP URL ??</a></li>
+                
+            <li class="second-level"><a href="#operation">Operation ??</a></li>
+                
+            <li class="second-level"><a href="#search-filter-base-dn-scope">Search Filter, Base DN, Scope ??</a></li>
+                
+            <li class="second-level"><a href="#schema-object-class-oid">Schema, Object Class, OID??</a></li>
+                
+            <li class="second-level"><a href="#bind-authentication">Bind, Authentication ??</a></li>
+                
+            <li class="second-level"><a href="#_2">管理工具 ??</a></li>
+                
+            <li class="second-level"><a href="#ldif">LDIF ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="ldap">LDAP<a class="headerlink" href="#ldap" title="Permanent link"> #</a></h1>
+<ul>
+<li>LDAP = Lightweight Directory Access Protocol</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/whatisldap.html">What&rsquo;s LDAP ?</a> LDAP 全名是 Lightweight Directory Access Protocol，規範在 RFC2251 裡，是一種存取 directory service (尤其是 X.500-based??) 的 client-server protocol</li>
+<li><a href="https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">Lightweight Directory Access Protocol - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/">LDAP Linux HOWTO</a> #ril</li>
+<li><a href="https://www.ldap.com/getting-started-with-ldap">Getting Started with LDAP</a> #ril</li>
+</ul>
+<h2 id="_1">運作方式 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/howitworks.html">How does LDAP work ?</a> #ril<ul>
+<li>基於 client-server model，由一或多個 LDAP server 構成 directory tree。由 client 連線到 server 然後詢問問題，server 可能會直接提供答案，也可能回一個 pointer 指出應該去哪裡找資料 (通常是另一個 LDAP server)。</li>
+<li>不論 client 連到哪個 server，都有一樣的 view (of the directory)；參照到同一個 entry 的表示法，不會因連接的 LDAP server 不同而異。</li>
+</ul>
+</li>
+</ul>
+<h2 id="directory-tree-entry-attribute">Directory, Tree, Entry, Attribute??<a class="headerlink" href="#directory-tree-entry-attribute" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/whatisldap.html">What&rsquo;s LDAP ?</a> Directory 跟 database 有點像，只是資訊更為 descriptive &amp; attribute-based，讀取的頻率比寫入高，具有 quick-response、支援 high-volume lookup/search、可複寫資訊以提升 availability/reliability 等特性。在複寫的過程中複本 (replica) 間可能會有不一致，但最終一定會同步。</li>
+<li><a href="https://www.ldap.com/the-directory-information-tree">The Directory Information Tree and the LDAP Root DSE</a> 以 tree-like hierarchy 方式安排資料 #ril</li>
+</ul>
+<h2 id="attribute-type-value-option">Attribute, Type, Value, Option ??<a class="headerlink" href="#attribute-type-value-option" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ldap.com/basic-ldap-concepts">Basic LDAP Concepts</a> Entries 及 Attributes #ril</li>
+<li><a href="http://www.zytrax.com/books/ldap/ape/#attributes">Commonly Used Attributes - Appendix E: LDAP - Object Classes and Attributes</a> 例出常用的 attribute，例如 <code>cn</code> (commonName)、<code>dc</code> (domainComponent)、<code>uid</code>、<code>ou</code> (<code>organisationalUnitName</code>) 等 #ril</li>
+<li><code>uid=john.doe,ou=People,dc=example,dc=com</code> 感覺 <code>dc</code>、<code>ou</code> 有些 attribute 是通用的??</li>
+<li><a href="https://www.ietf.org/rfc/rfc2798.txt">RFC 2789 - Definition of the inetOrgPerson LDAP Object Class</a> 定義了 user 該有的 attributes #ril</li>
+</ul>
+<h2 id="dnrdn">DN、RDN??<a class="headerlink" href="#dnrdn" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.ldap.com/ldap-dns-and-rdns">LDAP DNs and RDNs</a> #ril<ul>
+<li>DN (distinguished name) 除了可以識別 DIT (Directory Information Tree) 中特定的 entry，也指出該 entry 在 DIT 中的位置。</li>
+<li>DN 在概念上類似 filesystem 的 absolute path，只是表示法不同；filesystem path 的左側由 root 開始，往右發展下一層結構，但 DN 的 root 會放在右側，往左發展下一層結構。例如 <code>uid=john.doe,ou=People,dc=example,dc=com</code> 這個 DN，以樹狀結構來看，上一層 entry 的 DN 是 <code>ou=People,dc=example,dc=com</code>，往上則是 <code>dc=example,dc=com</code>。</li>
+<li>DN 由 &ldquo;零&rdquo; 或多個由逗號隔開的 RDN (relative distinguished name) 組成，例如 <code>uid=john.doe,ou=People,dc=example,dc=com</code> 就由 4 個 RDN 組成 &ndash; <code>uid=john.doe</code>、<code>ou=People</code>、<code>dc=example</code>、<code>dc=com</code></li>
+<li>每個 RDN 又由一或多個 attribute (name-value pair) 組成 (attribute name + &lsquo;=&rsquo; + attribute value)，例如 <code>cn=John Doe</code>。一個 RDN 有多個 name-value pair 時，其間用 <code>+</code> 串起來，例如 RDN <code>cn=John Doe+telephoneNumber=+1 123-456-7890</code>，可以解讀為這個 multivalued RDN 有兩個 attribute，分別是 <code>cn</code> (<code>John Doe</code>) 與 <code>telephoneNumber</code> (<code>+1 123-456-7890</code>)</li>
+<li>Multivalued RDN 主要用於無法用一個 attribute 在同一個階層識別出特定 entry 的狀況，例如有兩個人的名字都叫 John Doe，但他們有不同的電話。</li>
+<li>雖然某個 entry 的 DN 由多個 RDN 組成，但 &ldquo;某個 entry 的 RDN&rdquo; 通常是指 DN 最左邊的那個 RDN；同樣的，某個 entry 的 attribute，說的也是最左邊那個 RDN 的 attributes。例如 <code>uid=john.doe,ou=People,dc=example,dc=com</code> 這個 entry 的 RDN 是 <code>uid=john.doe</code>，它具有 <code>uid</code> attribute，值是 <code>john.doe</code>。</li>
+<li>當 DN 由 &ldquo;零&rdquo; 個 RDN 組成 &ndash; 稱做 zero-length DN 或 null DN (用空字串表示)，可以用來參照 root DSE (DSA-specific entry) &ndash; 提供許多關於該 directory server 的資訊。</li>
+<li>但 LDAP tree 最頂層的 entry 不一定是由單一個 RDN 構成，以 <code>dc=example,dc=com</code> 做為 topmost entry 的 DN (沒有上層 <code>dc=com</code>) 也是可以的。而 topmost entry 的 DN 稱做 naming context (或 suffix)。</li>
+<li>上面用逗號隔開多個 RDN 的表示法，就是 DN 的 string representation，嚴格來說是 attribute type name (不含 attribute option) + &lsquo;=&rsquo; + attribute value 的 &ldquo;string representation&rdquo;，如果是 multivalued RDN，則用 <code>+</code> 把多個 attribute 隔開來。有些字元則要用 <code>\</code> 做 escape，例如 <code>\</code> 可以用 <code>\\</code> 或 <code>\5c</code> (ASCII) 表示。</li>
+<li>一個 DN 不只一個 string representation，因為分隔字元 (<code>,=+</code>) 兩側都可以有多個空白字元、multivalued RDN 裡多個 attribute 間沒有順序、attribute name 不區分大小寫、attribute name 可以用 OID 替代、有些 attribute 甚至有多個 name。所以在比對 DN 時不能直接做字串比對，而應透過 LDAP client API 比較，或是透過 API 轉出 normalized represenation。</li>
+</ul>
+</li>
+<li>
+<p><a href="http://ldapwiki.com/wiki/DN%20Escape%20Values">Ldapwiki: DN Escape Values</a> <code>,\#+&lt;&gt;;"=</code> 要加 <code>\</code> 做 escape (例如 <code>,</code> 要用 <code>\,</code> 表示，才不會被視為 attribute 的分隔字元)，至於空白則只有 leading/trailing space 才需要 escape。</p>
+</li>
+<li>
+<p>一個 entry 可以有多個 attribute，哪些 attribute 才能成為 RDN 的一份子??</p>
+</li>
+<li>Appendix A: LDAP: DN and RDN <a href="http://www.zytrax.com/books/ldap/apa/dn-rdn.html">http://www.zytrax.com/books/ldap/apa/dn-rdn.html</a> #ril</li>
+<li>Distinguished Names (Windows) <a href="https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/aa366101(v=vs.85).aspx</a> #ril</li>
+</ul>
+<h2 id="ldap-url">LDAP URL ??<a class="headerlink" href="#ldap-url" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ldap.com/ldap-urls">LDAP URLs</a> <code>ldap://...</code> 不同的用法 #ril</li>
+</ul>
+<h2 id="operation">Operation ??<a class="headerlink" href="#operation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ldap.com/ldap-operation-types">LDAP Operation Types</a> #ril</li>
+</ul>
+<h2 id="search-filter-base-dn-scope">Search Filter, Base DN, Scope ??<a class="headerlink" href="#search-filter-base-dn-scope" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ldap.com/basic-ldap-concepts">Search Filters - Basic LDAP Concepts</a> Search Filters 與 Search Base DNs and Scopes #ril</li>
+<li><a href="https://confluence.atlassian.com/kb/how-to-write-ldap-search-filters-792496933.html">How to write LDAP search filters - Atlassian Documentation</a> #ril</li>
+<li><a href="https://www.ietf.org/rfc/rfc1558.txt">RFC 1558 - A String Representation of LDAP Search Filters</a> #ril</li>
+</ul>
+<h2 id="schema-object-class-oid">Schema, Object Class, OID??<a class="headerlink" href="#schema-object-class-oid" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ldap.com/ldap-dns-and-rdns">LDAP DNs and RDNs</a> 最後提到，可以從 server 取得 schema information，就可以知道 attribute type 的 name 跟 OID，以及 attribute value 的語法。</li>
+<li><a href="https://www.ldap.com/understanding-ldap-schema">Understanding LDAP Schema</a> #ril</li>
+</ul>
+<h2 id="bind-authentication">Bind, Authentication ??<a class="headerlink" href="#bind-authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/utilities.html">The ldapsearch, ldapdelete and ldapmodify utilities</a> <code>-x</code> 的作用是 simple authentication，而 man page 的說明是 &ldquo;Use simple authentication instead of SASL&rdquo;。</li>
+<li><a href="https://www.ldap.com/the-ldap-bind-operation">The LDAP Bind Operation</a> #ril<ul>
+<li>Bind operation 用來驗證 client (及背後的 user)，以建立後續操作參考的 authorization identity；藉由 bind operation 也提供了 client 希望採用的 LDAP protocol version。</li>
+<li>Authentication 至少涉及 &ldquo;宣稱是誰&rdquo; (identifying who or what is authenticating) 及 &ldquo;證明是誰&rdquo; (supplying some kind of proof of that identity)，某些 server 可能還會檢查其他條件來決定 bind 是否成功。</li>
+<li>LDAP bind request 的做法有兩種 &ndash; simple authentication 或 SASL authentication，所謂 simple authencation 是指用 account + password 驗證。</li>
+<li>就 simple authentication/bind 而言，account 以 account entry 的 DN 來表示，而 password 則是明碼傳送；當 account 跟 password 都是空白時，就是所謂的 anonymous simple authentication/bind。(雖然 LDAPv3 只要求密碼要空白，但許多 server 要求 password 空白時，account 也必須要空白)</li>
+</ul>
+</li>
+<li><a href="https://www.tldp.org/HOWTO/LDAP-HOWTO/authentication.html">Authentication using LDAP</a> LDAPv3 支援 3 種 authentication &ndash; anonymous、simple 及 SASL #ril</li>
+</ul>
+<h2 id="_2">管理工具 ??<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.techrepublic.com/blog/10-things/10-linux-gui-tools-for-sysadmins/">10 Linux GUI tools for sysadmins - TechRepublic</a> (2015-10-23) 唯一穩固的 LDAP GUI 管理工具 &ndash; Apache Directory，雖然專為 ApacheDS 設計，但可以做為 LDAP browser、schema editor、LDIF editor 等。</li>
+<li><a href="http://directory.apache.org/studio/">Welcome to Apache Directory Studio — Apache Directory</a> 試用過很不錯!!</li>
+<li><a href="https://en.wikipedia.org/wiki/List_of_LDAP_software">List of LDAP software - Wikipedia</a> #ril</li>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/utilities.html">The ldapsearch, ldapdelete and ldapmodify utilities</a> #ril</li>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/graphicaltools.html">Graphical LDAP tools</a> #ril</li>
+<li><a href="http://jxplorer.org/">JXplorer - an open source LDAP browser</a> #ril</li>
+</ul>
+<h2 id="ldif">LDIF ??<a class="headerlink" href="#ldif" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://en.tldp.org/HOWTO/LDAP-HOWTO/moreonldif.html">More on the LDIF Format</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.ldap.com/">LDAP.com</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../openldap/">OpenLDAP</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.ldap.com/glossary-of-ldap-terms">Glossary of LDAP Terms</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc1558.txt">RFC 1558 - A String Representation of LDAP Search Filters</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc2251.txt">RFC 2251 - Lightweight Directory Access Protocol (v3)</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc2798.txt">RFC 2789 - Definition of the inetOrgPerson LDAP Object Class</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc4514.txt">RFC 4514 - Lightweight Directory Access Protocol (LDAP): String Representation of Distinguished Names</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc4516.txt">RFC 4516 - Lightweight Directory Access Protocol (LDAP): Uniform Resource Locator</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

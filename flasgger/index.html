@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/flasgger/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Flasgger - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/flasgger.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#flasgger">Flasgger</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#openapi-specification">OpenAPI Specification</a></li>
+                
+            <li class="second-level"><a href="#validation">Validation</a></li>
+                
+            <li class="second-level"><a href="#swagger-ui">Swagger UI</a></li>
+                
+            <li class="second-level"><a href="#flask-restful-integration">Flask-RESTful Integration</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="flasgger">Flasgger<a class="headerlink" href="#flasgger" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://httpbin.org/">httpbin.org</a> 第一次在 httpbin.org 看到 Flasgger 被使用 &ndash; Powered by Flasgger；參考 <a href="https://github.com/requests/httpbin/blob/master/setup.py">httpbin/setup.py at master · requests/httpbin</a></p>
+</li>
+<li>
+<p><a href="https://github.com/rochacbruno/flasgger">rochacbruno/flasgger: Easy Swagger UI for your Flask API</a></p>
+<ul>
+<li>
+<p>Flasgger is a Flask extension to EXTRACT OpenAPI-Specification from all Flask views registered in your API.</p>
+<p>Flasgger also comes with SwaggerUI embedded so you can access <a href="http://localhost:5000/apidocs">http://localhost:5000/apidocs</a> and visualize and interact with your API resources.</p>
+</li>
+<li>
+<p>Flasgger also provides VALIDATION of the incoming data, using the same specification it can validates if the data received as as a POST, PUT, PATCH is valid against the schema defined using YAML, Python dictionaries or <a href="https://marshmallow.readthedocs.io/">Marshmallow Schemas</a>. #ril</p>
+</li>
+<li>
+<p>Flasgger can work with simple function views or <code>MethodView</code>s using docstring as specification, or using <code>@swag_from</code> decorator to get specification from YAML or dict and also provides <code>SwaggerView</code> which can use Marshmallow Schemas as specification. #ril</p>
+</li>
+<li>
+<p>Flasgger is compatible with Flask-RESTful so you can use <code>Resource</code>s and swag specifications together, take a look at <a href="https://github.com/flasgger/flasgger/blob/master/examples/restful.py">restful example</a>.</p>
+<p>看來 Flask-RESTPlus 跟 Flasgger 都是基於 Flask-RESTful 整合了 OpenAPI Specification 進來，只是兩者的方法很不一樣，前者用大量的 decorator，後者則將 specification 內嵌在 docstring 裡。</p>
+<p><a href="https://github.com/requests/httpbin/blob/master/httpbin/core.py">httpbin/core.py at master · requests/httpbin</a> 就是用 docstrings (但沒用 Flask-RESTful)</p>
+</li>
+<li>
+<p>Flasgger also supports Marshmallow APISpec as base template for specification, if you are using APISPec from Marshmallow take a look at <a href="https://github.com/flasgger/flasgger/blob/master/examples/apispec_example.py">apispec example</a>. #ril</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/flasgger/flasgger#getting-started">Getting started - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a> #ril</p>
+<p>Using docstrings as specification</p>
+<ul>
+<li>
+<p>Create a file called for example <code>colors.py</code></p>
+<pre><code>from flask import Flask, jsonify
+from flasgger import Swagger
+
+app = Flask(__name__)
+swagger = Swagger(app)
+
+@app.route('/colors/&lt;palette&gt;/')
+def colors(palette):
+    """Example endpoint returning a list of colors by palette
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: palette
+        in: path
+        type: string
+        enum: ['all', 'rgb', 'cmyk']
+        required: true
+        default: all
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """
+    all_colors = {
+        'cmyk': ['cian', 'magenta', 'yellow', 'black'],
+        'rgb': ['red', 'green', 'blue']
+    }
+    if palette == 'all':
+        result = all_colors
+    else:
+        result = {palette: all_colors.get(palette)}
+
+    return jsonify(result)
+
+app.run(debug=True)
+</code></pre>
+<p>在 docstring 裡寫 YAML，跟 doctest 的概念很像；只是塞在 docstring 裡 Swagger Editor 就派不上用場了。</p>
+<p>語法幾乎跟 OpenAPI 一樣? 不過很明顯地，docstring 允許 <code>definitions:</code> 這種 external definition 的用法也出現 spec 裡，猜想在執行期會將所有 endpoint 的 spec 合併在一起。</p>
+</li>
+<li>
+<p>Now run:</p>
+<pre><code>python colors.py
+</code></pre>
+<p>And go to: <a href="http://localhost:5000/apidocs/">http://localhost:5000/apidocs/</a></p>
+<p>You should get:</p>
+<p><img alt="colors" src="https://github.com/flasgger/flasgger/blob/master/docs/colors.png" /></p>
+</li>
+</ul>
+<p>Using external YAML files</p>
+<ul>
+<li>
+<p>Save a new file <code>colors.yml</code></p>
+<pre><code>Example endpoint returning a list of colors by palette
+In this example the specification is taken from external YAML file
+---
+parameters:
+  - name: palette
+    in: path
+    type: string
+    enum: ['all', 'rgb', 'cmyk']
+    required: true
+    default: all
+definitions:
+  Palette:
+    type: object
+    properties:
+      palette_name:
+        type: array
+        items:
+          $ref: '#/definitions/Color'
+  Color:
+    type: string
+responses:
+  200:
+    description: A list of colors (may be filtered by palette)
+    schema:
+      $ref: '#/definitions/Palette'
+    examples:
+      rgb: ['red', 'green', 'blue']
+</code></pre>
+</li>
+<li>
+<p>lets use the same example changing only the view function.</p>
+<pre><code>from flasgger import swag_from
+
+@app.route('/colors/&lt;palette&gt;/')
+@swag_from('colors.yml')
+def colors(palette):
+    ...
+</code></pre>
+<p>寫在外部檔，不會讓 Python code 因過長的 docstring 而降低可讀性；依不同 endpoint 拆成多個 YAML 檔，Swagger Editor 也不支援這樣的用法。</p>
+</li>
+<li>
+<p>If you do not want to use the decorator you can use the docstring <code>file:</code> shortcut.</p>
+<pre><code>@app.route('/colors/&lt;palette&gt;/')
+def colors(palette):
+    """
+    file: colors.yml
+    """
+    ...
+</code></pre>
+</li>
+</ul>
+<p>Using dictionaries as raw specs</p>
+<ul>
+<li>
+<p>Create a Python dictionary as:</p>
+<pre><code>specs_dict = {
+  "parameters": [
+    {
+      "name": "palette",
+      "in": "path",
+      "type": "string",
+      "enum": [
+        "all",
+        "rgb",
+        "cmyk"
+      ],
+      "required": "true",
+      "default": "all"
+    }
+  ],
+  "definitions": {
+    "Palette": {
+      "type": "object",
+      "properties": {
+        "palette_name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Color"
+          }
+        }
+      }
+    },
+    "Color": {
+      "type": "string"
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "A list of colors (may be filtered by palette)",
+      "schema": {
+        "$ref": "#/definitions/Palette"
+      },
+      "examples": {
+        "rgb": [
+          "red",
+          "green",
+          "blue"
+        ]
+      }
+    }
+  }
+}
+</code></pre>
+<p>用 Python dict 來寫的優勢是什麼?</p>
+</li>
+<li>
+<p>Now take the same function and use the dict in the place of YAML file.</p>
+<pre><code>@app.route('/colors/&lt;palette&gt;/')
+@swag_from(specs_dict)
+def colors(palette):
+    """Example endpoint returning a list of colors by palette
+    In this example the specification is taken from specs_dict
+    """
+    ...
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="openapi-specification">OpenAPI Specification<a class="headerlink" href="#openapi-specification" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/flasgger/flasgger#openapi-30-support">OpenAPI 3.0 Support - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a> #ril</li>
+</ul>
+<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/flasgger/flasgger#use-the-same-data-to-validate-your-api-post-body">Use the same data to validate your API POST body - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a> #ril</li>
+</ul>
+<h2 id="swagger-ui">Swagger UI<a class="headerlink" href="#swagger-ui" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/flasgger/flasgger#swagger-ui-and-templates">Swagger UI and templates - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a> #ril</li>
+<li><a href="https://github.com/flasgger/flasgger#externally-loading-swagger-ui-and-jquery-jscss">Externally loading Swagger UI and jQuery JS/CSS - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a> #ril</li>
+</ul>
+<h2 id="flask-restful-integration">Flask-RESTful Integration<a class="headerlink" href="#flask-restful-integration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/flasgger/flasgger#using-flask-restful-resources">Using Flask RESTful Resources - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/flasgger/flasgger#installation">Installation - flasgger/flasgger: Easy OpenAPI specs and Swagger UI for your Flask API</a></p>
+<pre><code>pip install flasgger
+</code></pre>
+<p>NOTE: If you want to use Marshmallow Schemas you also need to run <code>pip install marshmallow apispec</code></p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/rochacbruno/flasgger">rochacbruno/flasgger - GitHub</a></li>
+<li><a href="http://flasgger.pythonanywhere.com/">Flasgger Demo</a> (<a href="https://github.com/flasgger/flasgger/tree/master/examples">source</a>)</li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>做為 <a href="../flask/">Flask</a> extension，可以從 docstring 取出 <a href="../swagger-spec/">OpenAPI Specification</a>，並自動產生 <a href="../swagger/#ui">Swagger UI</a>。</li>
+<li>可以搭配 <a href="../flask-restful/">Flask-RESTful</a> 的 <code>Resource</code> 使用。</li>
+<li>替代方案有 <a href="../flask-restplus/">Flask-RESTPlus</a>、<a href="../connexion/">Connexion</a>。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

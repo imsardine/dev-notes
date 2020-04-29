@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/esp8266/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>ESP8266 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/esp8266.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#esp8266">ESP8266</a></li>
+            <li class="second-level"><a href="#espressif-ai-thinker">Espressif (樂鑫), Ai-Thinker (安可信) ??</a></li>
+                
+            <li class="second-level"><a href="#module">Module ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#esp-01">ESP-01 ??</a></li>
+                
+            <li class="second-level"><a href="#esp-01s">ESP-01S ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="esp8266">ESP8266<a class="headerlink" href="#esp8266" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/ESP8266">ESP8266 - Wikipedia</a> #ril<ul>
+<li>低成本，帶有 MCU (單晶片；MicroController Unit) 與 Wi-Fi 晶片；由中國 Espressif Systems 生產。</li>
+</ul>
+</li>
+<li>深入淺出 Wifi 晶片 ESP8266 with Arduino – 阿喵就像家 <a href="https://mlwmlw.org/2015/07/%E6%B7%B1%E5%85%A5%E6%B7%BA%E5%87%BA-wifi-%E6%99%B6%E7%89%87-esp8266-with-arduino/">https://mlwmlw.org/2015/07/%E6%B7%B1%E5%85%A5%E6%B7%BA%E5%87%BA-wifi-%E6%99%B6%E7%89%87-esp8266-with-arduino/</a> #ril</li>
+<li><a href="https://www.espressif.com/products/hardware/esp8266ex/overview/">ESP8266 Overview | Espressif Systems</a> #ril</li>
+</ul>
+<h2 id="espressif-ai-thinker">Espressif (樂鑫), Ai-Thinker (安可信) ??<a class="headerlink" href="#espressif-ai-thinker" title="Permanent link"> #</a></h2>
+<ul>
+<li>安可信只做晶片，是樂鑫拿去整出 ESP-XXX?</li>
+<li><a href="https://www.espressif.com/">Espressif Systems - Wi-Fi and Bluetooth chipsets and solutions</a> #ril</li>
+<li><a href="https://www.ai-thinker.com/home">深圳市安信可科技有限公司</a> #ril</li>
+</ul>
+<h2 id="module">Module ??<a class="headerlink" href="#module" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://mlwmlw.org/2015/07/%E6%B7%B1%E5%85%A5%E6%B7%BA%E5%87%BA-wifi-%E6%99%B6%E7%89%87-esp8266-with-arduino/">深入淺出 Wifi 晶片 ESP8266 with Arduino – 阿喵就像家</a> (2015-07-19) ESP8266 分成 ESP01 ~ ESP12，用途跟 flash size 各有不同? 接到麵包板的方便性 ESP05 &gt; ESP01 &gt; ESP03 (除了  ESP-05 大都要額外焊轉接板)；作者用 ESP01。 #ril</li>
+<li><a href="http://l0l.org.uk/2014/12/esp8266-modules-hardware-guide-gotta-catch-em-all/">ESP8266 modules hardware guide - gotta catch &lsquo;em all! - layer zero labs</a> (2014-12-05) #ril</li>
+<li><a href="https://blog.squix.org/2015/03/esp8266-module-comparison-esp-01-esp-05.html">ESP8266 module comparison: ESP-01, ESP-05, ESP-12, ESP-201, Test Board and NodeMCU – Squix – TechBlog</a> (2015-03-16) #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tttapa.github.io/ESP8266/Chap01%20-%20ESP8266.html">A Beginner&rsquo;s Guide to the ESP8266</a> #ril</li>
+</ul>
+<h2 id="esp-01">ESP-01 ??<a class="headerlink" href="#esp-01" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://blog.squix.org/2015/03/esp8266-module-comparison-esp-01-esp-05.html">ESP-01 - ESP8266 module comparison: ESP-01, ESP-05, ESP-12, ESP-201, Test Board and NodeMCU – Squix – TechBlog</a> (2015-03-16) #ril</li>
+<li><a href="http://henrysbench.capnfatz.com/henrys-bench/arduino-projects-tips-and-more/esp8266-esp-01-pin-outs-and-schematics/">ESP-01 Pin Outs and Schematic | Henry&rsquo;s Bench</a> #ril</li>
+</ul>
+<h2 id="esp-01s">ESP-01S ??<a class="headerlink" href="#esp-01s" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.taiwaniot.com.tw/product/esp8266-esp-01s-%E4%B8%B2%E5%8F%A3wifi-%E7%84%A1%E7%B7%9A%E6%A8%A1%E7%B5%84/">ESP8266 ESP-01S 串口 WIFI 收發無線模組 安信可科技原廠貨 - 台灣物聯科技 TaiwanIOT Studio</a> #ril</li>
+<li><a href="http://www.playrobot.com/wifi-enthnet/1587-arduino-esp8266-wifi-esp-01s.html">Arduino ESP8266 串口 WiFI 模組 (ESP-01S) - PlayRobot</a> 下方有詳細規格書 #ril</li>
+<li><a href="http://www.playrobot.com/robotpress/wp-content/uploads/2016/09/ESP.pdf">入門教學</a> (PDF) 採用 115200 baud rate，強調 CH_PD 要接 3V，否則 Wi-Fi 不會作用 #ril</li>
+<li><a href="http://blog.xuite.net/laoweiz/blog/484397330">ESP8266 ESP-01s測試 (01) 利用USB 轉TTL模組 @ 老尉子的部落格 :: 隨意窩 Xuite日誌</a> (2017-02-04) 為什麼說 USB-TTL 的 3V3 跟 +5V 都不要接? #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="macos">macOS ??<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="http://blog.dushin.net/2016/07/getting-started-with-esp8266-development-on-the-mac/">Getting Started with ESP8266 Development on the Mac | lost+found</a> #ril</p>
+<ul>
+<li>作者是軟體開發人員，沒有硬體的經驗，希望能直接在 Mac 上開發；許多有用的資訊來自 <a href="http://neilkolban.com/tech/esp8266/">Kolban’s book on the ESP8266</a> (free)</li>
+<li>由於 ESP-01 跟麵包板不太合 (breadboard-friendly) &ndash; 不方便把針腳分別接出來? 作者找到一塊 breadboard adapter。</li>
+<li>由於 ESP-01 不是 plug-and-play development board，所以需要 USB &rarr; UART adapter，作者選用基於 CP2102 chipset 的 adpater，因為 macOS 有不錯的驅動程式；一再強調，要接 3.3v 的電源，接到 5v 可能會燒掉 ESP。</li>
+<li>
+<p>Assembly 看到作者把 USB &rarr; UART adapter、ESP8266 (breadboard) adpater、breadboard 3.3v/5v power supply 全接上了，電源並非由 USB &rarr; UART adapter 供應。</p>
+<p>接線時注意 Connect the USB adapter TX0 (transmit) pin to the RXD (receive) pin on the ESP8266. 及 Connect the USB adapter RX1 (receive) pin to the TXD (transmit) pin on the ESP8266. 總是將 TX 與 RX 對接。</p>
+<p>Connect the CHPD (?) pin of the ESP8266 to the positive rail (3.3v) on your bread board. 與 Connect the GP0 pin of the ESP8266 to the positive rail (3.3v) on your bread board, in order to boot the device on power up. [gray] Note that you will connect this spin to ground when it comes time to image the device. 最讓人不解??</p>
+</li>
+<li>
+<p>作者採用 <a href="https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers">USB to UART Bridge VCP Drivers | Silicon Labs</a>，尤其 driver 是 sign 過的，值得信任。接上電腦後就能看到 <code>/dev/tty.SLAB_USBtoUART/</code>。</p>
+<pre><code>$ ls -l /dev/tty.SLAB_USBtoUART
+crw-rw-rw-  1 root  wheel   21,   6 Nov 29 23:21 /dev/tty.SLAB_USBtoUART
+$ kextstat | grep -i silabs # kernel module
+  418    0 0xffffff7f83811000 0x9000     0x9000     com.silabs.driver.CP210xVCPDriver (5.0.6) CB447773-056A-33AD-B00C-C66884C66223 &lt;141 22 4 3&gt;
+</code></pre>
+<p>在 About This Mac &gt; System Report&hellip; &gt; Hardware &gt; USB 下也可以看到 CP2102 USB to UART Bridge Controller</p>
+</li>
+<li>
+<p>The ESP8266 comes PRE-CONFIGURED WITH FIRMWARE that allows you to communicate over the USB-serial interface to the device, and send simple commands from the old and venerable AT command set, from the old days of modem communications. 作者用 minicom &ndash; <code>sudo minicom -D /dev/tty.SLAB_USBtoUART</code>，一開始 ESP 先不要接電源，待進到 minicom 後再接電，就會看到 <code>Ai-Thinker Technology Co.,Ltd. ... ready</code> 的字樣，下 <code>AT</code> 要回 <code>OK</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.micropython.org/en/latest/esp8266/esp8266/tutorial/intro.html">1. Getting started with MicroPython on the ESP8266 — MicroPython 1.9.3 documentation</a> 提到 &ldquo;built-in USB-serial convertor to make the UART available to your PC&rdquo;</p>
+</li>
+<li><a href="http://www.arjunsk.com/iot/iot-using-esp8266-programmer-ch340g-chip-adapter/">IOT : Using ESP8266 Programmer CH340G Chip Adapter-PART 1 - CodeKrypt</a> (2016-10-26) 一個 USB 轉接器，可以把 ESP-01 直接插上去；也是強調要用 3.3V #ril</li>
+<li><a href="http://www.acdcelectronics.ro/converter_usb_uart_for_esp_01_english.pdf">USB-UART 3.3V converter for WiFi ESP-01 module </a> (PDF) 也是 USB 轉接頭 #ril</li>
+<li><a href="http://williamdurand.fr/2015/03/17/playing-with-a-esp8266-wifi-module/">Playing With a ESP8266 WiFi Module · William Durand</a> (2015-03-17) VCC needs 3.3V #ril</li>
+<li><a href="http://blog.dushin.net/2016/07/getting-started-with-esp8266-development-on-the-mac/">Getting Started with ESP8266 Development on the Mac | lost+found</a> (2016-07-17) 用 minicom #ril</li>
+<li><a href="http://shopping.friday.tw/ec2/product?pid=5380061&amp;cid=333779&amp;sid=593&amp;gclid=EAIaIQobChMIksCH57bl1wIVCB4rCh3m5w9pEAQYASABEgLvOPD_BwE&amp;gclsrc=aw.ds">USB TO Uart -friDay購物</a> 使用 CH340 晶片，可以切換 3.3V 及 5V。</li>
+<li><a href="http://www.esp8266.com/viewtopic.php?f=6&amp;t=632">Trouble with connecting CP2102 with ESP8266 - Everything ESP8266</a> CP2102 供電不足? #ril</li>
+<li>有人說，把 <code>~/.screenrc</code> 改成 <code>bindkey "\015" stuff "\015\012"</code> (把 CR 改成 CRLF)，就可以連上了?</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.espressif.com/">Espressif Systems</a></li>
+<li><a href="https://www.ai-thinker.com/">深圳市安信可科技有限公司 (AI-Thinker)</a></li>
+<li><a href="http://esp8266.net/">ESP8266.net — The Internet of Things with ESP8266</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="http://bbs.espressif.com/">ESP8266 Developer Zone - Espressif Systems</a></li>
+<li><a href="http://www.esp8266.com/">ESP8266 Community Forum - Everything ESP8266</a> (<a href="https://github.com/esp8266">GitHub</a>)</li>
+</ul>
+<p>學習資源：</p>
+<ul>
+<li><a href="http://yhhuang1966.blogspot.com/search/label/ESP8266">小狐狸事務所: ESP8266</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../esptool/">esptool</a> - ESP8266 bootloader 燒錄工具</li>
+<li><a href="../nodemcu/">NodeMCU</a> - 採用 ESP8266 微處理器</li>
+<li><a href="../micropython-esp8266/">MicroPython</a> - MicroPython 官方直接提供 ESP8266 的韌體</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

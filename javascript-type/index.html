@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/javascript-type/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JavaScript / Data Type - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/javascript-type.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#javascript-data-type">JavaScript / Data Type</a></li>
+            <li class="second-level"><a href="#boolean">Boolean</a></li>
+                
+            <li class="second-level"><a href="#number">Number</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="javascript-data-type"><a href="../javascript/">JavaScript</a> / Data Type<a class="headerlink" href="#javascript-data-type" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Data_structures_and_types">Data structures and types - Grammar and types - JavaScript | MDN</a></p>
+<p>Data types</p>
+<ul>
+<li>
+<p>The latest ECMAScript standard defines eight DATA TYPES:</p>
+<p>Seven data types that are PRIMITIVEs:</p>
+<ul>
+<li>Boolean. <code>true</code> and <code>false</code>.</li>
+<li>null. A special keyword denoting a null value. Because JavaScript is case-sensitive, <code>null</code> is not the same as <code>Null</code>, <code>NULL</code>, or any other variant.</li>
+<li>undefined. A top-level property whose value is not defined.</li>
+<li>Number. An integer or floating point number. For example: <code>42</code> or <code>3.14159</code>.</li>
+<li>BigInt. An integer with arbitrary precision. For example: <code>9007199254740992n</code>.</li>
+<li>String. A sequence of characters that represent a text value. For example: <code>"Howdy"</code></li>
+<li>Symbol (new in ECMAScript 2015). A data type whose instances are UNIQUE AND IMMUTABLE. #ril</li>
+</ul>
+<p>and Object</p>
+</li>
+<li>
+<p>Although these data types are relatively few, they enable you to perform useful functions with your applications. Objects and functions are the other fundamental elements in the language. You can think of objects as named containers for values, and functions as procedures that your application can perform.</p>
+<p>雖然 function 沒列在上面，但 function 也是個 type (<code>Function</code>)。</p>
+</li>
+</ul>
+<p>Data type conversion</p>
+<ul>
+<li>
+<p>JavaScript is a DYNAMICALLY TYPED language. That means you don&rsquo;t have to specify the data type of a variable when you declare it, and data types are converted automatically as needed during script execution. So, for example, you could define a variable as follows:</p>
+<pre><code>var answer = 42;
+</code></pre>
+<p>And later, you could assign the same variable a string value, for example:</p>
+<pre><code>answer = 'Thanks for all the fish...';
+</code></pre>
+<p>Because JavaScript is dynamically typed, this assignment does not cause an error message.</p>
+</li>
+<li>
+<p>In expressions involving numeric and string values with the <code>+</code> operator, JavaScript converts numeric values to strings. For example, consider the following statements:</p>
+<pre><code>x = 'The answer is ' + 42 // "The answer is 42"
+y = 42 + ' is the answer' // "42 is the answer"
+</code></pre>
+</li>
+<li>
+<p>In statements involving other operators, JavaScript does not convert numeric values to strings. For example:</p>
+<pre><code>'37' - 7 // 30
+'37' + 7 // "377"
+</code></pre>
+<p>反而將字串轉為數字。</p>
+</li>
+</ul>
+<p>Converting strings to numbers</p>
+<ul>
+<li>
+<p>In the case that a value representing a number is in memory as a string, there are methods for conversion.</p>
+<pre><code>parseInt()
+parseFloat()
+</code></pre>
+<p>點擊上面的連結會被帶到 JavaScript Reference &gt; Global Objects 下的文件，確實 <code>parseInt</code> 跟 <code>parseFloat</code> 都在 global scope 裡可以直接調用，但為什麼說是 global objects 呢? 不要跟 global object (單數) 搞混，這裡的 global objects 是 &ldquo;objects in the global scope&rdquo; 的意思，也就是會有 <code>window.parseInt</code> 與 <code>window.parseFloat</code>。</p>
+<p>另外一開始介紹 data type 時只有 number 一種 (integer or floating point)，為什麼 <code>parseInt</code> 跟 <code>parseFloat</code> 要分開? 原來 <code>parseInt(string, radix)</code> 比 <code>parseFloat(string)</code> 多了個 <code>radix</code> 參數可以指定要以幾進位來解讀字串，例如 <code>parseInt('ff', 16)</code> 會得到 255。</p>
+</li>
+<li>
+<p><code>parseInt</code> only returns whole numbers, so its use is diminished for decimals. Additionally, a best practice for <code>parseInt</code> is to ALWAYS include the <code>radix</code> parameter. The <code>radix</code> parameter is used to specify which NUMERICAL SYSTEM is to be used.</p>
+<pre><code>parseInt('101', 2) // 5
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt">parseInt() - JavaScript | MDN</a> 提到 Be careful — this does not default to 10. 雖然 <code>parseInt('101')</code> 會得到 101，感覺會因平台而異?</p>
+<p><a href="https://www.w3schools.com/jsref/jsref_parseint.asp">JavaScript parseInt() Function</a>:</p>
+<blockquote>
+<p>Older browsers will result <code>parseInt("010")</code> as 8, because older versions of ECMAScript, (older than ECMAScript 5, uses the octal radix (8) as default when the string BEGINS WITH &ldquo;0&rdquo;. As of ECMAScript 5, the default is the decimal radix (10).</p>
+</blockquote>
+<p>原來是跟 ECMAScript 的版本有關係，最好的方法就是明確給 <code>radix</code> 的參數。</p>
+</li>
+<li>
+<p>An alternative method of retrieving a number from a string is with the <code>+</code> (unary plus) operator:</p>
+<pre><code>'1.1' + '1.1' // '1.11.1'
+(+'1.1') + (+'1.1') // 2.2
+// Note: the parentheses are added for clarity, not required.
+</code></pre>
+<p>這太奇怪了</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="boolean">Boolean<a class="headerlink" href="#boolean" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Boolean_literals">Boolean literals - Grammar and types - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>The Boolean type has two literal values: <code>true</code> and <code>false</code>.</p>
+</li>
+<li>
+<p>Do not confuse the PRIMITIVE Boolean values <code>true</code> and <code>false</code> with the true and false values of the <code>Boolean</code> object. The <code>Boolean</code> object is a WRAPPER around the primitive Boolean data type. See <code>Boolean</code> for more information.</p>
+<p>這一點跟 Java 好像，除了 primitive 外還有個 wrapper；意思是用 literal 寫 <code>true</code>/<code>false</code>，並不會生成 <code>Boolean</code> object。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean - JavaScript | MDN</a> #ril</p>
+</li>
+</ul>
+<h2 id="number">Number<a class="headerlink" href="#number" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Numeric_literals">Numeric literals - Grammar and types - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p><code>Number</code> and <code>BigInt</code> types can be expressed in decimal (base 10), hexadecimal (base 16), octal (base 8) and binary (base 2).</p>
+<ul>
+<li>A decimal numeric literal consists of a sequence of digits WITHOUT A LEADING 0 (zero).</li>
+<li>A leading 0 (zero) on a numeric literal, or a leading <code>0o</code> (or <code>0O</code>) indicates it is in octal. Octal numerics can include only the digits 0-7.</li>
+<li>A leading <code>0x</code> (or <code>0X</code>) indicates a hexadecimal numeric type. Hexadecimal numerics can include digits (0-9) and the letters a-f and A-F. (The case of a character does not change its value, e.g. 0xa = 0xA = 10 and 0xf = 0xF = 15.)</li>
+<li>A leading <code>0b</code> (or <code>0B</code>) indicates a binary numeric literal. Binary numerics can only include the digits 0 and 1.</li>
+</ul>
+<p>這裡 <code>Number</code> 跟 <code>BigInt</code> 都用等寬字顯示，但這裡講的應該是 primitive ??</p>
+</li>
+<li>
+<p>Some examples of numeric literals are:</p>
+<pre><code>0, 117, -345, 123456789123456789n             (decimal, base 10)
+015, 0001, -0o77, 0o777777777777n             (octal, base 8) 
+0x1123, 0x00111, -0xF1A7, 0x123456789ABCDEFn  (hexadecimal, "hex" or base 16)
+0b11, 0b0011, -0b11, 0b11101001010101010101n  (binary, base 2)
+</code></pre>
+</li>
+</ul>
+<p>Floating-point literals</p>
+<ul>
+<li>
+<p>A floating-point literal can have the following parts:</p>
+<ul>
+<li>A decimal integer which can be signed (preceded by &ldquo;+&rdquo; or &ldquo;-&ldquo;),</li>
+<li>A decimal point (&ldquo;.&rdquo;),</li>
+<li>A fraction (another decimal number),</li>
+<li>An exponent.</li>
+</ul>
+<p>The exponent part is an &ldquo;e&rdquo; or &ldquo;E&rdquo; followed by an integer, which can be signed (preceded by &ldquo;+&rdquo; or &ldquo;-&ldquo;). A floating-point literal must have at least one digit and either a decimal point or &ldquo;e&rdquo; (or &ldquo;E&rdquo;).</p>
+</li>
+<li>
+<p>More succinctly, the syntax is:</p>
+<pre><code>[(+|-)][digits].[digits][(E|e)[(+|-)]digits]
+</code></pre>
+<p>For example:</p>
+<pre><code>3.1415926
+-.123456789
+-3.1E+12
+.1e-23
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Floating-point_literals">Floating-point literals - Grammar and types - JavaScript | MDN</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

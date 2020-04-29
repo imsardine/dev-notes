@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/revealjs/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>reveal.js - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/revealjs.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#revealjs">reveal.js</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#markdown">Markdown</a></li>
+                
+            <li class="second-level"><a href="#config">Configuration</a></li>
+                
+            <li class="second-level"><a href="#hosting">Hosting</a></li>
+                
+            <li class="second-level"><a href="#plugin">Plugin</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="revealjs">reveal.js<a class="headerlink" href="#revealjs" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/">hakimel/reveal.js: The HTML Presentation Framework</a></p>
+<ul>
+<li>
+<p>A FRAMEWORK for easily creating beautiful presentations using HTML. <a href="https://revealjs.com/">Check out the live demo</a>.</p>
+<p>這個專案的星星數有 50.5k，有點誇張!!</p>
+</li>
+<li>
+<p>reveal.js comes with a broad range of features including nested slides, Markdown support, PDF export, speaker notes and a JavaScript API. There&rsquo;s also a fully featured visual editor and platform for sharing reveal.js presentations at slides.com.</p>
+</li>
+<li>
+<p>Presentations are written using HTML or Markdown but there&rsquo;s also an online editor for those of you who prefer a graphical interface. Give it a try at <a href="https://slides.com">https://slides.com</a>.</p>
+<p>Markdown 的用法並不是事先用工具轉成 HTML，而是內嵌在 HTML，在 browser 裡動態解析；所以 Slides.com 應該沒有上傳 Markdown 的選項。</p>
+</li>
+<li>
+<p>This project was started and is maintained by @hakimel with the help of many contributions from the community. The best way to support the project is to become a paying member of Slides.com—the reveal.js presentation platform that Hakim is building.</p>
+<p>原來 slides.com 是作者 Hakim 建的商用平台。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/#markup">Markup - Instructions - hakimel/reveal.js: The HTML Presentation Framework</a></p>
+<ul>
+<li>
+<p>Here&rsquo;s a BAREBONEs example of a fully working reveal.js presentation:</p>
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="stylesheet" href="css/reveal.css"&gt;
+    &lt;link rel="stylesheet" href="css/theme/white.css"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="reveal"&gt;
+      &lt;div class="slides"&gt;
+        &lt;section&gt;Slide 1&lt;/section&gt;
+        &lt;section&gt;Slide 2&lt;/section&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script src="js/reveal.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      Reveal.initialize();
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>The presentation markup hierarchy needs to be <code>.reveal &gt; .slides &gt; section</code> where the <code>section</code> represents one slide and can be repeated indefinitely.</p>
+<p>這就是所謂的 framework，順著它的安排加上內容、調整設定即可；幾乎都在 HTML 裡進行 ??</p>
+</li>
+<li>
+<p>If you place multiple <code>section</code> elements inside of another <code>section</code> they will be shown as VERTICAL slides.</p>
+<p>The first of the vertical slides is the &ldquo;ROOT&rdquo; of the others (at the top), and will be included in the HORIZONTAL SEQUENCE. For example:</p>
+<pre><code>&lt;div class="reveal"&gt;
+  &lt;div class="slides"&gt;
+    &lt;section&gt;Single Horizontal Slide&lt;/section&gt;
+    &lt;section&gt;
+      &lt;section&gt;Vertical Slide 1&lt;/section&gt;
+      &lt;section&gt;Vertical Slide 2&lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>也就是 &ldquo;Single Horizontal Slide&rdquo; 往右會看到 &ldquo;Vertical Slide 1&rdquo;，接著要往下才看得到 &ldquo;Vertical Slide 2&rdquo;。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="markdown">Markdown<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/#markdown">Markdown - Instructions - hakimel/reveal.js: The HTML Presentation Framework</a></p>
+<ul>
+<li>
+<p>It&rsquo;s possible to write your slides using Markdown. To enable Markdown, add the <code>data-markdown</code> attribute to your <code>&lt;section&gt;</code> elements and wrap the contents in a <code>&lt;textarea data-template&gt;</code> like the example below.</p>
+<p>為什麼要包裝在 <code>&lt;textarea&gt;</code> 裡??</p>
+<p>You&rsquo;ll also need to add the <code>plugin/markdown/marked.js</code> and <code>plugin/markdown/markdown.js</code> scripts (in that order) to your HTML file.</p>
+</li>
+<li>
+<p>This is based on <a href="https://gist.github.com/1343518">data-markdown</a> from Paul Irish modified to use <a href="https://github.com/chjj/marked">marked</a> to support GitHub Flavored Markdown.</p>
+<p><code>index.html</code> 預設就引用了 <code>plugin/markdown/marked.js</code> 跟 <code>plugin/markdown/markdown.js</code>。</p>
+<p>SENSITIVE to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).</p>
+<pre><code>&lt;section data-markdown&gt;
+  &lt;textarea data-template&gt;
+    ## Page title
+
+    A paragraph with some text and a [link](http://hakim.se).
+  &lt;/textarea&gt;
+&lt;/section&gt;
+</code></pre>
+<p>原來 Markdown 的解析也在 browser 裡；每個 <code>section</code> 都要加 <code>data-markdown</code> 與 <code>text-area</code> 有點麻煩? 不過 reveal.js 就是個 framework，若要直接從 Markdown 轉 HTML (可能會失去一些彈性)，是有像 <a href="https://github.com/webpro/reveal-md">reveal-md</a> 這類的工具。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/#external-markdown">External Markdown - hakimel/reveal.js: The HTML Presentation Framework</a> #ril</p>
+</li>
+<li><a href="https://github.com/hakimel/reveal.js/#configuring-marked">Configuring markd - hakimel/reveal.js: The HTML Presentation Framework</a> #ril</li>
+<li><a href="https://github.com/rstudio/revealjs">rstudio/revealjs: R Markdown Format for reveal.js Presentations</a> #ril</li>
+</ul>
+<h2 id="config">Configuration<a class="headerlink" href="#config" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/hakimel/reveal.js/#configuration">Configuration - hakimel/reveal.js: The HTML Presentation Framework</a> #ril</li>
+</ul>
+<h2 id="hosting">Hosting<a class="headerlink" href="#hosting" title="Permanent link"> #</a></h2>
+<ul>
+<li>首推 <a href="../hackmd/">HackMD</a> 的 Slide Mode，它強調了 reveal.js 對 Markdown 的支持，比走向 WYSIWYG 的 Slides.com 讓人更容易專注在內容的撰寫。</li>
+<li>reveal.js 本身是 HTML (+ CSS + JavaScript)，當然也可以放在 <a href="../github-pages/">GitHub Pages</a></li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js#client-presentation">Client presentation - hakimel/reveal.js: The HTML Presentation Framework</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/wiki/Example-Presentations">Example Presentations · hakimel/reveal.js Wiki</a></p>
+<p>Explore more than 800,000 presentations on <a href="https://slides.com/">Slides</a> – the online editor and HOSTING platform for reveal.js <a href="https://slides.com/explore">https://slides.com/explore</a></p>
+<p>不少都放 GitHub Pages (<code>xxx.github.io</code>) 上。</p>
+<p>試用了 Slides Editor，並不是用 Markdown 寫，而是 WYSIWYG 的編輯介面!? 可以手動上傳本地端上傳的 slides 嗎??</p>
+</li>
+<li>
+<p><a href="https://hackmd.io/s/how-to-create-slide-deck">Make Presentation Slides with HackMD - HackMD</a></p>
+<p>HackMD integrates reveal.js so we can easily make a deck of presentation slides within a markdown note.</p>
+<p>某種程度上可以說 HackMD 也是一個 reveal.js 的 hosting 平台。</p>
+</li>
+</ul>
+<h2 id="plugin">Plugin<a class="headerlink" href="#plugin" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/hakimel/reveal.js/#plugins">Plugin - hakimel/reveal.js: The HTML Presentation Framework</a> #ril</li>
+<li><a href="https://github.com/hakimel/reveal.js/wiki/Plugins,-Tools-and-Hardware">Plugins, Tools and Hardware · hakimel/reveal.js Wiki</a> #ril</li>
+<li><a href="https://github.com/hakimel/reveal.js/wiki/Plugin-Guidelines">Plugin Guidelines · hakimel/reveal.js Wiki</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/#installation">Installation - hakimel/reveal.js: The HTML Presentation Framework</a></p>
+<ul>
+<li>
+<p>The basic setup is for AUTHORING PRESENTATIONS ONLY. The full setup gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the SOURCE.</p>
+<p>感覺 basic setup 是 reveal.js + 預配置好的設定所產生的結果，所以不能用 Markdown 寫了??</p>
+<p>無論如何，都需要 reveal.js 的 repo。</p>
+</li>
+</ul>
+<p>Basic setup</p>
+<ul>
+<li>The CORE of reveal.js is very easy to install. You&rsquo;ll simply need to download a copy of this repository and open the <code>index.html</code> file directly in your browser.</li>
+</ul>
+<p>Full setup</p>
+<ul>
+<li>
+<p>Some reveal.js features, like external Markdown and speaker notes, require that presentations RUN FROM A LOCAL WEB SERVER. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js SOURCE CODE.</p>
+<p>為什麼要動到 reveal.js 的原始碼?? 轉成 HTML 後應該就不需要有 local web server 了??</p>
+<ol>
+<li>Install Node.js (9.0.0 or later)</li>
+<li>Clone the reveal.js repository</li>
+<li>
+<p>Navigate to the reveal.js folder</p>
+</li>
+<li>
+<p>Install dependencies</p>
+<pre><code>$ npm install
+</code></pre>
+</li>
+<li>
+<p>Serve the presentation and MONITOR source files for changes</p>
+<pre><code>$ npm start
+</code></pre>
+</li>
+<li>
+<p>Open <a href="http://localhost:8000">http://localhost:8000</a> to view your presentation</p>
+<p>You can change the port by using <code>npm start -- --port=8001</code>.</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>Folder Structure</p>
+<ul>
+<li><code>css/</code> - Core styles without which the project does not function</li>
+<li><code>js/</code> - Like above but for JavaScript</li>
+<li><code>plugin/</code> - Components that have been developed as extensions to reveal.js</li>
+<li><code>lib/</code> - All other third party assets (JavaScript, CSS, fonts)</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/hakimel/reveal.js/#dependencies">Dependencies - hakimel/reveal.js: The HTML Presentation Framework</a></p>
+<ul>
+<li>
+<p>Reveal.js doesn&rsquo;t rely on any third party scripts to work but a few OPTIONAL libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:</p>
+<pre><code>Reveal.initialize({
+  dependencies: [
+    // Interpret Markdown in &lt;section&gt; elements
+    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+    // Syntax highlight for &lt;code&gt; elements
+    { src: 'plugin/highlight/highlight.js', async: true },
+
+    // Zoom in and out with Alt+click
+    { src: 'plugin/zoom-js/zoom.js', async: true },
+
+    // Speaker notes
+    { src: 'plugin/notes/notes.js', async: true },
+
+    // MathJax
+    { src: 'plugin/math/math.js', async: true }
+  ]
+});
+</code></pre>
+</li>
+<li>
+<p>You can add your own extensions using the same syntax. The following properties are available for each DEPENDENCY OBJECT:</p>
+<ul>
+<li>
+<p><code>src</code>: Path to the script to load</p>
+</li>
+<li>
+<p><code>async</code>: [optional] Flags if the script should load after reveal.js has started, defaults to <code>false</code></p>
+<p>引用 plugin 時都要用 <code>async: true</code> ??</p>
+</li>
+<li>
+<p><code>callback</code>: [optional] Function to execute when the script has loaded</p>
+</li>
+<li><code>condition</code>: [optional] Function which must return true for the script to be loaded</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/jupyter/nbconvert">jupyter/nbconvert: Jupyter Notebook Conversion</a> 輸出支援 reveal.js #ril</p>
+</li>
+<li><a href="https://pandoc.org/">Pandoc - About pandoc</a> Pandoc 支援的 slide show format 裡有 reveal.js</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://revealjs.com/">reveal.js</a></li>
+<li><a href="https://github.com/hakimel/reveal.js/">hakimel/reveal.js - GitHub</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="../revealmd/">reveal-md</a> - 將 Markdown 轉成 reveal.js。</li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../slideshow/#markdown">Slideshow</a></li>
+<li><a href="hackmd">HackMD</a> - Slide Mode 就是用 reveal.js</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/hakimel/reveal.js/releases">Changelog</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

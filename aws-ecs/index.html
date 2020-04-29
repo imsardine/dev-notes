@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/aws-ecs/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Amazon ECS (Elastic Container Service) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/aws-ecs.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#amazon-ecs-elastic-container-service">Amazon ECS (Elastic Container Service)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#service-task-task-definition-revision">Service, Task, Task Definition, Revision ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="amazon-ecs-elastic-container-service">Amazon ECS (Elastic Container Service)<a class="headerlink" href="#amazon-ecs-elastic-container-service" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://aws.amazon.com/ecs/">Amazon ECS - run containerized applications in production</a><ul>
+<li>Run containerized applications in production</li>
+<li>Amazon Elastic Container Service (Amazon ECS) is a highly scalable, high-performance CONTAINER ORCHESTRATION service that supports Docker containers and allows you to easily run and scale containerized applications on AWS.</li>
+<li>CONTAINERS WITHOUT SERVERS - Amazon ECS features AWS Fargate, so you can deploy and manage containers without having to provision or manage servers. &hellip; Fargate enables you to focus on building and running applications, not the underlying infrastructure.</li>
+<li>CONTAINERIZE EVERYTHING - Amazon ECS lets you easily build all types of containerized applications, 跟 build image 有什麼關係??</li>
+<li>SECURE - Amazon ECS launches your containers in your own Amazon VPC (Virtual Private Cloud), allowing you to use your VPC security groups and network ACLs. No compute resources are shared with other customers. 其中 network ACL 跟 inbound (internet) traffic 有關 #ril</li>
+<li>How Amazon ECS works 先定義 application 用什麼 image、需要的 resource，執行環境則有 EC2 跟 Fargate 可以選。</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/ecs/pricing/">Amazon ECS Pricing - run containers in production</a> 計費方式分 Fargate 跟 EC2 兩種 Launch Type Model #ril</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">What is Amazon Elastic Container Service? - Amazon Elastic Container Service</a></li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://console.aws.amazon.com/ecs/home?region=us-east-1#/firstRun">ECS Console Workthrough</a> #ril</p>
+<ul>
+<li>Diagram of ECS objects and how they relate 揭露了 cluster &gt; service &gt; task (definition) &gt; container (definition) 的包覆關係</li>
+<li>Container definition 可以選 <code>httpd:2.4</code>、<code>nginx:latest</code>、<code>tomcat</code> 等 (都是 web server) 開始；最後一種是 custom 自訂 image，應該也要選 web 應用。</li>
+<li>
+<p>Task definition - A task definition is a BLUEPRINT FOR YOUR APPLICATION, and describes one or more containers through attributes. Some attributes are configured at the task level but the MAJORITY of attributes are configured per container. 為什麼大部份的設定會在最末端的 container??</p>
+<p>預設值 Task definition name: <code>first-run-task-definition</code>、Network mode: <code>awsvpc</code>、Task execution role: <code>Create new</code> (IAM role)、Compatibilities: <code>FARGATE</code> (launch type)、Task memory: <code>0.5GB (512)</code>、Task CPU: <code>0.25 vCPU (256)</code> 為什麼 task memory/CPU 是整個 task (多個 container) 在看??</p>
+</li>
+<li>
+<p>Define your service - A service allows you to run and maintain a specified number (the &ldquo;desired count&rdquo;) of simultaneous instances of a task definition in an ECS cluster.</p>
+<p>預設值 Service name: <code>nginx-service</code>、Number of desired tasks: <code>1</code>、Security group: <code>Automatically create new</code>、Load balancer type: <code>None</code> / <code>Application Load Balancer</code> (選後者)</p>
+<p>其中 Security group 的說明：A security group is created to ALLOW ALL PUBLIC TRAFFIC TO YOUR SERVICE ONLY ON THE CONTAINER PORT SPECIFIED. You can further configure security groups and network access outside of this wizard. 預設就開通了 inbound internet traffic，所謂 container port specified 是 image 自己明確 expose 的 port 嗎?? 如何改變 port mapping??</p>
+<p>最後一項 Load balancer type 要選 Appication Load Balancer 才會出現 Load balancer listener port: <code>80</code>、Load balancer listener protocol: <code>HTTP</code> 的項目；否則事後要 Update Service 時，Load balancing 會提示 &ldquo;Elastic load balancing not configured. Load balancing settings CAN ONLY BE SET ON SERVICE CREATION.&rdquo;</p>
+</li>
+<li>
+<p>Configure your cluster - The infrastructure in a Fargate CLUSTER is fully managed by AWS. Your containers run without you managing and configuring individual Amazon EC2 instances.</p>
+<p>預設值 Cluster name: <code>default</code> (Cluster names are unique per account per region ??)、VPC ID: <code>Automatically create new</code>、Subnets: <code>Automatically create new</code></p>
+</li>
+<li>
+<p>最後按下 Create，會看到 Launch Status - We are creating resources for your service. This may take up to 10 minutes. When we&rsquo;re complete, you can view your service. 下面持續更新：</p>
+<pre><code>Preparing service : 7 of 10 complete
+ECS resource creation pending
+Cluster hello-ecs complete
+Task definition first-run-task-definition:2 complete
+Service pending
+Additional AWS service integrations pending
+Log group /ecs/first-run-task-definition complete
+CloudFormation stack pending
+VPC pending
+Subnet 1 pending
+Subnet 2 pending
+Security group pending
+Load balancer pending
+</code></pre>
+</li>
+<li>
+<p>最後 View Service，找到 Loader Balancer 可以看到 DNS name；但 load balancer 是 EC2 的東西??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/ecs/getting-started/">Getting Started with Amazon ECS - run containers in production</a> #ril</p>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_GetStarted.html">Getting Started with Amazon ECS using Fargate - Amazon Elastic Container Service</a> #ril</li>
+<li><a href="https://aws.amazon.com/getting-started/tutorials/deploy-docker-containers/">How to Deploy Docker Containers – AWS</a> behind a load balancer &hellip; 最後會過程中建立的 resource &ndash; ECS cluster、EC2 instance、load balanacer 全部刪掉，避免被收費 #ril</li>
+</ul>
+<h2 id="service-task-task-definition-revision">Service, Task, Task Definition, Revision ??<a class="headerlink" href="#service-task-task-definition-revision" title="Permanent link"> #</a></h2>
+<ul>
+<li>可以把 service 想像成 <code>docker-compose.yml</code> 的角色，裡面的內容由 task definition 定義 (每次修改都會產生新的 revision)，而 container definitions 則對應 <code>service:</code> 底下不同的 service。<ul>
+<li>ENVIRONMENT 的 Command 提示 <code>comma delimited: echo,hello world</code>，所以 <code>--provider local --basedir /tmp/</code> 要寫成 <code>--provider,local,--basedir,/tmp/</code>。</li>
+<li>採用 Forgate launch type 時，network mode 只能選 <code>awsvpc</code>，連帶地 port mapping 就只能宣告 container port，不能自訂 host port。</li>
+</ul>
+</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-task-definition.html">Creating a Task Definition - Amazon Elastic Container Service</a> #ril</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/ecs/">Amazon ECS</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/">Developer Guide</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/">API Reference</a></li>
+<li><a href="https://docs.aws.amazon.com/cli/latest/reference/ecs/index.html">AWS CLI Reference</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI.html">ECS CLI Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/slack/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Slack - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/slack.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#slack">Slack</a></li>
+            <li class="second-level"><a href="#mouseless-navigation">Mouseless, Navigation ??</a></li>
+                
+            <li class="second-level"><a href="#mention">Mention ??</a></li>
+                
+            <li class="second-level"><a href="#_1">如何將未讀的訊息一次全部標示為已讀?</a></li>
+                
+            <li class="second-level"><a href="#call-screen-sharing">Call, Screen Sharing ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="slack">Slack<a class="headerlink" href="#slack" title="Permanent link"> #</a></h1>
+<h2 id="mouseless-navigation">Mouseless, Navigation ??<a class="headerlink" href="#mouseless-navigation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://get.slack.help/hc/en-us/articles/201374536-Slack-keyboard-shortcuts">Slack keyboard shortcuts – Slack Help Center</a> #ril<ul>
+<li><code>Cmd-[/]</code> - 按 history 切換。</li>
+<li><code>Cmd-K</code> - 跳到輸入的 channel</li>
+</ul>
+</li>
+<li>How do I jump to a specific date in history or the oldest message in a Slack channel in the desktop app? - Stack Overflow <a href="https://stackoverflow.com/questions/35122312/">https://stackoverflow.com/questions/35122312/</a> 用 Channel Settings &gt; Jump to date &hellip; 可以緩解這個問題，但要記住剛剛在哪個日期就是了。</li>
+</ul>
+<h2 id="mention">Mention ??<a class="headerlink" href="#mention" title="Permanent link"> #</a></h2>
+<p>@here、@channel 跟 @everyone 有什麼不同?</p>
+<ul>
+<li><a href="https://get.slack.help/hc/en-us/articles/202009646-Make-an-announcement">Make an announcement – Slack Help Center</a> <code>@here</code> 會通知到 active (相對於 away) 的人，適合用在 &ldquo;currently working or available&rdquo; 的人；而 <code>@channel</code>/<code>@everyone</code> 則不管是不是 active 都通知 (所以會提示多少人會被通知到、落在幾個時區)。另外 <code>@everyone</code> 是針對整個 workspace，通常只會用在 <code>#general</code>。</li>
+</ul>
+<h2 id="_1">如何將未讀的訊息一次全部標示為已讀?<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>Slack keyboard shortcuts – Slack Help Center <a href="https://get.slack.help/hc/en-us/articles/201374536-Slack-keyboard-shortcuts">https://get.slack.help/hc/en-us/articles/201374536-Slack-keyboard-shortcuts</a> Shift + Esc = Mark all messages as read</li>
+</ul>
+<h2 id="call-screen-sharing">Call, Screen Sharing ??<a class="headerlink" href="#call-screen-sharing" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://get.slack.help/hc/en-us/articles/115003498363">Slack Calls: the basics – Slack Help Center</a> #ril</p>
+</li>
+<li>
+<p><a href="https://get.slack.help/hc/en-us/articles/216771908-Make-calls-in-Slack">Make calls in Slack – Slack Help Center</a></p>
+<ul>
+<li>
+<p>SOMETIMES IT HELPS TO TALK THINGS OUT. With Slack Calls, you can make a voice or video call with any member of your workspace.</p>
+<p>用講的比較快! 可以只開聲音? 不知道多人的效果如何? ==&gt; 預設只會啟用聲音，多人效果還可以，通常是使用者端收音的問題 (不夠靠近 Mic)。</p>
+</li>
+<li>
+<p>Need a shortcut for making calls? We&rsquo;ve got a slash command for that! Use <code>/call</code> in a DM or channel to start a call.</p>
+</li>
+</ul>
+<p>Start a call</p>
+<ul>
+<li>
+<p>On any plan, a member can start a call with one other member via a direct message (DM). To start a call from a group DM or a channel, a workspace must be on one of our paid plans. For calls with more than two people, there can be a total of 15 participants.</p>
+<p>一對一是免費的，多人則要付費，最多同時 15 人。在 channel 裡 Start a call 有辦法選人嗎? ==&gt; Start a call 只是丟出一個 link，自由 join，後面建議自己用 mention 找人，在 Start a call 的前後都可以。</p>
+</li>
+</ul>
+<p>Start a call &gt; From a direct message</p>
+<ul>
+<li>Open a direct message. Click the phone icon at the top right. Your call will start right away, and the member you&rsquo;re calling will receive a pop-up notification.</li>
+<li>You can also click the camera icon to start a video call and even share your screen if your workspace is on a paid plan.</li>
+</ul>
+<p>Start a call &gt; From a channel</p>
+<ul>
+<li>Open a channel and click the phone icon at the top right. Confirm you&rsquo;d like to start a call. Give the call a NAME if you&rsquo;d like, then click Start new call. 其中 NAME 比較像是個 &ldquo;討論的主題&rdquo;，例如 &ldquo;Let&rsquo;s finalize our Q3 goals!&rdquo;</li>
+<li>Your call will post to the channel and any member (up to 15 total) can join by clicking Join this call.</li>
+<li>You can also click the camera icon to start a video call and even share your screen if your workspace is on a paid plan. 多人的畫筆、滑鼠控制會變怎樣?? ==&gt; 可以同時畫，但畫筆顏色不同</li>
+<li>Use an <code>@here</code> or <code>@channel</code> mention to notify channel members BEFORE OR AFTER you start the call.</li>
+</ul>
+<p>Share and invite others to a call</p>
+<ul>
+<li>Invite other members to a call &ndash; To invite a specific member to join your current call, follow these steps: Click the plus icon in the upper-right corner of the call window. Start typing a member&rsquo;s name to filter the list. Select a member to invite.</li>
+<li>Share a call in a channel &ndash; If you&rsquo;d like to share a call in other channels, here&rsquo;s how: Click the  plus icon in the upper-right corner of the call window. Click Share this call. Join a call &gt; Answer a direct message call</li>
+</ul>
+<p>Join a call &gt; Join a channel call</p>
+<ul>
+<li>
+<p>Click Join this call from the in-channel invitation. A call window will open where you can see who else is on the call, and WHO IS SPEAKING.</p>
+<p>可以控制誰能發言??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://get.slack.help/hc/en-us/articles/115003501303">Share your screen with Slack Calls – Slack Help Center</a> #ril</p>
+</li>
+<li>
+<p><a href="https://get.slack.help/hc/en-us/articles/201374536-Slack-keyboard-shortcuts#-call-actions">Call actions - Slack keyboard shortcuts – Slack Help Center</a> #ril</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>Slack 官方除提供 <code>.deb</code> 與 <code>.rpm</code> 外，也提供了 <a href="https://snapcraft.io/slack">Snap</a>，因此其他 Linux distro 可以透過 <a href="../snapcraft/">Snapcrapt</a> 安裝 Slack。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://slack.com/downloads/linux">Linux | Downloads | Slack</a></p>
+<ul>
+<li>除 <code>.deb</code> (64-bit) 跟 <code>.rpm</code> (64-bit) 外，還有 Download from the Snap store?</li>
+<li><a href="https://snapcraft.io/slack">Install Slack for Linux using the Snap Store | Snapcraft</a> Users by distribution (log) 可以看出 Linux distro. + Snap + Slack 的排名，前面幾名都是 Ubuntu，接著才是 Linux Mint、Fedora 等。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.bleepingcomputer.com/news/security/in-a-snap-slack-comes-to-linux-heres-how-to-install-it/">In a Snap, Slack Comes to Linux. Here&rsquo;s How To Install It</a> (2018-01-19)</p>
+<ul>
+<li>
+<p>While binaries for Slack have been available for Ubuntu and Fedora, other Linux operating systems are not so lucky. To overcome this, Canonical has RELEASED SLACK AS A SNAP, which allows Slack to be installed and used on a greater variety of Linux distributions.</p>
+</li>
+<li>
+<p>Snapcraft is a command line tool that allows you to install CONTAINERISED APPLICATIONS called SNAPS on many different Linux distribution. As these Snap containers contain all the required dependencies that a program needs to run, it makes it very easy to create and distribute a single container that works on a variety of Linux versions.</p>
+<p>雖然是 container，發現它跟其他應用程式融合得滿好的，剪貼簿換資料、拖放檔案等都沒有問題。</p>
+</li>
+<li>
+<p>The creation of a Slack Snap is smart move by both the Slack team and Canonical. For Canonical, it provides a greater user base for their Snapcraft service and for Slack, it allows a larger audience to use their service and make upgrading to new Slack versions much easier. According to Jamie Bennett, VP of Engineering, Devices &amp; IoT at Canonical:</p>
+<blockquote>
+<p>Slack is helping to transform the modern workplace, and we’re thrilled to welcome them to the snaps ecosystem Today’s announcement is yet another example of PUTTING THE LINUX USER FIRST – Slack’s developers will now be able to push out the latest features straight to the user. By prioritising usability, and with the popularity of open source continuing to grow, the number of snaps is only set to rise in 2018.</p>
+</blockquote>
+</li>
+</ul>
+<p>How to install Slack as a Snap</p>
+<ul>
+<li>
+<p>Now that we know that Slack is available as a Snap, the next thing we need to do is install it. Installing SNAPCRAFT, the program required to install and run Snaps, is really easy and supported on the Arch Linux, Debian, Fedora, Gentoo, Linux Mint, Manjaro, OpenEmbedded/Yocto, openSUSE, OpenWrt, Solus, &amp; Ubuntu distributions.</p>
+</li>
+<li>
+<p>Simply go to this page and follow the instructions on how to install the Snapcraft snapd service for your Linux distribution.  For example, on Ubuntu you can install Snapcraft simply by using these commands from a terminal: 為什麼 Ubuntu 上也要裝 Snap，Slack 官方不是已經提供有 Ubuntu 與 Fedora 的版本</p>
+<pre><code>sudo apt update
+sudo apt install snapd
+</code></pre>
+</li>
+<li>
+<p>Once snapd is installed, you can then install Slack using these commands: (注意 <code>--classic</code> 的用法)</p>
+<pre><code>sudo snap find slack
+sudo snap install slack --classic
+</code></pre>
+</li>
+<li>
+<p>Once slack is installed, you can launch your desktop and execute the <code>slack</code> command from a terminal. Slack will then start and you can use it as normal.</p>
+<p>美中不足的是要下指令，如何讓它出現在選單裡??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/SlackAPI">Slack API (@SlackAPI) | Twitter</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/slack">&lsquo;slack&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/slack-api">&lsquo;slack-api&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../slack-incoming-webhook/">Incoming Webhook</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

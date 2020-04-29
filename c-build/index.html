@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/c-build/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>C / Build Process - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/c-build.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#c-build-process">C / Build Process</a></li>
+            <li class="second-level"><a href="#build-tool">Build Tool</a></li>
+                
+            <li class="second-level"><a href="#project-structure">Project Structure ??</a></li>
+                
+            <li class="second-level"><a href="#package-manager">Package Manager ??</a></li>
+                
+            <li class="second-level"><a href="#object-file-symbol">Object File, Symbol ??</a></li>
+                
+            <li class="second-level"><a href="#make-cc-gcc">make, cc, gcc</a></li>
+                
+            <li class="second-level"><a href="#make">Make ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="c-build-process"><a href="../c/">C</a> / Build Process<a class="headerlink" href="#c-build-process" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.calleerlandsson.com/the-four-stages-of-compiling-a-c-program/">The Four Stages of Compiling a C Program</a> (2015-08-07) 用 Hello, World! 說明，可以看到每個階段的產出</p>
+<ul>
+<li>
+<p>Compiling a C program is a multi-stage process. At an overview level, the process can be split into four separate stages: PREPROCESSING, COMPILATION, ASSEMBLY, and LINKING.</p>
+<p>嚴格來說，是 build 分為 4 個階段。</p>
+<pre><code>/*
+ * "Hello, World!": A classic.
+ */
+
+#include &lt;stdio.h&gt;
+
+int
+main(void)
+{
+    puts("Hello, World!");
+    return 0;
+}
+</code></pre>
+</li>
+</ul>
+<p>Preprocessing</p>
+<ul>
+<li>
+<p>The first stage of compilation is called preprocessing. In this stage, lines starting with a <code>#</code> character are interpreted by the preprocessor as PREPROCESSOR COMMANDS. These commands form a simple MACRO LANGUAGE with its own syntax and semantics.</p>
+<p>This language is used to REDUCE REPETITION in source code by providing functionality to inline files, define macros, and to CONDITIONALLY OMIT CODE.</p>
+</li>
+<li>
+<p>Before interpreting commands, the preprocessor does some INITIAL PROCESSING. This includes JOINING continued lines (lines ending with a ) and stripping comments.</p>
+<p>在 preprocessing 前，還有個 initial processing。</p>
+</li>
+<li>
+<p>To print the result of the preprocessing stage, pass the <code>-E</code> option to <code>cc</code>: <code>cc -E hello_world.c</code></p>
+<p>Given the “Hello, World!” example above, the preprocessor will produce the contents of the <code>stdio.h</code> header file joined with the contents of the <code>hello_world.c</code> file, stripped free from its leading comment:</p>
+<pre><code>[lines omitted for brevity]
+
+extern int __vsnprintf_chk (char * restrict, size_t,
+       int, size_t, const char * restrict, va_list);
+# 493 "/usr/include/stdio.h" 2 3 4
+# 2 "hello_world.c" 2
+
+int
+main(void) {
+ puts("Hello, World!");
+ return 0;
+}
+</code></pre>
+<p>在 macOS 上 Clang <code>-E</code> 的作用是 Run the preprocessor stage. 實際執行的結果：</p>
+<pre><code># 1 "hello_world.c"
+# 1 "&lt;built-in&gt;" 1
+# 1 "&lt;built-in&gt;" 3
+# 361 "&lt;built-in&gt;" 3
+# 1 "&lt;command line&gt;" 1
+# 1 "&lt;built-in&gt;" 2
+# 1 "hello_world.c" 2
+
+# 1 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/stdio.h" 1 3 4
+# 64 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/stdio.h" 3 4
+# 1 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/_stdio.h" 1 3 4
+# 68 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/_stdio.h" 3 4
+# 1 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/sys/cdefs.h" 1 3 4
+# 608 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/sys/cdefs.h" 3 4
+
+...
+
+# 412 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/stdio.h" 2 3 4
+# 6 "hello_world.c" 2
+
+int
+main(void)
+{
+ puts("Hello, World!");
+ return 0;
+}
+</code></pre>
+<p>原本 <code>#include &lt;stdio.h&gt;</code> 被展開成一推檔案的內容，包括 stdio.h 自己間接引入的；可以看出不同 header files 來自什麼地方。</p>
+</li>
+</ul>
+<p>Compilation</p>
+<ul>
+<li>
+<p>The second stage of compilation is confusingly enough called compilation. In this stage, the preprocessed code is translated to ASSEMBLY INSTRUCTIONS specific to the TARGET PROCESSOR ARCHITECTURE. These form an INTERMEDIATE HUMAN READABLE LANGUAGE.</p>
+</li>
+<li>
+<p>The existence of this step allows for C code to contain INLINE ASSEMBLY INSTRUCTIONS and for different assemblers to be used.</p>
+<p>Some compilers also supports the use of an INTEGRATED ASSEMBLER, in which the compilation stage generates MACHINE CODE directly, avoiding the overhead of generating the intermediate assembly instructions and invoking the assembler.</p>
+</li>
+<li>
+<p>To save the result of the compilation stage, pass the <code>-S</code> option to cc: <code>cc -S hello_world.c</code></p>
+<p>This will create a file named <code>hello_world.s</code>, containing the generated assembly instructions. On macOS 10.10.4, where <code>cc</code> is an alias for <code>clang</code>, the following output is generated:</p>
+<pre><code>    .section    __TEXT,__text,regular,pure_instructions
+    .macosx_version_min 10, 10
+    .globl  _main
+    .align  4, 0x90
+_main:                                  ## @main
+    .cfi_startproc
+## BB#0:
+    pushq   %rbp
+Ltmp0:
+    .cfi_def_cfa_offset 16
+Ltmp1:
+    .cfi_offset %rbp, -16
+    movq    %rsp, %rbp
+Ltmp2:
+    .cfi_def_cfa_register %rbp
+    subq    $16, %rsp
+    leaq    L_.str(%rip), %rdi
+    movl    $0, -4(%rbp)
+    callq   _puts
+    xorl    %ecx, %ecx
+    movl    %eax, -8(%rbp)          ## 4-byte Spill
+    movl    %ecx, %eax
+    addq    $16, %rsp
+    popq    %rbp
+    retq
+    .cfi_endproc
+
+    .section    __TEXT,__cstring,cstring_literals
+L_.str:                                 ## @.str
+    .asciz  "Hello, World!"
+
+.subsections_via_symbols
+</code></pre>
+<p>在 macOS 上 Clang <code>-S</code> 的作用是 Run  the  previous  stages  as  well  as LLVM generation and optimization stages and target-specific code generation, producing an ASSEMBLY FILE.</p>
+</li>
+</ul>
+<p>Assembly</p>
+<ul>
+<li>
+<p>During this stage, an assembler is used to translate the assembly instructions to OBJECT CODE. The output consists of ACTUAL INSTRUCTIONS to be run by the target processor.</p>
+<p>也就是 machine code。</p>
+</li>
+<li>
+<p>To save the result of the assembly stage, pass the <code>-c</code> option to <code>cc</code>: <code>cc -c hello_world.c</code></p>
+<p>Running the above command will create a file named <code>hello_world.o</code>, containing the object code of the program. The contents of this file is in a binary format and can be inspected using <code>hexdump</code> or <code>od</code> by running either one of the following commands:</p>
+<pre><code>hexdump hello_world.o
+od -c hello_world.o
+</code></pre>
+<p>用 <code>hexdump</code> 或 <code>od</code> 看就一堆數字，為什麼不是用 <code>nm</code> 或 <code>strings</code> 看?</p>
+</li>
+</ul>
+<p>Linking</p>
+<ul>
+<li>
+<p>The object code generated in the assembly stage is composed of machine instructions that the processor understands but some pieces of the program are out of order or missing. To produce an executable program, the existing pieces have to BE REARRANGED AND THE MISSING ONES FILLED IN. This process is called LINKING.</p>
+</li>
+<li>
+<p>The linker will arrange the pieces of object code so that FUNCTIONS IN SOME PIECES CAN SUCCESSFULLY CALL FUNCTIONS IN OTHER ONES. It will also add pieces containing the instructions for library functions used by the program. In the case of the “Hello, World!” program, the linker will add the object code for the <code>puts</code> function.</p>
+<p>這說法很容易懂，所謂的 piece 指的是存在不同 object file 或 library 裡的東西，在 linking 時也只會取有用到的部份出來重組；但不能走 dynamic linking 嗎??</p>
+</li>
+<li>
+<p>The result of this stage is the final executable program. When run without options, <code>cc</code> will name this file <code>a.out</code>. To name the file something else, pass the <code>-o</code> option to <code>cc</code>: <code>cc -o hello_world hello_world.c</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.books.com.tw/products/0010360466">旗標 - C 語言教學手冊 (第四版)</a> (2007-04)</p>
+<ul>
+<li>流程圖提到，編譯程式搭配 &ldquo;標頭檔&rdquo; (header file) 會產生 &ldquo;目的檔&rdquo; (object file)，透過 &ldquo;連結程式&rdquo; (linker) 可以根據多個目的檔及函數庫產生執行檔。 (p1-13)</li>
+<li>編譯過程除了要檢查語法，也要根據標頭檔所宣告的函數原型 (prototype) 檢查函數的用法是否合乎規則，若這些檢查都沒有問題，就會產生一個目的檔 &ndash; 已經編譯過且沒有錯誤的程式。接著連結程式將多個目的檔及函數庫 (library) 連結在一起，成為可執行檔。 (p1-16)</li>
+<li>函數是 C 語言的基本單位，C 語言已經將許多常用的函數寫好並分門別類放在不同的 library 裡，將個別的 header 引入，就可以使用。 (p1-17)</li>
+</ul>
+</li>
+<li>
+<p><a href="https://blog.feabhas.com/2012/06/the-c-build-process/">The C build process - Sticky Bits - Powered by FeabhasSticky Bits – Powered by Feabhas</a> (2012-06-29) 這裡講得更細，由其是不同 section 的作用與組成 #ril</p>
+</li>
+</ul>
+<h2 id="build-tool">Build Tool<a class="headerlink" href="#build-tool" title="Permanent link"> #</a></h2>
+<ul>
+<li>CMake 是最佳選擇，但如果沒有跨平台的問題，GNU Make 也可以。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.quora.com/What-is-currently-the-best-build-tool-for-C++">What is currently the best build tool for C++? - Quora</a></p>
+<ul>
+<li>
+<p>Anonymous: The best options these days are CMake and QMake.</p>
+<p>CMake is useful because it GENERATES BUILD SCRIPT for several different build systems. So if you do it right, your program will compile on other platforms too. It is supported on windows.</p>
+<p>QMake is a part of Qt 5, which is a great cross-platform framework for C++. It acts in manner similar to CMake (meaning it generates build script for a target platform), and is also supported on windows.</p>
+<p>If you&rsquo;re planning to make GUI apps, I&rsquo;d advise to use Qt with QMake. Otherwise I&rsquo;d use CMake.</p>
+<p>GNU make is NOT A VERY GOOD CHOICE, because out of the box it offers very little, and proper utilization of the system requires <a href="https://www.gnu.org/software/autoconf/">autoconf</a>&hellip; which doesn&rsquo;t work that well on windows system.</p>
+</li>
+<li>
+<p>Peter Bočan, Student @ FIT CTU in Prague: For PORTABLE projects it&rsquo;s CMake, but I do not feel it&rsquo;s the best one (it&rsquo;s cumbersome for me).</p>
+<p>For NON PORTABLE projects it&rsquo;s Makefile on UNIX. On Windows there&rsquo;s none such thing, but I would use Visual Studio Solution for Windows-only projects.</p>
+<p>看來涉及跨平台時 CMake 是最好的選擇，否則用 Make 即可。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.slant.co/topics/4263/~open-source-build-systems-for-c-c">18 Best open-source build systems for C/C++ as of 2019 - Slant</a> CMake 跟 GNU Make 不相上下。</p>
+</li>
+<li>
+<p><a href="https://developer.android.com/ndk/guides/cmake">CMake  |  Android NDK  |  Android Developers</a></p>
+<ul>
+<li>Android Studio can use CMake to compile C and C++ code into a native library that the IDE then packages into your APK.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/google/googletest/blob/master/CMakeLists.txt">googletest/CMakeLists.txt at master · google/googletest</a> Google Test 也用 CMake</p>
+</li>
+<li>
+<p><a href="https://medium.com/coding-blocks/make-and-cmake-automating-c-build-process-900f569a75db">Make and CMake : Automating C++ Build Process – Coding Blocks – Medium</a> 用 Hello, World! 比較 CMake 與 GNU Make (2017-12-13) #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/@julienjorge/an-overview-of-build-systems-mostly-for-c-projects-ac9931494444">An overview of build systems (mostly for C++ projects)</a> (2018-07-17) 作者很推 Premake? #ril</p>
+</li>
+</ul>
+<h2 id="project-structure">Project Structure ??<a class="headerlink" href="#project-structure" title="Permanent link"> #</a></h2>
+<ul>
+<li>C 有沒有標準的專案結構 (project structure) ??</li>
+<li>The Project Directory Structure | Abhishek Arora | Pulse | LinkedIn (2016-08-15) <a href="https://www.linkedin.com/pulse/project-directory-structure-abhishek-arora">https://www.linkedin.com/pulse/project-directory-structure-abhishek-arora</a> #ril</li>
+<li>What is a good project structure in C - Stack Overflow <a href="http://stackoverflow.com/questions/2605253/">http://stackoverflow.com/questions/2605253/</a> #ril</li>
+<li>styles - Is there a C project Default Directory Layout? - Stack Overflow <a href="http://stackoverflow.com/questions/8523078/">http://stackoverflow.com/questions/8523078/</a> #ril</li>
+<li>Folder structure for a C project - Stack Overflow <a href="http://stackoverflow.com/questions/1451086/">http://stackoverflow.com/questions/1451086/</a> #ril</li>
+<li>How should I structure complex projects in C? - Stack Overflow <a href="http://stackoverflow.com/questions/661307/">http://stackoverflow.com/questions/661307/</a> #ril</li>
+</ul>
+<h2 id="package-manager">Package Manager ??<a class="headerlink" href="#package-manager" title="Permanent link"> #</a></h2>
+<ul>
+<li>conan-io/conan: Conan.io - The open-source C/C++ package manager <a href="https://github.com/conan-io/conan">https://github.com/conan-io/conan</a> 用 Python 開發! 但從 <a href="https://conan.io/">https://conan.io/</a> 得知有跟 JFrog 合作 #ril</li>
+<li>clibs/clib: C package manager-ish <a href="https://github.com/clibs/clib">https://github.com/clibs/clib</a> 主要用 C 開發 #ril</li>
+</ul>
+<h2 id="object-file-symbol">Object File, Symbol ??<a class="headerlink" href="#object-file-symbol" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://nickdesaulniers.github.io/blog/2016/08/13/object-files-and-symbols/">Object Files and Symbols - Nick Desaulniers</a> (2016-08-13)</p>
+<ul>
+<li>A quick review of the compilation+execution pipeline (for terminology): &hellip; #1 ~ #4 還在分析程式碼，接著產生 object code，透過 linking 才有 executable，最後才是執行期有 OS 的 loader 載入 executable 執行；這裡將專注在 #6 Linkage produces a complete executable，用 Clang 說明。</li>
+<li>
+<p>把 <code>main.c</code> 拆成多個 source，建造的過程開始變得不一樣&hellip;</p>
+<pre><code>// main.c
+#include &lt;stdio.h&gt;
+void helper () {
+  puts("helper");
+}
+int main () {
+  helper();
+}
+</code></pre>
+<p>把 source 拆成兩份，同時也衍生出一個 header file：</p>
+<pre><code>// main.c
+#include "helper.h"
+int main () {
+  helper();
+}
+
+// helper.h
+void helper();
+
+//helper.c
+#include &lt;stdio.h&gt;
+#include "helper.h"
+void helper () {
+  puts("helper");
+}
+</code></pre>
+</li>
+<li>
+<p>就 single source version 而言，<code>clang main.c</code> 同時做了 compile 與 link 然後產生 executable，但 multiple source version 則必須將 compilation 與 linking 分開來做 &ndash; 將 source files 編譯成 object files (加 <code>-c</code> 就不會走到 linking)，再把它們 link 在一起：</p>
+<pre><code>$ clang -c helper.c     # produces helper.o
+$ clang -c main.c       # produces main.o
+$ clang main.o helper.o # produces a.out 沒有加 stage selection option，直接走到 linker；a.out 是 executable
+</code></pre>
+<p>或合併成一個步驟：</p>
+<pre><code>$ clang helper.c main.c # produces a.out
+</code></pre>
+</li>
+<li>
+<p>Object file (<code>.o</code>) &ldquo;幾乎是&rdquo; full exectuable，內含 machine code (還需要經過 relocation)、symbol table (記錄有 variables &amp; functions 這些 symbole 的 address) 及其他資訊。注意 symbol table 裡的 address 不一定是在最終 executable 裡的 address，因為還會經過 relocation，而那正是 linker 的工作。</p>
+</li>
+<li>
+<p>分別觀察 <code>clang main.c</code> 與 <code>clang helper.c</code> 的輸出 (刻意不加 <code>-c</code>，直接走到 linking)，有助於瞭解 object file、symbols：</p>
+<pre><code>$ clang main.c
+Undefined symbols for architecture x86_64:
+  "_helper", referenced from:
+      _main in main-586572.o  &lt;-- 想要 link，但發現有個 undefined symbol，在所有 object file 裡都找不到
+ld: symbol(s) not found for architecture x86_64  &lt;-- 錯誤由 linker (ld) 丟出
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+$ clang helper.c
+Undefined symbols for architecture x86_64:
+  "_main", referenced from:  &lt;--  沒有解析不出來的 symbol? 因為要做為 exectuable 的關係，要有 main() 才行
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre>
+<p>事實上 <code>helper.c</code> 有用到 <code>puts</code> 這個來自 <code>stdio.h</code> 的 symbol，為什麼不會跳 undefined symbol 的錯誤? 那是因為 C compiler 預設會動態連結 C runtime (<code>libc</code>) 的關係。實驗發現，加 <code>-nostdlib</code> 就可以引發 undefined symbol 的錯誤：</p>
+<pre><code>$ clang -nostdlib helper.c
+Undefined symbols for architecture x86_64:
+  "_main", referenced from:
+     implicit entry/start for main executable
+  "_puts", referenced from:
+      _helper in helper-2d46e7.o
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre>
+</li>
+<li>
+<p>上面的問題源自，<code>main.o</code> 裡用到的 <code>helper</code> 在 <code>helper.o</code> 裡，可以用 <code>nm</code> &ndash; display name list (symbol table) 來觀察不同 object file 分別定義了哪些 symbol，又用到了哪些外部的 symbol。</p>
+<pre><code>$ nm -p helper.o main.o a.out
+
+helper.o:
+0000000000000000 T _helper &lt;--+
+                 U _puts      |
+                              |
+main.o:                       |
+0000000000000000 T _main      |
+                 U _helper ---+
+
+a.out:
+0000000100000000 T __mh_execute_header
+0000000100000f70 T _helper &lt;---+
+0000000100000f60 T _main   ----+
+                 U _puts
+                 U dyld_stub_binder
+</code></pre>
+<p>每一行都是空白隔開的 address、type 跟 symbol name (macOS 會在前面加底線)。Type <code>U</code> 表示 undefined (有用到，但不是宣告在這個 object file 裡)，<code>T</code> 則表示 text section symbol (即 code section)`。</p>
+<p>很明顯地，原先 <code>main.o</code>、<code>help.o</code> 裡 text section symbol 前面的 address/value 都是 0 &ndash; 只是個 placeholder，在 link 的過程中就會被代換掉 (the addresses are PLACEHOLDERS in object files, and final in executables)，這就是前面所說的 relocation &ndash; when the linker performs RELOCATION on the object files, combining them into a final executable, it goes through PLACEHOLDERS of addresses and fills them in.</p>
+</li>
+<li>
+<p>可以用 <code>strip</code> 將 executable 裡的 symbol 拿掉，雖然檔案會小一點點，但會造成 stack trace 無法閱讀 (不完全是壞事)</p>
+<pre><code>$ strip a.out
+$ nm -p a.out
+0000000100000000 T __mh_execute_header
+                 U _puts           &lt;-- 原先的 _helper 跟 _main 都不見了
+                 U dyld_stub_binder
+</code></pre>
+</li>
+<li>
+<p>在做 link 時若搭配 <code>-g</code> (generate debug information) 會額外產生 debug symbols &ndash; 保留所有 symbol 的 filename 及 line number；但 <code>a.out.dSYM/</code> 是做什麼的??</p>
+<pre><code>$ clang main.c helper.c &amp;&amp; nm -a a.out
+0000000100000000 T __mh_execute_header
+0000000100000f70 T _helper
+0000000100000f60 T _main
+                 U _puts
+                 U dyld_stub_binder
+
+$ clang -g main.c helper.c &amp;&amp; nm -a a.out
+0000000000000000 - 01 0000    SO &lt;-- 字母 - 表示 debug symbol
+0000000000000000 - 01 0000    SO
+000000000000000f - 00 0000   FUN
+000000000000000f - 01 0000 ENSYM
+000000000000001d - 00 0000   FUN
+000000000000001d - 01 0000 ENSYM
+0000000100000f60 - 01 0000 BNSYM
+0000000100000f70 - 01 0000 BNSYM
+0000000000000000 - 00 0000    SO /tmp/c/
+0000000000000000 - 00 0000    SO /tmp/c/
+000000005be59a6f - 03 0001   OSO /var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/helper-0d8d64.o
+000000005be59a6f - 03 0001   OSO /var/folders/1c/_3jhpxmn0cz8mbsf068f116h0000gp/T/main-88cd49.o
+0000000100000000 T __mh_execute_header
+0000000100000f70 - 01 0000   FUN _helper
+0000000100000f70 T _helper
+0000000100000f60 - 01 0000   FUN _main
+0000000100000f60 T _main
+                 U _puts
+                 U dyld_stub_binder
+0000000000000000 - 00 0000    SO helper.c
+0000000000000000 - 00 0000    SO main.c
+</code></pre>
+</li>
+<li>
+<p>最後再次強調 Finding symbols to be placed into a final executable and relocating addresses are the main job of the linker.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Object_code">Object code - Wikipedia</a></p>
+<ul>
+<li>Object code/module 是 compiler 的產出 (通常就是 machine code，但還不是 executable)，這說法源自 the code is the GOAL or result of the compiling process, with some early sources referring to source code as a &ldquo;SUBJECT program.&rdquo; 其中的 object 解釋成 &ldquo;目的&rdquo;，與解釋成 &ldquo;題材&rdquo; 的 subject 互為對照?</li>
+<li>Object files can in turn be linked to form an executable file or library file. In order to be used, object code must either be placed in an executable file, a library file, or an object file. 這句話有點難懂? 先確認 object code 就是 RELOCATABLE format machine code，可以放在 object file 做為 compiler 的產出，之後經過 linker 做 relocation 併進 executable file 或 library file。</li>
+<li>Object code is a portion of machine code that has not yet been linked into a complete program. &hellip; It may also contain placeholders or OFFSETs, not found in the machine code of a completed program, that the linker will use to connect everything together. Whereas machine code is binary code that can be executed directly by the CPU, object code has the JUMPS PARTIALLY PARAMETERIZED so that a linker can fill them in. 還是 placeholder &amp; fill in 的說法最容易懂</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Object_file">Object file - Wikipedia</a> #ril<ul>
+<li>An object file is a file containing object code, meaning RELOCATABLE FORMAT MACHINE CODE that is usually NOT DIRECTLY EXECUTABLE. 這篇聚焦在 object file 本身的檔案格式，而 object code 只是其中的一部份而已。</li>
+<li>In addition to the object code itself, object files may contain metadata used for linking or debugging, including: information to resolve SYMBOLIC CROSS-REFERENCES between different modules, RELOCATION information, stack unwinding information, comments, program symbols, debugging or profiling information.</li>
+<li>早期各系統有自己的 object file format，但後來一些像 COFF、ELF 的通用格式被用在不同的系統上；It is possible for the same file format to be used both as linker INPUT AND OUTPUT, and thus as the library and executable file format. 也難怪 <code>nm</code> (list symbols from object files) 這個工具也可以看 executable。</li>
+<li>The design and/or choice of an object file format is a key part of overall system design. It affects the performance of the linker and thus programmer TURNAROUND while developing. If the format is used for executables, the design also affects the time programs take to begin running, and thus the RESPONSIVENESS for users. 做為 object file 的格式，會影響 linking 的速度，跟開發人員有關；若也用在 executable，則會影響程式啟動的速度，跟使用者的感受有關。</li>
+<li>Most object file formats are structured as separate sections of data, each section containing a certain type of data. These sections are known as &ldquo;segments&rdquo; due to the term &ldquo;memory segment&rdquo; (所以 section/segment 都說得通), which was previously a common form of memory management. When a program is loaded into memory by a loader, the loader allocates various regions of memory. Some of these regions CORRESPOND to segments of the object file, and thus are usually known by the same names. 難怪概念上很像。</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Symbol_table">Symbol table - Wikipedia</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/7718299/">compilation - What&rsquo;s an object file in C? - Stack Overflow</a> #ril<ul>
+<li>cHao: object file 是 compilation phase 的產出，除了 machine code </li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/12122446/">linker - How does C++ linking work in practice? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="make-cc-gcc">make, cc, gcc<a class="headerlink" href="#make-cc-gcc" title="Permanent link"> #</a></h2>
+<p><code>cc</code> 是 Unix 下 C compiler 的名稱，而 <code>gcc</code> 則是 GCC (GNU Compiler Collection) 下 C compiler 的名稱。通常 Linux distro 的 <code>cc</code> 都會指向 <code>gcc</code>。例如：</p>
+<pre><code>$ cc -o hello hello.c
+</code></pre>
+
+<p>至於為什麼 <code>make hello</code> 也可以編譯 <code>hello.c</code>，是因為 make 的 implicit rule 在作用，預設會採用 <code>cc</code>：</p>
+<pre><code>$ make hello
+cc     hello.c   -o hello
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/221185/">How to compile and run C/C++ in a Unix console/Mac terminal? - Stack Overflow</a> camh: 執行 <code>make foo</code> 即可，source code 可以是 <code>foo.c</code> 或 <code>foo.cpp</code> 等。甚至不需要 makefile，因為 make 內建把 source file 編譯成 executable (同名，但沒有副檔名) 的 rule?</li>
+<li><a href="https://stackoverflow.com/questions/26409648/">macos - How to compile a C program with make on Mac OS X Terminal - Stack Overflow</a> kly 引用了 You don&rsquo;t need a Makefile 的說法。</li>
+<li><a href="https://ubuntuforums.org/showthread.php?t=1161860">cc/gcc and why is there a difference?</a> 筆記寫 <code>gcc</code>，但參考書卻用 <code>cc</code>?<ul>
+<li>Nemooo: 大部份 Linux distro 的 <code>cc</code> 都是 <code>gcc</code>，比較一下 <code>cc --version</code> 跟 <code>gcc --version</code> 就知道 (版號相同)</li>
+<li>k2t0f12d: <code>cc</code> 是 Unix 的 C compiler，而 <code>gcc</code> 是 GNU OS 的 C compiler，通常 GNU+Linux 將 <code>cc</code> 指向 <code>gcc</code>；傳統上，採用 <code>cc</code> 時表示會遵守某種標準及 CLI。</li>
+<li>chuuk: 發現 <code>main() { printf("Hello World"); }</code> 可以用 <code>cc</code> 編，但 <code>gcc</code> 會失敗? 不過自己在 Ubuntu 及 macOS 上試過，都可以成功 compile 但會有 warning。之後 k2t0f12d 說明了這種現象 &ndash; 就像 Bashi (Bourne Again SHell) 一樣，雖然 <code>sh</code> 指向 <code>bash</code>，但以 <code>sh</code> 執行時，會儘可能模擬 Bourne Shell 的行為，因此以 <code>cc</code> 執行 <code>gcc</code> 時也會模擬 <code>cc</code> 的行為，不過 chuuk 遇到的錯誤 k2t0f12d 也試不出來。</li>
+</ul>
+</li>
+<li>在 Ubuntu 16.04.2 LTS 執行 <code>readlink -f</code>which cc<code>` 會得到</code>/usr/bin/gcc-5<code>，證實了</code>cc<code>指向</code>gcc` 的說法。</li>
+<li><a href="https://stackoverflow.com/questions/1516609/">c++ - Difference between CC, gcc and g++? - Stack Overflow</a> #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Using-Implicit-Rules">10 Using Implicit Rules - GNU make</a><ul>
+<li>每個 implicit rule 都有 target pattern 與 prerequisite pattern 的概念，由於多個 implicit rule 可能有相同的 target pattern (例如 C compiler 的 <code>.o</code> 可以由 <code>.c</code> 產生、Pascal 的 <code>.o</code> 可以由 <code>.p</code> 產生)，所以會看誰的 prerequisite pattern 有符合的檔案存在，以決定要用哪個 implicit rule。</li>
+<li>Make 內建 C compilation 的 implicit rule，當它發現有 <code>.c</code> 時，就會拿它來編譯並產生 executable。這些 implicit rule 的 recipe 會用到一些 variable，透過修改 variable 就能影響 implicit rule 的行為。</li>
+<li>10.2 Catalogue of Built-In Rules &gt; Compiling C programs 提到 n.o is made automatically from n.c with a recipe of the form ‘$(CC) $(CPPFLAGS) $(CFLAGS) -c’. 雖然實際的輸出 <code>cc     hello.c   -o hello</code> 沒有最後的 <code>-c</code>，但在 makefile 裡 <code>$(CC)</code> 的值確實是 <code>cc</code> 沒錯。<pre><code>$ make --debug=v hello
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+This program built for i386-apple-darwin11.3.0
+Reading makefiles...
+Updating goal targets....
+Considering target file `hello'.
+ File `hello' does not exist.
+  Considering target file `hello.c'.
+   Finished prerequisites of target file `hello.c'.
+  No need to remake target `hello.c'.
+ Finished prerequisites of target file `hello'.
+Must remake target `hello'.
+cc     hello.c   -o hello &lt;== 為什麼知道要用 cc ??
+Successfully remade target file `hello'.
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="make">Make ??<a class="headerlink" href="#make" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.gnu.org/software/make/manual/make.html#Types-of-Prerequisites">4.3 Types of Prerequisites - GNU make</a> #ril</p>
+<ul>
+<li>出現 <code>$(OBJDIR)</code> 的用法，可以把 output 集中到一個資料夾下<pre><code>OBJDIR := objdir
+OBJS := $(addprefix $(OBJDIR)/,foo.o bar.o baz.o)
+
+$(OBJDIR)/%.o : %.c
+        $(COMPILE.c) $(OUTPUT_OPTION) $&lt;
+
+all: $(OBJS)
+
+$(OBJS): | $(OBJDIR)
+
+$(OBJDIR):
+        mkdir $(OBJDIR)
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li>Build tool 多數人推 <a href="../cmake/">CMake</a>，但 <a href="../make/">Make</a> 較單純</li>
+<li>macOS 的 <code>cc</code> 指向 <a href="../clang/">Clang</a></li>
+<li><a href="../gcc/">GCC (GNU Compiler Collection)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

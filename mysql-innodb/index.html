@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mysql-innodb/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MySQL / InnoDB Storage Engine - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mysql-innodb.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mysql-innodb-storage-engine">MySQL / InnoDB Storage Engine</a></li>
+            <li class="second-level"><a href="#transaction">Transaction ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mysql-innodb-storage-engine"><a href="../mysql/">MySQL</a> / InnoDB Storage Engine<a class="headerlink" href="#mysql-innodb-storage-engine" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.youtube.com/watch?time_continue=1428&amp;v=NWc9GWSSfkk">Week 9 - YouTube</a> InnoDB 唸做 [ˈɪno-di-bi]。</li>
+</ul>
+<h2 id="transaction">Transaction ??<a class="headerlink" href="#transaction" title="Permanent link"> #</a></h2>
+<pre><code>$ docker volume create mysql-data
+$ MYSQL_VERSION=5 # 8
+$ docker run --rm --name mysql -d \
+    -v mysql-data:/var/lib/mysql \
+    --env MYSQL_DATABASE=mydb \
+    --env MYSQL_USER=appuser \
+    --env MYSQL_PASSWORD=secret \
+    --env MYSQL_ROOT_PASSWORD=admin \
+    mysql:$MYSQL_VERSION
+</code></pre>
+
+<p>建兩個 connection/session 代表不同的 transaction &ndash; T1, T2</p>
+<pre><code>$ docker exec -it mysql mysql -u appuser -p mydb # T1
+$ docker exec -it mysql mysql -u appuser -p mydb # T2
+</code></pre>
+
+<p>先用任一個 connection 觀察一些預設值，並建立基本資料：</p>
+<pre><code>mysql&gt; SHOW VARIABLES WHERE variable_name IN ('autocommit', 'tx_isolation');
++---------------+-----------------+
+| Variable_name | Value           |
++---------------+-----------------+
+| autocommit    | ON              |
+| tx_isolation  | REPEATABLE-READ |
++---------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql&gt; CREATE TABLE user (
+    -&gt; id INT UNSIGNED NOT NULL,
+    -&gt; name VARCHAR(20) NOT NULL,
+    -&gt; login_counter INT UNSIGNED NOT NULL DEFAULT 0
+    -&gt; );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql&gt; INSERT INTO user (id, name) VALUES (1, 'jamesbond');
+Query OK, 1 row affected (0.00 sec)
+</code></pre>
+
+<p>以下開始進行一些實驗 &ndash; 同一個使用者幾乎同一個時間在兩個地方登入，計數器會不會有失真？</p>
+<pre><code>T1&gt; START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+T2&gt; START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+T1&gt; SELECT login_counter FROM user WHERE id = 1 INTO @counter;
+Query OK, 1 row affected (0.01 sec)
+
+T2&gt; SELECT login_counter FROM user WHERE id = 1 INTO @counter;
+Query OK, 1 row affected (0.00 sec)
+
+T1&gt; UPDATE user SET login_counter = @counter + 1 WHERE id = 1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+T2&gt; UPDATE user SET login_counter = @counter + 1 WHERE id = 1;
+...
+ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+
+T1&gt; COMMIT;
+Query OK, 0 rows affected (0.01 sec)
+
+T2 &gt; ...
+Query OK, 0 rows affected (3.78 sec) &lt;-- 等 T1
+Rows matched: 1  Changed: 0  Warnings: 0
+
+T1&gt; SELECT * FROM user;
++----+-----------+---------------+
+| id | name      | login_counter |
++----+-----------+---------------+
+|  1 | jamesbond |             1 |
++----+-----------+---------------+
+1 row in set (0.00 sec)
+
+T2&gt; SELECT * FROM user;
++----+-----------+---------------+
+| id | name      | login_counter |
++----+-----------+---------------+
+|  1 | jamesbond |             1 |
++----+-----------+---------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<p>結果發生 lost updates &ndash; 瞬間登入 2 次，但卻只記錄到一次。</p>
+<p>用 IX row-level locking (<code>SELECT ... FOR UPDATE</code>) 重做一次：</p>
+<pre><code>T1&gt; START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+T2&gt; START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+T1&gt; SELECT login_counter FROM user WHERE id = 1 INTO @counter FOR UPDATE;
+Query OK, 1 row affected (0.01 sec)
+
+T2&gt; SELECT login_counter FROM user WHERE id = 1 INTO @counter FOR UPDATE;
+...
+
+T1&gt; UPDATE user SET login_counter = @counter + 1 WHERE id = 1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+T1&gt; COMMIT;
+Query OK, 0 rows affected (0.01 sec)
+
+T2&gt; ...
+Query OK, 1 row affected (20.23 sec) &lt;-- 等 T1
+
+T1&gt; SELECT * FROM user;
++----+-----------+---------------+
+| id | name      | login_counter |
++----+-----------+---------------+
+|  1 | jamesbond |             2 |
++----+-----------+---------------+
+1 row in set (0.00 sec)
+
+T2&gt; UPDATE user SET login_counter = @counter + 1 WHERE id = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+T2&gt; COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+T2&gt; SELECT * FROM user;
++----+-----------+---------------+
+| id | name      | login_counter |
++----+-----------+---------------+
+|  1 | jamesbond |             3 |
++----+-----------+---------------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<p>這次沒再發生 lost update 了。過程中若 T2 等太久，會發生下面的錯誤：</p>
+<pre><code>ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-model.html">MySQL :: MySQL 8.0 Reference Manual :: 15.7.2 InnoDB Transaction Model</a></p>
+<ul>
+<li>
+<p>In the InnoDB transaction model, the goal is to COMBINE the best properties of a MULTI-VERSIONING DATABASE with traditional TWO-PHASE LOCKING. InnoDB performs LOCKING AT THE ROW LEVEL and runs queries as NONLOCKING CONSISTENT READS by default, in the style of Oracle.</p>
+<p>其中 nonlocking consistent reads 指的就是 repeatable reads，跟 multiversion concurrency control (MVCC) 有關。</p>
+<p>The lock information in InnoDB is stored space-efficiently so that lock escalation is not needed. Typically, several users are permitted to lock every row in InnoDB tables, or any random subset of the rows, without causing InnoDB memory exhaustion.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_mvcc">MVCC - MySQL :: MySQL 8.0 Reference Manual :: MySQL Glossary</a></p>
+<ul>
+<li>
+<p>Acronym for “multiversion concurrency control”. This technique lets InnoDB transactions with CERTAIN isolation levels perform CONSISTENT READ operations; that is, to query rows that are being updated by other transactions, and see the values from before those updates occurred.</p>
+<p>This is a powerful technique to INCREASE CONCURRENCY, by allowing queries to proceed WITHOUT WAITING due to locks held by the other transactions.</p>
+</li>
+<li>
+<p>This technique is not universal in the database world. Some other database products, and some other MySQL storage engines, do not support it.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_consistent_read">Consistent Read - MySQL :: MySQL 8.0 Reference Manual :: MySQL Glossary</a></p>
+<ul>
+<li>
+<p>A read operation that uses SNAPSHOT information to present query results based on a point in time, regardless of changes performed by other transactions running at the same time. If queried data has been changed by another transaction, the original data is RECONSTRUCTED based on the contents of the UNDO LOG. This technique avoids some of the locking issues that can REDUCE CONCURRENCY by forcing transactions to WAIT for other transactions to finish.</p>
+</li>
+<li>
+<p>With REPEATABLE READ isolation level, the snapshot is based on the time when THE FIRST READ OPERATION IS PERFORMED. With READ COMMITTED isolation level, the snapshot is RESET TO THE TIME OF EACH CONSISTENT READ OPERATION.</p>
+<p>不太理解為什麼是 &ldquo;each&rdquo; consistent read operation，不過若時候不往後推，確實會看不到 committed changes。</p>
+</li>
+<li>
+<p>Consistent read is the DEFAULT MODE in which InnoDB processes <code>SELECT</code> statements in <code>READ COMMITTED</code> and <code>REPEATABLE READ</code> isolation levels. Because a consistent read does NOT SET ANY LOCKS on the tables it accesses, other sessions are free to modify those tables while a consistent read is being performed on the table.</p>
+</li>
+<li>
+<p>For technical details about the applicable isolation levels, see Section 15.7.2.3, “Consistent Nonlocking Reads”.</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-consistent-read.html">Consistent Nonlocking Reads</a> 一開始就提到 &ldquo;A consistent read means that InnoDB uses MULTI-VERSIONING to present to a query a snapshot of the database at a point in time.&rdquo;</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dba.stackexchange.com/questions/134218/">mysql - InnoDB MVCC vs Locking - Database Administrators Stack Exchange</a></p>
+<ul>
+<li>
+<p>TheOddGuy: when does locking or mvcc occur? Where do I need to specify which one the database should use?</p>
+</li>
+<li>
+<p>Morgan Tocker: MVCC applies to isolation levels read-committed and repeatable read (default).</p>
+<p>You don&rsquo;t need to specify anything for both of these features to WORK TOGETHER. Maybe one way to think about it, is that row level locking is important so that you can update multiple rows at a time, and MVCC is so that the updates don&rsquo;t affect read operations at all.</p>
+<p>其中 update multiple rows AT A TIME 似乎跟 range lock 有關?? 但可以確定的是 MVCC 跟 consistent read 有關，但跟 lock 無關，row-level lock 得透過 <code>SELECT ... FOR UPDATE</code> 來達成??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html">MySQL :: MySQL 8.0 Reference Manual :: 15.7.2.1 Transaction Isolation Levels</a> #ril</p>
+<ul>
+<li>Transaction isolation is one of the foundations of database processing. Isolation is the I in the acronym ACID; the isolation level is the setting that fine-tunes the BALANCE between performance and reliability, consistency, and reproducibility of results when multiple transactions are making changes and performing queries at the same time.</li>
+<li>InnoDB offers all four transaction isolation levels described by the SQL:1992 standard: <code>READ UNCOMMITTED</code>, <code>READ COMMITTED</code>, <code>REPEATABLE READ</code>, and <code>SERIALIZABLE</code>. The default isolation level for InnoDB is <code>REPEATABLE READ</code>.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-autocommit-commit-rollback.html">MySQL :: MySQL 8.0 Reference Manual :: 15.7.2.2 autocommit, Commit, and Rollback</a> #ril</p>
+<ul>
+<li>
+<p>In InnoDB, ALL USER ACTIVITY OCCURS INSIDE A TRANSACTION. If AUTOCOMMIT MODE is enabled, each SQL statement FORMS A SINGLE TRANSACTION ON ITS OWN.</p>
+<p>By default, MySQL starts the session for each new connection with autocommit enabled, so MySQL does a commit after each SQL statement if that statement did not return an error. If a statement returns an error, the commit or rollback behavior depends on the error.</p>
+<p>其中 session 跟 connection 是什麼關係? <a href="https://stackoverflow.com/questions/8797724/try-to-understand-mysql-concepts-session-v-s-connection">try to understand mysql concepts: session v.s. connection - Stack Overflow</a> newtover: A session is just a result of a SUCCESSFUL CONNECTION. Any MySQL client requires some connection settings to establish a connection and after the connection has been established it acquires a CONNECTION ID (thread id) and some context which is called session.</p>
+</li>
+<li>
+<p>A session that has autocommit enabled can perform a MULTIPLE-STATEMENT TRANSACTION by starting it with an explicit <code>START TRANSACTION</code> or <code>BEGIN</code> statement and ending it with a <code>COMMIT</code> or <code>ROLLBACK statement</code>.</p>
+<p>If autocommit mode is disabled within a session with <code>SET autocommit = 0</code>, the session ALWAYS HAS A TRANSACTION OPEN. A <code>COMMIT</code> or <code>ROLLBACK</code> statement ENDS THE CURRENT TRANSACTI`ON AND A NEW ONE STARTS.</p>
+<p>當 autocommit = 1 時，<code>START TRANSACTION</code> 就是 &ldquo;暫停&rdquo; autocommit mode；當 autocommit = 0 時，不需 <code>START TRANSACTION</code> 就總是處於可以做 multiple-statement transaction 的狀態。結論就是所有的 statement 都會發生在 transaction 裡。</p>
+</li>
+<li>
+<p>If a session that has autocommit disabled ends WITHOUT EXPLICITLY COMMITTING the final transaction, MySQL rolls back that transaction.</p>
+<p>Some statements implicitly end a transaction, as if you had done a <code>COMMIT</code> before executing the statement. 聽起來有點危險?</p>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/implicit-commit.html">Statements That Cause an Implicit Commit</a> 提到 <code>START_TRANSACTION</code> 也會自動 commit!</p>
+<blockquote>
+<p>Transactions CANNOT BE NESTED. This is a consequence of the implicit commit performed for any current transaction when you issue a <code>START TRANSACTION</code> statement or one of its synonyms.</p>
+</blockquote>
+</li>
+<li>
+<p>A <code>COMMIT</code> means that the changes made in the current transaction are made permanent and become visible to other sessions. A <code>ROLLBACK</code> statement, on the other hand, cancels all modifications made by the current transaction. Both <code>COMMIT</code> and <code>ROLLBACK</code> release all InnoDB locks that were set during the current transaction.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-multi-versioning.html">MySQL :: MySQL 8.0 Reference Manual :: 15.3 InnoDB Multi-Versioning</a> #ril</p>
+<ul>
+<li>
+<p>InnoDB is a MULTI-VERSIONED storage engine: it keeps information about OLD VERSIONS OF CHANGED ROWS, to support transactional features such as concurrency and rollback.</p>
+<p>但也支援 table-/row-level locking，原以為這兩種 concurrency control 的做法不會同時存在。</p>
+<p>This information is stored in the tablespace in a data structure called a ROLLBACK SEGMENT (after an analogous data structure in Oracle). InnoDB uses the information in the rollback segment to perform the undo operations needed in a transaction rollback. It also uses the information to build earlier versions of a row for a consistent read.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html">MySQL :: MySQL 8.0 Reference Manual :: 15.7.1 InnoDB Locking</a> #ril</p>
+<p>Shared and Exclusive Locks</p>
+<ul>
+<li>
+<p>InnoDB implements standard ROW-LEVEL LOCKING where there are two types of locks, SHARED (S) locks and EXCLUSIVE (X) locks.</p>
+<ul>
+<li>A shared (S) lock permits the transaction that holds the lock to read a row.</li>
+<li>An exclusive (X) lock permits the transaction that holds the lock to update or delete a row.</li>
+</ul>
+</li>
+<li>
+<p>If transaction T1 holds a shared (S) lock on row r, then requests from some distinct transaction T2 for a lock on row r are handled as follows:</p>
+<ul>
+<li>A request by T2 for an S lock can be granted immediately. As a result, BOTH T1 and T2 hold an S lock on r. 這就是 &ldquo;share&rdquo; 的由來</li>
+<li>A request by T2 for an X lock cannot be granted immediately.</li>
+</ul>
+</li>
+<li>
+<p>If a transaction T1 holds an exclusive (X) lock on row r, a request from some distinct transaction T2 for a lock of either type on r cannot be granted immediately. Instead, transaction T2 has to WAIT FOR TRANSACTION T1 TO RELEASE ITS LOCK ON ROW r.</p>
+</li>
+</ul>
+<p>Intention Locks</p>
+<ul>
+<li>
+<p>InnoDB supports MULTIPLE GRANULARITY locking which permits COEXISTENCE OF ROW LOCKS AND TABLE LOCKS. 突然冒出 table lock??</p>
+<p>For example, a statement such as <code>LOCK TABLES ... WRITE</code> takes an exclusive lock (an X lock) on the specified table. To make locking at multiple granularity levels practical, InnoDB uses INTENTION LOCKS. Intention locks are table-level locks that indicate which type of lock (shared or exclusive) a transaction requires later FOR A ROW in a table. There are two types of intention locks:</p>
+<p>搞不懂 S/IS 跟 X/IX 的差別，<code>SELECT ... FOR SHARE/UPDATE</code> 似乎是 IS/IX (針對 row)，而 <code>LOCK TABLES ... READ/WRITE</code> 似乎是 S/X (針對 table)，但下面又出現 &ldquo;first acquire an IS lock or stronger ON THE TABLE&rdquo; 的說法 ??</p>
+<ul>
+<li>An intention shared lock (IS) indicates that a transaction intends to set a shared lock on INDIVIDUAL ROWS in a table.</li>
+<li>An intention exclusive lock (IX) indicates that that a transaction intends to set an exclusive lock on INDIVIDUAL ROWS in a table.</li>
+</ul>
+</li>
+<li>
+<p>For example, <code>SELECT ... FOR SHARE</code> sets an IS lock, and <code>SELECT ... FOR UPDATE</code> sets an IX lock.</p>
+<p>The intention locking PROTOCOL is as follows:</p>
+<ul>
+<li>Before a transaction can acquire a shared lock on a row in a table, it must first acquire an IS lock or stronger ON THE TABLE.</li>
+<li>Before a transaction can acquire an exclusive lock on a row in a table, it must first acquire an IX lock ON THE TABLE.</li>
+</ul>
+</li>
+<li>
+<p>Table-level lock type compatibility is summarized in the following matrix. #ril</p>
+</li>
+<li>
+<p>A lock is granted to a requesting transaction if it is COMPATIBLE WITH EXISTING LOCKS (指其他 transaction 設下的 lock), but not if it conflicts with existing locks. A transaction WAITS UNTIL THE CONFLICTING EXISTING LOCK IS RELEASED. If a lock request conflicts with an existing lock and cannot be granted because it would cause DEADLOCK, an error occurs.</p>
+</li>
+<li>
+<p>Intention locks do not block anything except FULL TABLE REQUESTS (for example, <code>LOCK TABLES ... WRITE</code>). The main purpose of intention locks is to show that someone is locking a row, or GOING TO lock a row in the table.</p>
+</li>
+<li>
+<p>Transaction data for an intention lock appears similar to the following in <code>SHOW ENGINE INNODB STATUS</code> and InnoDB monitor output: ??</p>
+<pre><code>TABLE LOCK table `test`.`t` trx id 10080 lock mode IX
+</code></pre>
+</li>
+</ul>
+<p>Record Locks</p>
+<ul>
+<li>A record lock is a lock on an INDEX RECORD. For example, <code>SELECT c1 FROM t WHERE c1 = 10 FOR UPDATE;</code> prevents any other transaction from inserting, updating, or deleting rows where the value of <code>t.c1</code> is <code>10</code>.</li>
+<li>
+<p>Record locks always lock index records, even if a table is defined with no indexes. For such cases, InnoDB creates a HIDDEN CLUSTERED INDEX and uses this index for record locking.</p>
+</li>
+<li>
+<p>Transaction data for a record lock appears similar to the following in <code>SHOW ENGINE INNODB STATUS</code> and InnoDB monitor output:</p>
+<pre><code>RECORD LOCKS space id 58 page no 3 n bits 72 index `PRIMARY` of table `test`.`t`
+trx id 10078 lock_mode X locks rec but not gap
+Record lock, heap no 2 PHYSICAL RECORD: n_fields 3; compact format; info bits 0
+ 0: len 4; hex 8000000a; asc     ;;
+ 1: len 6; hex 00000000274f; asc     'O;;
+ 2: len 7; hex b60000019d0110; asc        ;;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-standard-monitor.html">MySQL :: MySQL 8.0 Reference Manual :: 15.16.3 InnoDB Standard Monitor and Lock Monitor Output</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html">MySQL 8.0 Reference Manual :: 15 The InnoDB Storage Engine</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

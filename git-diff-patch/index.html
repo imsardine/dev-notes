@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/git-diff-patch/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Git / Diff & Patch - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/git-diff-patch.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#git-diff-patch">Git / Diff &amp; Patch</a></li>
+            <li class="second-level"><a href="#vimdiff">Vimdiff ??</a></li>
+                
+            <li class="second-level"><a href="#patching">Patching ??</a></li>
+                
+            <li class="second-level"><a href="#cherry-pick">Cherry Pick ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="git-diff-patch"><a href="../git/">Git</a> / Diff &amp; Patch<a class="headerlink" href="#git-diff-patch" title="Permanent link"> #</a></h1>
+<h2 id="vimdiff">Vimdiff ??<a class="headerlink" href="#vimdiff" title="Permanent link"> #</a></h2>
+<ul>
+<li>搭配 <code>git config --global alias.vimdiff "difftool --tool=vimdiff --no-prompt"</code>，就可以視情況選用 <code>gif diff [--cached]</code> 或 <code>git vimdiff [--cached]</code>；後者會調用 Vim 的 diff mode，處理複雜的 diff 時很方便。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://medium.com/usevim/git-and-vimdiff-a762d72ced86">Git and Vimdiff – usevim – Medium</a> (2012-04-21) #ril</li>
+</ul>
+<h2 id="patching">Patching ??<a class="headerlink" href="#patching" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>git format-patch</code> 只接受 commit，但它會完整保留 commit 的 meta-data 與 binary data，對方用 <code>git am</code> 套用；適合交換 commit(s)。</li>
+<li><code>git diff [--binary] [--cached]</code> 單純看兩個 tree 的 diff，不含 meta-data，預設不含 binary data，對方用 <code>git apply</code> 套用；適合單純交換 diff，無關 commit。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/293768/">version control - How do I send a patch to another developer and avoid merge conflicts? - Stack Overflow</a> Spoike: <code>git-diff</code> 可以產生兩個 commit 的差異 (<code>git diff fa1afe1 deadbeef &gt; patch.diff</code>)，另一方用 <code>git apply</code> 套用即可 (<code>git apply patch.diff</code>)。</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/4624127/">What is the difference between &lsquo;git format-patch and &lsquo;git diff&rsquo;? - Stack Overflow</a> 最大的差別在 meta-data 與預設是否含 binary data</p>
+<ul>
+<li>Rafid: <code>git format-patch</code> 只接受 commit，所以在 index 裡的 change 就只能用 <code>git diff --cached &gt; index.patch</code></li>
+<li>
+<p>Sylvain Defresne: A patch created with <code>git format-patch</code> will also include some META-INFORMATION about the commit (committer, date, commit message, &hellip;) and will contains diff of BINARY DATA. Everything will be formatted as a mail, so that it can be easily sent. The person that receive it can then recreate the corresponding commit with <code>git am</code> and all meta-data will be intact. It can also be applied with <code>git apply</code> as it is a super-set of a SIMPLE DIFF.</p>
+<p>A patch crated with <code>git diff</code> will be a simple diff with context (think <code>diff -u</code>). It can also be applied with <code>git apply</code> but the META-DATA WILL NOT BE RECREATED (as they are not present). In summary, <code>git format-patch</code> is useful to transmit a COMMIT, while <code>git diff</code> is useful to get a DIFF BETWEEN TWO TREES.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.oreilly.com/library/view/git-pocket-guide/9781449327507/ch11.html">11. Understanding Patches - Git Pocket Guide [Book]</a> #ril</p>
+<ul>
+<li>Instead of using <code>git-cherry-pick</code> we will create a patch file containing the changes and then IMPORT it. Git will REPLAY the commit and add the changes to the repository as a NEW COMMIT. 除了有機會把 patch file 交換到其他地方，<code>git-cherry-pick</code> 跟 <code>git-format-patch</code> 有什麼差別?? 因為 <code>git-cherry-pick</code> 也會產生新的 commit。</li>
+<li><code>git-format-patch</code> exports the commits as patch files, which can then be applied to another branch or cloned repository. The patch files represent a SINGLE COMMIT and Git replays that commit when you IMPORT the patch file. 按照官方文件的說法，確實是一個 commit 一個 patch file。</li>
+<li>The old style process, when Git was used locally only without a remote repository, was to EMAIL THE PATCHEs to each other. This is handy if you only need to get someone a single commit without the need to merge branches and the overhead that goes with that.</li>
+</ul>
+</li>
+<li><a href="https://mijingo.com/blog/creating-and-applying-patch-files-in-git">Creating and Applying Patch Files in Git - Mijingo</a> #ril</li>
+<li><a href="https://www.oliverdavies.uk/blog/back-to-the-future-git-diff-apply/">Back to the future with Git’s diff and apply commands | Oliver Davies - Full Stack Web Developer (Drupal, Symfony, Laravel, Linux)</a> (2018-04-23) #ril</li>
+<li><a href="http://nithinbekal.com/posts/git-patch/">Creating and Applying Git Patch Files</a> (2017-02-12) #ril</li>
+<li><a href="https://git-scm.com/docs/git-apply">Git - git-apply Documentation</a> Apply a patch to files and/or to the index #ril</li>
+<li><a href="https://git-scm.com/docs/git-diff#_generating_patches_with_p">Generating patches with -p - Git - git-diff Documentation</a> #ril<ul>
+<li>When &hellip; &ldquo;<code>git diff</code>&rdquo; without the <code>--raw</code> option, or &ldquo;<code>git log</code>&rdquo; with the &ldquo;<code>-p</code>&rdquo; option, they do not produce the output described above; instead they produce a PATCH FILE. What the <code>-p</code> option produces is slightly different from the traditional diff format: 所以不能用 <code>patch</code> 套用??</li>
+</ul>
+</li>
+<li><a href="https://git-scm.com/docs/git-format-patch">Git - git-format-patch Documentation</a> Prepare patches for e-mail submission #ril<ul>
+<li>Prepare EACH COMMIT WITH ITS PATCH IN ONE FILE per commit, formatted to resemble UNIX mailbox format. The output of this command is convenient for e-mail submission or for use with <code>git am</code>.</li>
+</ul>
+</li>
+<li><a href="https://git-scm.com/docs/git-am">Git - git-am Documentation</a> Apply a series of patches from a mailbox #ril</li>
+</ul>
+<h2 id="cherry-pick">Cherry Pick ??<a class="headerlink" href="#cherry-pick" title="Permanent link"> #</a></h2>
+<ul>
+<li>Cherry pick 怎麼用 =&gt; <code>git cherry-pick &lt;REVISION&gt;</code> 就像 merge 一樣；SourceTree 先切到目標 branch，再從 Hisotry 選一或多個 commit，按右鍵選 Cherry Pick 即可 (但沒有加 <code>-x</code> 產生 <code>cherry picked from commit ...</code>)</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://git-scm.com/docs/git-cherry-pick">Git - git-cherry-pick Documentation</a> #ril</p>
+<ul>
+<li><code>git-cherry-pick</code> - Apply the changes introduced by some EXISTING COMMITS<pre><code>git cherry-pick [--edit] [-n] [-m parent-number] [-s] [-x] [--ff]
+                  [-S[&lt;keyid&gt;]] &lt;commit&gt;…
+git cherry-pick --continue
+git cherry-pick --quit
+git cherry-pick --abort
+</code></pre>
+</li>
+</ul>
+<p>Description</p>
+<ul>
+<li>
+<p>Given ONE OR MORE existing commits, apply the change each one introduces, RECORDING A NEW COMMIT FOR EACH. This requires your working tree to be clean (no modifications from the <code>HEAD</code> commit).</p>
+<p>在 HEAD 上逐一套用多個 commit 所做的變更，感覺跟 rebase 很像 ??</p>
+</li>
+<li>
+<p>When it is not obvious how to apply a change, the following happens: (發生衝突時)</p>
+<ul>
+<li>The current branch and <code>HEAD</code> pointer stay at the last commit successfully made.</li>
+<li>The <code>CHERRY_PICK_HEAD</code> ref is set to point at the commit that introduced the change that is difficult to apply.</li>
+<li>
+<p>Paths in which the change applied cleanly are updated both in the index file and in your working tree.</p>
+</li>
+<li>
+<p>For conflicting paths, the index file records up to three versions, as described in the &ldquo;TRUE MERGE&rdquo; section of <code>git-merge</code>.</p>
+<p>The working tree files will include a description of the conflict bracketed by the usual conflict markers <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>.</p>
+<p>手動解完衝突後執行 <code>git cherry-pick --continue</code> 繼續。</p>
+</li>
+<li>
+<p>No other modifications are made.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://think-like-a-git.net/sections/rebase-from-the-ground-up/cherry-picking-explained.html">Cherry-Picking Explained // Think Like (a) Git</a></p>
+<ul>
+<li>
+<p>Git&rsquo;s own online help has a perfectly accurate, if characteristically terse, description of what the command does:</p>
+<blockquote>
+<p>Given one or more existing commits, apply the change each one introduces, recording a new commit for each.</p>
+</blockquote>
+</li>
+<li>
+<p>I&rsquo;ve already mentioned (back on the page about Garbage Collection) that a Git commit&rsquo;s ID is a hash of both its contents AND ITS HISTORY. So, even if you have two commits that introduce the exact same change, if they POINT TO DIFFERENT PARENT COMMITS, they&rsquo;ll have different IDs.</p>
+<p>What <code>git cherry-pick</code> does, basically, is take a commit from somewhere else, and &ldquo;play it back&rdquo; wherever you are right now. Because this introduces the SAME CHANGE WITH A DIFFERENT PARENT, Git builds a new commit with a different ID.</p>
+</li>
+<li>
+<p>Let&rsquo;s go back to this example from the Reachability section:</p>
+<p><img alt="" src="http://think-like-a-git.net/assets/images2/reachability-example.png" /></p>
+<p>If you were at node H in this graph, and you typed <code>git cherry-pick E</code> (yes, you&rsquo;d actually type part or all of the SHA for the commit, but for simplicity&rsquo;s sake, I&rsquo;ll just use the labels that are already here), you&rsquo;d wind up with a copy of commit E—let&rsquo;s call it &ldquo;E prime&rdquo; or E&rsquo;—that pointed to H as its parent, like so:</p>
+<p><img alt="" src="http://think-like-a-git.net/assets/images2/cherry-pick-example-1.png" /></p>
+</li>
+<li>
+<p>Or, if you typed something like i<code>git cherry-pick C D E</code>, you&rsquo;d wind up with this when you were done:</p>
+<p><img alt="" src="http://think-like-a-git.net/assets/images2/cherry-pick-example-2.png" /></p>
+</li>
+<li>
+<p>The important thing to notice here is that Git has copied changes made in one place, and REPLAYED them somewhere else.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://think-like-a-git.net/sections/rebase-from-the-ground-up/using-git-cherry-pick-to-simulate-git-rebase.html">Using &lsquo;git cherry-pick&rsquo; to Simulate &lsquo;git rebase&rsquo; // Think Like (a) Git</a> #ril</p>
+<ul>
+<li>
+<p>Once you have <code>git cherry-pick</code> down, you can start off by thinking of <code>git rebase</code> as being a faster way to cherry-pick all of the commits in a given branch at once, rather than having to type out their IDs separately.</p>
+</li>
+<li>
+<p>Let&rsquo;s go back to our trusty example, but this time add some branches&hellip;</p>
+<p><img alt="" src="http://think-like-a-git.net/assets/images2/before-rebase.png" /></p>
+<p>Now, I could type this sequence of commands:</p>
+<pre><code>git checkout foo
+git checkout -b newbar
+git cherry-pick C D E
+</code></pre>
+<p><img alt="" src="http://think-like-a-git.net/assets/images2/cherry-pick-qua-rebase-example-midpoint.png" /></p>
+<p>Then, I could type this:</p>
+<pre><code>git checkout bar
+git reset --hard newbar # 讓目前 branch 的 HEAD 指向另一個 commit
+git branch -d newbar
+</code></pre>
+<p>And leave my repository looking like this (note that the original D and E nodes are NO LONGER REACHABLE, because NO BRANCH POINTS TO THEM):</p>
+<p><img alt="" src="http://think-like-a-git.net/assets/images2/cherry-pick-qua-rebase-example-endpoint.png" /></p>
+</li>
+<li>
+<p>Or, I could have accomplished all that by typing this instead:</p>
+<pre><code>git rebase foo bar
+</code></pre>
+<p>In other words, <code>git rebase</code> (in this form) is a shortcut that lets you pick up entire sections of a repository and move them somewhere else.</p>
+<p><code>git rebase foo bar</code> 可以讀做，將 bar 有但 foo 沒有的變更，以 foo 為基礎重做。這呼應了 <a href="https://git-scm.com/docs/git-rebase"><code>git-rebase</code></a> 中 <code>git rebase ... &lt;upstream&gt; &lt;branch&gt;</code> 說法：</p>
+<blockquote>
+<p>If <code>&lt;branch&gt;</code> is specified, <code>git rebase</code> will perform an automatic <code>git checkout &lt;branch&gt;</code> before doing anything else. Otherwise it remains on the current branch.</p>
+<p>All changes made by commits IN THE CURRENT BRANCH BUT THAT ARE NOT IN <code>&lt;upstream&gt;</code> are saved to a temporary area.</p>
+<p>The current branch is reset to <code>&lt;upstream&gt;</code>, &hellip; The commits that were previously saved into the temporary area are then reapplied to the current branch, one by one, in order.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.devroom.io/2010/06/10/cherry-picking-specific-commits-from-another-branch/">Cherry-Picking specific commits from another branch | ariejan de vroom</a> (2010-06-10) #ril</p>
+<ul>
+<li>將特定 commit 併進現在的 branch，這裡簡單用 master 跟 feature branch 做說明，在 feature branch 裡有個 commit 很重要，必須要先回 master (或其他 branch 需要用到)，怎麼做 =&gt; <code>git checkout master &amp;&amp; git cherry-pick 62ecb3</code></li>
+<li>做完 <code>git cherry-pick</code> 就會在 master 產生一個 &ldquo;新的 commit&rdquo;，就像 merge 一樣，如果有衝突的話要先 resolve。</li>
+<li>Cherry pick 適用於單一個 commit，如果是連續的幾個 commit，要用 rebase !! 以 <code>76cada - 62ecb3 - b886a0</code> 這個 feature branch 為例，若只想要 <code>76cada - 62ecb3</code> (不要 <code>b886a0</code>) 的話，先建一個新的 branch: <code>git checkout -b newbranch 62ecb3</code> (從終點開始??)，然後再執行 <code>git rebase --onto master 76cada^</code>，就會讓 <code>76cada - 62ecb3</code> 進到 master ??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://git-scm.com/docs/git-cherry">Git - git-cherry Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://git-scm.com/docs/git-diff"><code>git-diff</code></a></li>
+<li><a href="https://git-scm.com/docs/git-difftool"><code>git-difftool</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

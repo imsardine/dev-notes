@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pytest/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pytest - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pytest.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pytest">pytest</a></li>
+            <li class="second-level"><a href="#pytest-pytest">pytest 或 py.test ??</a></li>
+                
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#pytest-unittest">為什麼要用 pytest? 測試跟它綁太緊好嗎? 要捨棄 unittest??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#cli-pytest">CLI (pytest) ??</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#live-log">Live Log ??</a></li>
+                
+            <li class="second-level"><a href="#skip-xfail-xpass">skip, xfail, xpass ??</a></li>
+                
+            <li class="second-level"><a href="#python-2-3">區分 Python 2 &amp; 3 的測試 ??</a></li>
+                
+            <li class="second-level"><a href="#parameterized-tests">Parameterized Tests ??</a></li>
+                
+            <li class="second-level"><a href="#collection">Collection</a></li>
+                
+            <li class="second-level"><a href="#plugins">Plugins??</a></li>
+                
+            <li class="second-level"><a href="#code-coverage">Code Coverage??</a></li>
+                
+            <li class="second-level"><a href="#marker">Marker??</a></li>
+                
+            <li class="second-level"><a href="#pytest-test-method-class">pytest 不習慣把 test method 寫在 class 裡??</a></li>
+                
+            <li class="second-level"><a href="#_1">如何設定受測程式碼的位置??</a></li>
+                
+            <li class="second-level"><a href="#pytest-__pycache__-cache">pytest 會自動產生 __pycache__ 與 .cache??</a></li>
+                
+            <li class="second-level"><a href="#functional-test">對 Functional Test 提供哪些支援??</a></li>
+                
+            <li class="second-level"><a href="#test-code">如何安排 test code 的目錄結構??</a></li>
+                
+            <li class="second-level"><a href="#junit-xml-report">如何產生 JUnit XML Report??</a></li>
+                
+            <li class="second-level"><a href="#tox">如何搭配 tox 使用??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pytest">pytest<a class="headerlink" href="#pytest" title="Permanent link"> #</a></h1>
+<ul>
+<li>pytest: helps you write better programs — pytest documentation <a href="https://docs.pytest.org/en/latest/">https://docs.pytest.org/en/latest/</a> 是個 test framework，可以寫簡單的 small test，也可以寫複雜的 functional test #ril</li>
+</ul>
+<h2 id="pytest-pytest">pytest 或 py.test ??<a class="headerlink" href="#pytest-pytest" title="Permanent link"> #</a></h2>
+<ul>
+<li>專案、工具名稱都叫 pytest，<a href="https://github.com/pytest-dev/pytest/pull/1633">PR #1633</a> 改以 <code>pytest</code> 做為新的 entry point。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Changelog history — pytest documentation <a href="https://docs.pytest.org/en/latest/changelog.html">https://docs.pytest.org/en/latest/changelog.html</a> Introduce pytest command as recommended entry point. Note that py.test still works and is not scheduled for removal.</li>
+<li>python - &ldquo;py.test&rdquo; vs &ldquo;pytest&rdquo; command - Stack Overflow <a href="https://stackoverflow.com/questions/39495429/">https://stackoverflow.com/questions/39495429/</a> <code>py.test</code> 是舊的用法，已被 <code>pytest</code> 取代；雖然兩者會並存很長一段時間&hellip;</li>
+<li>pytest introduction - Python Testing (2013-01-15) <a href="http://pythontesting.net/framework/pytest/pytest-introduction/">http://pythontesting.net/framework/pytest/pytest-introduction/</a> pytest 指專案，<code>py.test</code> 是 command line。</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li>requests/pytest.ini at master · requests/requests <a href="https://github.com/requests/requests/blob/master/pytest.ini">https://github.com/requests/requests/blob/master/pytest.ini</a></li>
+<li>flask/test-requirements.txt at master · pallets/flask <a href="https://github.com/pallets/flask/blob/master/test-requirements.txt">https://github.com/pallets/flask/blob/master/test-requirements.txt</a></li>
+<li>pylint/pytest.ini at master · PyCQA/pylint <a href="https://github.com/PyCQA/pylint/blob/master/pytest.ini">https://github.com/PyCQA/pylint/blob/master/pytest.ini</a></li>
+<li>selenium/conftest.py at master · SeleniumHQ/selenium <a href="https://github.com/SeleniumHQ/selenium/blob/master/py/conftest.py">https://github.com/SeleniumHQ/selenium/blob/master/py/conftest.py</a></li>
+<li><a href="https://github.com/zzzeek/sqlalchemy/blob/master/tox.ini">SQLAlchemy</a></li>
+<li><a href="https://github.com/scrapy/scrapy/blob/master/pytest.ini">Scrapy</a></li>
+<li><a href="https://github.com/numpy/numpy/blob/master/pytest.ini">numpy/pytest.ini at master · numpy/numpy</a></li>
+</ul>
+<h2 id="pytest-unittest">為什麼要用 pytest? 測試跟它綁太緊好嗎? 要捨棄 unittest??<a class="headerlink" href="#pytest-unittest" title="Permanent link"> #</a></h2>
+<ul>
+<li>許多用了 pytest 的知名專案，用 <code>git grep pytest | wc -l</code> 會發現用量還滿大的，同時 <code>git grep unittest</code> 還真的沒有結果；包括 Requests、Flask 等。</li>
+<li>pytest fixtures: explicit, modular, scalable — pytest documentation <a href="https://docs.pytest.org/en/latest/fixture.html">https://docs.pytest.org/en/latest/fixture.html</a> 許多地方要用 <code>@pytest</code>，從此 test code 就跟 pytest 綁定了，對其他人也增加了 pytest 的學習成本?</li>
+<li>pytest vs nose2 | LibHunt <a href="https://python.libhunt.com/project/pytest/vs/nose2">https://python.libhunt.com/project/pytest/vs/nose2</a> 從 fork 數跟 Google Trends，pytest 根本是大勝 nose2</li>
+<li>
+<p>Switching from nose to py.test at Mozilla (2015-06-02) <a href="https://agopian.info/presentations/2015_06_djangocon_europe/">https://agopian.info/presentations/2015_06_djangocon_europe/</a> pytest 的作者同時也參與 tox、pypy 的開發，支援 mark (像 Java 的 annotation，可以做 test filtering)、fixture (透過 test method 的 parameter 注入)、parametrized test；直接用 <code>assert</code> 比 <code>self.assertEqual</code> 更為 pythonic。組態檔分為 <code>pytest.ini</code> (mark、default prarameter) 與 <code>conftest.py</code> (fixture, plugin)；pytest + tox + travis 的組合很強大&hellip;</p>
+</li>
+<li>
+<p>Why I use py.test and you probably should too (2013-07) <a href="http://halfcooked.com/presentations/pyconau2013/why_I_use_pytest.html">http://halfcooked.com/presentations/pyconau2013/why_I_use_pytest.html</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/getting-started.html">Installation and Getting Started — pytest documentation</a> #ril</li>
+</ul>
+<h2 id="cli-pytest">CLI (pytest) ??<a class="headerlink" href="#cli-pytest" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/usage.html">Usage and Invocations — pytest documentation</a> #ril</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/customize.html">Configuration — pytest documentation</a> #ril</li>
+<li><code>pytest -h</code> 看到 &ldquo;[pytest] ini-options in the first pytest.ini|tox.ini|setup.cfg file found&rdquo;，難怪之前看到有些設定沒有寫在 <code>pytest.ini</code> 也可以作用，從 <code>tox.ini</code> 可見 pytest + tox 是多麼常見的組合。</li>
+</ul>
+<h2 id="live-log">Live Log ??<a class="headerlink" href="#live-log" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/logging.html#live-logs">Live Logs - Logging — pytest documentation</a> #ril<ul>
+<li>把 <code>log_cli</code> option 設為 <code>true</code> 時，pytest 會直接將 log 輸出到 console。</li>
+</ul>
+</li>
+</ul>
+<h2 id="skip-xfail-xpass">skip, xfail, xpass ??<a class="headerlink" href="#skip-xfail-xpass" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.pytest.org/en/stable/skipping.html">Skip and xfail: dealing with tests that cannot succeed — pytest documentation</a> #ril</p>
+<ul>
+<li>
+<p>You can mark test functions that cannot be run on CERTAIN PLATFORMS or that you expect to fail so pytest can deal with them accordingly and present a summary of the test session, while keeping the test suite green.</p>
+<p>其中 certain platforms 是相對陝義的說法，下面 &ldquo;some conditions are met&rdquo; 的說法比較適當。</p>
+</li>
+<li>
+<p>A skip means that you expect your test to pass ONLY IF SOME CONDITIONS ARE MET, otherwise pytest should skip running the test altogether. Common examples are skipping windows-only tests on non-windows platforms, or skipping tests that depend on an external resource which is not available at the moment (for example a database).</p>
+<p>skip 是指符合某些條件時才執行測試 (通常根據 Python 或 OS version)，例如 windows-only test 在 non-windows 平台就會被 skip 掉；是完全不執行，而非 skip 結果。</p>
+</li>
+<li>
+<p>A xfail means that you EXPECT A TEST TO FAIL FOR SOME REASON.</p>
+<p>A common example is a test for a FEATURE NOT YET IMPLEMENTED, or a BUG NOT YET FIXED. When a test passes despite being expected to fail (marked with <code>pytest.mark.xfail</code>), it’s an xpass and will be reported in the test summary.</p>
+<p>xfail (<code>pytest.mark.xfail</code>) 是指你預期測試 &ldquo;應該&rdquo; 因為某種原因而失敗 (expected to fail)，所以測試通過了反而有問題，會被視為 xpass (unexpectedly passing)，例如功能尚未實作、問題當未修正等。</p>
+<p>上述 &ldquo;feature not yet implemented&rdquo; 與 &ldquo;bug not yet fixed&rdquo; 的說法，意謂著開發過程中可以善用 xfail 做為 TODO，也比較容易看出是否改壞了哪些應該通過的測試。</p>
+<p>不過 xpass 預設也只會 &ldquo;reported in the test summary&rdquo; 而已，並不會讓測試錯誤；可以透過 <code>xfail_strict=true</code> (或 <code>-o xfail_strict=true</code>) 強制讓它錯誤。</p>
+</li>
+<li>
+<p>pytest counts and lists skip and xfail tests SEPARATELY. Detailed information about skipped/xfailed tests is not shown by default to avoid cluttering the output. You can use the <code>-r</code> option to see details corresponding to the “short” letters shown in the test progress:</p>
+<pre><code>pytest -rxXs  # show extra info on xfailed, xpassed, and skipped tests
+</code></pre>
+<p>More details on the <code>-r</code> option can be found by running <code>pytest -h</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.pytest.org/en/3.5.0/reference.html#pytest-mark-skipif-ref">Reference — pytest documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="python-2-3">區分 Python 2 &amp; 3 的測試 ??<a class="headerlink" href="#python-2-3" title="Permanent link"> #</a></h2>
+<pre><code>import sys, pytest
+
+py2_only = pytest.mark.skipif(sys.version_info[0] &gt;= 3, reason='Python 2')
+py3_later = pytest.mark.skipif(sys.version_info[0] &lt;= 2, reason='Python 3+')
+
+@py2_only
+def test_xxx_py2():
+    ...
+
+@py3_later
+def test_xxx_py3:
+    ...
+</code></pre>
+
+<pre><code>@pytest.fixture(scope=&quot;session&quot;)
+def py2():
+    return sys.version_info[0] == 2
+</code></pre>
+
+<h2 id="parameterized-tests">Parameterized Tests ??<a class="headerlink" href="#parameterized-tests" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/parametrize.html">Parametrizing fixtures and test functions — pytest documentation</a> #ril<ul>
+<li>pytest 可以在不同層級實現 test parametrization (同 parameterization 參數化) &ndash; <code>@pytest.fixture()</code> 用在 fixture function，<code>@pytest.mark.parametrize()</code> 用在 test function/class，而 <code>pytest_generate_tests()</code> 則可以用來自訂 test parametrization??</li>
+<li><code>@pytest.mark.parametrize()</code> decorator 可以對 test function 的 arguments 進行參數化，例如： 注意第一個參數是 arguments 列表 (不是 list of str)，第二個參數是 list of tuple，依序代入不同的 pair of values。</li>
+</ul>
+</li>
+</ul>
+<pre><code>import pytest
+@pytest.mark.parametrize(&quot;test_input,expected&quot;, [
+    (&quot;3+5&quot;, 8),
+    (&quot;2+4&quot;, 6),
+    (&quot;6*9&quot;, 42),
+])
+def test_eval(test_input, expected):
+    assert eval(test_input) == expected
+</code></pre>
+
+<pre><code>  - 其中 pair of values 可以透過 `pytest.param(values, ..., marks=...)` 加上 marker，例如： `("6*9", 42)` 的組合會被視為 xfail
+</code></pre>
+<pre><code>import pytest
+@pytest.mark.parametrize(&quot;test_input,expected&quot;, [
+    (&quot;3+5&quot;, 8),
+    (&quot;2+4&quot;, 6),
+    pytest.param(&quot;6*9&quot;, 42,
+                 marks=pytest.mark.xfail),
+])
+def test_eval(test_input, expected):
+    assert eval(test_input) == expected
+</code></pre>
+
+<pre><code>  - 使用多個 `@pytest.mark.parametrize()` 會有 matrix 的效果。下面的例子會產生 `[0, 1]` x `[2, 3]` = 4 種組合。
+</code></pre>
+<pre><code>import pytest
+@pytest.mark.parametrize(&quot;x&quot;, [0, 1])
+@pytest.mark.parametrize(&quot;y&quot;, [2, 3])
+def test_foo(x, y):
+    pass
+</code></pre>
+
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/fixture.html#fixture-parametrize">Parametrizing fixtures - pytest fixtures: explicit, modular, scalable — pytest documentation</a> #ril</li>
+<li><a href="https://docs.pytest.org/en/latest/fixture.html#using-marks-with-parametrized-fixtures">Using marks with parametrized fixtures - pytest fixtures: explicit, modular, scalable — pytest documentation</a> #ril</li>
+<li><a href="https://docs.pytest.org/en/latest/example/parametrize.html">Parametrizing tests — pytest documentation</a> #ril</li>
+<li><a href="https://dpb.bitbucket.io/pytest-parametrization.html">&amp; : Pytest parametrization — passing multiple data-items to a single test</a> (2015-03) #ril</li>
+<li><a href="https://hackebrot.github.io/pytest-tricks/create_tests_via_parametrization/">Create Tests via Parametrization (2016) — pytest-tricks</a> (2016-02-23) #ril</li>
+<li><a href="https://github.com/pytest-dev/pytest/issues/1610">TDD reading from excel with pytest.mark.parametrize · Issue #1610 · pytest-dev/pytest</a> (2016-06-14) #ril</li>
+</ul>
+<h2 id="collection">Collection<a class="headerlink" href="#collection" title="Permanent link"> #</a></h2>
+<ul>
+<li>預設以當前的目錄往下找，只看 <code>test_*</code> 或 <code>*_test.py</code>；這一點和 <code>unittest</code> 的 test discovery 會看 <code>test*.py</code> 有些不同。</li>
+<li>Module 裡 class 外的 function 會看 <code>test*()</code>，注意 <code>test</code> 後不一定要有底線。</li>
+<li>Class 裡的 method 規則一樣，不過 class 若不是繼承 <code>unittest.TestCase</code> 的話，就只看名稱以 <code>Test</code> 開頭的 class (為什麼不是以 <code>Test</code> 結尾??)</li>
+<li>可以用 <code>--collect-only</code> 來看 test discovery 會找到哪些 test case，但不會真的執行測試。</li>
+<li><code>pytest -h</code> 的 <code>collection:</code> 列出所有跟 test collection 相關的參數。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Running multiple tests - Installation and Getting Started — pytest documentation <a href="https://docs.pytest.org/en/latest/getting-started.html#running-multiple-tests">https://docs.pytest.org/en/latest/getting-started.html#running-multiple-tests</a> 從 current director 及 subdirectories 找 <code>test_.py</code> 及 <code>*_test.py</code>。</li>
+<li><a href="https://docs.python.org/2/library/unittest.html#test-discovery">25.3.3. Test Discovery - 25.3. unittest — Unit testing framework — Python 2.7.14 documentation</a> Python <code>unittest</code> 預設的 pattern 是 <code>test*.py</code>，少了中間的底線。</li>
+<li><a href="https://docs.pytest.org/en/latest/usage.html#specifying-tests-selecting-tests">Specifying tests / selecting tests - Usage and Invocations — pytest documentation</a> <code>pytest [OPTIONS] [...]</code> 中 <code>[...]</code> 的用法好多種，可以是 module、directory、ID 等 #ril</li>
+<li>Conventions for Python test discovery - Good Integration Practices — pytest documentation <a href="https://docs.pytest.org/en/latest/goodpractices.html#conventions-for-python-test-discovery">https://docs.pytest.org/en/latest/goodpractices.html#conventions-for-python-test-discovery</a> 首先找出 <code>test_*.py</code> 與 <code>*_test.py</code>，然後 import，除了 module 裡的 <code>test_*</code> functions，也會找 <code>Test*</code> class (不需要繼承特定的 class) 下的 <code>test_*</code> method，另外 <code>unittest.TestCase</code> 的 subclass 也會考量進來。</li>
+<li>用 pytest 3.2.3 試驗 (不該被執行的 <code>assert False</code>)，確認檔案只會找 <code>test_*.py</code>/<code>*_test.py</code> (中間的 <code>_</code> 一定要有)，但 class 外的 test method 只要 <code>test</code> 開頭就好 (不一定要是 <code>test_</code> 開頭)，至於 class name，若是繼承 <code>unittest.TestCase</code>，什麼命名都沒關係，如果不是的話則只看 <code>Test</code> 開頭的 class，最後 class 裡 test method 也只要以 <code>test</code> 開頭即可；結果跟官方文件寫的不太一樣&hellip;</li>
+<li><a href="https://pytest.readthedocs.io/en/reorganize-docs/new-docs/user/naming_conventions.html">Naming conventions and test discovery</a> 提到 <code>pytest --collect-only</code> 可以測試 pytest 會找到哪些 test，但不會真的執行。</li>
+<li><a href="https://docs.pytest.org/en/latest/example/pythoncollection.html#changing-naming-conventions">Changing naming conventions - Changing standard (Python) test discovery — pytest documentation</a> 可以用 <code>python_files</code>、<code>python_classes</code>、<code>python_functions</code> 自訂規則；例如 <code>python_classes=*Test</code> 就可以改用 <code>Test</code> 為結尾來判斷。</li>
+</ul>
+<h2 id="plugins">Plugins??<a class="headerlink" href="#plugins" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/plugins.html">Installing and Using plugins — pytest documentation</a><ul>
+<li>安裝 plugin 一樣透過 <code>pip</code> 安裝 <code>pytest-*</code> 套件即可 (例如 <code>pip install pytest-cov</code>)，pytest 會自己找到它，不用特別 activate，除非是自己放在 test module 或 conftest file 裡的 plugin。</li>
+<li>Plugin 的完整列表可以看 <a href="http://plugincompat.herokuapp.com/">pytest Plugin Compatibility</a> (Py 2 &amp; 3 的相容性測試結果) 或 <a href="https://pypi.python.org/pypi?%3Aaction=search&amp;term=pytest-&amp;submit=search">Index of Packages Matching &lsquo;pytest-&lsquo; - PyPI</a> 找出 <code>pytest-*</code> 套件。</li>
+<li>Pytest default plugin reference 內建許多 plugin，包括 <code>capture</code>、<code>junitxml</code>、<code>mark</code>、<code>tmpdir</code> 等。</li>
+</ul>
+</li>
+<li><a href="https://docs.pytest.org/en/latest/writing_plugins.html">Writing plugins — pytest documentation</a> #ril</li>
+</ul>
+<h2 id="code-coverage">Code Coverage??<a class="headerlink" href="#code-coverage" title="Permanent link"> #</a></h2>
+<p>用 <a href="../pytest-cov/">pytest-cov</a>，背後是接 <a href="coverage.py.md">coverage.py</a>。</p>
+<h2 id="marker">Marker??<a class="headerlink" href="#marker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/example/markers.html">Working with custom markers — pytest documentation</a> #ril</li>
+<li><a href="http://pytest.readthedocs.io/en/reorganize-docs/new-docs/user/pytestmark.html">Grouping tests with pytest.mark</a> <code>-m &lt;MARK&gt;</code> 跟 <code>-m "not &lt;MARK&gt;</code> 可以只跑該 mark，或是不跑該 mark #ril</li>
+<li><a href="https://docs.pytest.org/en/latest/mark.html">Marking test functions with attributes — pytest documentation</a> #ril</li>
+</ul>
+<h2 id="pytest-test-method-class">pytest 不習慣把 test method 寫在 class 裡??<a class="headerlink" href="#pytest-test-method-class" title="Permanent link"> #</a></h2>
+<ul>
+<li>測一個 class 時，可以把多個 test case 集中在一個 test class/suite 裡?</li>
+<li><a href="https://github.com/pallets/flask/blob/master/tests/test_helpers.py#L57">flask/test_helpers.py at master · pallets/flask</a> <code>TestJSON</code> 就是把許多 test methods 集中在一個 class，但畢竟這還是少數。</li>
+<li><a href="https://github.com/requests/requests/blob/master/tests/test_requests.py">requests/test_requests.py at master · requests/requests</a> requests 倒是不少寫在 class 裡的 test methods。</li>
+</ul>
+<h2 id="_1">如何設定受測程式碼的位置??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>後來發現 &lsquo;No module named XXX&rsquo; 的錯誤，跟 <code>tests/__init__.py</code> 是不存在有很大的關係。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/pythonpath.html#pythonpath">pytest import mechanisms and sys.path/PYTHONPATH — pytest documentation</a> 講 &ldquo;change sys.path in order to import test modules or conftest.py files&rdquo; 為什麼沒提到受測程式?</li>
+<li><code>pytest --help</code> 看不到跟 <code>PYTHONPATH</code> 相關的設定。</li>
+<li><a href="https://pypi.python.org/pypi/pytest-pythonpath">pytest-pythonpath 0.7.1 : Python Package Index</a> PyTest 的 plugin，在測試執行前參考 <code>pytest.ini</code> 設定 <code>PYTHONPATH</code></li>
+<li><a href="https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure">Packaging a python library | ionel&rsquo;s codelog</a> 推廣 <code>src/mypkg</code> 的擺法，也用 pytest 在測試；或許用了 tox 的關係，會先安裝再測試，所以沒有自訂 <code>PYTHONPATH</code> 的需求? 但如果想用 pytest 單測一部份 test code 呢? #ril</li>
+<li><a href="https://docs.pytest.org/en/latest/customize.html#initialization-determining-rootdir-and-inifile">Initialization: determining rootdir and inifile - Configuration — pytest documentation</a> 執行 <code>pytest</code> 一開始印出的 <code>rootdir:</code> 主要是用於併湊 node ID，也讓 plugins 知道可以把測試相關的資訊存在哪裡，也之所以規則會找 <code>pytest.ini</code>、<code>setup.cfg</code>、<code>tox.ini</code>、<code>setup.py</code> 等的位置，幾乎就是 project 的根目錄。不過再三強調這不會影響 <code>sys.path</code>/<code>PYTHONPATH</code>。</li>
+<li><a href="https://stackoverflow.com/questions/20971619/">python - Ensuring py.test includes the application directory in sys.path - Stack Overflow</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/20985157/">python - Py.test No module named * - Stack Overflow</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/10253826/">python - PATH issue with pytest &lsquo;ImportError: No module named YadaYadaYada&rsquo; - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="pytest-__pycache__-cache">pytest 會自動產生 <code>__pycache__</code> 與 <code>.cache</code>??<a class="headerlink" href="#pytest-__pycache__-cache" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/customize.html#initialization-determining-rootdir-and-inifile">Initialization: determining rootdir and inifile - Configuration — pytest documentation</a> 提到內部的 cache plugin 會在 rootdir 下建立一個 <code>.cache</code> 資料夾，用來存放 cross-test run state??</li>
+<li><a href="https://github.com/pytest-dev/pytest/issues/200">disable the creation of the __pycache__ directory · Issue #200 · pytest-dev/pytest</a> 搭配 <code>PYTHONDONTWRITEBYTECODE=1</code> 就不會產生 <code>__pycache__</code> 目錄。</li>
+</ul>
+<h2 id="functional-test">對 Functional Test 提供哪些支援??<a class="headerlink" href="#functional-test" title="Permanent link"> #</a></h2>
+<ul>
+<li>Going functional: requesting a unique temporary directory - Installation and Getting Started — pytest documentation <a href="https://docs.pytest.org/en/latest/getting-started.html#going-functional-requesting-a-unique-temporary-directory">https://docs.pytest.org/en/latest/getting-started.html#going-functional-requesting-a-unique-temporary-directory</a> 對 functional tests 而言，最重要的是 fixture 的支援 #ril</li>
+<li>incremental testing - test steps - Basic patterns and examples — pytest documentation <a href="https://docs.pytest.org/en/latest/example/simple.html#incremental-testing-test-steps">https://docs.pytest.org/en/latest/example/simple.html#incremental-testing-test-steps</a> 這裡 &ldquo;a series of test steps&rdquo; 的狀況應該是 functional tests 才會有 #ril</li>
+<li>Why Pytest for writing functional API tests | Skimlinks (2015-04-21) <a href="https://skimlinks.com/blog/why-pytest-for-writing-functional-api-tests">https://skimlinks.com/blog/why-pytest-for-writing-functional-api-tests</a> #ril</li>
+<li>Pytest - One Solution for Unit, Functional and Acceptance Tests | Xoriant Blog (2017-01-12) <a href="https://www.xoriant.com/blog/product-engineering/pytest-one-solution-for-unit-functional-and-acceptance-tests.html">https://www.xoriant.com/blog/product-engineering/pytest-one-solution-for-unit-functional-and-acceptance-tests.html</a> #ril</li>
+</ul>
+<h2 id="test-code">如何安排 test code 的目錄結構??<a class="headerlink" href="#test-code" title="Permanent link"> #</a></h2>
+<ul>
+<li>Choosing a test layout / import rules - Good Integration Practices — pytest documentation <a href="https://docs.pytest.org/en/latest/goodpractices.html#choosing-a-test-layout-import-rules">https://docs.pytest.org/en/latest/goodpractices.html#choosing-a-test-layout-import-rules</a> 只討論 test code 是否跟 application code 拆開，但都沒有提及 unit test 與 function test 的拆分；有沒有 <code>__init__.py</code> 會影響 pytest 匯入 test code 的方式，這裡建議把 source code 放 <code>src/mypkg/</code> 也滿特別的 #ril</li>
+<li>Test directory structure <a href="http://pytest.readthedocs.io/en/reorganize-docs/new-docs/user/directory_structure.html">http://pytest.readthedocs.io/en/reorganize-docs/new-docs/user/directory_structure.html</a> #ril</li>
+<li>
+<p>Python unit testing with Pytest and Mock – Brendan Fortuner – Medium <a href="https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c">https://medium.com/@bfortuner/python-unit-testing-with-pytest-and-mock-197499c4623c</a> <code>tests/</code> 下分為 <code>unit_tests/</code> 與 <code>integ_tests/</code> #ril</p>
+</li>
+<li>
+<p>flask/tests at master · pallets/flask <a href="https://github.com/pallets/flask/tree/master/tests">https://github.com/pallets/flask/tree/master/tests</a> 沒有區分 unit 與 functional tests</p>
+</li>
+<li>requests/tests at master · requests/requests <a href="https://github.com/requests/requests/tree/master/tests">https://github.com/requests/requests/tree/master/tests</a> 沒有區分 unit 與 functional tests</li>
+<li>Usage and Invocations — pytest documentation <a href="https://docs.pytest.org/en/latest/usage.html">https://docs.pytest.org/en/latest/usage.html</a> 或許用 <code>@pytest.mark.slow</code> 來區分? 而非目錄結構</li>
+<li>pytest is awesome - zerokspot.com <a href="https://zerokspot.com/weblog/2013/07/10/pytest-is-awesome/">https://zerokspot.com/weblog/2013/07/10/pytest-is-awesome/</a> 出現 <code>@pytest.mark.unit</code> 與 <code>@pytest.mark.integration</code> 的用法，<code>-m unit</code> 只執行 unit tests #ril</li>
+<li>Categorise integration tests using PyTest. <a href="https://gist.github.com/billyshambrook/264624b039fb3caa9278">https://gist.github.com/billyshambrook/264624b039fb3caa9278</a> 利用 <code>conftest.py</code> 搭配 <code>--integration</code> 選項 #ril</li>
+<li>Marking test functions and selecting them for a run - Working with custom markers — pytest documentation <a href="https://docs.pytest.org/en/latest/example/markers.html#marking-test-functions-and-selecting-them-for-a-run">https://docs.pytest.org/en/latest/example/markers.html#marking-test-functions-and-selecting-them-for-a-run</a> 示範 <code>pytest.mark.webtest</code> 的用法 #ril</li>
+<li>Custom marker and command line option to control test runs - Working with custom markers — pytest documentation <a href="https://docs.pytest.org/en/latest/example/markers.html#custom-marker-and-command-line-option-to-control-test-runs">https://docs.pytest.org/en/latest/example/markers.html#custom-marker-and-command-line-option-to-control-test-runs</a> 跟上面 <code>--integration</code> 的設計有關 #ril</li>
+</ul>
+<h2 id="junit-xml-report">如何產生 JUnit XML Report??<a class="headerlink" href="#junit-xml-report" title="Permanent link"> #</a></h2>
+<ul>
+<li>Installing and Using plugins — pytest documentation <a href="https://docs.pytest.org/en/latest/plugins.html">https://docs.pytest.org/en/latest/plugins.html</a> 提到 <code>_pytest.junitxml</code></li>
+<li><a href="https://docs.pytest.org/en/latest/usage.html#creating-junitxml-format-files">Usage and Invocations — pytest documentation</a> 用 <code>--junitxml=path</code> #ril</li>
+</ul>
+<h2 id="tox">如何搭配 tox 使用??<a class="headerlink" href="#tox" title="Permanent link"> #</a></h2>
+<ul>
+<li>Tox - Good Integration Practices — pytest documentation <a href="https://docs.pytest.org/en/latest/goodpractices.html#tox">https://docs.pytest.org/en/latest/goodpractices.html#tox</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 <code>virtualenv pytest</code> 建立一個虛擬環境，然後在環境內安裝 <code>pytest</code> 套件，再用 symbolic link 將環境內 <code>bin/pytest</code> 引出來即可。</li>
+<li>但如何引用開發環境 virtualenv 的其他相依性、受測的 code??</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Installation and Getting Started — pytest documentation <a href="https://docs.pytest.org/en/latest/getting-started.html">https://docs.pytest.org/en/latest/getting-started.html</a> #ril</li>
+<li>flask/test-requirements.txt at master · pallets/flask <a href="https://github.com/pallets/flask/blob/master/test-requirements.txt">https://github.com/pallets/flask/blob/master/test-requirements.txt</a> 出現 <code>test-requirements.txt</code> 的用法。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/">pytest</a></li>
+<li><a href="https://github.com/pytest-dev/pytest">pytest-dev/pytest - GitHub</a></li>
+<li><a href="http://plugincompat.herokuapp.com/">pytest Plugin Compatibility</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/py.test">&lsquo;py.test&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../pytest-fixture/">Fixture</a></li>
+<li><a href="../pytest-assert/">Assertion</a></li>
+<li><a href="../pytest-docker/">Docker</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../pytest-cov/">pytest-cov</a></li>
+<li><a href="../pytest-benchmark/">pytest-benchmark</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.pytest.org/">pytest Documentation</a></li>
+<li><a href="https://docs.pytest.org/en/latest/reference.html">Reference - pytest</a></li>
+<li><a href="https://docs.pytest.org/en/latest/reference.html#configuration-options">Configuration Options</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

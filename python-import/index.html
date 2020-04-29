@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-import/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Import System - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-import.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-import-system">Python / Import System</a></li>
+            <li class="second-level"><a href="#importlib">importlib ??</a></li>
+                
+            <li class="second-level"><a href="#import-module-function">Import 只應放 module 上方? 什麼時候該放 function 裡?</a></li>
+                
+            <li class="second-level"><a href="#relative-import">Absolute &amp; Package-relative Import ??</a></li>
+                
+            <li class="second-level"><a href="#circularcyclic-imports">Circular/Cyclic Imports (環狀) ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-import-system"><a href="../python/">Python</a> / Import System<a class="headerlink" href="#python-import-system" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/glossary.html#term-importing">importing - Glossary — Python 3.7.3rc1 documentation</a></p>
+<ul>
+<li>
+<p>The process by which Python code in ONE MODULE is made available to Python code in ANOTHER MODULE.</p>
+<p>單位都是 module，跨 module 存取時，就會涉及 importing；注意 package 也是一種特殊的 module。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/reference/import.html">5. The import system — Python 3.7.3rc1 documentation</a> #ril</p>
+<ul>
+<li>Python code in one module gains access to the code in another module by the process of IMPORTING it. The <code>import</code> statement is the most common way of invoking the IMPORT MACHINERY, but it is not the only way. Functions such as <code>importlib.import_module()</code> and built-in <code>__import__()</code> can also be used to invoke the import machinery.</li>
+<li>The <code>import</code> statement combines two operations; it SEARCHES for the NAMED MODULE (有 unnamed module 嗎??), then it BINDS the results of that search to a NAME IN THE LOCAL SCOPE. The search operation of the <code>import</code> statement is defined as a call to the <code>__import__()</code> function, with the appropriate arguments. The return value of <code>__import__()</code> is used to perform the NAME BINDING operation of the <code>import</code> statement. See the <code>import</code> statement for the exact details of that name binding operation.</li>
+<li>
+<p>A direct call to <code>__import__()</code> performs only the MODULE SEARCH and, if found, the MODULE CREATION operation. While certain SIDE-EFFECTS may occur, such as the IMPORTING OF PARENT PACKAGES, and the updating of various CACHES (including <code>sys.modules</code>), only the <code>import</code> statement performs a name binding operation.</p>
+<p>也就是 <code>import</code> = <code>__import__()</code> (search + creation) + name binding (local scope)，但 <code>importlib.import_module()</code> 背後不是用 <code>__import__()</code>。</p>
+</li>
+<li>
+<p>When an <code>import</code> statement is executed, the standard builtin <code>__import__()</code> function is called. Other mechanisms for invoking the import system (such as <code>importlib.import_module()</code>) may choose to bypass <code>__import__()</code> and use their own solutions to implement import semantics.</p>
+</li>
+<li>When a module is first imported, Python searches for the module and if found, it creates a module object (<code>types.ModuleType</code>), initializing it. If the named module cannot be found, a <code>ModuleNotFoundError</code> is raised. Python implements various strategies to search for the named module when the import machinery is invoked. These strategies can be modified and extended by using various HOOKS?? described in the sections below.</li>
+<li>Changed in version 3.3: The import system has been updated to fully implement the SECOND PHASE of PEP 302. There is no longer any IMPLICIT?? import machinery - the full import system is exposed through <code>sys.meta_path</code>.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/reference/import.html#searching">Searching - 5. The import system — Python 3.7.3rc1 documentation</a> #ril</p>
+<ul>
+<li>
+<p>To begin the search, Python needs the FULLY QUALIFIED NAME of the module (or package, but for the purposes of this discussion, the difference is IMMATERIAL) being imported. This name may come from various arguments to the <code>import</code> statement, or from the parameters to the <code>importlib.import_module()</code> or <code>__import__()</code> functions.</p>
+<p>原來 <code>import</code> 的不同語法，都跟拼湊出 module/package 的全名有關。</p>
+</li>
+<li>
+<p>This name will be used in various phases of the IMPORT SEARCH, and it may be the DOTTED PATH to a submodule, e.g. <code>foo.bar.baz</code>. In this case, Python first tries to import <code>foo</code>, then <code>foo.bar</code>, and finally <code>foo.bar.baz</code>. If any of the INTERMEDIATE IMPORTS fail, a <code>ModuleNotFoundError</code> is raised.</p>
+<p>就 package 而言，就是執行 <code>__init__.py</code> 的內容。而 <code>foo/__init__.py</code> &rarr; <code>foo/bar/__init__.py</code> &rarr; <code>foo/bar/baz.py</code> (或 foo/bar/baz/<strong>init</strong>.py<code>) 的順序很關鍵，即便 import 的對象是</code>foo.bar.baz`。</p>
+</li>
+</ul>
+<p>The module cache</p>
+<ul>
+<li>The first place checked during import search is <code>sys.modules</code>. This mapping serves as a cache of all modules that have been previously imported, including the INTERMEDIATE PATHS??. So if <code>foo.bar.baz</code> was previously imported, <code>sys.modules</code> will contain entries for <code>foo</code>, <code>foo.bar</code>, and <code>foo.bar.baz</code>. Each key will have as its value the corresponding module object.</li>
+<li>During import, the module name is looked up in <code>sys.modules</code> and if present, the associated value is the module satisfying the import, and the process completes. However, if the value is <code>None</code>, then a <code>ModuleNotFoundError</code> is raised. (之前找不到的，不用再找了；下面有解釋) If the module name is missing, Python will continue searching for the module.</li>
+<li>sys.modules is WRITABLE. Deleting a key may not destroy the associated module (as other modules may HOLD REFERENCES TO IT), but it will INVALIDATE THE CACHE entry for the named module, causing Python to search anew for the named module upon its next import. The key can also be assigned to <code>None</code>, forcing the next import of the module to result in a <code>ModuleNotFoundError</code>.</li>
+<li>
+<p>Beware though, as if you keep a reference to the module object, invalidate its cache entry in <code>sys.modules</code>, and then re-import the named module, the two module objects will not be the same. (重新建立的 module object) By contrast, <code>importlib.reload()</code> will reuse the same module object, and simply REINITIALISE the module contents by rerunning the module’s code.</p>
+<p>像 Flask developement server 這類 reloader 的機制，應該都是用 <code>importlib.repload()</code> 達成?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/reference/simple_stmts.html#import">The import statement - 7. Simple statements — Python 3.7.3rc1 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/tutorial/modules.html">6. Modules — Python 2.7.14 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="importlib">importlib ??<a class="headerlink" href="#importlib" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/reference/import.html#importlib">importlib - 5. The import system — Python 3.7.3rc1 documentation</a><ul>
+<li>The <code>importlib</code> module provides a rich API for interacting with the import system. For example <code>importlib.import_module()</code> provides a recommended, simpler API than built-in <code>__import__()</code> for invoking the import machinery. Refer to the <code>importlib</code> library documentation for additional detail.</li>
+</ul>
+</li>
+</ul>
+<h2 id="import-module-function">Import 只應放 module 上方? 什麼時候該放 function 裡?<a class="headerlink" href="#import-module-function" title="Permanent link"> #</a></h2>
+<ul>
+<li>雖然 PEP8 說 &ldquo;Imports are always put at the top of the file&hellip;&rdquo;，但這也不是那麼絕對。</li>
+<li>除了可以用來避開 circular dependencies，也可以用在 wrapper (Don&rsquo;t mock types you don&rsquo;t own)，避免引用 wrapper 時就去找 3<sup>rd</sup>-party libraries；有些 libraries 並不是純 Python，又或者 import time 會做一些事情。</li>
+<li>以 Flask 而言，為了減少 <a href="http://flask.pocoo.org/docs/0.12/patterns/appfactories/#factories-extensions">lazy-initialization</a>，讓 object 不會一開始處於 uninitialized 的狀態，可以考慮在 <code>wsgi.py</code> 做 wiring，在 <code>app</code> module 建立 singleton (<code>app.db = SQLAlchemy(flask_app)</code>)，其他要引用這個 singleton 的人，可以在 function 裡動態引用 <code>from app import db</code>，這樣測試期間，只要換掉 <code>app.db</code> 即可。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/128478/">optimization - Should Python import statements always be at the top of a module? - Stack Overflow</a> #ril</p>
+<ul>
+<li>雖然 PEP8 說 &ldquo;Imports are always put at the top of the file&hellip;&rdquo;，但較少用的是不是需要時再 import 比較有效率?</li>
+<li>John Millikin: 放 function 裡比較慢? aaronasterling: 這倒未必</li>
+<li>Moe: 可以用來避開 circular dependencies</li>
+<li>thousandlegs: 把 import 放進 function 方便 refactor&hellip;</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/477096/">Python import coding style - Stack Overflow</a> 發現 import 放進 function 好像比較容易維護? aaronasterling: performance 不是背後的考量，因為在 function 裡 import 其實更快，但最好還是放 module 上方，可以容易看出 module 跟誰相依，也與 Python universe 的做法一致。</p>
+</li>
+<li><a href="http://pylint-messages.wikidot.com/all-messages">All messages - PyLint Messages</a> Error message 提到 cyclic import，但沒講到從 function 裡 import 不行。</li>
+</ul>
+<h2 id="relative-import">Absolute &amp; Package-relative Import ??<a class="headerlink" href="#relative-import" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2.5/whatsnew/pep-328.html">4 PEP 328: Absolute and Relative Imports</a></p>
+<ul>
+<li>
+<p>The SIMPLER PART of PEP 328 was implemented in Python 2.4: PARENTHESES could now be used to enclose the names imported from a module using the <code>from ... import ...</code> statement, making it easier to import many different names. ??</p>
+<p>The more complicated part has been implemented in Python 2.5: importing a module can be specified to use ABSOLUTE or PACKAGE-RELATIVE imports. The plan is to move toward MAKING ABSOLUTE IMPORTS THE DEFAULT in future versions of Python.</p>
+</li>
+<li>
+<p>Let&rsquo;s say you have a package directory like this:</p>
+<pre><code>pkg/
+pkg/__init__.py
+pkg/main.py
+pkg/string.py
+</code></pre>
+<p>This defines a package named <code>pkg</code> containing the <code>pkg.main</code> and <code>pkg.string</code> submodules.</p>
+</li>
+<li>
+<p>Consider the code in the <code>main.py</code> module. What happens if it executes the statement <code>import string</code>? In Python 2.4 and earlier, it will FIRST LOOK IN THE PACKAGE&rsquo;S DIRECTORY to perform a relative import, finds <code>pkg/string.py</code>, imports the contents of that file as the <code>pkg.string</code> module, and that module is bound to the name <code>string</code> in the <code>pkg.main</code> module&rsquo;s namespace.</p>
+<p>That&rsquo;s fine if <code>pkg.string</code> was what you wanted. But what if you wanted Python&rsquo;s standard <code>string</code> module? There&rsquo;s NO CLEAN WAY TO IGNORE <code>pkg.string</code> and look for the standard module; generally you had to look at the contents of <code>sys.modules</code>, which is slightly unclean.</p>
+<p>Holger Krekel&rsquo;s <code>py.std</code> package provides a tidier way to perform imports from the standard library, <code>import py ; py.std.string.join()</code>, but that package isn&rsquo;t available on all Python installations.</p>
+</li>
+<li>
+<p>Reading code which relies on relative imports is also LESS CLEAR, because a reader may be confused about which module, <code>string</code> or <code>pkg.string</code>, is intended to be used. Python users soon learned NOT TO DUPLICATE the names of standard library modules in the names of their packages&rsquo; submodules, but you can&rsquo;t protect against having your submodule&rsquo;s name being used for a new module added in a future version of Python.</p>
+<p>預設採 package-relative import 最大的問題是 readability。</p>
+</li>
+<li>
+<p>In Python 2.5, you can switch import&rsquo;s behaviour to absolute imports using a <code>from __future__ import absolute_import</code> directive. This absolute-import behaviour will become the default in a future version (probably Python 2.7).</p>
+<p>Once absolute imports are the default, <code>import string</code> will always find the standard library&rsquo;s version. It&rsquo;s suggested that users should begin using absolute imports as much as possible, so it&rsquo;s preferable to begin writing <code>from pkg import string</code> in your code.</p>
+<p>以前預設採 relative import 的年代，<code>import ...</code> 跟 <code>from ... import</code> 都會先從 package 裡面找，但改採 absolute import 後，兩種寫法就都不會從 package 裡面找；跟下面 leading periods 的用法無關。</p>
+<p>這裡 &ldquo;using absolute imports as much as possible&rdquo; 的說法是在為切換到 &ldquo;預設採 absolute import&rdquo; 的未來做準備，並沒有建議不要用下面 leading periods 做 relative import 的意思，尤其 leading periods 並沒有難以識別 absolute/relative import 的問題。</p>
+</li>
+<li>
+<p>Relative imports are still possible by adding a LEADING PERIOD to the module name when using the <code>from ... import</code> form:</p>
+<pre><code># Import names from pkg.string
+from .string import name1, name2
+# Import pkg.string
+from . import string
+</code></pre>
+<p>This imports the <code>string</code> module relative to the current package, so in <code>pkg.main</code> this will import <code>name1</code> and <code>name2</code> from <code>pkg.string</code>. Additional leading periods perform the relative import starting from the parent of the current package. For example, code in the <code>A.B.C</code> module can do:</p>
+<pre><code>from . import D                 # Imports A.B.D
+from .. import E                # Imports A.E
+from ..F import G               # Imports A.F.G 多個 . 的用法似乎過頭了 ??
+</code></pre>
+<p>Leading periods cannot be used with the <code>import modname</code> form of the <code>import</code> statement, only the <code>from ... import</code> form.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://pylint-messages.wikidot.com/messages:w0403">PyLint Messages</a> <code>Relative import %r, should be %r</code>，不過實驗發現只有在 <code>from string import ...</code> 的寫法才會出現警告，寫成 <code>from .string import ...</code> 不會。</p>
+</li>
+<li>
+<p><a href="https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html#absolute-vs-relative-import">The Definitive Guide to Python import Statements | Chris Yeh</a> #ril</p>
+<ul>
+<li>Relative import 分為 explicit import (<code>from .xxx import ...</code>) 與 implicit import (<code>from xxx import ...</code>)，不過 implicit import 在 Python 3 已經完全不支援。</li>
+<li>作者認為 In general, absolute imports are preferred over relative imports. They avoid the confusion between explicit vs. implicit relative imports. 即便是 explicit relative import 也要少用?</li>
+<li><a href="https://docs.python.org/3.0/whatsnew/3.0.html">What’s New In Python 3.0 — Python v3.0.1 documentation</a> The only acceptable syntax for relative imports is from .[module] import name. All import forms not starting with . are interpreted as absolute imports. 所以用到 relative import 的 script 無法直接執行。</li>
+<li><a href="https://docs.python.org/3/tutorial/modules.html#intra-package-references">6. Modules — Python 3.7.0 documentation</a> Note that relative imports are based on the name of the current module. Since the name of the main module is always &ldquo;<strong>main</strong>&rdquo;, modules intended for use as the main module of a Python application must always use absolute imports.</li>
+</ul>
+</li>
+<li>
+<p><a href="http://pulkitgoyal.com/absolute-relative-imports">Absolute and Relative Imports</a> (2016-06-24) #ril</p>
+</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/159503/">coding style - What&rsquo;s wrong with relative imports in Python? - Software Engineering Stack Exchange</a> #ril</li>
+<li><a href="https://www.python.org/dev/peps/pep-0328/">PEP 328 -- Imports: Multi-Line and Absolute/Relative | Python.org</a> #ril</li>
+</ul>
+<h2 id="circularcyclic-imports">Circular/Cyclic Imports (環狀) ??<a class="headerlink" href="#circularcyclic-imports" title="Permanent link"> #</a></h2>
+<p><a href="https://groups.google.com/d/msg/comp.lang.python/HYChxtsrhnw/AeCAK6zM9Q4J">Coping with cyclic imports - Google Groups</a> 中 Duncan Booth 提到：</p>
+<blockquote>
+<p>Imports are pretty straightforward really. Just remember the following:</p>
+<p>&lsquo;import&rsquo; and &lsquo;from xxx import yyy&rsquo; are executable statements. They execute when the running program reaches that line.</p>
+<p>If a module is not in sys.modules, then an import creates the new module entry in sys.modules and then executes the code in the module. It does not return control to the calling module until the execution has completed.</p>
+<p>If a module does exist in sys.modules then an import simply returns that module whether or not it has completed executing. That is the reason why cyclic imports may return modules which appear to be partly empty.</p>
+<p>Finally, the executing script runs in a module named <strong>main</strong>, importing the script under its own name will create a new module unrelated to  <strong>main</strong>.</p>
+<p>Take that lot together and you shouldn&rsquo;t get any surprises when importing modules.</p>
+</blockquote>
+<p><a href="http://effbot.org/zone/import-confusion.htm">Importing Python Modules</a>:</p>
+<blockquote>
+<p>Modules are executed during import, and new functions and classes won’t appear in the module’s namespace until the def (or class) statement has been executed.</p>
+</blockquote>
+<pre><code>$ pylint --help-msg cyclic-import
+:cyclic-import (R0401): *Cyclic import (%s)*
+  Used when a cyclic import between two or more modules is detected. This
+  message belongs to the imports checker.
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="http://stackabuse.com/python-circular-imports/">Python Circular Imports</a> (2017-10-27) #ril</li>
+<li><a href="https://dev.launchpad.net/PythonStyleGuide#Circular_imports">PythonStyleGuide - Launchpad Development</a> 把其中一方的 import 移到 function/method 裡 (nested import)，並且在一開頭就加註是為了避開 circular imports 才這麼做的。</li>
+<li><a href="https://stackoverflow.com/questions/894864">Circular dependency in Python - Stack Overflow</a> (2009-05-21) &ldquo;Python is not Java. You don&rsquo;t need one class per file.&rdquo; 點出了根本的問題，但不拆出來的話 <code>.py</code> 會變得太長而難以維護；或許 divide by module 會減少這種問題?</li>
+<li><a href="https://stackoverflow.com/questions/744373/">Circular (or cyclic) imports in Python - Stack Overflow</a> (2009-04-13) - 引用 Duncan Booth 的看法，另外也討論到 circular 的說法會比 cyclic 來得好。</li>
+<li><a href="https://groups.google.com/forum/?fromgroups=#!topic/comp.lang.python/HYChxtsrhnw">Coping with cyclic imports - Google Groups</a> (2008-04-09) - 最後導出 Duncan Booth 的看法，也就是這份文件最上頭引用的那一段話。</li>
+<li><a href="http://effbot.org/zone/import-confusion.htm">Importing Python Modules</a> (1999-01-07) - circular import 應該避免，但小心安排的話是沒有問題的。對於 &ldquo;Modules are executed during import&rdquo; 這件事講得很清楚。</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/10957694/">java - Reason for circular references with classes? - Stack Overflow</a> 說明在 Java 裡 circular class reference 其實很常見。這種狀況拆也拆不開(硬是拆出去變得難維護也不值得)，只能合併成一個 module？</p>
+</li>
+<li>
+<p>我們清楚知道應該避免 circular imports，例如把共用的部份另外抽出去。</p>
+</li>
+<li>好像目前遇到的例子都是因為 class 的造成，parent class 某個方法內部的實作會引用到 subclass；但 subclass 又必須繼承 parent class。</li>
+<li>看似 one module per class 是 Java 帶過來的壞習慣？但不拆的話 .py 又太大而難以維護。</li>
+<li>常見的解法是把一方的 import 移到 function/method 內部，並在開頭加註這麼做是為了要避開 circular imports。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0302/">PEP 302 &ndash; New Import Hooks</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0328/">PEP 328 &ndash; Imports: Multi-Line and Absolute/Relative</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

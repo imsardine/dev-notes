@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/elastic-stack/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Elastic / Stack (X-Pack) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/elastic-stack.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#elastic-stack-x-pack">Elastic / Stack (X-Pack)</a></li>
+            <li class="second-level"><a href="#free">Free</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="elastic-stack-x-pack"><a href="../elastic/">Elastic</a> / Stack (X-Pack)<a class="headerlink" href="#elastic-stack-x-pack" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/products/stack">Elastic Stack Features (Formerly X-Pack): Extend Elasticsearch, Kibana, Beats &amp; Logstash | Elastic</a> #ril</p>
+<ul>
+<li>From enterprise-grade security and developer-friendly APIs to machine learning, and graph analytics, the Elastic Stack ships with features (formerly packaged as X-Pack) made and maintained by us to be enjoyed by you.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/downloads/x-pack">Download X-Pack: Extend Elasticsearch and Kibana | Elastic</a> (2018-04-18) #ril</p>
+<ul>
+<li>
+<p>The following installation instructions are only valid for versions 6.2 and older. In versions 6.3 and later, X-Pack is included with the default distributions of Elastic Stack, with all FREE FEATURES enabled by default. An OPT-IN TRIAL is available to enable subscription features.</p>
+<p>哪些功能是免費的??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://sematext.com/blog/x-pack-alternatives/">Elastic Stack (X-Pack) Alternatives: Free, Open Source, Commercial &amp; Cloud Services</a> 有替代方案? (2019-03-06) #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/doubling-down-on-open">Doubling Down on Open | Elastic</a> (2018-02-27) #ril</p>
+</li>
+</ul>
+<h2 id="free">Free<a class="headerlink" href="#free" title="Permanent link"> #</a></h2>
+<ul>
+<li>即便 X-Pack <a href="https://www.elastic.co/blog/opening-x-pack-phase-1-complete">在 2018/04 開源</a>，但程式碼授權維持 Elastic License 不變，但這跟 X-Pack 能否免費使用無關；X-Pack 在還沒開源前，有許多功能本來就是免費，但有些功能像 Security 就要收費，這部份在開源後不會改變。</li>
+<li>不過 X-Pack 收費功能通常有免費的替代方案，例如 Security 可以用 <a href="https://github.com/opendistro-for-elasticsearch/security">Open Distro for Elasticsearch Security</a> 取代。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/products/x-pack/open">We’re Opening X-Pack | Elastic</a></p>
+<ul>
+<li>
+<p>From open communication to open source software, openness is at the heart of Elastic. That&rsquo;s why we OPENED THE PRIVATE CODE of our X-Pack features: security, alerting, monitoring, reporting, graph analytics, dedicated APM UIs, and machine learning.</p>
+<p>開放原始碼，但並不表示它免費。</p>
+</li>
+</ul>
+<p>Why Did We Do This?</p>
+<ul>
+<li>
+<p>Historically, we developed X-Pack as a set of CLOSED-SOURCE FEATURES that extend the Elastic Stack — that’s Elasticsearch, Kibana, Beats, and Logstash. Some features like monitoring were FREE, and others like SECURITY and machine learning were PAID.</p>
+<p>原本全都是 closed-source，增強了 Elastic Stack 的各個層面，但只有部份是免費的，即便也是採 Elastic license。</p>
+</li>
+<li>
+<p>Our company is built on a healthy balance between open source code and commercial IP. (See Shay&rsquo;s blog for more details.) Opening up X-Pack speeds up development and increases engagement across the entire community: everyone can contribute to, comment on, and inspect the code.</p>
+</li>
+</ul>
+<p>So, What Changed in GitHub?</p>
+<ul>
+<li>
+<p>The code sitting in the private X-Pack repositories moved to the appropriate public Elasticsearch, Kibana, Beats, and Logstash repositories.</p>
+</li>
+<li>
+<p>We did not change the license of any of the Apache 2.0 code of Elasticsearch, Kibana, Beats, and Logstash — and we NEVER WILL. We created a new X-Pack folder in each of these repositories that is licensed under the Elastic License, which allows for some derivative works and contribution.</p>
+<p>Making this move eliminates the overhead and complexity of syncing separate GitHub repositories, speeds up build-test-release cycles, and it means that we have one place where everyone can create and track issues.</p>
+<p><img alt="" src="https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/bltff838cc225c89712/5c2001644cca137b3874352e/diagram-open-xpack-v2.svg" /></p>
+<p>注意 X-Pack 的程式碼全採 Elastic License，但仍有部份是可以免費使用的。</p>
+</li>
+</ul>
+<p>How Does the User Experience Change?</p>
+<ul>
+<li>
+<p>Starting with VERSION 6.3, all of the FREE X-Pack features (monitoring, Search Profiler, Grok Debugger, zoom levels in Elastic Maps Service, dedicated APM UIs, and more) ship with the default distributions of Elasticsearch, Kibana, Beats, and Logstash.</p>
+<p>We removed all of the barriers — email registration, installation steps, full cluster restart — for users to get started with these powerful features that we believe will make you more successful with our technology.</p>
+</li>
+<li>
+<p>And if you prefer to run a build that’s 100% Apache 2.0 code, we will have ‘-oss’ versions of our distributions available.</p>
+</li>
+</ul>
+<p>OSSFL: Open Source Software for Life</p>
+<ul>
+<li>
+<p>We believe in open source, and our investment in it will continue unchanged. Many businesses BECOME MORE CLOSED AS THEY GROW, but this new approach is a clear choice to make us more open and keep our business incentives aligned with our open source community. It means that everyone will develop, contribute, and test against the same source — THERE ARE NO &ldquo;COMMUNITY&rdquo; OR &ldquo;ENTERPRISE&rdquo; EDITIONS HERE.</p>
+<p>We&rsquo;re not taking away any Apache 2.0 code — we&rsquo;re doubling down on open.</p>
+</li>
+</ul>
+<p>We Are Powered by You, the User</p>
+<ul>
+<li>With more than 200 million downloads, there&rsquo;s a lot of love out there for Elastic products. We&rsquo;re committed to giving the best user experience possible — whether that&rsquo;s in the public cloud, private cloud, bare metal, or some combination thereof.</li>
+<li>And whether you know us for the ELK Stack, the Elastic Stack, or individual products like Elasticsearch, we care about engineering great technology that you can trust well into the future.</li>
+</ul>
+<p>Have Additional Questions?</p>
+<ul>
+<li>
+<p>Are Elasticsearch, Kibana, Beats, and Logstash still open source?</p>
+<p>Yes. We did not change the license of any existing Apache 2.0 code. We only opened the code of X-Pack under a commercial license and added it to the existing Elasticsearch, Kibana, Beats, and Logstash repositories.</p>
+</li>
+<li>
+<p>If the code of X-Pack is open, does that mean it&rsquo;s all free?</p>
+<p>NO. Many features in X-Pack are free, such as monitoring, tile maps, Grok Debugger, and Search Profiler. Some features in X-Pack are paid, and require a license that comes with a GOLD OR PLATINUM SUBSCRIPTION.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/53201190/">elasticsearch - is Security free in Elastic search Stack Features? - Stack Overflow</a> Val:</p>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/blog/doubling-down-on-open">This blog post</a> explained some of the reasons why Elastic &ldquo;opened&rdquo; their XPack code. &ldquo;Open&rdquo; here simply means that they MERGED THEIR PRIVATE XPACK REPOSITORIES INTO THE OPEN ONES. One of the reasons that the blog post above doesn&rsquo;t mention is that this move was mostly motivated to facilitate tedious engineering tasks of having to keep all their product versions in synch. Anyway, the XPack code is now out in the open and visible for anyone to see, but it&rsquo;s not free as in &ldquo;free beer&rdquo;.</p>
+</li>
+<li>
+<p>As shown on the Elastic subscriptions page (see the red rectangle in the image below), XPack SECURITY IS ONLY AVAILABLE STARTING WITH A GOLD LICENSE.</p>
+<p><img alt="" src="https://i.stack.imgur.com/grozn.png" /></p>
+</li>
+<li>
+<p>Another alternative is to use their Elastic Cloud which provides Security out of the box and allows you to pay a lower amount on a monthly basis.</p>
+</li>
+<li>
+<p>If the price burden is too heavy for you, you might want to check out <a href="https://search-guard.com/">SearchGuard</a> which is an ALTERNATIVE SECURITY PLUGIN for ES, which provides a free Community tier for basic security features.</p>
+</li>
+<li>
+<p>UPDATE (March 11<sup>th</sup>, 2019): Since today, Amazon has released a FULLY OPEN-SOURCED VERSION OF ELASTICSEARCH WITH A SECURITY (AND ALERTING) PLUGIN. More info at: <a href="https://opendistro.github.io/for-elasticsearch/">https://opendistro.github.io/for-elasticsearch/</a></p>
+<p>Security 來自 <a href="https://github.com/opendistro-for-elasticsearch/security">Open Distro for Elasticsearch Security</a> 這個 plugin，似乎也可以裝到標準的 Elasticsearch ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/opening-x-pack-phase-1-complete">The Opening of X-Pack: Phase 1 Complete | Elastic</a> (2018-04-25) #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/elastic-stack">&lsquo;elastic-stack&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/elasticsearch-x-pack">&lsquo;elasticsearch-x-pack&rsquo; Questions - Stack Overflow</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

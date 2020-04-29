@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/saml/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SAML (Security Assertion Markup Language) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/saml.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#saml-security-assertion-markup-language">SAML (Security Assertion Markup Language)</a></li>
+            <li class="second-level"><a href="#saml-1-2">SAML 1, 2 ??</a></li>
+                
+            <li class="second-level"><a href="#oauth">跟 OAuth 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#flow">Flow ??</a></li>
+                
+            <li class="second-level"><a href="#assertion">Assertion ??</a></li>
+                
+            <li class="second-level"><a href="#tools">Tools ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="saml-security-assertion-markup-language">SAML (Security Assertion Markup Language)<a class="headerlink" href="#saml-security-assertion-markup-language" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Single_sign-on#Security_Assertion_Markup_Language">Security Assertion Markup Language - Common Configurations - Single sign-on - Wikipedia</a><ul>
+<li>SAML 與 Kerberos-based、Smart-card-based、Integrated Windows Authentication 並列在 Common Configurations 下。</li>
+<li>SAML 是一種在 SAML identity provider 與 SAML service provider 間交換 user security information 的 XML-based solution。</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language">Security Assertion Markup Language - Wikipedia</a> #ril<ul>
+<li>SAML 唸做 &ldquo;sam-el&rdquo; (sey-mal)，是 identity provider 及 service provider 間交換 authentication &amp; authorization data 的開發標準。</li>
+</ul>
+</li>
+<li><a href="https://developers.onelogin.com/saml">SAML Tutorial: How SAML Authentication Works - SAML 2.0 SSO Flow Diagram</a> A standard for logging users into applications based on their SESSIONS IN ANOTHER CONTEXT. 這說法滿有趣的；後面不用記 &amp; 不用打帳密的說法似乎有點歪了? 實際上是在講已經登入 domain/intranet，所以應該用這些資訊幫使用者登入其他服務，所以不會用到帳密，而 SAML 可以優雅地實現 SSO，這裡出現 &ldquo;SAML SSO&rdquo; 的說法。</li>
+<li><a href="https://developers.onelogin.com/saml">How SAML Works - SAML Tutorial: How SAML Authentication Works - SAML 2.0 SSO Flow Diagram</a> SAML SSO 透過 digitally signed XML 在 identity provider 與 service provider 間交換 user&rsquo;s identity。</li>
+<li><a href="https://blog.varonis.com/what-is-saml/">What is SAML and How Does it Work?</a> (2018-08-21)<ul>
+<li>allows identity providers (IdP) to pass AUTHORIZATION CREDENTIALS to service providers (SP). SAML is the LINK between the authentication of a user’s identity and the AUTHORIZATION TO USE A SERVICE. 這說法也滿特別的，出現 &ldquo;SAML transactions&rdquo; 的說法。</li>
+<li>SAML adoption allows IT shops to use software as a service (SaaS) solutions while maintaining a secure FEDERATED identity management system. 原來跟 SaaS 有這層關係。</li>
+</ul>
+</li>
+</ul>
+<h2 id="saml-1-2">SAML 1, 2 ??<a class="headerlink" href="#saml-1-2" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://blog.varonis.com/what-is-saml/">What is SAML and How Does it Work?</a> (2018-08-21) SAML 2.0 在 2005 年由 OASIS Consortium 核定，跟 SAML 1.1 差異很大 (不相容)。</li>
+<li><a href="https://en.wikipedia.org/wiki/SAML_2.0">SAML 2.0 - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="oauth">跟 OAuth 的關係 ??<a class="headerlink" href="#oauth" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://blog.varonis.com/what-is-saml/">SAML vs. OAuth - What is SAML and How Does it Work?</a> #ril</li>
+</ul>
+<h2 id="flow">Flow ??<a class="headerlink" href="#flow" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.onelogin.com/saml">How SAML Works - SAML Tutorial: How SAML Authentication Works - SAML 2.0 SSO Flow Diagram</a><ul>
+<li>首先 application 會把使用者導向 identity provider 做 authentication &ndash; 登入 identity provider (沒有 existing active browser session with the identity provider 的話)，這個動作叫做送出 &ldquo;authentication request&rdquo;。</li>
+<li>Identity provider 會回應 authentication response，格式是包含 username 或 email address 的 XML，重點是 XML 會用 X.509 certificate 簽章 (sign)，並往原 service provider 送。</li>
+<li>Service provider 事先知道 identity provider 的 certificate fingerprint，收到 authentication response 就可以驗證它的合法性，就能識別該用戶 (identity of the user is established)。</li>
+<li>SAML SSO Flow 提到 service provider-initiated SSO 與 Identity provider-initiated SSO 兩種機制，後者只包含後半段的步驟。很清楚看到，是 service provider 往 identity provider (IDP) 送 SAML request，之後 identity provider 會將 SAML response 送回原 service provider。</li>
+</ul>
+</li>
+<li><a href="https://blog.varonis.com/what-is-saml/">What is SAML and How Does it Work?</a> (2018-08-21) #ril</li>
+<li><a href="https://www.csoonline.com/article/3232355/authentication/what-is-saml-what-is-it-used-for-and-how-does-it-work.html">What is SAML, what is it used for and how does it work? | CSO Online</a> (2017-10-12) #ril</li>
+<li><a href="https://auth0.com/blog/how-saml-authentication-works/">How SAML Authentication Works</a> #ril</li>
+</ul>
+<h2 id="assertion">Assertion ??<a class="headerlink" href="#assertion" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language">Security Assertion Markup Language - Wikipedia</a> SAML 裡的 &ldquo;security assertion&rdquo; 指的是 &ldquo;statements that service providers use to make ACCESS-CONTROL DECISIONS&rdquo;，所謂 assertion 指的就是 &ldquo;判斷並做決定&rdquo;。</li>
+<li><a href="https://blog.varonis.com/what-is-saml/">What is a SAML Assertion? - What is SAML and How Does it Work?</a> #ril</li>
+</ul>
+<h2 id="tools">Tools ??<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/List_of_single_sign-on_implementations">List of single sign-on implementations - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>工具：</p>
+<ul>
+<li><a href="https://www.samltool.com/sp_metadata.php">SAML Service Provider (SP) Metadata XML Builder | SAMLTool.com</a></li>
+<li><a href="https://www.samltool.com/idp_metadata.php">SAML Identity Provider (IdP) XML Metadata Builder | SAMLTool.com</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

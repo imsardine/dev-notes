@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-module/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Module & Package - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-module.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-module-package">Python / Module &amp; Package</a></li>
+            <li class="second-level"><a href="#module">Module ??</a></li>
+                
+            <li class="second-level"><a href="#package">Package ??</a></li>
+                
+            <li class="second-level"><a href="#module-search-path">Module Search Path ??</a></li>
+                
+            <li class="second-level"><a href="#naming">Naming</a></li>
+                
+            <li class="second-level"><a href="#python-m">python -m ??</a></li>
+                
+            <li class="second-level"><a href="#internalprivate-module">Internal/Private Module ??</a></li>
+                
+            <li class="second-level"><a href="#initpy">init.py 適不適合寫邏輯 ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-module-package"><a href="../python/">Python</a> / Module &amp; Package<a class="headerlink" href="#python-module-package" title="Permanent link"> #</a></h1>
+<h2 id="module">Module ??<a class="headerlink" href="#module" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/glossary.html#term-module">module - Glossary — Python 3.7.3rc1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/reference/import.html#packages">Packages - 5. The import system — Python 3.7.3rc1 documentation</a><ul>
+<li>Python has ONLY ONE TYPE of module object, and all modules are of this type, regardless of whether the module is implemented in Python, C, or something else.</li>
+<li>ALL modules have a name. 這就不懂為何 <a href="https://docs.python.org/3/reference/import.html">5. The import system — Python 3.7.3rc1 documentation</a> 會有 named module 的說法，好像有 unnamed module 一樣?</li>
+</ul>
+</li>
+</ul>
+<h2 id="package">Package ??<a class="headerlink" href="#package" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/glossary.html#term-package">package - Glossary — Python 3.7.3rc1 documentation</a></p>
+<ul>
+<li>
+<p>A Python module which CAN contain SUBMODULES or recursively, SUBPACKAGES. Technically, a package is a Python module with an <code>__path__</code> attribute.</p>
+<p>這裡 &ldquo;can contain&rdquo; 的說法，似乎意謂著一開始用 module，之後發展成 module，也不會對 client code 造成影響? 這呼應了下面 &ldquo;所有 package 都是 module (一種特殊的 module)，但 module 不一定是 package&rdquo; 的說法。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/glossary.html#term-regular-package">regular package - Glossary — Python 3.7.3rc1 documentation</a></p>
+<ul>
+<li>A traditional package, such as a directory containing an <code>__init__.py</code> file.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/glossary.html#term-namespace-package">namespace package - Glossary — Python 3.7.3rc1 documentation</a></p>
+<ul>
+<li>A PEP 420 package which serves only as a CONTAINER for subpackages. Namespace packages may have no physical representation, and specifically are not like a regular package because they have no <code>__init__.py</code> file.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/reference/import.html#packages">Packages - 5. The import system — Python 3.7.3rc1 documentation</a></p>
+<ul>
+<li>To help organize modules and provide a NAMING HIERARCHY, Python has a concept of PACKAGES.</li>
+<li>You can think of packages as the directories on a file system and modules as files within directories, but DON’T TAKE THIS ANALOGY TOO LITERALLY since packages and modules need not originate from the file system. For the purposes of this documentation, we’ll use this convenient analogy of directories and files. Like file system directories, packages are organized hierarchically, and packages may themselves contain subpackages, as well as regular modules.</li>
+<li>It’s important to keep in mind that ALL PACKAGES ARE MODULES, BUT NOT ALL MODULES ARE PACKAGES. Or put another way, packages are just a SPECIAL KIND OF MODULE. Specifically, any module that contains a <code>__path__</code> attribute is considered a package.</li>
+<li>All modules have a name. Subpackage names are separated from their PARENT PACKAGE name by DOTS, akin to Python’s standard attribute access syntax. Thus you might have a module called <code>sys</code> and a package called <code>email</code>, which in turn has a subpackage called <code>email.mime</code> and a module within that subpackage called <code>email.mime.text</code>.</li>
+</ul>
+<p>Regular packages</p>
+<ul>
+<li>Python defines two types of packages, REGULAR PACKAGES and NAMESPACE PACKAGES. Regular packages are traditional packages as they existed in Python 3.2 and earlier. A regular package is typically implemented as a directory containing an <code>__init__.py</code> file. When a regular package is imported, this <code>__init__.py</code> file is IMPLICITLY EXECUTED, and the objects it defines are BOUND TO NAMES IN THE PACKAGE’S NAMESPACE. The <code>__init__.py</code> file can contain the same Python code that any other module can contain, and Python will add some additional attributes?? to the module when it is imported.</li>
+<li>
+<p>For example, the following file system layout defines a top level parent package with three subpackages:</p>
+<pre><code>parent/
+    __init__.py
+    one/
+        __init__.py
+    two/
+        __init__.py
+    three/
+        __init__.py
+</code></pre>
+<p>Importing <code>parent.one</code> will implicitly execute <code>parent/__init__.py</code> AND <code>parent/one/__init__.py</code>. Subsequent imports of <code>parent.two</code> or <code>parent.three</code> will execute <code>parent/two/__init__.py</code> and <code>parent/three/__init__.py</code> respectively.</p>
+<p>注意 parent package 的 <code>__init__.py</code> 也會被執行，即便 import 的對象底下的 subpackage。</p>
+</li>
+</ul>
+<p>Namespace packages</p>
+<ul>
+<li>
+<p>A namespace package is a composite of various PORTIONS, where each portion contributes a subpackage to the parent package. Portions may RESIDE IN DIFFERENT LOCATIONS ON THE FILE SYSTEM. Portions may also be found in zip files, on the network, or anywhere else that Python searches during import. Namespace packages may or may not correspond directly to objects on the file system; they may be VIRTUAL MODULES that have no concrete representation.</p>
+<p>以下 subpackage 都要在同一個 parent package 對應的資料夾底下，有時候會形成限制。</p>
+</li>
+<li>
+<p>Namespace packages do not use an ORDINARY LIST?? for their <code>__path__</code> attribute. They instead use a custom iterable type which will automatically perform a new search for package portions on the next import attempt within that package if the path of their parent package (or <code>sys.path</code> for a top level package) changes. ??</p>
+</li>
+<li>
+<p>With namespace packages, there is no <code>parent/__init__.py</code> file. In fact, there may be MULTIPLE PARENT DIRECTORIES found during import search, where each one is provided by a different portion. Thus <code>parent/one</code> may not be physically located next to <code>parent/two</code>. In this case, Python will create a namespace package for the top-level parent package whenever it or one of its subpackages is imported. See also PEP 420 for the namespace package specification.</p>
+<p>所以實務上要怎麼寫出 namespace package? 感覺是自動產生的??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="module-search-path">Module Search Path ??<a class="headerlink" href="#module-search-path" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/tutorial/modules.html">6. Modules — Python 2.7.16 documentation</a></p>
+<p>The Module Search Path</p>
+<ul>
+<li>
+<p>When a module named <code>spam</code> is imported, the interpreter first searches for a BUILT-IN MODULE with that name. If not found, it then searches for a file named <code>spam.py</code> in a LIST OF DIRECTORIES given by the variable <code>sys.path</code>. <code>sys.path</code> is initialized from these locations:</p>
+<ul>
+<li>the directory containing the INPUT SCRIPT (or the CURRENT DIRECTORY).</li>
+<li><code>PYTHONPATH</code> (a list of directory names, with the same syntax as the shell variable <code>PATH</code>).</li>
+<li>the installation-dependent default.</li>
+</ul>
+</li>
+<li>
+<p>After initialization, Python programs CAN MODIFY <code>sys.path</code>. The DIRECTORY CONTAINING THE SCRIPT BEING RUN is placed at the beginning of the search path, ahead of the STANDARD LIBRARY PATH. This means that scripts in that directory will be loaded instead of modules of the same name in the library directory. This is an error unless the replacement is intended. See section Standard Modules for more information.</p>
+<p>注意是 main/input script 所在的目錄，不一定是 CWD。</p>
+</li>
+</ul>
+<p>Standard Modules</p>
+<ul>
+<li>
+<p>The variable <code>sys.path</code> is a list of strings that determines the interpreter’s search path for modules. It is initialized to a default path taken from the environment variable <code>PYTHONPATH</code>, or from a built-in default if <code>PYTHONPATH</code> is not set. You can modify it using standard list operations:</p>
+<pre><code>&gt;&gt;&gt; import sys
+&gt;&gt;&gt; sys.path.append('/ufs/guido/lib/python')
+</code></pre>
+<p>這裡 &ldquo;OR from a built-in default&rdquo; 聽起來有點怪? 實驗發現，<code>PYTHONPATH</code> 與 built-in default 並非互斥：</p>
+<pre><code>$ pwd
+/workspace
+$ mkdir bin &amp;&amp; echo 'import sys; print(sys.path)' &gt; bin/run.py
+$ python bin/run.py
+['/workspace/bin', '/usr/local/lib/python37.zip', '/usr/local/lib/python3.7', '/usr/local/lib/python3.7/lib-dynload', '/usr/local/lib/python3.7/site-packages']
+$ PYTHONPATH=/workspace python bin/run.py
+['/workspace/bin', '/workspace', '/usr/local/lib/python37.zip', '/usr/local/lib/python3.7', '/usr/local/lib/python3.7/lib-dynload', '/usr/local/lib/python3.7/site-packages']
+</code></pre>
+<p>無論如何，main/input script 所在的目錄一定在最前面。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/tutorial/modules.html">6. Modules — Python 3.7.3 documentation</a> 文件跟 Python 2 大致相同，只是多了：</p>
+<ul>
+<li>Note: On file systems which support symlinks, the directory containing the input script is calculated after the symlink is followed. In other words the directory containing the symlink is not added to the module search path.</li>
+</ul>
+</li>
+</ul>
+<h2 id="naming">Naming<a class="headerlink" href="#naming" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>Module/package name 都全小寫、簡短、不含 <code>_</code>；不過若對可讀性有幫助，module name 是可以加 <code>_</code> 的</p>
+<p>例如 standard library 裡的 <code>textwrap</code>、<code>unicodedata</code>、<code>ossaudiodev</code>、<code>xml.sax.xmlreader</code> 等，只有少部份有用 <code>_</code> 分開 &ndash; <code>dummy_threading</code>、<code>test.support.script_helper</code> 跟 <code>py_compile</code>。</p>
+</li>
+<li>
+<p>單數或複數？</p>
+<p>同 <a href="https://softwareengineering.stackexchange.com/questions/75919/">object oriented - Should package names be singular or plural? - Software Engineering Stack Exchange</a> 的說法：</p>
+<blockquote>
+<p>Matthew Rodatus: Use the plural for packages with HOMOGENEOUS CONTENTS and the singular for packages with HETEROGENEOUS CONTENTS.</p>
+</blockquote>
+<p>以 standard library 的 <code>codecs</code>、<code>builtins</code>、<code>mimetypes</code>、<code>xml.sax.saxutils</code> 為例，可以預期分別由多種 (type) 的 codec、builtin、MIME type 及 SAX utility 組成，所以用複數；而 <code>email</code>、<code>string</code> 等則是跟某一類型 (category) 的應用有關，所以用單數。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0008/">PEP 8 -- Style Guide for Python Code | Python.org</a> #ril</p>
+<p>Package and Module Names</p>
+<ul>
+<li>
+<p>Modules should have short, all-lowercase names. Underscores can be used in the module name IF IT IMPROVES READABILITY.</p>
+<p>Python packages should also have short, all-lowercase names, although the use of underscores is DISCOURAGED.</p>
+<p>注意 module 跟 package name 都全小寫且簡短，不過對 <code>_</code> 有不同的要求 &ndash; module name 可以加 <code>_</code>，只要對可讀性有幫助，但 package name 則不建議加 <code>_</code>。</p>
+</li>
+<li>
+<p>When an extension module written in C or C++ has an ACCOMPANYING PYTHON MODULE that provides a HIGHER LEVEL (e.g. more object oriented) INTERFACE, the C/C++ module has a LEADING UNDERSCORE (e.g. <code>_socket</code>).</p>
+<p>若面對的是更高階的 Python module，為何要加底線？反而給人 internal module 的錯覺。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://softwareengineering.stackexchange.com/questions/308972/">coding style - Python file naming convention? - Software Engineering Stack Exchange</a></p>
+<ul>
+<li>
+<p>agold: Quoting <a href="https://www.python.org/dev/peps/pep-0008/#package-and-module-names">https://www.python.org/dev/peps/pep-0008/#package-and-module-names</a>:</p>
+<blockquote>
+<p>Modules should have short, all-lowercase names. Underscores can be used in the module name if it improves readability. Python packages should also have short, all-lowercase names, although the use of underscores is discouraged.</p>
+</blockquote>
+<p>And for classes:</p>
+<blockquote>
+<p>Class names should normally use the CapWords convention.</p>
+</blockquote>
+<p>See <a href="https://softwareengineering.stackexchange.com/a/111882/195918">this answer</a> for the difference between a module, class and package:</p>
+<ul>
+<li>A Python module is simply a Python source file, which can expose classes, functions and global variables.</li>
+<li>A Python package is simply a directory of Python module(s).</li>
+</ul>
+<p>So PEP 8 tells you that:</p>
+<ul>
+<li>modules (filenames) should have short, all-lowercase names, and they CAN contain underscores;</li>
+<li>packages (directories) should have short, all-lowercase names, PREFERABLY WITHOUT underscores;</li>
+<li>classes should use the CapWords convention.</li>
+</ul>
+<p>To finish, a good overview of the naming conventions is given in the <a href="http://google.github.io/styleguide/pyguide.html#3164-guidelines-derived-from-guidos-recommendations">Google Python Style Guide</a>.</p>
+<p>PEP 8 tells that names should be short; this answer gives a good overview of what to take into account when creating variable names, which also apply to other names (for classes, packages, etc.):</p>
+<ul>
+<li>variable names are NOT FULL DESCRIPTORS; 但如果 self-descriptive 不是更好?</li>
+<li>put details in comments;</li>
+<li>too specific name might mean TOO SPECIFIC CODE;</li>
+<li>keep short scopes for quick lookup;</li>
+<li>spend time thinking about READABILITY.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://google.github.io/styleguide/pyguide.html#3164-guidelines-derived-from-guidos-recommendations">Guidelines derived from Guido’s Recommendations - styleguide | Style guides for Google-originated open-source projects</a></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Public</th>
+<th>Internal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packages</td>
+<td>lower_with_under</td>
+<td></td>
+</tr>
+<tr>
+<td>Modules</td>
+<td>lower_with_under</td>
+<td>_lower_with_under</td>
+</tr>
+</tbody>
+</table>
+<p>雖然 PEP 8 不建議在 package name 加 <code>_</code>，不過這裡似乎不以為意。另外提到 internal module 的概念，也是習慣用 <code>_</code> 開頭。</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/">The Python Standard Library — Python 3.7.3 documentation</a></p>
+<ul>
+<li>以 <code>s</code> 複數形結尾的 module 有 <code>codecs</code>、<code>collections</code>、<code>types</code>、<code>itertools</code>、<code>functools</code>、<code>mimetypes</code>、<code>html.entities</code>、<code>http.cookies</code>、<code>warnings</code>、<code>builtins</code>、<code>pipes</code>、<code>xml.sax.saxutils</code> 等。</li>
+<li>由兩個單字組成的 module 有 <code>textwrap</code>、<code>unicodedata</code>、<code>argparse</code>、<code>mimetypes</code>、<code>ossaudiodev</code> 等，都沒有用 <code>_</code> 隔開。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://softwareengineering.stackexchange.com/questions/75919/">object oriented - Should package names be singular or plural? - Software Engineering Stack Exchange</a> 雖然主要在講 Java，但 Python 也可以參考</p>
+<ul>
+<li>
+<p>Matthew Rodatus: Use the plural for packages with HOMOGENEOUS CONTENTS and the singular for packages with HETEROGENEOUS CONTENTS.</p>
+<p>A class is similar to a DATABASE RELATION. A database relation should be named in the singular as its records are considered to be instances of the relation. The function of a relation is to compose a complex record from simple data.</p>
+<p>A package, on the other hand, is NOT A DATA ABSTRACTION. It assists with organization of code and resolution of naming conflicts. If a package is named in the singular, it doesn&rsquo;t mean that each member of the package is an instance of the package; it contains RELATED BUT HETEROGENEOUS CONCEPTS. If it is named in the plural (as they often are), I would expect that the package contains homogeneous concepts.</p>
+<p>For example, a TYPE should be named <code>TaskCollection</code> instead of <code>TasksCollection</code>, as it is a collection containing instances of a <code>Task</code>. A package named <code>com.myproject.task</code> does not mean that each contained class is an instance of a task. There might be a <code>TaskHandler</code>, a <code>TaskFactory</code>, etc. A package named <code>com.myproject.tasks</code>, however, would contain DIFFERENT TYPES THAT ARE ALL TASKS: <code>TakeOutGarbageTask</code>, <code>DoTheDishesTask</code>, etc.</p>
+<p>For a similar question, see english.stackexchange.com/q/25713. A category is analogous to the singular and a type is analogous to the plural.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="python-m"><code>python -m</code> ??<a class="headerlink" href="#python-m" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/using/cmdline.html">1. Command line and environment — Python 3.7.2 documentation</a></p>
+<ul>
+<li><code>python [-bBdEhiIOqsSuvVWx?] [-c command | -m module-name | script | - ] [args]</code></li>
+<li>When called with <code>-m module-name</code>, the given module is located on the Python module path and executed AS A SCRIPT.</li>
+</ul>
+<p><code>-m &lt;module-name&gt;</code></p>
+<ul>
+<li>Search <code>sys.path</code> for the named module and execute its contents as the <code>__main__</code> module.</li>
+<li>
+<p>Since the argument is a MODULE NAME, you MUST NOT give a file extension (<code>.py</code>). The module name should be a valid ABSOLUTE Python module name, but the implementation may not always enforce this (e.g. it may allow you to use a name that includes a HYPHEN).</p>
+<p>可以包含 <code>-</code> 的話，用起來會比 <code>_</code> 來得直覺，但中間是怎麼轉換成 module name 的??</p>
+</li>
+<li>
+<p>Package names (including namespace packages??) are also permitted. When a package name is supplied instead of a normal module, the interpreter will execute <code>&lt;pkg&gt;.__main__</code> as the MAIN MODULE. This behaviour is deliberately similar to the handling of directories and zipfiles that are passed to the interpreter as the script argument. 在 package 裡取 <code>__name__</code> 也會得到 <code>__main__</code>??</p>
+<p>Note This option cannot be used with built-in modules and extension modules written in C, since they do not have Python module files. However, it can still be used for precompiled modules, even if the original source file is not available.</p>
+</li>
+<li>
+<p>If this option is given, the first element of <code>sys.argv</code> will be the full path to the module file (while the module file is being located, the first element will be set to &ldquo;<code>-m</code>&rdquo;??). As with the <code>-c</code> option, the current directory will be added to the start of <code>sys.path</code>. 擅自調整 <code>sys.path</code> 好嗎??</p>
+</li>
+<li>
+<p>Many standard library modules contain code that is invoked on their execution as a script. An example is the <code>timeit</code> module: (原來 <code>-m</code> 跟 module name 間不需要有空白)</p>
+<pre><code>python -mtimeit -s 'setup here' 'benchmarked code here'
+python -mtimeit -h # for details
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/7610001/">python - What is the purpose of the -m switch? - Stack Overflow</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0338/">PEP 338 -- Executing modules as scripts | Python.org</a> #ril</p>
+</li>
+</ul>
+<h2 id="internalprivate-module">Internal/Private Module ??<a class="headerlink" href="#internalprivate-module" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0008/?#public-and-internal-interfaces">Public and Internal Interfaces - PEP 8 -- Style Guide for Python Code | Python.org</a></p>
+<ul>
+<li>Any backwards compatibility guarantees apply only to public interfaces. Accordingly, it is important that users be able to clearly distinguish between public and internal interfaces. &hellip; All undocumented interfaces should be assumed to be internal. 這話說得真好 &ndash; 揭露越多，未來的包袱越重。</li>
+<li>To better support introspection, modules should explicitly declare the names in their public API using the <code>__all__</code> attribute. Setting <code>__all__</code> to an empty list indicates that the module has no public API. 原來 <code>__all__</code> 的意義這麼重大!</li>
+<li>
+<p>Even with <code>__all__</code> set appropriately, internal interfaces (packages, modules, classes, functions, attributes or other names) should still be prefixed with a single leading underscore. 原來底線的慣例適用於所有的 names，包括 package、module、class &hellip; 若 internal module 本身已經加底線，是否內部的 names 也要加底線??</p>
+</li>
+<li>
+<p><a href="http://google.github.io/styleguide/pyguide.html#3164-guidelines-derived-from-guidos-recommendations">Guidelines derived from Guido’s Recommendations - styleguide | Style guides for Google-originated open-source projects</a></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Public</th>
+<th>Internal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packages</td>
+<td>lower_with_under</td>
+<td></td>
+</tr>
+<tr>
+<td>Modules</td>
+<td>lower_with_under</td>
+<td>_lower_with_under</td>
+</tr>
+</tbody>
+</table>
+<p>提到 internal module 的概念，也是習慣用 <code>_</code> 開頭，但不會有 internal package 嗎？</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html#cmdoption-sphinx-apidoc-p">sphinx-apidoc — Sphinx 3.0.0+/ce3c5735c documentation</a></p>
+<p><code>-P, --private</code>: Include “_private” modules. 原來 Sphinx 也用前置底線來區分 public/private module。</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/3602110/">Python: &lsquo;Private&rsquo; module in a package - Stack Overflow</a></p>
+<ul>
+<li>Frederick The Fool: Package <code>mypack</code> 下有 2 個 module - <code>mod_a</code> 及 <code>mod_b</code>，不希望 <code>mod_b</code> 被外面的人用，要如何表達 (convey)? 在 module name 前面加底線 (<code>_mod_b</code>)，或是放進 subpackage <code>private/mod_b</code> 好?</li>
+<li>Ivo van der Wijk: 雖有在 method 前加底線的慣例，但不會在檔案或 class 上面做這件事，覺得醜；或許可以從文件下手? 在文件說明哪些 module 不該直接存取。</li>
+<li>Frederick The Fool: 最後決定採用 subpackage <code>private</code>，將不想公開的 module 放在底下，也不覺得這是 unpythonic；過了 6 年之後，sparc_spread 問作者還在用 private subpackage 嗎? 作者回答是的，因為還沒找到更好的方法。</li>
+<li>Jeremy: 傾向在 module 前加底線，精神上同 PEP8 建議 C-extension module 加底線一樣。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.learnpython.org/en/Modules_and_Packages">Modules and Packages - Learn Python - Free Interactive Python Tutorial</a> The <code>__init__.py</code> file can also decide which modules the package exports as the API, while keeping other modules internal, by overriding the <code>__all__</code> variable 在 <code>__init__.py</code> 的 <code>__all__</code> 一併把可以公開的 module 列進去。</p>
+</li>
+</ul>
+<p>可以參考的做法：</p>
+<ul>
+<li><a href="https://github.com/requests/requests/blob/master/requests/_internal_utils.py">requests/_internal_utils.py at master · requests/requests</a></li>
+<li><a href="https://github.com/pallets/flask/blob/master/flask/_compat.py">flask/_compat.py at master · pallets/flask</a></li>
+</ul>
+<h2 id="initpy"><strong>init</strong>.py 適不適合寫邏輯 ??<a class="headerlink" href="#initpy" title="Permanent link"> #</a></h2>
+<ul>
+<li>覺得不適合，否則就要額外用 <code>__all__</code> 宣告哪些 name 要做為公開的 API。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0420/">PEP 420 &ndash; Implicit Namespace Packages</a></li>
+<li><a href="https://docs.python.org/3/library/types.html#types.ModuleType">class <code>types.ModuleType</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

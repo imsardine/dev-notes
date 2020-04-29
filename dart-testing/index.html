@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dart-testing/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dart / Testing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dart-testing.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dart-testing">Dart / Testing</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dart-testing"><a href="../dart/">Dart</a> / Testing<a class="headerlink" href="#dart-testing" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.dartlang.org/guides/testing">Dart Testing | Dart</a></p>
+<ul>
+<li>
+<p>This Dart testing guide outlines several types of testing, and points you to where you can learn how to test your mobile, web, and server-side apps and scripts.</p>
+<p>因為其他 platform 的測試也是基於 <code>package:test</code>，<code>flutter_test</code> 的第一句 &ldquo;Testing library for flutter, built on top of <code>package:test</code>.&rdquo; 可以證實這樣的說法。</p>
+</li>
+<li>
+<p>Terminology: widget vs. component &ndash; Flutter, an SDK for building apps for iOS and Android, defines its GUI elements as WIDGETS. AngularDart, a web app framework, defines its GUI elements as COMPONENTS. This doc uses component (except when explicitly discussing Flutter), but both terms refer to THE SAME CONCEPT.</p>
+</li>
+</ul>
+<p>Kinds of testing</p>
+<p>The Dart testing docs focus on three kinds of testing, out of the many kinds of testing that you may be familiar with: unit, component, and end-to-end (a form of integration testing). Testing terminology varies, but these are the terms and concepts that you are likely to encounter when using Dart technologies:</p>
+<ul>
+<li>Unit tests focus on verifying the smallest piece of testable software, such as a function, method, or class. Your test suites should have MORE UNIT TESTS than other kinds of tests.</li>
+<li>Component tests verify that a component (which usually consists of MULTIPLE CLASSES) behaves as expected. A component test often requires the use of MOCK OBJECTS that can mimic user actions, events, perform layout, and instantiate child components. 更需要的是 runtime environment 吧?? 因為 unit test 也可能用到 mock object。</li>
+<li>
+<p>Integration and end-to-end tests verify the behavior of an ENTIRE APP, or a large chunk of an app. An integration test generally runs on a real device or OS simulator (for mobile) or on a browser (for the web) and consists of TWO PIECES: the app itself, and the TEST APP THAT PUTS THE APP THROUGH ITS PACES.</p>
+<p>An integration test often measures PERFORMANCE, so the test app generally runs on a DIFFERENT DEVICE OR OS than the app being tested.</p>
+</li>
+</ul>
+<p>有趣的觀點，雖然遠端操蹤 AUT 的效能比較差，但重點是 AUT 本身的 performace 不會受到其他因素干擾；像下面的 <a href="https://docs.flutter.io/flutter/flutter_driver/flutter_driver-library.html"><code>flutter_driver</code></a> 就強調 &ldquo;in a separate process&rdquo;。</p>
+<p>Generally useful libraries</p>
+<p>Although your tests PARTLY DEPEND ON THE PLATFORM your code is intended for—Flutter, the web, or server-side, for example—the following packages are useful ACROSS Dart platforms:</p>
+<ul>
+<li>
+<p><code>package:test</code> &ndash; Provides a STANDARD WAY of writing tests in Dart. You can use the test package to:</p>
+<ul>
+<li>Write single tests, or groups of tests.</li>
+<li>Use the <code>@TestOn</code> annotation to restrict tests to RUN ON SPECIFIC ENVIRONMENTS.</li>
+<li>Write ASYNCHRONOUS TESTS just as you would write synchronous tests.</li>
+<li>Tag tests using the <code>@Tag</code> annotation. For example, define a tag to create a CUSTOM CONFIGURATION for some tests, or to identify some tests as needing more time to complete. 也就是在做 test filtering，其中 custom configuration 跟下面的 <code>dart_test.yaml</code> 有關??</li>
+<li>Create a <code>dart_test.yaml</code> file to CONFIGURE tagged tests across multiple files or an entire package. 可以設定什麼??</li>
+</ul>
+</li>
+<li>
+<p><code>package:mockito</code> &ndash; Provides a way to create mock objects, easily configured for use in FIXED SCENARIOS, and to verify that the system under test INTERACTS WITH THE MOCK OBJECT IN EXPECTED WAYS. For an example that uses both <code>package:test</code> and <code>package:mockito</code>, see the <a href="https://github.com/dart-lang/mockito/tree/master/test/example/iss">International Space Station API library and its unit tests</a> in the mockito package.</p>
+<p>上面 ISS library 是 <code>package:mockito</code> 的範例，提到 &ldquo;The unit tests for this library use <code>package:mockito</code> to generate PRESET VALUES for the space station&rsquo;s location, and <code>package:test</code> to create REPRODUCIBLE SCENARIOS to verify the expected outcome.&rdquo;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://pub.dartlang.org/packages/test#writing-tests">Writing Tests - test | Dart Package</a></p>
+<ul>
+<li>
+<p>Tests are specified using the top-level <code>test()</code> function, and test assertions are made using <code>expect()</code>:</p>
+<pre><code>import "package:test/test.dart";
+
+void main() {
+  test("String.split() splits the string on the delimiter", () {
+    var string = "foo,bar,baz";
+    expect(string.split(","), equals(["foo", "bar", "baz"]));
+  });
+
+  test("String.trim() removes surrounding whitespace", () {
+    var string = "  foo ";
+    expect(string.trim(), equals("foo"));
+  });
+}
+</code></pre>
+<p>注意 assertion 不是用 <code>assert</code> 而是用 <code>expect()</code>，搭配不同的 matcher 驗證 &ndash; 不意外地 <a href="https://pub.dartlang.org/documentation/matcher/latest/">matcher 的概念源自 Hamcrest</a>。</p>
+<p><code>test(dynamic description, dynamic body(), ...)</code> 的用法，第一個參數說明測的目的 (其實就是 &ldquo;name of the test&rdquo;，也就是 <code>-n, --name</code> 過濾的對象)，第二個參數由 (anonymous) function 提供 test code。</p>
+<hr />
+<p>存成 <code>test/string_test.dart</code>，執行 <code>pub run test</code> 會丟出下面的錯誤：</p>
+<pre><code>$ pub run test
+Could not find a file named "pubspec.yaml" in "/private/tmp/dart_testing".
+</code></pre>
+<p>簡單寫個 <code>pubspec.yaml</code> 就可以動了：</p>
+<pre><code>$ cat pubspec.yaml
+name: dart_testing
+dev_dependencies:
+  test: 1.5.3
+
+$ pub run test
+No pubspec.lock file found, please run "pub get" first.
+
+$ pub get
+Resolving dependencies... (11.1s)
++ analyzer 0.35.0
+...
+Changed 52 dependencies!
+Precompiling executables... (25.2s)
+Precompiled test:test.
+
+$ pub run test # 預設用 compact reporter
+00:01 +2: All tests passed!
+
+$ pub run test --reporter expanded # 改用 expanded reporter 可以看到過程
+00:00 +0: test/string_test.dart: String.split() splits the string on the delimiter
+00:00 +1: test/string_test.dart: String.trim() removes surrounding whitespace
+00:00 +2: All tests passed!
+</code></pre>
+<p>過程中發生錯誤會像是： (有很清楚的 diff)</p>
+<pre><code>$ pub run test
+00:01 +0 -1: test/string_test.dart: String.split() splits the string on the delimiter [E]
+  Expected: ['foo', 'bar', 'baz']
+    Actual: ['foo', 'bar', 'ba']
+     Which: was 'ba' instead of 'baz' at location [2]
+
+  package:test_api           expect
+  test/string_test.dart 6:5  main.&lt;fn&gt;
+
+00:01 +1 -1: Some tests failed.
+</code></pre>
+</li>
+<li>
+<p>Tests can be grouped together using the <code>group()</code> function. Each group&rsquo;s description is added to the beginning of its test&rsquo;s descriptions.</p>
+<p>按照下面 Timeouts 中 &ldquo;this can be configured on a per-test, -group, or -suite basis.&rdquo; 的說法，group 跟 suite 是不同的概念，suite 指的是整個 test file (<code>_test.dart</code>)</p>
+<pre><code>import "package:test/test.dart";
+
+void main() {
+  group("String", () {
+    test(".split() splits the string on the delimiter", () {
+      var string = "foo,bar,baz";
+      expect(string.split(","), equals(["foo", "bar", "baz"]));
+    });
+
+    test(".trim() removes surrounding whitespace", () {
+      var string = "  foo ";
+      expect(string.trim(), equals("foo"));
+    });
+  });
+
+  group("int", () {
+    test(".remainder() returns the remainder of division", () {
+      expect(11.remainder(3), equals(2));
+    });
+
+    test(".toRadixString() returns a hex string", () {
+      expect(11.toRadixString(16), equals("b"));
+    });
+  });
+}
+</code></pre>
+</li>
+<li>
+<p>Any matchers from the <code>matcher</code> package can be used with <code>expect()</code> to do complex validations:</p>
+<pre><code>import "package:test/test.dart";
+
+void main() {
+  test(".split() splits the string on the delimiter", () {
+    expect("foo,bar,baz", allOf([
+      contains("foo"),
+      isNot(startsWith("bar")),
+      endsWith("baz")
+    ]));
+  });
+}
+</code></pre>
+</li>
+<li>
+<p>You can use the <code>setUp()</code> and <code>tearDown()</code> functions to share code between tests. The <code>setUp()</code> callback will run before every test in a group or test suite, and <code>tearDown()</code> will run after. <code>tearDown()</code> will run EVEN IF A TEST FAILS, to ensure that it has a chance to CLEAN UP after itself.</p>
+<pre><code>import "package:test/test.dart";
+
+void main() {
+  HttpServer server; // 用 local variable 保存 setUp/tearDown 安排的 fixture
+  Uri url;
+  setUp(() async {
+    server = await HttpServer.bind('localhost', 0);
+    url = Uri.parse("http://${server.address.host}:${server.port}");
+  });
+
+  tearDown(() async {
+    await server.close(force: true);
+    server = null;
+    url = null;
+  });
+
+  // ...
+}
+</code></pre>
+<p>看似 <code>test</code> package 不支援 per-group 或 per-suite 的 setup/teardown?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pub.dartlang.org/packages/test#running-tests">Running Tests - test | Dart Package</a></p>
+<ul>
+<li>A single TEST FILE can be run just using <code>pub run test path/to/test.dart</code>.</li>
+<li>Many tests can be run at a time using <code>pub run test path/to/dir</code>.</li>
+<li>
+<p>It&rsquo;s also possible to run a test on the Dart VM only by invoking it using <code>dart path/to/test.dart</code>, but this doesn&rsquo;t load the full TEST RUNNER and will be missing some features.</p>
+<p>大概是因為每個 test file 都有 <code>main()</code> 的關係，所以可以直接用 <code>dart</code> 執行。</p>
+<pre><code>$ dart test/string_test.dart
+00:00 +0: String .split() splits the string on the delimiter
+00:00 +1: String .trim() removes surrounding whitespace
+00:00 +2: int .remainder() returns the remainder of division
+00:00 +3: int .toRadixString() returns a hex string
+00:00 +4: All tests passed!
+</code></pre>
+<p>但 <code>dart</code> 如何知道 dependices 從哪裡來? 實驗發現是 <code>.package/</code>，裡頭記錄了 <code>pub get</code> 快取的位置：</p>
+<pre><code>$ head -2 .packages
+# Generated by pub on 2019-02-07 04:58:13.535613.
+analyzer:file:///Users/jeremykao/.pub-cache/hosted/pub.dartlang.org/analyzer-0.35.0/lib/
+...
+</code></pre>
+</li>
+<li>
+<p>The test runner considers any file that ends with <code>_test.dart</code> to be a test file. If you don&rsquo;t pass any paths, it will run all the test files in your <code>test/</code> directory, making it easy to test your entire application at once. 與一般的習慣 &ndash; <code>test_*.dart</code> 與 <code>tests/</code> 不同。</p>
+</li>
+<li>You can select specific tests cases to run BY NAME using <code>pub run test -n "test name"</code>. The string is interpreted as a REGULAR EXPRESSION, and only tests whose DESCRIPTION (INCLUDING ANY GROUP DESCRIPTIONS) match that regular expression will be run. You can also use the <code>-N</code> flag to run tests whose names contain a PLAIN-TEXT STRING.</li>
+<li>
+<p>By default, tests are run in the Dart VM, but you can run them in the browser as well by passing <code>pub run test -p chrome path/to/test.dart</code>. <code>test</code> will take care of starting the browser and loading the tests, and all the results will be reported on the command line just like for VM tests. In fact, you can even run tests on both platforms with a single command: <code>pub run test -p "chrome,vm" path/to/test.dart</code>.</p>
+<p>Dart VM 該不會只會出現在 server-side Dart? Dart VM 只是其中一個 platform 而已??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/tools/pub/package-layout#tests-and-benchmarks">Tests and benchmarks - Pub Package Layout Conventions | Dart</a></p>
+<pre><code>enchilada/
+...
+  benchmark/
+    make_lunch.dart
+  lib/
+    enchilada.dart
+    tortilla.dart
+    guacamole.css
+    src/
+      beans.dart
+      queso.dart
+  test/
+    enchilada_test.dart
+    tortilla_test.dart
+</code></pre>
+<ul>
+<li>Every package should have tests. With pub, the convention is that these go in a <code>test</code> directory (or some directory inside it if you like) and have <code>_test</code> at the end of their file names. Typically, these use the <code>test</code> package.</li>
+<li>Packages that have performance critical code may also include benchmarks. These test the API NOT FOR CORRECTNESS BUT FOR SPEED (or memory use, or maybe other empirical metrics).</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.dartlang.org/guides/testing">Dart Testing</a></li>
+<li><a href="https://github.com/dart-lang/test">dart-lang/test - GitHub</a></li>
+<li><a href="https://github.com/dart-lang/mockito">dart-lang/mockito - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://pub.dartlang.org/documentation/test/latest/"><code>package:test</code></a></li>
+<li><a href="https://pub.dartlang.org/documentation/mockito/latest/"><code>package:mockito</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

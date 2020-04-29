@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/php-including/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>PHP Programming / Including - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/php-including.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#php-programming-including">PHP Programming / Including</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="php-programming-including"><a href="../php-prog/">PHP Programming</a> / Including<a class="headerlink" href="#php-programming-including" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/function.include.php">PHP: include - Manual</a> #ril</p>
+<ul>
+<li>
+<p>The <code>include</code> statement includes and evaluates the specified file.</p>
+<p>The documentation below also applies to <code>require</code>.</p>
+<p><code>include</code> 與 <code>require</code> 兩者最大的差別在於過程中發生問題時，<code>include</code> 只會丟出 warning，但 <code>require</code> 會丟出 error。</p>
+</li>
+<li>
+<p>Files are included based on the FILE PATH GIVEN or, if none is given, the <code>include_path</code> specified.</p>
+<p>If the file isn&rsquo;t found in the <code>include_path</code>, <code>include</code> will FINALLY check in the CALLING SCRIPT&rsquo;S OWN DIRECTORY and the CURRENT WORKING DIRECTORY before failing.</p>
+<p>The <code>include</code> construct will emit a WARNING if it cannot find a file; this is different behavior from <code>require</code>, which will emit a FATAL ERROR.</p>
+<p>對照下面 &ldquo;If a path is defined &hellip; <code>include_path</code> will be ignored altogether&rdquo; 的說法，&rdquo;path is defined&rdquo; 是指以 <code>/</code>、<code>./</code> 或 <code>../</code> 開頭者。</p>
+</li>
+<li>
+<p>If a path is defined — whether absolute (starting with a drive letter or <code>\</code> on Windows, or <code>/</code> on Unix/Linux systems) or relative to the current directory (starting with <code>.</code> or <code>..</code>) — the <code>include_path</code> will be IGNORED ALTOGETHER.</p>
+<p>實驗確認，&rdquo;path is defined<code>專指是否以</code>/<code>、</code>./<code>或</code>../<code>開頭，跟是否含有 path 的成份無關。例如</code>include ./file<code>符合這裡說的 "path is defined"，但</code>include file` 就不符合。</p>
+<p>For example, if a filename begins with <code>../</code>, the parser will look in the parent directory to find the requested file.</p>
+<p>實驗發現，走 &ldquo;path is defined&rdquo; 時，並不會像走 <code>include_path</code> 會 fallback 回 calling script 的位置。若要永遠相對於 calling script，可以利用 <code>__DIR__</code> magic constant (或 <code>dirname(__FILE__)</code>)，像是 <a href="https://github.com/tecnickcom/TCPDF/blob/master/tcpdf.php#L111">TCPDF 的用法</a>：</p>
+<pre><code>require_once(dirname(__FILE__).'/tcpdf_autoconfig.php');
+</code></pre>
+</li>
+<li>
+<p>For more information on how PHP handles including files and the include path, see the documentation for <code>include_path</code>.</p>
+</li>
+<li>
+<p>When a file is included, the code it contains INHERITS THE VARIABLE SCOPE of the line on which the include occurs. Any variables available at that line in the calling file will be available within the called file, FROM THAT POINT FORWARD.</p>
+<p>However, all functions and classes defined in the included file have the GLOBAL SCOPE. ??</p>
+</li>
+</ul>
+<p>Example #1 Basic <code>include</code> example</p>
+<pre><code>vars.php
+&lt;?php
+
+$color = 'green';
+$fruit = 'apple';
+
+?&gt;
+
+test.php
+&lt;?php
+
+echo "A $color $fruit"; // A
+
+include 'vars.php';
+
+echo "A $color $fruit"; // A green apple
+
+?&gt;
+</code></pre>
+<ul>
+<li>If the include occurs inside a function within the calling file, then all of the code contained in the called file will behave as though it had been defined inside that function. So, it will follow the variable scope of that function. An exception to this rule are magic constants which are EVALUATED BY THE PARSER BEFORE THE INCLUDE OCCURS.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.php.net/manual/en/function.include-once.php">PHP: include_once - Manual</a> #ril</p>
+</li>
+<li><a href="https://www.php.net/manual/en/function.require.php">PHP: require - Manual</a> #ril</li>
+<li>
+<p><a href="https://www.php.net/manual/en/function.require-once.php">PHP: require_once - Manual</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.php.net/manual/en/ini.core.php#ini.include-path"><code>include_path</code> - PHP: Description of core php.ini directives - Manual</a></p>
+<ul>
+<li>
+<p>Specifies a list of directories where the <code>require</code>, <code>include</code>, <code>fopen()</code>, <code>file()</code>, <code>readfile()</code> and <code>file_get_contents()</code> functions look for files. The format is like the system&rsquo;s <code>PATH</code> environment variable: a list of directories separated with a colon in Unix or semicolon in Windows.</p>
+<p>因為也會被用在 <code>fopen()</code> 等跟 including 無關的操作，難怪 <code>.</code> 會出現在 <code>include_path</code> 預設值的最前面。</p>
+</li>
+<li>
+<p>PHP considers each entry in the include path separately when looking for files to include. It will check the first path, and if it doesn&rsquo;t find it, check the next path, until it either locates the included file or returns with a warning or an error.</p>
+</li>
+<li>
+<p>You may modify or set your include path AT RUNTIME using <code>set_include_path()</code>.</p>
+<p>實務上常這麼做嗎?? 尤其在同一 web server 上有許多 site 會共用 <code>php.ini</code>。</p>
+</li>
+<li>
+<p>Example #1 Unix <code>include_path</code></p>
+<pre><code>include_path=".:/php/includes"
+</code></pre>
+<p>Example #2 Windows <code>include_path</code></p>
+<pre><code>include_path=".;c:\php\includes"
+</code></pre>
+<p>什麼東西會安裝到 PHP 安裝目錄底下 ??</p>
+</li>
+<li>
+<p>Using a <code>.</code> in the include path allows for RELATIVE INCLUDES as it means the current directory. However, it is MORE EFFICIENT to explicitly use <code>include './file'</code> than having PHP always check the current directory for every include.</p>
+<p>這裡的 current directory 也是 CWD。不過因為 <code>include_path</code> 總是預設以 CWD 開頭，這裡 more efficient 的講法說不過去??</p>
+</li>
+<li>
+<p>Note: <code>ENV</code> variables are also accessible in <code>.ini</code> files. As such it is possible to reference the home directory using <code>${LOGIN}</code> and <code>${USER}</code>.</p>
+<p>Environment variables may vary between Server APIs as those environments may be different.</p>
+<p>Example #3 Unix <code>include_path</code> using <code>${USER}</code> env variable</p>
+<pre><code>include_path = ".:${USER}/pear/php"
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.php.net/manual/en/function.include.php"><code>include</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.include-once.php"><code>include_once</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.require.php"><code>require</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.require-once.php"><code>require_once</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.set-include-path.php"><code>set_include_path()</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/phantomjs/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>PhantomJS - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/phantomjs.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#phantomjs">PhantomJS</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#https">HTTPS 網頁的內容是空的</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#linux">Linux ??</a></li>
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="phantomjs">PhantomJS<a class="headerlink" href="#phantomjs" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://phantomjs.org/">PhantomJS - Scriptable Headless Browser</a> #ril</p>
+<ul>
+<li>
+<p>PhantomJS development is SUSPENDED UNTIL FURTHER NOTICE (<a href="https://github.com/ariya/phantomjs/issues/15344">more details</a>). #ril</p>
+<p>有機會繼續發展的意思。</p>
+</li>
+<li>
+<p>PhantomJS is a HEADLESS web browser SCRIPTABLE WITH JAVAsCRIPT. It runs on Windows, macOS, Linux, and FreeBSD.</p>
+<p>Using QtWebKit as the back-end, it offers fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</p>
+</li>
+<li>
+<p>The following simple script for PhantomJS loads Google homepage, waits a bit, and then captures it to an image.</p>
+<pre><code>var page = require('webpage').create();
+page.open('http://www.google.com', function() {
+    setTimeout(function() {
+        page.render('google.png');
+        phantom.exit();
+    }, 200);
+});
+</code></pre>
+</li>
+<li>
+<p>PhantomJS is an optimal solution for:</p>
+<ul>
+<li>Page automation &ndash; Access webpages and EXTRACT INFORMATION using the standard DOM API, or with usual libraries like jQuery.</li>
+<li>Screen capture &ndash; Programmatically capture web contents, including SVG and Canvas. Create web site screenshots with thumbnail preview.</li>
+<li>Headless website testing &ndash; Run FUNCTIONAL TESTS with frameworks such as Jasmine, QUnit, Mocha, WebDriver, etc.</li>
+<li>Network monitoring &ndash; Monitor page loading and export as standard <a href="https://en.wikipedia.org/wiki/.har">HAR files</a>. Automate PERFORMANCE ANALYSIS using <a href="http://yslow.org/">YSlow</a> and Jenkins. 跟 Jenkins 什麼關係 ??</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://phantomjs.org/quick-start.html">Quick Start with PhantomJS</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="https">HTTPS 網頁的內容是空的<a class="headerlink" href="#https" title="Permanent link"> #</a></h3>
+<p>在 Docker 裡用 PhantomJS 存取 HTTPS 時會拿不到網頁內容 (HTTP 可以)，但同時間 <code>curl https://...</code> 又沒問題。當時的 <code>Dockerfile</code>：</p>
+<pre><code>FROM python:3.7.3 AS base
+RUN curl -Lo /tmp/phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2 \
+    &amp;&amp; tar xf /tmp/phantomjs.tar.bz2 -C /tmp \
+    &amp;&amp; mkdir /usr/local/lib/phantomjs \
+    &amp;&amp; mv /tmp/phantomjs-1.9.8-linux-x86_64/bin/phantomjs /usr/local/lib/phantomjs/phantomjs \
+    &amp;&amp; ln -s /usr/local/lib/phantomjs/phantomjs /usr/local/bin \
+    &amp;&amp; rm -rf /tmp/*
+</code></pre>
+
+<p>錯誤訊息：</p>
+<pre><code>$ phantomjs --debug=true script-accessing-https.js
+2019-05-13T10:18:40 [WARNING] QSslSocket: cannot call unresolved function SSLv23_client_method
+2019-05-13T10:18:40 [WARNING] QSslSocket: cannot call unresolved function sk_num
+2019-05-13T10:18:40 [DEBUG] Phantom - execute: Configuration
+...
+2019-05-13T10:18:40 [DEBUG]      4 ignoreSslErrors : &quot;false&quot;
+...
+2019-05-13T10:18:40 [DEBUG]      17 sslProtocol : &quot;tlsv1&quot;
+2019-05-13T10:18:40 [DEBUG]      18 sslCertificatesPath : &quot;&quot;
+...
+2019-05-13T10:18:40 [DEBUG] Network - Resource request error: 99 ( &quot;Invalid or empty cipher list (error:1410D0B9:SSL routines:SSL_CTX_set_cipher_list:no cipher match)&quot; ) URL: &quot;https://www.google.com/&quot;
+</code></pre>
+
+<p>根據<a href="https://github.com/wkhtmltopdf/wkhtmltopdf/issues/2938">這裡</a>的說法，加裝 <code>libssl1.0-dev</code> 套件就可以。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/wkhtmltopdf/wkhtmltopdf/issues/2938">QSslSocket: cannot call unresolved function SSLv23_client_method · Issue #2938 · wkhtmltopdf/wkhtmltopdf</a></p>
+<ul>
+<li>
+<p>mlutfy: For those like me stumbling on this issue, for Debian users, see this comment with a simple fix: #3001 (comment)</p>
+<p>tl;dr: <code>apt-get install libssl1.0-dev</code></p>
+<p>Rather odd, but it works!</p>
+<p>確實裝了 <code>libssl1.0-dev</code> 問題就沒了。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/29755476/">javascript - Phantomjs fail to load the address - Stack Overflow</a> #ril</p>
+</li>
+<li><a href="https://github.com/ariya/phantomjs/issues/10178">PhantomJS unable to load the address · Issue #10178 · ariya/phantomjs</a> #ril</li>
+<li><a href="https://blog.michaelyin.info/phantomjs-fail-to-open-https/">PhantomJS fail to open HTTPS site | MichaelYin Blog</a> (2018-08-31) #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://phantomjs.org/download.html">Download PhantomJS</a> #ril</li>
+</ul>
+<h3 id="linux">Linux ??<a class="headerlink" href="#linux" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="http://phantomjs.org/download.html#linux-64-bit">Linux - Download PhantomJS</a> #ril</p>
+<ul>
+<li>64-bit &ndash; Download <a href="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2">phantomjs-2.1.1-linux-x86_64.tar.bz2</a> (22.3 MB) and extract the content.</li>
+<li>
+<p>32-bit &ndash; Download <a href="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-i686.tar.bz2">phantomjs-2.1.1-linux-i686.tar.bz2</a> (23.0 MB) and extract the content.</p>
+</li>
+<li>
+<p>Note: For this STATIC BUILD, the binary is SELF-CONTAINED. There is no requirement to install Qt, WebKit, or any other libraries. It however still relies on Fontconfig (the package <code>fontconfig</code> or <code>libfontconfig</code>, depending on the distribution). The system must have <code>GLIBCXX_3.4.9</code> and <code>GLIBC_2.7</code>.</p>
+<p>如何確認 GLIBC 的版本??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+        libssl1.0-dev \
+    &amp;&amp; curl -Lo /tmp/phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2 \
+    &amp;&amp; tar xf /tmp/phantomjs.tar.bz2 -C /tmp \
+    &amp;&amp; mkdir /usr/local/lib/phantomjs \
+    &amp;&amp; mv /tmp/phantomjs-1.9.8-linux-x86_64/bin/phantomjs /usr/local/lib/phantomjs/phantomjs \
+    &amp;&amp; ln -s /usr/local/lib/phantomjs/phantomjs /usr/local/bin \
+    &amp;&amp; rm -rf /tmp/*
+</code></pre>
+
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://phantomjs.org/">PhantomJS</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>屬於 <a href="browser-headless.md">headless browser</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://phantomjs.org/api/webpage/">Web Page Module</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

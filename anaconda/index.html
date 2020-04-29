@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/anaconda/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Anaconda - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/anaconda.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#anaconda">Anaconda</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="anaconda">Anaconda<a class="headerlink" href="#anaconda" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.anaconda.com/">Home - Anaconda</a></p>
+<p>The Enterprise Data Science Platform for…</p>
+<ul>
+<li>
+<p>Data Scientists &ndash; Connect to a range of sources, collaborate with other users, and deploy projects ?? with the single click of a button</p>
+</li>
+<li>
+<p>IT Professionals &ndash; Safely scale and deploy from individual laptops to collaborative teams, from a single server to thousands of nodes</p>
+<p>指 Anaconda Enterprise</p>
+</li>
+<li>
+<p>Business Leaders &ndash; Harness the power of DATA SCIENCE, MACHINE LEARNING, and AI at the pace demanded by today’s digital interactions</p>
+<p>通吃當今最火紅的 data science、ML 跟 AI。</p>
+</li>
+</ul>
+<p>Anaconda Offerings</p>
+<ul>
+<li>Anaconda Distribution &ndash; The World’s Most Popular Python Data Science Distribution</li>
+<li>Anaconda Enterprise &ndash; The AI Enablement Platform for Teams at Scale</li>
+<li>Training &ndash; Anaconda Data Science Education</li>
+<li>Professional Services &ndash; Tailored Data Science Solutions from the Anaconda Experts</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.anaconda.com/why-anaconda/">Why Anaconda - Anaconda</a> #ril</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)">Anaconda (Python distribution) - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>Anaconda is a free and open-source DISTRIBUTION of the Python and R programming languages for SCIENTIFIC COMPUTING (data science, machine learning applications, large-scale data processing, predictive analytics, etc.), that aims to simplify package management and deployment.</p>
+</li>
+<li>
+<p>Package versions are managed by the package management system conda.</p>
+<p>若 Conda 只是個 package manager，為什麼 Anaconda 的 logo 要跟 Conda 長得一樣??</p>
+</li>
+<li>
+<p>The Anaconda distribution is used by over 13 million users and includes more than 1400 popular data-science packages suitable for Windows, Linux, and MacOS.</p>
+<p>哪來這麼這麼多使用者?</p>
+</li>
+</ul>
+<p>Overview</p>
+<ul>
+<li>
+<p>Anaconda distribution comes with more than 1,400 packages as well as the Conda package and VIRTUAL ENVIRONMENT MANAGER, called Anaconda Navigator, so it eliminates the need to learn to install each library independently.</p>
+<p>注意 Conda 不只是 package manager，也是個 environment manager，所以可以管理多個獨立的環境。</p>
+</li>
+<li>
+<p>The open source packages can be individually installed from the Anaconda repository with the <code>conda install</code> command or using the <code>pip install</code> command that is installed with Anaconda. Pip packages provide many of the features of conda packages and in most cases they can WORK TOGETHER.</p>
+<p>在 Anaconda 裡，Conda 跟 Pip 的關係是什麼? 為什麼 <code>conda build</code> 出來的東西也可以送到 PyPI ??</p>
+</li>
+<li>
+<p>Custom packages can be made using the <code>conda build</code> command, and can be shared with others by uploading them to Anaconda Cloud, PyPI or other repositories.</p>
+</li>
+<li>
+<p>The default installation of Anaconda2 includes Python 2.7 and Anaconda3 includes Python 3.7. However, you can CREATE NEW ENVIRONMENTS that include any version of Python packaged with conda.</p>
+<p>看似 Anaconda 透過 Conda 安裝了 Python 及 Pip，選擇 Anaconda2 或 Anaconda3 的差別只在於安裝程式用 Conda 裝了 Python &#8532; 而已 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.anaconda.com/distribution/">Anaconda Python/R Distribution - Anaconda</a> #ril</p>
+</li>
+<li>
+<p>Anaconda3 安裝程式 (macOS)，Read Me 內容：</p>
+<ul>
+<li>
+<p>Anaconda is the most popular Python data science platform.  See <a href="https://www.anaconda.com/downloads/">https://www.anaconda.com/downloads/</a>.</p>
+</li>
+<li>
+<p>By default, this installer modifies your BASH PROFILE to activate the BASE ENVIRONMENT of Anaconda3 when your shell starts up. 在 Anaconda Navigator </p>
+<p>To disable this, choose &ldquo;Customize&rdquo; at the &ldquo;Installation Type&rdquo; phase, and disable the &ldquo;Modify PATH&rdquo; option. If you decline this option, the executables installed by this installer will not be available on <code>PATH</code>. You will need to use the full executable path to run commands, or otherwise initialize the base environment of Anaconda3 on your own.</p>
+<p>畫面上關於 Modify PATH 的說明：Whether to modify the bash profile file to append Anaconda3 to the <code>PATH</code> variable. If you do not do this, you will need to add <code>~/anaconda3/bin</code> to your PATH manually to run the commands, or run all Anaconda3 commands explicitly from that path.</p>
+<p>但觀察 bash profile 在安裝 Anaconda3 2019.03 後的變化不只如此：</p>
+<pre><code># added by Anaconda3 2019.03 installer
+# &gt;&gt;&gt; conda init &gt;&gt;&gt;
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/anaconda3/bin/conda' shell.bash hook 2&gt; /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base &lt;-- 啟用 base 環境
+    else
+        \export PATH="/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# &lt;&lt;&lt; conda init &lt;&lt;&lt;
+</code></pre>
+</li>
+<li>
+<p>To install to a different location, select &ldquo;Change Install Location&hellip;&rdquo; at the &ldquo;Installation Type&rdquo; phase, then choose &ldquo;Install on a specific disk&hellip;&rdquo;, choose the disk you wish to install on, and click &ldquo;Choose Folder&hellip;&rdquo;.</p>
+<p>The &ldquo;Install for me only&rdquo; option will install Anaconda3 to the default location, <code>~/anaconda3</code>.</p>
+</li>
+<li>
+<p>The packages included in this installation are:</p>
+<ul>
+<li>alabaster 0.7.12</li>
+<li>anaconda 2019.03</li>
+<li>anaconda-client 1.7.2</li>
+<li>anaconda-navigator 1.9.7 &larr; 在 Launchpad 可以找到</li>
+<li>anaconda-project 0.8.2</li>
+<li>&hellip;</li>
+<li>conda 4.6.11</li>
+<li>conda-build 3.17.8</li>
+<li>conda-env 2.6.0</li>
+<li>conda-verify 3.1.1</li>
+<li>contextlib2 0.5.5</li>
+<li>&hellip;</li>
+<li>jupyter 1.0.0</li>
+<li>jupyter_client 5.2.4</li>
+<li>jupyter_console 6.0.0</li>
+<li>jupyter_core 4.4.0</li>
+<li>jupyterlab 0.35.4</li>
+<li>jupyterlab_server 0.2.0</li>
+<li>&hellip;</li>
+</ul>
+<p>Tensorflow、Keras、OpenCV 等都要事後再安裝，但為何找不到 PyTorch ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://github.com/ContinuumIO/docker-images">ContinuumIO/docker-images: Repository of Docker images created by Continuum Analytics</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.anaconda.com/">Anaconda</a></li>
+<li><a href="https://github.com/ContinuumIO">Anaconda, Inc. (formerly Continuum Analytics, Inc.) - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/anaconda">&lsquo;anaconda&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://twitter.com/anacondainc">Anaconda (@anacondainc) | Twitter</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.anaconda.com/">Anaconda Documentation</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li></li>
+<li>Anaconda 用 <a href="../conda/">Conda</a> 來管理套件跟環境</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

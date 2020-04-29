@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/vim-diff/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Vim / Diff - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/vim-diff.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#vim-diff">Vim / Diff</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="vim-diff"><a href="../vim/">Vim</a> / Diff<a class="headerlink" href="#vim-diff" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.7">Viewing differences with vimdiff - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>There is a special way to start Vim, which shows the differences between two files. Let&rsquo;s take a file &ldquo;<code>main.c</code>&rdquo; and insert a few characters in one line.</p>
+<p>Write this file with the <code>'backup'</code> option set (預設沒有開啟), so that the backup file &ldquo;<code>main.c~</code>&rdquo; will contain the previous version of the file.</p>
+<p>Type this command in a shell (not in Vim):</p>
+<pre><code>vimdiff main.c~ main.c
+</code></pre>
+<p>Vim will start, with two windows side by side. You will only see the line in which you added characters, and a few lines above and below it.</p>
+<pre><code> VV                   VV
++-----------------------------------------+
+|+ +--123 lines: /* a|+ +--123 lines: /* a|  &lt;- fold
+|  text              |  text              |
+|  text              |  text              |
+|  text              |  text              |
+|  text              |  changed text      |  &lt;- changed line
+|  text              |  text              |
+|  text              |  ------------------|  &lt;- deleted line
+|  text              |  text              |
+|  text              |  text              |
+|  text              |  text              |
+|+ +--432 lines: text|+ +--432 lines: text|  &lt;- fold
+|  ~                 |  ~                 |
+|  ~                 |  ~                 |
+main.c~==============main.c==============
+|                                         |
++-----------------------------------------+
+</code></pre>
+<p>(This picture doesn&rsquo;t show the highlighting, use the vimdiff command for a better look.)</p>
+</li>
+<li>
+<p>The lines that were not modified have been COLLAPSED into one line. This is called a CLOSED FOLD. They are indicated in the picture with &ldquo;&lt;- fold&rdquo;. Thus the single fold line at the top stands for 123 text lines. These lines are equal in both files.</p>
+<p>The line marked with &ldquo;&lt;- changed line&rdquo; is highlighted, and the inserted text is displayed with another color. This clearly shows what the difference is between the two files.</p>
+<p>The line that was deleted is displayed with &ldquo;&mdash;&rdquo; in the <code>main.c</code> window. See the &ldquo;&lt;- deleted line&rdquo; marker in the picture. These characters are not really there. They just FILL UP <code>main.c</code>, so that it displays the same number of lines as the other window.</p>
+<p>上圖有誤，如果是在 <code>main.c</code> 增加一行後存檔，<code>main.c~</code> 會相對少一行，所以 <code>---</code> 應該在左側的 <code>main.c~</code> 才對。</p>
+</li>
+</ul>
+<p>THE FOLD COLUMN</p>
+<ul>
+<li>
+<p>Each window has a column on the left with a slightly different background. In the picture above these are indicated with &ldquo;VV&rdquo;. You notice there is a plus character there, in front of each closed fold. Move the mouse pointer to that plus and click the left button. The fold will open, and you can see the text that it contains.</p>
+<p>The fold column contains a minus sign for an open fold. If you click on this <code>-</code>, the fold will close.</p>
+</li>
+<li>
+<p>Obviously, this only works when you have a working mouse. You can also use &ldquo;<code>zo</code>&rdquo; to open a fold and &ldquo;<code>zc</code>&rdquo; to close it.</p>
+<p>更多細節可以看 User Manual 的 Folding 一節。</p>
+</li>
+</ul>
+<p>DIFFING IN VIM</p>
+<ul>
+<li>
+<p>Another way to start in DIFF MODE can be done from inside Vim. Edit the &ldquo;<code>main.c</code>&rdquo; file, then make a split and show the differences:</p>
+<pre><code>:edit main.c
+:vertical diffsplit main.c~
+</code></pre>
+<p>The &ldquo;<code>:vertical</code>&rdquo; command is used to make the window split vertically. If you omit this, you will get a horizontal split.</p>
+</li>
+<li>
+<p>If you have a PATCH OR DIFF FILE, you can use the third way to start diff mode. First edit the file to which the patch applies. Then tell Vim the name of the patch file:</p>
+<pre><code>:edit main.c
+:vertical diffpatch main.c.diff
+</code></pre>
+<p>WARNING: The patch file must contain ONLY ONE PATCH, for the file you are editing. Otherwise you will get a lot of error messages, and some files might be patched unexpectedly.</p>
+<p>The patching will only be done to the COPY of the file in Vim. The file on your harddisk will remain unmodified (until you decide to write the file).</p>
+</li>
+</ul>
+<p>SCROLL BINDING</p>
+<ul>
+<li>
+<p>When the files have more changes, you can scroll in the usual way. Vim will try to keep both the windows start at the same position, so you can easily see the differences side by side.</p>
+<p>When you don&rsquo;t want this for a moment, use this command:</p>
+<pre><code>:set noscrollbind
+</code></pre>
+</li>
+</ul>
+<p>JUMPING TO CHANGES</p>
+<ul>
+<li>
+<p>When you have disabled folding in some way, it may be difficult to find the changes. Use this command to jump forward to the next change:</p>
+<pre><code>]c
+</code></pre>
+<p>To go the other way use:</p>
+<pre><code>[c
+</code></pre>
+<p>Prepended a count to jump further away.</p>
+</li>
+</ul>
+<p>REMOVING CHANGES</p>
+<ul>
+<li>
+<p>You can move text from one window to the other. This either removes differences or adds new ones. Vim DOESN&rsquo;T KEEP THE HIGHLIGHTING UPDATED in all situations.  To update it use this command:</p>
+<pre><code>:diffupdate
+</code></pre>
+<p>不是透過 <code>dp</code>/<code>do</code> 而是手動修改時，highlighting 會失去同步 ??</p>
+</li>
+<li>
+<p>To remove a difference, you can move the text in a highlighted block from one window to another. Take the &ldquo;<code>main.c</code>&rdquo; and &ldquo;<code>main.c~</code>&rdquo; example above. Move the cursor to the left window, on the line that was deleted in the other window. Now type this command:</p>
+<pre><code>dp
+</code></pre>
+<p>The change will be removed by putting the text of the current window in the other window.  &ldquo;<code>dp</code>&rdquo; stands for &ldquo;diff put&rdquo;.</p>
+</li>
+<li>
+<p>You can also do it the other way around. Move the cursor to the right window, to the line where &ldquo;changed&rdquo; was inserted. Now type this command:</p>
+<pre><code>do
+</code></pre>
+<p>The change will now be removed by getting the text from the other window. Since there are no changes left now, Vim puts all text in a closed fold. &ldquo;<code>do</code>&rdquo; stands for &ldquo;diff obtain&rdquo;.</p>
+<p>&ldquo;<code>dg</code>&rdquo; would have been better, but that already has a different meaning (&ldquo;<code>dgg</code>&rdquo; deletes from the cursor until the first line). 說明為何不命名為 <code>dg</code>，因為跟其他指令衝突了。</p>
+</li>
+<li>
+<p>For details about diff mode, see <code>vimdiff</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://medium.com/usevim/git-and-vimdiff-a762d72ced86">Git and Vimdiff – usevim – Medium</a> (2012-04-21) #ril</p>
+<ul>
+<li><code>vimdiff</code> 的用法是 <code>vimdiff file1 file2 [file3 [file4]]</code>，剛好可以搭配 <code>git difftool --tool=vimdiff --no-prompt</code> 使用。</li>
+</ul>
+</li>
+<li><a href="http://vimdoc.sourceforge.net/htmldoc/diff.html">Vim documentation: diff</a> 提到 <code>do</code> 是指 diff obtain，而 <code>dp</code> 是指 diff put，這樣比較好記 #ril</li>
+<li><a href="http://amjith.blogspot.com/2008/08/quick-and-dirty-vimdiff-tutorial.html">Quick and Dirty : Vimdiff Tutorial | Core Dump</a> (2008-08) 說明了幾個當用的指令跟組合鍵；<code>ctrl-w + ctrl-w</code> 在這裡尤其好用 #ril</li>
+<li><a href="https://stackoverflow.com/questions/18544238/">readonly - How to prevent git vimdiff from opening files as read-only? - Stack Overflow</a> 是 Vim 預設的行為 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="http://vimdoc.sourceforge.net/htmldoc/diff.html">Vim documentation: diff</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

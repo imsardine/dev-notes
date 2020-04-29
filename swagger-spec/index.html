@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/swagger-spec/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Swagger / OpenAPI Specification (OAS) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/swagger-spec.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#swagger-openapi-specification-oas">Swagger / OpenAPI Specification (OAS)</a></li>
+            <li class="second-level"><a href="#authentication">Authentication</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="swagger-openapi-specification-oas"><a href="../swagger/">Swagger</a> / OpenAPI Specification (OAS)<a class="headerlink" href="#swagger-openapi-specification-oas" title="Permanent link"> #</a></h1>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://swagger.io/docs/specification/authentication/">Authentication | Swagger</a> #ril</p>
+<ul>
+<li>
+<p>OpenAPI uses the term SECURITY SCHEME for authentication AND authorization schemes.</p>
+<p>為什麼這裡會同時談及 authentication 與 authorization ??</p>
+<p>OpenAPI 3.0 lets you describe APIs protected using the following security schemes:</p>
+<ul>
+<li>
+<p>HTTP authentication schemes (they use the <code>Authorization</code> header):</p>
+<ul>
+<li>Basic</li>
+<li>Bearer</li>
+<li>other HTTP schemes as defined by RFC 7235 and HTTP Authentication Scheme Registry</li>
+</ul>
+</li>
+<li>
+<p>API keys in headers, query string or cookies</p>
+<ul>
+<li>Cookie authentication</li>
+</ul>
+</li>
+<li>
+<p>OAuth 2</p>
+</li>
+<li>OpenID Connect Discovery</li>
+</ul>
+</li>
+<li>
+<p>Follow the links above for the guides on specific SECURITY TYPES, or continue reading to learn how to DESCRIBE SECURITY IN GENERAL.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://swagger.io/docs/specification/2-0/authentication/">Authentication - OpenAPI 2 | Swagger</a> #ril</p>
+<ul>
+<li>
+<p>Swagger 2.0 lets you DEFINE the following AUTHENTICATION TYPES for an API:</p>
+<ul>
+<li>Basic authentication</li>
+<li>API key (as a header or a query string parameter)</li>
+<li>OAuth 2 common flows (authorization code, implicit, resource owner password credentials, client credentials)</li>
+</ul>
+<p>Follow the links above for examples specific to these authentication types, or continue reading to learn how to describe authentication in general.</p>
+</li>
+<li>
+<p>Authentication is described by using the <code>securityDefinitions</code> and <code>security</code> keywords. You use <code>securityDefinitions</code> to define all authentication types supported by the API, then use <code>security</code> to APPLY specific authentication types to the WHOLE API or INDIVIDUAL operations.</p>
+</li>
+<li>
+<p>The <code>securityDefinitions</code> section is used to define all SECURITY SCHEMES (authentication types) supported by the API. It is a name-&gt;definition map that maps ARBITRARY NAMES to the security scheme definitions.</p>
+<p>Here, the API supports three security schemes named <code>BasicAuth</code>, <code>ApiKeyAuth</code> and <code>OAuth2</code>, and these names will be used to refer to these security schemes from elsewhere:</p>
+<pre><code>securityDefinitions:
+  BasicAuth:
+    type: basic
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://example.com/oauth/authorize
+    tokenUrl: https://example.com/oauth/token
+    scopes:
+      read: Grants read access
+      write: Grants write access
+      admin: Grants read and write access to administrative information
+</code></pre>
+<p>注意 <code>BasicAuth</code>、<code>ApiKeyAuth</code>、<code>OAuth2</code> 都是自訂的名稱，透過 <code>type</code> (<code>basic</code>、<code>apiKey</code> 或 <code>oauth2</code>) 跟 OpenAPI 的 security scheme 連結起來。</p>
+</li>
+<li>
+<p>Each security scheme can be of <code>type</code>:</p>
+<ul>
+<li><code>basic</code> for Basic authentication</li>
+<li><code>apiKey</code> for an API key</li>
+<li><code>oauth2</code> for OAuth 2</li>
+</ul>
+<p>Other required properties depend on the security type. For details, check the Swagger Specification or our examples for Basic auth and API keys.</p>
+</li>
+<li>
+<p>After you have defined the security schemes in <code>securityDefinitions</code>, you can apply them to the whole API or individual operations by adding the <code>security</code> section on the ROOT LEVEL or OPERATION LEVEL, respectively.</p>
+<p>When used on the root level, security applies the specified security schemes globally to all API operations, unless overridden on the operation level.</p>
+<p>In the following example, the API calls can be authenticated using either an API key or OAuth 2. The <code>ApiKeyAuth</code> and <code>OAuth2</code> names refer to the security schemes previously defined in <code>securityDefinitions</code>.</p>
+<pre><code>security:
+  - ApiKeyAuth: []
+  - OAuth2: [read, write]
+</code></pre>
+</li>
+<li>
+<p>Global <code>security</code> can be overridden in individual operations to use a different authentication type, different OAuth 2 scopes, or NO AUTHENTICATION AT ALL:</p>
+<pre><code> paths:
+  /billing_info:
+    get:
+      summary: Gets the account billing info
+      security:
+        - OAuth2: [admin]   # Use OAuth with a different scope
+      responses:
+        200:
+          description: OK
+        401:
+          description: Not authenticated
+        403:
+          description: Access token does not have the required scope
+  /ping:
+    get:
+      summary: Checks if the server is running
+      security: []   # No security
+      responses:
+        200:
+          description: Server is up and running
+        default:
+          description: Something is wrong
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://swagger.io/docs/specification/2-0/authentication/api-keys/">API Keys - OpenAPI 2 | Swagger</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://swagger.io/docs/specification/basic-structure/">OpenAPI Specification 3</a></li>
+<li><a href="https://swagger.io/docs/specification/2-0/basic-structure/">OpenAPI Specification 2 (Swagger)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

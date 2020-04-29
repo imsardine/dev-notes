@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/hexo-theme-next/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Hexo / NexT Theme - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/hexo-theme-next.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#hexo-next-theme">Hexo / NexT Theme</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#author">顯示作者 ??</a></li>
+                
+            <li class="second-level"><a href="#font">如何調整字體 ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="hexo-next-theme"><a href="../hexo/">Hexo</a> / NexT Theme<a class="headerlink" href="#hexo-next-theme" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://theme-next.org/docs/getting-started/">Getting Started | NexT</a> #ril</li>
+</ul>
+<h2 id="author">顯示作者 ??<a class="headerlink" href="#author" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/iissnan/hexo-theme-next/issues/1767">怎么在每篇文章下面都增加作者功能？ · Issue #1767 · iissnan/hexo-theme-next</a> #ril</li>
+</ul>
+<h2 id="font">如何調整字體 ??<a class="headerlink" href="#font" title="Permanent link"> #</a></h2>
+<p>在 <code>themes/next/source/css/_variables/custom.styl</code> 裡增加：</p>
+<pre><code>$font-family-headings = Georgia, sans
+$font-family-base = &quot;Microsoft YaHei&quot;, Verdana, sans-serif
+$code-font-family = &quot;Input Mono&quot;, &quot;PT Mono&quot;, Consolas, Monaco, Menlo, monospace
+$font-size-base = 16px
+$code-font-size = 13px
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>如何修改全局字体大小 · Issue #400 · iissnan/hexo-theme-next <a href="https://github.com/iissnan/hexo-theme-next/issues/400">https://github.com/iissnan/hexo-theme-next/issues/400</a> 在 <code>source/css/_variables/custom.styl</code> 加 <code>$font-size-base = 16px</code>? 試了沒有作用</li>
+<li>font 修改 · Issue #111 · iissnan/hexo-theme-next <a href="https://github.com/iissnan/hexo-theme-next/issues/111">https://github.com/iissnan/hexo-theme-next/issues/111</a> 在 <code>source/css/_custom/variables.styl</code> 自訂字體，也試不出來</li>
+<li>如何更改字体？ <a href="http://theme-next.iissnan.com/faqs.html#custom-font">http://theme-next.iissnan.com/faqs.html#custom-font</a> 官方文件，原來是要改 theme 下面的 <code>source/css/_variables/custom.styl</code>，<code>$font-size-base</code> 與 <code>$code-font-size = 13px</code> 分別調整本文與代碼的字體大小；不過選單字體沒跟著放大好像也怪怪的?</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<pre><code>$ git submodule add https://github.com/theme-next/hexo-theme-next.git themes/next
+$ git submodule init
+$ cd themes/next &amp;&amp; git checkout v7.1.2 &amp;&amp; cd ../..
+$ git add themes/next
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://theme-next.org/docs/getting-started/index.html#NexT-Installation">Installation - Getting Started | NexT</a> #ril</p>
+<ul>
+<li>
+<p>It&rsquo;s easy to install Hexo theme: you can just download the NexT theme, copy the theme folder to the <code>themes</code> directory under site root directory and specify in site config file your THEME ROOT DIRECTORY. The detailed steps are as follows:</p>
+<p>原來 config 裡 <code>theme:</code> 給的是 theme 的資料夾名稱。</p>
+</li>
+</ul>
+<p>Downloading NexT &gt; Newest Version</p>
+<ul>
+<li>
+<p>If you know about Git, you can clone the whole repository and update it in any time with <code>git pull</code> command instead of downloading archive manually.</p>
+<p>Open your Terminal, change to Hexo site root directory and clone latest master branch of NexT theme:</p>
+<pre><code>$ cd hexo
+$ git clone https://github.com/theme-next/hexo-theme-next themes/next
+</code></pre>
+</li>
+</ul>
+<p>Downloading NexT &gt; Stable Version</p>
+<ul>
+<li>Go to NexT version Release Page.</li>
+<li>Choose the version you need and download the Source Code (zip) in the Download section. For example v6.0.0.</li>
+<li>Extract the zip file to site&rsquo;s themes directory and rename the extracted folder (<code>hexo-theme-next-6.0.0</code>) to <code>next</code>.</li>
+</ul>
+<p>Enabling NexT</p>
+<ul>
+<li>
+<p>Like all Hexo themes, after you download it, open site config file, find <code>theme</code> section, and change its value to <code>next</code> (or another theme DIRECTORY NAME).</p>
+<p><code>hexo/_config.yml</code></p>
+<pre><code>theme: next
+</code></pre>
+</li>
+<li>
+<p>Now you have installed NexT theme, next we will verify whether it is enabled correctly. Between changing the theme and verifying it, we&rsquo;d better use <code>hexo clean</code> to clean Hexo&rsquo;s cache.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://theme-next.org/docs/getting-started/installation">Installation | NexT</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/iissnan/hexo-theme-next#installation">Installation - iissnan/hexo-theme-next: Elegant theme for Hexo.</a> (v5)</p>
+<ol>
+<li>
+<p>Change dir to hexo root directory. There must be <code>node_modules</code>, <code>source</code>, <code>themes</code> and other directories:</p>
+<pre><code>$ cd hexo
+$ ls
+_config.yml  node_modules  package.json  public  scaffolds  source  themes
+</code></pre>
+</li>
+<li>
+<p>Get theme from GitHub. There are several variants to do it:</p>
+<p>At most cases stable. Recommended for most users.</p>
+<pre><code>$ mkdir themes/next
+$ curl -s https://api.github.com/repos/iissnan/hexo-theme-next/releases/latest | grep tarball_url | cut -d '"' -f 4 | wget -i - -O- | tar -zx -C themes/next --strip-components=1
+</code></pre>
+<p>也就是下載最新的 tarball 解開到 <code>themes/next</code>。</p>
+</li>
+<li>
+<p>Set theme in main hexo root config <code>_config.yml</code> file:</p>
+<pre><code>theme: next
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://theme-next.org/docs/getting-started/update-from-v5.html">Update from Version 5 | NexT</a></p>
+<p>There are no hard breaking changes between 5.1.x and 6.0.x versions. It&rsquo;s change major version to 6 because:</p>
+<ul>
+<li>
+<p>Main repositorie was rebased from iissnan&rsquo;s profile to theme-next organization.</p>
+<p>無論如何，移出個人 profile 是好事，有利專案未來的發展。</p>
+</li>
+<li>
+<p>Most libraries under the <code>next/source/lib</code> directory was moved out to external repositories under NexT organization.</p>
+</li>
+<li>3<sup>rd</sup>-party plugin <code>hexo-wordcount</code> was replaced by <code>hexo-symbols-count-time</code> because <code>hexo-symbols-count-time</code> no have any external nodejs dependencies, no have language filter which causes better performance on speed at site generation.</li>
+</ul>
+<p>So, NexT suggest to update from version 5 to version 6 in this way:</p>
+<ul>
+<li>
+<p>You don&rsquo;t touch old <code>next</code> dir and just do some COPIES of NexT files:</p>
+<ul>
+<li><code>config.yml</code> or <code>next.yml</code> (if you used data-files).</li>
+<li>Custom CSS styles what placed in <code>next/source/css/_custom/*</code> and <code>next/source/css/_variables/*</code> directories.</li>
+<li>Custom layout styles what placed in <code>next/layout/_custom/*</code>.</li>
+<li>Any another possible custom additions which can be finded by compare tools between repositories.</li>
+</ul>
+<p>保留舊版使有機會退回舊版，不過把原來的目錄更名不是更好? 例如 <code>next-v5</code></p>
+</li>
+<li>
+<p>Clone new v6.x repositorie to any another directory instead of <code>next</code>. For example, in <code>next-reloaded</code> directory: <code>git clone https://github.com/theme-next/hexo-theme-next themes/next-reloaded</code>. So, you don&rsquo;t touch your old NexT 5.1.x directory and can work with new <code>next-reloaded</code> dir.</p>
+<p>至少要 <code>git clone --bare</code> 吧? 用 Git submodule 應該是更好的選擇?</p>
+</li>
+<li>
+<p>Go to Hexo main config and set <code>theme</code> parameter: <code>theme: next-reloaded</code>. So, your <code>next-reloaded</code> directory must loading with your generation. If you may see any bugs or you simply not like this version, in anytime you can switch for 5.1.x version back.</p>
+</li>
+<li>
+<p>And how to enable 3<sup>rd</sup>-party libraries see <a href="https://theme-next.org/docs/getting-started/update-from-v5">here</a>. 為什麼有 &ldquo;hook up NexT plugins&rdquo; 的說法 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/theme-next/hexo-theme-next">theme-next/hexo-theme-next - GitHub</a> (v6+)</li>
+<li><a href="https://github.com/iissnan/hexo-theme-next">iissnan/hexo-theme-next - GitHub</a> (v5)</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

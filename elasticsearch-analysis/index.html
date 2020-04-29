@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/elasticsearch-analysis/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Elasticsearch / Analysis - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/elasticsearch-analysis.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#elasticsearch-analysis">Elasticsearch / Analysis</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#analyzer">Analyzer ??</a></li>
+                
+            <li class="second-level"><a href="#normalizer">Normalizer ??</a></li>
+                
+            <li class="second-level"><a href="#tokenizer">Tokenizer ??</a></li>
+                
+            <li class="second-level"><a href="#character-filter">Character Filter ??</a></li>
+                
+            <li class="second-level"><a href="#token-filter">Token Filter ??</a></li>
+                
+            <li class="second-level"><a href="#term-vector">Term Vector ??</a></li>
+                
+            <li class="second-level"><a href="#human-language">Human Language ??</a></li>
+                
+            <li class="second-level"><a href="#chinese">中文分詞器</a></li>
+                
+            <li class="second-level"><a href="#custom-analyzer">Custom Analyzer ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="elasticsearch-analysis"><a href="../elasticsearch/">Elasticsearch</a> / Analysis<a class="headerlink" href="#elasticsearch-analysis" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html">Analysis | Elasticsearch Reference [6.5] | Elastic</a><ul>
+<li>Analysis is the process of converting TEXT, like the body of any email, into TOKENs or TERMs which are added to the INVERTED INDEX for searching. Analysis is performed by an ANALYZER which can be either a built-in analyzer or a <code>custom</code> analyzer defined PER INDEX. 只有 <code>text</code> field 才需要 analyzer 將其拆成 tokens/terms 存進 inverted index，不過 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html"><code>analyzer</code></a> 也提到 Analyzers can be specified per-query, per-field or per-index. 細到每個 (text) filed 都可以指定不同的 analyzer。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html#_index_time_analysis">Index time analysis - Analysis | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>
+<p>For instance, at index time the built-in <code>english</code> analyzer will first convert the sentence: <code>"The QUICK brown foxes jumped over the lazy dog!"</code> into DISTINCT TOKENs. It will then LOWERCASE each token, remove frequent STOPWORDs (虛字 &ldquo;the&rdquo;) and reduce the terms to their WORD STEMs (foxes → fox, jumped → jump, lazy → lazi). In the end, the following TERMs will be added to the INVERTED INDEX: <code>[ quick, brown, fox, jump, over, lazi, dog ]</code> 這是 <code>english</code> analyzer 才會有的效果，若文字內混著多種語言要怎麼選 analyzer??</p>
+</li>
+<li>
+<p>Each <code>text</code> field in a mapping can specify its own <code>analyzer</code>: 怎麼看被拆解的 inverted index 長什麼樣? =&gt; 進 index 後可以看 term vectors，進 index 前可以用 <code>analyze</code> API 測</p>
+<pre><code>PUT my_index
+{
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "title": {
+          "type":     "text",
+          "analyzer": "standard"
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p>At index time, if no <code>analyzer</code> has been specified, it looks for an analyzer in the index settings called <code>default</code>. Failing that, it defaults to using the <code>standard</code> analyzer. 如何設定 <code>default</code> analyzer?? 不會看 mapping 的 <code>analyzer</code> parameter??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html#_search_time_analysis">Search time analysis - Analysis | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>This same analysis process is applied to the QUERY STRING at search time in FULL TEXT QUERIES like the <code>match</code> query to convert the text in the query string into terms of the same form as those that are stored in the inverted index. 做 full text query 時，把 query string 也拆成 tokens/terms，最後在 match 的是兩邊的 tokens/terms。</li>
+<li>For instance, a user might search for: <code>"a quick fox"</code> which would be analysed by the same english analyzer into the following terms: <code>[ quick, fox ]</code>. Even though the exact words used in the query string don’t appear in the original text (<code>quick</code> vs <code>QUICK</code>, <code>fox</code> vs <code>foxes</code>), because we have applied THE SAME ANALYZER to both the text and the query string, the terms from the query string exactly match the terms from the text in the inverted index, which means that this query would match our example document. 重點是 text (field) 與 query string 用的 analyzer 要一樣。</li>
+<li>Usually the SAME ANALYZER SHOULD BE USED BOTH AT INDEX TIME AND AT SEARCH TIME, and full text queries like the <code>match</code> query will use the mapping to look up the analyzer to use for each field. 什麼情況下需要在 search time 另外給 analyzer??</li>
+<li>The analyzer to use to search a particular field is determined by looking for: An <code>analyzer</code> specified in the query itself. &rarr; The <code>search_analyzer</code> mapping parameter. &rarr; The <code>analyzer</code> mapping parameter. &rarr; An analyzer in the index settings called <code>default_search</code>. &rarr; An analyzer in the index settings called <code>default</code>. &rarr; The <code>standard</code> analyzer. 跟 index time 一樣，無法決定就用 <code>standard</code> analyzer；為何 mapping 會同時有 <code>analyzer</code> 與 <code>search_analyzer</code> 兩個參數??</li>
+</ul>
+</li>
+</ul>
+<h2 id="analyzer">Analyzer ??<a class="headerlink" href="#analyzer" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer-anatomy.html">Anatomy of an analyzer | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>An analyzer  — whether built-in or custom — is just a PACKAGE which contains three lower-level building blocks: character filters, tokenizers, and token filters. 其中 character/token filter 可以有多個 (也可以沒有)，但 tokenizer 一定要有，且只能有一個。</li>
+<li>The built-in analyzers pre-package these building blocks into analyzers suitable for different languages and types of text. Elasticsearch also exposes the individual building blocks so that they can be combined to define new custom analyzers. 內建的 analyer 只是把幾個常用 tokenizer + character/token filters 先打包好，不過自己也可以拿相同的材料組裝成符合自己需求的 analyzer。如何知道現有 analyzer 的組成??</li>
+<li>A character filter receives the original text as a stream of characters and can transform the stream by ADDING, REMOVING, OR CHANGING CHARACTERS. For instance, a character filter could be used to convert Hindu-Arabic numerals (<code>٠١٢٣٤٥٦٧٨٩</code>) into their Arabic-Latin equivalents (<code>0123456789</code>), or to strip HTML elements like <code>&lt;b&gt;</code> from the stream. An analyzer may have zero or more character filters, which are applied in order. 先轉換過再拆 token。</li>
+<li>A tokenizer receives a stream of characters, breaks it up into individual TOKENs (usually individual words), and outputs a stream of tokens. For instance, a <code>whitespace</code> tokenizer breaks text into tokens whenever it sees any whitespace. It would convert the text <code>"Quick brown fox!"</code> into the terms <code>[Quick, brown, fox!]</code>. The tokenizer is also responsible for recording the order or position of each term and the start and end character offsets of the original word which the term represents. (用 <code>analyze</code> API 檢測時可以看到這些數據) An analyzer must have EXACTLY ONE tokenizer. 這是 analyzer 內一定要有的東西</li>
+<li>A token filter receives the TOKEN STREAM and may add, remove, or change tokens. For example, a <code>lowercase</code> token filter converts all tokens to lowercase, a <code>stop</code> token filter removes common words (stop words) like the from the token stream, and a <code>synonym</code> token filter introduces synonyms into the token stream. Token filters are not allowed to change the position or character offsets of each token. An analyzer may have zero or more token filters, which are applied in order. 但 &ldquo;add, remove, or change tokens&rdquo; 不會影響到 position/offset 嗎?? 其中 <code>synonym</code> 可以自訂同義字，把公司內的 glossary 納入會很實用!!</li>
+<li>簡單來說 Analyzer = (character filter x N) &rarr; (characters) &rarr; tokenizer x 1 &rarr; (tokens) &rarr; (token filter x N)，在 tokenizer 前後都可以做些 add/remove/change 的加工，只是對象是 character/token 的不同。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_testing_analyzers.html">Testing analyzers | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>
+<p>The <code>analyze</code> API is an invaluable tool for viewing the terms produced by an analyzer. A built-in analyzer (or COMBINATION of built-in tokenizer, token filters, and character filters) can be specified inline in the request: 除了現有的 analyzer，也可以用 tokenizer + filters 臨時的組合測試，這對自建 analyzer 很有幫助。</p>
+<pre><code>POST _analyze
+{
+  "analyzer": "whitespace",
+  "text":     "The quick brown fox."
+}
+
+POST _analyze
+{
+  "tokenizer": "standard",
+  "filter":  [ "lowercase", "asciifolding" ],
+  "text":      "Is this déja vu?"
+}
+</code></pre>
+<p>以上面 <code>whitespace</code> analyzer 的例子會得到：</p>
+<pre><code>{
+  "tokens" : [
+    {
+      "token" : "The",
+      "start_offset" : 0,
+      "end_offset" : 3,
+      "type" : "word",
+      "position" : 0
+    },
+    {
+      "token" : "quick",
+      "start_offset" : 4,
+      "end_offset" : 9,
+      "type" : "word",
+      "position" : 1
+    },
+    {
+      "token" : "brown",
+      "start_offset" : 10,
+      "end_offset" : 15,
+      "type" : "word",
+      "position" : 2
+    },
+    {
+      "token" : "fox.",
+      "start_offset" : 16,
+      "end_offset" : 20,
+      "type" : "word",
+      "position" : 3
+    }
+  ]
+}
+</code></pre>
+<p>As can be seen from the output of the <code>analyze</code> API, analyzers not only convert words into terms, they also record the ORDER or RELATIVE POSITIONS of each term (used for phrase queries or word proximity queries), and the start and end character offsets of each term in the original text (used for HIGHLIGHTING search snippets). 可以想像 reverse index 裡就是存這些東西。</p>
+</li>
+<li>
+<p>Alternatively, a <code>custom</code> analyzer can be referred to when running the analyze API on a specific index:</p>
+<pre><code>PUT my_index
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "std_folded": { &lt;-- 在 index settings 裡定義一個名叫 std_folded 的 analyzer
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [   &lt;-- 不分 character/token filter
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "my_text": {
+          "type": "text",
+          "analyzer": "std_folded" &lt;-- 套用自訂的 analyzer
+        }
+      }
+    }
+  }
+}
+
+GET my_index/_analyze &lt;-- 定義在 index 裡，所以 analyze API 要透過 index
+{
+  "analyzer": "std_folded", &lt;-- 用法跟 built-in analyzer 並無不同
+  "text":     "Is this déjà vu?"
+}
+
+GET my_index/_analyze
+{
+  "field": "my_text",
+  "text":  "Is this déjà vu?"
+}
+</code></pre>
+</li>
+<li>
+<p>嚴格來說 <code>custom</code> analyzer 跟 custom analyzer 不太一樣，前者是透過 settings 來宣告，後者則是透過 plugin 安裝，例如 <a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-icu.html">ICU Analysis Plugin</a>，裡面有 tokenizer、filters 等。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-analyzers.html">Analyzers | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html">analyzer | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="normalizer">Normalizer ??<a class="headerlink" href="#normalizer" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-normalizers.html">Normalizers | Elasticsearch Reference [6.5] | Elastic</a> #ril<ul>
+<li>Normalizers are similar to analyzers except that they may only emit a single token. As a consequence, they do not have a tokenizer and only accept a subset of the available char filters and token filters.</li>
+</ul>
+</li>
+</ul>
+<h2 id="tokenizer">Tokenizer ??<a class="headerlink" href="#tokenizer" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenizers.html">Tokenizers | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="character-filter">Character Filter ??<a class="headerlink" href="#character-filter" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-charfilters.html">Character Filters | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="token-filter">Token Filter ??<a class="headerlink" href="#token-filter" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html">Token Filters | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="term-vector">Term Vector ??<a class="headerlink" href="#term-vector" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.5/docs-termvectors.html">Term Vectors | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="human-language">Human Language ??<a class="headerlink" href="#human-language" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/languages.html">Dealing with Human Language | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://discuss.elastic.co/t/elasticsearch-analyzer/76726">Elasticsearch analyzer - Elasticsearch - Discuss the Elastic Stack</a> (2017-02-28) 資料混著多種語言如何處理? #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/mixed-lang-fields.html">Mixed-Language Fields | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html#_multi_fields_with_multiple_analyzers">Multi-fields with multiple analyzer fields | Elasticsearch Reference [6.5] | Elastic</a> 示範了 <code>text</code> field 主要採用 <code>standard</code> analyzer 外，另外衍生 <code>text.field</code> 版本採用 <code>english</code> analyzer #ril</li>
+</ul>
+<h2 id="chinese">中文分詞器<a class="headerlink" href="#chinese" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/medcl/elasticsearch-analysis-ik">medcl/elasticsearch-analysis-ik: The IK Analysis plugin integrates Lucene IK analyzer into elasticsearch, support customized dictionary.</a> 支援自訂字典 #ril</li>
+<li><a href="https://github.com/sing1ee/elasticsearch-jieba-plugin">sing1ee/elasticsearch-jieba-plugin: jieba analysis plugin for elasticsearch 6.4.0, 6.0.0, 5.4.0，5.3.0, 5.2.2, 5.2.1, 5.2, 5.1.2, 5.1.1</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-smartcn.html">Smart Chinese Analysis Plugin | Elasticsearch Plugins and Integrations [6.5] | Elastic</a> 只支援簡中? #ril</li>
+<li><a href="https://www.sitepoint.com/efficient-chinese-search-elasticsearch/">Efficient Chinese Search with Elasticsearch — SitePoint</a> (2014-12-18) #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-lang-analyzer.html#chinese-analyzer">Language Analyzers | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/icu-tokenizer.html">icu_tokenizer | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://opensourceconnections.com/blog/2011/12/23/indexing-chinese-in-solr/">Indexing Chinese in Solr</a> (2011-12-23) #ril</li>
+<li><a href="https://lucene.apache.org/solr/guide/6_6/language-analysis.html">Language Analysis | Apache Solr Reference Guide 6.6</a> #ril</li>
+<li><a href="https://github.com/medcl/elasticsearch-analysis-stconvert">medcl/elasticsearch-analysis-stconvert: STConvert is analyzer that convert chinese characters between traditional and simplified.中文简繁體互相转换.</a> #ril</li>
+</ul>
+<h2 id="custom-analyzer">Custom Analyzer ??<a class="headerlink" href="#custom-analyzer" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html">Custom Analyzer | Elasticsearch Reference [6.5] | Elastic</a> 有沒有可能組合多個 analyzer 來用?? #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

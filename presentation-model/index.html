@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/presentation-model/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Presentation Model - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/presentation-model.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#presentation-model">Presentation Model</a></li>
+            <li class="second-level"><a href="#vs-passive-view">跟 Passive View 是什麼關係?</a></li>
+                
+            <li class="second-level"><a href="#impl">如何實作 Presentation Model?</a></li>
+                
+            <li class="second-level"><a href="#ui-framework">要獨立於 UI framework?</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="presentation-model">Presentation Model<a class="headerlink" href="#presentation-model" title="Permanent link"> #</a></h1>
+<ul>
+<li>Presentation model 將 state 跟 behavior 從 view class 抽離出來成為 (self-contained) model calss，也就是 presentation 拆成 view class 與 model class，而 view 只是將 model 的 state 映射 (project) 到 UI 上而已。</li>
+<li>所謂 self-contained 是因為 presentation model 自己維護一份 (dynamic) state，不需要向 view class 取用 state。由於跟 GUI framework 無關，所以方便測試，但要多寫 synchronization code 來同步 view 與 presentation model 兩邊的 state。</li>
+<li>Presentation model 背後會協調 domain layer (裡的多個 domain object)，並向外提供一個 interface，才不用在 view class 裡做 decision making。要注意 presentation model 並不是是通往 domain layer 的 GUI-friendly facade，而是跟 GUI framework 無關的抽象層 (abstract of the view)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a></p>
+<ul>
+<li>
+<p>Represent the STATE AND BEHAVIOR OF THE PRESENTATION independently of the GUI controls used in the interface.</p>
+<p><img alt="" src="https://martinfowler.com/eaaDev/presentationModel/cutTitleClass.gif" /></p>
+<p>把 presentation 的 state &amp; behavior 從 GUI control (也就是 widget 及 view class) 層抽離出來。</p>
+<p>GUI control (AlbumTitle) 相依於 presentation model (Album Presentation Model)，而 presentation model 背後則是由 domain model (Album) 支撐；在 GUI control 裡，就是用 <code>model.xxx</code> 的方式跟 presentation model 同步 state (像 .NET 的 data binding 可以減少手動同步的工)</p>
+</li>
+<li>
+<p>GUIs consist of widgets that contain the STATE OF THE GUI SCREEN. Leaving the state of the GUI in widgets makes it harder to get at this state, since that involves manipulating widget APIs, and also encourages putting PRESENTATION BEHAVIOR in the view class.</p>
+<p>GUI 由內含 state 的 widget 組成，若將 state 留在 widget 裡，就得要透過 widget API 才能取得，也因此很容易將 presentation behavior/logic 放進 view class 裡。</p>
+<p>注意這裡 &ldquo;state of the GUI screen&rdquo; 及 &ldquo;state and behavior of the presentation&rdquo; 的差別，前者講的是 GUI/view，後者是稍微抽象一點且跟 GUI Framework 無關的 presentation。其中 &ldquo;presentation behavior&rdquo; 換成 &ldquo;presentation logic&rdquo; 會比較好懂，就是 UML 裡的 <code>windowTitle = "Album: " + title</code>，若不是抽出 presentation model，這段邏輯就會在留在 view class 裡。</p>
+</li>
+<li>
+<p>Presentation Model PULLS the STATE AND BEHAVIOR OF THE VIEW out into a model class that is PART OF THE PRESENTATION. The Presentation Model COORDINATES with the DOMAIN LAYER and provides an interface to the view that MINIMIZES DECISION MAKING IN THE VIEW.</p>
+<p>重點就在 decision making in the view，也就是 UML 圖中的 <code>windowTitle = "Album: " + title</code> (behavior/logic)，放在 view 裡會很難測，因為相依於 GUI Framework。</p>
+<p>The view either stores all its state in the Presentation Model or synchronizes its state with Presentation Model frequently</p>
+<p>只是 2 種不同的說法 &ndash; view 的 state 源自 presentation model，view 也不會留存一份 (否則會失去同步)</p>
+</li>
+<li>
+<p>Presentation Model may interact with several domain objects, but Presentation Model is not a GUI friendly facade to a specific domain object. Instead it is easier to consider Presentation Model as an ABSTRACT OF THE VIEW THAT IS NOT DEPENDENT ON A SPECIFIC GUI FRAMEWORK.</p>
+<p>While several views can utilize the same Presentation Model, each view should require only one Presentation Model. In the case of composition a Presentation Model may contain one or many CHILD Presentation Model instances, but each CHILD CONTROL will also have only one Presentation Model.</p>
+<p>每個 view class 只能對應一個 presentation model (雖然多個 view 可能共用一個 presentation model)；一個複雜的頁面 (composition) 可能 presentation model 由多個 child presentation model 組成，不過每個 child control 還是只對應一個 presentation model &ndash; 可以跟 parent control 共用同一個 presentation model。</p>
+</li>
+<li>
+<p>Presentation model 將 state 跟 behavior 從 view class 抽離出來成為 (self-contained) model calss，也就是 presentation 由 view class 與 model class 共同組成，而 view 只是將 model 的 state 映射 (project) 到 UI 上而已。</p>
+</li>
+<li>Presentation model 背後會協調 domain layer (裡的多個 domain object)，並向外提供一個 interface，減少在 view class 裡做 decision making。別把 presentation model 當做是通往 domain layer 的 GUI-friendly facade，而是跟 GUI framework 無關的抽象層 (abstract of the view)，</li>
+<li>Presentation model 有 view 上所有 dynamic information 的 data fields，不只是 content，還包括像 enablement state (enabled/disabled)；以 Figure 1 為例，雖然 composer filed 的 enablement 由 <code>isClassical</code> 來決定，但在 presentation model 上還是會有個 <code>shouldEnableComposer</code> 把 <code>return isClassical</code> 的邏輯封裝起來，除了讓 view 儘量保持單純 (這跟 passive view 裡 dumb view 的說法有點像)，也明確指出 decision making 是 presentation model 的責任。</li>
+<li>Figure 2 是個 running example，當使用者按下 classical (checkbox) 時，view 的 event handler 會將 view state 寫到 presentation model (<code>pmod.isClassical = view.classical.checked</code>)，然後根據 presentation model 更新 composer (field) 的 enablement (<code>view.composerField.enabled = pmod.isComposerEnabled</code>)。當使用者按下 apply 時，view 會轉換叫 <code>pmod.apply()</code>，更新 domain layer (<code>album.isClassical = presentationModel.isClassical</code>)。</li>
+<li>採用 presentation model 最惱人的是 view 跟 presentation model 間的同步 (synchronization)，該把 synchronization code 放 view 還是 model? 也就是參照的方向是 view -&gt; model 或 model -&gt; view? 雖然 sychronization code 有可能出錯，但也容易找到跟修復，若想將 synchronization code 也納入測試的話，則建議採用 model -&gt; view 的做法，因為測試 presentation model 時也測得到，相對於涉及 GUI framework 的 view 也比較好測。</li>
+<li>Model -&gt; view 的做法會讓 view 變得更加無腦 (dumb) - 提供 setters 讓 model 更新 state，同時也觸發事件 (轉通知 presentation model) 以回應使用者的操作，通常 view 會實作某個 interface，所以在測試 presentation model 時方便做 stubbing；這不正是 Passive View 的做法?</li>
+<li>Presentation model 跟 Supervising Controller 及 Passive View 要解決的問題類似 - 測試時不需要 UI，但 presentation model 更強調獨立於 view (聽起來 view -&gt; model 的做法是 Presentation Model 比較正統的做法?)，不需要 view 提供 state，也因此要有 synchronization code 處理兩邊 state 的同步，這是 Passive View 不需要的。</li>
+</ul>
+</li>
+</ul>
+<h2 id="vs-passive-view">跟 Passive View 是什麼關係?<a class="headerlink" href="#vs-passive-view" title="Permanent link"> #</a></h2>
+<ul>
+<li>感覺 Passive View 像是 Presentation Model 的一種，尤其是 presentation model 持有 view 參照的這種做法。</li>
+<li>但根據 <a href="https://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a> When to Use It 的說法，跟 Passive View 在解決類似的問題 (test without the UI) 而已。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Presentation Model <a href="https://martinfowler.com/eaaDev/PresentationModel.html">https://martinfowler.com/eaaDev/PresentationModel.html</a><ul>
+<li>&ldquo;A Presentation Model that references a view &hellip;&rdquo; 這個段落提到 &ldquo;The resulting view is very dumb&rdquo;，在加上 &ldquo;The view contains setters for any state that is dynamic and raises events in response to user actions&rdquo;，幾乎就是 passive view 裡 dumb view 的說法</li>
+<li>在 When to Use It 提到 Presentation Model 跟 Passive View 都在解決 &ldquo;test without the UI&rdquo; 的問題，只是 Passive View 不需要處理 model 與 view 間的 synchronization? 在想應該是因為 presenter 沒有持有一份 state 的關係&hellip;</li>
+</ul>
+</li>
+</ul>
+<h2 id="impl">如何實作 Presentation Model?<a class="headerlink" href="#impl" title="Permanent link"> #</a></h2>
+<ul>
+<li>View class 持有 presentation model 的 reference，由 view class 主動根據 model 的 state 更新 UI；雖然 presentation model 可以被多個 view 共用，但一個 view 只能對應一個 presentation model。</li>
+<li>由於 view -&gt; model 的關係，而且 model 也不應該知道 view，所以 synchronization code 會寫在 view class 裡 (<code>model.xxx</code>)，雖然要藉由 view class 的測試才測得到 (涉及 GUI framework，比較難測)。</li>
+<li>Presentation model 有 view 上所有 dynamic information 的 data fields，不只是 content，還包括像 enablement state (enabled/disabled)。例如管理者才能重啟系統，雖然 view 也可以根據 <code>model.isAdmin</code> 決定 <code>restartButton.enabled</code>，但還是要用另一個 <code>model.allowedToRestart</code> 來將 <code>return isAdmin</code> 的邏輯封裝起來 (或許由 domain layer 來決定會更好，例如 <code>system.allowedToRestart(currentUser)</code>)，也明確指出 decision making 是 presentation model 的責任。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Presentation Model <a href="https://martinfowler.com/eaaDev/PresentationModel.html">https://martinfowler.com/eaaDev/PresentationModel.html</a></li>
+</ul>
+<h2 id="ui-framework">要獨立於 UI framework?<a class="headerlink" href="#ui-framework" title="Permanent link"> #</a></h2>
+<ul>
+<li>Presentation Model <a href="https://martinfowler.com/eaaDev/PresentationModel.html">https://martinfowler.com/eaaDev/PresentationModel.html</a><ul>
+<li>提到 &ldquo;consider Presentation Model as an abstract of the view that is not dependent on a specific GUI framework&rdquo;，但像 Flask + WTForm 的組合，presentation model 因為 form 的關係，如何跟 UI framework 拆離?</li>
+<li>不過 &ldquo;In the case of composition a Presentation Model may contain one or many child Presentation Model instances, but each child control will also have only one Presentation Model.&rdquo; 好像提供了答案? 畫面上的表單對應 <code>model.form.xxx</code> &hellip;</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

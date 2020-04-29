@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/uml-component/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>UML / Component Diagram - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/uml-component.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#uml-component-diagram">UML / Component Diagram</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="uml-component-diagram"><a href="../uml/">UML</a> / Component Diagram<a class="headerlink" href="#uml-component-diagram" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Component_diagram">Component diagram - Wikipedia</a></p>
+<ul>
+<li>In Unified Modeling Language (UML), a component diagram depicts HOW COMPONENTS ARE WIRED TOGETHER to form larger components or software systems. They are used to illustrate the structure of arbitrarily complex systems.</li>
+</ul>
+<p>Overview</p>
+<ul>
+<li>
+<p>A component diagram allows VERIFICATION that a system&rsquo;s required functionality is ACCEPTABLE.</p>
+<p>所謂 acceptable 是指在架構上可行嗎 ??</p>
+</li>
+<li>
+<p>These diagrams are also used as a communication tool between the developer and stakeholders of the system. Programmers and developers use the diagrams to formalize a ROADMAP for the implementation, allowing for better decision-making about TASK ASSIGNMENT or needed skill improvements.</p>
+<p>若是拆解 system 的第一層 component diagram，拿來跟 stakeholder 溝通還可以，但若是再細一點，可能就不行了，但無論如何，都可以幫 developer 指路。</p>
+<p>至於跟 task assignment 的有關，大概是先約定好 component 間的 interface，就可以分頭去開發。</p>
+</li>
+<li>
+<p>System administrators can use component diagrams to PLAN AHEAD, using the view of the LOGICAL software components and their relationships on the system.</p>
+<p>所謂 plan ahead 指的是根據 logical component diagram 描繪出 deployment 後可能的樣貌。</p>
+</li>
+</ul>
+<p>Diagram Elements</p>
+<ul>
+<li>
+<p>The component diagram EXTENDS the information given in a component notation element.</p>
+<p>One way of illustrating the PROVIDED and REQUIRED INTERFACES by the specified component is in the form of a rectangular compartment attached to the component element. Another accepted way of presenting the interfaces is to use the BALL-AND-SOCKET graphic convention. A provided dependency from a component to an interface is illustrated with a solid line to the component using the interface from a &ldquo;LOLLIPOP&rdquo;, or ball, labelled with the name of the interface. A required usage dependency from a component to an interface is illustrated by a HALF-CIRCLE, or socket, labelled with the name of the interface, attached by a solid line to the component that requires this interface.</p>
+<p>因為 Component Diagram 要表現 component 間的關聯，所以會在 component 的表示法上擴充。</p>
+<p>Inherited interfaces may be shown with a lollipop, preceding the name label with a caret symbol. To illustrate dependencies between the two, use a solid line with a plain arrowhead joining the socket to the lollipop. ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.visual-paradigm.com/guide/uml-unified-modeling-language/what-is-component-diagram/">What is Component Diagram? - Visual Paradigm</a></p>
+<ul>
+<li>
+<p>UML Component diagrams are used in modeling the PHYSICAL ASPECTS of object-oriented systems that are used for visualizing, specifying, and documenting component-based systems and also for constructing executable systems through FORWARD AND REVERSE ENGINEERING.</p>
+</li>
+<li>
+<p>Component diagrams are ESSENTIALLY CLASS DIAGRAMS that focus on a system&rsquo;s components that often used to model the static implementation view of a system.</p>
+<p>反倒覺得 class diagram 也算是 component diagram，畢竟 class 只是更小的 component。</p>
+</li>
+</ul>
+<p>Component Diagram at a Glance</p>
+<ul>
+<li>
+<p>A component diagram breaks down the actual system under development into various HIGH LEVELS OF FUNCTIONALITY. Each component is responsible for ONE CLEAR AIM within the entire system and only interacts with other essential elements on a NEED-TO-KNOW BASIS.</p>
+<p>這呼應了前面 &ldquo;essentially class diagrams&rdquo; 的說法，class 只是比較小的 component 而已，分析 class 時我們常問到 &ldquo;是不是知道太多？&rdquo; &hellip; 就是基於 need-to-know basis。</p>
+</li>
+<li>
+<p>The example above shows the INTERNAL COMPONENTS of a LARGER COMPONENT:</p>
+<p><img alt="Component Diagram at a glance" src="https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/02-component-diagram-overview.png" /></p>
+<ul>
+<li>
+<p>The DATA (account and inspection ID) FLOWS into the component via the PORT on the right-hand side and is CONVERTED into a format the internal components can use. The interfaces on the right are known as REQUIRED INTERFACES, which represents the SERVICES the component needed in order to carry out its duty.</p>
+<p>The data then passes to and through several other components via various connections before it is OUTPUT at the ports on the left. Those interfaces on the left are known as PROVIDED INTERFACE, which represents the SERVICES TO DELIVER by the exhibiting component.</p>
+<p>雖然說是 required/provided interface，聽起來是 service，但這裡的說法 (data flows into &hellip;) 及圖例，interface 可以是 data 或 service，也因此 component diagram 是可以表現 data flow 的。</p>
+<p>從上面 need-to-known basis 的角度來看，是 required interface 的一方需要知道 (內部會用到) provided interface，但並不表示資料是 requried 往 provided 一方拉取，還是 provided 往 required 一方推送，這屬於實作細節了。</p>
+</li>
+<li>
+<p>It is important to note that the internal components are surrounded by a large &lsquo;box&rsquo; which can be the OVERALL SYSTEM itself (in which case there would not be a component symbol in the top right corner) or a SUBSYSTEM or component of the overall system (in this case the &lsquo;box&rsquo; is a component itself).</p>
+<p>Component 可大可小，端看位在哪個層次看這個 system being modeled。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Basic Concepts of Component Diagram</p>
+<ul>
+<li>
+<p>A component represents a MODULAR PART of a system that ENCAPSULATES its contents and whose manifestation is replaceable within its environment. ??</p>
+<p>In UML 2, a component is drawn as a rectangle with optional compartments stacked vertically. A high-level, abstracted view of a component in UML 2 can be modeled as:</p>
+<ul>
+<li>A rectangle with the component&rsquo;s name</li>
+<li>A rectangle with the component icon</li>
+<li>A rectangle with the stereotype text and/or icon</li>
+</ul>
+<p><img alt="Looks of a Component" src="https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/03-looks-of-a-component.png" /></p>
+</li>
+</ul>
+<p>Interface</p>
+<ul>
+<li>
+<p>In the example below shows two type of component interfaces:</p>
+<p><img alt="Required and provided interface" src="https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/04-required-and-provided-interface.png" /></p>
+<ul>
+<li>
+<p>Provided interface symbols with a COMPLETE CIRCLE at their end represent an interface that the component provides - this &ldquo;lollipop&rdquo; symbol is shorthand for a REALIZATION RELATIONSHIP of an interface classifier.</p>
+<p>&ldquo;classifier&rdquo; 指的好像是 <code>&lt;&lt;interface&gt;&gt;</code> 的用法，但那不是 stereotype 嗎 ??</p>
+</li>
+<li>
+<p>Required Interface symbols with only a HALF CIRCLE at their end (a.k.a. sockets) represent an interface that the component requires (in both cases, the interface&rsquo;s name is placed near the interface symbol itself).</p>
+<p>習慣上 interface name 只會寫在 provided interface 這一方 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Component Diagram Example - Using Interface (Order System)</p>
+<ul>
+<li><img alt="Component interface example" src="https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/05-component-diagram-example-using-interface.png" /></li>
+</ul>
+<p>Subsystems</p>
+<ul>
+<li>
+<p>The subsystem classifier is a specialized version of a component classifier. Because of this, the subsystem notation element inherits all the same rules as the component notation element. The only difference is that a subsystem notation element has the keyword of subsystem instead of component.</p>
+<p><img alt="Component Subsystems" src="https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/06-component-diagram-with-subsystem.png" /></p>
+</li>
+</ul>
+<p>Port</p>
+<ul>
+<li>
+<p>Ports are represented using a square along the edge of the system or a component. A port is often used to HELP EXPOSE required and provided interfaces of a component.</p>
+<p><img alt="Component Diagram Port" src="https://cdn.visual-paradigm.com/guide/uml/what-is-component-diagram/07-component-diagram-with-port.png" /></p>
+<p>感覺有點多餘?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://online.visual-paradigm.com/tutorials/component-diagram-tutorial/">Component Diagram Tutorial</a> #ril</p>
+</li>
+<li>
+<p><a href="https://sparxsystems.com/resources/tutorials/uml2/component-diagram.html">Component Diagram - UML 2 Tutorial | Sparx Systems</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.uml-diagrams.org/component-diagrams.html">UML component diagram shows components, provided and required interfaces, ports, and relationships between them.</a> #ril</p>
+</li>
+<li><a href="http://www.agilemodeling.com/style/componentDiagram.htm">UML 2 Component Diagramming Guidelines</a> #ril</li>
+<li><a href="https://developer.ibm.com/articles/the-component-diagram/">The component diagram – IBM Developer</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.uml-diagrams.org/component-diagrams-reference.html">UML Component Diagrams Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

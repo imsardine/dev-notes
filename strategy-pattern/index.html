@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/strategy-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Strategy Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/strategy-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#strategy-pattern">Strategy Pattern</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="strategy-pattern">Strategy Pattern<a class="headerlink" href="#strategy-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Strategy_pattern">Strategy pattern - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.geeksforgeeks.org/strategy-pattern-set-1/">Strategy Pattern | Set 1 (Introduction) - GeeksforGeeks</a></p>
+<ul>
+<li>
+<p>As always we will learn this pattern by defining a problem and using strategy pattern to solve it. Suppose we are building a game “Street Fighter”. For simplicity assume that a character may have four moves that is kick, punch, roll and jump. Every character has kick and punch moves, but roll and jump are OPTIONAL.</p>
+</li>
+<li>
+<p>How would you model your classes? Suppose initially you use inheritance and abstract out the common features in a <code>Fighter</code> class and let other characters subclass <code>Fighter</code> class.</p>
+<p><code>Fighter</code> class will we have DEFAULT IMPLEMENTATION of normal actions. Any character with specialized move can override that action in its subclass. Class diagram would be as follows:</p>
+<p><img alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/classinh.jpg" /></p>
+</li>
+<li>
+<p>What are the problems with above design?</p>
+<p>What if a character doesn’t perform jump move? It still inherits the jump behavior from superclass. Although you can override jump to DO NOTHING in that case but you may have to do so for many existing classes and take care of that for future classes too. This would also make maintenance difficult. So we can’t use inheritance here.</p>
+</li>
+<li>
+<p>What about an Interface?</p>
+<p>Take a look at the following design:</p>
+<p><img alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/classas.jpg" /></p>
+<p>It’s much cleaner. We took out some actions (which some characters might not perform) out of <code>Fighter</code> class and made interfaces for them. That way only characters that are supposed to jump will implement the <code>JumpBehavior</code>.</p>
+</li>
+<li>
+<p>若改走 interface 呢? 把 <code>Fighter</code> class 裡的 optional move 提出來變成 interface，支援 roll 或 jump 的角色就可以實作 <code>RollBehavior</code>、<code>JumpBehavior</code>。這會衍生 code reuse 的問題，況且多數語言都不支援 multiple inheritance (實作可以留在 <code>Fighter</code>?)</p>
+</li>
+<li>Inheritance 跟 interface 都走不通，這便是 strategy pattern 要解決的問題；Wikipedia 的定義 &ndash; In computer programming, the strategy pattern (also known as the policy pattern) is a software design pattern that enables an algorithm’s behavior to be SELECTED AT RUNTIME. The strategy pattern: defines a family of algorithms, makes the algorithms interchangeable within that family.” 簡單講，就是可以在 runtime 動態決定採用不同的實作。</li>
+<li>關鍵在 rely on COMPOSITION instead of INHERITANCE for reuse，<code>Context</code> 並不直接提供實作，而是交付 (delegate) 給 <code>Strategy</code> interface 背後不同的實作 &ndash; The context would be the class that would REQUIRE CHANGING BEHAVIORS，結果就是 <code>Strategy</code> is implemented as INTERFACE so that we can change behavior without affecting our context.</li>
+<li>優點有：<ul>
+<li>A family of algorithms can be defined AS A CLASS HIERARCHY (自成一個體系) and can be used interchangeably to alter application behavior without changing its ARCHITECTURE (也就是上面的 context).</li>
+<li>By encapsulating the algorithm separately, NEW ALGORITHMS complying with the same interface can be easily introduced.</li>
+<li>The application can switch strategies at run-time.</li>
+<li>Strategy enables the clients (也就是 context/architecture) to choose the required algorithm, without using a “switch” statement or a series of “if-else” statements. 顯然，一連串的 switch/if-else 就是套用 strategy pattern 的提示</li>
+<li>Data structures used for implementing the algorithm are completely encapsulated in <code>Strategy</code> classes. Therefore, the implementation of an algorithm can be changed without affecting the <code>Context</code> class. 達到 loose coupling!</li>
+</ul>
+</li>
+<li>缺點有：<ul>
+<li>The application must BE AWARE OF ALL THE STRATEGIES to select the right one for the right situation. 自動 discover 或被動 register 有機會??</li>
+<li><code>Context</code> and the <code>Strategy</code> classes normally communicate through the interface specified by the abstract <code>Strategy</code> base class. <code>Strategy</code> base class must expose interface for all the required behaviours, which some concrete <code>Strategy</code> classes might not implement. 拆成多個不同的 strategy 即可? 例如 Set 2 實作篇的 <code>KickBehavior</code> 與 <code>JumpBehavior</code>?</li>
+<li>In most cases, the application configures the <code>Context</code> with the required <code>Strategy</code> object. Therefore, the application needs to create and maintain two objects in place of one. 這應該不算缺點。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.geeksforgeeks.org/strategy-pattern-set-2/">Strategy Pattern | Set 2 (Implementation) - GeeksforGeeks</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

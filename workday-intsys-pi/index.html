@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/workday-intsys-pi/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Workday / Payroll Interface (PI) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/workday-intsys-pi.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#workday-payroll-interface-pi">Workday / Payroll Interface (PI)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="workday-payroll-interface-pi"><a href="workday">Workday</a> / Payroll Interface (PI)<a class="headerlink" href="#workday-payroll-interface-pi" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/SsX9X8kZbGAzIE_fPx1QCg">Concept: Workday Payroll Interfaces • Integrations • Reader • Administrator Guide</a></p>
+<ul>
+<li>
+<p>Workday Payroll Interfaces (Payroll Effective Change Interface and Payroll Interface), enable you to manage payroll data and send it to an EXTERNAL PAYROLL PROVIDER. You can:</p>
+<ul>
+<li>Set up a payroll organization. ??</li>
+<li>Define earnings and deductions. ??</li>
+<li>CAPTURE CHANGES to employee data.</li>
+<li>Configure a PAYROLL EXTRACT to deliver to an external system.</li>
+</ul>
+<p>其中 &ldquo;Payroll Effective Change Interface&rdquo; 跟 &ldquo;Payroll Interface&rdquo; 在新建 integration system 時，是不同的 template。</p>
+</li>
+<li>
+<p>There are different ways to integrate with Workday Payroll Interfaces. You can:</p>
+<ul>
+<li>Create an integration with the an INTEGRATION TEMPLATE.</li>
+<li>Have Workday Professional Services create a custom solution.</li>
+<li>Build your own custom integration.</li>
+</ul>
+</li>
+<li>
+<p>Payroll Interfaces are integration templates with a configurable set of HCM data. Because payroll providers only need a SUBSET of the employee data in Workday, you can specify:</p>
+<ul>
+<li>DATA ELEMENTS to include in payroll extracts.</li>
+<li>When to include the data elements.</li>
+</ul>
+</li>
+<li>
+<p>When launched, the integration captures changes to employee data for the PAY GROUP and PAY PERIOD. The integration creates an output file in XML or CSV format. You can:</p>
+<ul>
+<li>Deliver the output file to an external system.</li>
+<li>Perform additional transformations to the output file.</li>
+<li>Use Workday audit reports to identify changes for manual data entry into an external system. ??</li>
+</ul>
+</li>
+<li>
+<p>You can create FULL extracts of employee data with integrations that use the Payroll Interface templates. This option:</p>
+<ul>
+<li>Helps during initial implementation.</li>
+<li>Supports payroll providers that require full files.</li>
+<li>Enables system resynchronization.</li>
+</ul>
+<p>Full extracts include all data for ACTIVE employees and data for TERMINATED employees that have changes.</p>
+<p>根據 &ldquo;all &hellip; that haved changes&rdquo; 的說法，所謂 full 指的不是所有人，而是所有的 data element，但一定受限於 pay group 與 pay period ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/vNHy1KfTzI25xDlepaIgbA">Concept: Payroll Interface Workflow • Integrations • Reader • Administrator Guide</a></p>
+<ul>
+<li>
+<p>The Workday Payroll Interface extract process requests:</p>
+<ul>
+<li>Who to include.</li>
+<li>What changes to examine.</li>
+<li>When to examine the changes. 這跟上一點有何不同??</li>
+</ul>
+</li>
+<li>
+<p>When you launch a Payroll Interface integration, you specify:</p>
+<ul>
+<li>Pay group.</li>
+<li>Pay period.</li>
+</ul>
+</li>
+<li>
+<p>If your payroll interface is PRIMARY, then pay group and pay period are the only launch options. If you launch a non-Primary Payroll Interface integration, then you also specify:</p>
+<ul>
+<li>Date and time of the last successful run.</li>
+<li>Change detection method.</li>
+<li>(Optional) Specific staffing transactions.</li>
+<li>(Optional) Pay group members.</li>
+</ul>
+<p>Workday:</p>
+<ul>
+<li>Selects the appropriate employees.</li>
+<li>Looks for field changes to employee data.</li>
+<li>Generates a payroll extract for the changes.</li>
+</ul>
+</li>
+<li>
+<p>The Workday TRANSACTION LOG tracks event changes to employee data. The integration identifies employee changes to send to your payroll provider. The transaction log service is optional. If you configure this service, Workday includes employees based on their transaction log entries in the specified time period. Otherwise, all employees pass to the next process stage.</p>
+</li>
+<li>
+<p>Workday uses these rules to create a payroll extract:</p>
+<ul>
+<li>
+<p>Find employees who are members of the pay group at the start or end of the pay period. The payroll extract includes employees who TRANSFERRED IN OR OUT of the pay group during the pay period.</p>
+<p>概念上是 &ldquo;時間 (pay period) x 空間 (pay group)&rdquo;。</p>
+</li>
+<li>
+<p>If the transaction log service is configured:</p>
+<ul>
+<li>Select employees who have transaction log events that are effective in the prior and current pay periods.</li>
+<li>Exclude events with effective dates in future pay periods.</li>
+</ul>
+</li>
+<li>
+<p>Compare data for the selected employees at the beginning and end of the pay period.</p>
+</li>
+<li>
+<p>Identify field data changes.</p>
+</li>
+<li>
+<p>Determine if the changed data is included in the integration output. Examples:</p>
+<ul>
+<li>Personal data.</li>
+<li>Position and status data.</li>
+<li>Earnings and deductions.</li>
+</ul>
+</li>
+<li>
+<p>Include employees who have data changes.</p>
+</li>
+<li>Exclude employees who have no data changes or changes that do not affect data.</li>
+<li>
+<p>Send earnings and deductions when they start, when the amounts change, and when they end.</p>
+</li>
+<li>
+<p>Provide data for STAFFING EVENTS based on the event type:</p>
+<ul>
+<li>New hires = all data.</li>
+<li>Transfers into pay companies or pay groups = all data.</li>
+<li>Terminations = changed data.</li>
+<li>Leave of absence and return from leave = changed data.</li>
+<li>Transfers out of pay companies or pay groups = all data as of one day before the transfer.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/_BnBTE1wmGvVAWvbfzyrOQ">Steps: Set Up Workday Payroll Interface • Integrations • Reader • Administrator Guide</a></p>
+<p>Prerequisites</p>
+<ul>
+<li>We recommend that you use Workday Professional Services or a Workday Consulting partner when implementing Payroll Interface. If you implement Payroll Interface without assistance, ensure that a member of your team attends a Workday Integration training class. Ensure that you read the Payroll Interface documentation.</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>
+<p>Set up a payroll organization.</p>
+<p>See Steps: Establish Third-Party Payroll Organization. #ril</p>
+</li>
+<li>
+<p>Create and assign pay groups for third-party payroll.</p>
+<p>See Steps: Create and Assign Third-Party Payroll Pay Groups. #ril</p>
+</li>
+<li>
+<p>Define external payroll earnings and deductions.</p>
+<p>See Steps: Define Third-Party Payroll Earnings and Deductions. #ril</p>
+</li>
+<li>
+<p>Create a third-party payroll integration.</p>
+<p>See Steps: Create Third-Party Payroll Integration. #ril</p>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/JOmNqGTwFpdF_yJ_HBuE1A">Steps: Create Third-Party Payroll Integration • Integrations • Reader • Administrator Guide</a></p>
+<p>Context</p>
+<ul>
+<li>Create an integration system that sends employee data to an external payroll provider. These steps apply to Workday Payroll Interface and Workday Payroll Effective Change Interface.</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>Steps: Set Up Payroll Integration System.</li>
+<li>Select Fields for Payroll Extract. #ril</li>
+<li>
+<p>Configure Payroll Interface Attributes and Maps. #ril</p>
+</li>
+<li>
+<p>Set Up Integration Delivery. #ril</p>
+<p>Before you configure integration delivery options, enable the PI Delivery Service integration service. ??</p>
+</li>
+<li>
+<p>(Optional) Set Up Integration Sequence Generators. #ril</p>
+<p>To create output files with unique filenames, configure the sequence generator. Enable the integration services for the file types you want to generate filenames:</p>
+<ul>
+<li>Integration output file: PI Filename</li>
+<li>Data Changes Audit: PI Data Changes Audit Filename</li>
+<li>Diagnostic Audit: PI Diagnostic Audit Filename</li>
+</ul>
+</li>
+<li>
+<p>(Optional) Add Custom Fields to Payroll Integration. #ril</p>
+</li>
+<li>
+<p>(Optional) Set up a document transformation to modify the output file before you send it to an external provider.</p>
+<p>See Steps: Set Up Document Transformation Connector. #ril</p>
+</li>
+<li>
+<p>Access the Maintain Functional Areas task.</p>
+<p>Select the Enabled check box for the USA Payroll functional area for your tenant. Do this step to view payroll extract files.</p>
+<p>Security: Security Configuration domain in the System functional area.</p>
+<p>跟 USA 什麼關係??</p>
+</li>
+<li>
+<p>Launch or Schedule Payroll Integration. #ril</p>
+<p>Generate a payroll extract for external processing.</p>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/UEn2wecSJy3usLsbNncLbw">Steps: Set Up Payroll Integration System • Integrations • Reader • Administrator Guide</a> #ril</p>
+<p>Context</p>
+<ul>
+<li>Create an integration system that extracts and sends data to an external payroll provider.</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>Access the Create Integration System task.</li>
+<li>Give the integration a meaningful System Name. Record this name; you use it when you launch the integration.</li>
+<li>
+<p>Click the New using Template prompt, then select Cloud Connect for Third Party Payroll &gt; Payroll Interface.</p>
+</li>
+<li>
+<p>In the Integration Services grid, select the Enabled check box for each integration service that you want to activate. The integration services provide categories of data or configuration options for the output file.</p>
+<p>一開始可以先勾 Enable All Services。</p>
+<p>Note: The integration services Payroll Interface and PI Launch Parameters are required and enabled by default, and not listed here. The Transaction Log Service isn&rsquo;t enabled by default, but is required for change detection processing.</p>
+<ul>
+<li>
+<p>PI Members Launch Parameters</p>
+<p>Provides additional launch parameters to the Launch/Schedule Integration task that enables you to select individual Pay Group members for inclusion in Payroll Interface. You typically enable this service only for an integration that processes AD HOC payroll runs.</p>
+<p>測試期間很實用!!</p>
+</li>
+<li>
+<p>PI Change Detection Launch Parameters</p>
+<p>Provides additional launch parameters to the Launch/Schedule Integration task for ad hoc payroll integration events. You typically enable this service only for an integration that processes ad hoc payroll runs.</p>
+</li>
+<li>
+<p>PI Full Extract With No Diff Launch Parameter</p>
+<p>Provides additional launch parameters to the Launch/Schedule Integration task. The parameters enable you to extract payees as of the Current Date Entry Time and Pay Period End Date, regardless of whether they’ve changed. Enable this parameter to generate output that INITIALLY populates the external system. These output files don&rsquo;t include earnings and deductions.</p>
+</li>
+<li>
+<p>PI Personal Data Section Fields</p>
+<p>Provides employee personal data and contact information.</p>
+</li>
+</ul>
+<p>接下來一堆 PI xxx Data Section Fields 都在控制要不要輸出哪一方面的資訊；一開始建議簡單一點，免得踩到權限不足的問題。</p>
+<ul>
+<li>
+<p>Time Tracking Data</p>
+<p>Provides time tracking data.</p>
+</li>
+<li>
+<p>Time Tracking Correction Data</p>
+<p>Provides time tracking correction data.</p>
+</li>
+<li>
+<p>Transaction Log Service</p>
+<p>Provides a record of event-based changes to employee data that are relevant to payroll integrations. Don&rsquo;t enable this service in integrations that generate full extracts.</p>
+</li>
+<li>
+<p>PI Delivery Service</p>
+<p>Provides file transport and encryption options for the output file.</p>
+<p>但 file 不能留存在 Workday 裡，一定要往外送嗎?? 開發時很不方便!!</p>
+</li>
+<li>
+<p>PI Filename</p>
+<p>Provides unique filenames for integration output documents by using the Workday sequence generator.</p>
+</li>
+<li>
+<p>PI Data Changes Audit Filename</p>
+<p>Enables your integration system to generate a unique, sequenced filename for the Data Changes Audit each time it runs. If selected, you must configure the integration sequence generator for your integration system.</p>
+</li>
+<li>
+<p>PI Diagnostic Audit Filename</p>
+<p>Enables your integration system to generate a unique, sequenced filename for the Diagnostic Audit each time it runs. If selected, you must configure the integration sequence generator for your integration system.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Grant the integration Get and Put access to these domains:</p>
+<ul>
+<li>Payroll Interface</li>
+<li>Worker Data: Benefit Elections</li>
+<li>Person Data: Birth Place</li>
+<li>Person Data: Citizenship Status</li>
+<li>Worker Data: Compensation</li>
+<li>Person Data: Disabilities</li>
+<li>Person Data: Ethnicity</li>
+<li>Person Data: Gender</li>
+<li>Person Data: Marital Status</li>
+<li>Person Data: Military Status</li>
+<li>Person Data: Religion</li>
+<li>Worker Data: Nationalities</li>
+<li>Worker Data: Skills and Experience</li>
+<li>Worker Data: Worker ID Information</li>
+<li>Manage: Organization Update Integration</li>
+<li>Manage: Organization Integration</li>
+</ul>
+<p>See: Steps: Grant Integration or External Endpoint Access to Workday</p>
+</li>
+<li>
+<p>Configure the integration service for the transaction log:</p>
+<ul>
+<li>
+<p>As a related action on the integration system, select Integration System &gt; Configure Integration Transaction Log.</p>
+</li>
+<li>
+<p>Click Subscribe to all Transaction Types except and select the transactions to exclude from payroll interface processing. Typically, payroll providers only need information about staffing events and employee changes that have a payroll effect. These changes include changes to earnings and deductions, payment elections, and certain types of personal data. ??</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/n_FMD9ZqglJWCQiPkO6jUQ">Steps: Grant Integration or External Endpoint Access to Workday • Integrations • Reader • Administrator Guide</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/fosLKrrWCXVddGwQQ6IuGQ">Payroll Interface Connector Versions</a></li>
+<li><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/zs3znJ~PM5MVfvFoyE258g">Data Sections for Payroll Interface</a></li>
+<li><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/V4Nqc~OB_kYMcXCfeLRFcg">Staffing Events in Payroll Interface Extracts</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

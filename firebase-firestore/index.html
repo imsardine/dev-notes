@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/firebase-firestore/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Firebase / Cloud Firestore - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/firebase-firestore.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#firebase-cloud-firestore">Firebase / Cloud Firestore</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="firebase-cloud-firestore"><a href="../firebase/">Firebase</a> / Cloud Firestore<a class="headerlink" href="#firebase-cloud-firestore" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://firebase.google.com/products/firestore">Cloud Firestore | Store and sync app data at global scale  |  Firebase</a></p>
+<ul>
+<li>
+<p>Store and sync app data at global scale</p>
+</li>
+<li>
+<p>NoSQL database built for global apps</p>
+<p>Cloud Firestore is a NoSQL document database that lets you easily store, sync, and query data for your mobile and web apps - at global scale.</p>
+</li>
+<li>
+<p>Query and structure data the way you like</p>
+<p>Structure your data easily with COLLECTIONS and DOCUMENTS. Build hierarchies to store related data and easily retrieve the data you need using expressive queries. All queries scale with the size of your result set (note: not your data set ??), so your app is ready to scale from day one.</p>
+</li>
+<li>
+<p>Build truly serverless apps</p>
+<p>Cloud Firestore ships with mobile and web SDKs and a comprehensive set of security rules so you can access your database without needing to stand up your own server. Using Cloud Functions, our serverless compute product, you can execute hosted backend code that responds to data changes in your database.</p>
+<p>Of course, you can also access Cloud Firestore with TRADITIONAL client libraries too (i.e. Node, Python, Go, and Java).</p>
+</li>
+<li>
+<p>Sync data across devices, on or offline</p>
+<p>With Cloud Firestore, you can automatically synchronize your app data between devices. We’ll notify you of data changes as they occur so you can easily build collaborative experiences and realtime apps.</p>
+<p>Your users can access and make changes to their data at any time, even when they&rsquo;re offline. Offline mode is available on iOS, Android and Web!</p>
+</li>
+<li>
+<p>Scale globally</p>
+<p>Powered by Google’s storage infrastructure, Cloud Firestore is built to scale with your business. Now, you can focus on building your app instead of managing servers or worrying about consistency.</p>
+</li>
+<li>
+<p>Strong USER-BASED security</p>
+<p>With our DECLARATIVE security language, you can restrict data access based on user identity data, pattern matching on your data, and more. Cloud Firestore also integrates with Firebase Authentication to give you simple and intuitive user authentication.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Firebase#Cloud_Firestore">Cloud Firestore - Firebase - Wikipedia</a></p>
+<p>On January 31, 2019, Cloud Firestore was officially brought out of beta, making it an official product of the Firebase lineup. It is the successor to Firebase&rsquo;s original databasing system, Real-time Database, and allows for NESTED documents and FIELDS rather than the TREE-VIEW provided in the Real-time Database.</p>
+</li>
+<li>
+<p><a href="https://firebase.google.com/docs/firestore">Cloud Firestore  |  Firebase</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://firebase.google.com/docs/firestore/quickstart">Get started with Cloud Firestore  |  Firebase</a> #ril</p>
+<ul>
+<li>This quickstart shows you how to set up Cloud Firestore, add data, then view the data you just added in the Firebase console.</li>
+</ul>
+<p>Create a Cloud Firestore database</p>
+<ol>
+<li>
+<p>If you haven&rsquo;t already, create a Firebase project: In the Firebase console, click Add project, then follow the on-screen instructions to create a Firebase project or to add Firebase services to an existing GCP project.</p>
+<p>所以 Firebase console 看到的其實是啟用 Firebase service 的 GCP project？</p>
+</li>
+<li>
+<p>Navigate to the Database section of the Firebase console. You&rsquo;ll be prompted to select an existing Firebase project. Follow the database creation workflow.</p>
+</li>
+<li>
+<p>Select a STARTING MODE for your Cloud Firestore Security Rules:</p>
+<ul>
+<li>
+<p>Test mode</p>
+<p>Good for getting started with the mobile and web client libraries, but allows ANYONE to read and overwrite your data. After testing, make sure to review the Secure your data section.</p>
+</li>
+<li>
+<p>Locked mode</p>
+<p>Denies all reads and writes from mobile and web clients. Your authenticated application servers (C#, Go, Java, Node.js, PHP, Python, or Ruby) can still access your database.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Select a location for your database.</p>
+<ul>
+<li>
+<p>This location setting is your project&rsquo;s default Google Cloud Platform (GCP) resource location. Note that this location will be used for GCP services in your project that require a location setting, specifically, your default Cloud Storage bucket and your App Engine app (which is required if you use Cloud Scheduler).</p>
+</li>
+<li>
+<p>If you aren&rsquo;t able to select a location, then your project already has a default GCP resource location. It was set either during project creation or when setting up another service that requires a location setting.</p>
+</li>
+</ul>
+<p>Warning: After you set your project&rsquo;s default GCP resource location, you cannot change it.</p>
+</li>
+<li>
+<p>Click Done.</p>
+<p>Cloud Firestore and App Engine: You can&rsquo;t use both Cloud Firestore and Cloud Datastore in the same project, which might affect apps using App Engine. Try using Cloud Firestore with a different project.</p>
+<p>When you enable Cloud Firestore, it also enables the API in the Cloud API Manager. ??</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://firebase.google.com/products/firestore">Cloud Firestore - Firebase</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

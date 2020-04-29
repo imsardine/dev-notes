@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-logging/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Logging - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-logging.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-logging">Python / Logging</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#loggerhandlerfilterformatter">Logger、handler、filter、formatter ??</a></li>
+                
+            <li class="second-level"><a href="#logging-level">Logging Level ??</a></li>
+                
+            <li class="second-level"><a href="#notset">logging.NOTSET</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#logrecord">LogRecord ??</a></li>
+                
+            <li class="second-level"><a href="#loggingxxx-loggerxxx">logging.xxx() 與 logger.xxx()</a></li>
+                
+            <li class="second-level"><a href="#logger-hierarchy">Logger 間形成階層 (hierarchy) 有什麼影響?</a></li>
+                
+            <li class="second-level"><a href="#log-file-rotation">如何達成 log file rotation?</a></li>
+                
+            <li class="second-level"><a href="#log-slack">如何將錯誤的 log 送往 Slack?</a></li>
+                
+            <li class="second-level"><a href="#logging">如何做 logging?</a></li>
+                
+            <li class="second-level"><a href="#root-logger">如何取得 root logger?</a></li>
+                
+            <li class="second-level"><a href="#log-message">如何在 log message 揭露重要的數據?</a></li>
+                
+            <li class="second-level"><a href="#logger-level">如何動態調整 logger 的 level?</a></li>
+                
+            <li class="second-level"><a href="#rotation">Rotation ??</a></li>
+                
+            <li class="second-level"><a href="#json-lines-output">JSON Lines Output ??</a></li>
+                
+            <li class="second-level"><a href="#extra">Extra</a></li>
+                
+            <li class="second-level"><a href="#all-loggers">取得所有的 logger ??</a></li>
+                
+            <li class="second-level"><a href="#change-configuration-at-runtime">Change Configuration at Runtime ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-logging"><a href="../python/">Python</a> / <a href="../logging/">Logging</a><a class="headerlink" href="#python-logging" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/howto/logging.html">Logging HOWTO — Python 3.7.1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3.6/howto/logging-cookbook.html">Logging Cookbook — Python 3.6.4 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/logging.html">15.7. logging — Logging facility for Python — Python 2.7.14 documentation</a> #ril</li>
+</ul>
+<h2 id="loggerhandlerfilterformatter">Logger、handler、filter、formatter ??<a class="headerlink" href="#loggerhandlerfilterformatter" title="Permanent link"> #</a></h2>
+<ul>
+<li>Logger (level) -&gt; filter -&gt; hander (level) -&gt; filter -&gt; formatter -&gt; output</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/3.6/howto/logging.html#logging-flow">Logging Flow - Logging HOWTO — Python 3.6.5 documentation</a> #ril<ul>
+<li>Handler 作用 (attach) 在 logger 上，而 filter 則可以作用在 logger 與 handler 上，分別控制 logger 要不要往 handler 送，或是 handler 要不要往 output 送 (經過 formatter)。</li>
+<li>注意 filter 是在 logger/handler 檢查 logging level 之後；所以 logger 有 <code>setLevel()</code>、<code>addHandler()</code>、<code>addFilter()</code>，而 handler 則有 <code>setLevel()</code>、<code>addFilter()</code> 與 <code>setFormatter()</code> (少了 <code>addFilter()</code> 但多了 <code>setFormatter()</code>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="logging-level">Logging Level ??<a class="headerlink" href="#logging-level" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/logging.html#logging-levels">Logging Levels - logging — Logging facility for Python — Python 3.7.0 documentation</a><ul>
+<li>每個 logging level 背後都對應了 numeric value。需要知道這個 numeric value，通常是想要自訂 level，需要知道相對於 predefined level 的位置。</li>
+<li>事實上 <code>logging.INFO</code> (20)、<code>logging.DEBUG</code> (10) 等常數的值就是這裡列出來的 numeric value；注意還有個 <code>logging.NOTSET</code> (0)</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/howto/logging.html#when-to-use-logging">When to use logging - Logging HOWTO — Python 2.7.14 documentation</a> #ril<ul>
+<li><code>logging.debug()</code> 跟 <code>logging.info()</code> 用在 normal operation 時記錄 events (確認 &ldquo;things are working as expected&rdquo;)，只是 <code>debug()</code> 做為 diagnostic 用途會更細。</li>
+<li>Warning 就如字面上的意思，警告發現一些不尋常的狀況，未來可能會出事 (例如用到 deprecated API)；分為 <code>warning.warn()</code> 與 <code>logging.warning()</code>，兩者的差異在於前者 client code 可以調整，後者則跟 client code 調整無關；前者在寫 library 時會用到，有點像是 programming error，改一下寫法就好了。</li>
+<li><code>logging.error()</code>、<code>logging.exception()</code> 跟 <code>logging.critical()</code> 都用在錯誤被壓下來 (suppression)，不會往外拋例外 (所以搭配 <code>raise</code> 是不好的??)；例如 long-running server process。</li>
+<li><code>logging.error()</code> 跟 <code>logging.exception()</code> 分別用在 application domain 與 specific error；從 <code>Logger.exception</code> 的文件看來，總是會把 exception info 加到 logging message 裡，所以只應用在 exception handler 裡。</li>
+</ul>
+</li>
+</ul>
+<h2 id="notset"><code>logging.NOTSET</code><a class="headerlink" href="#notset" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html">logging — Logging facility for Python — Python 3.7.3 documentation</a></p>
+<p><code>Logger.setLevel(level)</code></p>
+<ul>
+<li>
+<p>When a logger is created, the level is set to <code>NOTSET</code> (which causes ALL messages to be processed when the logger is the ROOT LOGGER, or DELEGATION TO THE PARENT when the logger is a NON-ROOT LOGGER). Note that the root logger is created with level <code>WARNING</code>.</p>
+<p>Level 在 logger 裡的定位 &ldquo;不完全是&rdquo; threshold (也難怪在這裡完全沒提到 &ldquo;threshold&rdquo;)，更重要的是推導該 logger 的 effective level，所以 <code>NOTSET</code> 對 non-root logger 在這裡可以解釋成 &ldquo;不知道，去問上層吧&rdquo;，對 root logger 則可以解釋成 &ldquo;別管 level 了&rdquo;。</p>
+</li>
+<li>
+<p>The term ‘delegation to the parent’ means that if a logger has a level of <code>NOTSET</code>, its chain of ancestor loggers is traversed until either an ancestor with a level other than <code>NOTSET</code> is found, or the root is reached.</p>
+<p>If an ancestor is found with a level other than <code>NOTSET</code>, then that ancestor’s level is treated as the EFFECTIVE LEVEL of the logger WHERE THE ANCESTOR SEARCH BEGAN, and is used to determine how a logging event is handled.</p>
+<p>If the root is reached, and it has a level of <code>NOTSET</code>, then all messages will be processed. Otherwise, the root’s level will be used as the effective level.</p>
+</li>
+</ul>
+<p><code>Logger.isEnabledFor(lvl)</code></p>
+<ul>
+<li>Indicates if a message of severity <code>lvl</code> would be processed by this logger. This method checks first the module-level level set by logging.disable(lvl) and then the logger’s effective level as determined by getEffectiveLevel().</li>
+</ul>
+<p><code>Logger.getEffectiveLevel()</code></p>
+<ul>
+<li>
+<p>Indicates the effective level for this logger. If a value other than <code>NOTSET</code> has been set using <code>setLevel()</code>, it is returned. Otherwise, the hierarchy is traversed towards the root until a value other than <code>NOTSET</code> is found, and that value is returned.</p>
+<p>The value returned is an integer, typically one of <code>logging.DEBUG</code>, <code>logging.INFO</code> etc.</p>
+</li>
+</ul>
+<p><code>Handler.setLevel(level)</code></p>
+<ul>
+<li>
+<p>Sets the THRESHOLD for this handler to <code>level</code>. Logging messages which are less severe than level will be ignored. When a handler is created, the level is set to <code>NOTSET</code> (which causes ALL MESSAGES TO BE PROCESSED).</p>
+<p>Level 在 handler 裡的定位才是 threshold，而 <code>NOTSET</code> 在這裡可以解釋成 &ldquo;不管 level，都交給我處理吧&rdquo;。</p>
+</li>
+<li>
+<p>Changed in version 3.2: The <code>level</code> parameter now accepts a string representation of the level such as <code>'INFO'</code> as an alternative to the integer constants such as <code>INFO</code>.</p>
+</li>
+</ul>
+<p><code>logging.disable(lvl=CRITICAL)</code></p>
+<ul>
+<li>
+<p>Provides an OVERRIDING LEVEL <code>lvl</code> for all loggers which takes precedence over the logger’s own level. When the need arises to TEMPORARILY THROTTLE logging output down across the whole application, this function can be useful.</p>
+</li>
+<li>
+<p>If <code>logging.disable(logging.NOTSET)</code> is called, it effectively removes this overriding level, so that logging output again depends on the effective levels of individual loggers.</p>
+<p>這時候 <code>NOTSET</code> 又有不同的意義了 &ndash; 不 override，參考各 logger 的 effective level。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li>STDERR 除了 error message 外，也用於 diagnostics，預設寫往 STDERR 並沒有什麼不對；若要輸出到外部檔，可以用 <code>&gt; log.txt 2&gt;&amp;1</code>。</li>
+<li>從另一個角度想，如果你寫的是 console 程式，透過 STDIN &amp; STDOUT 來跟使用者互動，你大概不會想透過 <code>&gt;</code> 把 output 導到另一個檔案時，debug message 也在裡頭。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html#logging.basicConfig"><code>logging.basicConfig(**kwargs)</code> - logging — Logging facility for Python — Python 3.7.3 documentation</a></p>
+<ul>
+<li>Does basic configuration for the logging system by creating a <code>StreamHandler</code> with a default <code>Formatter</code> and adding it to the ROOT LOGGER.</li>
+<li>
+<p>The functions <code>debug()</code>, <code>info()</code>, <code>warning()</code>, <code>error()</code> and <code>critical()</code> will call <code>basicConfig()</code> automatically if no handlers are defined for the root logger. This function DOES NOTHING if the root logger already has handlers configured for it.</p>
+<p>也因此，<code>logging.basicConfig()</code> 要在程式 entry point 的很早期被呼叫，而且單元測試時不會被調用。</p>
+</li>
+<li>
+<p>Note This function should be called from the MAIN THREAD before other threads are started. In versions of Python prior to 2.7.1 and 3.2, if this function is called from multiple threads, it is possible (in rare circumstances) that a handler will be added to the root logger more than once, leading to unexpected results such as messages being duplicated in the log.</p>
+</li>
+<li>
+<p>The following keyword arguments are supported.</p>
+<ul>
+<li><code>filename</code> - Specifies that a <code>FileHandler</code> be created, using the specified filename, rather than a <code>StreamHandler</code>.</li>
+<li><code>filemode</code> - If filename is specified, open the file in this mode. Defaults to <code>'a'</code>.</li>
+<li><code>format</code> - Use the specified format string for the handler.</li>
+<li><code>datefmt</code> - Use the specified date/time format, as accepted by <code>time.strftime()</code>.</li>
+<li>
+<p><code>style</code> - If format is specified, use this style for the format string. One of <code>'%'</code>, <code>'{'</code> or <code>'$'</code> for printf-style, <code>str.format()</code> or <code>string.Template</code> respectively. Defaults to <code>'%'</code>.</p>
+<p>Changed in version 3.2: The <code>style</code> argument was added.</p>
+</li>
+<li>
+<p><code>level</code> - Set the root logger level to the specified level.</p>
+</li>
+<li><code>stream</code> - Use the specified stream to initialize the <code>StreamHandler</code>. Note that this argument is incompatible with <code>filename</code> - if both are present, a <code>ValueError</code> is raised.</li>
+<li>
+<p><code>handlers</code> - If specified, this should be an iterable of already created handlers to add to the root logger. Any handlers which don’t already have a formatter set will be assigned the DEFAULT FORMATTER created in this function. Note that this argument is incompatible with <code>filename</code> or <code>stream</code> - if both are present, a <code>ValueError</code> is raised.</p>
+<p>Changed in version 3.3: The <code>handlers</code> argument was added. Additional checks were added to catch situations where incompatible arguments are specified (e.g. <code>handlers</code> together with <code>stream</code> or <code>filename</code>, or <code>stream</code> together with <code>filename</code>).</p>
+</li>
+</ul>
+<p>總地來看，handler(s) 可能因 <code>filename</code>、<code>stream</code> 自動建立 <code>FileHandler</code> 或 <code>StreamHandler</code>，或是由 <code>handlers</code> 直接提供；如果都沒給的話，則會採用 <code>StreamHandler</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/howto/logging.html#advanced-logging-tutorial">Logging HOWTO — Python 2.7.14 documentation</a> Advanced Logging Tutorial 提到 &ldquo;if no destination is set; and if one is not set, they will set a destination of the console (sys.stderr) &hellip;&rdquo; 為什麼是 STDERR?</p>
+</li>
+<li>
+<p>Standard streams - Wikipedia <a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_error_.28stderr.29">https://en.wikipedia.org/wiki/Standard_streams#Standard_error_.28stderr.29</a> Standard error (stderr) 提到 STDERR 用於 error message 或 diagnostics。</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3.6/howto/logging.html#configuring-logging">Configuring Logging - Logging HOWTO — Python 3.6.5 documentation</a> #ril</p>
+</li>
+<li><a href="https://docs.python.org/2.7/howto/logging.html#configuring-logging">Configuring Logging - Logging HOWTO — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3.6/library/logging.config.html">16.7. logging.config — Logging configuration — Python 3.6.5 documentation</a> #ril</li>
+</ul>
+<h2 id="logrecord"><code>LogRecord</code> ??<a class="headerlink" href="#logrecord" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html#logrecord-objects">LogRecord Objects - logging — Logging facility for Python — Python 3.7.0 documentation</a></p>
+<ul>
+<li><code>LogRecord</code> instances are created automatically by the <code>Logger</code> every time something is logged, and can be created manually via <code>makeLogRecord()</code> (for example, from a pickled event received over the wire). 指對 attribute dictionary 做 pickling，再透過 <code>makeLogRecord()</code> 重建。</li>
+</ul>
+<p><code>class logging.LogRecord(name, level, pathname, lineno, msg, args, exc_info, func=None, sinfo=None)</code></p>
+<ul>
+<li>Contains all the information pertinent to the event being logged.</li>
+<li>The PRIMARY INFORMATION is passed in <code>msg</code> and <code>args</code>, which are combined using <code>msg % args</code> to create the <code>message</code> field of the record. 合併成 <code>message</code> 的動作發生在 formatter 裡。</li>
+<li>
+<p>Parameters:</p>
+<ul>
+<li><code>name</code> – The name of the logger used to log the event represented by this <code>LogRecord</code>. Note that this name will always have this value, even though it may be emitted by a handler attached to a different (ancestor) logger.</li>
+<li><code>level</code> – The NUMERIC level of the logging event (one of <code>DEBUG</code>, <code>INFO</code> etc.) Note that this is CONVERTED to two attributes of the <code>LogRecord</code>: <code>levelno</code> for the numeric value and <code>levelname</code> for the corresponding level name.</li>
+<li><code>pathname</code> – The full pathname of the source file where the logging call was made.</li>
+<li><code>lineno</code> – The line number in the source file where the logging call was made.</li>
+<li><code>msg</code> – The event description message, possibly a format string with placeholders for variable data.</li>
+<li><code>args</code> – Variable data to merge into the <code>msg</code> argument to obtain the event description.</li>
+<li><code>exc_info</code> – An exception tuple with the current exception information, or <code>None</code> if no exception information is available.</li>
+<li><code>func</code> – The name of the function or method from which the logging call was invoked.</li>
+<li><code>sinfo</code> – A text string representing stack information from the base of the stack in the current thread, up to the logging call.</li>
+</ul>
+</li>
+<li>
+<p>主要的資訊是 <code>msg</code> 與 <code>args</code>，合併這兩者 (<code>str(msg) % args</code>) 就可以得到 <code>message</code> (注意 <code>msg</code> 與 <code>message</code> 的差別)；透過 <code>LogRecord</code> constructor 傳入的資訊，還可以推算出 <code>LogRecord</code> 許多不同的 attributes，而這些 attributes 正是 formatting string 裡 <code>%(xxx)s</code> 引用的來源，但 constructor parameters 跟 attributes 並非 1:1 的關係，例如 <code>level</code> (numeric) 會轉換成 <code>levelno</code> (numeric) 與 <code>levelname</code> 兩個 attribute。</p>
+</li>
+</ul>
+<p><code>getMessage()</code></p>
+<ul>
+<li>
+<p>Returns the message for this <code>LogRecord</code> instance after MERGING any user-supplied arguments with the message. If the user-supplied message argument to the logging call is not a string, <code>str()</code> is called on it to convert it to a string. This allows use of USER-DEFINED CLASSES AS MESSAGES, whose <code>__str__</code> method can return the ACTUAL FORMAT STRING to be used.</p>
+<p>原來像 <a href="../python-json-logger/">python-json-logger</a> 可以接受 <code>dict</code> 做為 <code>msg</code> 的做法，是有根據的! 不過轉成 string 再做 formatting 意義不大；有 <a href="https://docs.python.org/3/howto/logging.html#arbitrary-object-messages">Using arbitrary objects as messages</a> 專門的章節在講這個 #ril</p>
+</li>
+</ul>
+<p><code>LogRecord</code> Factory</p>
+<ul>
+<li>Changed in version 3.2: The creation of a <code>LogRecord</code> has been made more configurable by providing a factory which is used to create the record. The factory can be set using <code>getLogRecordFactory()</code> and <code>setLogRecordFactory()</code> (see this for the factory’s signature).</li>
+<li>
+<p>This functionality can be used to INJECT YOUR OWN VALUES INTO A <code>LogRecord</code> AT CREATION TIME. You can use the following pattern:</p>
+<pre><code>old_factory = logging.getLogRecordFactory()
+
+def record_factory(*args, **kwargs):
+    record = old_factory(*args, **kwargs)
+    record.custom_attribute = 0xdecafbad
+    return record
+
+logging.setLogRecordFactory(record_factory)
+</code></pre>
+</li>
+<li>
+<p>With this pattern, MULTIPLE FACTORIES COULD BE CHAINED, and as long as they don’t overwrite each other’s attributes or unintentionally overwrite the standard attributes listed above, there should be no surprises.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html#logrecord-attributes">LogRecord attributes - logging — Logging facility for Python — Python 3.7.3 documentation</a></p>
+<ul>
+<li>The <code>LogRecord</code> has a number of attributes, most of which are DERIVED from the parameters to the constructor. (Note that the names do not always correspond exactly between the <code>LogRecord</code> constructor parameters and the <code>LogRecord</code> attributes.) These attributes can be used to MERGE DATA FROM THE RECORD INTO THE FORMAT STRING. The following table lists (in alphabetical order) the attribute names, their meanings and the corresponding placeholder in a %-style format string.</li>
+<li>If you are using {}-formatting (<code>str.format()</code>), you can use <code>{attrname}</code> as the placeholder in the format string. If you are using $-formatting (<code>string.Template</code>), use the form <code>${attrname}</code>. In both cases, of course, replace <code>attrname</code> with the actual attribute name you want to use.</li>
+<li>In the case of {}-formatting, you can specify formatting flags by placing them after the attribute name, separated from it with a colon. For example: a placeholder of <code>{msecs:03d}</code> would format a millisecond value of 4 as 004. Refer to the <code>str.format()</code> documentation for full details on the options available to you.</li>
+</ul>
+<p>Attributes:</p>
+<ul>
+<li>
+<p><code>args</code> - You shouldn’t need to format this yourself.</p>
+<p>The tuple of arguments merged into <code>msg</code> to produce <code>message</code>, or a dict whose values are used for the merge (when there is only one argument, and it is a dictionary). 後者 dict 的用法是怎麼回事??</p>
+</li>
+<li>
+<p><code>asctime</code> - <code>%(asctime)s</code></p>
+<p>Human-readable time when the <code>LogRecord</code> was created. By default this is of the form ‘2003-07-08 16:49:45,896’ (the numbers after the comma are millisecond portion of the time).</p>
+</li>
+<li>
+<p><code>created</code> - <code>%(created)f</code></p>
+<p>Time when the <code>LogRecord</code> was created (as returned by <code>time.time()</code>). 也就是 Unix timestamp，可以用 <code>time.gmtime()</code> 轉成易懂的單位，例如：</p>
+<pre><code>&gt;&gt;&gt; t = time.time()
+&gt;&gt;&gt; time.gmtime(t)     # UTC 時間
+time.struct_time(tm_year=2019, tm_mon=3, tm_mday=27, tm_hour=2, tm_min=18, tm_sec=1, tm_wday=2, tm_yday=86, tm_isdst=0)
+&gt;&gt;&gt; time.localtime(t)  # 本地時間
+time.struct_time(tm_year=2019, tm_mon=3, tm_mday=27, tm_hour=10, tm_min=18, tm_sec=1, tm_wday=2, tm_yday=86, tm_isdst=0)
+</code></pre>
+</li>
+<li>
+<p><code>exc_info</code> - You shouldn’t need to format this yourself.</p>
+<p>Exception tuple (à la <code>sys.exc_info</code>) or, if no exception has occurred, <code>None</code>.</p>
+</li>
+<li>
+<p><code>filename</code> - <code>%(filename)s</code></p>
+<p>Filename portion of pathname.</p>
+</li>
+<li>
+<p><code>funcName</code> - <code>%(funcName)s</code></p>
+<p>Name of function containing the logging call.</p>
+</li>
+<li>
+<p><code>levelname</code> - <code>%(levelname)s</code></p>
+<p>Text logging level for the message (<code>'DEBUG'</code>, <code>'INFO'</code>, <code>'WARNING'</code>, <code>'ERROR'</code>, <code>'CRITICAL'</code>).</p>
+</li>
+<li>
+<p><code>levelno</code> - <code>%(levelno)s</code></p>
+<p>Numeric logging level for the message (<code>DEBUG</code>, <code>INFO</code>, <code>WARNING</code>, <code>ERROR</code>, <code>CRITICAL</code>).</p>
+</li>
+<li>
+<p><code>lineno</code> - <code>%(lineno)d</code></p>
+<p>Source line number where the logging call was issued (if available).</p>
+</li>
+<li>
+<p><code>message</code> - <code>%(message)s</code></p>
+<p>The logged message, computed as <code>msg % args</code>. This is set when <code>Formatter.format()</code> is invoked. 跟其他的 attribute 不同，大部份都在 <code>LogRecord</code> 建立時就有了。</p>
+</li>
+<li>
+<p><code>module</code> - <code>%(module)s</code></p>
+<p>Module (name portion of filename).</p>
+</li>
+<li>
+<p><code>msecs</code> - <code>%(msecs)d</code></p>
+<p>Millisecond portion of the time when the <code>LogRecord</code> was created.</p>
+</li>
+<li>
+<p><code>msg</code> - You shouldn’t need to format this yourself.</p>
+<p>The format string passed in the original logging call. Merged with <code>args</code> to produce <code>message</code>, or an ARBITRARY OBJECT (see Using arbitrary objects as messages).</p>
+</li>
+<li>
+<p><code>name</code> - <code>%(name)s</code></p>
+<p>Name of the logger used to log the call.</p>
+</li>
+<li>
+<p><code>pathname</code> - <code>%(pathname)s</code></p>
+<p>Full pathname of the source file where the logging call was issued (if available).</p>
+</li>
+<li>
+<p><code>process</code> - <code>%(process)d</code></p>
+<p>Process ID (if available).</p>
+</li>
+<li>
+<p><code>processName</code> - <code>%(processName)s</code></p>
+<p>Process name (if available).</p>
+</li>
+<li>
+<p><code>relativeCreated</code> - <code>%(relativeCreated)d</code></p>
+<p>Time IN MILLISECONDS when the <code>LogRecord</code> was created, relative to the time the logging module was loaded.</p>
+</li>
+<li>
+<p><code>stack_info</code> - You shouldn’t need to format this yourself.</p>
+<p>Stack frame information (where available) from the bottom of the stack in the current thread, up to and including the stack frame of the logging call which resulted in the creation of this record.</p>
+</li>
+<li>
+<p><code>thread</code> - <code>%(thread)d</code></p>
+<p>Thread ID (if available).</p>
+</li>
+<li>
+<p><code>threadName</code> - <code>%(threadName)s</code></p>
+<p>Thread name (if available).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html#formatter-objects">Formatter Objects - logging — Logging facility for Python — Python 3.7.0 documentation</a> Responsible for converting a <code>LogRecord</code> to (usually) a string which can be interpreted by either a human or an external system. 透過 formatting string (預設是 <code>%(message)</code>) 將 <code>LogRecord</code> 轉成文字。</p>
+</li>
+<li><a href="https://docs.python.org/3/howto/logging.html#using-arbitrary-objects-as-messages">Using arbitrary objects as messages - Logging HOWTO — Python 3.7.0 documentation</a> 在這之前都假設 message 是個 string，但 message 其實可以是任何 object，當內部需要 string representation 時，就會呼叫它的 <code>__str__()</code>。事實上內部也不一定會將它轉成 string，像是 <code>SocketHandler</code> 將 message 直接 pickle 就往外送了。</li>
+</ul>
+<h2 id="loggingxxx-loggerxxx">logging.xxx() 與 logger.xxx()<a class="headerlink" href="#loggingxxx-loggerxxx" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>logging.xxx()</code> 寫在 root logger，也就是 message format string 裡的 <code>%(name)s</code> 永遠都是 <code>root</code>，看不出 message 是從哪個 module 來的。</li>
+<li>如果 application 不大的話 (例如簡單的 script)，用 <code>logging.xxx()</code> 倒是沒什麼問題，不過若是有一定規模的話，還是建議用 <code>logger.xxx()</code>。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Logging HOWTO — Python 2.7.14 documentation <a href="https://docs.python.org/2/howto/logging.html">https://docs.python.org/2/howto/logging.html</a> 前段都在講 <code>logging.xxx()</code>，從 Advanced Logging Tutorial 才開始提到 logger</li>
+<li>Logging HOWTO — Python 2.7.14 documentation <a href="https://docs.python.org/2/howto/logging.html#logging-from-multiple-modules">https://docs.python.org/2/howto/logging.html#logging-from-multiple-modules</a> Logging from multiple modules 提到都用 <code>logging.xxx()</code> 的話，會不知道 message 從哪個 module 來，顯然這種用法不太推薦? Advanced Logging Tutorial 建議用 <code>logger = logging.getLogger(__name__)</code> 的方式建立 module-level logger，剛好對應 package/module hierarchy，&rdquo;which just call the same-named method of the root logger&rdquo; 說明了，<code>logging.xxx()</code> 只是轉呼叫 root logger。</li>
+<li>15.7. logging — Logging facility for Python — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/logging.html#logging.info">https://docs.python.org/2/library/logging.html#logging.info</a> <code>logging.xxx()</code> 的說明都寫 Logs a message with level XXX on the root logger.</li>
+</ul>
+<h2 id="logger-hierarchy">Logger 間形成階層 (hierarchy) 有什麼影響?<a class="headerlink" href="#logger-hierarchy" title="Permanent link"> #</a></h2>
+<ul>
+<li>15.7. logging — Logging facility for Python — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/logging.html#logging.Logger.propagate">https://docs.python.org/2/library/logging.html#logging.Logger.propagate</a> 預設 <code>propagate</code> 為 <code>True</code>，通常將 handler 加在 root logger 而已，剩下的交給 propagation，否則一個訊息會 log 多次。</li>
+</ul>
+<h2 id="log-file-rotation">如何達成 log file rotation?<a class="headerlink" href="#log-file-rotation" title="Permanent link"> #</a></h2>
+<ul>
+<li>Logging HOWTO — Python 2.7.14 documentation <a href="https://docs.python.org/2/howto/logging.html#useful-handlers">https://docs.python.org/2/howto/logging.html#useful-handlers</a> 提到 <code>RotatingFileHandler</code> 支援 maximum log file sizes 及 log file rotation。</li>
+</ul>
+<h2 id="log-slack">如何將錯誤的 log 送往 Slack?<a class="headerlink" href="#log-slack" title="Permanent link"> #</a></h2>
+<ul>
+<li>Handler 出問題 (例如網路不通)，會影響到 application 正常的運作嗎? 或是網路速度不佳，會不會拖慢 application 的效能?</li>
+<li>slacker-log-handler 1.6.1 : Python Package Index <a href="https://pypi.python.org/pypi/slacker-log-handler">https://pypi.python.org/pypi/slacker-log-handler</a> #ril</li>
+</ul>
+<h2 id="logging">如何做 logging?<a class="headerlink" href="#logging" title="Permanent link"> #</a></h2>
+<ul>
+<li>習慣用 <code>_logger = logging.getLogger(__name__)</code>?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>15.7. logging — Logging facility for Python — Python 2.7.14rc1 documentation <a href="https://docs.python.org/2.7/library/logging.html">https://docs.python.org/2.7/library/logging.html</a> #ril</li>
+</ul>
+<h2 id="root-logger">如何取得 root logger?<a class="headerlink" href="#root-logger" title="Permanent link"> #</a></h2>
+<ul>
+<li>15.7. logging — Logging facility for Python — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/logging.html#logging.getLogger">https://docs.python.org/2/library/logging.html#logging.getLogger</a> 原來 <code>getLogger(name)</code> 中的 name 是 optional，沒有提供時就是傳回 root logger。</li>
+</ul>
+<h2 id="log-message">如何在 log message 揭露重要的數據?<a class="headerlink" href="#log-message" title="Permanent link"> #</a></h2>
+<p>由於 <code>logging</code> 仍採用 %-style string formatting，搭配 <code>%r</code> 就能輕易輸出不同型態的字面表示，不用擔心會看漏空白字元，例如：</p>
+<pre><code>&gt;&gt;&gt; logging.warn('Create order; no = %r, items = %r.', 'RX0134', ['Keyboard', 'Mouse', 'Monitor'])
+WARNING:root:Create order; no = 'RX0134', items = ['Keyboard', 'Mouse', 'Monitor'].
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/2/howto/logging.html#logging-variable-data">Logging variable data - Logging HOWTO — Python 2.7.14 documentation</a> 採用 %-style of string formatting，</li>
+<li><a href="https://docs.python.org/2.7/library/stdtypes.html#string-formatting-operations">5.6.2. String Formatting Operations - 5. Built-in Types — Python 2.7.14 documentation</a> 說明 string formatting/interpolation 的用法，其中 <code>%r</code> (由 <code>repr()</code> 取得) 不同於 <code>%s</code> (由 <code>str()</code> 取得)。</li>
+<li><a href="https://docs.python.org/2.7/library/functions.html#func-repr">repr(object) - 2. Built-in Functions — Python 2.7.14 documentation</a> <code>repr(object)</code> 會回傳 printable representation of an object。</li>
+</ul>
+<h2 id="logger-level">如何動態調整 logger 的 level?<a class="headerlink" href="#logger-level" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/19617355/dynamically-changing-log-level-in-python-without-restarting-the-application">logging - Dynamically changing log level in python without restarting the application - Stack Overflow</a> Martijn Pieters: 呼叫 <code>logger.setLevel()</code> 即可，通常會針對 root (<code>getLogger()</code>)。</li>
+</ul>
+<h2 id="rotation">Rotation ??<a class="headerlink" href="#rotation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.handlers.html#timedrotatingfilehandler"><code>TimedRotatingFileHandler</code> - logging.handlers — Logging handlers — Python 3.7.2 documentation</a> #ril</p>
+<ul>
+<li>
+<p>The <code>TimedRotatingFileHandler</code> class, located in the <code>logging.handlers</code> module, supports rotation of disk log files at certain timed INTERVALS.</p>
+<p>&ldquo;at certain timed intervals&rdquo; 會讓人誤以為 rollover 會定期發生? 但 logging 背後並沒有一個 daemon，所以 rollover 也要有 log output 觸發才行。也因此你不能預期 <code>when='D', interval=1</code> 就會每天產生一支檔案，而且不定會發生在半夜 12:00 (跟起始的 <code>atTime</code> 有關)。</p>
+</li>
+<li>
+<p><code>class logging.handlers.TimedRotatingFileHandler(filename, when='h', interval=1, backupCount=0, encoding=None, delay=False, utc=False, atTime=None)</code></p>
+<p>Returns a new instance of the <code>TimedRotatingFileHandler</code> class. The specified file is opened and used as the STREAM for logging. On rotating it also sets the filename suffix. Rotating happens based on the PRODUCT of <code>when</code> and <code>interval</code>.</p>
+<p>The system will save old log files by appending extensions to the filename. The extensions are DATE-AND-TIME BASED, using the strftime format <code>%Y-%m-%d_%H-%M-%S</code> or a leading portion thereof, depending on the ROLLOVER INTERVAL. 若 interval 是天，顯示 hour、minute、second 就沒有必要??</p>
+<p>When computing the NEXT ROLLOVER TIME for the first time (when the handler is created), the LAST MODIFICATION TIME OF AN EXISTING LOG FILE, or else the current time, is used to compute when the next rotation will occur.</p>
+<p>注意一直都是 interval，即便是 <code>when='h', interval=1' 也並不代表 rollover 會發生在整點，因為一開始是以現有的 log file 或當下的時間起算；搭配</code>atTime` 可以達成整點、半夜換檔的效果。</p>
+<p>If the <code>utc</code> argument is true, times in UTC will be used; otherwise local time is used.</p>
+</li>
+<li>
+<p>If <code>backupCount</code> is nonzero (預設就是 <code>0</code>), at most <code>backupCount</code> files will be kept, and if more would be created WHEN ROLLOVER OCCURS, the oldest one is deleted. The deletion logic uses the <code>interval</code> to determine which files to delete, so changing the <code>interval</code> may leave old files lying around. 為什麼只看 <code>interval</code> 就知道要刪掉哪些檔案??</p>
+</li>
+<li>
+<p>If <code>atTime</code> is not <code>None</code>, it must be a <code>datetime.time</code> instance which specifies the TIME OF DAY when rollover occurs, for the cases where rollover is set to happen “at midnight” or “on a particular weekday”. Note that in these cases, the <code>atTime</code> value is effectively used to compute the INITIAL ROLLOVER, and subsequent rollovers would be calculated via the normal interval calculation.</p>
+</li>
+<li>
+<p>If <code>delay</code> is true, then file opening is deferred until the first call to <code>emit()</code>. 實務上的應用??</p>
+</li>
+<li>
+<p>You can use the <code>when</code> to specify the TYPE OF <code>interval</code>. The list of possible values is below. Note that they are NOT case sensitive.</p>
+</li>
+<li>
+<p>When using weekday-based rotation, specify ‘W0’ for Monday, ‘W1’ for Tuesday, and so on up to ‘W6’ for Sunday. In this case, the value passed for <code>interval</code> isn’t used.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="json-lines-output">JSON Lines Output ??<a class="headerlink" href="#json-lines-output" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/madzak/python-json-logger">madzak/python-json-logger: Json Formatter for the standard python logger</a> #ril<ul>
+<li>Sample JSON with a FULL FORMATTER (basically the log message from the unit test). Every log message will appear on 1 line like a typical logger. 實驗確會輸出 JSON lines，其中 full formatter 應該是把 <code>LogRecord</code> 的 attribute 都列出來，例如 <code>jsonlogger.JsonFormatter('(threadName) (name) (created) ...')</code></li>
+<li>實驗發現，在 format string 裡不用列 <code>(exc_info)</code>，用 <code>logger.exception()</code> 就會產生帶有 <code>exc_info</code> 欄位的 JSON。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/50144628/">Python logging into file as a dictionary or JSON - Stack Overflow</a> #ril</li>
+<li><a href="http://code.activestate.com/recipes/580667-json-formatted-logging/">JSON Formatted Logging « Python recipes « ActiveState Code</a> #ril</li>
+<li><a href="https://logmatic.io/blog/python-logging-with-json-steroids/">Python Logging Best Practices with Json Steroids -</a> #ril</li>
+<li><a href="https://github.com/marselester/json-log-formatter">marselester/json-log-formatter: Python JSON log formatter</a> #ril</li>
+<li><a href="https://github.com/thangbn/json-logging-python">thangbn/json-logging-python: Python logging library to emit JSON log that can be easily indexed and searchable by logging infrastructure such as ELK (Elasticsearch, Logstash, and Kibana)</a> #ril</li>
+</ul>
+<h2 id="extra">Extra<a class="headerlink" href="#extra" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html#logging.debug"><code>logging.debug()</code> - logging — Logging facility for Python — Python 3.7.3 documentation</a></p>
+<ul>
+<li>
+<p>The third optional keyword argument is <code>extra</code> which can be used to pass a dictionary which is used to populate the <code>__dict__</code> of the <code>LogRecord</code> created for the logging event with USER-DEFINED ATTRIBUTES.</p>
+</li>
+<li>
+<p>These custom attributes can then be used as you like. For example, they could be incorporated into logged messages. For example:</p>
+<pre><code>FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s' # 直接在 format string 裡引用
+logging.basicConfig(format=FORMAT)
+d = {'clientip': '192.168.0.1', 'user': 'fbloggs'}
+logging.warning('Protocol problem: %s', 'connection reset', extra=d)
+</code></pre>
+<p>would print something like:</p>
+<pre><code>2006-02-08 22:20:02,165 192.168.0.1 fbloggs  Protocol problem: connection reset
+</code></pre>
+<p>可想而知，<code>LogRecord</code> 不會有一個 attribute 叫 <code>extra</code>，而是將 <code>extra</code> dictionary 的 keys 抄到 <code>LogRecord</code> 上，所以下面才會有 &ldquo;should not clash&rdquo; 的說法。<a href="https://github.com/python/cpython/blob/3.7/Lib/logging/__init__.py#L1474"><code>Logger.makeRecord()</code> 的實作</a>也確實是這樣：</p>
+<pre><code>def makeRecord(self, name, level, fn, lno, msg, args, exc_info,
+               func=None, extra=None, sinfo=None):
+    """
+    A factory method which can be overridden in subclasses to create
+    specialized LogRecords.
+    """
+    rv = _logRecordFactory(name, level, fn, lno, msg, args, exc_info, func,
+                         sinfo)
+    if extra is not None:
+        for key in extra:
+            if (key in ["message", "asctime"]) or (key in rv.__dict__):
+                raise KeyError("Attempt to overwrite %r in LogRecord" % key)
+            rv.__dict__[key] = extra[key]
+    return rv
+</code></pre>
+<p>所幸 <code>if (key in ["message", "asctime"]) or (key in rv.__dict__)</code> 做了一些防範。</p>
+</li>
+<li>
+<p>The keys in the dictionary passed in <code>extra</code> SHOULD NOT CLASH with the keys used by the logging system. (See the Formatter documentation for more information on which keys are used by the logging system.)</p>
+<p>避免命名衝突，從 <a href="https://docs.python.org/3/library/logging.html#logrecord-attributes"><code>LogRecord</code></a> 揭露的 attributes 看來，自訂 attribute 以底線開頭倒是滿安全的。</p>
+<p>另一種可能的方式是再包一層 dictionary，例如：</p>
+<pre><code>&gt;&gt;&gt; import logging
+&gt;&gt;&gt; logging.basicConfig(level=logging.DEBUG, format="%(message)s; data: %(data)s")
+&gt;&gt;&gt; logging.debug('Create a document', extra={'data': {'user': 'jermey', 'doc': 'README.md'}})
+Create a document; data: {'doc': 'README.md', 'user': 'jermey'}
+&gt;&gt;&gt;
+</code></pre>
+<p>搭配 JSONL 的輸出效果會更好；不過在 format string 就無法用 <code>%(...)s</code> 引用個別的欄位，例如 <code>%(user)s</code> 或 <code>%(data.user)s</code>。</p>
+</li>
+<li>
+<p>If you choose to use these attributes in logged messages, you need to exercise some care. In the above example, for instance, the <code>Formatter</code> has been set up with a format string which expects <code>clientip</code> and <code>user</code> in the ATTRIBUTE DICTIONARY of the <code>LogRecord</code>.</p>
+<p>If these are MISSING, the message will not be logged because a string formatting exception will occur. So in this case, you ALWAYS need to pass the <code>extra</code> dictionary with these keys.</p>
+<p>While this might be annoying, this feature is intended for use in specialized circumstances, such as MULTI-THREADED SERVERS where the same code executes in many contexts, and interesting conditions which arise are dependent on this context (such as remote client IP address and authenticated user name, in the above example). In such circumstances, it is likely that SPECIALIZED <code>Formatter</code>s would be used with particular <code>Handler</code>s.</p>
+<p>也就是內建的 formatter (<code>logging.Formatter</code>) 不會自動判斷某個 user-defined attribute 是否存在，解法之一就是改用自訂的 formatter。</p>
+<p>記錄到個別使用者，logging level 通常都是 DEBUG 了。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="all-loggers">取得所有的 logger ??<a class="headerlink" href="#all-loggers" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.scrapy.org/en/latest/topics/practices.html#run-scrapy-from-a-script">Run Scrapy from a script - Common Practices — Scrapy 1.6.0 documentation</a></p>
+<ul>
+<li>
+<p>The first utility you can use to run your spiders is <code>scrapy.crawler.CrawlerProcess</code>. This class will start a Twisted reactor for you, CONFIGURING THE LOGGING and setting shutdown handlers.</p>
+<p>有些第三方套件會介入設定 logger，但這可能不是你要的。從 <a href="https://github.com/scrapy/scrapy/blob/1.6.0/scrapy/crawler.py#L253">source code</a> 看來會轉呼叫 <code>scrapy.utils.log.configure_logging()</code>:</p>
+<pre><code>configure_logging(self.settings, install_root_handler)
+</code></pre>
+<p>而 <a href="https://docs.scrapy.org/en/latest/topics/logging.html#scrapy.utils.log.configure_logging"><code>configure_logging()</code> 的文件</a>這麼寫著：</p>
+<ul>
+<li>Route warnings and twisted logging through Python standard logging</li>
+<li>Assign <code>DEBUG</code> and <code>ERROR</code> level to Scrapy and Twisted loggers respectively</li>
+<li>Route stdout to log if <code>LOG_STDOUT</code> setting is True</li>
+</ul>
+<p>實驗下來，發現 Scrapy 在 import time 就會對設定一些 logger，甚至還安排了 handler：</p>
+<pre><code>&gt;&gt;&gt; import logging
+&gt;&gt;&gt; def all_loggers():
+...     loggers = []
+...     for name, logger in logging.root.manager.loggerDict.items():
+...         if not isinstance(logger, logging.Logger):
+...             continue
+...         loggers.append((name, logging.getLevelName(logger.level), logger.handlers))
+...     return loggers
+...
+&gt;&gt;&gt; all_loggers()
+[]
+&gt;&gt;&gt; import scrapy
+&gt;&gt;&gt; all_loggers()
+[('scrapy.spiders.sitemap', 'NOTSET', []), ('scrapy.utils.iterators', 'NOTSET', []), ('scrapy.utils.spider', 'NOTSET', [])]
+&gt;&gt;&gt; from scrapy.crawler import CrawlerProcess
+&gt;&gt;&gt; all_loggers()
+[('scrapy.core.engine', 'NOTSET', []), ('scrapy.utils.log', 'NOTSET', []), ('scrapy.crawler', 'NOTSET', []), ('scrapy.core.scraper', 'NOTSET', []), ('scrapy.spiders.sitemap', 'NOTSET', []), ('scrapy.utils.signal', 'NOTSET', []), ('scrapy.utils.iterators', 'NOTSET', []), ('scrapy.middleware', 'NOTSET', []), ('pyasn1', 'DEBUG', [&lt;logging.StreamHandler object at 0x1021aad50&gt;]), ('scrapy.utils.spider', 'NOTSET', [])]
+&gt;&gt;&gt; CrawlerProcess(install_root_handler=False)
+No handlers could be found for logger "scrapy.utils.log"
+&lt;scrapy.crawler.CrawlerProcess object at 0x1019aa3d0&gt;
+&gt;&gt;&gt; all_loggers()
+[('scrapy.core.engine', 'NOTSET', []), ('scrapy.utils.log', 'NOTSET', []), ('twisted', 'ERROR', []), ('scrapy.crawler', 'NOTSET', []), ('scrapy', 'DEBUG', []), ('scrapy.core.scraper', 'NOTSET', []), ('scrapy.spiders.sitemap', 'NOTSET', []), ('scrapy.utils.signal', 'NOTSET', []), ('scrapy.utils.iterators', 'NOTSET', []), ('scrapy.middleware', 'NOTSET', []), ('pyasn1', 'DEBUG', [&lt;logging.StreamHandler object at 0x1021aad50&gt;]), ('scrapy.utils.spider', 'NOTSET', [])]
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://mail.python.org/pipermail/python-list/2012-June/625343.html">Finding all loggers?</a></p>
+<pre><code>&gt;&gt;&gt; import logging
+&gt;&gt;&gt; logging.Logger.manager.loggerDict
+{}
+&gt;&gt;&gt; logging.getLogger('foo')
+&lt;logging.Logger object at 0x7f11d4d104d0&gt;
+&gt;&gt;&gt; logging.getLogger('bar')
+&lt;logging.Logger object at 0x7f11d4cb7ad0&gt;
+&gt;&gt;&gt; logging.Logger.manager.loggerDict
+{'foo': &lt;logging.Logger object at 0x7f11d4d104d0&gt;, 'bar':
+&lt;logging.Logger object at 0x7f11d4cb7ad0&gt;}
+</code></pre>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/53249304/">How to get the list all existing loggers using python.logging module - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Will Keeling: Loggers are held in a hierarchy by a <code>logging.Manager</code> instance. You could interrogate the <code>Manager</code> on the ROOT LOGGER for the loggers it knows about.</p>
+<pre><code>import logging
+
+loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
+</code></pre>
+<p>為什麼不直接拿 <code>loggerDict.values()</code> 做為 logger 呢? 原來可能會遇到 <code>PlaceHolder</code>，例如：</p>
+<pre><code>&gt;&gt;&gt; import logging
+&gt;&gt;&gt; logging.root.manager.loggerDict
+{}
+&gt;&gt;&gt; logging.getLogger('x.y.z')
+&lt;logging.Logger object at 0x10fcb9cd0&gt;
+&gt;&gt;&gt; logging.root.manager.loggerDict
+{'x.y': &lt;logging.PlaceHolder object at 0x10fdb1090&gt;, 'x': &lt;logging.PlaceHolder object at 0x10fdb1110&gt;, 'x.y.z': &lt;logging.Logger object at 0x10fcb9cd0&gt;}
+&gt;&gt;&gt;
+</code></pre>
+<p>只有 <code>x.y.z</code> 是 <code>logging.Logger</code>，中間的階層 (<code>x</code> 跟 <code>x.y</code>) 都是 <code>logging.PlaceHolder</code>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="change-configuration-at-runtime">Change Configuration at Runtime ??<a class="headerlink" href="#change-configuration-at-runtime" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/howto/logging.html#optimization">Optimization - Logging HOWTO — Python 2.7.16 documentation</a></p>
+<ul>
+<li>Such a cached value would only need to be recomputed when the LOGGING CONFIGURATION CHANGES DYNAMICALLY while the application is running (which is not all that common).</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/logging.html">logging — Logging facility for Python — Python 2 documentation</a></li>
+<li><a href="https://docs.python.org/3/library/logging.html">logging — Logging facility for Python — Python 3 documentation</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../python-logging-handler/">Handler</a></li>
+<li><a href="../python-logging-perf/">Performance</a></li>
+<li><a href="../python-json-logger/">python-json-logger</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../jsonlines/">JSON Lines</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/python/cpython/blob/3.7/Lib/logging/__init__.py"><code>cpython/__init__.py</code> at 3.7 - python/cpython</a></li>
+<li><a href="https://docs.python.org/3/library/logging.html#logrecord-attributes"><code>LogRecord</code> Attributes</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

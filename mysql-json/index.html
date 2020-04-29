@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mysql-json/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MySQL / JSON - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mysql-json.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mysql-json">MySQL / JSON</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mysql-json"><a href="../mysql/">MySQL</a> / JSON<a class="headerlink" href="#mysql-json" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/blogs/database/using-json-with-mysql-5-7-compatible-amazon-aurora/">Using JSON with MySQL 5.7–compatible Amazon Aurora | AWS Database Blog</a> (2018-02-15)</p>
+<p>What’s the big deal about JSON support in MySQL 5.7?</p>
+<ul>
+<li>
+<p>MySQL 5.6 supports numeric, date and time, string (character and byte) types, and spatial data types. Although this is a broad set of supported types, these primitive data types can LIMIT YOUR FLEXIBILITY TO EVOLVE AN APPLICATION.</p>
+</li>
+<li>
+<p>If you use MySQL 5.6, you have two options when PLANNING AHEAD for evolution of the application.</p>
+<ul>
+<li>
+<p>The first option is to specify the full schema containing all the fields that you currently need in the application. If the application subsequently needs a new field, you must update the schema to add that column.</p>
+<p>There are some benefits to this approach. You can index the new field. Also, features such as fast data definition language (DDL) in Amazon Aurora can minimize the operational burden of adding a column. However, the fact remains that you must execute a DATABASE SCHEMA CHANGE and also update the SQL statements to accommodate the change.</p>
+</li>
+<li>
+<p>The second option is to use a string to ENCODE A FLEXIBLE SET OF FIELDS and PARSE THE STRING IN THE APPLICATION LAYER. Although flexible, this approach places an unreasonable burden on you to parse the data.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>This is where JSON comes in—it offers an excellent middle way by providing you the flexibility you need. JSON also provides the benefit of your not having to write any code to parse the data; the ORM or the language runtime should be able to care of it. JSON support was introduced in MySQL 5.7.8.</p>
+<p>ORM 面對的是 JSON-format string ??</p>
+</li>
+<li>
+<p>In addition to the benefits just listed, having JSON as a native type in MySQL means that the database can automatically validate JSON documents stored in JSON columns. Invalid documents produce an error.</p>
+<p>JSON as a native type also allows the database to optimize the JSON format. JSON documents stored in JSON columns are converted to an internal format that permits quick read access to document elements. When the server later must read a JSON value stored in this binary format, the value need not be parsed from a text representation. The binary format is structured to enable the server to look up subobjects or nested values directly by key or array index. It does so without reading all the values before or after them in the document.</p>
+<p>這一段幾乎跟 <a href="https://dev.mysql.com/doc/refman/5.7/en/json.html">MySQL :: MySQL 5.7 Reference Manual :: 11.6 The JSON Data Type</a> 完全一樣。</p>
+</li>
+<li>
+<p>Amazon Aurora now supports MySQL 5.7 compatibility, meaning you can now develop applications using JSON data types on top of MySQL 5.7–compatible Aurora.</p>
+<p>The rest of this post walks through an example e-commerce application for an electronics store that uses JSON data types and MySQL-compatible Aurora.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/15367696/">mysql - Storing JSON in database vs. having a new column for each key - Stack Overflow</a> #ril</p>
+</li>
+<li><a href="https://opensource.com/article/17/5/mysql-json">What you need to know about JSON in MySQL | Opensource.com</a> (2017-05-15) #ril</li>
+<li>
+<p><a href="https://www.compose.com/articles/mysql-for-your-json/">MySQL for your JSON - Compose Articles</a> (2017-02-08) #ril</p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/json.html">MySQL :: MySQL 5.7 Reference Manual :: 11.6 The JSON Data Type</a></p>
+<ul>
+<li>
+<p>As of MySQL 5.7.8, MySQL supports a native <code>JSON</code> data type defined by RFC 7159 that enables efficient access to data in JSON (JavaScript Object Notation) documents. The <code>JSON</code> data type provides these advantages over STORING JSON-FORMAT STRINGS IN A STRING COLUMN:</p>
+<ul>
+<li>
+<p>Automatic validation of JSON documents stored in <code>JSON</code> columns. Invalid documents produce an error.</p>
+</li>
+<li>
+<p>Optimized storage format. JSON documents stored in <code>JSON</code> columns are converted to an internal format that permits QUICK READ ACCESS TO DOCUMENT ELEMENTS.</p>
+<p>When the server later must read a JSON value stored in this BINARY format, the value need not be parsed from a text representation. The binary format is structured to enable the server to LOOK UP SUBOBJECTS OR NESTED VALUES DIRECTLY BY KEY OR ARRAY INDEX without reading all values before or after them in the document.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The space required to store a JSON document is ROUGHLY THE SAME as for <code>LONGBLOB</code> or <code>LONGTEXT</code>; see Section 11.8, “Data Type Storage Requirements”, for more information.</p>
+<p>It is important to keep in mind that the size of any JSON document stored in a <code>JSON</code> column is limited to the value of the <code>max_allowed_packet</code> system variable. (When the server is manipulating a JSON value internally in memory, it can be larger than this; the limit applies when the server stores it.)</p>
+</li>
+<li>
+<p>A <code>JSON</code> column cannot have a non-<code>NULL</code> default value.</p>
+<p>預設值只能是 <code>NULL</code>，所以 <code>JSON</code> 欄位必然是 nullable ??</p>
+</li>
+<li>
+<p>Along with the <code>JSON</code> data type, a set of SQL functions is available to enable operations on JSON values, such as creation, manipulation, and searching. The following discussion shows examples of these operations. For details about individual functions, see <a href="https://dev.mysql.com/doc/refman/5.7/en/json-functions.html">Section 12.17, “JSON Functions”</a>. #ril</p>
+</li>
+<li>
+<p>A set of spatial functions for operating on <a href="https://geojson.org/">GeoJSON</a> values is also available. See <a href="https://dev.mysql.com/doc/refman/5.7/en/spatial-geojson-functions.html">Section 12.16.11, “Spatial GeoJSON Functions”</a>. #ril</p>
+</li>
+<li>
+<p><code>JSON</code> columns, like columns of other binary types, are not indexed directly; instead, you can create an index on a GENERATED COLUMN that extracts a scalar value from the <code>JSON</code> column. See <a href="https://dev.mysql.com/doc/refman/5.7/en/create-table-secondary-indexes.html#json-column-indirect-index">Indexing a Generated Column to Provide a JSON Column Index</a>, for a detailed example. #ril</p>
+<p>什麼是 generated column ?? 感覺會自動同步 JSON 裡特定的資料，方便直接 query。</p>
+</li>
+<li>
+<p>The MySQL optimizer also looks for compatible indexes on virtual columns that match JSON expressions. #ril</p>
+</li>
+<li>
+<p>MySQL NDB Cluster 7.5 (7.5.2 and later) supports JSON columns and MySQL JSON functions, including creation of an index on a column generated from a JSON column as a workaround for being unable to index a JSON column. A maximum of 3 JSON columns per NDB table is supported.</p>
+<p>原來一個 table 的 <code>JSON</code> 欄位還有限制數量。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/json.html">MySQL :: MySQL 8.0 Reference Manual :: 11.6 The JSON Data Type</a> #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/aubergine-solutions/working-with-mysql-json-data-type-with-prepared-statements-using-it-in-go-and-resolving-the-15ef14974c48">Working with MySQL JSON data type with prepared statements, using it in Go and resolving the problems I had</a> (2018-07-31) #ril</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/33660866/">Native JSON support in MYSQL 5.7 : what are the pros and cons of JSON data type in MYSQL? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/blogs/database/using-json-with-mysql-5-7-compatible-amazon-aurora/">Using JSON with MySQL 5.7–compatible Amazon Aurora | AWS Database Blog</a> (2018-02-15) #ril</p>
+<p>Creating a schema</p>
+<ul>
+<li>
+<p>Electronics products can be DIVERSE—laptops, cell phones, printers, TVs, DVDs, and so on. The PRODUCT ATTRIBUTES CAN CORRESPONDINGLY VARY WIDELY. This makes it tricky to store product attributes in a normalized form so that you can search on different features and attributes. For example, we might want to do this for a product comparison.</p>
+<p>We start by creating a database for our store.</p>
+<pre><code>CREATE DATABASE online_store;
+USE online_store
+</code></pre>
+</li>
+<li>
+<p>For simplicity, our database only has three tables—<code>brands</code>, <code>categories</code>, and <code>products</code>. The <code>brands</code> and <code>categories</code> tables don’t have JSON fields, so let’s get them out of the way so we can get to the fun part.</p>
+<pre><code>CREATE TABLE brands (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE categories (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+INSERT INTO brands (name) VALUES ('Apple');
+INSERT INTO brands (name) VALUES ('Samsung');
+INSERT INTO brands (name) VALUES ('Lenovo');
+INSERT INTO brands (name) VALUES ('LG');
+INSERT INTO brands (name) VALUES ('ASUS');
+
+INSERT INTO categories (name) VALUES ('Phones');
+INSERT INTO categories (name) VALUES ('Desktop');
+INSERT INTO categories (name) VALUES ('Laptop');
+INSERT INTO categories (name) VALUES ('Tablets');
+</code></pre>
+<p>The following is what the tables look like.</p>
+<pre><code>mysql&gt; SELECT * FROM categories;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Phones  |
+|  2 | Desktop |
+|  3 | Laptop  |
+|  4 | Tablets |
++----+---------+
+4 rows in set (0.00 sec)
+
+mysql&gt; SELECT * FROM brands;
++----+---------+
+| id | name    |
++----+---------+
+|  1 | Apple   |
+|  2 | Samsung |
+|  3 | Lenovo  |
+|  4 | LG      |
+|  5 | ASUS    |
++----+---------+
+5 rows in set (0.00 sec)
+</code></pre>
+</li>
+<li>
+<p>Now for the part that starts using JSON. The <code>products</code> table holds different product attributes in a JSON column.</p>
+<pre><code>CREATE TABLE products (
+id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+brand_id INT UNSIGNED NOT NULL,
+category_id INT UNSIGNED NOT NULL,
+attributes JSON NOT NULL);
+</code></pre>
+</li>
+</ul>
+<p>Inserting JSON data</p>
+<ul>
+<li>
+<p>Let’s store information about our first product. We can do this by directly inserting the attributes as a JSON object.</p>
+<pre><code>INSERT INTO products
+(`name`,`brand_id`,`category_id`,`attributes`)
+VALUES
+('Samsung 3 Chromebook',2,3,
+'{
+"dimensions":{"w":11.4,"d":8,"h":0.7},
+"weight":2.54,
+"color":"black",
+"CPU":"Intel Celeron N3060 / 1.6 GHz",
+"processor_count":2,
+"operating_system":"chrome",
+"memory":4,
+"Storage":"16 GB SSD"
+}'
+);
+
+mysql&gt; select * from products \G
+*************************** 1. row ***************************
+         id: 1
+       name: Samsung 3 Chromebook
+   brand_id: 2
+category_id: 3
+ attributes: {"CPU": "Intel Celeron N3060 / 1.6 GHz", "color": "black", "memory": 4, "weight": 2.54, "Storage": "16 GB SSD", "dimensions": {"d": 8, "h": 0.7, "w": 11.4}, "processor_count": 2, "operating_system": "chrome"}
+1 row in set (0.00 sec)
+</code></pre>
+<p>Insert 時用 JSON string 表示，輸出時也是個字串。</p>
+</li>
+<li>
+<p>If you are using a GUI tool like MySQL Workbench, replace <code>\G</code> at the end of the query with <code>;</code> ??</p>
+</li>
+<li>
+<p>Formatting a JSON OBJECT in an insert query can turn out to be quite a cumbersome exercise. We can use the function <code>JSON_OBJECT</code> to make this easier.</p>
+<p>The <code>JSON_OBJECT</code> function accepts a list of key-value pairs in the format</p>
+<pre><code>JSON_OBJECT(key1,value1,key2,value2,key3,value3,……,key(n),value(n).
+</code></pre>
+<p>這裡的 formatting 指的不是 JSON 欄位的內容要如何輸出，而是 insert 時的字面表示法。</p>
+<p>It returns a JSON object. Let’s insert information about our next product using the <code>JSON_OBJECT</code> function.</p>
+<p>注意 <code>JSON_OBJECT()</code> 巢狀的用法，還用到了 <code>JSON_ARRAY()</code>。</p>
+<pre><code>INSERT INTO products
+(`name`,`brand_id`,`category_id`,`attributes`)
+VALUES
+('Lenovo Notebook',3,3,JSON_OBJECT(
+"dimensions",JSON_OBJECT("w",12.6,"d",8.8,"h",0.6),"weight",3.53,"color","platinum silver","CPU","Intel Core i7 (7th Gen) 7500U / 2.7 GHz","processor_count",2,"operating_system","Windows 10","memory",16,"storage","512 GB SSD","interfaces",JSON_ARRAY("USB","Thunderbolt","HDMI","Audio Jack"))
+);
+
+mysql&gt; select * from products where id=2 \G
+*************************** 1. row ***************************
+         id: 2
+       name: Lenovo Notebook
+   brand_id: 3
+category_id: 3
+ attributes: {"CPU": "Intel Core i7 (7th Gen) 7500U / 2.7 GHz", "color": "platinum silver", "memory": 16, "weight": 3.53, "storage": "512 GB SSD", "dimensions": {"d": 8.8, "h": 0.6, "w": 12.6}, "interfaces": ["USB", "Thunderbolt", "HDMI", "Audio Jack"], "processor_count": 2, "operating_system": "Windows 10"}
+1 row in set (0.00 sec)
+</code></pre>
+<p>Here we can also see another helpful function at work—<code>JSON_ARRAY</code>. This function returns a JSON array when passed a set of values.</p>
+</li>
+<li>
+<p>Another function that helps us store a JSON object is <code>JSON_MERGE</code>. The <code>JSON_MERGE</code> function takes multiple JSON objects and produces a single JSON object. This is useful when you get data as key-value pair objects. Let’s insert data about our next product using <code>JSON_MERGE</code>.</p>
+<pre><code>INSERT INTO products
+(`name`,`brand_id`,`category_id`,`attributes`)
+VALUES
+('Galaxy Tab',2,4,
+JSON_MERGE(
+'{"display_size":10.1}',
+'{"operating_system":"Android Marshmallow"}',
+'{"storage":"16 GB"}',
+'{"color":"White"}',
+'{"memory":2}',
+'{"camera":"8 MegaPixel"}'
+));
+
+mysql&gt; select * from products where id=3 \G
+*************************** 1. row ***************************
+         id: 3
+       name: Galaxy Tab
+   brand_id: 2
+category_id: 4
+ attributes: {"color": "White", "camera": "8 MegaPixel", "memory": 2, "storage": "16 GB", "display_size": 10.1, "operating_system": "Android Marshmallow"}
+1 row in set (0.00 sec)
+</code></pre>
+<p><code>JSON_MERGE</code> 可以將多個 JSON object 合併；若參數是字串，也會先被轉成 JSON object。</p>
+</li>
+<li>
+<p>We can use <code>JSON_OBJECT</code> and <code>JSON_MERGE</code> in combination to make things easier.</p>
+<pre><code>INSERT INTO products 
+(`name`,`brand_id`,`category_id`,`attributes`)
+VALUES
+('Lenovo Tab',3,4,
+JSON_MERGE(
+JSON_OBJECT("display_size",10.1),
+JSON_OBJECT("operating_system","Android"),
+JSON_OBJECT("storage","16 GB"),
+JSON_OBJECT("color","Black"),
+JSON_OBJECT("memory",16),
+JSON_OBJECT("camera","5 MegaPixel")
+));
+
+mysql&gt; select * from products where id=4 \G
+*************************** 1. row ***************************
+         id: 4
+       name: Lenovo Tab
+   brand_id: 3
+category_id: 4
+ attributes: {"color": "Black", "camera": "5 MegaPixel", "memory": 16 , "storage": "16 GB", "display_size": 10.1, "operating_system": "Android"}
+1 row in set (0.00 sec)
+</code></pre>
+</li>
+<li>
+<p>Let’s add a few more rows.</p>
+<pre><code>INSERT INTO products
+(`name`,`brand_id`,`category_id`,`attributes`)
+VALUES
+('Asus Vivobook',5,3,'{"CPU": "Intel Pentium mobile processor N4200", "color": "black", "memory": 4, "weight": 4.10, "storage": "500 GB SSD", "graphics": "Intel HD Graphics 500", "dimensions": {"d": 11.5, "h": 2.6, "w": 19.8}, "interfaces": ["USB", "Thunderbolt", "HDMI", "Audio Jack"], "processor_count": 4, "operating_system": "Windows 10"}'),
+('Macbook Pro',1,3,'{"CPU": "Intel Core i7", "color": "Silver", "memory": 16, "weight": 4.49, "storage": "256 GB SSD", "graphics": "Intel Iris Pro Graphics", "dimensions": {"d": 14.1, "h": 0.7, "w": 9.7}, "interfaces": ["USB", "Thunderbolt", "Audio Jack"], "processor_count": 4, "operating_system": "Mac OS X"}'),
+('Apple iPad',1,4,'{"color": "Space Gray", "camera": "1.2 MegaPixel", "memory": 16, "storage": "16 GB", "display_size": 9.7, "operating_system": "iOS 10"}'),
+('Apple iPad',1,4,'{"color": "Space Gray", "camera": "1.2 MegaPixel", "memory": 32, "storage": "16 GB", "display_size": 9.7, "operating_system": "iOS 10"}'),
+('S8',2,1,'{"color": "Rose Pink", "camera": "8 MegaPixel", "memory": 64, "weight": "152 g", "dimensions": {"d": 14.1, "h": 0.7, "w": 9.7}, "Screen Size": 5.8, "operating_system": "Android Nougat"}'),
+('Note',2,1,'{"color": "Black ", "camera": "8 MegaPixel", "memory": 64, "weight": "152 g", "dimensions": {"d": 0.3, "h": 3, "w": 6.3}, "Screen Size": 5.8, "operating_system": "Android Nougat"}'),
+('iPhone 7 plus',1,1,'{"color": "Silver ", "camera": "12 MegaPixel", "memory": 32, "weight": "120 g", "dimensions": {"d": 3.1, "h": 0.29, "w": 6.2}, "Screen Size": 5.5, "operating_system": "iOS 10"}'),
+(' iPhone 6',1,1,'{"color": "Silver ", "camera": "12 MegaPixel", "memory": 16, "weight": "150 g", "dimensions": {"d": 3.1, "h": 0.29, "w": 6.2}, "Screen Size": 4.7, "operating_system": "iOS 10"}');
+</code></pre>
+<p>Now that we’ve added a few rows, let’s move on to run queries on JSON objects.</p>
+</li>
+</ul>
+<p>Selecting and filtering JSON data</p>
+<ul>
+<li>
+<p>It’s simple to write a select query like the following one.</p>
+<pre><code>SELECT * FROM products WHERE attributes like '{"color": "Black", "camera": "5 MegaPixel", "memory": 16, "storage": "16 GB", "display_size": 10.1, "operating_system": "Android"}'\G
+*************************** 1. row ***************************
+         id: 4
+       name: Lenovo Tab
+   brand_id: 3
+category_id: 4
+ attributes: {"color": "Black", "camera": "5 MegaPixel", "memory": 16 , "storage": "16 GB", "display_size": 10.1, "operating_system": "Android"}
+1 row in set (0.00 sec)
+</code></pre>
+<p>直接用 JSON string 比對!?</p>
+</li>
+<li>
+<p>However, this isn’t the most efficient or useful way to query a database. The function we want to use is <code>JSON_EXTRACT</code>. For example, let’s say that we want to find all the Android devices we have.</p>
+<pre><code>SELECT name,attributes-&gt;'$.operating_system' as operating_system FROM products WHERE JSON_EXTRACT(attributes,'$.operating_system') like '"Android%';
++------------+-----------------------+
+| name       | operating_system      |
++------------+-----------------------+
+| Galaxy Tab | "Android Marshmallow" |
+| Lenovo Tab | "Android"             |
+| S8         | "Android Nougat"      |
+| Note       | "Android Nougat"      |
++------------+-----------------------+
+4 rows in set (0.00 sec)
+</code></pre>
+<p><code>JSON_EXTRACT()</code> 只需用在 <code>WHERE</code> 條件式裡 ?? 另外 <code>attributes-&gt;'$.operating_system'</code> 的語法也滿特別的。</p>
+</li>
+<li>
+<p>There are three things to notice here. First, <code>JSON_EXTRACT</code> can extract attributes from JSON that we can use for comparison and filtering.</p>
+<p>Second, you can see another SHORTHAND for reading attributes in the select clause: <code>attributes-&gt;'$.operating_system'</code>.</p>
+<p>Third, the results of the <code>JSON_EXTRACT</code> still INCLUDE QUOTES. That leads us to our next function, <code>JSON_UNQUOTE</code>. Let’s rewrite the query with <code>JSON_UNQUOTE</code> and see the difference.</p>
+<pre><code>SELECT name,JSON_UNQUOTE(attributes-&gt;'$.operating_system') as operating_system FROM products WHERE JSON_UNQUOTE(JSON_EXTRACT(attributes,'$.operating_system')) like 'Android%';
+
++------------+---------------------+
+| name       | operating_system    |
++------------+---------------------+
+| Galaxy Tab | Android Marshmallow |
+| Lenovo Tab | Android             |
+| S8         | Android Nougat      |
+| Note       | Android Nougat      |
++------------+---------------------+
+4 rows in set (0.00 sec)
+</code></pre>
+<p>注意上面 <code>like '"Android%'</code> 的語法，<code>Android</code> 前還有個雙引號，另外 <code>operating_system</code> 的結果兩側也都有雙引號。都用 <code>JSON_EXTRACT()</code> 了，為什麼不自動把引號拿掉?</p>
+</li>
+<li>
+<p>MySQL doesn’t support indexes on JSON columns, but that restriction is easy to get around using VIRTUAL COLUMNS.</p>
+<pre><code>mysql&gt; alter table products add key idx_attributes (attributes);
+ERROR 3152 (42000): JSON column 'attributes' cannot be used in key specification.
+</code></pre>
+<p>Let’s add a GENERATED COLUMN that stores the memory of each device.</p>
+<pre><code>mysql&gt; alter table products add column memory int as (attributes-&gt;'$.memory');
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre>
+<p>Now let’s create an index on the column.</p>
+<pre><code>mysql&gt; alter table products add key idx_memory (memory);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+</code></pre>
+<p>Let’s look at the EXPLAIN PLAN for the query to fetch all devices that have 16 GB memory. As you can see from the explain plan, this uses the index we created on the virtual column derived from the JSON column.</p>
+<pre><code>mysql&gt; EXPLAIN SELECT name,memory FROM products where memory=16;
++----+-------------+----------+------------+------+---------------+------------+---------+-------+------+----------+-------+
+| id | select_type | table    | partitions | type | possible_keys | key        | key_len | ref   | rows | filtered | Extra |
++----+-------------+----------+------------+------+---------------+------------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | products | NULL       | ref  | idx_memory    | idx_memory | 5       | const |    5 |   100.00 | NULL  |
++----+-------------+----------+------------+------+---------------+------------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0.00 sec)
+</code></pre>
+</li>
+<li>
+<p>Another useful function is <code>JSON_KEYS</code>, which returns the keys from the JSON object. Suppose that we want to see what attributes we store for an iPad.</p>
+<pre><code>mysql&gt; select id,name,JSON_KEYS(attributes) from products where name like 'Apple iPad';
++----+------------+------------------------------------------------------------------------------+
+| id | name       | JSON_KEYS(attributes)                                                        |
++----+------------+------------------------------------------------------------------------------+
+|  7 | Apple iPad | ["color", "camera", "memory", "storage", "display_size", "operating_system"] |
+|  8 | Apple iPad | ["color", "camera", "memory", "storage", "display_size", "operating_system"] |
++----+------------+------------------------------------------------------------------------------+
+2 rows in set (0.00 sec)
+</code></pre>
+<p>不過 <code>[...]</code> 這種結果，在 MySQL 裡是什麼資料型態 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/json.html">MySQL :: MySQL 5.7 Reference Manual :: 11.6 The JSON Data Type</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.sitepoint.com/use-json-data-fields-mysql-databases/">How to Use JSON Data Fields in MySQL Databases — SitePoint</a> (2016-04-29) #ril</p>
+</li>
+<li><a href="http://www.mysqltutorial.org/mysql-json/">A Practical Guide to MySQL JSON Data Type By Example</a> #ril</li>
+<li><a href="https://scotch.io/tutorials/working-with-json-in-mysql">Working with JSON in MySQL ― Scotch.io</a> (2017-01-26) #ril</li>
+<li><a href="http://dasini.net/blog/2018/07/23/30-mins-with-mysql-json-functions/">30 mins with MySQL JSON functions | dasini.net - Journal d&rsquo;un expert MySQL</a> (2018-07-23) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-exception/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Exception Handling - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-exception.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-exception-handling">Python / Exception Handling</a></li>
+            <li class="second-level"><a href="#built-in-exception">Built-in Exception ??</a></li>
+                
+            <li class="second-level"><a href="#choice">如何選用 Exception</a></li>
+                
+            <li class="second-level"><a href="#exception-chaining">Exception Chaining ??</a></li>
+                
+            <li class="second-level"><a href="#exception-hierarchy">Exception Hierarchy ??</a></li>
+                
+            <li class="second-level"><a href="#user-defined-exception">User-defined Exception ??</a></li>
+                
+            <li class="second-level"><a href="#non-local-flow-control">Non-local Flow Control ??</a></li>
+                
+            <li class="second-level"><a href="#catch-all-exception">Catch-all (Exception) 的使用時機 ??</a></li>
+                
+            <li class="second-level"><a href="#uncaught-exception-handler">Uncaught Exception Handler ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-exception-handling"><a href="../python/">Python</a> / Exception Handling<a class="headerlink" href="#python-exception-handling" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/errors.html">8. Errors and Exceptions — Python 3.6.5 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2.7/tutorial/errors.html">8. Errors and Exceptions — Python 2.7.15 documentation</a> #ril</li>
+<li><a href="https://wiki.python.org/moin/HandlingExceptions">HandlingExceptions - Python Wiki</a> #ril</li>
+<li><a href="https://jeffknupp.com/blog/2013/02/06/write-cleaner-python-use-exceptions/">Write Cleaner Python: Use Exceptions</a> (2013-02-06) #ril</li>
+<li><a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">Programming Recommendations - PEP 8 -- Style Guide for Python Code | Python.org</a> 提到一堆 exception 相關注意事項 #ril</li>
+</ul>
+<h2 id="built-in-exception">Built-in Exception ??<a class="headerlink" href="#built-in-exception" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions — Python 3.7.1 documentation</a> #ril<ul>
+<li>Except where mentioned, they have an “associated value” indicating the detailed cause of the error. This may be a string or a tuple of several items of information (e.g., an error code and a string explaining the code). The associated value is usually passed as arguments to the exception class’s constructor.</li>
+<li>Programmers are encouraged to derive new exceptions from the <code>Exception</code> class or one of its subclasses, and not from <code>BaseException</code>.</li>
+<li><code>BaseException</code> 是所有 built-in exception 的 base class，它的 <code>__str__()</code> 會回傳 &ldquo;the representation of the argument(s) to the instance&rdquo;。這裡解釋了 <code>args</code> &ndash; The tuple of arguments given to the exception constructor. Some built-in exceptions (like <code>OSError</code>) expect a certain number of arguments and assign a special meaning to the elements of this tuple, while others are usually called only with A SINGLE STRING GIVING AN ERROR MESSAGE. 最常見的用法就是單一個 error messsage。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy">Exception hierarchy - Built-in Exceptions — Python 3.7.1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/exceptions.html#exception-hierarchy">Exception hierarchy - 6. Built-in Exceptions — Python 2.7.15 documentation</a> #ril</li>
+</ul>
+<h2 id="choice">如何選用 Exception<a class="headerlink" href="#choice" title="Permanent link"> #</a></h2>
+<p>Python <a href="https://docs.python.org/3/library/exceptions.html">內建有許多 exceptions</a>，很多時候其實是不需要<a href="#user-defined-exception">自訂 exceptions</a> 的。常用的有：</p>
+<ul>
+<li>
+<p><code>NotImplementedError</code></p>
+<p>尚未完成實作，或是需要 subclass 覆寫並提供實作時。</p>
+</li>
+<li>
+<p><code>TypeError</code></p>
+<p>傳入的參數型態有問題時。</p>
+</li>
+<li>
+<p><code>ValueError</code></p>
+<p>傳入的參數型態沒問題，但值不符合要求時。</p>
+</li>
+<li>
+<p><code>IndexError</code></p>
+<p>內部用 sequence 序列的形式儲存資料，但索引超出範圍時。</p>
+</li>
+<li>
+<p><code>KeyError</code></p>
+<p>內部用 key-value pairs 對照表的形式儲存資料，但索引的 key 值不存在時。</p>
+</li>
+<li>
+<p><code>AssertionError</code></p>
+<p>斷言的條件不成立時。</p>
+<p>許多人問到 Java <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/IllegalStateException.html"><code>IllegalStateException</code></a> 適用的狀況，在 Python 裡要丟出什麼例外？目前大家比較能接受的答案是 <code>ValueError</code>，也就是第一個參數 <code>self</code> 的狀態有問題。但我個人認為，如果有人在不對的時機呼叫某個方法，丟出 <code>AssertionError</code> 應該更為恰當，因為它違反了當初設計 API 的人的假設。</p>
+</li>
+<li>
+<p><code>RuntimeError</code></p>
+<p>當上面的 exceptions 都不適用時。</p>
+<p>如果 caller 沒有要針對這種狀況做處理，直接用 <code>RuntimeError</code> 並沒有什麼不妥，只要 message 帶有足夠的 debug information 即可。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.html#logging.basicConfig"><code>logging.basicConfig(**kwargs)</code> - logging — Logging facility for Python — Python 3.7.3 documentation</a> - <code>stream</code> - &hellip; Note that this argument is incompatible with <code>filename</code> - if both are present, a <code>ValueError</code> is raised. 看來只要 input 不對，都可以丟 <code>ValueError</code>。</p>
+</li>
+<li>
+<p><a href="http://stackoverflow.com/questions/10726919/">python - What error to raise when class state is invalid? - Stack Overflow</a> (2012-05-23)</p>
+<p>建議延用 <code>ValueError</code>，因為沒有人會去 catch 這類的錯誤（基本上這是 API 用法上的錯誤，屬於 programming error），所以沒必要去自訂 exception。</p>
+</li>
+<li>
+<p><a href="http://stackoverflow.com/questions/7505941/">python - Object not in the right state; which exception is appropriate? - Stack Overflow</a> (2011-09-21)</p>
+<p>建議自訂 exception，不要跟 <code>ValueError</code> 混用，因為使用者會很驚訝 <code>except ValueError:</code> 時，會 catch 到你的 exception。從 exception handling 的角度來看 exception 要怎麼設計。</p>
+</li>
+<li>
+<p><a href="http://stackoverflow.com/questions/1701199/">Is there an analogue to Java IllegalStateException in Python? - Stack Overflow</a> (2009-11-09)</p>
+<p>普遍認為 <code>ValueError</code> 定位上類似於 Java 的 <code>IllegalStateException</code></p>
+</li>
+</ul>
+<h2 id="exception-chaining">Exception Chaining ??<a class="headerlink" href="#exception-chaining" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">Programming Recommendations - PEP 8 -- Style Guide for Python Code | Python.org</a></p>
+<ul>
+<li>
+<p>Use EXCEPTION CHAINING appropriately. In Python 3, <code>raise X from Y</code> should be used to indicate explicit replacement without losing the original traceback.</p>
+<p>Python 2 要怎麼做 ??</p>
+</li>
+<li>
+<p>When deliberately REPLACING an inner exception (using &ldquo;raise X&rdquo; in Python 2 or &ldquo;raise X from None&rdquo; in Python 3.3+), ensure that relevant details are transferred to the new exception (such as preserving the attribute name when converting <code>KeyError</code> to <code>AttributeError</code>, or embedding the text of the original exception in the new exception message).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/exceptions.html">Built-in Exceptions — Python 3.7.1 documentation</a> 一開始就提到 <code>raise new_exc from original_exc</code> 的用法，跟 <code>__cause__</code> 有關 #ril</p>
+</li>
+<li><a href="https://julien.danjou.info/python-exceptions-guide/#wrappingexceptions">Wrapping Exceptions - The definitive guide to Python exceptions</a> (2016-08-11) #ril</li>
+</ul>
+<h2 id="exception-hierarchy">Exception Hierarchy ??<a class="headerlink" href="#exception-hierarchy" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/errors.html#user-defined-exceptions">User-defined Exceptions - 8. Errors and Exceptions — Python 3.7.1 documentation</a> When creating a MODULE that can raise several distinct errors, a common practice is to create a BASE CLASS for exceptions defined by that module, and subclass that to create specific exception classes for different error conditions 也就是 application/library 的 exception hierarhcy 會自成一個體系；下面 exception hierarchy 的例子，root 是 <code>Error(Exception)</code>，這名稱還滿直覺的 (已在 module 下，不用再寫明 context)。</li>
+<li>
+<p><a href="https://julien.danjou.info/python-exceptions-guide/#organization">Organization - The definitive guide to Python exceptions</a> (2016-08-11) Library 可以把 exceptions 集中在一個檔案，但 application 則建議按子系統拆開 #ril</p>
+</li>
+<li>
+<p><a href="http://effbot.org/librarybook/exceptions.htm">The exceptions module</a> #ril</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/27030933/">Python 2&rsquo;s `exceptions` module is missing in Python3, where did its contents go? - Stack Overflow</a> #ril</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/343262/">python - Is it better to have many specified exceptions or some general that are raised with specified description? - Software Engineering Stack Exchange</a> 9000: 提到 library/module 要有 umbrella exception class 的概念 #ril</li>
+</ul>
+<p>可供參考的實作：</p>
+<ul>
+<li><a href="https://github.com/requests/requests/blob/master/requests/exceptions.py">requests/exceptions.py at master · requests/requests</a></li>
+<li><a href="https://github.com/PyCQA/pylint/blob/master/pylint/exceptions.py">pylint/exceptions.py at master · PyCQA/pylint</a></li>
+<li><a href="https://github.com/zzzeek/sqlalchemy/blob/master/lib/sqlalchemy/exc.py">sqlalchemy/exc.py at master · zzzeek/sqlalchemy</a> #ril</li>
+<li><a href="https://github.com/boto/boto3/blob/develop/boto3/exceptions.py">boto3/exceptions.py at develop · boto/boto3</a></li>
+<li><a href="https://github.com/search?p=3&amp;q=filename%3Aexceptions.py&amp;type=Code">Search · filename:exceptions.py</a> GitHub 上面好多 <code>exceptions.py</code> 裡一起宣告不同的 exceptions，形成一個 hierarchy。</li>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/master/mkdocs/exceptions.py">mkdocs/exceptions.py at master · mkdocs/mkdocs</a></li>
+<li><a href="https://github.com/scrapy/scrapy/blob/master/scrapy/exceptions.py">scrapy/exceptions.py at master · scrapy/scrapy</a></li>
+</ul>
+<h2 id="user-defined-exception">User-defined Exception ??<a class="headerlink" href="#user-defined-exception" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/tutorial/errors.html#user-defined-exceptions">User-defined Exceptions - 8. Errors and Exceptions — Python 3.7.1 documentation</a></p>
+<ul>
+<li>
+<p>Programs may name their own exceptions by creating a new exception class (see Classes for more about Python classes). Exceptions should typically be derived from the <code>Exception</code> class, either directly or indirectly.</p>
+<p>Exception classes can be defined which do anything any other class can do, but are usually KEPT SIMPLE, often only offering a number of ATTRIBUTES that allow INFORMATION ABOUT THE ERROR to be extracted by handlers for the exception.</p>
+</li>
+<li>
+<p>When creating a module that can raise several distinct errors, a common practice is to create A BASE CLASS FOR EXCEPTIONS DEFINED BY THAT MODULE, and subclass that to create specific exception classes for different error conditions:</p>
+<pre><code>class Error(Exception):
+    """Base class for exceptions in this module."""
+    pass
+
+class InputError(Error):
+    """Exception raised for errors in the input.
+
+    Attributes:
+        expression -- input expression in which the error occurred
+        message -- explanation of the error
+    """
+
+    def __init__(self, expression, message):
+        self.expression = expression
+        self.message = message
+
+class TransitionError(Error):
+    """Raised when an operation attempts a state transition that's not
+    allowed.
+
+    Attributes:
+        previous -- state at beginning of transition
+        next -- attempted new state
+        message -- explanation of why the specific transition is not allowed
+    """
+
+    def __init__(self, previous, next, message):
+        self.previous = previous
+        self.next = next
+        self.message = message
+</code></pre>
+<p>Most exceptions are defined with names that end in <code>Error</code>, similar to the naming of the standard exceptions.</p>
+<p>確實，在 <a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy">Exception hierarchy</a> 裡除了 <code>BaseException</code> 與 <code>Exception</code> 外，所有 exception 的命名都以 <code>Error</code> 或 <code>Warning</code> 結尾。其中 base error 就叫做 <code>Error</code>，剛好 Exception Hierarchy 裡沒有用到 <code>Error</code>。</p>
+<p>沒有特別的要求? 從範例看來 attribute 確實很多樣，其中 <code>message</code> attribute 是通用的? 不用考慮 <code>Exception</code> 的 <code>__init__()</code>?? 也不用實作 <code>__str__()</code> ??</p>
+</li>
+<li>
+<p>Many standard modules define THEIR OWN EXCEPTIONS to report errors that may occur in functions they define. More information on classes is presented in chapter Classes.</p>
+<p>Module 就該定義自己的 exception 了，不一定要到 package。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/tutorial/errors.html#handling-exceptions">Handling Exceptions - 8. Errors and Exceptions — Python 3.7.3 documentation</a></p>
+<ul>
+<li>
+<p>The <code>except</code> clause may specify a variable after the exception name. The variable is bound to an exception instance with the arguments stored in <code>instance.args</code>.</p>
+<p>For convenience, the exception instance defines <code>__str__()</code> so the arguments can be printed directly without having to reference <code>.args</code>.&rdquo;</p>
+<pre><code>&gt;&gt;&gt; try:
+...     raise Exception('spam', 'eggs')
+... except Exception as inst:
+...     print(type(inst))    # the exception instance
+...     print(inst.args)     # arguments stored in .args
+...     print(inst)          # __str__ allows args to be printed directly,
+...                          # but may be overridden in exception subclasses
+...     x, y = inst.args     # unpack args
+...     print('x =', x)
+...     print('y =', y)
+...
+&lt;class 'Exception'&gt;
+('spam', 'eggs')
+('spam', 'eggs')
+x = spam
+y = eggs
+</code></pre>
+<p>這說明了 built-in exception 一定會有 <code>.args</code>，且 <code>__str__()</code> 預設的行為就會把 arguments 全部印出。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/tutorial/errors.html#user-defined-exceptions">User-defined Exceptions - 8. Errors and Exceptions — Python 2.7.15 documentation</a> 說法跟 Python 3 的文件有些差異</p>
+<ul>
+<li>
+<p>Programs may name their own exceptions by creating a new exception class (see Classes for more about Python classes). Exceptions should typically be derived from the <code>Exception</code> class, either directly or indirectly. For example:</p>
+<pre><code>&gt;&gt;&gt; class MyError(Exception):
+...     def __init__(self, value):
+...         self.value = value
+...     def __str__(self):
+...         return repr(self.value)
+...
+&gt;&gt;&gt; try:
+...     raise MyError(2*2)
+... except MyError as e:
+...     print 'My exception occurred, value:', e.value
+...
+My exception occurred, value: 4
+&gt;&gt;&gt; raise MyError('oops!')
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+__main__.MyError: 'oops!'
+</code></pre>
+<p>In this example, the default <code>__init__()</code> of <code>Exception</code> has been overridden. The new behavior simply creates the <code>value</code> attribute. This replaces the default behavior of creating the <code>args</code> attribute.</p>
+<p>另外也實作了 <code>__str_()</code>，為什麼都不考慮呼叫 <code>Exception.__init__()</code> ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0008/">PEP 8 -- Style Guide for Python Code | Python.org</a></p>
+<p>Exception Names</p>
+<ul>
+<li>
+<p>Because exceptions should be classes, the class naming convention applies here. However, you should use the suffix <code>Error</code> on your exception names (IF the exception actually is an error).</p>
+<p>這裡埋下了 exception 不一定是 error 的伏筆。</p>
+</li>
+</ul>
+<p>Programming Recommendations</p>
+<ul>
+<li>
+<p>Derive exceptions from <code>Exception</code> rather than <code>BaseException</code>. Direct inheritance from <code>BaseException</code> is reserved for exceptions where catching them is almost always the wrong thing to do.</p>
+<p><code>BaseException</code> 不該被 cache? 猜想是針對它直屬 subclass 的說法 &ndash; 包括 <code>SystemExit</code>、<code>KeyboardInterrupt</code>、<code>GeneratorExit</code> 跟 <code>Exception</code>，也難怪 <code>except Exception</code> 的用法會被 Pylint 警告 <code>broad-except</code>。</p>
+</li>
+<li>
+<p>Design exception hierarchies BASED ON THE DISTINCTIONS THAT CODE CATCHING THE EXCEPTIONS IS LIKELY TO NEED, rather than the locations where the exceptions are raised. Aim to answer the question &ldquo;WHAT WENT WRONG?&rdquo; programmatically, rather than only stating that &ldquo;A problem occurred&rdquo; (see PEP 3151 for an example of this lesson being learned for the builtin exception hierarchy)</p>
+</li>
+<li>
+<p>Class naming conventions apply here, although you should add the suffix <code>Error</code> to your exception classes if the exception is an error. Non-error exceptions that are used for NON-LOCAL FLOW CONTROL or other forms of signaling need no special suffix.</p>
+<p>原來有 non-error exception 這種用法 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wiki.python.org/moin/HandlingExceptions#Getting_Useful_Information_from_an_Exception">Getting Useful Information from an Exception - HandlingExceptions - Python Wiki</a></p>
+<ul>
+<li>
+<p>The <code>.args</code> attribute of exceptions is a tuple of all the arguments that were passed in (typically the one and only argument is the error message). This way you can modify the arguments and re-raise, and the extra information will be displayed. You could also put a print statement or logging in the <code>except</code> block.</p>
+<pre><code>try:
+    a, b, c = d
+except Exception as e:
+    e.args += (d,)
+    raise
+</code></pre>
+<p>這裡改動 <code>args</code> 再 <code>reraise</code> 的做法真怪!?</p>
+</li>
+<li>
+<p>Note that not all exceptions subclass <code>Exception</code> (though almost all do), so this might not catch some exceptions;</p>
+<p>also, exceptions aren&rsquo;t required to have an <code>.args</code> attribute (though it will if the exception subclasses <code>Exception</code> and DOESN&rsquo;T OVERRIDE <code>__init__</code> WITHOUT CALLING ITS SUPERCLASS), so the code as written might fail but in practice it almost never does (and if it does, you should fix the non-conformant exception!)</p>
+<p>說明了自訂 exception 應該要呼叫 <code>Exception.__init__()</code>，雖然不一定有 <code>.args</code>，但應該要有的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/exceptions.html#Exception">exception Exception - Built-in Exceptions — Python 3.7.1 documentation</a></p>
+<ul>
+<li>
+<p>All built-in, NON-SYSTEM-EXITING exceptions are derived from this class. All user-defined exceptions should also be derived from this class.</p>
+<p>從 non-system-exiting 這個定位，可以理解為何自訂的 exception 都必須繼承自它。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/requests/requests/blob/master/requests/exceptions.py">requests/exceptions.py at master · requests/requests</a></p>
+<ul>
+<li>所有的 exception/warning 分別繼承自 <code>RequestException(IOError)</code> 與 <code>RequestsWarning(Warning)</code>。</li>
+<li><code>RequestException</code> 的 constructor 採 <code>__init__(self, *args, **kwargs)</code>，中間會用 <code>kwargs.pop('xxx', None)</code> 把部份的 keyword arguments 取出，最後會呼叫 <code>super(RequestException, self).__init__(*args, **kwargs)</code></li>
+<li><code>MissingSchema(RequestException, ValueError)</code> 除了 <code>RequestException</code> 外還繼承其他 class 的狀況並不少見。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/zzzeek/sqlalchemy/blob/master/lib/sqlalchemy/exc.py">sqlalchemy/exc.py at master · zzzeek/sqlalchemy</a></p>
+<ul>
+<li>所有的 exception 都繼承自 <code>SQLAlchemyError(Exception)</code>。</li>
+<li><code>SQLAlchemyError</code> 的 constructor 採 <code>__init__(self, *arg, **kw)</code>，中間會用 <code>kw.pop('xxx', None)</code> 把部份的 keyword argument 取出，最後會呼叫 <code>super(SQLAlchemyError, self).__init__(*arg, **kw)</code>，還自訂 <code>__str__(self)</code> (會操作到 <code>Exception.args</code>)，會額外附加 error code 及對應的文件 URL。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/wtforms/wtforms/blob/master/src/wtforms/validators.py#L50">ValidationError - wtforms/validators.py at master · wtforms/wtforms</a> <code>ValidationError(ValueError)</code> 的 <code>__init__(self, message="", *args, **kwargs)</code> 單純呼叫 <code>ValueError.__init__(self, message, *args, **kwargs)</code> 因為第一個 positional argument 是 message??</p>
+</li>
+<li>
+<p><a href="https://www.codementor.io/sheena/how-to-write-python-custom-exceptions-du107ufv9#subclassing-exceptions-and-other-fancy-things">Subclassing Exceptions and Other Fancy Things - Writing and Using Custom Exceptions in Python | Codementor</a> (2015-05-26)</p>
+<ul>
+<li>這裡也出現 <code>Exception.__init__(self,*args,**kwargs)</code> 的寫法。</li>
+<li><code>Exception.__init__(self,"my exception was raised with arguments {0}".format(dErrArguments))</code> 感覺對 <code>Exception.__init__()</code> 的第一個參數做了假設?</li>
+<li>The fact that it is <code>anOhMyGoodnessExc</code> doesn&rsquo;t matter much─what we care about is the message. 事先定義了不同的 <code>oh_my_goodness = Exception("well, that rather badly didnt it?")</code>，視不同的情況再 raise &hellip; 有點特別的用法。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.programiz.com/python-programming/user-defined-exception">How to Define Custom Exceptions in Python? (With Examples)</a></p>
+<ul>
+<li>using the <code>raise</code> statement with an optional error message. 也對 <code>Exception</code> 的第一個參數做了假設。</li>
+<li>it is a good practice to place all the user-defined exceptions that our program raises in a separate file. Many standard modules do this. They define their exceptions separately as <code>exceptions.py</code> or <code>errors.py</code> (generally but not always). 像 Requests 套件就是。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pythonhosted.org/Pyro/10-errors.html">Problems with user defined exception classes - PYRO - Errors and Troubleshooting</a></p>
+<ul>
+<li><code>__init__(self, mymessage)</code> 在 Python 2.5 後會有問題，要改成 <code>__init__(self, *args)</code> 或 <code>__init__(self, mymessage=None)</code></li>
+<li>If you don&rsquo;t need any special behavior of your own exception objects, it is probably best to just subclass them from <code>Exception</code> and not define any custom methods or properties. That avoids the problem as well. All builtin exceptions should accept a STRING ARGUMENT to be used as the EXCEPTION MESSAGE, so there is no need to subclass the exception and add custom behavior as shown above, if you just want to remember a message string. 問題是所有 built-in exception 都是這樣嗎?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://julien.danjou.info/python-exceptions-guide/">The definitive guide to Python exceptions</a> (2016-08-11)</p>
+<ul>
+<li>
+<p>從 CPython 的原始碼觀察到，<code>Exception</code> 只是單純地繼承 <code>BaseException</code>，沒有加其他東西，而 <code>BaseException.__init__</code> 的 signature 為 <code>BaseException.__init__(*args)</code>，只是將傳入的 arguments 存到 <code>args</code> attribute，而這個 <code>args</code> attribute 只被用在 <code>BaseException.__str__()</code>，演算法大概像是：</p>
+<pre><code>def __str__(self): # 專注在 message，不用輸出 type
+    if len(self.args) == 0:
+        return ""
+    if len(self.args) == 1:
+        return str(self.args[0])
+    return str(self.args)
+</code></pre>
+</li>
+<li>
+<p>所以有了 &ldquo;the message to display for an exception should be passed as the FIRST AND THE ONLY ARGUMENT to the <code>BaseException.__init__</code> method&rdquo; 這樣的結論 =&gt; always call <code>BaseException.__init__</code> with only one argument. 下面的範例是看過最棒的，<code>msg=None</code> 跟 <code>super(CarError, self).__init__(msg)</code> 的設計更是巧妙!! 事先把 message 準備好傳入 <code>Exception.__init__()</code>，就不用再自訂 <code>__str__()</code>：</p>
+<pre><code>class CarError(Exception):
+    """Basic exception for errors raised by cars"""
+    def __init__(self, car, msg=None):
+        if msg is None:
+            # Set some default useful error message
+            msg = "An error occured with car %s" % car
+        super(CarError, self).__init__(msg)
+        self.car = car
+
+class CarCrashError(CarError):
+    """When you drive too fast"""
+    def __init__(self, car, other_car, speed):
+        super(CarCrashError, self).__init__(
+            car, msg="Car crashed into %s at speed %d" % (other_car, speed))
+        self.speed = speed
+        self.other_car = other_car
+</code></pre>
+</li>
+<li>
+<p>Inherits from builtin exceptions types when it makes sense. This makes it easier for programs to NOT BE SPECIFIC TO YOUR APPLICATION OR LIBRARY: 例如 <code>class InvalidColor(CarError, ValueError)</code> =&gt; That allows many programs to catch errors in a more generic way without noticing your own defined type. 這樣的用法也出現在 Requests 裡，例如 <code>MissingSchema(RequestException, ValueError)</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/44799976/">Python exception - how does the args attribute get automatically set? - Stack Overflow</a> #ril</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/1319615/">Proper way to declare custom exceptions in modern Python? - Stack Overflow</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/6180185/">Custom Python Exceptions with Error Codes and Error Messages - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="non-local-flow-control">Non-local Flow Control ??<a class="headerlink" href="#non-local-flow-control" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">Programming Recommendations - PEP 8 -- Style Guide for Python Code | Python.org</a> 提到 NON-ERROR EXCEPTIONS that are used for NON-LOCAL FLOW CONTROL or other forms of signaling need no special suffix. 原來還有 non-error exception 這種東西。</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/351110/">Are exceptions for flow control best practice in Python? - Software Engineering Stack Exchange</a> #ril</li>
+<li><a href="http://schlitt.info/opensource/blog/0724_python_good_bad_evil_03_flow_control_exceptions.html">Python. Good, bad, evil -3-: Flow control exceptions - Blog - Open Source - schlitt.info</a> #ril</li>
+<li><a href="http://wiki.c2.com/?DontUseExceptionsForFlowControl">Dont Use Exceptions For Flow Control</a> 有提到 Python 的觀點 #ril</li>
+<li><a href="http://scottlobdell.me/2015/06/using-exception-handling-control-flow-python/">Using Exception Handling for Control Flow (in Python) – Scott Lobdell</a> (2015-06-23) #ril</li>
+<li><a href="https://stackoverflow.com/questions/7274310/">try catch - Python using exceptions for control flow considered bad? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="catch-all-exception">Catch-all (<code>Exception</code>) 的使用時機 ??<a class="headerlink" href="#catch-all-exception" title="Permanent link"> #</a></h2>
+<pre><code>try:
+    # ...
+except Exception:
+    _logger.exception('Failed to ...')
+</code></pre>
+
+<ul>
+<li>在 outmost level 做為 uncaught exception handler 時會使用。</li>
+<li>處理 3<sup>rd</sup>-party library 時可能會用，尤其無法掌握它會以什麼形式出錯時。</li>
+<li><code>except Exception:</code> 的寫法，只比 <code>except:</code> (bare except) 少處理了 system-exiting exceptions (<code>SystemExit</code>、<code>KeyboardInterrupt</code> 跟 <code>GeneratorExit</code>)，用 bare except 可能會導致 script 無法結束。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">Programming Recommendations - PEP 8 -- Style Guide for Python Code | Python.org</a> 提到 base <code>except</code> 的使用時機 #ril</li>
+<li><a href="http://pylint-messages.wikidot.com/messages:w0703">W0703 - PyLint Messages</a><ul>
+<li>抓 <code>Exception</code> 時會提示 <code>Catching too general exception %s</code>。</li>
+<li>Catching exceptions should be as precise as possible. The type of exceptions that can be raised should be known in advance. Using a catch-all Exception instance defeats the purpose of knowing the type of error that occured, and prohibits the use of tailored responses. 但前提是你有打算處理，以提供 tailored responses。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/4990718/">python - About catching ANY exception - Stack Overflow</a><ul>
+<li>Tim Pietzcker: 你可以，但你不應該。</li>
+<li>Blaze: 重點是少用 (sparingly)，尤其在處理 3<sup>rd</sup>-party library 時，你不會希望有漏網之魚 &ndash; have a backup catch all for the ones you miss。</li>
+<li>Duncan: 只有在 the most outer level of your code 處理 uncaught exception 時才會用。比起 bare except (<code>except:</code>)，<code>except Exception</code> 的好處是不會抓 <code>KeyboardInterrupt</code>、<code>SystemExit</code> 等，不會讓人無法中斷 script。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/3/tutorial/errors.html#handling-exceptions">Handling Exceptions - 8. Errors and Exceptions — Python 3.7.0 documentation</a> The last except clause may omit the exception name(s), to serve as a wildcard. Use this with extreme caution, since it is easy to mask a real programming error in this way! 不過若是擔心 programming error，測試應該是可以解決的。</li>
+<li><a href="https://docs.python.org/3/library/exceptions.html">5. Built-in Exceptions — Python 3.7.0 documentation</a><ul>
+<li>所有的 exception 都直接或間接繼承自 <code>BaseException</code>，不過 user-defined exception 應該要繼承自 <code>Exception</code>，而非 <code>BaseException</code>。從 <code>Exception</code> class 的說明看來，<code>BaseException</code> 是保留給 system-exiting exceptions 使用的。</li>
+<li>從 Exception hierarchy 看來，做 <code>except Exception:</code> 也不過漏了 <code>SystemExit</code>、<code>KeyboardInterrupt</code> 跟 <code>GeneratorExit</code> 而已，跟 bare except (<code>except:</code>) 的差別不大。</li>
+</ul>
+</li>
+</ul>
+<h2 id="uncaught-exception-handler">Uncaught Exception Handler ??<a class="headerlink" href="#uncaught-exception-handler" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6234405/">Logging uncaught exceptions in Python - Stack Overflow</a> #ril</li>
+<li><a href="https://docs.python.org/3/library/sys.html#sys.excepthook"><code>sys.excepthook(type, value, traceback)</code> - sys — System-specific parameters and functions — Python 3.7.4rc1 documentation</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.python.org/3/library/exceptions.html#base-classes">Built-in Exceptions</a></li>
+<li><a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy">Exception Hierarchy</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

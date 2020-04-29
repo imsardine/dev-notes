@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/arduino-software/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Arduino / Software (IDE) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/arduino-software.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#arduino-software-ide">Arduino / Software (IDE)</a></li>
+            <li class="second-level"><a href="#arduino-web-editor-desktop-ide">Arduino Web Editor, Desktop IDE ??</a></li>
+                
+            <li class="second-level"><a href="#sketch-shetchbook">Sketch, Shetchbook</a></li>
+                
+            <li class="second-level"><a href="#library">Library ??</a></li>
+                
+            <li class="second-level"><a href="#serial-monitor">Serial Monitor ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#arduino-web-editor-plugin">Arduino Web Editor (Plugin)</a></li>
+                <li class="third-level"><a href="#arduino-desktop-ide">Arduino Desktop IDE</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="arduino-software-ide"><a href="../arduino/">Arduino</a> / Software (IDE)<a class="headerlink" href="#arduino-software-ide" title="Permanent link"> #</a></h1>
+<ul>
+<li>官方將 IDE 稱做 &ldquo;Arduino Software&rdquo; (相對於 hardware)，所以 IDE 有 Arduino IDE 與 Arduino Software 兩種說法。但 <a href="https://www.arduino.cc/en/Main/Software">Arduino Software</a> 頁面又有 Access the Online IDE 與 Download the Arduino IDE 兩個選項，廣義地來說這些都是 Arduino Software (IDE)，若要區分的話可以說 Arduino Web Editor 與 Arduino Desktop IDE，前者是 Arduino Create 的一員。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/HomePage">Arduino - Getting Started</a> 明確指出 Arduino Software (IDE) 有兩種選項 If you have a reliable Internet connection, you should use the online IDE (Arduino Web Editor). It will allow you to save your sketches in the cloud, having them available from any device and backed up. If you would rather work offline, you should use the latest version of the desktop IDE. 推薦用 Arduino Web Editor (要裝 plugin)，體驗不輸 Desktop IDE</li>
+</ul>
+<h2 id="arduino-web-editor-desktop-ide">Arduino Web Editor, Desktop IDE ??<a class="headerlink" href="#arduino-web-editor-desktop-ide" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment">Arduino - Environment</a> #ril</li>
+<li><a href="https://create.arduino.cc/projecthub/Arduino_Genuino/getting-started-with-arduino-web-editor-on-various-platforms-4b3e4a">Getting Started with Arduino Web Editor on Various Platforms - Arduino Project Hub</a> #ril</li>
+<li><a href="http://playground.arduino.cc/Main/DevelopmentTools">Arduino Playground - DevelopmentTools</a> 除了 Arduino IDE 還有許多選擇 #ril</li>
+</ul>
+<h2 id="sketch-shetchbook">Sketch, Shetchbook<a class="headerlink" href="#sketch-shetchbook" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment">Arduino - Environment</a><ul>
+<li>PROGRAMS written using Arduino Software (IDE) are called SKETCHES. These sketches are written in the text editor and are saved with the file extension <code>.ino</code>. &hellip; The toolbar buttons allow you to verify and upload programs, create, open, and save sketches 許多操作的對象都是 sketch (folder)，而 <code>.ino</code> 只主要的程式碼。</li>
+<li>File &gt; Sketchbook - Shows the current sketches within the sketchbook FOLDER STRUCTURE</li>
+<li>Sketch &gt; Show Sketch Folder - Opens the current sketch folder. 一個 sketch 也是個資料夾</li>
+<li>Sketch &gt; Add File&hellip; - Adds a source file to the sketch (it will be copied from its current location). The new file appears in a new tab in the sketch window. 實驗發現所有檔案都會被複製進 sketch folder 沒錯，但只有 <code>.c</code>、<code>.cpp</code>、<code>.h</code> 才會直接擺在 sketch folder 下，否則會進到 <code>sketch_folder/data/</code> 下，也不會開啟 tab 編輯。</li>
+<li>Tools &gt; Archive Sketch - Archives a copy of the current sketch in <code>.zip</code> format. The archive is placed in the same directory as the sketch. 跟 skectch folder 同一層，不是在 sketch folder 裡面。</li>
+<li>Sketchbook - The Arduino Software (IDE) uses the concept of a sketchbook: a standard place to store your programs (or sketches). You can view or change the location of the sketchbook location from with the Preferences dialog. 以 macOS 而言，預設是在 <code>~/Documents/Arduino</code>；注意 sketchbook 只是存放 sketch 慣用的位置，而每個 sketch 都是獨立的 folder，不一定要在 sketchbook folder 下。</li>
+<li>Tabs, Multiple Files, and Compilation - Allows you to manage sketches with more than one file (each of which appears in its own tab). These can be normal Arduino code files (no visible extension), C files (<code>.c</code> extension), C++ files (<code>.cpp</code>), or header files (<code>.h</code>). 也就是說 sketch 是個 program/project；其中 Arduino code file 就是 <code>.ino</code>，只是在 IDE 裡不會顯示副檔名而已。</li>
+</ul>
+</li>
+</ul>
+<h2 id="library">Library ??<a class="headerlink" href="#library" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment#libraries">Libraries - Arduino - Environment</a><ul>
+<li>To use a library in a sketch, select it from the Sketch &gt; Import Library menu (現在是 Include Library). This will insert one or more <code>#include</code> statements at the top of the sketch and compile the library with your sketch. 只是幫忙加 <code>#include</code> 宣告而已；為什麼光是 <code>#include</code> 就會增加 program 的大小? 編譯時要 include 哪些 library 是記錄在哪裡? =&gt; 中間有 <a href="https://github.com/arduino/arduino-builder">arduino-builder</a> 在幫忙處理。</li>
+<li>There is a <a href="https://www.arduino.cc/en/Reference/Libraries">list of libraries</a> in the reference. Some libraries are included with the Arduino software. Others can be downloaded from a variety of sources or through the Library Manager. 可以下載更多，這些 library 都在哪裡??</li>
+<li>Starting with version 1.0.5 of the IDE, you do can import a library from a zip file and use it in an open sketch. 以前只能用官方提供的??</li>
+</ul>
+</li>
+<li><a href="https://www.arduino.cc/en/Guide/Libraries">Installing Additional Arduino Libraries - Arduino - Libraries</a> #ril</li>
+</ul>
+<h2 id="serial-monitor">Serial Monitor ??<a class="headerlink" href="#serial-monitor" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment#serialmonitor">Serial Monitor - Arduino - Environment</a> #ril<ul>
+<li>This displays SERIAL sent from the Arduino or Genuino board over USB or serial connector. To send data to the board, enter text and click on the &ldquo;send&rdquo; button or press enter. 既可以讀取 board 送出來的資料，也可以送資料進去。</li>
+<li>Choose the baud rate from the drop-down menu that matches the rate passed to <code>Serial.begin</code> in your sketch. 板子內外的 baud rate 要一致，聽起來其他程式也可以透過 serial 跟板子溝通。</li>
+<li>The Serial Monitor does not process control characters; if your sketch needs a complete management of the serial communication with control characters, you can use an EXTERNAL TERMINAL PROGRAM and connect it to the COM port assigned to your Arduino board. 怎麼做??</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="arduino-web-editor-plugin">Arduino Web Editor (Plugin)<a class="headerlink" href="#arduino-web-editor-plugin" title="Permanent link"> #</a></h3>
+<ul>
+<li>進到 web editor 時提示 &ldquo;No Plugin Connection. Uploading is disabled until you reconnect.&rdquo;，按 HELP 會提示 Do you see the Plugin Icon  on your system tray? NO: Launch the Plugin as you would do for any program on your OS, searching for &lsquo;Arduino Create Agent&rsquo;. 但下面又說 You can also INSTALL THE PLUGIN again, and replace the old one. 什麼是 agent? 跟 plugin 不同? =&gt; 一樣的東西</li>
+<li><a href="https://create.arduino.cc/getting-started/plugin">Welcome to the Arduino Web Editor Plugin! - Arduino Create</a> 除了把程式上傳到板子，還提到 &ldquo;use other Arduino Cloud services&rdquo;，指的是什麼?</li>
+<li><a href="https://create.arduino.cc/getting-started/plugin">Download the Arduino Plugin for Macos - Arduino Create</a><ul>
+<li>Source code for the Arduino Plugin is available on GitHub 的連結是指向 <a href="https://github.com/arduino/arduino-create-agent">Arduino Create Agent</a>，按 Download Plugin 下載 <code>ArduinoCreateAgent-1.1-osx-installer-chrome.dmg</code>，安裝到 <code>~/Applications/ArduinoCreateAgent-1.1</code>。</li>
+<li>最後一步問 Broser Support - Do you intend to use Arduino Agent with a brower other than Google Chrome or Mozill Firefox? 預設是 No，選 Yes 會怎樣? 跟 browser 是什麼關係?</li>
+<li>安裝完成會出現 system tray icon (不單單是 Chrome plugin?)，系統會多了個名叫 ArduinoCreateAgent 的 app；黑色 icon 別於 Arduino Desktop IDE 的水藍色。</li>
+</ul>
+</li>
+</ul>
+<h3 id="arduino-desktop-ide">Arduino Desktop IDE<a class="headerlink" href="#arduino-desktop-ide" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/MacOSX">Arduino - MacOSX</a> 從 <a href="https://www.arduino.cc/en/Main/Software">Arduino - Software</a> 下載 <code>arduino-1.8.8-macosx.zip</code> (約 190 MB)，解開後將 <code>Arduino.app</code> 拖進 <code>/Applications</code> 即可。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/arduino/Arduino/">arduino/Arduino - GitHub</a></li>
+<li><a href="https://github.com/arduino/arduino-builder">arduino/arduino-builder - GitHub</a></li>
+<li><a href="https://create.arduino.cc/editor/">Arduino Web Editor</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../arduino-hardware/">Arduino Hardware</a> - 上傳的程式會由 bootloader 執行，而 bootloader 可以用 programmer 覆寫</li>
+<li><a href="../arduino-programming/">Arduino Programming</a> - Arduino Software 是官方相對於 hardware 所提供的 toolset (主要是編譯、上傳)，除了 sketch 要求的 <code>setup()</code> 跟 <code>loop()</code>，只是多了 Arduino 相關的 API 可以調用而已</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

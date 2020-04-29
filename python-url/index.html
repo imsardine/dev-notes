@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-url/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / URL - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-url.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-url">Python / URL</a></li>
+            <li class="second-level"><a href="#url-parsing">URL Parsing ??</a></li>
+                
+            <li class="second-level"><a href="#url-encoding">URL Encoding</a></li>
+                
+            <li class="second-level"><a href="#url-decode">URL Decode</a></li>
+                
+            <li class="second-level"><a href="#urlliburlencode-unicode">urllib.urlencode() 不能用在 Unicode?</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-url"><a href="../python/">Python</a> / URL<a class="headerlink" href="#python-url" title="Permanent link"> #</a></h1>
+<h2 id="url-parsing">URL Parsing ??<a class="headerlink" href="#url-parsing" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/urllib.html#urllib.urlencode">urllib-urlencode() - 20.5. urllib — Open arbitrary resources by URL — Python 2.7.14 documentation</a></p>
+<ul>
+<li>The <code>urlparse</code> module provides the functions <code>parse_qs()</code> and <code>parse_qsl()</code> which are used to parse query strings into Python data structures.</li>
+</ul>
+</li>
+</ul>
+<h2 id="url-encoding">URL Encoding<a class="headerlink" href="#url-encoding" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/urllib.html#urllib.urlopen">urllib-urlopen() - 20.5. urllib — Open arbitrary resources by URL — Python 2.7.14 documentation</a> 當 URL 採用 <code>http:</code> scheme 且有提供 <code>data</code> argument 時，會走 POST request。此時 <code>data</code> argument 必須採 <code>application/x-www-form-urlencoded</code> 格式，參考 <code>urlencode()</code>。</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/urllib.html#urllib.urlencode">urllib-urlencode() - 20.5. urllib — Open arbitrary resources by URL — Python 2.7.14 documentation</a></p>
+<ul>
+<li>
+<p>Convert a mapping object or a sequence of two-element tuples to a “PERCENT-ENCODED” string, suitable to pass to <code>urlopen()</code> above as the optional <code>data</code> argument. This is useful to pass a dictionary of form fields to a POST request.</p>
+<p>The resulting string is a series of <code>key=value</code> pairs separated by <code>'&amp;'</code> characters, where both key and value are quoted using <code>quote_plus()</code> above.</p>
+<p>雖然這裡只提到 POST data (也就是 <code>application/x-www-form-urlencoded</code>)，但根據 <a href="https://docs.python.org/2/library/urllib.html#urllib.quote_plus"><code>quote_plus()</code></a> 的說法，也可以用在 query string 的編碼：</p>
+<blockquote>
+<p>Like <code>quote()</code>, but also REPLACES SPACES BY PLUS SIGNS, as required for quoting HTML form values when building up a QUERY STRING to go into a URL. Plus signs in the original string are escaped unless they are included in <code>safe</code>. It also does not have safe default to <code>'/'</code>.</p>
+</blockquote>
+</li>
+<li>
+<p>When a sequence of two-element tuples is used as the <code>query</code> argument, the first element of each tuple is a key and the second is a value. The value element in itself can be a sequence and in that case, if the optional parameter <code>doseq</code> is evaluates to <code>True</code>, individual <code>key=value</code> pairs separated by <code>'&amp;'</code> are generated for each element of the value sequence for the key.</p>
+<p>The order of parameters in the encoded string will match the order of parameter tuples in the sequence.</p>
+<p>因此 two-element tuples 也可以用在想保留 parameters 的順序時，value 不一定要是 sequence。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="url-decode">URL Decode<a class="headerlink" href="#url-decode" title="Permanent link"> #</a></h2>
+<pre><code>def test_url_decode__dict():
+    query_string = 'key=value&amp;dt=2018-03-20T17%3A00%3A00%2B08%3A00'
+    params = urlparse.parse_qs(query_string)
+
+    assert params == {
+        'key': ['value'],
+        'dt': ['2018-03-20T17:00:00+08:00'] # list of values
+    }
+
+def test_url_decode__list():
+    query_string = 'key=value&amp;dt=2018-03-20T17%3A00%3A00%2B08%3A00'
+    params = urlparse.parse_qsl(query_string)
+
+    assert params == [
+        ('key', 'value'),
+        ('dt', '2018-03-20T17:00:00+08:00')
+    ]
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/urllib.html#urllib.urlencode">urllib-urlencode() - 20.5. urllib — Open arbitrary resources by URL — Python 2.7.14 documentation</a> 提到 <code>urlparse</code> 的 <code>parse_qs()</code> 與 <code>parse_qls()</code> 可以用來解析 query string。</li>
+<li><a href="https://docs.python.org/2/library/urlparse.html">20.16. urlparse — Parse URLs into components — Python 2.7.14 documentation</a> <code>parse_qs()</code> 與 <code>parse_qsl()</code> 都可以解析 query string，差別在於 <code>parse_qs()</code> 的輸出是 <code>dict</code> (注意 value 是 list of value)，而 <code>parse_qsl()</code> 的輸出是 list of (name, value)；看起來 <code>dict(parse_qsl())</code> 是比較方便的，不用再處理 list of value 的問題。</li>
+<li><a href="https://www.urldecoder.io/python/">URL Decoding query strings or form parameters in Python | URLDecoder</a> 單純要解 percent-encoded string (不是 <code>key=value</code> 的形式)，有 <code>urllib.unquote()</code> 可以用 #ril</li>
+</ul>
+<h2 id="urlliburlencode-unicode">urllib.urlencode() 不能用在 Unicode?<a class="headerlink" href="#urlliburlencode-unicode" title="Permanent link"> #</a></h2>
+<p>若傳入 Unicode 確實會遇到類似下面的錯誤：</p>
+<pre><code>'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)
+</code></pre>
+
+<pre><code>def test_urlencode__unicode__raise_error():
+    data = {'unicode': u'中文'}
+
+    message = &quot;'ascii' codec can't encode characters in position 0-1:&quot; \
+              &quot; ordinal not in range(128)&quot;
+    with pytest.raises(UnicodeEncodeError, match=re.escape(message)) as exc_info:
+        urllib.urlencode(data)
+
+def test_urlencode__unicode_utf8encode():
+    data = {'unicode-encoded': '中文'} # byte string (no u'...' prefix)
+    assert urllib.urlencode(data) == 'unicode-encoded=%E4%B8%AD%E6%96%87'
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6480723/">python - urllib.urlencode doesn&rsquo;t like unicode values: how about this workaround? - Stack Overflow</a><ul>
+<li>把 unicode 直接送給 <code>urllib.urlencode()</code> 會出現，作者想出的方法是對所有 item 的 value 做 <code>encode('utf-8')</code>。</li>
+<li>John Machin 提到 &ldquo;decode at input time, work exclusively in unicode, encode at output time&rdquo;，這話說得真好!! 往外輸出時要用 byte string</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/service-virtualization/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Service Virtualization - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/service-virtualization.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#service-virtualization">Service Virtualization</a></li>
+            <li class="second-level"><a href="#vs-mocking">Mocking ??</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="service-virtualization">Service Virtualization<a class="headerlink" href="#service-virtualization" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Service_virtualization">Service virtualization - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>In software engineering, service virtualization or service virtualisation is a method to emulate the behavior of specific COMPONENTS in heterogeneous component-based applications such as API-driven applications, cloud-based applications and SERVICE-ORIENTED ARCHITECTURES.</p>
+</li>
+<li>
+<p>It is used to provide software development and QA/testing teams access to dependent system components that are needed to exercise an application under test (AUT), but are UNAVAILABLE OR DIFFICULT-TO-ACCESS for development and testing purposes.</p>
+<p>With the behavior of the dependent components &ldquo;virtualized&rdquo;, testing and development can proceed without accessing the actual live components. Service virtualization is recognized by vendors, industry analysts, and industry publications as being DIFFERENT THAN MOCKING.</p>
+</li>
+</ul>
+<p>Overview</p>
+<ul>
+<li>
+<p>Service virtualization emulates the behavior of software components to remove DEPENDENCY CONSTRAINTS on development and testing teams. Such constraints occur in complex, interdependent environments when a component connected to the application under test is:</p>
+<ul>
+<li>Not yet completed</li>
+<li>Still evolving</li>
+<li>Controlled by a third-party or partner</li>
+<li>
+<p>Available for testing only in limited capacity or at inconvenient times</p>
+</li>
+<li>
+<p>DIFFICULT TO PROVISION OR CONFIGURE IN A TEST ENVIRONMENT</p>
+<p>就開發測試而言，最困難就是 test data 不是自己可以控制的。</p>
+</li>
+<li>
+<p>Needed for simultaneous access by different teams with VARIED TEST DATA setup and other requirements</p>
+</li>
+<li>
+<p>Restricted or costly to use for load and performance testing</p>
+<p>測試 AUT 會存取其他 component 而產生費用時。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Although the term &ldquo;service virtualization&rdquo; reflects the technique&rsquo;s initial focus on virtualizing web services, service virtualization extends across ALL ASPECTS of composite applications: services, databases, mainframes, ESBs, and other components that communicate using COMMON MESSAGING PROTOCOLS.</p>
+<p>Other similar tools are called API simulators, API mocking tools, over the wire test doubles.</p>
+<p>雖然 service 被擴大解釋了，但 &ldquo;common messaging protocols&rdquo; 都跟 networking 的溝通有關。</p>
+</li>
+<li>
+<p>Service virtualization emulates only the behavior of the specific dependent components that developers or testers need to exercise in order to complete their END-TO-END TRANSACTIONS. Rather than virtualizing entire systems, it virtualizes only SPECIFIC SLICES OF DEPENDENT BEHAVIOR critical to the execution of development and testing tasks.</p>
+<p>This provides JUST ENOUGH application logic so that the developers or testers get what they need without having to wait for the actual service to be completed and readily available. For instance, instead of virtualizing an entire database (and performing all associated test data management as well as setting up the database for every test session), you MONITOR how the application interacts with the database, then you emulate the related database behavior (the SQL queries that are passed to the database, the corresponding result sets that are returned, and so forth).</p>
+<p>這裡的 monitor 大概就是 &ldquo;錄製&rdquo; application 與其他 component 的 &ldquo;網路溝通&rdquo;，開發測試期間再 &ldquo;重播&rdquo; 即可。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="vs-mocking">Mocking ??<a class="headerlink" href="#vs-mocking" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.infoq.com/news/2013/04/Service-Virtualization/">Service Virtualization as an Alternative to Mocking</a> (2013-04-22) #ril</li>
+<li><a href="https://searchmicroservices.techtarget.com/news/2240150279/Service-virtualization-arises-to-meet-services-testing-obstacles">Service virtualization arises to meet services testing obstacles</a> (2012-05-15) #ril</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Comparison_of_API_simulation_tools">Comparison of API simulation tools - Wikipedia</a></p>
+<ul>
+<li>
+<p>The tools listed here support emulating or simulating APIs and software systems. They are also called API MOCKING tools, SERVICE VIRTUALIZATION tools, over the wire test doubles and tools for stubbing and mocking HTTP(S) and other protocols. They enable COMPONENT TESTING in isolation.</p>
+</li>
+<li>
+<p>In alphabetical order by name (click on a column heading to sort by that column):</p>
+<p>包括 Hoverfly、Wiremock 等，為何 mitmproxy 不在裡面?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/topics/service-virtualization">Topic: service-virtualization - GitHub</a> #ril</p>
+</li>
+<li><a href="https://www.guru99.com/service-virtualization-tools.html">10 Best Service Virtualization Tools in 2019: Microservices and Mocking</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>工具：</p>
+<ul>
+<li><a href="../hoverfly/">Hoverfly</a></li>
+<li><a href="../wiremock/">Wiremock</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

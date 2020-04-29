@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/snakeyaml/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SnakeYAML - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/snakeyaml.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#snakeyaml">SnakeYAML</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#javabeans">JavaBeans</a></li>
+                
+            <li class="second-level"><a href="#snake-case">Snake Case</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#no-single-argument-constructor-found-for-class-xxx">No single argument constructor found for class XXX</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="snakeyaml">SnakeYAML<a class="headerlink" href="#snakeyaml" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://bitbucket.org/asomov/snakeyaml/wiki/Home">asomov / snakeyaml / wiki / Home — Bitbucket</a></p>
+<ul>
+<li>YAML 1.1 parser and emitter for Java.</li>
+</ul>
+<p>Requirements</p>
+<ul>
+<li>SnakeYAML requires Java 7 or higher (The latest version built for Java 6 is 1.23).</li>
+<li>SnakeYAML does not depend on any external library (but the tests do).</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.baeldung.com/java-snake-yaml">Parsing YAML with SnakeYAML | Baeldung</a> (2019-10-16) #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://bitbucket.org/asomov/snakeyaml/wiki/Home#markdown-header-quick-start">Quick start - asomov / snakeyaml / wiki / Home — Bitbucket</a></p>
+<p>Loading (de-serialize):</p>
+<pre><code>Yaml yaml = new Yaml();
+Object obj = yaml.load("a: 1\nb: 2\nc:\n  - aaa\n  - bbb");
+System.out.println(obj);
+
+{b=2, c=[aaa, bbb], a=1}
+</code></pre>
+<p>Dumping (serialise):</p>
+<pre><code>Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+map.put("name", "Pushkin");
+Yaml yaml = new Yaml();
+String output = yaml.dump(map);
+System.out.println(output);
+
+---
+name: Pushkin
+</code></pre>
+</li>
+<li>
+<p><a href="https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-loading-yaml">Loading YAML - asomov / snakeyaml / wiki / Documentation — Bitbucket</a></p>
+<ul>
+<li>Start with instantiating the <code>org.yaml.snakeyaml.Yaml</code> instance.<pre><code>Yaml yaml = new Yaml();
+</code></pre>
+</li>
+</ul>
+<p>Loading YAML</p>
+<ul>
+<li>
+<p>The method <code>Yaml.load()</code> converts a YAML document to a Java object.</p>
+<pre><code>Yaml yaml = new Yaml();
+String document = "\n- Hesperiidae\n- Papilionidae\n- Apatelodidae\n- Epiplemidae";
+List&lt;String&gt; list = (List&lt;String&gt;) yaml.load(document);
+System.out.println(list);
+
+['Hesperiidae', 'Papilionidae', 'Apatelodidae', 'Epiplemidae']
+</code></pre>
+<p>You can find an example <a href="http://bitbucket.org/asomov/snakeyaml/src/tip/src/test/java/examples/LoadExampleTest.java">here</a></p>
+</li>
+<li>
+<p><code>Yaml.load()</code> accepts a <code>String</code> or an <code>InputStream</code> object. <code>Yaml.load(InputStream stream)</code> detects the encoding by checking the BOM (byte order mark) sequence at the beginning of the stream. If no BOM is present, the <code>utf-8</code> encoding is assumed.</p>
+<p><code>Yaml.load()</code> returns a Java object.</p>
+<pre><code>public void testLoadFromString() {
+    Yaml yaml = new Yaml();
+    String document = "hello: 25";
+    Map map = (Map) yaml.load(document);
+    assertEquals("{hello=25}", map.toString());
+    assertEquals(new Long(25), map.get("hello"));
+}
+
+public void testLoadFromStream() throws FileNotFoundException {
+    InputStream input = new FileInputStream(new File("src/test/resources/reader/utf-8.txt"));
+    Yaml yaml = new Yaml();
+    Object data = yaml.load(input);
+    assertEquals("test", data);
+    //
+    data = yaml.load(new ByteArrayInputStream("test2".getBytes()));
+    assertEquals("test2", data);
+}
+</code></pre>
+</li>
+</ul>
+<p>Implicit types</p>
+<ul>
+<li>
+<p>When a TAG?? for a scalar node is not explicitly defined, SnakeYAML tries to detect the type applying regular expressions to the content of the scalar node.</p>
+<pre><code>1.0 -&gt; Float
+42 -&gt; Integer
+2009-03-30 -&gt; Date
+</code></pre>
+<p>An example how to change the default implicit types can be found <a href="http://bitbucket.org/asomov/snakeyaml/src/tip/src/test/java/examples/resolver/CustomResolverTest.java">here</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="javabeans">JavaBeans<a class="headerlink" href="#javabeans" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>官方的例子刻意避開了 <code>api_key</code> 這類 snake case 的用法 (YAML 慣用)，對應到 JavaBeans 的 property 會變成 <code>getApi_key()</code> 及 setApi_key()`，</p>
+<blockquote>
+<p>By default standard JavaBean properties and public fields are included. <code>BeanAccess.FIELD</code> makes is possible to use private fields directly.</p>
+<p>&ndash; <a href="https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-javabeans">JavaBeans - SnakeYAML Documentation</a></p>
+</blockquote>
+<p>看起來是有解的，但測試上要生出假的 config 會比較困難 (猜想是透過 Reflection)，建議用 SnakeYAML 載入 <code>java.util.Map</code> 再搭配 <code>Config</code> (interface) + <code>ConfigImpl</code> 的做法.</p>
+</li>
+<li>
+<p>SnakeYAML + <code>Config</code> + <code>ConfigImpl</code>: (<a href="https://github.com/imsardine/learning/blob/ede4adee254f3f2f3a577f7bc014821ae6d30787/snakeyaml/tests/test_config_framework.py#L1">imsardine/learning</a>)</p>
+<p><code>Main.java</code>:</p>
+<pre><code>import java.io.FileInputStream;
+import java.util.Map;
+import org.yaml.snakeyaml.Yaml;
+import mypkg.Config;
+import mypkg.ConfigImpl;
+
+public class Main {
+  public static void main(String[] args) throws Exception {
+    Map settings = (Map) new Yaml().load(new FileInputStream("hello.yml"));
+    Config config = new ConfigImpl(settings);
+    System.out.print(config.getGreeting() + ", Y" + config.getYear() + "!");
+  }
+}
+</code></pre>
+<p><code>mypkg/Config.java</code>:</p>
+<pre><code>package mypkg;
+
+public interface Config {
+  String getGreeting();
+  int getYear();
+}
+</code></pre>
+<p><code>mypkg/ConfigImpl.java</code>:</p>
+<pre><code>package mypkg;
+
+import java.util.Map;
+
+public class ConfigImpl implements Config {
+
+  private Map settings;
+
+  public ConfigImpl(Map settings) {
+    this.settings = settings;
+  }
+
+  public String getGreeting() {
+    return (String) settings.get("greeting");
+  }
+
+  public int getYear() {
+    return (Integer) settings.get("year");
+  }
+
+}
+</code></pre>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://bitbucket.org/asomov/snakeyaml/wiki/Documentation#markdown-header-javabeans">JavaBeans - asomov / snakeyaml / wiki / Documentation — Bitbucket</a></p>
+<ul>
+<li>
+<p>The spec says - &ldquo;One of the main goals of the JavaBeans architecture is to provide a platform neutral component architecture.&rdquo;</p>
+</li>
+<li>
+<p>Avoiding global tags significantly improves ability to exchange the YAML documents between different platforms and languages.</p>
+<p>If the custom Java class conforms to the JavaBean specification it can be loaded and dumped without any extra code. For instance this JavaBean</p>
+<pre><code>public class CarWithWheel {
+    private String plate;
+    private String year;
+    private Wheel wheel;
+    private Object part;
+    private Map&lt;String, Integer&gt; map;
+
+    public String getPlate() {
+        return plate;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public Wheel getWheel() {
+        return wheel;
+    }
+
+    public void setWheel(Wheel wheel) {
+        this.wheel = wheel;
+    }
+
+    public Map&lt;String, Integer&gt; getMap() {
+        return map;
+    }
+
+    public void setMap(Map&lt;String, Integer&gt; map) {
+        this.map = map;
+    }
+
+    public Object getPart() {
+        return part;
+    }
+
+    public void setPart(Object part) {
+        this.part = part;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+}
+
+CarWithWheel car1 = new CarWithWheel();
+car1.setPlate("12-XP-F4");
+Wheel wheel = new Wheel();
+wheel.setId(2);
+car1.setWheel(wheel);
+Map&lt;String, Integer&gt; map = new HashMap&lt;String, Integer&gt;();
+map.put("id", 3);
+car1.setMap(map);
+car1.setPart(new Wheel(4));
+car1.setYear("2008");
+String output = new Yaml().dump(car1);
+</code></pre>
+<p>will be dumped as</p>
+<pre><code>!!package.CarWithWheel
+map: {id: 3}
+part: !!org.yaml.snakeyaml.constructor.Wheel {id: 4}
+plate: 12-XP-F4
+wheel: {id: 2}
+year: '2008'
+</code></pre>
+<p>Note that the <code>part</code> property still has a GLOBAL TAG but the <code>wheel</code> property does not (because the wheel&rsquo;s runtime class is the same as it is defined in the <code>CarWithWheel</code> class).</p>
+<p>差別就在 <code>Wheel getWheel()</code> 與 <code>Object getPart()</code>。雖然說 &ldquo;&hellip; exchange the YAML documents between different platforms and languages&rdquo;，但埋那麼多 tag 會讓 YAML 像綁定了某個程式語言 ??</p>
+</li>
+<li>
+<p>The example for the above JavaBean can be found <a href="http://bitbucket.org/asomov/snakeyaml/src/tip/src/test/java/org/yaml/snakeyaml/constructor/ImplicitTagsTest.java">here</a></p>
+<p>The preferred way to dump a JavaBean is to use <code>Yaml.dumpAs(obj, Tag.MAP). This utility is emitting with the block layout and DOES NOT emit the root global tag with the class name (using implicit</code>!!map` tag).</p>
+</li>
+<li>
+<p>The preferred way to parse a JavaBean is to use <code>Yaml.loadAs()</code>. It eliminates the need to cast returned instances to the specified class.</p>
+<p>跟 <code>load()</code> 一樣只差沒有 generic，但 <code>&lt;T&gt; T load(...)</code> 中的 <code>T</code> 又是什麼?? 感覺 <code>Yaml.load()</code> 會需要 global tag，但 <code>Yaml.loadAs()</code> 不需要 ??</p>
+<p>By default standard JavaBean properties and public fields are included. <code>BeanAccess.FIELD</code> makes is possible to use private fields directly.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="snake-case">Snake Case<a class="headerlink" href="#snake-case" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://bitbucket.org/asomov/snakeyaml/pull-requests/21">asomov / snakeyaml / Pull request #21: convert snake to camel — Bitbucket</a> #ril</li>
+<li><a href="https://github.com/uber-go/fx/issues/256">Config using camelCase instead of underscore · Issue #256 · uber-go/fx</a> 要用 snake case 或 camel case 有些爭論 #ril</li>
+<li><a href="https://groups.google.com/forum/#!topic/snakeyaml-core/8HjAuRh_yKA">Handling &ldquo;underscore&rdquo; in set method names - Google Groups</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="no-single-argument-constructor-found-for-class-xxx">No single argument constructor found for class XXX<a class="headerlink" href="#no-single-argument-constructor-found-for-class-xxx" title="Permanent link"> #</a></h3>
+<pre><code>org.yaml.snakeyaml.error.YAMLException: No single argument constructor found for class com.youdomain.MyClass : null
+</code></pre>
+
+<p>這個錯誤源自 <a href="https://bitbucket.org/asomov/snakeyaml/src/e48f21e8cea63a69f94b35f87df063593efdf542/src/main/java/org/yaml/snakeyaml/constructor/Constructor.java?at=default#Constructor.java-370,374,380,382:383,385,387:388,541:543,548,554:556,558:559,563:566,568,572,575,583:584,589,594,597"><code>org.yaml.snakeyaml.constructor.Constructor</code></a>。</p>
+<p>為什麼只有在某些環境下才會出現??</p>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://bitbucket.org/asomov/snakeyaml">SnakeYAML - Bitbucket</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/snakeyaml">&lsquo;snakeyaml&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/snakeyaml-core">SnakeYAML - Google Groups</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../yaml/">YAML</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.javadoc.io/doc/org.yaml/snakeyaml/">Javadoc API Reference</a></li>
+<li><a href="https://bitbucket.org/asomov/snakeyaml/wiki/Changes">Changelog</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pytest-cov/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pytest-cov - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pytest-cov.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pytest-cov">pytest-cov</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#branch-coverage">Branch Coverage ??</a></li>
+                
+            <li class="second-level"><a href="#coverage">合併多次測試的 Coverage ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pytest-cov">pytest-cov<a class="headerlink" href="#pytest-cov" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://pypi.python.org/pypi/pytest-cov">pytest-cov 2.5.1 : Python Package Index</a> #ril<ul>
+<li>量測並產生 coverage report 的 pytest plugin，支援 centralised/distributed testing (in both load and each modes)，也支援 coverage of subprocesses??</li>
+<li>背後用的是 coverage.py，可以透過 pytest-cov 或是 coverage.py 自己的組態檔設定。</li>
+</ul>
+</li>
+<li><a href="http://pytest-cov.readthedocs.io/en/latest/">Welcome to pytest-cov’s documentation! — pytest-cov 2.5.1 documentation</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pypi.python.org/pypi/pytest-cov">pytest-cov 2.5.1 : Python Package Index</a> #ril<ul>
+<li>安裝 <code>pytest-cov</code> 套件，接著就能用 <code>--cov</code> 指定 package，再用 <code>--cov-report html</code> 或 <code>--cov-report xml</code> 輸出不同格式的 report。</li>
+<li><code>pytest --help | grep -e '--cov'</code> 會看到 <code>--cov=[path]          measure coverage for filesystem path (multi-allowed)</code> 原來可以指定多個。</li>
+<li>如果有多個 Python module 要檢查，<code>--cov</code> 要怎麼給?? 發現沒給 <code>--cov</code> 會自動找所有的 <code>.py</code>；給定一個 module 沒有問題。</li>
+</ul>
+</li>
+</ul>
+<h2 id="branch-coverage">Branch Coverage ??<a class="headerlink" href="#branch-coverage" title="Permanent link"> #</a></h2>
+<ul>
+<li>return True if condition </li>
+<li><a href="http://pytest-cov.readthedocs.io/en/latest/changelog.html">Changelog — pytest-cov 2.5.1 documentation</a> 沒有文件整理出所有的 options，但 changelog 提到許多 <code>--cov-*</code> 的異動，包括 <code>--cov-branch</code> 可以啟用 branch coverage，這是其他文件沒提到的 #ril</li>
+</ul>
+<h2 id="coverage">合併多次測試的 Coverage ??<a class="headerlink" href="#coverage" title="Permanent link"> #</a></h2>
+<p><code>Makefile</code>:</p>
+<pre><code>test:
+    coverage erase # 清除 .coverage
+    tox            # 內部累加 .coverage
+    coverage html  # 產生 HTML report
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://pypi.org/project/pytest-cov/#coverage-data-file">Coverage Data File - pytest-cov · PyPI</a> 每個 test run 開始，coverage data file (<code>.coverage</code>) 會被清除，如果想要合併多次 test run 的 coverage，可以用 <code>--cov-append</code>，也就是一開始不會刪除 coverage data file；這個 data file 在 test run 結束時會留著，讓其他 coverage tool 可以利用。</li>
+<li><a href="https://stackoverflow.com/questions/50895525/">python - How can I combine coverage results with tox? - Stack Overflow</a> 為 <code>pytest</code> 加上 <code>--cov-append</code> 參數，會合併多次 test run 的結果，有助於把拆分 integration/unit tests?</li>
+<li><a href="https://pytest-cov.readthedocs.io/en/latest/changelog.html#id16">2.1.0 (2015-08-23) - Changelog — pytest-cov 2.5.1 documentation</a> 2.1.0 加入 <code>--cov-append</code>，跟 <a href="https://github.com/pytest-dev/pytest-cov/pull/80">PR#80</a> 有關。</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pypi.python.org/pypi/pytest-cov#installation">Installation - pytest-cov 2.5.1 : Python Package Index</a> 安裝 <code>pytest-cov</code> 套件，若要用 distributed testing 則要額外裝 <code>pytest-xdist</code>。</li>
+<li><a href="http://pytest-cov.readthedocs.io/en/latest/readme.html#installation">Installation - Overview — pytest-cov 2.5.1 documentation</a></li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pypi.python.org/pypi/pytest-cov">pytest-cov - PyPI</a></li>
+<li><a href="https://github.com/pytest-dev/pytest-cov">pytest-dev/pytest-cov - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://pytest-cov.readthedocs.io/en/latest/changelog.html">Changelog</a></li>
+<li><a href="http://pytest-cov.readthedocs.io/en/latest/">pytest-cov Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

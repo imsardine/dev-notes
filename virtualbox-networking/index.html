@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/virtualbox-networking/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>VirtualBox / Networking - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/virtualbox-networking.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#virtualbox-networking">VirtualBox / Networking</a></li>
+            <li class="second-level"><a href="#access-host-from-guest">從 Guest 存取 Host 的服務 ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="virtualbox-networking"><a href="../virtualbox/">VirtualBox</a> / Networking<a class="headerlink" href="#virtualbox-networking" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.virtualbox.org/manual/UserManual.html#settings-network">3.9. Network Settings - User Manual</a></p>
+<ul>
+<li>
+<p>The Network section in a virtual machine&rsquo;s Settings window enables you to configure how Oracle VM VirtualBox PRESENTS VIRTUAL NETWORK CARDS TO YOUR VM, and how they operate.</p>
+</li>
+<li>
+<p>When you first create a virtual machine, Oracle VM VirtualBox by default enables one virtual network card and selects the Network Address Translation (NAT) MODE for it. This way the guest can connect to the outside world using the HOST&rsquo;S NETWORKING and the outside world CAN connect to services on the guest which you choose to MAKE VISIBLE OUTSIDE of the virtual machine.</p>
+<p>NAT mode 的進階設定裡有 Port Forwarding，可以把 guest OS 的 port 導出。</p>
+</li>
+<li>
+<p>This default setup is good for the majority of Oracle VM VirtualBox users. However, Oracle VM VirtualBox is extremely flexible in how it can virtualize networking. It supports many virtual network cards per virtual machine. The first FOUR virtual network cards can be configured in detail in the VirtualBox Manager window. Additional network cards can be configured using the <code>VBoxManage</code> command.</p>
+</li>
+<li>Many networking options are available. See Chapter 6, Virtual Networking for more information.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.virtualbox.org/manual/UserManual.html#networkingdetails">Chapter 6. Virtual Networking - User Manual</a></p>
+<ul>
+<li>
+<p>As mentioned in Section 3.9, “Network Settings”, Oracle VM VirtualBox provides UP TO EIGHT virtual PCI Ethernet cards for each virtual machine. For each such card, you can individually select the following:</p>
+<ul>
+<li>The HARDWARE that will be virtualized. 要讓 guest OS 看到什麼硬體</li>
+<li>The VIRTUALIZATION MODE that the virtual card operates in, with respect to your physical networking hardware on the host. 網卡對外的線路要怎麼接，沒有接網路線也是一種選擇。</li>
+</ul>
+</li>
+<li>
+<p>FOUR of the network cards can be configured in the Network section of the Settings dialog in the graphical user interface of Oracle VM VirtualBox. You can configure all EIGHT network cards on the command line using <code>VBoxManage modifyvm</code>. See Section 8.8, “VBoxManage modifyvm”.</p>
+<p>不知為何 GUI 跟 CLI 會有 4 張 network interface 的差距？</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="access-host-from-guest">從 Guest 存取 Host 的服務 ??<a class="headerlink" href="#access-host-from-guest" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/1261975/">Addressing localhost from a VirtualBox virtual machine - Stack Overflow</a> 用 <code>10.0.2.2</code> 還真的可以! #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

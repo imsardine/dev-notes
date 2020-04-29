@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/systemd/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>systemd - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/systemd.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#systemd">systemd</a></li>
+            <li class="second-level"><a href="#_1">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#unit-service-drop-in-unit-file">Unit, Service, Drop-in, Unit File ??</a></li>
+                
+            <li class="second-level"><a href="#environment-variable">Environment Variable ??</a></li>
+                
+            <li class="second-level"><a href="#execstartexecreloadexecstop">ExecStart*、ExecReload、ExecStop* ??</a></li>
+                
+            <li class="second-level"><a href="#logs">Logs</a></li>
+                
+            <li class="second-level"><a href="#systemctl">systemctl ??</a></li>
+                
+            <li class="second-level"><a href="#journalctl">journalctl ??</a></li>
+                
+            <li class="second-level"><a href="#unit-configuration">Unit Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#ubuntu">Ubuntu ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="systemd">systemd<a class="headerlink" href="#systemd" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Systemd">systemd - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="_1">新手上路 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://wiki.archlinux.org/index.php/systemd">systemd - ArchWiki</a> #ril</li>
+<li><a href="https://coreos.com/os/docs/latest/getting-started-with-systemd.html">systemd | Get started wtih systemd | CoreOS</a> #ril</li>
+<li><a href="https://www.certdepot.net/rhel7-get-started-systemd/">RHEL7: How to get started with Systemd. - CertDepot</a> (2018-09-04) #ril</li>
+</ul>
+<h2 id="unit-service-drop-in-unit-file">Unit, Service, Drop-in, Unit File ??<a class="headerlink" href="#unit-service-drop-in-unit-file" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://coreos.com/os/docs/latest/using-systemd-drop-in-units.html">systemd Drop-In Units | CoreOS Container Linux</a> #ril</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files">Understanding Systemd Units and Unit Files | DigitalOcean</a> #ril</li>
+</ul>
+<h2 id="environment-variable">Environment Variable ??<a class="headerlink" href="#environment-variable" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://coreos.com/os/docs/latest/using-environment-variables-in-systemd-units.html">systemd Environment File | systemd with CoreOS</a><ul>
+<li><code>Environment</code> directive 可以為 executed process 提供 environment variables，例如 <code>Environment=ETCD_CA_FILE=/path/to/CA.pem</code>。</li>
+<li>一個 <code>Environment</code> directive 可以是 space-separated list of variable assignments，但實務上會用多個 <code>Environment=key=value</code>，若 key 相同，後者會覆寫前著，若 value 為 empty string，則會讓在這之前的 <code>Environment=</code> 全部失效 (reset)。</li>
+<li>另外還有個 <code>EnvironmentFile</code> directive，可以從檔案讀取 new-line-separated variable assignments。這裡示範 <code>EnvironmentFile=/run/metadata/coreos</code> 讀進設定，在 <code>ExecStart</code> 裡就可以用 <code>${XXX}</code> 引用變數。</li>
+<li>Use host IP addresses and EnvironmentFile 提到一個特別的應用，利用 <a href="https://github.com/kelseyhightower/setup-network-environment">kelseyhightower/setup-network-environment</a> 先產生一個內含網路資訊的 environment file，用 <code>EnvironmentFile=/etc/network-environment</code> 讀進來，之後就可以用 <code>${DEFAULT_IPV4}</code> 拿到自己的 IP。</li>
+</ul>
+</li>
+<li>arch linux - How to set environment variable in systemd service? - Server Fault <a href="https://serverfault.com/questions/413397/">https://serverfault.com/questions/413397/</a> 在 <code>[Service]</code> 由用 <code>Environment="KEY=VALUE"</code> 指定 #ril</li>
+<li>systemd Environment File | systemd with CoreOS <a href="https://coreos.com/os/docs/latest/using-environment-variables-in-systemd-units.html">https://coreos.com/os/docs/latest/using-environment-variables-in-systemd-units.html</a> #ril</li>
+</ul>
+<h2 id="execstartexecreloadexecstop"><code>ExecStart*</code>、<code>ExecReload</code>、<code>ExecStop*</code> ??<a class="headerlink" href="#execstartexecreloadexecstop" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=">ExecStart - systemd.service</a> #ril<ul>
+<li>Service 啟動時要執行的指令跟參數，內部會根據自己的方式切分為多個 command line。</li>
+<li>For each of the specified commands, the first argument must be either an ABSOLUTE PATH to an executable or a simple file name without any slashes. 實驗發現，就算有給 <code>WorkingDiredctory</code>，指令本身要是絕對路徑這一點還是得遵守，否則會有 &ldquo;Invalid argument&rdquo; 的錯誤，就算有設定 <code>WorkingDirectory</code>；或許透過 <code>/usr/bin/env CMD ARGS</code> 是個不錯的轉折?</li>
+</ul>
+</li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html#Command%20lines">Command lines - systemd.service</a> #ril</li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.exec.html">systemd.exec(5)</a> 這裡才提到 <code>WorkingDirectory</code> #ril</li>
+<li><a href="https://unix.stackexchange.com/questions/200654/">Executing chdir before starting systemd service - Unix &amp; Linux Stack Exchange</a> Eric Renouf: system v227+ 可以用 <code>WorkingDirectory</code>；不過受到其他人質疑，可以用在 <code>[Service]</code> 嗎?</li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options">[Unit] Section Options - systemd.unit</a> 確實沒有提到 <code>WorkingDirectory</code>，但 <a href="https://www.freedesktop.org/software/systemd/man/systemd.exec.html">systemd.exec</a> 一開始就提到 &ldquo;The execution specific configuration options are configured in the [Service], [Socket], [Mount], or [Swap] sections, depending on the unit type.&rdquo;，所以 <code>WorkingDirectory</code> 是可以用在 <code>[Service]</code> 裡的。</li>
+<li><a href="https://github.com/verdaccio/verdaccio/issues/396#issuecomment-341696371">Systemd ExecStart path different for me · Issue #396 · verdaccio/verdaccio</a> We can use <code>/usr/bin/env</code> as a BRIDGE to start the executable without specify absolute path of npm global modules path 這招不錯!!</li>
+</ul>
+<h2 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://askubuntu.com/questions/864722/">log - Where is &ldquo;journalctl&rdquo; data stored? - Ask Ubuntu</a> #ril</li>
+</ul>
+<h2 id="systemctl">systemctl ??<a class="headerlink" href="#systemctl" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>service xxx status</code> 與 <code>systemctl status xxx.service</code> 好像通用?? Service 都習慣稱 <code>xxx.service</code>?</li>
+<li><a href="https://www.dynacont.net/documentation/linux/Useful_SystemD_commands/">Useful SystemD commands (hints for systemctl or systemctl vs chkconfig and service)</a> #ril</li>
+</ul>
+<h2 id="journalctl">journalctl ??<a class="headerlink" href="#journalctl" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>journalctl -u UNIT [-b | -f]</code> 其中 <code>-b</code> 表示從 service boot 開始的 log，<code>-f</code> 表示要做 following。</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs">How To Use Journalctl to View and Manipulate Systemd Logs | DigitalOcean</a> (2018-02-20) #ril</li>
+<li><a href="https://unix.stackexchange.com/questions/20399/">logs - View stdout/stderr of systemd service - Unix &amp; Linux Stack Exchange</a> #ril</li>
+</ul>
+<h2 id="unit-configuration">Unit Configuration ??<a class="headerlink" href="#unit-configuration" title="Permanent link"> #</a></h2>
+<h2 id="ubuntu">Ubuntu ??<a class="headerlink" href="#ubuntu" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://wiki.ubuntu.com/SystemdForUpstartUsers">SystemdForUpstartUsers - Ubuntu Wiki</a> #ril<ul>
+<li>雖然在 Ubuntu 15.04 前可以透過 repo 安裝 systemd，但 15.04 後才有比較完整的支援，所以在 15.04 前都建議用 Upstart。</li>
+<li>Ubuntu 15.04 (vivid) 雖然同時內建 systemd 與 Upstart，可以輕易切換，只是 2015-03-09 開始就改以 systemd 做為預設的 init system/daemon。</li>
+</ul>
+</li>
+<li><a href="https://wiki.ubuntu.com/systemd">systemd - Ubuntu Wiki</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://freedesktop.org/wiki/Software/systemd/">systemd</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.freedesktop.org/software/systemd/man/">Manual Pages</a></li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.unit.html#%5BUnit%5D%20Section%20Options">systemd.unit(5)</a> (<code>[Unit]</code> Section Options)</li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options">systemd.service(5)</a> (<code>[Service]</code> Section Options)</li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.exec.html">systemd.exec(5)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

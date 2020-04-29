@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/ssh-tunneling/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SSH / Tunneling - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/ssh-tunneling.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#ssh-tunneling">SSH / Tunneling</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="ssh-tunneling"><a href="../ssh/">SSH</a> / Tunneling<a class="headerlink" href="#ssh-tunneling" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://chamibuddhika.wordpress.com/2012/03/21/ssh-tunnelling-explained/">SSH Tunneling Explained | Source Open</a> (2012-03-21)</p>
+<ul>
+<li>Recently I wanted to set up a remote desktop sharing session from home pc to my laptop. While going through the set up guide I came across SSH TUNNELING. Even though there are many articles on the subject still it took me a considerable amount of googling, some experimenting and couple of Wireshark sessions to grasp what’s going under the hood. Most of the guides were incomplete in terms of explaining the concept which left me desiring for a good article on the subject with some explanatory illustrations. So I decided to write it my self. So here goes…</li>
+</ul>
+<p>Introduction</p>
+<ul>
+<li>
+<p>A SSH tunnel consists of an encrypted tunnel created through a SSH protocol connection. A SSH tunnel can be used to transfer UNENCRYPTED TRAFFIC over a network through an ENCRYPTED CHANNEL.</p>
+<p>這段是抄 <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">Wikipedia</a> 的。</p>
+</li>
+<li>
+<p>For example we can use a ssh tunnel to securely transfer files between a FTP server and a client even though the FTP protocol itself is not encrypted. SSH tunnels also provide a means to bypass firewalls that prohibits or filter certain internet services. For example an organization will block certain sites using their proxy filter. But users may not wish to have their web traffic monitored or blocked by the organization proxy filter.</p>
+<p>If users can connect to an external SSH server, they can create a SSH tunnel to FORWARD a given port on their local machine to port 80 on remote web-server via the EXTERNAL SSH SERVER. I will describe this scenario in detail in a little while.</p>
+<p>關鍵在於把外部 SSH server 當做跳板。</p>
+</li>
+<li>
+<p>To set up a SSH tunnel a given port of one machine needs to be forwarded (of which I am going to talk about in a little while) to a port in the other machine which will be the other end of the tunnel. Once the SSH tunnel has been established, the user can connect to EARLIER SPECIFIED PORT at first machine to access the network service.</p>
+<p>與 external SSH server 搭建好 tunnel 時，就要指定 remote server 的 IP &amp; port ??</p>
+</li>
+</ul>
+<p>Port Forwarding</p>
+<ul>
+<li>
+<p>SSH tunnels can be created in several ways using different kinds of PORT FORWARDING mechanisms. Ports can be forwarded in three ways.</p>
+<ul>
+<li>Local port forwarding</li>
+<li>Remote port forwarding</li>
+<li>Dynamic port forwarding</li>
+</ul>
+<p>I didn’t explain what port forwarding is. I found Wikipedia’s definition more explanatory.</p>
+<blockquote>
+<p>Port forwarding or PORT MAPPING is a name given to the combined technique of</p>
+<ul>
+<li>TRANSLATING the address and/or port number of a packet to a new destination</li>
+<li>possibly accepting such packet(s) in a packet filter(firewall)</li>
+<li>forwarding the packet according to the routing table.</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>Here the first technique will be used in creating an SSH tunnel. When a client application connects to the local port (LOCAL ENDPOINT) of the SSH tunnel and transfer data these data will be forwarded to the REMOTE END by TRANSLATING the host and port values to that of the remote end of the channel.</p>
+<p>So with that let’s see how SSH tunnels can be created using forwarded ports with an examples.</p>
+</li>
+</ul>
+<p>Tunnelling with Local port forwarding</p>
+<ul>
+<li>
+<p>Let’s say that yahoo.com is being blocked using a proxy filter in the University. (For the sake of this example. :). Cannot think any valid reason why yahoo would be blocked). A SSH tunnel can be used to bypass this restriction.</p>
+<p>Let’s name my machine at the university as ‘work’ and my home machine as ‘home’. ‘home’ needs to have a public IP for this to work. And I am running a SSH server on my home machine. Following diagram illustrates the scenario.</p>
+<p><img alt="" src="https://chamibuddhika.files.wordpress.com/2012/03/scenario.jpg" /></p>
+<p>人在公司，把自己家裡的機器 (有 public IP，執行有 SSH server) 當做跳板；下面 Reverse Tunneling 則反過來要從家裡連到公司的機器。</p>
+</li>
+<li>
+<p>To create the SSH tunnel execute following from ‘work’ machine.</p>
+<pre><code>ssh -L 9001:yahoo.com:80 home
+</code></pre>
+<p>The <code>L</code> switch indicates that a LOCAL PORT FORWARD is need to be created. The switch syntax is as follows.</p>
+<pre><code>-L &lt;local-port-to-listen&gt;:&lt;remote-host&gt;:&lt;remote-port&gt;
+</code></pre>
+<p>Now the SSH client at ‘work’ will connect to SSH server running at ‘home’ (usually running at port 22) binding port 9001 of ‘work’ to listen for LOCAL REQUESTS thus creating a SSH tunnel between ‘home’ and ‘work’. At the ‘home’ end it will create a connection to ‘yahoo.com’ at port 80.</p>
+<p>So ‘work’ doesn’t need to know how to connect to yahoo.com. Only ‘home’ needs to worry about that. The channel between ‘work’ and ‘home’ will be encrypted while the connection between ‘home’ and ‘yahoo.com’ will be unencrypted.</p>
+<p>呼應上面講的 &ldquo;forwarding the packet according to the routing table&rdquo;，因為 gateway 如何能接觸到 remote server 溝通，跟 gateway 那台的 routing table 很有關係 &ndash; <code>remote-host</code> 的解讀是發生在 gateway 上，是相對於 gateway 的。</p>
+</li>
+<li>
+<p>Now it is possible to browse yahoo.com by visiting <a href="http://localhost:9001">http://localhost:9001</a> in the web browser at ‘work’ computer. The ‘home’ computer will act as a GATEWAY which would accept requests from ‘work’ machine and fetch data and tunnelling it back. So the syntax of the full command would be as follows.</p>
+<pre><code>ssh -L &lt;local-port-to-listen&gt;:&lt;remote-host&gt;:&lt;remote-port&gt; &lt;gateway&gt;
+</code></pre>
+<p>The image below describes the scenario.</p>
+<p><img alt="" src="https://chamibuddhika.files.wordpress.com/2012/03/localportforwarding.jpg" /></p>
+<p>Here the ‘host’ (指 &lsquo;home&rsquo;) to ‘yahoo.com’ connection is only made when browser makes the request NOT AT THE TUNNEL SETUP TIME.</p>
+</li>
+<li>
+<p>It is also possible to specify a port in the ‘home’ computer itself instead of connecting to an external host. This is useful if I were to set up a VNC session between ‘work’ and ‘home’. Then the command line would be as follows.</p>
+<pre><code>ssh -L 5900:localhost:5900 home (Executed from 'work')
+</code></pre>
+<p>So here what does <code>localhost</code> refer to? Is it the ‘work’ since the command line is executed from ‘work’? Turns out that it is not. As explained earlier is RELATIVE TO THE GATEWAY (‘home’ in this case) , not the machine from where the tunnel is initiated. So this will make a connection to port 5900 of the ‘home’ computer where the VNC client would be listening in.</p>
+</li>
+<li>
+<p>The created tunnel can be used to transfer all kinds of data not limited to web browsing sessions. We can also tunnel SSH sessions from this as well. Let’s assume there is another computer (‘banned’) to which we need to SSH from within University but the SSH access is being blocked. It is possible to tunnel a SSH session to this host using a local port forward. The setup would look like this.</p>
+<p><img alt="" src="https://chamibuddhika.files.wordpress.com/2012/03/sshsessionforwarding.jpg" /></p>
+<p>As can be seen now the transferred data between ‘work’ and ‘banned’ are encrypted end to end. For this we need to create a local port forward as follows.</p>
+<pre><code>ssh -L 9001:banned:22 home
+</code></pre>
+<p>Now we need to create a SSH session to local port 9001 from where the session will get tunneled to ‘banned’ via ‘home’ computer.</p>
+<pre><code>ssh -p 9001 localhost
+</code></pre>
+<p>With that let’s move on to next type of SSH tunnelling method, reverse tunnelling.</p>
+</li>
+</ul>
+<p>Reverse Tunnelling with remote port forwarding</p>
+<ul>
+<li>
+<p>Let’s say it is required to connect to an internal university website from home.</p>
+<p>The university firewall is blocking all incoming traffic. How can we connect from ‘home’ to internal network so that we can browse the internal site? A VPN setup is a good candidate here. However for this example let’s assume we don’t have this facility. Enter SSH reverse tunnelling..</p>
+<p>也因此 SSH Tunneling 有 &ldquo;窮人的 VPN&rdquo; 這種說法。</p>
+</li>
+<li>
+<p>As in the earlier case we will initiate the tunnel from ‘work’ computer behind the firewall. This is possible since only incoming traffic is blocking and outgoing traffic is allowed. However instead of the earlier case the client will now be at the ‘home’ computer. Instead of <code>-L</code> option we now define <code>-R</code> which specifies a REVERSE TUNNEL need to be created.</p>
+<pre><code>ssh -R 9001:intra-site.com:80 home (Executed from 'work')
+</code></pre>
+<p>Once executed the SSH client at ‘work’ will connect to SSH server running at home creating a SSH channel. Then the server will bind port 9001 on ‘home’ machine to listen for incoming requests which would subsequently be routed through the created SSH channel between ‘home’ and ‘work’. Now it’s possible to browse the internal site by visiting <a href="http://localhost:9001">http://localhost:9001</a> in ‘home’ web browser.</p>
+<p>The ‘work’ will then create a connection to intra-site and relay back the response to ‘home’ via the created SSH channel.</p>
+<p><img alt="" src="https://chamibuddhika.files.wordpress.com/2012/03/remoteportforwarding.jpg" /></p>
+</li>
+<li>
+<p>As nice all of these would be still you need to create another tunnel if you need to connect to another site in both cases. Wouldn’t it be nice if it is possible to proxy traffic to ANY SITE using the SSH channel created? That’s what DYNAMIC PORT FORWARDING is all about.</p>
+</li>
+</ul>
+<p>Dynamic Port Forwarding</p>
+<ul>
+<li>
+<p>Dynamic port forwarding allows to configure ONE local port for tunnelling data to all remote destinations. However to utilize this the client application connecting to local port should send their traffic using the SOCKS protocol. At the client side of the tunnel a SOCKS PROXY would be created and the application (eg. browser) uses the SOCKS protocol to specify where the traffic should be sent when it leaves the other end of the ssh tunnel.</p>
+<pre><code>ssh -D 9001 home (Executed from 'work')
+</code></pre>
+<p>Here SSH will create a SOCKS proxy listening in for connections at local port 9001 and upon receiving a request would route the traffic via SSH channel created between ‘work’ and ‘home’. For this it is required to CONFIGURE THE BROWSER to point to the SOCKS proxy at port 9001 at localhost.</p>
+<p><img alt="" src="https://chamibuddhika.files.wordpress.com/2012/03/dynamicportforwarding.jpg" /></p>
+<p>有機會用在 SSH 嗎??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">Secure Shell tunneling - Tunneling protocol - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>A Secure Shell (SSH) tunnel consists of an encrypted tunnel created through an SSH protocol connection. Users may set up SSH tunnels to transfer UNENCRYPTED TRAFFIC over a network through an ENCRYPTED CHANNEL.</p>
+<p>For example, Microsoft Windows machines can share files using the Server Message Block (SMB) protocol, a non-encrypted protocol. If one were to mount a Microsoft Windows file-system remotely through the Internet, someone snooping on the connection could see transferred files. To mount the Windows file-system securely, one can establish a SSH tunnel that routes all SMB traffic to the remote fileserver through an encrypted channel.</p>
+<p>Even though the SMB protocol itself contains no encryption, the encrypted SSH channel through which it travels offers security.</p>
+</li>
+<li>
+<p>Once an SSH connection has been established, the tunnel starts with SSH listening to a port on the remote OR LOCAL HOST. Any connections to it are FORWARDED to the specified address and port originating from the opposing (remote or local, as previously) host.</p>
+<p><img alt="" src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Ssh-L-Tunnel.png" /></p>
+<p>Local and remote port forwarding with ssh executed on the blue computer. 紫色圓點的移動代表什麼?? 注意 <code>123:localhost:456</code> 變成 <code>123:remoteserver:456</code>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../openssh-tunneling/">OpenSSH</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

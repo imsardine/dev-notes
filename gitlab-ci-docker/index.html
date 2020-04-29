@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gitlab-ci-docker/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GitLab CI/CD / Docker - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gitlab-ci-docker.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gitlab-cicd-docker">GitLab CI/CD / Docker</a></li>
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#docker">Docker</a></li>
+                
+            <li class="second-level"><a href="#dind">DinD ??</a></li>
+                
+            <li class="second-level"><a href="#dind-bind-mount-container-container">在 DinD 裡無法用 Bind Mount 將 Container 裡的檔案掛進另一層 Container ??</a></li>
+                
+            <li class="second-level"><a href="#docker-compose">Docker Compose</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gitlab-cicd-docker"><a href="../gitlab-ci/">GitLab CI/CD</a> / Docker<a class="headerlink" href="#gitlab-cicd-docker" title="Permanent link"> #</a></h1>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_build.html">Building Docker images with GitLab CI/CD | GitLab</a> #ril</li>
+</ul>
+<h2 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_build.html">Building Docker images with GitLab CI/CD | GitLab</a> #ril<ul>
+<li>目前 CI/CD 的趨勢是先建立 application image、針對該 image 做測試、把 image 推到 remote registry，最後從拿推上去的 image 直接佈署；這裡有個範例 <code>docker build -t my-image dockerfiles/</code> -&gt; <code>docker run my-docker-image /script/to/run/tests</code> (test code 是放 image 裡??) -&gt; <code>docker tag my-image my-registry:5000/my-image</code> -&gt; <code>docker push my-registry:5000/my-image</code>，注意 image 通過測試後才加上另一個 tag。</li>
+<li>GitLab CI 支援用 Docker Engine 去 build &amp; test docker-based project，也就是 script 可以調用得到 <code>docker</code> 或其他 docker-enabled tools (例如 <code>docker-compose)。用 shell executor 是一個方式 (加裝 Docker)，但採用 docker-in-docker (dind) executor (priviledge mode) 是比較建議的 -- 其實是 docker executor + dind image，因為</code>&ndash;docker-image<code>只是預設的 image，若選用的 image 非 dind，還是調用不到</code>docker` 指令。</li>
+<li>要在 job 裡執行 <code>docker build/run</code> 有 3 種方法 &ndash; shell executor、docker-in-docker executor、使用 Docker socket binding。</li>
+<li>Use shell executor 的執行身份是 <code>gitlab-runner</code>，將它加到可以存取 Docker 的 group (<code>docker</code>) 即可。</li>
+</ul>
+</li>
+<li><a href="https://about.gitlab.com/2016/03/01/gitlab-runner-with-docker/">Setting up GitLab Runner For Continuous Integration | GitLab</a> (2016-03-01) #ril<ul>
+<li>GitLab runner 在 register 的過程中會被問 Please enter the default Docker image，預設值就是 <code>ruby:2.1</code>，而 &ldquo;Note that the default Docker image specified here will be used only when .gitlab-ci.yml file does not contain an image declaration&rdquo; 清楚說明了 <code>image:</code> 與 <code>--docker-image</code> (default) 的關係。</li>
+<li>實驗發現 <code>gitlab register --docker-image</code> 所描述的 image 只有在 <code>.gitlab-ci.yml</code> 沒有自訂 <code>image:</code> 時才會作用，也就是預設的 image，可以從 job log 一開頭的 &ldquo;Using Docker executor with image XXX &hellip;&rdquo; 及 &ldquo;Using docker image XXX ID=sha256:&hellip; for build container&hellip;&rdquo; 識別出來。</li>
+</ul>
+</li>
+<li><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_images.html">Using Docker images | GitLab</a> #ril<ul>
+<li>原來 job 就是獨立執行，加上 Docker 就變成在獨立的 container 執行，讓 build environment 更為 reproducible。</li>
+<li><code>image</code> 指定 docker exectutor 要採用哪個 image 來執行 job。</li>
+<li><code>services</code> 宣告 job 執行過程中要連結的其他 container (透過 hostname 存取)；雖然 Extended Docker configuration options 能擴充的點不多，但 Configuring services 提到可以透過環境變數來組態這些 service #ril</li>
+</ul>
+</li>
+<li><a href="https://docs.gitlab.com/ce/ci/docker/using_docker_images.html#register-docker-runner">Register Docker Runner - Using Docker images - GitLab Documentation</a> 出現 <code>--docker-image ruby:2.1</code> 的用法，但 <code>ruby:2.1</code> 裡並沒有 <code>docker</code> 指令。</li>
+<li><a href="https://docs.gitlab.com/runner/install/docker.html">Run GitLab Runner in a container - GitLab Documentation</a> 跟 docker executor 不同?。</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-runner/issues/1986">DinD - Cannot connect to the Docker daemon. Is the docker daemon running on this host? (#1986) · Issues · GitLab.org / gitlab-runner · GitLab</a> Alexander Herold: 建立 <code>/var/run/docker.sock:/var/run/docker.sock</code> 的 mapping，但 Michael Potthoff: 問題在 <code>DOCKER_DRIVER: overlay</code> 因為沒這個 module，安裝 module 或拿掉這一行就可以了 (<code>privileged</code> 要設為 <code>true</code>)，根本不用加 <code>/var/run/docker.sock:/var/run/docker.sock</code> #ril</li>
+</ul>
+<h2 id="dind">DinD ??<a class="headerlink" href="#dind" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor">Use docker-in-docker executor - Building Docker images with GitLab CI/CD | GitLab</a> #ril<ul>
+<li>The second approach is to use the special docker-in-docker (dind) Docker image with all tools installed (docker and docker-compose) and run the job script in context of that image in privileged mode. 這句話應該有誤? 基本上是搭配兩個 image，一個是 service container (<code>docker:dind</code>) 提供 Docker daemon，另一個是 build/job/runner container (<code>docker:stable</code>) 做為 job script 的執行環境。而且 <code>docker:dind</code> 跟 <code>docker:stable</code> 裡都找一到 <code>docker-compose</code>??</li>
+<li>註冊 runner 時採 <code>--executor docker</code>、<code>--docker-image "docker:stable"</code> (Docker image to be used)、<code>--docker-privileged</code> (Give extended privileges to container)。感覺所有包話 service container (<code>docker:dind</code>) 也會執行在 priviledged mode，雖然官方 DinD 的說法，只有 <code>docker:dind</code> 要&hellip;</li>
+<li>使用 dind 時，每個 job 都執行在乾淨的環境下，concurrent jobs 間不會互相干擾，但由於沒有 caching of layers 的關係，速度會較慢。</li>
+<li>Since the <code>docker:dind</code> container and the runner container DON&rsquo;T SHARE THEIR ROOT FILESYSTEM, the job&rsquo;s WORKING DIRECTORY can be used as a mount point for children containers. 搭配 <code>/builds/$CI_PROJECT_PATH</code> (用 <code>$CI_PROJECT_DIR</code> 更好) 就可以把 working directory 的內容以 bind mount 的方式掛進 child container；這裡沒講清楚的是，也只有 <code>$CI_PROJECT_DIR</code> 底下的東西才能掛進 child container。</li>
+</ul>
+</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/41227">Docker volumes not mounted when using docker:dind (#41227) · Issues · GitLab.org / GitLab Community Edition · GitLab</a> 上面的 Use docker-in-docker executor - Building Docker images with GitLab CI/CD 提到這份文件 &ndash; for a more thorough explanation, check issue #41227 重點都在 Tomasz Maczukin 的答覆<ul>
+<li>Because each container by default is separated from other containers, the / filesystem in context of every one is also separated. Only volume mounts can be shared with HOST or with other container. Runner is creating few volumes (for cache, for job, defined in config.toml). For the purpose of this issue let&rsquo;s consider only the /builds volume. 這段話是關鍵，HOST (執行 GitLab Runner 的地方) 上面有個 <code>builds</code> volume，會掛進所有 container 的 <code>/builds</code> 下，所以只能先把資料放進 <code>/builds</code> 底下，再叫 Docker daemon 掛進 child container。</li>
+<li>When you&rsquo;re executing <code>docker run -v /mnt:/mnt ubuntu ls /mnt</code> you&rsquo;re instructing Docker Engine inside of <code>docker:dind</code> service to start a new, internal container and mount the local <code>/mnt/</code> directory under containers <code>/mnt/</code> directory. The important thing is that local <code>/mnt</code> directory is local in context of <code>docker:dind</code> service. 因為 Docker daemon 會以自己的角度解讀 <code>-v host_path:container_path</code> 中的 <code>host_path</code>。</li>
+</ul>
+</li>
+<li><a href="https://docs.gitlab.com/runner/executors/docker.html#build-directory-in-service">Build directory in service - The Docker executor | GitLab</a><ul>
+<li>GitLab Runner 1.5 開始，會把 <code>/builds</code> 掛進所有的 shared services。</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-runner/issues/1520">Mount volume with code from repository in services (#1520) · Issues · GitLab.org / gitlab-runner · GitLab</a> 原來掛進 service 的說法並不正確，範例 <code>docker run ... -v $(pwd):/tests</code> 是想把 working directory 的 test code 掛進去 <code>ruby:2.2</code> 執行，而非 service (<code>docker:1.11-dind</code>)，不過 Tomasz Maczukin 跳出來說，這個問題早就解決，!272 是額外將 <code>/builds/my/project/</code> 掛進其他 service &ndash; 這也包括 <code>docker:dind</code> service container?</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/47280922/">continuous integration - Role of docker-in-docker (dind) service in gitlab ci - Stack Overflow</a><ul>
+<li>為什麼同時需要 service (<code>docker:dind</code>) 與 docker image (<code>docker:latest</code>)?</li>
+<li>saraedum: <code>docker:latest</code> 與 <code>docker:dind</code> 的內容很像，只不過 <code>docker:dind</code> 的 entrypoint 會啟動 Docker daemon，而 <code>docker:latest</code> (或 <code>docker:stable</code>) 的 entrypoint 會先組態往 <code>tcp://docker::2375</code> 找 Docker daemon。寫 <code>service: docker:dind</code> 就不需要在 <code>before_script</code> 啟動 <code>dockerd</code>。</li>
+</ul>
+</li>
+<li><a href="https://hub.docker.com/_/docker/">library/docker - Docker Hub</a> 觀察 <code>docker:dind</code> 與 <code>docker:stable</code> 的 <code>Dockerfile</code>，前者 <code>docker:dind</code> 的 entrypoint 會啟動 docker daemon 在 2375 port 服務，而後者 <code>docker:stable</code> 的 entrypoint 會先做 <code>export DOCKER_HOST='tcp://docker:2375'</code> 再執行 command，也因此有搭配 <code>--link dind-container:docker</code> 的話，在 <code>docker:stable</code> 內需要用到 Docker daemon 時，就會找 <code>tcp://docker:2375</code>。</li>
+</ul>
+<h2 id="dind-bind-mount-container-container">在 DinD 裡無法用 Bind Mount 將 Container 裡的檔案掛進另一層 Container ??<a class="headerlink" href="#dind-bind-mount-container-container" title="Permanent link"> #</a></h2>
+<p><code>.gitlab-ci.yml</code>:</p>
+<pre><code>image: docker:stable
+variables:
+  CI_DEBUG_TRACE: &quot;true&quot;
+  MY_IMAGE: &quot;nginx:1.15.0&quot;
+
+stages:
+  - test
+
+test:
+  stage: test
+  tags:
+    - dind
+  script:
+    - echo 'settings (generated dynamically)' &gt; settings.cfg
+    - docker run --rm -v $CI_PROJECT_DIR/settings.cfg:/workspace/settings.cfg $MY_IMAGE cat /workspace/settings.cfg
+</code></pre>
+
+<p>加上下面的宣告就沒問題了：</p>
+<pre><code>services:
+  - docker:dind
+</code></pre>
+
+<ul>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/41227">Docker volumes not mounted when using docker:dind (#41227) · Issues · GitLab.org / GitLab Community Edition · GitLab</a> 有討論到 <code>docker:dind</code> 的作用? #ril</li>
+</ul>
+<h2 id="docker-compose">Docker Compose<a class="headerlink" href="#docker-compose" title="Permanent link"> #</a></h2>
+<p>要在 <code>docker:stable</code> (Alpine) 下安裝 Docker Compose 其實<a href="https://wiki.alpinelinux.org/wiki/Docker#Docker_Compose">不太容易</a>，最簡單的方法就是直接利用官方提供的 <code>docker/compose</code>。</p>
+<p>不過 <code>docker/compose</code> 的設定跟 <code>docker:stable</code> 不太一樣，要做些調整才能取代 <code>docker:stable</code>：</p>
+<ul>
+<li><code>docker/compose</code> 的 entrypoint 是 <code>docker-compose</code>，要改成 <code>/bin/sh -c</code>。</li>
+<li><code>docker/compose</code> 不像 <code>docker:stable</code> 的 entrypoint 會自動加上 <code>DOCKER_HOST='tcp://docker:2375'</code> 的設定，會有檔案掛不進下一層 container 的問題。</li>
+</ul>
+<p>所以使用 <code>docker/compose</code> 時，必要的配置會像是：</p>
+<pre><code>image:
+  name: docker/compose:1.24.0
+  entrypoint: [&quot;/bin/sh&quot;, &quot;-c&quot;]
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/39868369">Run docker-compose build in .gitlab-ci.yml - Stack Overflow</a></p>
+<ul>
+<li>
+<p>webmaster777: Docker compose also has an official image: <code>docker/compose</code></p>
+<p>This is the ideal solution if you don&rsquo;t want to install it every pipeline. It has currently no latest tag, so you&rsquo;ll have to update manually.</p>
+<p>Since the image uses <code>docker-compose</code> as entrypoint you&rsquo;ll need to override the entrypoint back to /<code>bin/sh -c</code> in your <code>.gitlab-ci.yml</code>. Otherwise your pipeline will fail with <code>No such command: sh</code></p>
+<pre><code># Official docker compose image.
+image:
+  name: docker/compose:1.22.0 # update tag to whatever version you want to use.
+  entrypoint: ["/bin/sh", "-c"]
+
+services:
+  - docker:dind
+
+before_script:
+  - docker version
+  - docker-compose version
+
+build:
+  stage: build
+  script:
+    - docker-compose down
+    - docker-compose build
+    - docker-compose up tester-image
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-docker-in-docker-executor">Use docker-in-docker executor - Building Docker images with GitLab CI/CD | GitLab</a> #ril</p>
+<pre><code> image: docker:stable
+
+ variables:
+   # When using dind service we need to instruct docker, to talk with the
+   # daemon started inside of the service. The daemon is available with
+   # a network connection instead of the default /var/run/docker.sock socket.
+   #
+   # The 'docker' hostname is the alias of the service container as described at
+   # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#accessing-the-services
+   #
+   # Note that if you're using Kubernetes executor, the variable should be set to
+   # tcp://localhost:2375 because of how Kubernetes executor connects services
+   # to the job container
+   DOCKER_HOST: tcp://docker:2375/
+   # When using dind, it's wise to use the overlayfs driver for
+   # improved performance.
+   DOCKER_DRIVER: overlay2
+
+ services:
+   - docker:dind
+</code></pre>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

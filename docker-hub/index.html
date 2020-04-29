@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/docker-hub/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Docker Hub - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/docker-hub.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#docker-hub">Docker Hub</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#automated-build">Automated Build ??</a></li>
+                
+            <li class="second-level"><a href="#travis-ci-integration">Travis CI Integration ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="docker-hub">Docker Hub<a class="headerlink" href="#docker-hub" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/">Docker Hub</a> #ril</p>
+<ul>
+<li>Build and Ship any Application Anywhere - Docker Hub is the world&rsquo;s easiest way to create, manage, and deliver your teams&rsquo; container applications.</li>
+<li>Docker Hub is the world&rsquo;s largest library and community for container images 為什麼要強調這些，感覺市場上有競爭者&hellip; 但為什麼 Docker Hub 要擔心其他替代方案? =&gt; 有 private repos 的收費方案。</li>
+<li>Docker Certified: Trusted &amp; Supported Products 提到 Certified Plugins for networking and volumes in containers. 及 Certified Infrastructure delivers an optimized and validated Docker platform for enterprise OS and Cloud Providers. 原來不只提供 image，其中 infra <a href="https://hub.docker.com/search/?type=edition&amp;offering=community">提供 Docker 的執行環境</a>，例如 Docker Desktop (Mac/Windows)、Docker Engine 等。</li>
+<li>The perfect home for your teams&rsquo; applications. 提到 Create and manage users and GRANT ACCESS to your repositories. 看起來 repository 不一定要公開，但如果是非公開的 image，會不會放公司內部 GitLab CI registry 比較好?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cloud.docker.com/billing">Billing - Docker Hub</a> 提示 &ldquo;0 OF 1 FREE PRIVATE REPOSITORY IN USE Purchase plans starting at $7/ month for 5 private repositories&rdquo; 原來有提供 private repos，但只免費提供 1 個。</p>
+</li>
+<li>
+<p><a href="https://rancher.com/comparing-four-hosted-docker-registries/">Hosted Docker Registry | Deploy Docker Container | Rancher | Rancher Labs</a> (2018-12-10) #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/docker-hub/">Docker Hub Quickstart | Docker Documentation</a> #ril</p>
+<ul>
+<li>Docker Hub is a service provided by Docker for finding and sharing container images with your team. It provides the following major features:<ul>
+<li>Repositories: Push and pull container images.</li>
+<li>Teams &amp; Organizations: Manage access to private repositories of container images.</li>
+<li>Official Images: Pull and use high-quality container images provided by Docker.</li>
+<li>Publisher Images: Pull and use high-quality container images provided by EXTERNAL VENDORS. CERTIFIED images also include support and guarantee compatibility with Docker Enterprise. 原來 official/publisher 是以 Docker 官方的角度在看，offical 是 Docker 自己而非 container application 的開發者；Docker 官方產生的 image 沒有 certified 與否的問題。</li>
+<li>Builds: Automatically build container images from GitHub and Bitbucket and push them to Docker Hub 感覺 Docker Hub 可以做為 image-based project 的 CI server?? 相較於 Travis CI 的優點是什麼? 自動拿 <code>README.md</code> 來當 full description??</li>
+<li>Webhooks: Trigger actions after a successful push to a repository to integrate Docker Hub with other services. 有新的 image 放進 repository 時要觸發其他 service。</li>
+</ul>
+</li>
+<li>Step 1: Sign up for Docker Hub &rarr; Step 2: Create your first repository &rarr; Step 3: Download and install Docker Desktop &rarr; Step 4: Build and push a container image to Docker Hub from your computer 也就是一個 account 下可以有多個 repository，最後產出的 image 就是推進某個 repository。幾個比較重要的步驟有：<ul>
+<li>Open the terminal and sign in to Docker Hub on your computer by running <code>docker login</code> 預設登入 Docker Hub 這個 registry</li>
+<li>Run <code>docker build -t &lt;your_username&gt;/my-first-repo</code>. to build your Docker image</li>
+<li>Test your docker image locally by running <code>docker run &lt;your_username&gt;/my-first-repo</code> (tag 採用預設的 <code>latest</code>)</li>
+<li>Run <code>docker push &lt;your_username&gt;/my-first-repo</code> to push your Docker image to Docker Hub</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>由 <a href="https://github.com/docker-library">docker-library</a> 及 <a href="https://github.com/nginxinc/docker-nginx/">nginxinc/docker-nginx</a> 的命名看來，若 <code>Dockerfile</code> 沒有跟 application source 在一起的話，repo 習慣上會命名為 <code>docker-xxx</code>。</p>
+</li>
+</ul>
+<h2 id="automated-build">Automated Build ??<a class="headerlink" href="#automated-build" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/docker-hub/builds/">Set up Automated builds | Docker Documentation</a> #ril<ul>
+<li>Docker Hub can automatically build images from source code in an external repository and automatically push the built image to your Docker repositories.</li>
+<li>When you set up automated builds (also called autobuilds), you create a list of BRANCHES and TAGS that you want to build into Docker images. When you push code to a source code branch (for example in GitHub) for one of those listed image tags, the push uses a webhook to trigger a new build, which produces a Docker image. The built image is then pushed to the Docker Hub registry. 這裡的 webhook 指的是 GitHub &rarr; Docker Hub，由 Docker Hub 產生 image；好奇 tag 要怎麼事先列? =&gt; 有支援 pattern</li>
+<li>If you have automated tests configured, these run after building but before pushing to the registry. You can use these tests to create a CONTINUOUS INTEGRATION WORKFLOW where a build that fails its tests does not push the built image. Automated tests do not push images to the registry on their own. 意謂著 test code 會包進 image 裡??</li>
+<li>You can configure repositories in Docker Hub so that they automatically build an image each time you push new code to your SOURCE PROVIDER. If you have automated tests configured, the new image is only pushed when the tests succeed.</li>
+</ul>
+</li>
+</ul>
+<h2 id="travis-ci-integration">Travis CI Integration ??<a class="headerlink" href="#travis-ci-integration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://medium.com/vaidikkapoor/managing-open-source-docker-images-on-docker-hub-using-travis-7fd33bc96d65">Managing Open-Source Docker Images on Docker Hub using Travis</a> (2018-07-09) #ril</li>
+<li><a href="https://ops.tips/blog/travis-ci-push-docker-image/">Pushing Docker images right from Travis-CI | OpsTips</a> (2017-11-24) #ril</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://hub.docker.com/">Docker Hub</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

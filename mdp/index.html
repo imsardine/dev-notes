@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mdp/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>mdp - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mdp.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mdp">mdp</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#writing">寫作</a></li>
+                
+            <li class="second-level"><a href="#sharing">分享給其他人</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS</a></li>
+                <li class="third-level"><a href="#term">TERM</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mdp">mdp<a class="headerlink" href="#mdp" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://github.com/visit1985/mdp">visit1985/mdp: A command-line based markdown presentation tool.</a> A command-line based markdown presentation tool. 直接在 terminal 顯示 Markdown 寫的 slides。</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>curl -O https://raw.githubusercontent.com/visit1985/mdp/master/sample.md &amp;&amp; mdp sample.md</code></li>
+<li>修改後，按 <code>r</code> 就可以重載看到效果，按 <code>q</code> 離開。</li>
+<li>方向鍵、Space/Backspace 都可以切換投影片，數字按鍵可以直接跳到某張投影片；連續輸入 1 跟 3 則可以跳到 13 頁。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://raw.githubusercontent.com/visit1985/mdp/master/sample.md">https://raw.githubusercontent.com/visit1985/mdp/master/sample.md</a></li>
+</ul>
+<h2 id="writing">寫作<a class="headerlink" href="#writing" title="Permanent link"> #</a></h2>
+<ul>
+<li>First-level header 會被視為投影片的抬頭，固定以藍色表現、加底線 (置中要加 <code>-&gt;</code>)；也支援 second-level header，但顯示時不加底線。</li>
+<li>水平線 (至少 3 個 <code>-</code> 或 <code>*</code>) 用來分割投影片，而且前面要用空白行隔開。</li>
+<li>Inline code 一樣用 <code>code</code> 表示，會以白底黑字表現。</li>
+<li>Code block 一樣內縮 4 格或用 &ldquo;<code>``" (backticks) 來表示 (會忽略 language hint)，表現方式同 inline code 是白底黑字 (太亮的話，可以用</code>&ndash;invert` 演示，變灰底白字)；空白行要刻意補上空白，否則白底會出現斷層。</li>
+<li>Quote 一樣用 <code>&gt;</code>，也支援 nested quotes；文字過長會產生斷行，左側的反白會產生斷層，建議在 Markdown 裡就先斷行 (70 個英數字內)</li>
+<li>List 會用 ASCII 字元串成樹狀，還滿酷的；一樣，維持在 70 個英數字內，自己先斷行。</li>
+<li><code>[label](link)</code> 會以 <code>[label][N]</code> 藍色加底線來表現，實際的 URL 則以 <code>[N] ...</code> 顯示在畫面左下方；實驗確認，不支援 <code>[label][ref]</code> 的 reference-style link。</li>
+</ul>
+<p>與一般的 Markdown 不同的地方有：</p>
+<ul>
+<li>開頭用 <code>%title: ...</code>、<code>%author: ...</code> 及 <code>%date: ...</code> 帶出一些基本資訊；其中 title 與 author 會固定顯示在畫面的上方及左下方。</li>
+<li>連續的空白字元會被保留</li>
+<li>傳統的 <code>_</code> 是強調，而 <code>__</code> 是畫重點；但在 mdp 裡，<code>_</code> 是劃底線，<code>*</code> 則是重點 (紅色顯示)</li>
+<li><code>&lt;br&gt;</code> 或 <code>^</code> 可以做漸進的效果 &ndash; stop the output on that position</li>
+<li>開頭的 <code>-&gt;</code> 表示置中，結尾的 <code>&lt;-</code> 則可有可無；也可以用在 header，例如 <code>-&gt; # Header</code></li>
+<li>Quote 裡不支援 list</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/visit1985/mdp">visit1985/mdp: A command-line based markdown presentation tool.</a><ul>
+<li>以 horizontal ruler (<code>---</code>) 做為 slides 的分隔符號，支援簡單的 Markdown 語法 &ndash; headline、code、quote、unordered list、bold/underlined/code text；<code>sample.md</code> 有更多細節</li>
+<li>支援前置 <code>@</code> 的 header? 前 2 個 header lines 會顯示為 title、author? =&gt; 結果 <code>sample.md</code> 裡完全沒有 <code>@</code>，但開頭有 <code>%title: ...</code>、<code>%author: ...</code> 等用法。</li>
+</ul>
+</li>
+</ul>
+<h2 id="sharing">分享給其他人<a class="headerlink" href="#sharing" title="Permanent link"> #</a></h2>
+<ul>
+<li>其實 Markdown 本身的可讀性已經很高，直接分享 mdp 的原始 Markdown 也可以。</li>
+<li>用 <a href="https://asciinema.org/">asciinema</a> 錄製再分享。</li>
+<li><a href="https://raw.githubusercontent.com/visit1985/mdp/master/sample.md">https://raw.githubusercontent.com/visit1985/mdp/master/sample.md</a> 最後提到，可以用 <code>markdown</code> 轉成 HTML，再用 <code>wkhtmltopdf</code> 轉成 PDF；懷疑 mdp 的 Markdown 不是很標準，轉出來會歪掉?</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="macos">macOS<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://github.com/visit1985/mdp">visit1985/mdp: A command-line based markdown presentation tool.</a> 在 macOS 上，用 Homebrew 安裝 <code>mdp</code> 套件即可。</li>
+</ul>
+<h3 id="term"><code>TERM</code><a class="headerlink" href="#term" title="Permanent link"> #</a></h3>
+<ul>
+<li><code>export TERM=xterm</code> 沒有淡出/淡入效果 (反應快)，又可以表現底線；淡入/淡出可以用 <code>mdp --nofade</code> 停用。</li>
+<li>可以事先建好 iTerm 2 的 profile，把字體放大，terminal 採用 <code>xterm</code>，方便展示。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/visit1985/mdp">visit1985/mdp: A command-line based markdown presentation tool.</a> 提到 <code>TERM</code> 環境變數設為 <code>xterm-256color</code> 才能正確顯示 256 種顏色 &ndash; 淡入 &amp; 淡出。</li>
+<li>在 tmux 下，發現 <code>TERM</code> 被設定為 <code>screen</code>，沒有淡入/淡出，感覺是比較流暢的；但後來發現 <code>TERM=screen</code> 或 <code>TERM=linux</code> 的底線效果都出不來，改用 <code>TERM=xterm</code> 或 <code>TERM=rxvt</code> 就可以。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/visit1985/mdp">visit1985/mdp - GitHub</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../slideshow/#markdown">Slideshow</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

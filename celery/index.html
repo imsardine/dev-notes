@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/celery/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Celery - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/celery.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#celery">Celery</a></li>
+            <li class="second-level"><a href="#alternatives">替代方案</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#calling-tasks">Calling Tasks ??</a></li>
+                
+            <li class="second-level"><a href="#project-layout">Project Layout ??</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#routing">Routing ??</a></li>
+                
+            <li class="second-level"><a href="#annotation">Annotation ??</a></li>
+                
+            <li class="second-level"><a href="#broker">Broker ??</a></li>
+                
+            <li class="second-level"><a href="#result-backend">Result Backend ??</a></li>
+                
+            <li class="second-level"><a href="#worker">Worker ??</a></li>
+                
+            <li class="second-level"><a href="#testing">Testing ??</a></li>
+                
+            <li class="second-level"><a href="#monitoring">Monitoring ??</a></li>
+                
+            <li class="second-level"><a href="#workflow">Workflow ??</a></li>
+                
+            <li class="second-level"><a href="#scheduling">Scheduling ??</a></li>
+                
+            <li class="second-level"><a href="#webhook">Webhook ??</a></li>
+                
+            <li class="second-level"><a href="#app-binding">App Binding ??</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#celery-received-unregistered-task-of-type">Celery Received unregistered task of type ??</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="celery">Celery<a class="headerlink" href="#celery" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://www.celeryproject.org/">Homepage | Celery: Distributed Task Queue</a></p>
+<ul>
+<li>
+<p>Celery is an ASYNCHRONOUS TASK QUEUE/JOB QUEUE based on DISTRIBUTED MESSAGE PASSING. It is focused on REAL-TIME OPERATION, but supports SCHEDULING as well.</p>
+<p>相對於指定時間或定期執行的 scheduling，所謂 real-time operation 指的是進 task queue 就儘快處理。</p>
+</li>
+<li>
+<p>The EXECUTION UNITS, called TASKS, are executed CONCURRENTLY on a single or more WORKER SERVERS using multiprocessing, Eventlet, or gevent. Tasks can execute asynchronously (in the background) or synchronously (wait until ready).</p>
+<p>本質上是 asynchronously，但可以繼續做點其他事再等背景的工作處理完，某種程度上又是 synchronously 了；<a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#keeping-results">Keeping Results - First Steps with Celery — Celery 4.3.0 documentation</a> 印證了這樣的說法：</p>
+<blockquote>
+<p>You can wait for the result to complete, but this is rarely used since it turns the asynchronous call into a synchronous one:</p>
+</blockquote>
+</li>
+<li>
+<p>Celery is used in production systems to process millions of tasks a day.</p>
+</li>
+</ul>
+<p>EASY TO INTEGRATE</p>
+<ul>
+<li>
+<p>Celery is easy to integrate with web frameworks, some of which even have integration packages.</p>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/introduction.html#framework-integration">Introduction to Celery</a> 中多數 web framework 都有相應的套件，但 Flask 為什麼這麼特別寫 &ldquo;not needed&rdquo; ?? <a href="http://flask.pocoo.org/docs/1.0/patterns/celery/">Celery Background Tasks — Flask 1.0.2 documentation</a> 也沒提到其他套件。</p>
+</li>
+<li>
+<p>Celery is written in Python, but the <a href="http://docs.celeryproject.org/en/latest/internals/protocol.html">PROTOCOL</a> can be implemented in any language. It can also operate with other languages using WEBHOOKS.</p>
+</li>
+</ul>
+<p>MULTI BROKER SUPPORT</p>
+<ul>
+<li>
+<p>The recommended MESSAGE BROKER is RabbitMQ, but support for Redis, Beanstalk, MongoDB, CouchDB, and databases (using SQLAlchemy or the Django ORM) is also available.</p>
+<p>雖然 <a href="http://docs.celeryproject.org/en/latest/getting-started/introduction.html#what-do-i-need">Introduction to Celery — Celery 4.3.0 documentation</a> 提到 RabbitMQ 與 Redis 的支援都是完整的：</p>
+<blockquote>
+<p>The RabbitMQ and Redis broker transports are feature complete, but there’s also support for a myriad of other experimental solutions, including using SQLite for local development.</p>
+</blockquote>
+<p>但 <a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#redis">Choosing a Broker - First Steps with Celery — Celery 4.3.0 documentation</a> 又說：</p>
+<blockquote>
+<p>Redis is also feature-complete, but is more SUSCEPTIBLE TO DATA LOSS in the event of abrupt termination or power failures.</p>
+</blockquote>
+</li>
+</ul>
+<p>Related Projects</p>
+<ul>
+<li>
+<p><a href="https://github.com/mher/flower">Celery Flower</a> #ril</p>
+<p>Real-time monitor and web admin for Celery 管理介面</p>
+<ul>
+<li>Real-time monitoring using Celery Events</li>
+<li>Remote Control</li>
+<li>Broker monitoring</li>
+<li>HTTP API</li>
+<li>Basic Auth and Google OpenID authentication</li>
+</ul>
+</li>
+<li>
+<p><a href="http://policystat.github.io/jobtastic/">Jobtastic</a> #ril</p>
+<p>A Celery library that makes your USER-RESPONSIVE long-running jobs totally awesomer. 可以持續更新進度 ??</p>
+<p>Jobtastic is a python library that adds useful features to your Celery tasks. Specifically, these are features you probably want if the results of your jobs are EXPENSIVE or if your users NEED TO WAIT while they compute their results.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="alternatives">替代方案<a class="headerlink" href="#alternatives" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://subscription.packtpub.com/book/application_development/9781789343052/19/ch19lvl1sec144/scheduling-with-apscheduler">Scheduling with APScheduler - Mastering Concurrency in Python</a></p>
+<ul>
+<li>Some might think of Celery (<a href="http://www.celeryproject.org/">http://www.celeryproject.org/</a>) as the go-to scheduling tool for Python. However, while Celery is a distributed task queue with BASIC SCHEDULING capabilities, APScheduler is quite the OPPOSITE: a scheduler with BASIC TASK QUEUING options and ADVANCED SCHEDULING functionalities. Additionally, users of both tools have reported that APScheduler is easier to set up and implement.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.fullstackpython.com/task-queues.html">Task Queues - Full Stack Python</a> #ril</p>
+</li>
+<li><a href="https://www.twblogs.net/a/5ba17f452b71771a4da8cb6b">Python定時任務-schedule vs. Celery vs. APScheduler - 台部落</a> (2018-09-19) APScheduler 適用於小型的應用? #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/index.html">Getting Started — Celery 4.2.0 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/introduction.html">Introduction to Celery — Celery 4.3.0 documentation</a></p>
+<p>What’s a Task Queue?</p>
+<ul>
+<li>
+<p>Task queues are used as a mechanism to DISTRIBUTE WORK ACROSS THREADS OR MACHINES.</p>
+<p>A task queue’s input is a UNIT OF WORK called a TASK. Dedicated worker processes constantly monitor task queues for new work to perform.</p>
+<p>不同的 task 會進到不同的 queue ??</p>
+</li>
+<li>
+<p>Celery communicates via MESSAGES, usually using a BROKER to MEDIATE BETWEEN CLIENTS AND WORKERS. To initiate a task the client adds a message to the queue, the broker then delivers that message to a worker.</p>
+<p>從 &ldquo;mediate between clients and workers&rdquo; 看來，很明顯 client 跟 (Celery) worker 並不會直接溝通，雙方都是面對中間的 message broker，只是 client 負責塞 task，而 worker 負責消化。</p>
+</li>
+<li>
+<p>A Celery system can consist of multiple workers and brokers, giving way to high availability and horizontal scaling.</p>
+</li>
+<li>
+<p>Celery is written in Python, but the PROTOCOL can be implemented in any language. In addition to Python there’s <a href="https://github.com/mher/node-celery">node-celery</a> for Node.js, and a <a href="https://github.com/gjedeer/celery-php">PHP client</a>.</p>
+<p>雖然 client 面對的是 message broker，為什麼 Celery 會有自己的 protoco? 以 Redis 做為 message broker 為例，固然 client 要知道如何與 Redis 溝通 (這一層是 Redis protocol)，但接下來的問題是資料要怎麼擺放進 Redis，才能讓 worker 知道這是哪個 task、參數有哪些、如何記錄結果、如何回報進度等，這就是所謂的 <a href="http://docs.celeryproject.org/en/latest/internals/protocol.html">message protocol</a>。</p>
+<p>從 <a href="https://github.com/mher/node-celery#usage">Usage - mher/node-celery: Celery client for Node.js</a> 的範例看來，client 只需要知道 broker 及 result store 的位置，以及 task name 即可：</p>
+<pre><code>var celery = require('node-celery'),
+    client = celery.createClient({
+        CELERY_BROKER_URL: 'amqp://guest:guest@localhost:5672//',
+        CELERY_RESULT_BACKEND: 'amqp://'
+    });
+
+client.on('connect', function() {
+    client.call('tasks.echo', ['Hello World!'], function(result) {
+        console.log(result);
+        client.end();
+    });
+});
+</code></pre>
+<p>不過 worker 做事情這一段，只能用 Python 寫 ??</p>
+</li>
+<li>
+<p>Language interoperability can also be achieved EXPOSING an HTTP endpoint and having a task that requests it (WEBHOOKs).</p>
+</li>
+</ul>
+<p>What do I need?</p>
+<ul>
+<li>
+<p>Version Requirements: Celery is a project with minimal funding, so we don’t support Microsoft Windows. Please don’t open any issues related to that platform.</p>
+</li>
+<li>
+<p>Celery requires a MESSAGE TRANSPORT to send and receive messages. The RabbitMQ and Redis broker transports are feature complete, but there’s also support for a myriad of other experimental solutions, including using SQLite for local development.</p>
+</li>
+<li>
+<p>Celery can run on a single machine, on multiple machines, or even across data centers.</p>
+</li>
+</ul>
+<p>Celery is…</p>
+<ul>
+<li>
+<p>Simple</p>
+<p>Celery is easy to use and maintain, and it DOESN’T NEED CONFIGURATION FILES. 因為都由 worker 啟動時決定了 ??</p>
+<p>It has an active, friendly community you can talk to for support, including a mailing-list and an IRC channel.</p>
+<p>Here’s one of the simplest applications you can make:</p>
+<pre><code>from celery import Celery
+
+app = Celery('hello', broker='amqp://guest@localhost//')
+
+@app.task
+def hello():
+    return 'hello world'
+</code></pre>
+</li>
+<li>
+<p>Highly Available</p>
+<p>Workers and clients will automatically retry in the event of connection loss or failure, and some brokers support HA in way of Primary/Primary or Primary/Replica replication.</p>
+</li>
+<li>
+<p>Fast</p>
+<p>A single Celery process can process millions of tasks a minute, with sub-millisecond ROUND-TRIP LATENCY (using RabbitMQ, librabbitmq, and optimized settings).</p>
+<p>這裡要強調的是 overhead 很低，而不是 task 自己花多少時間在處理。</p>
+</li>
+<li>
+<p>Flexible</p>
+<p>Almost every part of Celery can be extended or used on its own, Custom pool implementations, serializers, compression schemes, LOGGING, schedulers, consumers, producers, broker transports, and much more. #ril</p>
+</li>
+</ul>
+<p>It supports</p>
+<ul>
+<li>
+<p>Brokers</p>
+<p>RabbitMQ, Redis, Amazon SQS, and more…</p>
+</li>
+<li>
+<p>Concurrency</p>
+<p>prefork (multiprocessing), Eventlet, gevent solo (single threaded)</p>
+</li>
+<li>
+<p>Result Stores</p>
+<p>AMQP, Redis, Memcached, SQLAlchemy, Django ORM, Apache Cassandra, Elasticsearch</p>
+</li>
+<li>
+<p>Serialization</p>
+<ul>
+<li>pickle, json, yaml, msgpack.</li>
+<li>zlib, bzip2 compression.</li>
+<li>Cryptographic message signing.</li>
+</ul>
+</li>
+</ul>
+<p>Features</p>
+<ul>
+<li>
+<p>Monitoring</p>
+<p>A stream of MONITORING EVENTS is EMITTED BY WORKERS and is used by built-in and external tools to tell you what your cluster is doing – in real-time.</p>
+</li>
+<li>
+<p>Work-flows</p>
+<p>Simple and complex work-flows can be composed using a set of powerful primitives we call the “CANVAS”, including grouping, chaining, chunking, and more. ??</p>
+<p>把一個 task 切細 ??</p>
+</li>
+<li>
+<p>Time &amp; Rate Limits</p>
+<p>You can control how many tasks can be executed per second/minute/hour, or how long a task can be allowed to run, and this can be set as a default, for a specific worker or individually for each TASK TYPE.</p>
+</li>
+<li>
+<p>Scheduling</p>
+<p>You can SPECIFY THE TIME TO RUN a task in seconds or a datetime, or you can use periodic tasks for recurring events based on a simple interval, or Crontab expressions supporting minute, hour, day of week, day of month, and month of year.</p>
+<p>如果一個 application 有一些定期作業要在背景處理，可以交由 Celery 來排程；像 <a href="https://github.com/viniciuschiele/flask-apscheduler">Flask-APScheduler</a> 的用法就很不恰當? 但為什麼之前搭配 uWSGI <code>processes = 5</code> 的設定不會有多個 scheduler 起來，因為 preforking ??</p>
+</li>
+<li>
+<p>Resource Leak Protection</p>
+<p>The <code>--max-tasks-per-child</code> option is used for USER TASKS LEAKING RESOURCES, like memory or file descriptors, that are simply out of your control. ??</p>
+<p><a href="http://docs.celeryproject.org/en/latest/userguide/workers.html#worker-max-tasks-per-child">Workers Guide — Celery 4.3.0 documentation</a> #ril</p>
+</li>
+<li>
+<p>User Components</p>
+<p>Each worker COMPONENT can be customized, and additional components can be defined by the user. The worker is built up using “bootsteps” — a dependency graph enabling fine grained control of the worker’s internals. ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html">First Steps with Celery — Celery 4.3.0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Celery is a task queue with batteries included. It’s easy to use so that you can get started without learning the full complexities of the problem it solves. It’s designed around best practices so that your product can scale and integrate with other languages, and it comes with the tools and support you need to run such a system in production.</p>
+<p>In this tutorial you’ll learn the absolute basics of using Celery. Learn about;</p>
+<ul>
+<li>Choosing and installing a message transport (broker).</li>
+<li>Installing Celery and creating your first task.</li>
+<li>Starting the worker and calling tasks.</li>
+<li>Keeping track of tasks as they TRANSITION THROUGH DIFFERENT STATES ??, and inspecting return values.</li>
+</ul>
+</li>
+<li>
+<p>Celery may seem daunting at first - but don’t worry - this tutorial will get you started in no time. It’s deliberately kept simple, so as to not confuse you with advanced features. After you have finished this tutorial, it’s a good idea to browse the rest of the documentation. For example the Next Steps tutorial will showcase Celery’s capabilities.</p>
+</li>
+</ul>
+<p>Choosing a Broker</p>
+<ul>
+<li>
+<p>Celery requires a solution to send and receive messages; usually this comes in the form of a SEPARATE SERVICE called a message broker.</p>
+<p>There are several choices available, including: RabbitMQ, Redis, Other brokers</p>
+</li>
+<li>
+<p>RabbitMQ</p>
+<ul>
+<li>
+<p>RabbitMQ is feature-complete, stable, durable and easy to install. It’s an excellent choice for a production environment. Detailed information about using RabbitMQ with Celery: <a href="http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html#broker-rabbitmq">Using RabbitMQ</a> #ril</p>
+</li>
+<li>
+<p>If you’re using Ubuntu or Debian install RabbitMQ by executing this command:</p>
+<pre><code>$ sudo apt-get install rabbitmq-server
+</code></pre>
+<p>Or, if you want to run it on Docker execute this:</p>
+<pre><code>$ docker run -d -p 5462:5462 rabbitmq
+</code></pre>
+<p>When the command completes, the broker will already be running in the background, ready to MOVE MESSAGES for you: <code>Starting rabbitmq-server: SUCCESS</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Redis</p>
+<ul>
+<li>
+<p>Redis is also feature-complete, but is more SUSCEPTIBLE TO DATA LOSS in the event of abrupt termination or power failures. Detailed information about using Redis: <a href="http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html#broker-redis">Using Redis</a> #ril</p>
+</li>
+<li>
+<p>If you want to run it on Docker execute this:</p>
+<pre><code>$ docker run -d -p 6379:6379 redis
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Other brokers</p>
+<ul>
+<li>
+<p>In addition to the above, there are other EXPERIMENTAL transport implementations to choose from, including Amazon SQS.</p>
+<p>See Broker Overview for a full list.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Application</p>
+<ul>
+<li>
+<p>The first thing you need is a CELERY INSTANCE. We call this the CELERY APPLICATION or just app for short. As this instance is used as the ENTRY-POINT for everything you want to do in Celery, like creating tasks and managing workers, it must be possible FOR OTHER MODULES TO IMPORT IT.</p>
+<p>這裡 &ldquo;Celery instance&rdquo; 的說法很容易讓人誤以為是 worker，但它其實是 Celery client，說是 Celery application 也有點奇怪，與其說是 entry-point 倒不如說是 &ldquo;interface to Celery&rdquo;，我們透過它跟 message broker 對話，間接跟 worker 溝通。</p>
+<p>如果將 worker 包裝成另一個 Docker image，但 worker 的工作又涉及複雜的處理，需要用到許多套件，這時候 client 要 import 它就被逼得要安裝那些用不到的套件 ??</p>
+</li>
+<li>
+<p>In this tutorial we keep everything contained in a SINGLE MODULE, but for larger projects you want to create a DEDICATED MODULE.</p>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/next-steps.html#project-layout">Next Steps — Celery 4.3.0 documentation</a> 大致將 <code>celery.Celery</code> instance 的建立與 task 的宣告拆開，但 client 要調用 task 時還是得 import 宣告 task 的那個 module，問題還是一樣 ??</p>
+<p>不過若是採用跟 application 一樣的 image，只是要做為 worker 時將 entrypoint 改一下，就沒這個問題了 ??</p>
+<p><a href="http://docs.celeryproject.org/en/latest/faq.html#can-i-call-a-task-by-name">Can I call a task by name? - Frequently Asked Questions — Celery 4.3.0 documentation</a> 似乎是解法? 不過 <code>send_task()</code> 的參數很多，感覺是個 low-level API，但範例看起來又很簡單 #ril</p>
+</li>
+<li>
+<p>Let’s create the file <code>tasks.py</code>:</p>
+<pre><code>from celery import Celery
+
+app = Celery('tasks', broker='pyamqp://guest@localhost//')
+
+@app.task
+def add(x, y):
+    return x + y
+</code></pre>
+<p>The first argument to <code>Celery</code> is the name of the current module. This is only needed so that NAMES CAN BE AUTOMATICALLY GENERATED when the tasks are defined in the <code>__main__</code> module. 產生什麼 name ??</p>
+<p>The second argument is the <code>broker</code> keyword argument, specifying the URL of the message broker you want to use. Here using RabbitMQ (also the default option).</p>
+<p>See Choosing a Broker above for more choices – for RabbitMQ you can use <code>amqp://localhost</code>, or for Redis you can use <code>redis://localhost</code>. 那這裡的 <code>pyamqp://</code> 又是 ??</p>
+<p>You defined a single task, called <code>add</code>, returning the sum of two numbers.</p>
+</li>
+</ul>
+<p>Running the Celery worker server</p>
+<ul>
+<li>
+<p>You can now run the worker by executing our program with the <code>worker</code> argument:</p>
+<pre><code>$ celery -A tasks worker --loglevel=info
+</code></pre>
+<p>Note: See the <a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#celerytut-troubleshooting">Troubleshooting</a> section if the worker doesn’t start. #ril</p>
+</li>
+<li>
+<p>In production you’ll want to run the worker in the background as a daemon. To do this you need to use the tools provided by your platform, or something like supervisord (see <a href="http://docs.celeryproject.org/en/latest/userguide/daemonizing.html#daemonizing">Daemonization</a> for more information). #ril</p>
+</li>
+<li>
+<p>For a complete listing of the command-line options available, do:</p>
+<pre><code>$  celery worker --help
+</code></pre>
+<p>There are also several other commands available, and help is also available:</p>
+<pre><code>$ celery help
+</code></pre>
+<p>原來 <code>worker</code> 是個 subcommand ??</p>
+</li>
+</ul>
+<p>Calling the task</p>
+<ul>
+<li>
+<p>To call our task you can use the <code>delay()</code> method.</p>
+<p>This is a handy shortcut to the <code>apply_async()</code> method that gives greater control of the task execution (see Calling Tasks):</p>
+<pre><code>&gt;&gt;&gt; from tasks import add
+&gt;&gt;&gt; add.delay(4, 4)
+</code></pre>
+<p>The task has now been processed by the worker you started earlier. You can verify this by looking at the worker’s console output.</p>
+</li>
+<li>
+<p>Calling a task returns an <code>AsyncResult</code> instance. This can be used to check the STATE of the task, WAIT for the task to finish, or get its RETURN VALUE (or if the task failed, to get the exception and traceback).</p>
+</li>
+<li>
+<p>Results are NOT enabled by default. In order to do REMOTE PROCEDURE CALLS or keep track of task results in a database, you will need to configure Celery to use a RESULT BACKEND. This is described in the next section.</p>
+<p>按照 <a href="https://www.linode.com/docs/development/python/task-queue-celery-rabbitmq/">How to Set Up a Task Queue with Celery and RabbitMQ</a>，這裡 remote procedure call 跟 &ldquo;等待執行結果&rdquo; 的用法有關，但好像只有 RabbitMQ 支援 ??</p>
+<blockquote>
+<p>If you omit <code>backend</code>, the task will still run, but the return value will be lost. <code>rpc</code> means the response will be sent to a RabbitMQ queue in a REMOTE PROCEDURE CALL PATTERN.</p>
+</blockquote>
+</li>
+</ul>
+<p>Keeping Results</p>
+<ul>
+<li>
+<p>If you want to keep track of the tasks’ states, Celery needs to store or send the states somewhere. There are several built-in result backends to choose from: SQLAlchemy/Django ORM, Memcached, Redis, RPC (RabbitMQ/AMQP), and – or you can define your own.</p>
+<p>RPC 只有 RabbitMQ 支援的意思 ??</p>
+</li>
+<li>
+<p>For this example we use the <code>rpc</code> result backend, that sends states back as TRANSIENT MESSAGES. The backend is specified via the <code>backend</code> argument to Celery, (or via the <code>result_backend</code> setting if you choose to use a CONFIGURATION MODULE):</p>
+<pre><code>app = Celery('tasks', backend='rpc://', broker='pyamqp://')
+</code></pre>
+<p>Or if you want to use Redis as the result backend, but still use RabbitMQ as the message broker (a POPULAR COMBINATION):</p>
+<pre><code>app = Celery('tasks', backend='redis://localhost', broker='pyamqp://')
+</code></pre>
+<p>To read more about result backends please see Result Backends.</p>
+</li>
+<li>
+<p>Now with the result backend configured, let’s call the task again. This time you’ll hold on to the <code>AsyncResult</code> instance returned when you call a task:</p>
+<pre><code>&gt;&gt;&gt; result = add.delay(4, 4)
+</code></pre>
+<p>The <code>ready()</code> method returns whether the task has finished processing or not:</p>
+<pre><code>&gt;&gt;&gt; result.ready()
+False
+</code></pre>
+</li>
+<li>
+<p>You can wait for the result to complete, but this is RARELY USED since it TURNS THE ASYNCHRONOUS CALL INTO A SYNCHRONOUS ONE:</p>
+<pre><code>&gt;&gt;&gt; result.get(timeout=1)
+8
+</code></pre>
+<p>In case the task raised an exception, <code>get()</code> will RE-RAISE the exception, but you can override this by specifying the <code>propagate</code> argument:</p>
+<pre><code>&gt;&gt;&gt; result.get(propagate=False)
+</code></pre>
+<p>If the task raised an exception, you can also gain access to the original traceback:</p>
+<pre><code>&gt;&gt;&gt; result.traceback
+</code></pre>
+</li>
+<li>
+<p>Warning: Backends use resources to store and transmit results. To ensure that resources are released, you must eventually call <code>get()</code> or <code>forget()</code> on EVERY <code>AsyncResult</code> instance returned after calling a task.</p>
+<p>如果沒想拿 result，就別啟用 result backend，否則沒人拿走/取消結果，就會一直累積。</p>
+</li>
+<li>
+<p>See <code>celery.result</code> for the complete result object reference.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/internals/index.html">Internals — Celery 4.3.0 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="calling-tasks">Calling Tasks ??<a class="headerlink" href="#calling-tasks" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/calling.html#guide-calling">Calling Tasks — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="project-layout">Project Layout ??<a class="headerlink" href="#project-layout" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/getting-started/next-steps.html#project-layout">Next Steps — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#configuration">Configuration - First Steps with Celery — Celery 4.3.0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Celery, like a consumer appliance, doesn’t need much configuration to operate. It has an input and an output. The INPUT must be connected to a BROKER, and the OUTPUT can be OPTIONALLY connected to a RESULT BACKEND.</p>
+<p>However, if you look closely at the back, there’s a lid revealing loads of sliders, dials, and buttons: this is the configuration.</p>
+</li>
+<li>
+<p>The default configuration should be good enough for most use cases, but there are many options that can be configured to make Celery work exactly as needed. Reading about the options available is a good idea to familiarize yourself with what can be configured. You can read about the options in the Configuration and defaults reference.</p>
+</li>
+<li>
+<p>The configuration can be set on the APP directly or by using a dedicated CONFIGURATION MODULE. As an example you can configure the DEFAULT SERIALIZER used for serializing TASK PAYLOADS by changing the <code>task_serializer</code> setting:</p>
+<pre><code>app.conf.task_serializer = 'json'
+</code></pre>
+</li>
+<li>
+<p>If you’re configuring many settings at once you can use <code>update</code>:</p>
+<pre><code>app.conf.update(
+    task_serializer='json',
+    accept_content=['json'],  # Ignore other content
+    result_serializer='json',
+    timezone='Europe/Oslo',
+    enable_utc=True,
+)
+</code></pre>
+</li>
+<li>
+<p>For larger projects, a dedicated configuration module is recommended. Hard coding periodic task intervals and TASK ROUTING ?? options is discouraged. It is much better to keep these in a CENTRALIZED location.</p>
+<p>This is especially true for LIBRARIES, as it enables users to control how their tasks behave. A centralized configuration will also allow your SysAdmin to make simple changes in the event of system trouble. 跟 library 什麼關係 ??</p>
+</li>
+<li>
+<p>You can tell your <code>Celery</code> instance to use a configuration module by calling the <code>app.config_from_object()</code> method:</p>
+<pre><code>app.config_from_object('celeryconfig')
+</code></pre>
+<p>This module is often called “<code>celeryconfig</code>”, but you can use any module name.</p>
+</li>
+<li>
+<p>In the above case, a module named <code>celeryconfig.py</code> must be available to load from the CURRENT DIRECTORY OR ON THE PYTHON PATH. It could look something like this:</p>
+<p><code>celeryconfig.py</code>:</p>
+<pre><code>broker_url = 'pyamqp://'
+result_backend = 'rpc://'
+
+task_serializer = 'json'
+result_serializer = 'json'
+accept_content = ['json']
+timezone = 'Europe/Oslo'
+enable_utc = True
+</code></pre>
+</li>
+<li>
+<p>To verify that your configuration file works properly and doesn’t contain any syntax errors, you can try to import it:</p>
+<pre><code>$ python -m celeryconfig
+</code></pre>
+<p>For a complete reference of configuration options, see Configuration and defaults.</p>
+</li>
+<li>
+<p>To demonstrate the power of configuration files, this is how you’d route a misbehaving task to a dedicated queue:</p>
+<p><code>celeryconfig.py</code>:</p>
+<pre><code>task_routes = {
+    'tasks.add': 'low-priority',
+}
+</code></pre>
+</li>
+<li>
+<p>Or instead of routing it you could RATE LIMIT the task instead, so that only 10 tasks of this type can be processed in a minute (10/m):</p>
+<p><code>celeryconfig.py</code>:</p>
+<pre><code>task_annotations = {
+    'tasks.add': {'rate_limit': '10/m'}
+}
+</code></pre>
+</li>
+<li>
+<p>If you’re using RabbitMQ or Redis as the broker then you can also direct the workers to set a new rate limit for the task at runtime:</p>
+<pre><code>$ celery -A tasks control rate_limit tasks.add 10/m
+worker@example.com: OK
+    new rate limit set successfully
+</code></pre>
+</li>
+<li>
+<p>See Routing Tasks to read more about TASK ROUTING, and the <code>task_annotations</code> setting for more about annotations, or Monitoring and Management Guide for more about remote control commands and how to monitor what your workers are doing.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/userguide/configuration.html">Configuration and defaults — Celery 4.3.0 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="routing">Routing ??<a class="headerlink" href="#routing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/routing.html">Routing Tasks — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="annotation">Annotation ??<a class="headerlink" href="#annotation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-task_annotations"><code>task_annotations</code> - Configuration and defaults — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="broker">Broker ??<a class="headerlink" href="#broker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/getting-started/brokers/">Brokers — Celery 4.2.0 documentation</a> 支援 RabbitMQ、Redis 與 Amazon SQS #ril</li>
+</ul>
+<h2 id="result-backend">Result Backend ??<a class="headerlink" href="#result-backend" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/tasks.html#task-result-backends">Result Backends - Tasks — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="worker">Worker ??<a class="headerlink" href="#worker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/workers.html">Workers Guide — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="testing">Testing ??<a class="headerlink" href="#testing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/testing.html">Testing with Celery — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="monitoring">Monitoring ??<a class="headerlink" href="#monitoring" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/monitoring.html">Monitoring and Management Guide — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="workflow">Workflow ??<a class="headerlink" href="#workflow" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/canvas.html#guide-canvas">Canvas: Designing Work-flows — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="scheduling">Scheduling ??<a class="headerlink" href="#scheduling" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html">Periodic Tasks — Celery 4.3.0 documentation</a> #ril</li>
+</ul>
+<h2 id="webhook">Webhook ??<a class="headerlink" href="#webhook" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/introduction.html#what-s-a-task-queue">What’s a Task Queue? - Introduction to Celery — Celery 4.3.0 documentation</a></p>
+<ul>
+<li>
+<p>Language interoperability can also be achieved EXPOSING an HTTP endpoint and having a task that requests it (WEBHOOKs).</p>
+<p>改讓 client 面對 HTTP endpoint，不用面對 message broker 與 Celery protocol，聽起來好像不錯；但 <code>celery</code> CLI 可以直接將 task 揭露成 HTTP endpoints 嗎 ??</p>
+<p>雖然 webhook task machinery <a href="http://docs.celeryproject.org/en/latest/history/whatsnew-4.0.html#features-removed-for-simplicity">在 4.0 被移除了</a>，但好像也可以自己做 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/celery/celery/blob/3.1/celery/task/http.py">celery/http.py at 3.1 · celery/celery</a> #ril</p>
+</li>
+</ul>
+<h2 id="app-binding">App Binding ??<a class="headerlink" href="#app-binding" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/reference/celery.html#celery.Celery.task"><code>celery.Celery.task</code> - celery — Distributed processing — Celery 4.3.0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Note: APP BINDING: For custom apps the task decorator will return a proxy object, so that the act of creating the task is not performed until the task is used or the TASK REGISTRY is accessed.</p>
+<p>If you’re depending on binding to be DEFERRED, then you must not access any attributes on the returned object until the application is fully set up (finalized).</p>
+<p>讓人想到 <a href="http://flask.pocoo.org/docs/1.0/patterns/appfactories/">Application Factories — Flask 1.0.2 documentation</a>，跟好不好測有關 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/userguide/testing.html">Testing with Celery — Celery 4.3.0 documentation</a> 出現 <code>@app.task(bind=True)</code> 的用法 #ril</p>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/history/whatsnew-4.0.html#the-task-base-class-no-longer-automatically-register-tasks">The Task base class no longer automatically register tasks - What’s new in Celery 4.0 (latentcall) — Celery 4.3.0 documentation</a> 出現 <code>app.register_task(CustomTask())</code>，但又說 class based tasks 不是 best practice ?? #ril</p>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/userguide/tasks.html#bound-tasks">Bound tasks - Tasks — Celery 4.3.0 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html">First steps with Django — Celery 4.3.0 documentation</a> 出現 <code>app.autodiscover_tasks()</code> 的用法 #ril</p>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/reference/celery.html#celery.Celery.autodiscover_tasks"><code>autodiscover_tasks()</code> - celery — Distributed processing — Celery 4.3.0 documentation</a> 這些 task 如何不用 <code>@app.task</code> 宣告 ??</p>
+</li>
+<li>
+<p><a href="https://docs.celeryproject.org/en/latest/userguide/tasks.html#instantiation">Instantiation - Tasks — Celery 4.3.0 documentation</a> 繼承自 <code>celery.Task</code> 自訂 task #ril</p>
+</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="celery-received-unregistered-task-of-type">Celery Received unregistered task of type ??<a class="headerlink" href="#celery-received-unregistered-task-of-type" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/9769496/">python - Celery Received unregistered task of type (run example) - Stack Overflow</a> <code>please include=['proj.tasks']</code> 是關鍵 #ril</p>
+<ul>
+<li>CK.Nguyen: The include param need to be add if you&rsquo;re using RELATIVE IMPORTS. I&rsquo;ve solved my issue by adding it</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#installing-celery">Installing Celery - First Steps with Celery — Celery 4.3.0 documentation</a></p>
+<p>Celery is on the Python Package Index (PyPI), so it can be installed with standard Python tools like pip or easy_install:</p>
+<pre><code>$ pip install celery
+</code></pre>
+</li>
+<li>
+<p><a href="http://www.celeryproject.org/#getStarted">Getting Started - Homepage | Celery: Distributed Task Queue</a></p>
+<ul>
+<li>Install celery by download or <code>pip install -U Celery</code></li>
+<li>Set up RabbitMQ, Redis or one of the other supported BROKERS</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.celeryproject.org/install/">Download and Install | Celery: Distributed Task Queue</a> #ril</p>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html">Using Redis — Celery 4.3.0 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.celeryproject.org/">Celery</a></li>
+<li><a href="https://github.com/celery/celery">celery/celery - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/celery">&lsquo;celery&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/reference/index.html">API Reference</a></p>
+<ul>
+<li><a href="http://docs.celeryproject.org/en/latest/reference/celery.app.task.html#celery.app.task.Task">Class <code>celery.app.task.Task</code></a></li>
+<li><a href="http://docs.celeryproject.org/en/latest/reference/celery.result.html#celery.result.AsyncResult">Class <code>celery.result.AsyncResult</code></a></li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.celeryproject.org/en/latest/internals/protocol.html">Message Protocol</a></p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

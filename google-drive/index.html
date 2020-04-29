@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/google-drive/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Drive - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/google-drive.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-drive">Google Drive</a></li>
+            <li class="second-level"><a href="#team-drive">Team Drive</a></li>
+                
+            <li class="second-level"><a href="#file-server">取代 File Server，階層式權限？</a></li>
+                
+            <li class="second-level"><a href="#version-control">Version Control</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-drive">Google Drive<a class="headerlink" href="#google-drive" title="Permanent link"> #</a></h1>
+<h2 id="team-drive">Team Drive<a class="headerlink" href="#team-drive" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://gsuite.google.com/learning-center/products/drive/get-started-team-drive/">Team Drives: Get Started | Learning Center | G Suite</a> #ril</p>
+<ul>
+<li>Unlike files in My Drive, files in a Team Drive belong to the team instead of an individual. Even if members LEAVE, the files stay exactly where they are so your team can continue to share information and get work done. 暗指 My Drive 帳號刪除，檔案就跟著不見了?</li>
+<li>Team Drives is only available with the G Suite Enterprise, Business, or Education editions. If you don&rsquo;t see Team Drives in Google Drive, it might not be available for your organization.</li>
+<li>Not sure whether to use My Drive or Team Drives? 提到 If the files are for a variety of projects, create multiple Team Drives. &hellip; 用 project 來分 drive 會不會太細了?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gsuite.google.com/learning-center/products/drive/#!/faq">What&rsquo;s the difference between My Drive and Team Drives? - FAQ - Google Drive | Learning Center | G Suite</a> #ril</p>
+<ul>
+<li>My Drive is best for storing personal files or files that you want to SHARE ONE-ON-ONE. Team Drives is best to use with a group of collaborators who are working on the same files. 這說法很容易懂!!</li>
+</ul>
+<p>Some key differences between My Drive and Team Drives are:</p>
+<ul>
+<li>Who can add files? &ndash; Any member with CONTRIBUTOR access or higher.</li>
+<li>What types of files can I add? &ndash; All file types (except Google Maps).</li>
+<li>Who owns files and folders? &ndash; The team.</li>
+<li>
+<p>Can I move files and folders?</p>
+<ul>
+<li>If you have Contributor access or higher, you can move files from My Drive to a Team Drive. 把 My Drive 的檔案整理進 Team Drive 是很重要的一步!! 不過移動 folder 需要 admin 的幫忙?</li>
+<li>If you have CONTENT MANAGER access or higher, you can move files and FOLDERS within a Team Drive. 由少數人規劃好檔案該怎麼放</li>
+<li>If you have MANAGER access, you can move files out of a Team Drive or between Team Drives. 檔案可以在不同 team drive 間移動</li>
+<li>If you want to move folders from My Drive to Team Drives, contact your G Suite admin.</li>
+</ul>
+</li>
+<li>
+<p>Can I sync files to my computer? It depends on which sync solution you use: Drive File Stream: Yes Backup and Sync: No</p>
+</li>
+<li>How does sharing work? &ndash; All members of the Team Drive see all files.</li>
+<li>How long do files I delete stay in Trash? Each Team Drive has its own Trash. Members with CONTENT MANAGER access and above can move files to Trash. Files and folders in Trash are deleted forever after 30 days. Members with MANAGER access can permanently delete files BEFORE 30 days. 反應時間 30 天，不過一般人都可以 restore。</li>
+<li>Can I restore files? &ndash; Yes, if you have at least Contributor access.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gsuite.google.com/learning-center/products/drive/sharing-best-practices/#!/">Team Drives: Best Practices | Learning Center | G Suite</a> #ril</p>
+</li>
+</ul>
+<h2 id="file-server">取代 File Server，階層式權限？<a class="headerlink" href="#file-server" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://support.google.com/a/thread/26990707?hl=en">GSuite Business Shared Drives - Individual permission on subfolder or file - G Suite Admin Community</a> #ril</p>
+</li>
+<li>
+<p><a href="https://rippleit.com/google-drive-migration-file-server/">Google Drive as a File Server | Ripple</a> #ril</p>
+<p>Flatter Folder Structures Optimize Search</p>
+<ul>
+<li>Google Drive supports a search-first, browse-later mentality. ?? Best practices for dealing with traditional file servers call for deeper folder structures that rely on categorization to make browsing easier. When it comes to searching, however, flatter structures are the way to go.</li>
+</ul>
+<p>The Benefits of Team Drive</p>
+<ul>
+<li>
+<p>Team Drive is quite useful for small projects or departments in need of hosting a single hub for multiple various files. The biggest selling point is that all the data that resides in a Team Drive folder is owned by the folder -not the individuals contributing or accessing the folder. This is a great step towards peeling away a common administrator headache of managing ownership of Google Drive files.</p>
+</li>
+<li>
+<p>If Team Drive is enabled for your domain, creating a Team Drive folder is as simple as clicking ‘Team Drives’ and then ‘New’. Once created, Google Drive will guide you along to adding members and their permission levels to the folder. It’s very simple to use and is now part of our discovery process when working with clients to make Google Drive their file server.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pirate.london/g-suite-team-drive-sharing-yes-you-can-not-you-cant-yes-you-can-db0a4e3e6220">G Suite Team drive folder sharing —no you can’t — yes you can</a> (2018-11-09) #ril</p>
+</li>
+<li><a href="https://webapps.stackexchange.com/questions/110244">Cannot share folders on G Suite Google Drive - Web Applications Stack Exchange</a> (2017-09-27) #ril</li>
+</ul>
+<h2 id="version-control">Version Control<a class="headerlink" href="#version-control" title="Permanent link"> #</a></h2>
+<ul>
+<li>2020-03-05 實驗確認 Google Docs、Sheets、Slides 都支援 Named Version，但 Suggested Edit 確實只有 Google Docs 支援。</li>
+<li>手動上傳的檔案 (非 Google Docs/Sheets/Slides)，才會有 Manage Versions 的功能；不能自己命名 (named version)，但可以將某個版本設為 Keep Forever。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.upcurvecloud.com/blog/google-docs-has-full-track-changes-word-integration/">Google Docs Has Full &lsquo;Track Changes&rsquo; Word Integration - UpCurve Cloud</a> (2014-12-04) #ril</li>
+<li><a href="https://support.google.com/drive/answer/2409045">View activity &amp; file versions - Computer - Google Drive Help</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://drive.google.com/">Google Drive</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../google-drive-api/">API</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tox/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>tox - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tox.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tox">tox</a></li>
+            <li class="second-level"><a href="#setuppyrequirementstxt">跟 setup.py、requirements.txt 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#tox_1">有哪些知名的專案在用 tox?</a></li>
+                
+            <li class="second-level"><a href="#docker">跟 Docker 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#pyenv">跟 pyenv 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#pytest">使用 pytest ??</a></li>
+                
+            <li class="second-level"><a href="#tox-cli">tox (CLI) ??</a></li>
+                
+            <li class="second-level"><a href="#tox-quickstart-cli">tox-quickstart (CLI) ??</a></li>
+                
+            <li class="second-level"><a href="#package">測試已經打包好的 package ??</a></li>
+                
+            <li class="second-level"><a href="#private-package-index">Private Package Index ??</a></li>
+                
+            <li class="second-level"><a href="#setuppy-test">搭配 setup.py test 使用</a></li>
+                
+            <li class="second-level"><a href="#ci-integration">CI Integration ??</a></li>
+                
+            <li class="second-level"><a href="#virtualenv-test-environment-default-environment-matrix">Virtualenv Test Environment, Default Environment, Matrix ??</a></li>
+                
+            <li class="second-level"><a href="#toxini">tox.ini 要怎麼寫?</a></li>
+                
+            <li class="second-level"><a href="#junit-xml-report">產生 JUnit XML report?</a></li>
+                
+            <li class="second-level"><a href="#coverage">合併多個測試環境的 Coverage ??</a></li>
+                
+            <li class="second-level"><a href="#slow">執行速度很慢 ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tox">tox<a class="headerlink" href="#tox" title="Permanent link"> #</a></h1>
+<ul>
+<li>tox 只能用在 <a href="setuptools.md"><code>setup.py</code></a> based project</li>
+<li>tox 支援的 test tool 有 <a href="../pytest/">pytest</a>、<a href="nose.md">nose</a> 與 unittest</li>
+<li>tox 背後用 <a href="virtualenv.md">virtualenv</a> 來安排不同的 test environment</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://pypi.python.org/pypi/tox">tox 3.0.0rc4 : Python Package Index</a><ul>
+<li>開宗明義 vision: standardize testing in Python</li>
+<li>基於 virtualenv，專注在 testing；利用 virtualenv 檢查在不同的 test environment (主要是不同的 Python version) 都能安裝成功、通過測試 (支援不同的 test tool)；過程中會自動建立 virtualenv，也難怪會有 &ldquo;virtualenv managment&rdquo; 的說法。</li>
+<li>做為 CI server 的 frontend??</li>
+</ul>
+</li>
+<li><a href="https://tox.readthedocs.io/en/latest/">Welcome to the tox automation project — tox 3.0.0rc3.dev10 documentation</a> #ril<ul>
+<li>自動/標準化 Python 的 testing，支援 &ldquo;setup.py based project&rdquo; (透過 <code>setup.py</code> 安裝到不同的 virtual environment)，而 test tool 則支援 pytest、nose、unittest 等。</li>
+<li>支援 CPython 2.7/3.4+、Jython 及 pypy。</li>
+<li>Current features &hellip;</li>
+</ul>
+</li>
+<li><a href="https://www.jetbrains.com/help/pycharm/run-debug-configuration-tox.html">Run/Debug Configuration: Tox - Help | PyCharm</a> PyCharm 支援 tox 設定 #ril</li>
+</ul>
+<h2 id="setuppyrequirementstxt">跟 <code>setup.py</code>、<code>requirements.txt</code> 的關係 ??<a class="headerlink" href="#setuppyrequirementstxt" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>tox --develop</code> (install package in the venv using &lsquo;setup.py develop&rsquo;) 這種用法的存在，感覺 <code>tox</code> 像是 <code>setup.py</code> 的 frontend。</li>
+<li>the tox automation project <a href="https://tox.readthedocs.io/en/latest/">https://tox.readthedocs.io/en/latest/</a> 提到 &ldquo;installs your setup.py based project into each virtual environment&rdquo;，所以執行 <code>tox</code> 時若 <code>setup.py</code> 不存在，會丟出 <code>tox.MissingFile: MissingFile: path/to/project/setup.py</code> 的錯誤。</li>
+<li><a href="https://blog.ionelmc.ro/2015/04/14/tox-tricks-and-patterns/#lack-of-packaging">Tox tricks and patterns | ionel&rsquo;s codelog</a> (2015-04-14) 若專案沒有 <code>setup.py</code> 但又想用 tox，在 <code>tox.ini</code> 增加 <code>[tox] skipsdist = true</code> 就可以。</li>
+</ul>
+<h2 id="tox_1">有哪些知名的專案在用 tox?<a class="headerlink" href="#tox_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pypa/sampleproject/blob/master/tox.ini">sampleproject/tox.ini at master · pypa/sampleproject</a> Python Packaging Authority (PyPA) 的範例</li>
+<li>requests/tox.ini at master · requests/requests <a href="https://github.com/requests/requests/blob/master/tox.ini">https://github.com/requests/requests/blob/master/tox.ini</a></li>
+<li>flask/tox.ini at master · pallets/flask <a href="https://github.com/pallets/flask/blob/master/tox.ini">https://github.com/pallets/flask/blob/master/tox.ini</a></li>
+<li>django/tox.ini at master · django/django <a href="https://github.com/django/django/blob/master/tox.ini">https://github.com/django/django/blob/master/tox.ini</a></li>
+<li>nose/tox.ini at master · nose-devs/nose <a href="https://github.com/nose-devs/nose/blob/master/tox.ini">https://github.com/nose-devs/nose/blob/master/tox.ini</a></li>
+<li>nose2/tox.ini at master · nose-devs/nose2 <a href="https://github.com/nose-devs/nose2/blob/master/tox.ini">https://github.com/nose-devs/nose2/blob/master/tox.ini</a></li>
+<li>pylint/tox.ini at master · PyCQA/pylint <a href="https://github.com/PyCQA/pylint/blob/master/tox.ini">https://github.com/PyCQA/pylint/blob/master/tox.ini</a></li>
+<li>selenium/tox.ini at master · SeleniumHQ/selenium <a href="https://github.com/SeleniumHQ/selenium/blob/master/py/tox.ini">https://github.com/SeleniumHQ/selenium/blob/master/py/tox.ini</a></li>
+<li>ansible/tox.ini at devel · ansible/ansible <a href="https://github.com/ansible/ansible/blob/devel/tox.ini">https://github.com/ansible/ansible/blob/devel/tox.ini</a></li>
+</ul>
+<h2 id="docker">跟 Docker 的關係 ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/themattrix/docker-tox">themattrix/docker-tox: Docker base image for running tox with Python 2.6, 2.7, 3.3, 3.4, 3.5, 3.6, PyPy, and PyPy3.</a> 同時有各版本 Python 的 image! 做 library 時好用。</li>
+<li><a href="https://github.com/dcrosta/tox-docker">dcrosta/tox-docker: A tox plugin to run one or more Docker containers during tests</a> 在不同 environment 起不同的 container，用在 integration test 好像不錯? #ril</li>
+<li><a href="https://ideas.offby1.net/posts/docker-runner-for-tox.html">Using Docker to run tox without adding Pythons to your system - Ideas.Offby1</a> 如何自己準備支援 tox 及不同 Python 版本的環境 #ril</li>
+<li><a href="https://github.com/openstack/dox">openstack/dox: Run tests in a docker container</a> 靈感來自 tox #ril</li>
+<li><a href="https://blog.chmouel.com/2014/09/08/dox-a-tool-that-run-python-or-others-tests-in-a-docker-container/">Dox a tool that run python (or others) tests in a docker container – Chmouel&rsquo;s Blog</a> (2014-09-08) #ril</li>
+<li><a href="http://pramodk.net/posts/2017/07/testing-python-packages/">Testing Python Packages | Integration with tox and Travis CI</a> (2017-07-16) #ril</li>
+</ul>
+<h2 id="pyenv">跟 pyenv 的關係 ??<a class="headerlink" href="#pyenv" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pyenv/pyenv#user-content-pyenv-does">pyenv does&hellip; - pyenv/pyenv: Simple Python version management</a> 提到 Search commands from multiple versions of Python at a time. This may be helpful to test across Python versions with tox. 這跟 tox 什麼關係??</li>
+<li><a href="https://github.com/pyenv/pyenv-virtualenv/issues/21">Running Tox inside a pyenv virutalenv · Issue #21 · pyenv/pyenv-virtualenv</a> #ril</li>
+<li><a href="https://gist.github.com/jstoiko/5492f8baa69c1722b984">Using tox, pyenv and multiple version of python on OSX</a> pyenv 似乎就用來安裝多個版本的 Python interpreter?</li>
+<li><a href="https://github.com/pyenv/pyenv/issues/92">Using tox with pyenv · Issue #92 · pyenv/pyenv</a> #ril</li>
+<li><a href="https://pypi.org/project/tox-pyenv/">tox-pyenv · PyPI</a> #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code>def test_hello_world(cli):
+    cli.src('tox.ini', r&quot;&quot;&quot;
+    [tox]
+    envlist = py27,py36
+
+    [testenv]
+    deps = pytest
+    commands = pytest
+    &quot;&quot;&quot;)
+
+    # setup.py in the same directory
+    cli.src('setup.py', r&quot;&quot;&quot;
+    from setuptools import setup
+
+    setup(
+        name='hello-world',
+        packages=['hello'],
+    )
+    &quot;&quot;&quot;)
+
+    # production code
+    cli.src('hello/__init__.py')
+    cli.src('hello/hello.py', r&quot;&quot;&quot;
+    def say_hello(who='World'):
+        return 'Hello, %s!' % who
+    &quot;&quot;&quot;)
+
+    # test code; at least one test
+    cli.src('tests/test_hello.py', r&quot;&quot;&quot;
+    from hello import hello
+
+    def test_hello():
+        assert hello.say_hello() == 'Hello, World!'
+        assert hello.say_hello('pytest') == 'Hello, pytest!'
+    &quot;&quot;&quot;)
+
+    r = cli.run('tox')
+    assert 'py27: commands succeeded' in r.out
+    assert 'py36: commands succeeded' in r.out
+
+    # directories .tox/ and *.egg-info/ got created
+    assert cli.exists('.tox/')
+    assert cli.exists('hello_world.egg-info/')
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://tox.readthedocs.io/en/latest/#basic-example">Basic example - Welcome to the tox automation project — tox 3.0.0rc3.dev10 documentation</a> #ril</p>
+<ul>
+<li>透過 <code>pip install tox</code> 安裝，寫 <code>tox.ini</code> (也可以用 <code>tox-quickstart</code> 產生)，之後就能用 <code>tox</code> 指令來做事。</li>
+<li>
+<p><code>tox.ini</code> 放在 <code>setup.py</code> 同一目錄下，裡面宣告要進行測試的多個 (virtualenv) test environment，以及會用到什麼套件，例如：</p>
+<pre><code>[tox]
+envlist = py27,py36
+
+[testenv]
+deps = pytest
+commands = pytest
+</code></pre>
+</li>
+<li>
+<p>執行 <code>tox</code> 就會打包 sdist package，分別安裝到 Python 2.7 與 3.6 的 virtualenv 進行測試 (第一次跑 tox 還要安裝 dependencies 比較花時間)；有打包進 package 才測得到!!</p>
+</li>
+<li>注意不同版本的 Python 要自己先安裝好，否則會發生錯誤，這不是 tox 可以幫忙做掉的。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tox.readthedocs.io/en/latest/example/basic.html">Basic usage — tox 3.0.0rc3.dev10 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tox.readthedocs.io/en/latest/config.html">tox configuration specification — tox 3.2.2.dev6 documentation</a> 裡面只有 <code>TOX_TESTENV_PASSENV</code> (space-separated) 與 <code>TOX_LIMITED_SHEBANG</code> #ril</li>
+<li><a href="https://tox.readthedocs.io/en/latest/example/general.html#selecting-one-or-more-environments-to-run-tests-against">Selecting one or more environments to run tests against - General tips and tricks — tox 3.2.2.dev9 documentation</a> 還有個 <code>TOXENV</code> #ril</li>
+<li><a href="https://tox.readthedocs.io/en/latest/config.html#environment-variable-substitutions">environment variable substitutions - tox configuration specification — tox 3.2.2.dev6 documentation</a> 從 <code>{env:KEY}</code> 看來，tox 對外溝通的介面是 environment variable，但除非用 <code>passenv</code> 指定，否則不會往下傳 #ril</li>
+</ul>
+<h2 id="pytest">使用 pytest ??<a class="headerlink" href="#pytest" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tox.readthedocs.io/en/latest/example/pytest.html">pytest and tox — tox 3.0.0rc3.dev10 documentation</a> #ril</li>
+</ul>
+<h2 id="tox-cli">tox (CLI) ??<a class="headerlink" href="#tox-cli" title="Permanent link"> #</a></h2>
+<h2 id="tox-quickstart-cli">tox-quickstart (CLI) ??<a class="headerlink" href="#tox-quickstart-cli" title="Permanent link"> #</a></h2>
+<h2 id="package">測試已經打包好的 package ??<a class="headerlink" href="#package" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://twine.readthedocs.io/en/stable/">Welcome to twine’s documentation! — twine 1.11.0 documentation</a> Uploading files that have already been created, allowing testing of distributions before release；強調 testability 是因為，過往 <code>python setup.py upload</code> 只能上傳同一個 command invocation 產生的 package (例如 <code>python setup.py sdist upload</code>)，所以沒機會在 upload 前先驗證一下 package。</li>
+<li><a href="https://tox.readthedocs.io/en/latest/changelog.html#id229">1.4.3 (2013-02-28) - Changelog history — tox 3.2.2.dev6 documentation</a> 實驗性引入 <code>--installpkg=PATH</code> 直接安裝 package，而非建立新的 sdist；試過 <code>tox --installpkg dist/mylib-1.0.0-py2.py3-none-any.whl</code> 是沒有問題的。</li>
+<li><a href="http://lists.idyll.org/pipermail/testing-in-python/2015-June/006489.html">[TIP] Testing a binary distribution with Tox</a> 提到用 <code>python setup.py bdist_wheel</code> 產生 wheel，再用 <code>tox --installpkg ARTIFACT_PATH</code> 的方式測試，就可以確保 &ldquo;the binary distribution is good to go&rdquo;。</li>
+<li><a href="https://github.com/tox-dev/tox/issues/236">tox must create the source distribution with the Python of the virtual environment · Issue #236 · tox-dev/tox</a> pytoxbot: Note that there is a <code>--installpkg PATH</code> option which lets tox skip building alltogether. With a little &ldquo;tox-front&rdquo; script you could probably do the building yourself and then call <code>tox --installpkg=... -e env1,env2</code> for the time being.</li>
+<li><a href="https://tox.readthedocs.io/en/latest/example/general.html#avoiding-expensive-sdist">Avoiding expensive sdist - General tips and tricks — tox 3.2.2.dev9 documentation</a><ul>
+<li>Some projects are large enough that running an sdist, followed by an install every time can be prohibitively costly. 原來會慢在這裡，在 <code>[tox]</code> 下加了 <code>skipsdist = True</code> 後，真的就變快了一些。</li>
+<li>一開始用 <code>--installpkg</code> 時還是會有 <code>xxx.egg-info</code> 產生，加上這個宣告後就不會了。</li>
+</ul>
+</li>
+<li>後來發現加了 <code>skipsdist=True</code> 後，沒有打包 <code>.whl</code> 也能測試，好像直接拿 source code 了?<ul>
+<li><a href="https://tox.readthedocs.io/en/latest/changelog.html?highlight=skipsdist#id220">1.6.0 (2013-08-15) - Changelog history — tox 3.2.2.dev9 documentation</a> add new config options <code>usedevelop</code> and <code>skipsdist</code> as well as a command line option <code>--develop</code> to install the package-under-test in DEVELOP MODE. thanks Monty Tailor for the PR. 感覺 <code>skipsdist=True</code> 時，也啟動了 developer mode??</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/18962403/">python - How do I run tox in a project that has no setup.py? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="private-package-index">Private Package Index ??<a class="headerlink" href="#private-package-index" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://tox.readthedocs.io/en/latest/example/basic.html#using-a-different-default-pypi-url">using a different default PyPI url - Basic usage — tox 3.1.0a2.dev1 documentation</a> #ril</li>
+<li><a href="http://tox.readthedocs.io/en/latest/example/basic.html#installing-dependencies-from-multiple-pypi-servers">installing dependencies from multiple PyPI servers - Basic usage — tox 3.1.0a2.dev1 documentation</a> #ril</li>
+</ul>
+<h2 id="setuppy-test">搭配 setup.py test 使用<a class="headerlink" href="#setuppy-test" title="Permanent link"> #</a></h2>
+<p>tox 一定要搭配 <code>setup.py</code> 使用，但 setuptools 測試的慣例是 <code>setup.py test</code>，如何讓 <code>setup.py test</code> 用 tox 執行測試?</p>
+<p><a href="https://pypi.org/project/tox-setuptools/">tox-setuptools</a> 可以讓你輕鬆完成這件事，不過 2016/10 後，整合 tox 與 <code>setup.py test</code> 就不被鼓勵，因為 <code>setup.py test</code> 預期在同一個 invocation interpreter，而不會像 tox 另外建立 virtualenvs，這會衍生一些問題，所以若真要整合的話，官方建議整合最終的 test tool (例如 pytest)。</p>
+<p>不過按照 tox 的說法，Python 漸漸不以 <code>setup.py</code> 做為 tool entry point，整合 <code>setup.py test</code> 好像也沒什麼必要？</p>
+<blockquote>
+<p>As the python eco-system rather moves away from using <code>setup.py</code> as a tool entry point it’s maybe best to not go for any <code>setup.py test</code> integration.</p>
+<p>&ndash; <a href="http://tox.readthedocs.io/en/latest/example/basic.html#integration-with-setup-py-test-command">Integration with “setup.py test” command - Basic usage</a>]</p>
+</blockquote>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://pypi.org/project/tox-setuptools/">tox-setuptools · PyPI</a><ul>
+<li>整合 tox 與 setuptools 的 test runner，說是從 tox 官方文件的 sample code 而來；不過<a href="http://tox.readthedocs.io/en/latest/example/basic.html#integration-with-setup-py-test-command">現在官方文件</a> 已經不建議整合 tox 與 <code>setup.py test</code> (2016/10 後)。</li>
+<li>在 <code>setup.py</code> 的 <code>setup()</code> 加上 <code>setup_requires=['tox-setuptools']</code> 即可，執行 <code>python setup.py test</code> 就會跑 tox。</li>
+</ul>
+</li>
+<li><a href="http://tox.readthedocs.io/en/latest/example/basic.html#integration-with-setup-py-test-command">Integration with “setup.py test” command - Basic usage — tox 3.1.0a2.dev1 documentation</a> #ril<ul>
+<li>整合 tox 與 <code>setup.py test</code> 從 2016/10 就不被鼓勵，因為它打破了 downstream distributions? 的預期 &ndash; <code>setup.py test</code> 會執行在 invocation interpreter 而非另外建立 virtualenvs。</li>
+<li>若真想整合 <code>setup.py test</code>，建議整合最終的 test runner (例如 pytest)，而非中間的 tox。</li>
+<li>As the python eco-system rather moves away from using setup.py as a tool entry point it’s maybe best to not go for any setup.py test integration. 這是真的嗎? 慢慢偏離 <code>setup.py</code>，就做為 &ldquo;tool entry point&rdquo; 這點而言。</li>
+</ul>
+</li>
+<li><a href="https://blog.ionelmc.ro/2014/05/25/python-packaging/#running-the-tests">Packaging a python library | ionel&rsquo;s codelog</a> (2014-04-25) 覺得 <code>setup.py test</code> 的做法沒必要? #ril</li>
+<li><a href="https://jeffknupp.com/blog/2013/08/16/open-sourcing-a-python-project-the-right-way/">setuptools integration - Open Sourcing a Python Project the Right Way</a> (2013-08-16) setuptools integration 重新定義了 <code>test</code> command。</li>
+<li><a href="https://blog.shazam.com/python-microlibs-5be9461ad979">Python microlibs – Inside Shazam</a> (2017-04-12) 有用 tox，但 <code>setup.py</code> 只自訂了 <code>install</code> 與 <code>develop</code> 兩個 command #ril</li>
+</ul>
+<h2 id="ci-integration">CI Integration ??<a class="headerlink" href="#ci-integration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tox.readthedocs.io/en/latest/example/jenkins.html">Using tox with the Jenkins Integration Server — tox 3.0.0rc3.dev10 documentation</a> #ril</li>
+</ul>
+<h2 id="virtualenv-test-environment-default-environment-matrix">Virtualenv Test Environment, Default Environment, Matrix ??<a class="headerlink" href="#virtualenv-test-environment-default-environment-matrix" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://tox.readthedocs.io/en/latest/example/basic.html">Basic usage — tox 3.0.0rc3.dev49 documentation</a> 出現 default environments 的說法，包含 py、py2、py27、py3、py34&hellip;、jython、pypy、pypy3 等。</li>
+<li>在 <code>tox.ini</code> 裡，<code>[tox]</code> 下的 <code>envlist</code> 給所有的 test environment 不同的名字 (就是 virtualenv 的名稱，預設是 <code>.tox/&lt;env&gt;/</code>)，再由 <code>[testenv]</code> 底下的 <code>commands</code> 分別設定不同的 environment 執行不同的指令、帶不同的參數&hellip;</li>
+<li>selenium/tox.ini at master · SeleniumHQ/selenium <a href="https://github.com/SeleniumHQ/selenium/blob/master/py/tox.ini">https://github.com/SeleniumHQ/selenium/blob/master/py/tox.ini</a> 原來 test environment 不只是 Python 版本，還可以包含採用不同的 driver。</li>
+<li><a href="https://tox.readthedocs.io/en/latest/example/devenv.html">Development environment — tox 3.0.0rc3.dev10 documentation</a> #ril</li>
+<li><a href="https://tox.readthedocs.io/en/latest/example/basic.html#compressing-dependency-matrix">Compressing dependency matrix - Basic usage — tox 3.0.0rc3.dev49 documentation</a> #ril</li>
+<li><code>envlist = py{2,3}-requests{1,2}</code> 確實 <code>tox -l</code> 會列出 4 種組合，但 <code>tox -e request1</code> 還是能跑? 試過 tox 2.9.1 跟 3.x 都是一樣。</li>
+<li><a href="https://tox.readthedocs.io/en/latest/config.html#generative-envlist">Generative envlist - tox configuration specification — tox 3.0.0rc3.dev49 documentation</a> 說明 bash-style syntax 會產生幾種 environments #ril</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://tox.readthedocs.io/en/latest/config.html#virtualenv-test-environment-settings">Virtualenv test environment settings - tox configuration specification — tox 3.0.0rc3.dev43 documentation</a> Test environment 特有的設定寫在 <code>[testenv:NAME]</code>，通用的設定則寫在 <code>[testenv]</code>。</li>
+<li><a href="http://tox.readthedocs.io/en/latest/example/basic.html">Basic usage — tox 3.0.0rc3.dev43 documentation</a> #ril</li>
+</ul>
+<h2 id="toxini"><code>tox.ini</code> 要怎麼寫?<a class="headerlink" href="#toxini" title="Permanent link"> #</a></h2>
+<ul>
+<li>可以用 <code>tox-quickstart</code> 產生，再做修改。</li>
+</ul>
+<pre><code>[tox]
+envlist = py26, py27
+
+[testenv]
+commands = pytest
+deps =
+    pytest
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>Welcome to the tox automation project <a href="https://tox.readthedocs.io/en/latest/">https://tox.readthedocs.io/en/latest/</a> <code>tox.ini</code> 可以用 <code>tox-quickstart</code> 來產生</li>
+<li>tox configuration specification — tox documentation <a href="http://tox.readthedocs.io/en/latest/config.html">http://tox.readthedocs.io/en/latest/config.html</a> #ril</li>
+<li>tox configuration and usage examples — tox documentation <a href="https://tox.readthedocs.io/en/latest/examples.html">https://tox.readthedocs.io/en/latest/examples.html</a> #ril</li>
+</ul>
+<h2 id="junit-xml-report">產生 JUnit XML report?<a class="headerlink" href="#junit-xml-report" title="Permanent link"> #</a></h2>
+<ul>
+<li>Using Tox with the Jenkins Integration Server — tox documentation <a href="http://tox.readthedocs.io/en/latest/example/jenkins.html">http://tox.readthedocs.io/en/latest/example/jenkins.html</a> 加上 <code>--junitxml=junit-{envname}.xml</code> 就會產生 JUnit XML reports；這裡 <code>--junitxml</code> 是 pytest 的用法，但 tox 提供 <code>{envname}</code> 這個變數。</li>
+<li>如何合併多個 environment 的結果?</li>
+</ul>
+<h2 id="coverage">合併多個測試環境的 Coverage ??<a class="headerlink" href="#coverage" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/50895525/">python - How can I combine coverage results with tox? - Stack Overflow</a><ul>
+<li>Tim Martin: 假設有安裝 <code>pytest-coverage</code>，可以在 <code>[tool:pytest].addopts</code> 加上 <code>--cov-append</code> (其實就是為 <code>pytest</code> 加上 <code>--cov-append</code> 參數)，這會合併多次 test run 的結果，有助於把拆分 integration/unit tests。但後來提問的 Martin Thoma 說這並沒有解決問題 XD</li>
+</ul>
+</li>
+</ul>
+<h2 id="slow">執行速度很慢 ??<a class="headerlink" href="#slow" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/tox-dev/tox/issues/293">tox startup is very slow due to setup.py and .tox virtualenvs · Issue #293 · tox-dev/tox</a></p>
+<ul>
+<li>
+<p>spookylukey: It could be considered a performance bug in setuptools, but fixing that is looking quite hard. I&rsquo;m wondering if fixing it via tox would be better - after all, tox is triggering the really poor performance of <code>setup.py</code> by PUTTING THOUSANDS OF FILES IN THE WORKING DIRECTORY, and then suffering from it.</p>
+<ul>
+<li>
+<p>Solution 1: specify a toxworkdir outside the package directory - <a href="http://tox.readthedocs.org/en/latest/config.html#tox-global-settings">http://tox.readthedocs.org/en/latest/config.html#tox-global-settings</a></p>
+<p>The problem with this is that it is difficult to find a place which would be appropriate when you consider multiple people working on a project, possibly on different platforms. Also, it needs to be applied in every project that notices the problem.</p>
+<p>但為什麼把 <code>toxworkdir</code> 從 <code>{toxinidir}/.tox</code> 改到其他地方就會變快?</p>
+</li>
+<li>
+<p>Solution 2: have a different default value for <code>toxworkdir</code>, something like <code>~/.cache/tox/virtualenvs/{project}</code>, where <code>{project}</code> gets substituted by something appropriate, like a mangled version of the working directory, perhaps combined with a platform name or something. This might also address issue #44 <a href="https://bitbucket.org/hpk42/tox/issues/44/cant-share-a-tox-directory-between-os-x">https://bitbucket.org/hpk42/tox/issues/44/cant-share-a-tox-directory-between-os-x</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>spookylukey: pypa/setuptools#450 was closed without a patch being merged, but pypa/setuptools#764 was merged, which hopefully addresses this.</p>
+</li>
+<li>
+<p>spookylukey: With my test case, instead of tox having a startup overhead of: 10 minutes (cold start) or 40 seconds (warm start) &hellip;it now has a startup overhead of: 40 seconds (cold start) or 1-2 seconds (warm start). Yay! This makes a world of difference.</p>
+<p>To see these benefits, you will need setuptools 28.5 or later in the virtualenv that has tox in it, and I think also in the virtualenvs that tox builds - so you may need to use <code>tox --recreate</code> to force the new version of setuptools to be installed. You also need to avoid use of <code>global_include</code> in your <code>MANIFEST</code> file, which will force all files to be scanned - and is probably not what you wanted anyway, because it will include files from hidden directories like <code>.git</code>, <code>.hg</code>, <code>.tox</code> etc.</p>
+<p>The tests aren&rsquo;t exact for a bunch of reasons, but should give a rough idea. The speedup I&rsquo;m seeing is DUE TO TOX HAVING A LARGE NUMBER OF VIRTUALENVS, so in other cases it will be less extreme. The point to note is that you are no longer punished for having a large number of virtualenvs, which were being unnecessarily scanned by setuptools before (due to them being stored within <code>.tox</code> in the project directory).</p>
+<p>什麼是 code/warm start ?? 不過把 <code>.tox</code> 搬出 project directory 真的變很快!! 跑 <code>tox --notest</code> 準備多個 virtualenvs 時就感受得到。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>在 virtualenv 下用 <code>pip install tox</code> 安裝，就會有 <code>tox</code> 與 <code>tox-quickstart</code> 指令可用。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://tox.readthedocs.io/en/latest/install.html">tox installation — tox 3.0.0rc3.dev10 documentation</a> &ldquo;It is fine to install tox itself into a virtualenv environment&rdquo; 不是 test environment，而是另外一個 virtual environment 裝 tox。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tox.readthedocs.io/">tox automation project</a></li>
+<li><a href="https://pypi.python.org/pypi/tox">tox - PyPI</a></li>
+<li><a href="https://github.com/tox-dev/tox">tox-dev/tox - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/tox">&lsquo;tox&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://tox.readthedocs.io/en/latest/config.html">tox configuration specification</a></li>
+<li><a href="https://tox.readthedocs.io/en/latest/config.html#tox"><code>tox</code> CLI</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

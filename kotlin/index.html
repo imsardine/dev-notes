@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/kotlin/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Kotlin - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/kotlin.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#kotlin">Kotlin</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#coding-style">Coding Style ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="kotlin">Kotlin<a class="headerlink" href="#kotlin" title="Permanent link"> #</a></h1>
+<ul>
+<li>Kotlin 唸做 [‵kɑ-ʈə-lɪŋ]，不是唸 [‵ko]。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=6P20npkvcb8">How to Kotlin - from the Lead Kotlin Language Designer (Google I/O &lsquo;18) - YouTube</a> Kotlin 的發明者 Andrey Breslav 現身說法，可以聽到 Kotlin 標準的唸法。</li>
+<li><a href="https://kotlinlang.org/docs/reference/faq.html">FAQ - Kotlin Programming Language</a><ul>
+<li>What is Kotlin? Kotlin is an OSS STATICALLY TYPED programming language that TARGETS the JVM, Android, JavaScript and Native. 2010 開始，直到 2016/02 釋出 v1.0。注意 target 這個用字，感覺 Kotlin 可以轉換成不同的形式，以執行在不同的平台/環境下。</li>
+<li>Is Kotlin free? Yes. Kotlin is free, has been free and will remain free. 授權採 Apache 2.0</li>
+<li>Is Kotlin an object-oriented language or a functional one? Kotlin has both object-oriented and functional constructs. You can use it in both OO and FP styles, or MIX elements of the two.</li>
+<li>What advantages does Kotlin give me over the Java programming language? Kotlin is more concise. (省下約 40% 的程式碼)、It’s also more type-safe (避免不必要的 NPE) &hellip; facilitating creation of DSL. 這跟 Groovy 的定位重疊??</li>
+<li>Is Kotlin compatible with the Java programming language? Yes. Kotlin is 100% interoperable with the Java programming language and major emphasis has been placed on making sure that your existing codebase can interact properly with Kotlin. 可以互 call 對方，甚至 IDE 有提供 Java-to-Kotlin 的轉換。</li>
+<li>What can I use Kotlin for? Kotlin can be used for any kind of development, be it SERVER-SIDE, client-side web and Android. With Kotlin/Native currently in the works, support for other platforms such as embedded systems, macOS and iOS is coming. 感覺無所不包，且 Kotlin/Native 執行期不需要 VM，那麼 iOS 跟嵌入式系統的支援就不無可能。</li>
+<li>What does Kotlin compile down to? When targeting the JVM, Kotlin produces Java compatible bytecode. When targeting JavaScript, Kotlin transpiles to ES5.1 &hellip; When targeting native, Kotlin will produce platform-specific code (via LLVM). 完全要看它 target 誰</li>
+<li>Does Kotlin only target Java 6? Kotlin lets you choose between generating Java 6 and Java 8 compatible bytecode. 當然這是 target JVM 時。</li>
+<li>Who develops Kotlin? 由 JetBrains 的工程師開發，lead language designer 是 Andrey Breslav。</li>
+</ul>
+</li>
+<li><a href="https://kotlinlang.org/docs/reference/comparison-to-java.html">Comparison to Java - Kotlin Programming Language</a> #ril<ul>
+<li>What Java has that Kotlin does not 提到 checked exceptions!? 另外為什麼把 Ternary-operator a ? b : c 拿掉?</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://kotlinlang.org/docs/reference/faq.html#is-kotlin-hard">Is Kotlin hard? - FAQ - Kotlin Programming Language</a> Kotlin 受到 Java、C#、Scala 及 Groovy 等語言的影響，雖然 idiomatic Kotlin 跟進階的用法要花一些時日，但整體而言它不是個複雜的語言。</li>
+<li><a href="https://kotlinlang.org/docs/tutorials/index.html">Tutorials - Kotlin Programming Language</a> #ril</li>
+<li><a href="https://play.kotlinlang.org/koans/overview">Kotlin Koans - Kotlin Playground</a> 通過失敗的 unit test 來練習 Kotlin syntax，根據調查，這是 Java 開發人員學習 Kotlin 最有效的方式 #ril</li>
+<li><a href="https://kotlinlang.org/docs/reference/basic-syntax.html">Basic Syntax - Kotlin Programming Language</a> #ril</li>
+</ul>
+<h2 id="coding-style">Coding Style ??<a class="headerlink" href="#coding-style" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://kotlinlang.org/docs/reference/idioms.html">Idioms - Kotlin Programming Language</a> #ril</li>
+<li><a href="https://kotlinlang.org/docs/reference/coding-conventions.html">Coding Conventions - Kotlin Programming Language</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://kotlinlang.org/docs/reference/faq.html#what-build-tools-support-kotlin">What build tools support Kotlin? - FAQ - Kotlin Programming Language</a> On the JVM side, the main build tools include Gradle, Maven, Ant, and Kobalt. There are also some build tools available that target client-side JavaScript. 針對不同 target 有不同的 build tool。</li>
+<li><a href="https://kotlinlang.org/docs/tutorials/command-line.html">Working with the Command Line Compiler - Kotlin Programming Language</a> #ril</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://kotlinlang.org/">Kotlin Programming Language</a></li>
+<li><a href="https://play.kotlinlang.org/">Kotlin Playground</a> / <a href="https://try.kotlinlang.org/">Try Kotlin</a></li>
+<li><a href="https://github.com/JetBrains/kotlin">JetBrains/kotlin - GitHub</a></li>
+<li><a href="https://blog.jetbrains.com/kotlin/">Kotlin Blog</a></li>
+<li><a href="https://kotlin.link/">Kotlin.link</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://discuss.kotlinlang.org/">Kotlin Discussions</a></li>
+<li><a href="https://twitter.com/kotlin">Kotlin (@kotlin) | Twitter</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/kotlin">&lsquo;kotlin&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../jacoco-kotlin/">JaCoCo</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

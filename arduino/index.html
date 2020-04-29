@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/arduino/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Arduino - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/arduino.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#arduino">Arduino</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#genuino">Genuino ??</a></li>
+                
+            <li class="second-level"><a href="#arduino-create">Arduino Create</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="arduino">Arduino<a class="headerlink" href="#arduino" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Introduction">Arduino - Introduction</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Main/FAQ">Arduino - FAQ</a> #ril</li>
+</ul>
+<h2 id="genuino">Genuino ??<a class="headerlink" href="#genuino" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/HomePage">Arduino - Getting Started</a> 抬頭寫著 &ldquo;Getting Started with Arduino and Genuino products&rdquo;，什麼是 Genuino?</li>
+<li><a href="https://www.youtube.com/watch?v=7KfC3aSuyiQ">Arduino Day and Genuino Day 2016 - Message From Arduino Co-Founders - YouTube</a> 創辦人之一的 Massimo Banzi 將 Genuino 唸做 &ldquo;gen-nu-ino&rdquo;</li>
+<li><a href="http://www.makezine.com.tw/arduino-16/">Arduino戰爭：公司分裂與新產品發布 - Make 國際中文版</a> (2015-03-05) Arduino 的設計是公開的，但 Arduino 這名稱、標誌、圖案是受到註冊商標保護的，以前如果拿到印有 Arduino 的板子，就可以放心它的來源 (指的大概是對 arduino.cc 的支持)。但 arduino.org 的出現，有兩家公司宣稱自己是 Arduino。</li>
+<li><a href="http://www.makezine.com.tw/massimo-banzi-arduino/">Massimo Banzi: 為Arduino而戰 - Make 國際中文版</a> (2015-04-21) 一開始 5 個創辦人同意將 Arduino 商標的擁有權轉移給公司，但要去註冊商標時才知道其中一位創辦人 Gianluca Martino 的公司 Smart Projects (主要開發板製造商) 搶先在義大利註冊了 Arduino 這名字，但 Gianluca 否決了跟其他製造商合作的想法，2014/11 Smart Projects 改名為 Arduino Srl，並建立了另一個 Arduino 網站 (<code>arduino.org</code>) 並宣稱發明了 Arduino。</li>
+<li><a href="http://www.makezine.com.tw/arduinoadafruitgenuino/">Arduino與Adafruit聯手製造產品，發表新品牌Genuino - Make 國際中文版</a> (2015-06-01) Arduino.cc 與昔日開發板製造商分裂之後，找美國曼哈頓的 Adafruit 合作製造開發板，並推出姊妹品牌 Genuino (將義大利文的 genuin (真品) 加上後綴詞 -uino 組合而成)，知名的 UNO 板也會有 Genuino UNO；不懂之後為何還會有 Arduino Zero? Arduino 這名字還能用嗎??</li>
+<li><a href="https://openhome.cc/Gossip/Books/mBlockArduino1-1and1-2.html">1 認識Arduino</a> 之前原廠控制板正反面都會印 MADE IN ITALY，但 2015/05 時 arduino.cc 與 Adafruit (美國) 擴大合作，也就是說之後原廠控制板可能會出現 MADE IN USA；在美國以外地區銷售的的 Arduino，將採用 Genuino 這個姐妹品牌；為什麼不全改用 Genuino??</li>
+</ul>
+<h2 id="arduino-create">Arduino Create<a class="headerlink" href="#arduino-create" title="Permanent link"> #</a></h2>
+<ul>
+<li>Arduino - Create <a href="https://www.arduino.cc/en/Main/Create">https://www.arduino.cc/en/Main/Create</a> #ril</li>
+<li>Arduino Web Editor 的 code 是怎麼送到板子上的? =&gt; 透過 Arduino Web Editor Plugin，所以並非完全不用安裝。<ul>
+<li>第一次登入 Arduino Create 時會提示要安裝 Arduino Web Editor Plugin；Mac 上要下載 <code>ArduinoCreateAgent-xxx-installer.dmg</code> 安裝才行，預設會裝到 <code>~/Applications/Arduino</code>，桌面就會多了一個 tray icon，在 Launchpad 裡是 ArduinoCreateAgent。</li>
+</ul>
+</li>
+<li>若 Arduino Web Editor Plugin 安裝在 <code>~/Applications/Arduino</code>，同一台電腦的其他使用者怎麼辦??</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Troubleshooting">Arduino - Troubleshooting</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment#uploading">Uploading - Arduino - Environment</a> 在不同 OS 下對應到不同的 device，都不需要 driver?? #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/">Arduino</a></li>
+<li><a href="https://blog.arduino.cc/">Arduino Blog</a></li>
+<li><a href="https://create.arduino.cc/">Arduino Create</a></li>
+<li><a href="http://playground.arduino.cc/">Arduino Playground (Wiki)</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="http://forum.arduino.cc/">Arduino Forum</a></li>
+<li><a href="https://create.arduino.cc/projecthub">Arduino Project Hub</a></li>
+<li><a href="https://www.arduino.cn/">Arduino 中文社区</a></li>
+</ul>
+<p>學習資源：</p>
+<ul>
+<li><a href="http://yehnan.blogspot.com/search/label/Arduino">葉難: Arduino</a></li>
+<li><a href="http://coopermaa2nd.blogspot.com/search/label/Arduino">Cooper Maa: Arduino</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../arduino-software/">Arduino Software (IDE)</a></li>
+<li><a href="../arduino-hardware/">Hardware</a></li>
+<li><a href="../arduino-programming/">Programming</a></li>
+<li><a href="../arduino-networking/">Networking</a></li>
+<li><a href="../arduino-education/">Education</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../circuit/">Electronic Circuit 電路</a></li>
+<li><a href="electronics.md">Electronics 電子學</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.arduino.cc/glossary/en/">Glossary</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

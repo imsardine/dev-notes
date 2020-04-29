@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/google-analytics-measurement-protocol/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Analytics / Measurement Protocol - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/google-analytics-measurement-protocol.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-analytics-measurement-protocol">Google Analytics / Measurement Protocol</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#event-tracking">Event Tracking ??</a></li>
+                
+            <li class="second-level"><a href="#custom-dimensions-metrics">Custom Dimensions / Metrics ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-analytics-measurement-protocol"><a href="../google-analytics/">Google Analytics</a> / Measurement Protocol<a class="headerlink" href="#google-analytics-measurement-protocol" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.simoahava.com/analytics/google-analytics-for-mobile-sunset/">Google Analytics For Mobile Apps Getting Shut Down | Simo Ahava&rsquo;s blog</a> (2018-12-03) 提到 This means sending hits with the JavaScript SDK, or building a Measurement Protocol request that includes web dimensions. 原來 client 跟 GA server 間是走 Measurement API。</li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/">Set up Google Analytics - Analytics Tracking  |  Google Developers</a> 第一步要 Choose a platform，粗分為 website and web apps、mobile app 與 Internet connected devices，前面兩項有自己的 SDK (JavaScript、Android、iOS)，但 Internet connected devices 就直接指向 Measurement Protocol，大概是因為定位在 track user interaction in ANY ENVIRONMENT 的關係。</li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/">Measurement Protocol Overview  |  Analytics Measurement Protocol  |  Google Developers</a> #ril<ul>
+<li>The Google Analytics Measurement Protocol allows developers to make HTTP requests to send RAW USER INTERACTION DATA directly to Google Analytics servers. This allows developers to measure how users interact with their business from almost any environment.</li>
+<li>Measure user activity in new environments. Tie online to offline behavior. ?? Send data from both the client and SERVER. 感覺像 Slack slash command 拿 GA 來做 tracking 並不奇怪?? 屬於 server-side 的應用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide">Working with the Measurement Protocol  |  Analytics Measurement Protocol  |  Google Developers</a> #ril</p>
+<ul>
+<li>This document demonstrates how to format HTTP requests to send COMMON HIT TYPES to the Google Analytics Measurement Protocol. 所謂 common 是指不給 <code>t</code> parameter 嗎??</li>
+<li>
+<p>To send user interaction data, make an HTTP POST request to this endpoint.</p>
+<pre><code>POST /collect HTTP/1.1
+Host: www.google-analytics.com
+
+payload_data
+</code></pre>
+</li>
+<li>
+<p>The following parameters are required for each payload: Each payload must contain a valid hit type and each hit type has its own set of required fields.</p>
+<pre><code>v=1              // Version.
+&amp;tid=UA-XXXXX-Y  // Tracking ID / Property ID.
+&amp;cid=555         // Anonymous Client ID. (嚴格來說，沒有 `uid` 時，`cid` 才會是必要的)
+&amp;t=              // Hit Type.
+</code></pre>
+<p>所有的 hit type 都要有 <code>v</code>、<code>tid</code>、<code>cid</code>/<code>uid</code> (二擇一) 跟 <code>t</code> (hit type)，而 hit type 會決定還有哪些 parameter 是必要的。以 <code>/home</code> page 的 <code>pageview</code> 為例，<code>dp</code> (document path) 是必要的：</p>
+<pre><code>v=1&amp;tid=UA-XXXXX-Y&amp;cid=555&amp;t=pageview&amp;dp=%2Fhome
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#t">Hit type - Measurement Protocol Parameter Reference  |  Analytics Measurement Protocol  |  Google Developers</a> Required for all hit types. The type of hit. Must be one of <code>'pageview'</code>, <code>'screenview'</code>, <code>'event'</code>, <code>'transaction'</code>, <code>'item'</code>, <code>'social'</code>, <code>'exception'</code>, <code>'timing'</code>.</p>
+</li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#cid">Client ID - Measurement Protocol Parameter Reference  |  Analytics Measurement Protocol  |  Google Developers</a><ul>
+<li>Optional. This field is required if User ID (<code>uid</code>) is not specified in the request. 有條件的 optional，也就是 <code>cid</code> 跟 <code>uid</code> 至少要有一個。</li>
+<li>This ANONYMOUSLY identifies a particular user, device, or browser instance. For the web, this is generally stored as a first-party cookie with a two-year expiration. For mobile apps, this is randomly generated for each particular instance of an APPLICATION INSTALL. The value of this field should be a random UUID (version 4) as described in <a href="http://www.ietf.org/rfc/rfc4122.txt">http://www.ietf.org/rfc/rfc4122.txt</a>. 識別個別的用戶，所謂 anonymous 指的是相對辨識度較高的 User ID?</li>
+</ul>
+</li>
+<li><a href="https://ga-dev-tools.appspot.com/hit-builder/">Hit Builder — Google Analytics Demos &amp; Tools</a> #ril</li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference">Measurement Protocol Reference  |  Analytics Measurement Protocol  |  Google Developers</a> #ril<ul>
+<li>For environments where you CAN NOT SEND POST DATA, you can also send HTTP GET requests to the same end point: Where the payload data is sent as URI escaped query parameters. The length of the entire encoded URL must be no longer than 8000 Bytes. 什麼情況不能用 POST? 為什麼要強調 <code>User-Agent</code> 這個 header?<pre><code>GET /collect?payload_data HTTP/1.1
+Host: https://www.google-analytics.com
+User-Agent: user_agent_string
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="event-tracking">Event Tracking ??<a class="headerlink" href="#event-tracking" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#event">Event Tracking - Working with the Measurement Protocol  |  Analytics Measurement Protocol  |  Google Developers</a> 跟 page view 有什麼不同??</li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#events">Event Tracking - Measurement Protocol Parameter Reference  |  Analytics Measurement Protocol  |  Google Developers</a> #ril</li>
+</ul>
+<h2 id="custom-dimensions-metrics">Custom Dimensions / Metrics ??<a class="headerlink" href="#custom-dimensions-metrics" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#customs">Custom Dimensions / Metrics - Measurement Protocol Parameter Reference  |  Analytics Measurement Protocol  |  Google Developers</a> 最多可以有 20 個 custom dimension #ril</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference">Measurement Protocol Reference</a></li>
+<li><a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters">Measurement Protocol Parameter Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

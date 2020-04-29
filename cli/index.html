@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/cli/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Command Line Interface (CLI) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/cli.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#command-line-interface-cli">Command Line Interface (CLI)</a></li>
+            <li class="second-level"><a href="#command-subcommand-argument-parameter-globalsubcommand-specific-option">Command, Subcommand, Argument, Parameter, Global/Subcommand-specific Option ??</a></li>
+                
+            <li class="second-level"><a href="#design-ux">Design, UX ??</a></li>
+                
+            <li class="second-level"><a href="#python">Python ??</a></li>
+                
+            <li class="second-level"><a href="#testing">Testing</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="command-line-interface-cli">Command Line Interface (CLI)<a class="headerlink" href="#command-line-interface-cli" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Command-line_interface">Command-line interface - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="command-subcommand-argument-parameter-globalsubcommand-specific-option">Command, Subcommand, Argument, Parameter, Global/Subcommand-specific Option ??<a class="headerlink" href="#command-subcommand-argument-parameter-globalsubcommand-specific-option" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Command-line_interface#Anatomy_of_a_shell_CLI">Anatomy of a shell CLI - Command-line interface - Wikipedia</a> #ril<ul>
+<li>CLI 通常符合 <code>prompt command param1...paramN</code> 的樣式，其中 <code>param1...paramN</code> 是 OS 會傳給 command 的 (optional) parameters，區分為 argument 與 option。</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Parameter_(computer_programming)#Parameters_and_arguments">Parameters and arguments - Parameter (computer programming) - Wikipedia</a> 通常 parameter 是指 function definition 中的 variable，而 argument 則是指 function call 實際傳入的 input。</li>
+<li><a href="https://stackoverflow.com/questions/36495669/">bash - Difference between terms: &ldquo;option&rdquo;, &ldquo;argument&rdquo;, and &ldquo;parameter&rdquo;? - Stack Overflow</a> jlliagre: #ril<ul>
+<li>一個 command 可以拆解成 arguments，其中 argument 0 是 command 本身，後面接著 argument 1, 2 &hellip;</li>
+<li>Option 也是一種 argument，主要用來改變 command 的行為，顧名思義 option 通常是 optional (但有些 command 則很矛盾地要求 mandatory option)。例如 <code>-l</code> (long)、<code>-v</code> (verbose) 或 <code>-lv</code> 將兩者合併，也有像 <code>--verbose</code> 的長版 (long option)。</li>
+<li>Parameter 是指提供給 command 或 option 的 information，例如 <code>-o file</code>，<code>file</code> 就是 <code>-o</code> option 的 parameter，不像 option 會寫死在程式裡，parameter 通常使用者可以決定要傳什麼。</li>
+<li>如果你要傳一個 parameter 但又不想被解讀為 option，可以在 parameter 前明確加上 <code>--</code>，把前面的 options 分隔開來。例如 <code>ls -l -- -a</code>，只有一個 option <code>-a</code>，與一個 parameter <code>-a</code>。</li>
+<li>Subcommand 的狀況略有不同 &ndash; <code>command [global-options] subcommand [subcommand-specific-options] [params]</code>，在 command 與 subcommand 間可能有 global option，而 subcommand 也可以有自己的 option，例如 <code>git --git-dir=a.git --work-tree=b -C c status -s</code>，其中 <code>git</code> 與 <code>status</code> 分別是 command 與 subcommand，所以 global option 是 <code>--git-dir=a.git --work-tree=b -C c</code>，subcommand 的 option 則是 <code>-s</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="design-ux">Design, UX ??<a class="headerlink" href="#design-ux" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://eng.localytics.com/exploring-cli-best-practices/">Exploring CLI Best Practices // Localytics Engineering Blog</a> (2016-10-11) #ril</li>
+</ul>
+<h2 id="python">Python ??<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/getopt.html">15.6. getopt — C-style parser for command line options — Python 2.7.15rc1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/optparse.html">15.5. optparse — Parser for command line options — Python 2.7.15rc1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/argparse.html">15.4. argparse — Parser for command-line options, arguments and sub-commands — Python 2.7.15rc1 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3.6/library/argparse.html">16.4. argparse — Parser for command-line options, arguments and sub-commands — Python 3.6.5 documentation</a> #ril</li>
+<li><a href="http://click.pocoo.org/5/why/#why-not-argparse">Why not Argparse? - Why Click? — Click Documentation (5.0)</a> #ril</li>
+<li><a href="https://realpython.com/comparing-python-command-line-parsing-libraries-argparse-docopt-click/">Comparing Python Command-Line Parsing Libraries – Argparse, Docopt, and Click – Real Python</a> (2015-09-08) #ril</li>
+</ul>
+<p>其他方案：</p>
+<ul>
+<li><a href="http://click.pocoo.org/5/">Welcome to the Click Documentation — Click Documentation (5.0)</a> #ril</li>
+<li><a href="../python-fire/">Python Fire</a> 把 CLI subcomand 直接對應到 function</li>
+</ul>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link"> #</a></h2>
+<ul>
+<li>Command Line Interface (CLI) tests - Apache Stratos - Apache Software Foundation <a href="https://cwiki.apache.org/confluence/display/STRATOS/Command+Line+Interface+%28CLI%29+tests">https://cwiki.apache.org/confluence/display/STRATOS/Command+Line+Interface+%28CLI%29+tests</a> 試過 Java solution 不可行，最後選用 pexpect + WireMock。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

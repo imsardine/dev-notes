@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/aws-rds/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>AWS / RDS (Relational Database Service) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/aws-rds.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#aws-rds-relational-database-service">AWS / RDS (Relational Database Service)</a></li>
+            <li class="second-level"><a href="#parameter-group">Parameter Group</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="aws-rds-relational-database-service"><a href="../aws/">AWS</a> / RDS (Relational Database Service)<a class="headerlink" href="#aws-rds-relational-database-service" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://aws.amazon.com/rds/">Amazon Relational Database Service (RDS) – AWS</a> #ril</p>
+<ul>
+<li>
+<p>Set up, operate, and scale a relational database in the cloud with just a few clicks.</p>
+</li>
+<li>
+<p>Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate, and scale a relational database in the cloud. It provides cost-efficient and resizable capacity while automating time-consuming administration tasks such as hardware provisioning, database setup, patching and BACKUPS.</p>
+<p>It frees you to focus on your applications so you can give them the fast performance, high availability, security and compatibility they need.</p>
+</li>
+<li>
+<p>Amazon RDS is available on several database INSTANCE TYPES - optimized for memory, performance or I/O - and provides you with six familiar DATABASE ENGINES to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle Database, and SQL Server.</p>
+<p>You can use the AWS Database Migration Service to easily migrate or replicate your existing databases to Amazon RDS.</p>
+<p>除了 MySQL，竟然還有 MariaDB；畢竟 MariaDB 跟 MySQL DB 不完全相容。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="parameter-group">Parameter Group<a class="headerlink" href="#parameter-group" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html">Working with DB Parameter Groups - Amazon Relational Database Service</a> #ril</p>
+<ul>
+<li>
+<p>You manage your DB engine configuration by associating your DB instances with parameter groups. Amazon RDS defines parameter groups with default settings that apply to NEWLY CREATED DB instances . You can define your own parameter groups with customized settings. Then you can modify your DB instances to use your own parameter groups.</p>
+<p>A DB parameter group acts as a container for engine configuration values that are applied to one or more DB instances.</p>
+<p>最後幾句看來，不只會影響新建的 DB instance；另外注意，對象是 DB instance 而非邏輯上個別的 database。</p>
+</li>
+<li>
+<p>If you create a DB instance without specifying a DB parameter group, the DB instance uses a DEFAULT DB parameter group.</p>
+<p>Each default DB parameter group contains database engine defaults and Amazon RDS system defaults based on the engine, compute class, and allocated storage of the instance.</p>
+<p>注意 default parameter group 與 defaults (或 default settings) 的差別；parameter group 本質上就是提供 defaults (有些設定跟 DB engine 有關，有些則是 RDS 本身)，但一開始就會有個不能改的 default parameter group。</p>
+<p>You can&rsquo;t modify the parameter settings of a default parameter group. Instead, you create your own parameter group where you choose your own parameter settings. Not all DB engine parameters can be changed in a parameter group that you create.</p>
+</li>
+<li>
+<p>If you want to use your own parameter group, you create a new parameter group and modify the parameters that you want to. You then modify your DB instance to use the new parameter group. If you update parameters within a DB parameter group, the changes apply to ALL DB instances that are associated with that parameter group.</p>
+</li>
+<li>
+<p>You can copy an existing DB parameter group with the AWS CLI <code>copy-db-parameter-group</code> command. Copying a parameter group can be convenient when you want to include most of an existing DB parameter group&rsquo;s custom parameters and values in a new DB parameter group.</p>
+</li>
+<li>
+<p>Here are some important points about working with parameters in a DB parameter group:</p>
+<ul>
+<li>
+<p>Set any parameters that relate to the character set or collation of your database in your parameter group before creating the DB instance and before you create a database in your DB instance. This ensures that the default database and new databases in your DB instance use the character set and collation values that you specify.</p>
+<p>If you change character set or collation parameters for your DB instance, the parameter changes are NOT applied to existing databases.</p>
+<p>You can change character set or collation values for an existing database using the <code>ALTER DATABASE</code> command, for example:</p>
+<pre><code>ALTER DATABASE database_name CHARACTER SET character_se
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/rds/">Relational Database Service (RDS) – AWS</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

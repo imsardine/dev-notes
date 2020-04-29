@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/openssh-server/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>OpenSSH / Server - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/openssh-server.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#openssh-server">OpenSSH / Server</a></li>
+            <li class="second-level"><a href="#sshd">如何避免在組態 sshd 的過程中斷線?</a></li>
+                
+            <li class="second-level"><a href="#connection-closed-by-remote-host">Connection closed by remote host ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#ubuntu">Ubuntu</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="openssh-server"><a href="../openssh/">OpenSSH</a> / Server<a class="headerlink" href="#openssh-server" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://help.ubuntu.com/lts/serverguide/openssh-server.html">OpenSSH Server</a> #ril<ul>
+<li>OpenSSH 實現了 Secure Shell (SSH) protocol，可以在網路串連的電腦之間 (networked computers) 進行 remote controlling 與交換檔案 (transferring files)，以取代不安全的 telnet、rcp 等。</li>
+<li>OpenSSH daemon (sshd) 可以接受不同 client 的連線，包括 <code>ssh</code> (建立 remote control session)、<code>scp</code> (複製檔案)，支援不同的認證 (authentication) 方式 - plain password、public key、Kerberos tickets??</li>
+<li>Client 與 server 要分別安裝 <code>openssh-client</code> 與 <code>openssh-server</code> 套件。</li>
+<li>sshd 的組態檔在 <code>/etc/ssh/sshd_config</code>，語法參考 <code>man sshd_config</code>，修改過後用 <code>sudo systemctl restart sshd.service</code> 重新套用 (用 <code>sudo service sshd restart</code> 也可以)，在 remote control session 裡做這件事並不會斷線!?</li>
+<li><code>Banner /etc/issue.net</code> 用來顯示 pre-login banner，搭配 ASCII art 產生 </li>
+<li><code>ssh-keygen -t rsa</code> 用 RSA algorithm 產生 private key (<code>~/.ssh/id_rsa</code>) 與 public key (<code>~/.ssh/id_rsa.pub</code>)。用 <code>ssh-copy-id username@remotehost</code> 可以將 public key 複製到遠端的 <code>~/.ssh/authorized_keys</code> (權限應該要是 <code>600</code>)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="sshd">如何避免在組態 sshd 的過程中斷線?<a class="headerlink" href="#sshd" title="Permanent link"> #</a></h2>
+<ul>
+<li>OpenSSH Server <a href="https://help.ubuntu.com/lts/serverguide/openssh-server.html">https://help.ubuntu.com/lts/serverguide/openssh-server.html</a> 提到若 SSH 是存取該機器的唯一管道，要小心因組態錯誤，導致 sshd 重啟後連不進去，或是 sshd 無法重啟；修改前先備份是個方式，但有沒有方法可以檢查語法?</li>
+<li>OpenSSH Tip: Check Syntax Errors before Restarting SSHD Server – nixCraft (2008-01-08) <a href="https://www.cyberciti.biz/tips/checking-openssh-sshd-configuration-syntax-errors.html">https://www.cyberciti.biz/tips/checking-openssh-sshd-configuration-syntax-errors.html</a> 用 <code>sshd -t</code> 檢查 #ril</li>
+</ul>
+<h2 id="connection-closed-by-remote-host">Connection closed by remote host ??<a class="headerlink" href="#connection-closed-by-remote-host" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://man.openbsd.org/sshd_config#MaxStartups">MaxStartups - sshd_config(5) - OpenBSD manual pages</a> #ril</p>
+<ul>
+<li>
+<p>Specifies the maximum number of CONCURRENT UNAUTHENTICATED CONNECTIONS to the SSH daemon. Additional connections will be dropped until authentication succeeds or the <code>LoginGraceTime</code> expires for a connection. The default is <code>10:30:100</code>.</p>
+<p>同時間進來在做 authentication 的連線 (start) 預設是 10 個，其他 100 個連線 (full) 等 <code>LoginGraceTime</code> (預設 120s) 後若還沒有完成 authentication 就會被回絕 (收到 <code>Connection closed by remote host</code>)；不過 start 真的來到 10 之後，新連線有 30% (rate / 100) 機會被直接回絕，機率會隨著進入 queue 等待的連線，等比例增加到 100%。</p>
+</li>
+<li>
+<p>Alternatively, RANDOM EARLY DROP can be enabled by specifying the three colon separated values <code>start:rate:full</code> (e.g. <code>"10:30:60"</code>).</p>
+<p>為什麼從預設的 <code>10:30:100</code> 改成 <code>10:30:60</code> 才有 random early drop 的效果，應該本來就有了? 從 &ldquo;alternatively&rdquo; 的說法看來，<code>MaxStartups</code> 也可以用單一個數字控制 concurrent unauthenticated connection?</p>
+<p>sshd(8) will refuse CONNECTION ATTEMPTS with a probability of rate/100 (30%) if there are currently start (10) unauthenticated connections. The probability INCREASES LINEARLY and all connection attempts are REFUSED if the number of unauthenticated connections reaches full (60).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gitlab.com/gitlab-com/support-forum/issues/1687">ssh_exchange_identification: Connection closed by remote host (#1687) · Issues · GitLab.com / GitLab.com Support Tracker · GitLab</a> - due to a load balancer config change</p>
+</li>
+<li><a href="https://www.zhihu.com/question/20023544">ssh远程登陆有时候正常，有时候显示：ssh_exchange_identification: Connection closed by remote host，这是什么原因？ - 知乎</a> 許多人提到 SSH 連接數滿了，將 <code>/etc/ssh/ssh_config</code> 裡的 <code>MaxStartups</code> 設定提高 (或取消這個設定) 即可。</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="ubuntu">Ubuntu<a class="headerlink" href="#ubuntu" title="Permanent link"> #</a></h3>
+<ul>
+<li>安裝 <code>openssh-server</code> 套件即可。</li>
+<li>組態檔在 <code>/etc/ssh/sshd_config</code> (語法參考 <code>man sshd_config</code>)，調整過後用 <code>sudo systemctl restart sshd.service</code> 重新套用。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://help.ubuntu.com/lts/serverguide/openssh-server.html#openssh-installation">Installation - OpenSSH Server</a> 提到 client 與 server 分開安裝。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://man.openbsd.org/sshd_config"><code>sshd_config</code>(5) - OpenBSD manual pages</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

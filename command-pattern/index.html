@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/command-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Command Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/command-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#command-pattern">Command Pattern</a></li>
+            <li class="second-level"><a href="#vs-strategy">跟 Strategy Pattern 的不同</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="command-pattern">Command Pattern<a class="headerlink" href="#command-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Command_pattern">Command pattern - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="vs-strategy">跟 Strategy Pattern 的不同<a class="headerlink" href="#vs-strategy" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/4834979/">java - Difference between Strategy pattern and Command pattern - Stack Overflow</a> #ril<ul>
+<li>Jeffrey Hantin: Command pattern 是把 &ldquo;what needs to be done&rdquo; 抽離，而 strategy pattern 則是把 &ldquo;how something should be done&rdquo; 抽離 #ril</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/3883692/">encapsulation - Using a strategy pattern and a command pattern - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.geeksforgeeks.org/command-pattern/">Command Pattern - GeeksforGeeks</a></p>
+<ul>
+<li>
+<p>Like previous articles, let us take up a design problem to understand command pattern. Suppose you are building a home automation system. There is a programmable remote which can be used to turn on and off various items in your home like lights, stereo, AC etc. It looks something like this.</p>
+<p>You can do it with simple if-else statements like</p>
+<pre><code>if (buttonPressed == button1)
+     lights.on()
+</code></pre>
+</li>
+<li>
+<p>But we need to keep in mind that turning on some devices like stereo COMPRISES OF MANY STEPS like setting cd, volume etc. Also we can reassign a button to do something else. By using simple if-else we are CODING TO IMPLEMENTATION RATHER THAN INTERFACE. Also there is TIGHT COUPLING.</p>
+<p>So what we want to achieve is a design that provides loose coupling and remote control SHOULD NOT HAVE MUCH INFORMATION ABOUT A PARTICULAR DEVICE. The command pattern helps us do that.</p>
+<p>知道太多 (實作) 細節，就會掉入 coding to implementation 的問題。</p>
+</li>
+<li>
+<p>Definition: The command pattern encapsulates a REQUEST as an object, thereby letting us parameterize other objects with different requests, queue or log requests, and support undoable operations.</p>
+<p>The definition is a bit confusing at first but let’s step through it. In analogy to our problem above remote control is the client and stereo, lights etc. are the RECEIVERS.</p>
+<p>In command pattern there is a COMMAND OBJECT that encapsulates a request by BINDING together a set of actions on a specific receiver. It does so by exposing just one method <code>execute()</code> that causes some actions to be invoked on the receiver.</p>
+</li>
+<li>
+<p>Parameterizing other objects with different requests ?? in our analogy means that the button used to turn on the lights can later be used to turn on stereo or maybe open the garage door.</p>
+<p>queue or log requests, and support undoable operations ?? means that Command’s Execute operation can STORE STATE FOR REVERSING ITS EFFECTS in the Command itself. The Command may have an added <code>unExecute</code> operation that reverses the effects of a previous call to execute. It may also support logging changes so that they can be reapplied in case of a system crash.</p>
+<p>&hellip; 好像想太多了?</p>
+</li>
+<li>
+<p>Below is the Java implementation of above mentioned remote control example:</p>
+<pre><code>// A simple Java program to demonstrate
+// implementation of Command Pattern using
+// a remote control example.
+
+// An interface for command
+interface Command
+{
+    public void execute();
+}
+
+// Light class and its corresponding command
+// classes
+class Light
+{
+    public void on()
+    {
+        System.out.println("Light is on");
+    }
+    public void off()
+    {
+        System.out.println("Light is off");
+    }
+}
+class LightOnCommand implements Command
+{
+    Light light;
+
+    // The constructor is passed the light it
+    // is going to control.
+    public LightOnCommand(Light light)
+    {
+       this.light = light;
+    }
+    public void execute()
+    {
+       light.on();
+    }
+}
+class LightOffCommand implements Command
+{
+    Light light;
+    public LightOffCommand(Light light)
+    {
+        this.light = light;
+    }
+    public void execute()
+    {
+         light.off();
+    }
+}
+
+// Stereo and its command classes
+class Stereo
+{
+    public void on()
+    {
+        System.out.println("Stereo is on");
+    }
+    public void off()
+    {
+        System.out.println("Stereo is off");
+    }
+    public void setCD()
+    {
+        System.out.println("Stereo is set " +
+                           "for CD input");
+    }
+    public void setDVD()
+    {
+        System.out.println("Stereo is set"+
+                         " for DVD input");
+    }
+    public void setRadio()
+    {
+        System.out.println("Stereo is set" +
+                           " for Radio");
+    }
+    public void setVolume(int volume)
+    {
+       // code to set the volume
+       System.out.println("Stereo volume set"
+                          + " to " + volume);
+    }
+}
+class StereoOffCommand implements Command
+{
+    Stereo stereo;
+    public StereoOffCommand(Stereo stereo)
+    {
+        this.stereo = stereo;
+    }
+    public void execute()
+    {
+       stereo.off();
+    }
+}
+class StereoOnWithCDCommand implements Command
+{
+     Stereo stereo;
+     public StereoOnWithCDCommand(Stereo stereo)
+     {
+         this.stereo = stereo;
+     }
+     public void execute()
+     {
+         stereo.on();
+         stereo.setCD();
+         stereo.setVolume(11);
+     }
+}
+
+// A Simple remote control with one button
+class SimpleRemoteControl
+{
+    Command slot;  // only one button
+
+    public SimpleRemoteControl()
+    {
+    }
+
+    public void setCommand(Command command)
+    {
+        // set the command the remote will
+        // execute
+        slot = command;
+    }
+
+    public void buttonWasPressed()
+    {
+        slot.execute();
+    }
+}
+
+// Driver class
+class RemoteControlTest
+{
+    public static void main(String[] args)
+    {
+        SimpleRemoteControl remote =
+                  new SimpleRemoteControl();
+        Light light = new Light();
+        Stereo stereo = new Stereo();
+
+        // we can change command dynamically
+        remote.setCommand(new
+                    LightOnCommand(light));
+        remote.buttonWasPressed();
+        remote.setCommand(new
+                StereoOnWithCDCommand(stereo));
+        remote.buttonWasPressed();
+        remote.setCommand(new
+                   StereoOffCommand(stereo));
+        remote.buttonWasPressed();
+     }
+  }
+</code></pre>
+<p>Output:</p>
+<pre><code>Light is on
+Stereo is on
+Stereo is set for CD input
+Stereo volume set to 11
+Stereo is off
+</code></pre>
+<p>Notice that the remote control doesn’t know anything about turning on the stereo. That information is contained in a separate command object. This reduces the coupling between them.</p>
+</li>
+<li>
+<p>Advantages:</p>
+<ul>
+<li>Makes our code extensible as we can add new commands without changing existing code.</li>
+<li>Reduces coupling the invoker and receiver of a command.</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>Increase in the number of classes for each individual command</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/scrapy/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Scrapy - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/scrapy.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#scrapy">Scrapy</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#spider">Spider ??</a></li>
+                
+            <li class="second-level"><a href="#item">Item ??</a></li>
+                
+            <li class="second-level"><a href="#item-pipeline">Item Pipeline ??</a></li>
+                
+            <li class="second-level"><a href="#broad-crawl">Broad Crawl ??</a></li>
+                
+            <li class="second-level"><a href="#deployment">Deployment ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="scrapy">Scrapy<a class="headerlink" href="#scrapy" title="Permanent link"> #</a></h1>
+<ul>
+<li>從網站 (或 API) 萃取結構化資料的 framework &ndash; 只要提供如何取出資料 (及衍生的連結) 的演算法，剩下的排程下載、流量控制、快取等，Scrapy 都可以幫處理掉。</li>
+<li>雖然官方文件沒有說明，但 logo 的那把 &ldquo;鏟子&rdquo;，應該就是 &ldquo;刮刀/刮泥板&rdquo; (scraper)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://scrapy.org/">Scrapy | A Fast and Powerful Scraping and Web Crawling Framework</a><ul>
+<li>An open source and collaborative framework for extracting the data you need from websites. In a fast, simple, yet extensible way.</li>
+<li>Fast and powerful - write the RULES to extract the data and let Scrapy do the rest</li>
+</ul>
+</li>
+<li><a href="https://doc.scrapy.org/en/1.5/intro/overview.html">Scrapy at a glance — Scrapy 1.5.0 documentation</a><ul>
+<li>Scrapy is an application framework for crawling web sites and extracting STRUCTURED DATA which can be used for a wide range of useful applications, like data mining, information processing or historical archival (類 <a href="https://web.archive.org/">Wayback Machine</a> 的應用?).</li>
+<li>Even though Scrapy was originally designed for web scraping, it can also be used to extract data using APIs (such as Amazon Associates Web Services) or as a GENERAL PURPOSE web crawler.</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Scrapy">Scrapy - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://scrapy.org/">Scrapy | A Fast and Powerful Scraping and Web Crawling Framework</a></p>
+<ul>
+<li>
+<p>Build and run your web spiders</p>
+<pre><code>import scrapy
+
+class BlogSpider(scrapy.Spider):
+    name = 'blogspider'
+    start_urls = ['https://blog.scrapinghub.com'] # 可以有多個起點
+
+    def parse(self, response): # response 已是解析過的 HTML，型態 scrapy.http.Response
+        for title in response.css('.post-header&gt;h2'):
+            yield {'title': title.css('a ::text').extract_first()} # 用 yield 拋出資料
+
+        for next_page in response.css('div.prev-post &gt; a'):
+            yield response.follow(next_page, self.parse) # 用 yield 及 .follow() 往下一頁鑽
+</code></pre>
+</li>
+<li>
+<p>用 <code>scrapy runspider myspider.py</code> 執行，過程中看到 extension、downloader/spider middleware、item pipeline，其間的關係是什麼?? 不過很明顯 crawl 是指抓取網頁 (而且會順著 link 走)，而 scrape 則是從 response 中刮取資料。</p>
+<pre><code>$ scrapy runspider myspider.py
+2018-08-18 14:44:43 [scrapy.utils.log] INFO: Scrapy 1.5.1 started (bot: scrapybot)
+...
+2018-08-18 14:44:43 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.logstats.LogStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats']
+2018-08-18 14:44:43 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2018-08-18 14:44:43 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2018-08-18 14:44:43 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2018-08-18 14:44:43 [scrapy.core.engine] INFO: Spider opened
+2018-08-18 14:44:43 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2018-08-18 14:44:43 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2018-08-18 14:44:43 [scrapy.core.engine] DEBUG: Crawled (200) &lt;GET https://blog.scrapinghub.com&gt; (referer: None)
+2018-08-18 14:44:44 [scrapy.core.scraper] DEBUG: Scraped from &lt;200 https://blog.scrapinghub.com&gt;
+{'title': u'GDPR Compliance For Web Scrapers: The Step-By-Step Guide'}
+...
+2018-08-18 14:44:44 [scrapy.core.engine] INFO: Closing spider (finished)
+2018-08-18 14:44:44 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 219,
+...
+ 'start_time': datetime.datetime(2018, 8, 18, 6, 44, 43, 885166)}
+2018-08-18 14:44:44 [scrapy.core.engine] INFO: Spider closed (finished)
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/1.5/intro/overview.html">Scrapy at a glance — Scrapy 1.5.0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>從 <a href="http://quotes.toscrape.com">http://quotes.toscrape.com</a> 抓取名言佳句 (quote)。存成 <code>quotes_spider.py</code>，執行 <code>scrapy runspider quotes_spider.py -o quotes.json</code> 就可以在 <code>quotes.json</code> 看到 yield 出來的資料；其中 <code>-o</code> 的作用是 dump scraped items into file。</p>
+<pre><code>import scrapy
+
+class QuotesSpider(scrapy.Spider):
+    name = "quotes"
+    start_urls = [
+        'http://quotes.toscrape.com/tag/humor/',
+    ]
+
+    def parse(self, response):
+        for quote in response.css('div.quote'):
+            yield {
+                'text': quote.css('span.text::text').extract_first(),
+                'author': quote.xpath('span/small/text()').extract_first(), # 用了 XPath
+            }
+
+        next_page = response.css('li.next a::attr("href")').extract_first()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+</code></pre>
+<p>由於 <code>Response.follow()</code> 會回傳 <code>scrapy.http.Request</code>，看似 crawl engine 只會將非 <code>Request</code> 的 <code>yield</code> 視為 scraped item；什麼時候 item 要繼承 <code>scrapy.Item</code>??</p>
+</li>
+<li>
+<p>When you ran the command <code>scrapy runspider quotes_spider.py</code>, Scrapy looked for a Spider definition inside it and ran it through its CRAWLER ENGINE. 在 Python module 裡找出 spider definition &ndash; 繼承 <code>scrapy.Spider</code> 的 class。</p>
+</li>
+<li>The crawl started by making requests to the URLs defined in the <code>start_urls</code> attribute (in this case, only the URL for quotes in humor category) and called the DEFAULT CALLBACK METHOD <code>parse</code>, passing the response object as an argument. In the <code>parse</code> callback, we loop through the quote elements using a CSS Selector, yield a Python dict with the extracted quote text and author, look for a LINK TO THE NEXT PAGE and SCHEDULE ANOTHER REQUEST using the same <code>parse</code> method as callback. 整個 crawl 從 spider 裡的 <code>start_urls</code> attribute 開始，crawler engine 會往 start URLs 送出 request，再把 response 送回 <code>parse()</code> (default callback method)，而 callback method 的責任就是 &ldquo;取出資料，並排程接下來可以往哪走&rdquo;。接下來的排程可以自訂另一個 callback method 來接收 response，跟 start URLs 的處理區分開來。</li>
+<li>Here you notice one of the main advantages about Scrapy: requests are SCHEDULED AND PROCESSED ASYNCHRONOUSLY. This means that Scrapy doesn’t need to wait for a request to be finished and processed, it can send another request or do other things in the meantime. This also means that other requests can keep going even if some request fails or an error happens while handling it.</li>
+<li>While this enables you to do VERY FAST CRAWLs (sending multiple concurrent requests at the same time, in a FAULT-TOLERANT way) Scrapy also gives you control over the politeness of the crawl through a few settings. You can do things like setting a download delay between each request, limiting amount of concurrent requests per domain or per IP, and even using an AUTO-THROTTLING extension that tries to figure out these automatically. 這類流量控制統稱為 throttling。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/1.5/intro/tutorial.html">Scrapy Tutorial — Scrapy 1.5.0 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="spider">Spider ??<a class="headerlink" href="#spider" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.scrapy.org/en/1.5/topics/spiders.html">Spiders — Scrapy 1.5.1 documentation</a></p>
+<ul>
+<li>Spiders are classes which define how a CERTAIN SITE (or a GROUP OF SITES) will be scraped, including how to perform the crawl (i.e. follow links) and how to extract structured data from their pages (i.e. scraping items). 也就是說 spider 裡實作了 crawling (跟著連結走) 與 scraping (取出頁面資料) 的 HOW；不過 spider 會以 site 做為區分，而非 content 的型態? =&gt; 這是下面 <code>CrawlSpider</code> rules 給人的錯誤印象? 如何從 URL 就知道要用哪個 callback 做 parsing??</li>
+<li>For spiders, the scraping CYCLE goes through something like this:<ul>
+<li>You start by generating the INITIAL <code>Request</code>s to crawl the first URLs, and specify a CALLBACK function to be called with the response downloaded from those requests. <code>Request</code> constructor 其中一個參數是 <code>callback</code> (callable)</li>
+<li>In the callback function, you parse the response (web page) and return either DICTS WITH EXTRACTED DATA, <code>Item</code> objects, <code>Request</code> objects, or an ITERABLE of these objects. (通常搭配 <code>yield</code>，dict/item 往 item pipeline 去，而 request 則進排程繼續 follow) Those <code>Request</code>s will also contain a callback (maybe the same) and will then be downloaded by Scrapy and then their response handled by the specified callback.</li>
+<li>In callback functions, you parse the page contents, typically using selectors (but you can also use BeautifulSoup, lxml or whatever mechanism you prefer) and generate items with the parsed data. 雖然這裡只提 HTML/XML，但概念上就是從 response 取出資料，而 response 可能是其他的型態。</li>
+<li>Finally, the items returned from the spider will be typically persisted to a database (in some ITEM PIPELINE) or written to a file using FEED EXPORTS. 感覺 feed export 像是特化過的 item pipeline。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.scrapy.org/en/1.6/topics/spiders.html#scrapy-spider">scrapy.Spider - Spiders — Scrapy 1.6.0 documentation</a> #ril</p>
+<p><code>class scrapy.spiders.Spider</code></p>
+<ul>
+<li>
+<p>This is the simplest spider, and the one from which EVERY OTHER SPIDER MUST INHERIT (including spiders that come bundled with Scrapy, as well as spiders that you write yourself).</p>
+<p>It doesn’t provide any special functionality. It just provides a default <code>start_requests()</code> implementation which sends requests from the <code>start_urls</code> spider attribute and calls the spider’s method <code>parse</code> for each of the resulting responses.</p>
+</li>
+</ul>
+<p><code>name</code></p>
+<ul>
+<li>A string which defines the name for this spider. The spider name is how the spider is located (and instantiated) by Scrapy, so it must be UNIQUE. However, nothing prevents you from instantiating more than one instance of the same spider. This is the most important spider attribute and it’s required.</li>
+<li>If the spider scrapes a SINGLE DOMAIN, a common practice is to name the spider AFTER THE DOMAIN, with or without the TLD. So, for example, a spider that crawls <code>mywebsite.com</code> would often be called <code>mywebsite</code>.</li>
+</ul>
+<p><code>allowed_domains</code></p>
+<ul>
+<li>
+<p>An optional list of strings containing domains that this spider is allowed to crawl. Requests for URLs not belonging to the domain names specified in this list (or their subdomains) won’t be followed if <code>OffsiteMiddleware</code> is enabled.</p>
+<p><a href="https://docs.scrapy.org/en/1.6/topics/spider-middleware.html#scrapy.spidermiddlewares.offsite.OffsiteMiddleware"><code>OffsiteMiddleware</code></a> &ndash; Filters out <code>Request</code>s for URLs outside the domains covered by the spider. This middleware filters out every request whose host names aren’t in the spider’s <code>allowed_domains</code> attribute. 預設會啟用 ??</p>
+</li>
+<li>
+<p>Let’s say your target url is <code>https://www.example.com/1.html</code>, then add <code>'example.com'</code> to the list.</p>
+</li>
+</ul>
+<p><code>start_urls</code></p>
+<ul>
+<li>A list of URLs where the spider will begin to crawl from, when NO PARTICULAR URLs ARE SPECIFIED ??. So, the first pages downloaded will be those listed here. The subsequent <code>Request</code> will be generated successively from data contained in the start URLs.</li>
+</ul>
+<p>&hellip;</p>
+<p><code>start_requests()</code></p>
+<ul>
+<li>
+<p>This method must return an iterable with the first <code>Request</code>s to crawl for this spider. It is called by Scrapy when the spider is OPENED for scraping. Scrapy calls it ONLY ONCE, so it is SAFE to implement <code>start_requests()</code> as a GENERATOR.</p>
+<p>但為何寫成 generator 會卡住? <a href="https://github.com/scrapy/scrapy/issues/3259">[bug?] while True in start_requests(self): make scrapy is unable to consume the yields. · Issue #3259 · scrapy/scrapy</a></p>
+<blockquote>
+<p>when you yield a request, scrapy will put the request object into a SCHEDULE POOL, and the scheduler will do this request concurrently when there is ENOUGH REQUEST OBJECTS or SOME TINY TIME IS UP.</p>
+</blockquote>
+<p>因為 Scrapy 呼叫 <code>generator.next()</code>，一定要 yield 東西回去 (不能丟 <code>StopIteration</code>，否則就不會再來要了)，否則會卡在 while loop 裡；可以考慮丟出沒用的 <code>Request</code>，例如 <code>Request('http://', callback=do_nothing, errback=do_nothing)</code>。</p>
+</li>
+<li>
+<p>The default implementation generates <code>Request(url, dont_filter=True)</code> for each url in <code>start_urls</code>.</p>
+</li>
+<li>
+<p>If you want to change the <code>Request</code>s used to start scraping a domain, this is the method to override. For example, if you need to start by logging in using a POST request, you could do:</p>
+<pre><code>class MySpider(scrapy.Spider):
+    name = 'myspider'
+
+    def start_requests(self):
+        return [scrapy.FormRequest("http://www.example.com/login",
+                                   formdata={'user': 'john', 'pass': 'secret'},
+                                   callback=self.logged_in)]
+
+    def logged_in(self, response):
+        # here you would extract links to follow and return Requests for
+        # each of them, with another callback
+        pass`
+</code></pre>
+</li>
+<li>
+<p><a href="https://github.com/scrapy/scrapy/blob/1.5.1/scrapy/spiders/__init__.py#L69">scrapy/__init__.py at 1.5.1 · scrapy/scrapy</a> </p>
+</li>
+<li><code>start_requests()</code> - This method must return an iterable with the first <code>Request</code>s to crawl for this spider. It is called by Scrapy when the spider is OPENED FOR SCRAPING. Scrapy calls it only once, so it is safe to implement <code>start_requests()</code> as a GENERATOR. <a href="https://github.com/scrapy/scrapy/blob/1.5.1/scrapy/spiders/__init__.py#L69">預設的實作</a>是 <code>for url in self.start_urls: yield Request(url, dont_filter=True)</code> &ndash; 都走 GET method；為什麼沒給 <code>callback</code> 卻知道要往 <code>Spider.parse</code> 去? =&gt; <code>Request</code> 是由 spider 吐出來的，可以自動將 <code>Request</code> 跟 <code>Spider.parse</code> 關聯起來也沒什麼好奇怪的。</li>
+<li><code>parse(response)</code> - This is the default callback used by Scrapy to process downloaded responses, when their requests don’t specify a callback. This method, as well as any other <code>Request</code> callback, must return an iterable of <code>Request</code> and/or dicts or <code>Item</code> objects.</li>
+<li><code>allowed_domains</code> - An optional list of strings containing domains that this spider is allowed to crawl. Requests for URLs not belonging to the domain names specified in this list (or their subdomains) won’t be followed if <code>OffsiteMiddleware</code> is enabled. 雖然 request 不帶 spider，系統還是可以把 request 與 spider 關聯起來，回頭來參考 spider 上的設定。</li>
+</ul>
+</li>
+</ul>
+<h2 id="item">Item ??<a class="headerlink" href="#item" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/items.html">Items — Scrapy 1.5.1 documentation</a> #ril<ul>
+<li>The main goal in scraping is to EXTRACT STRUCTURED DATA FROM UNSTRUCTURED SOURCES, typically, web pages. Scrapy spiders can return the extracted data as Python dicts. While convenient and familiar, Python dicts lack structure: it is easy to make a typo in a field name or return inconsistent data, especially in a larger project with many spiders. 入門文件 Scrapy at a glance 就是用 Python dict，不太懂這問題跟 multiple spiders 有什麼關係??</li>
+</ul>
+</li>
+</ul>
+<h2 id="item-pipeline">Item Pipeline ??<a class="headerlink" href="#item-pipeline" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/item-pipeline.html">Item Pipeline — Scrapy 1.5.1 documentation</a> #ril<ul>
+<li>After an item has been scraped by a spider, it is sent to the Item Pipeline which processes it through several COMPONENTs that are executed SEQUENTIALLY.</li>
+<li>Each item pipeline component (sometimes referred as just “Item Pipeline”) is a Python class that implements a simple method. They receive an item and perform an action over it, also deciding if the item should continue through the pipeline or be dropped and no longer processed. 這聽起來有點怪，前一句 item pipeline 是指由許多 component，但這裡又說 component 也稱做 &ldquo;item pipeline&rdquo;，難怪 setting 是透過 <code>ITEM_PIPELINES</code> (複數)。</li>
+<li>Typical uses of item pipelines are:<ul>
+<li>cleansing HTML data 包裝成 item 後應該就已去掉 HTML 了吧??</li>
+<li>validating scraped data (checking that the items contain certain fields)</li>
+<li>checking for duplicates (and dropping them) 丟出 <code>DropItem</code> exception。</li>
+<li>storing the scraped item in a database 跟入門時用的 feed exports (<code>-o quotes.json</code>) 有什麼不同?? 因為下面也示範了 <code>JsonWriterPipeline</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="broad-crawl">Broad Crawl ??<a class="headerlink" href="#broad-crawl" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.scrapy.org/en/1.5/topics/broad-crawls.html">Broad Crawls — Scrapy 1.5.1 documentation</a> #ril</p>
+<ul>
+<li>Scrapy defaults are optimized for crawling SPECIFIC SITES. These sites are often handled by a single Scrapy spider, although this is not necessary or required (for example, there are GENERIC SPIDERs that handle any given site thrown at them). In addition to this “FOCUSED CRAWL”, there is another common type of crawling which covers a large (potentially unlimited) number of domains, and is only limited by time or other arbitrary constraint, rather than stopping when the domain was crawled to completion or when there are no more requests to perform. These are called “BROAD CRAWLS” and is the typical crawlers employed by SEARCH ENGINES. 一個 spider 爬特定單個/數個網站的做法稱做 focused crawl，但 search engine 的做法通常是 broad crawl &ndash; 一直往下爬，直到沒東西可爬為止 (可以限定大範圍)。</li>
+<li>These are some common properties often found in broad crawls:<ul>
+<li>they crawl many domains (often, UNBOUNDED) instead of a specific set of sites</li>
+<li>they don’t necessarily crawl domains to completion (爬完特定 domain 就結束?), because it would be impractical (or impossible) to do so, and instead limit the crawl by time or number of pages crawled</li>
+<li>they are simpler in logic (as opposed to very complex spiders with many extraction rules) because data is often post-processed in a separate stage 乍看合理，但當下沒分析內容，要如何知道接下來往哪裡走?? 還是單純取所有的連結?</li>
+<li>they crawl many domains concurrently, which allows them to achieve faster crawl speeds by not being limited by any particular site constraint (each site is crawled slowly to respect politeness, but many sites are crawled in parallel) 雖然 per domain/site 還是會限制，但不同 domain/site 可以同時爬，所以整體的速度可以很快；當然這要搭配解開 <code>CONCURRENT_REQUESTS</code> (預設 16) 的限制才行。</li>
+</ul>
+</li>
+<li>As said above, Scrapy DEFAULT SETTINGS are optimized for focused crawls, not broad crawls. However, due to its asynchronous architecture, Scrapy is VERY WELL SUITED for performing FAST BROAD CRAWLs. This page summarizes some things you need to keep in mind when using Scrapy for doing broad crawls, along with concrete suggestions of Scrapy settings to tune in order to achieve an EFFICIENT broad crawl. 所謂 Scrapy 針對 focused crawl 優化，指的是 default settings，並非 Scrapy 不適合 broad crawl，只是有些 settings 要解開限制，讓 Scrapy 得以施展開來。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/1.5/topics/broad-crawls.html#increase-concurrency">Increase concurrency - Broad Crawls — Scrapy 1.5.1 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="deployment">Deployment ??<a class="headerlink" href="#deployment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://scrapy.org/">Scrapy | A Fast and Powerful Scraping and Web Crawling Framework</a><ul>
+<li>Deploy them to Scrapy Cloud or use Scrapyd to host the spiders on your own server 由於 <code>shub</code> CLI 完全沒提到 Scrapyd，加上 Scrapyd 文件建議用 <code>scrapyd-client</code>，猜想 Scrapy Cloud 背後並不是用 Scrapyd。</li>
+<li>範例用 <code>shub deploy</code> 將 spider 佈署到 Scrapy Cloud，並用 <code>shub schedule xxx</code> 排程；其中 <a href="https://pypi.org/project/shub/"><code>shub</code></a> 是 Scrapinghub 的 CLI。</li>
+</ul>
+</li>
+<li><a href="https://scrapinghub.com/scrapy-cloud">Scrapy Cloud</a> 是 Scrapinghub 的一個元件 #ril</li>
+<li><a href="https://scrapyd.readthedocs.io/en/latest/deploy.html">Deploying your project — Scrapyd 1.2.0 documentation</a> 產生 egg 並上傳到 Scrapyd 的 <code>addversion.json</code> endpoint，建議透過 <code>scrapyd-client</code> 來做。</li>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/deploy.html">Deploying Spiders — Scrapy 1.5.0 documentation</a> #ril</li>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/practices.html">Common Practices — Scrapy 1.5.0 documentation</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.scrapy.org/en/latest/intro/install.html">Installation guide — Scrapy 1.5.1 documentation</a><ul>
+<li>需要 CPython 2.7+ / 3.4+ 或 PyPy 5.9+</li>
+<li>用 Pip 安裝 <code>scrapy</code> 套件即可；建議裝在 virtualenv 裡。</li>
+<li>雖然 Scrapy 本身用 Python 寫，但有些相依的套件用到 non-Python package，所以一開始才會提到用 Anaconda/Miniconda 安裝的選項。</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<p>以 Python 3.7.0 為基礎：</p>
+<p><code>Dockerfile</code>:</p>
+<pre><code>FROM python:3.7.0
+
+pip install scrapy==1.5.1
+</code></pre>
+
+<pre><code>$ docker build -t scrapy.local
+$ docker run --rm -it local.scrapy python -c 'import scrapy; print(scrapy.__version__)'
+1.5.1
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://hub.docker.com/r/aciobanu/scrapy/">aciobanu/scrapy - Docker Hub</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://scrapy.org/">Scrapy</a></li>
+<li><a href="https://github.com/scrapy/scrapy">scrapy/scrapy - GitHub</a></li>
+<li><a href="https://pypi.org/project/Scrapy/">Scrapy - PyPI</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/ScrapyProject">Scrapy (@ScrapyProject) | Twitter</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/scrapy">&lsquo;scrapy&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://www.apress.com/gp/book/9781484239247">Website Scraping with Python - Using BeautifulSoup and Scrapy - Apress</a> (2018-11)</li>
+<li><a href="http://shop.oreilly.com/product/0636920078067.do">Web Scraping with Python, 2<sup>nd</sup> Edition - O&rsquo;Reilly</a> (2018-04)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/python-web-scraping-second-edition">Python Web Scraping, 2<sup>nd</sup> Edition - Packt</a> (2017-05)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/learning-scrapy">Learning Scrapy - Packt</a> (2016-01)</li>
+<li><a href="https://www.packtpub.com/big-data-and-business-intelligence/web-scraping-python">Web Scraping with Python - Packt</a> (2015-10)</li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../scrapy-testing/">Testing</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.scrapy.org/en/latest/">Scrapy Documentation</a></li>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/selectors.html#topics-selectors-ref">Built-in Selectors reference - Scrapy Documentation</a></li>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/commands.html">Command line tool - Scrapy Documentation</a></li>
+<li><a href="https://docs.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.Spider">Class <code>scrapy.spiders.Spider</code></a></li>
+<li><a href="https://docs.scrapy.org/en/latest/topics/items.html#scrapy.item.Item">Class <code>scrapy.item.Item</code></a></li>
+<li><a href="https://docs.scrapy.org/en/latest/topics/request-response.html#scrapy.http.Request">Class <code>scrapy.http.Request</code></a></li>
+<li><a href="https://docs.scrapy.org/en/latest/topics/request-response.html#scrapy.http.Response">Class <code>scrapy.http.Response</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

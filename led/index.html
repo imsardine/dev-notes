@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/led/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>LED (Light-Emitting Diode) 發光二極體 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/led.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#led-light-emitting-diode">LED (Light-Emitting Diode) 發光二極體</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路??</a></li>
+                
+            <li class="second-level"><a href="#220">慣用 220Ω 電阻 ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="led-light-emitting-diode">LED (Light-Emitting Diode) 發光二極體<a class="headerlink" href="#led-light-emitting-diode" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=cWEJMusT-hI">【LazyTomato】Arduino #6 - LED 與電阻的必學之術！ - YouTube</a> (2016-12-04)<ul>
+<li>00:30 用 LED + 220 ohm 電阻示範；長腳為陽極 (anode)，是電流流入的地方，短腳為陰極 (cathode)，接往低電位的方向，只要提供 &ldquo;適當的電壓&rdquo; 及 &ldquo;足夠的電流&rdquo; 就能被點亮。</li>
+<li>00:50 千萬不能將 LED 直接接上 5V 電源，否則會產生 &ldquo;過大的電流&rdquo; 導致 LED 燒毀；保險的做法是在 &ldquo;陰極&rdquo; 的線路上加一個 220 ohm 電阻以限制流經 LED 的電流。</li>
+<li>01:25 之前用第 13 腳控制 Arduino 板子上的 LED 並沒有加電阻? 事實上限流電阻已經內建在電路板上；電路圖看來，電阻是放在陽極的線路上??</li>
+</ul>
+</li>
+</ul>
+<h2 id="220">慣用 220Ω 電阻 ??<a class="headerlink" href="#220" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://yehnan.blogspot.com/2012/03/arduinoled220-ohm.html">葉難: Arduino小知識：為什麼LED需要串聯的電阻值是220 ohm？</a> (2012-03-05) #ril<ul>
+<li>一般 LED 的 forward voltage 是 2V ~ 2.5V，而 forward current 約 20mA ~ 30mAi (0.02A)；不同 LED 的規格不同，要查閱資料表 (datasheet)。</li>
+<li>以 Arduino 的 5V 腳位為例，而 LED 的 voltage drop 為 2V，所以電阻兩端的電壓是 3V，利用 &ldquo;電路上各處的電流皆相同&rdquo; 的原理，我們希望流經 LED 的電流控制在 0.02A，所以電阻 R = V / I = 3 / 0.02 = 150Ω，為了保險起見，會選擇大一點的 220Ω。 =&gt; 這時候流經 LED 的電流為 I = V / R = 3 / 200 = 0.015A = 15mA。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../resistor/">Resistor 電阻</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

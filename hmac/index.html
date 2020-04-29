@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/hmac/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>HMAC (Hash-based Message Authentication Code) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/hmac.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#hmac-hash-based-message-authentication-code">HMAC (Hash-based Message Authentication Code)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="hmac-hash-based-message-authentication-code">HMAC (Hash-based Message Authentication Code)<a class="headerlink" href="#hmac-hash-based-message-authentication-code" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<p>HMAC 可以用來驗證訊息是否可靠 (authentic)，包括：</p>
+<ul>
+<li>Authentication - 出自可靠人士。</li>
+<li>Integrity - 內容沒有遭到竄改。</li>
+</ul>
+<p>屬於對稱加密(symmetric-key algorithm) - 加解密都用同一把 key。原理很簡單，只要用相同的 key、相同的演算法，雙方根據同一個 message 計算出來的 HMAC (keyed) hash 就應該要一樣。</p>
+<p>假設 X 先生跟 A、B 等不同人約定好，以後交換 message (包括 data 跟 metadata) 時，必須同時附上 message 的 HMAC。也就是雙方約定好要保密的事項有：</p>
+<ul>
+<li>X/A 或 X/B 之間要持有同一把 key，至於 A 跟 B 的 key 是否相同，則視需求而定。</li>
+<li>採用什麼 hash function？例如 HMAC-MD5、HMAC-SHA1 等。</li>
+<li>除了 data 本身之外，還有哪些重要的 metadata 也要納入計算？以防被竄改。例如 data 本身的摘要值 (檢查資料的完整性)、傳送時間 (檢查資料的效期) 等。</li>
+<li>Data 跟多個 metadata 之間要怎麼串接？串接的順序為何？</li>
+<li>至於 data 本身要不要加密則視需求而定，如果需要加密，摘要值就必須是根據加密過後的版本。</li>
+</ul>
+<p>TIP: 通常不會把整個 data 丟進去計算 HMAC hash，而是取 data 的摘要值，例如 MD5 digest。</p>
+<p>下面用一個簡單的例子做說明：</p>
+<ol>
+<li>A 準備要送一份資料 &ldquo;Happy New Year&rdquo; 給 X，雙方約定好用 &ldquo;secret-a&rdquo; 這把 key 計算 HMAC-SHA1，而且訊息在 2 分鐘內送達才有效。</li>
+<li>
+<p>時間是 2012-12-31 23:56:30。A 用 &ldquo;secret-a&rdquo; 計算出 &ldquo;Happy New Year 6d713031cd29f69c679de72c234e45aa 2012-12-31 23:56:30&rdquo; 的 HMAC-SHA1。</p>
+<p>其中 &ldquo;6d713031cd29f69c679de72c234e45aa&rdquo; 是資料本身（&rdquo;Happy New Year&rdquo;）的 MD5 digest，連同當時的時間一起加入 HMAC 的計算。其中 MD5 digest 可以確認資料的完整性，而時間的部份則可以確認紙條上寫的時間沒有問題。</p>
+</li>
+<li>
+<p>A 把時間跟 HMAC-SHA1 都寫在一張小紙條上，跟資料本身一起放到信封裡，並在信封外頭署名 A。</p>
+</li>
+<li>時間來到 2012-12-31 23:59:30，X 收到一份外頭署名 A 的信件。</li>
+<li>X 從保險箱裡找出之前跟 A 約定好的 &ldquo;secret-a&rdquo;，按照相同的方式對資料本身、MD5 digest、紙條上寫的時間計算出 HMAC-SHA1，發現結果跟 A 在紙條上寫的 HMAC hash 相符。</li>
+<li>雖然時間已經超過 2 分鐘，但至少可以確認兩件事－訊息是 A 傳的，資料本身沒有被竄改過（MD5），而且紙條上面寫的時間點也沒問題。</li>
+</ol>
+<p>各語言對 HMAC 都有不同程度的支援。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/HMAC">HMAC - Wikipedia</a> #ril<ul>
+<li><a href="https://en.wikipedia.org/wiki/Message_authentication_code">Message authentication code - Wikipedia</a> - a SHORT PIECE OF INFORMATION used to authenticate a message—in other words, to confirm that the message came from the stated sender (its authenticity) and has not been changed. 也就是雜湊值。</li>
+<li>In cryptography, an HMAC (sometimes expanded as either keyed-hash message authentication code or hash-based message authentication code) is a specific type of message authentication code (MAC) involving a cryptographic HASH FUNCTION and a SECRET CRYPTOGRAPHIC KEY. It may be used to simultaneously verify both the data integrity and the authentication of a message, as with any MAC. Any cryptographic hash function, such as SHA256 or SHA-3, may be used in the calculation of an HMAC; the resulting MAC algorithm is termed HMAC-X, where X is the hash function used (e.g. HMAC-SHA256 or HMAC-SHA3). 若 MAC 用來算雜湊值，不需要用到 key，那 secret key 是做什麼用的? =&gt; 在 hash 過程中，混進 message 裡；這麼說來，key-hashed 會比 hash-based 更能表達它的意思!!</li>
+<li>HMAC uses TWO PASSES OF HASH COMPUTATION. The secret key is first used to derive two keys – inner and outer. The first pass of the algorithm produces an internal hash derived from the message and the inner key. The second pass produces the final HMAC code derived from the inner hash result and the outer key. Thus the algorithm provides better immunity against length extension attacks. 用相同的 hash function 做 2 次 hash；從 secret key 搭配 inner/outer padding 產生 inner/output key (pad)，第一步 <code>internal_hash = hash(inner_key + message)</code>，第二步 <code>final_hash = hash(outer_key + internal_hash)</code>。雖然下面有 HMAC hash 的說法，但 HMAC 本身並不是 hash 的演算法，hash 還是由 hash function (也就是 HMAC-X 中的 X)，而 HMAC 只是定義的一套如何把 secret key 混進 message 裡的演算法而已。</li>
+<li>HMAC does NOT ENCRYPT THE MESSAGE. Instead, the message (encrypted or not) must be sent alongside the HMAC hash. Parties with the secret key will hash the message again themselves, and if it is AUTHENTIC, the received and computed has hes will match. HMAC 的重點是算出來的 hash 要一樣，至於 message 是否要多一層加密，則視情況而定。</li>
+</ul>
+</li>
+<li><a href="https://api.slack.com/docs/verifying-requests-from-slack">Verifying requests from Slack | Slack</a> &hellip; we&rsquo;re sending using a standard HMAC-SHA256 keyed hash. 這裡 &ldquo;keyed hash&rdquo; 的說法，更能強調 hash 的計算過程中混入了 secret key。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>工具：</p>
+<ul>
+<li><a href="https://www.freeformatter.com/hmac-generator.html">Free Online HMAC Generator / Checker Tool (MD5, SHA-256, SHA-512) - FreeFormatter.com</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../python-hmac/">Python</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc2104.html">RFC 2104 - HMAC: Keyed-Hashing for Message Authentication</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

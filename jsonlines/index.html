@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/jsonlines/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JSON Lines - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/jsonlines.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#json-lines">JSON Lines</a></li>
+            <li class="second-level"><a href="#format">Format ??</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="json-lines">JSON Lines<a class="headerlink" href="#json-lines" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="http://jsonlines.org/">JSON Lines</a><ul>
+<li>是一種 text format，也稱做 newline-delimited JSON。</li>
+<li>方便表示結構化的資料，也方便一次處理一行 (record)，跟現有 unix-style text processing 工具尤其搭；很適合 log file，也適合在 process 間傳遞 message?</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON">Line-delimited JSON - JSON streaming - Wikipedia</a><ul>
+<li>JSON streaming 是一種 communication protocol，用來在 client/server 間約定如何劃定 (delimit) JSON object 的界限。</li>
+<li>系統間交換資料常用 JSON 格式，若要在單一個連線傳遞 a stream of objects，就需要有識別 JSON encoded object 從哪裡開始 &amp; 到哪裡結束的方法，技術上這叫做 framing；而 line-delimited JSON 就是其中一種做法。</li>
+<li>Line-delimited JSON (LDJSON), newline-delimited JSON (NDJSON), and JSON lines (JSONL) are three terms for EQUIVALENT formats of JSON streaming. 原來有這麼多種說法。</li>
+<li>Streaming makes use of the fact that the JSON format DOES NOT ALLOW NEWLINE AND RETURN CHARACTERS WITHIN PRIMITIVE VALUES (in strings those must be escaped as <code>\n</code> and <code>\r</code>, respectively) and that most JSON formatters default to not including any whitespace, including newlines and returns. These features allow the newline and/or return characters to be used as a delimiter. 由於 primitive value 裡不能有 newline 跟 return，正好可以拿來當 delimiter。</li>
+</ul>
+</li>
+<li><a href="http://jsonlines.org/examples/">JSON Lines Examples</a><ul>
+<li>CSV seems so easy that many programmers have written code to generate it themselves, and almost EVERY IMPLEMENTATION IS DIFFERENT. &hellip; 看來 CSV 的問題真的很多，可以應用 CSV 的場合，都可以考慮用 JSON lines 來替代 &ndash; JSON Lines handles tabular data cleanly and without ambiguity. Cells may use the standard JSON types.</li>
+<li>If you have large nested structures then reading the JSON Lines text directly isn&rsquo;t recommended. Use the &ldquo;jq&rdquo; tool to make viewing large structures easier: <code>grep pair winning_hands.jsonl | jq .</code> 原來 JSON lines 跟 <code>jq</code> 這麼搭!!</li>
+</ul>
+</li>
+<li><a href="http://ndjson.org/">ndjson</a> 說明幾乎跟 JSON Lines 一樣，最下方寫著 Site forked from jsonlines.org。 #ril</li>
+<li><a href="http://jsonlines.org/on_the_web/">JSON Lines Examples</a> 不少應用採 JSON lines #ril</li>
+</ul>
+<h2 id="format">Format ??<a class="headerlink" href="#format" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://jsonlines.org/">JSON Lines</a> JSON Lines 格式有 3 個要求：<ul>
+<li>採 UTF-8 encoding，也接受 ASCII escape sequence，雖然這不容易直接閱讀；這點在搭配 Unix 工具時尤其方便，例如 <code>grep 閃退 usage.jsonl</code>，若做了 ASCII eacaping，不但無法直接 grep 中文，輸出的結果也難以閱讀。</li>
+<li>Encodings other than UTF-8 are very unlikely to be valid when decoded as UTF-8 &hellip; 也就是說，解析 JSON lines 時就假設 UTF-8 即可，若編碼不對很容就會錯誤，不太需要擔心 <a href="https://en.wikipedia.org/wiki/Mojibake">Mojibake</a> 的狀況。</li>
+<li>每一行都必須是合法的 JSON value，常見的是 object 或 array。</li>
+<li>換行字元 (line separator) 採 <code>\n</code> (Unix-like)；這表示 <code>\r\n</code> (Windows) 也是可以接受的，因為 trailing white space (去除 <code>\n</code> 剩下的 <code>\r</code>) 會被忽略；檔案最後一行的換行字元可有可無。</li>
+<li>習慣以 <code>.jsonl</code> 為副檔名，推薦用像 <code>gzip</code>、<code>bzip2</code> 這類的 stream compressor 來壓縮 (<code>.jsonl.gz</code> 或 <code>.jsonl.bz2</code>)</li>
+</ul>
+</li>
+<li><a href="http://jsonlines.org/examples/">JSON Lines Examples</a> #ril</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<p>讀寫 JSON lines 其實不需要額外的套件，寫出時不要輸出多餘的空白，讀入時以行為單位解析即可。</p>
+<pre><code># -*- coding: utf-8 -*-
+import json
+from textwrap import dedent
+
+def test_jsonline_write(workspace):
+    workspace.src('data.jsonl', &quot;&quot;&quot;
+    {&quot;entry1&quot;: [&quot;value1&quot;, &quot;value2&quot;]}
+    &quot;&quot;&quot;)
+
+    new_entry = {&quot;entry2&quot;: u&quot;第一行\n第二行&quot;}
+
+    with open('data.jsonl', 'ab') as f:
+        line = json.dumps(new_entry, separators=(',', ':'), ensure_ascii=False)
+        f.write(b'\n' + line.encode('utf-8')) # leading newline char
+
+    assert open('data.jsonl', 'rb').read().decode('utf-8') == dedent(u&quot;&quot;&quot;\
+    {&quot;entry1&quot;: [&quot;value1&quot;, &quot;value2&quot;]}
+    {&quot;entry2&quot;:&quot;第一行\\n第二行&quot;}&quot;&quot;&quot;)
+
+def test_jsonline_read(workspace):
+    workspace.src('data.jsonl', u&quot;&quot;&quot;
+    {&quot;entry1&quot;: [&quot;value1&quot;, &quot;value2&quot;]}
+    {&quot;entry2&quot;:&quot;第一行\\n第二行&quot;}
+    &quot;&quot;&quot;)
+
+    entries = []
+    with open('data.jsonl', 'rb') as f:
+        for line in f:
+            entry = json.loads(line) # UTF-8 encoding, by default
+            entries.append(entry)
+    assert entries == [
+        {&quot;entry1&quot;: [&quot;value1&quot;, &quot;value2&quot;]},
+        {&quot;entry2&quot;: u&quot;第一行\n第二行&quot;},
+    ]
+</code></pre>
+
+<p>由於 <code>json</code> module 本來就不會輸出 newline 或 return 字元，所以關鍵在拿掉不必要的空白字元、不要對 Unicode 字元做 ASCII escaping。這分別對應 <code>json.dumps()</code> 的 <code>separators=(',', ':')</code> (預設是 <code>(', ', ': ')</code>) 與 <code>ensure_ascii=False</code> (預設會做 ASCII escaping)。</p>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/json.html">json — JSON encoder and decoder — Python 3.7.1 documentation</a></p>
+<ul>
+<li>
+<p>Compact encoding:</p>
+<pre><code>&gt;&gt;&gt; import json
+&gt;&gt;&gt; json.dumps([1, 2, 3, {'4': 5, '6': 7}], separators=(',', ':'))
+'[1,2,3,{"4":5,"6":7}]'
+</code></pre>
+</li>
+<li>
+<p>If <code>ensure_ascii</code> is <code>true</code> (the default), the output is guaranteed to have all incoming non-ASCII characters escaped. If <code>ensure_ascii</code> is false, these characters will be output as-is. 因為 <a href="http://jsonlines.org/">JSON Lines</a> 建議不要做 escape，調為 <code>False</code> 會比較好。</p>
+</li>
+<li>If <code>indent</code> is a non-negative integer or string, then JSON array elements and object members will be pretty-printed with that indent level. An indent level of 0, negative, or <code>""</code> will only insert newlines. <code>None</code> (the default) selects the most compact representation. 原來預設就不會換行，符合 JSON lines 的要求。</li>
+<li>If specified, <code>separators</code> should be an <code>(item_separator, key_separator)</code> tuple. The default is <code>(', ', ': ')</code> if <code>indent</code> is <code>None</code> and <code>(',', ': ')</code> otherwise. To get the most compact JSON representation, you should specify <code>(',', ':')</code> to eliminate whitespace. 原來 <code>separators</code> 的預設值會跟著 <code>indent</code> 連動，若 <code>indent=None</code> 維持預設值不變，可以透過 <code>separators=(',',':')</code> 把多餘的空白再去掉。</li>
+<li><a href="https://github.com/wbolster/jsonlines">wbolster/jsonlines: python library to simplify working with jsonlines and ndjson data</a> 處理 JSON Lines 與 NDJSON 的資料 #ril</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://jsonlines.org/">JSON Lines</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/jsonlines">&lsquo;jsonlines&rsquo; Questions - Stack Overflow</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

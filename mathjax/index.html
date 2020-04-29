@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mathjax/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MathJax - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mathjax.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mathjax">MathJax</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#server-side-rendering">Server-side Rendering ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mathjax">MathJax<a class="headerlink" href="#mathjax" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.mathjax.org/">MathJax | Beautiful math in all browsers.</a></p>
+<ul>
+<li>
+<p>A JavaScript DISPLAY ENGINE for mathematics that works in all browsers. No more setup for readers. It just works.</p>
+<p>由前端動態轉換!! 另一個專案 <a href="https://github.com/mathjax/mathjax-node">mathjax-node</a> 支援 server-side 轉換。</p>
+</li>
+<li>
+<p>High-quality typography - MathJax™ uses CSS with web fonts or SVG, instead of bitmap images or Flash, so equations SCALE WITH SURROUNDING TEXT at all zoom levels.</p>
+<p>看似優先採用字型，退而用 SVG；用字型的好處是會跟著周圍的文字一起縮放。</p>
+</li>
+<li>
+<p>Modular Input &amp; Output - MathJax is highly modular on input and output. Use MathML, TeX and ASCIImath as input and produce HTML+CSS, SVG and MathML as output.</p>
+<p>跟使用者比較相關是用什麼 equation markup 寫，雖然 MathML 的輸出需要 browser 支援，但用 MathML 來寫是沒有問題的；似乎 AsciiMath 表示法的可讀性最高?</p>
+</li>
+<li>
+<p>Accessible &amp; reusable - MathJax is compatible with screenreaders &amp; provides zoom for everyone. You can also copy equations into Office, LaTeX, wikis, and other software.</p>
+<p>複製進 Google Docs 沒有作用?? 注意 TeX 不完全等同於 LaTex。</p>
+</li>
+<li>
+<p>A rich API - Use our extensive APIs to create interactive content, advanced authoring tools, and MATH-ENABLED web and mobile apps.</p>
+</li>
+<li>
+<p>Works everywhere - MathJax generates high-quality output on all browsers &amp; platforms - even on IE 6 (if you have to).</p>
+<p>事實上最通用的 CommonHTML 在 IE8+ 也支援了。</p>
+</li>
+</ul>
+<p>Core Goals</p>
+<ul>
+<li>
+<p>The core of the MathJax project is the development of its state-of-the-art, open source, JavaScript platform for display of mathematics. Our key design goals are</p>
+<ul>
+<li>high-quality display of mathematics notation in all browsers</li>
+<li>no special browser setup required</li>
+<li>support for LaTeX, MathML and other EQUATION MARKUP directly in the HTML source.</li>
+<li>an extensible, modular design with a rich API for easy integration into web applications.</li>
+<li>support for accessibility, copy and paste and other rich functionality</li>
+<li>interoperability with other applications and MATH-AWARE SEARCH. ??</li>
+</ul>
+</li>
+</ul>
+<p>History</p>
+<ul>
+<li>MathJax grew out of the popular <a href="http://www.math.union.edu/~dpvc/jsMath/">jsMath</a> project, an earlier AJAX-BASED math rendering system developed by Davide Cervone in 2004. In the following years, there were many significant developments relevant for web publication of mathematics: consolidation of browser support for CSS 2.1, Web Font technology, adoption of MATH ACCESSIBILITY STANDARDS, and increasing usage of XML workflows for SCIENTIFIC PUBLICATION.</li>
+<li>In 2009, AMS, Design Science, and SIAM formed the MathJax Consortium to enable Cervone and others to design MathJax FROM THE GROUND UP as a next-generation platform, while still benefiting from the extensive real-world experience gained from jsMath. Since its initial release in 2010, MathJax has become the gold standard for MATHEMATICS ON THE WEB.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.mathjax.org/#samples">View Samples - MathJax | Beautiful math in all browsers.</a></p>
+<ul>
+<li>
+<p>Our homepage is configured to use MathJax&rsquo;s CommonHTML mode with web fonts to display the equations, which produces uniform layout and typesetting across browsers. But MathJax can also be configured to use HTML-CSS (for legacy browsers), SVG, and NATIVE MathML rendering when available in a browser.</p>
+<p>除非考量舊的 browser，否則 CommonHTML (rendering mode) 只會用到字型，跟 SVG 無關；其中 MathML 需要 browser 直接支援，像 Chrome 就沒支援。</p>
+</li>
+<li>
+<p>You can try the various output modes using the MathJax context Menu (which you access by ctrl+clicking / alt-clicking an equation) or the button below.</p>
+<p>原來右鍵有進階選項；切換 Select the rendering mode: CommonHTML/MathML/HTML-CSS/SVG，就 CommonHTML 與 SVG 最大的差異，在於選取時 CommonHTML 是個別的字元 (靠字型)，但後者是一張圖。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.mathjax.org/#browsers">Browser support - MathJax | Beautiful math in all browsers.</a></p>
+<ul>
+<li>
+<p>MathJax generates IDENTICAL, high-quality output on all browsers &amp; platforms. Our newer output formats have minimal restrictions on browser support:</p>
+<ul>
+<li>The HTML-CSS Output supports even IE 6+ (as well as Firefox 3+, Safari 2+, Chrome 1+).</li>
+<li>The CommonHTML Output supports IE 8+ etc.</li>
+<li>The SVG Output supports IE 9+ etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.mathjax.org/#demo">Live Demo - MathJax | Beautiful math in all browsers.</a></p>
+<ul>
+<li>
+<p>Type text in the box below. Include some math as MathML, wrap TeX in <code>$</code> or <code>$$</code> delimiters, and ASCIImath in <code>'`'</code> delimiters (pre-populated jsbin). The text you enter is actually HTML, so you can include tags if you want; but this also means you have to be careful how you use less-than signs, ampersands, and other HTML special characters (surrounding them by spaces should be sufficient).</p>
+<p>其中 AsciiMath 因為用 backtick 區隔的關係，搭配 Markdown 使用時要跳脫，相對不方便? 如果可以像 <a href="../gitlab-wiki/#math">GitLab Wiki</a> 一樣用 <code>$`...`$</code> 來表現會好很多。</p>
+<pre><code>When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+</code></pre>
+<p>都是 TeX 的用法，其中 <code>\( ... \)</code> 的寫法叫 in-line mathematics，表現如下：</p>
+<blockquote>
+<p>When $a \ne 0$, there are two solutions to (ax^2 + bx + c = 0) and they are</p>
+<p>$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
+</blockquote>
+<p>上面 pre-populated jsbin 的內容如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width"&gt;
+  &lt;title&gt;MathJax example&lt;/title&gt;
+  &lt;script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;
+  When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>看過比較能理解上面 &ldquo;The text you enter is actually HTML&rdquo; 的說法，因為 MathJax 的轉換是發生在 browser 上。</p>
+<p>用 AsciiMath 也可以：</p>
+<pre><code>`x = (-b +- sqrt(b^2-4ac))/(2a)`
+</code></pre>
+<blockquote>
+<p>`x = (-b +- sqrt(b^2-4ac))/(2a)`</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="server-side-rendering">Server-side Rendering ??<a class="headerlink" href="#server-side-rendering" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mathjax.org/#gettingstarted">Getting Started - MathJax | Beautiful math in all browsers.</a> If you prefer to render server-side, you can check out <a href="https://github.com/mathjax/mathjax-node">mathjax-node</a>.</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.mathjax.org/#gettingstarted">Getting Started - MathJax | Beautiful math in all browsers.</a> #ril</p>
+<ul>
+<li>
+<p>If you write your own HTML (directly or via a template/theme engine), you can include MathJax by adding this snippet to your page:</p>
+<pre><code>&lt;script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async&gt;&lt;/script&gt;
+</code></pre>
+<p>或</p>
+<pre><code>&lt;script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async&gt;&lt;/script&gt;
+</code></pre>
+<p>Although this refers to a specific version, the <code>latest.js</code> file will load the most current version regardless of the one you specified. 好奇特的 URL!!</p>
+</li>
+<li>
+<p>Note: the configuration file <code>TeX-MML-AM_CHTML</code> is a great way test all input options at once. You can find leaner combined configuration packages in our documentation.</p>
+<p>其中 <code>MML</code>、<code>AM</code>、<code>CHTML</code> 分別對應 MathML、AsciiMath 與 CommonHTML。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mathjax.org/">MathJax</a> (<a href="https://www.mathjax.org/#demo">Live Demo</a>)</li>
+<li><a href="https://www.mathjax.org/news/">News | MathJax</a></li>
+<li><a href="https://github.com/mathjax/mathjax">mathjax/MathJax - GitHub</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="http://docs.mathjax.org/en/latest/">MathJax Documentation - Read the Docs</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/mathjax">&lsquo;mathjax&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>支援 <a href="../tex/">TeX</a>/LaTeX、<a href="../asciimath/">AsciiMath</a> 做為 equation markup。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

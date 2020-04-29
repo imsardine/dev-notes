@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/feedly/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Feedly - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/feedly.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#feedly">Feedly</a></li>
+            <li class="second-level"><a href="#keyword-alert">Keyword Alert ??</a></li>
+                
+            <li class="second-level"><a href="#shared-feeds">Shared Feeds ??</a></li>
+                
+            <li class="second-level"><a href="#shared-board">Shared Board ??</a></li>
+                
+            <li class="second-level"><a href="#subscription">Subscription ??</a></li>
+                
+            <li class="second-level"><a href="#slack-integration">Slack Integration ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="feedly">Feedly<a class="headerlink" href="#feedly" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://feedly.com/i/welcome">Welcome to Feedly</a> #ril<ul>
+<li>Slogan 下 &ldquo;Be in the know&rdquo; (消息靈通的)，還滿精準的! Keep up with all the topics that matter to you. All in one place.</li>
+<li>首頁提供 Import OPML ??</li>
+<li>Discover insightful sources 提到 YouTube channels、Keyword Alerts、Tweets、RSS Feeds，似乎能追的東西不只是 RSS ??</li>
+<li>Never miss important stories 提到 Read 與 Read Later，可以整合 Evernote、Pocket、Instapaper。</li>
+<li>Collaborate with your teammates 可以大家一起追某個 topic，可以跟 Trello、Slack 整合&hellip;</li>
+</ul>
+</li>
+<li><a href="https://feedly.com/i/pro/introduction">Feedly Pro</a><ul>
+<li>Basic plan 是免費，但受限 100 sources、3 feeds ??，可以用 mobile &amp; desktop。</li>
+<li>Pro 月收 $5.41，但 source/feed 就沒有上限，可以有 keyword alerts、notes &amp; highlights 等。</li>
+<li>Teams 月收 $18/user，才有 shared feeds/boards 及 Slack integration &hellip;</li>
+</ul>
+</li>
+</ul>
+<h2 id="keyword-alert">Keyword Alert ??<a class="headerlink" href="#keyword-alert" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://feedly.com/i/welcome">Welcome to Feedly</a> 提到 Keyword Alerts: Monitor news about your company, your product, your craft, and your competitors</li>
+</ul>
+<h2 id="shared-feeds">Shared Feeds ??<a class="headerlink" href="#shared-feeds" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://feedly.com/i/welcome">Collaborate with your teammates - Welcome to Feedly</a> 提到 Shared Feeds: Choose to share what you read with COLLEAGUES and NETWORKS. Discover what other thought leaders and teammates read. 跟大家/同事分享你在讀什麼</li>
+</ul>
+<h2 id="shared-board">Shared Board ??<a class="headerlink" href="#shared-board" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://feedly.com/i/welcome">Collaborate with your teammates - Welcome to Feedly</a> 提到 Shared Boards: Work with your teammates to CURATE, comment, and PRIORITIZE the best articles about specific topics and ideas. 適合用在內部學習清單、讀書會 ??</li>
+<li>Save to Boards: Bookmark the most interesting articles to boards for reference or sharing</li>
+<li>Add Your Insights: Use notes and highlights to enrich articles with your insights - and tag teammates 加註也可以跟其他人分享 ??</li>
+</ul>
+<h2 id="subscription">Subscription ??<a class="headerlink" href="#subscription" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/rss-subscription-extensio/nlbjncdgjeocebhnmkbbbdekmmmcbfjd">RSS Subscription Extension (by Google) - Chrome Web Store</a> 可以自訂 feed reader，在 URL 填入 <code>https://feedly.com/i/subscription/feed/%s</code> 即可。</li>
+<li><a href="https://chrome.google.com/webstore/detail/feedly-subscribe-button/gbbnddjfcllebfcnihfgmdplgaiejepc">Feedly Subscribe Button - Chrome Web Store</a> 透過這個 extension 得知 subscription URL 為 <code>https://feedly.com/i/subscription/feed/{feed_url}</code>。</li>
+</ul>
+<h2 id="slack-integration">Slack Integration ??<a class="headerlink" href="#slack-integration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://feedly.com/i/welcome">Collaborate with your teammates - Welcome to Feedly</a> 提到 Slack: Empower your teams with articles as they happen and SPARK INSIGHTFUL CONVERSATIONS. 丟到 channel 裡，希望能引發討論</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://feedly.com/">Feedly</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

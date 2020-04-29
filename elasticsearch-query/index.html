@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/elasticsearch-query/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Elasticsearch / Query - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/elasticsearch-query.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#elasticsearch-query">Elasticsearch / Query</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#search-api">Search API ??</a></li>
+                
+            <li class="second-level"><a href="#query-dsl">Query DSL</a></li>
+                
+            <li class="second-level"><a href="#full-text-query">Full Text Query ??</a></li>
+                
+                <li class="third-level"><a href="#phrase-mathing">Phrase Mathing ??</a></li>
+            <li class="second-level"><a href="#term-level-query">Term Level Query ??</a></li>
+                
+            <li class="second-level"><a href="#scoring">Scoring / Ranking / Relevance / Similarity</a></li>
+                
+            <li class="second-level"><a href="#boosting">Boosting ??</a></li>
+                
+            <li class="second-level"><a href="#pagination">Pagination ??</a></li>
+                
+            <li class="second-level"><a href="#highlighting">Highlighting ??</a></li>
+                
+            <li class="second-level"><a href="#suggestion">Suggestion ??</a></li>
+                
+            <li class="second-level"><a href="#aggregation">Aggregation ??</a></li>
+                
+            <li class="second-level"><a href="#security">Security ??</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="elasticsearch-query"><a href="../elasticsearch/">Elasticsearch</a> / Query<a class="headerlink" href="#elasticsearch-query" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-explore-data.html">Exploring Your Data | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>
+<p>I’ve prepared a sample of fictitious JSON documents of customer bank account information. Each document has the following SCHEMA: (For the curious, this data was generated using <a href="http://www.json-generator.com/">www.json-generator.com/</a>)</p>
+<pre><code>{
+    "account_number": 0,
+    "balance": 16623,
+    "firstname": "Bradshaw",
+    "lastname": "Mckenzie",
+    "age": 29,
+    "gender": "F",
+    "address": "244 Columbus Place",
+    "employer": "Euron",
+    "email": "bradshawmckenzie@euron.com",
+    "city": "Hobucken",
+    "state": "CO"
+}
+</code></pre>
+</li>
+<li>
+<p>You can download the sample dataset (<code>accounts.json</code>) from here. Extract it to our current directory and let’s load it into our cluster as follows: 走 Bulk API 將 accounts (JSON Lines) 上傳 1000 筆測試用數據。</p>
+<pre><code>$ curl -L -o accounts.json https://github.com/elastic/elasticsearch/blob/master/docs/src/test/resources/accounts.json?raw=true
+$ head -4 accounts.json
+{"index":{"_id":"1"}}
+{"account_number":1,"balance":39225,"firstname":"Amber","lastname":"Duke","age":32,"gender":"M","address":"880 Holmes Lane","employer":"Pyrami","email":"amberduke@pyrami.com","city":"Brogan","state":"IL"}
+{"index":{"_id":"6"}}
+{"account_number":6,"balance":5686,"firstname":"Hattie","lastname":"Bond","age":36,"gender":"M","address":"671 Bristol Street","employer":"Netagy","email":"hattiebond@netagy.com","city":"Dante","state":"TN"}
+
+$ curl -H "Content-Type: application/json" -XPOST "localhost:9200/bank/_doc/_bulk?pretty&amp;refresh" --data-binary "@accounts.json"
+$ curl "localhost:9200/_cat/indices?v"
+
+health status index     uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   bank      vA1OFhDGR9GkXDM1EVbZpg   5   1       1000            0    103.8kb        103.8kb
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search-API.html">The Search API | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-query-lang.html">Introducing the Query Language | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-search.html">Executing Searches | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-filters.html">Executing Filters | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="search-api">Search API ??<a class="headerlink" href="#search-api" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html">Search APIs | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>The search API allows you to execute a search query and get back SEARCH HITS that match the query. The query can either be provided using a simple QUERY STRING as a parameter (也就是 URI Search), or using a REQUEST BODY. 其中 search hits 指的是 match 的筆數。</li>
+<li>Or we can search across all available indices using <code>_all</code>: <code>GET /_all/_search?q=tag:wow</code> 若省略 <code>_all/</code> 也是代表 all??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-uri-request.html">URI Search | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html">Request Body Search | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>Both HTTP GET and HTTP POST can be used to execute search with body. Since not all clients support GET with body, POST is allowed as well. 聽起來 POST 就比較合理。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-query.html">Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-sort.html">Sort | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-source-filtering.html">Source filtering | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-stored-fields.html">Fields | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-script-fields.html">Script Fields | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-docvalue-fields.html">Doc value Fields | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-post-filter.html">Post filter | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-rescore.html">Rescoring | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-scroll.html">Scroll | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-preference.html">Preference | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-version.html">Version | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-min-score.html">min_score | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="query-dsl">Query DSL<a class="headerlink" href="#query-dsl" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">Query DSL | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>Elasticsearch provides a full Query DSL (Domain Specific Language) based on JSON to define queries. &hellip; consisting of two types of CLAUSES: Leaf, Compound</li>
+<li>Leaf query clauses look for a PARTICULAR VALUE IN A PARTICULAR FIELD, such as the <code>match</code>, <code>term</code> or <code>range</code> queries. These queries can be used by themselves. 相對於 compound query clause 用來組合其他 clause。</li>
+<li>Compound query clauses WRAP other leaf or compound queries and are used to COMBINE MULTIPLE QUERIES in a logical fashion (such as the <code>bool</code> or <code>dis_max</code> query), or to alter their behaviour (such as the <code>constant_score</code> query). 這裡 multiple queries 的說法可能會誤導? 而是一個 query 可以由 leaf/compound (query) clause 構成；不過官方的文件到處都是 XXX Query 這種說法，只要知道那指的是 query clause 即可。</li>
+<li>Query clauses behave differently depending on whether they are used in QUERY CONTEXT or FILTER CONTEXT.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-filter-context.html">Query and filter context | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>A query clause used in query context answers the question “How well does this document match this query clause?” Besides deciding whether or not the document matches, the query clause also calculates a <code>_score</code> representing HOW WELL the document matches, relative to other documents. Query context is in effect whenever a query clause is passed to a <code>query</code> parameter, such as the <code>query</code> parameter in the <code>search</code> API. 除了 match 條件之外，還是算出 score 以區分 match 程度的不同 =&gt; 嚴格來說，不是 &ldquo;計算&rdquo; score，而是 &ldquo;會影響&rdquo; score &ndash; 因為條件成立/不成立，而加減一點分數。</li>
+<li>In filter context, a query clause answers the question “Does this document match this query clause?” The answer is a simple YES OR NO — no scores are calculated. Filter context is mostly used for filtering STRUCTURED DATA, e.g. Does this <code>timestamp</code> fall into the range 2015 to 2016? Is the <code>status</code> field set to &ldquo;published&rdquo;? 只有 match 與否，沒有程度的不同 =&gt; 嚴格來說，是 &ldquo;不會影響&rdquo;  score。</li>
+<li>Frequently used filters will be CACHED AUTOMATICALLY by Elasticsearch, to speed up performance.</li>
+<li>Filter context is in effect whenever a query clause is passed to a <code>filter</code> parameter, such as the <code>filter</code> or <code>must_not</code> parameters in the <code>bool</code> query, the <code>filter</code> parameter in the <code>constant_score</code> query, or the <code>filter</code> aggregation. 通常文件會特別提示 &ldquo;executed in filter context&rdquo;，上面 <code>bool</code> 的 <code>filter</code>/<code>must_not</code> parameters 都有。</li>
+<li>Use query clauses in query context for conditions which SHOULD AFFECT the score of matching documents (i.e. how well does the document match), and use all other query clauses in filter context. 單純地過濾用 filter context，接著要分出程度不同才用 query context。</li>
+<li>
+<p>Below is an example of query clauses being used in query and filter context in the search API. This query will match documents where all of the following conditions are met:</p>
+<pre><code>GET /_search
+{
+  "query": { &lt;-- query context
+    "bool": {
+      "must": [
+        { "match": { "title":   "Search"        }},
+        { "match": { "content": "Elasticsearch" }}
+      ],
+      "filter": [ &lt;-- filter context
+        { "term":  { "status": "published" }},
+        { "range": { "publish_date": { "gte": "2015-01-01" }}}
+      ]
+    }
+  }
+}
+</code></pre>
+<p>The <code>bool</code> and two <code>match clauses</code> are used in query context, which means that they are USED TO SCORE how well each document matches. The <code>term</code> and <code>range</code> clauses are used in filter context. They will filter out documents which do not match, but they will NOT AFFECT THE SCORE for matching documents. 從最外層 <code>query</code> 開始，往下預設都是 query context，除非遇到 filter context，所以 <code>bool</code> 跟 <code>match</code> clause 都算在 filter context，但 <code>term</code> 跟 <code>range</code> clause 算在 filter context，至於 <code>must</code> 跟 <code>filter</code> 不是 query clause，只是 <code>bool</code> clause 的 paramter 而已。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-all-query.html">Match All Query | Elasticsearch Reference [6.5] | Elastic</a> 感覺只用在測試 query，實際上會用在哪??</p>
+<ul>
+<li>
+<p>The most simple query, which matches all documents, giving them all a <code>_score</code> of <code>1.0</code>.</p>
+<pre><code>GET /_search
+{
+    "query": {
+        "match_all": {}
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>The <code>_score</code> can be changed with the <code>boost</code> parameter: 使用時機?</p>
+<pre><code>GET /_search
+{
+    "query": {
+        "match_all": { "boost" : 1.2 }
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>Match None Query - This is the inverse of the <code>match_all</code> query, which matches no documents. 使用時機?</p>
+<pre><code>GET /_search
+{
+    "query": {
+        "match_none": {}
+    }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="full-text-query">Full Text Query ??<a class="headerlink" href="#full-text-query" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html">Full text queries | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html">Match Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>
+<p>match queries accept text/numerics/dates, analyzes them, and constructs a query. For example:</p>
+<pre><code>GET /_search
+{
+    "query": {
+        "match" : {
+            "message" : "this is a test"
+        }
+    }
+}
+</code></pre>
+<p>Note, <code>message</code> is the name of a field, you can substitute the name of any field instead. 但只能有一個 field??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase.html">Match Phrase Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase-prefix.html">Match Phrase Prefix Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html">Multi Match Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-common-terms-query.html">Common Terms Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.4/query-dsl-query-string-query.html">Query String Query | Elasticsearch Reference [5.4] | Elastic</a> #ril</p>
+<ul>
+<li>
+<p>A query that uses a QUERY PARSER in order to parse its content. The <code>query_string</code> query parses the input and splits text around operators. Each TEXTUAL PART is ANALYZED INDEPENDENTLY of each other. For instance the following query: 其中 textual part 指的是去掉 operator 的結果。</p>
+<pre><code>GET /_search
+{
+    "query": {
+        "query_string" : {
+            "default_field" : "content",
+            "query" : "(new york city) OR (big apple)"
+        }
+    }
+}
+</code></pre>
+<p>will be split into <code>new york city</code> and <code>big apple</code> and each part is then analyzed independently by the analyzer configured for the field.</p>
+</li>
+<li>
+<p>Whitespaces are not considered operators, this means that <code>new york city</code> will be passed &ldquo;as is&rdquo; to the analyzer configured for the field. If the field is a <code>keyword</code> field the analyzer will create a SINGLE TERM <code>new york city</code> and the QUERY BUILDER will use this term in the query. If you want to query each term separately you need to add explicit operators around the terms (e.g. <code>new AND york AND city</code>). 因為放在括號裡的關係?? 因為 <code>default_operator</code> 提到 &ldquo;with a default operator of <code>OR</code>, the query <code>capital of Hungary</code> is translated to <code>capital OR of OR Hungary</code>&ldquo;</p>
+</li>
+<li>When multiple fields are provided it is also possible to modify how the different field queries are combined inside each textual part using the <code>type</code> parameter. The possible modes are described here and the default is <code>best_fields</code>. ??</li>
+<li>The <code>query_string</code> query can also run against multiple fields. Fields can be provided via the <code>fields</code> parameter. The idea of running the <code>query_string</code> query against multiple fields is to expand each query term to an OR clause like this: <code>field1:query_term OR field2:query_term | ...</code> 跟 Multi Match Query 有點像??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.4/query-dsl-simple-query-string-query.html">Simple Query String Query | Elasticsearch Reference [5.4] | Elastic</a> #ril</p>
+<ul>
+<li>
+<p>A query that uses the <code>SimpleQueryParser</code> to parse its context. Unlike the regular <code>query_string</code> query, the <code>simple_query_string</code> query will NEVER THROW AN EXCEPTION, and discards invalid parts of the query. 原來 <code>query_string</code> query 會丟錯，以 <code>(new york city OR (big apple)</code> 為例 (<code>new york city</code> 後少了 <code>)</code>)，會得到 HTTP 400：</p>
+<pre><code>{
+  "error": {
+    "root_cause": [
+      {
+        "type": "query_shard_exception",
+        "reason": "Failed to parse query [(new york city OR (big apple)]",
+        "index_uuid": "yPMioLAkRpaDWxO5aAWvog",
+        "index": "myindex-1"
+      },
+      {
+        "type": "query_shard_exception",
+        "reason": "Failed to parse query [(new york city OR (big apple)]",
+        "index_uuid": "C9qPMmhHQSeCCOfTKivmxw",
+        "index": "myindex-2"
+      }
+    ]
+  },
+  ...
+}
+</code></pre>
+</li>
+<li>
+<p>Simple Query String Syntax 用 <code>+</code>/<code>|</code> 來表示 AND/OR，跟 Query String Query 不同??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="phrase-mathing">Phrase Mathing ??<a class="headerlink" href="#phrase-mathing" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.elastic.co/blog/starts-with-phrase-matching">Starts-With Phrase Matching | Elastic</a> (2013-02-04) #ril</li>
+</ul>
+<h2 id="term-level-query">Term Level Query ??<a class="headerlink" href="#term-level-query" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html">Term level queries | Elasticsearch Reference [6.5] | Elastic</a> #ril<ul>
+<li>While the full text queries will analyze the query string before executing, the term-level queries operate on the exact terms that are stored in the inverted index, and will normalize terms before executing only for keyword fields with normalizer property.</li>
+</ul>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html">Keyword datatype | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="scoring">Scoring / Ranking / Relevance / Similarity<a class="headerlink" href="#scoring" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.compose.com/articles/how-scoring-works-in-elasticsearch/">How scoring works in Elasticsearch - Compose Articles</a> (2016-02-18) #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/relevance-intro.html">What Is Relevance? | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/scoring-theory.html">Theory Behind Relevance Scoring | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/consistent-scoring.html#_relevancy_looks_wrong">Relevancy looks wrong - Getting consistent scoring | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>If you notice that two documents with the same content get different scores or that an exact match is not ranked first, then the issue might be related to SHARDING. By default, Elasticsearch makes each shard responsible for producing ITS OWN SCORES.</li>
+<li>However since index statistics are an important contributor to the scores, this only works well if shards have SIMILAR INDEX STATISTICS. The ASSUMPTION is that since documents are routed EVENLY to shards by default, then index statistics should be very similar and scoring would work as expected. 其中 &ldquo;routed evenly&rdquo; 是根據什麼??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/relevance-is-broken.html">Relevance Is Broken! | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</p>
+<ul>
+<li>Don’t use <code>dfs_query_then_fetch</code> in production. It really isn’t required. Just HAVING ENOUGH DATA will ensure that your term frequencies are well distributed. There is no reason to add this extra DFS step to every query that you run. 不該用在 production，那這個 parameter 根本就不該存在!! 但初期資料量少時確實會是個問題，等資料量成長到一定再拆 shard??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html">Search Type | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/understanding-query-then-fetch-vs-dfs-query-then-fetch">Understanding &ldquo;Query Then Fetch&rdquo; vs &ldquo;DFS Query Then Fetch&rdquo; | Elastic</a> (2013-02-10) #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/practical-bm25-part-1-how-shards-affect-relevance-scoring-in-elasticsearch">Practical BM25 - Part 1: How Shards Affect Relevance Scoring in Elasticsearch | Elastic</a> (2018-04-19) #ril</p>
+</li>
+<li><a href="https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables">Practical BM25 - Part 2: The BM25 Algorithm and its Variables | Elastic</a> (2018-04-19) #ril</li>
+<li><a href="https://www.elastic.co/blog/practical-bm25-part-3-considerations-for-picking-b-and-k1-in-elasticsearch">Practical BM25 - Part 3: Considerations for Picking b and k1 in Elasticsearch | Elastic</a> (2018-04-19) #ril</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-similarity.html">Similarity module | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://lucene.apache.org/core/6_0_1/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html#idf-long-long-">TFIDFSimilarity (Lucene 6.0.1 API)</a></p>
+<ul>
+<li><code>docFreq</code> - the number of documents which contain the term</li>
+<li><code>docCount</code> - the total number of documents in the collection??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/elastic/elasticsearch/issues/24429">BM25 docFreq, docCount and avgFieldLength seems to be wrong · Issue #24429 · elastic/elasticsearch</a> (2017-05-02) jimczi: (member)</p>
+<ul>
+<li>Don&rsquo;t forget that ES creates an index with 5 shards by default and that <code>docFreq</code> and <code>docCount</code> are computed PER SHARD.</li>
+<li>You can create an index with 1 shard or use the <code>dfs</code> mode to compute distributed stats: <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html#dfs-query-then-fetch">https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-search-type.html#dfs-query-then-fetch</a> 併成 1 個 shard 未來會有問題吧??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/elastic/elasticsearch/issues/25916">fieldLength not an integer · Issue #25916 · elastic/elasticsearch</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html">Explain | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>
+<p>Enables explanation for each hit on how its score was computed.</p>
+<pre><code>GET /_search
+{
+    "explain": true, &lt;-- 加上這個即可
+    "query" : {
+        "term" : { "user" : "kimchy" }
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>以 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-explain.html">Explain | Elasticsearch Reference [6.5] | Elastic</a> 提供的測試資料為例：</p>
+<pre><code>GET bank/_doc/32
+
+{
+  "_index": "bank",
+  "_type": "_doc",
+  "_id": "32",
+  "_version": 1,
+  "found": true,
+  "_source": {
+    "account_number": 32,
+    "balance": 48086,
+    "firstname": "Dillard",
+    "lastname": "Mcpherson",
+    "age": 34,
+    "gender": "F",
+    "address": "702 Quentin Street", &lt;-- 先確認待會排名第 1 的資料
+    "employer": "Quailcom",
+    "email": "dillardmcpherson@quailcom.com",
+    "city": "Veguita",
+    "state": "IN"
+  }
+}
+
+---
+
+POST bank/_search
+{
+  "explain": true,
+  "query": {
+    "match": {
+      "address": {
+        "query": "street quentin",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+---
+
+{
+  ...
+  "_explanation": {
+    "value": 5.9542274, &lt;-- address:street (1.1056647) + address:quentin (4.8485627)
+    "description": "sum of:",
+    "details": [
+      {
+        "value": 1.1056647,
+        "description": "weight(address:street in 0) [PerFieldSimilarity], result of:",
+        "details": [
+          {
+            "value": 1.1056647, &lt;-- idf (1.1064554) x tfNorm (0.99928534)
+            "description": "score(doc=0,freq=1.0 = termFreq=1.0 ), product of:",
+            "details": [
+              {
+                "value": 1.1064554,
+                "description": "idf, computed as log(1 + (docCount - docFreq + 0.5) / (docFreq + 0.5)) from:",
+                "details": [
+                  {
+                    "value": 63, &lt;-- 有出現 street 的有 63 份，辨識度不高
+                    "description": "docFreq",
+                    "details": []
+                  },
+                  {
+                    "value": 191, &lt;-- 所在的 shard 有 191 份文件 (預設有 5 個 shard)
+                    "description": "docCount",
+                    "details": []
+                  }
+                ]
+              },
+              {
+                "value": 0.99928534,
+                "description": "tfNorm, computed as (freq * (k1 + 1)) / (freq + k1 * (1 - b + b * fieldLength / avgFieldLength)) from:",
+                "details": [
+                  {
+                    "value": 1,
+                    "description": "termFreq=1.0",
+                    "details": []
+                  },
+                  {
+                    "value": 1.2,
+                    "description": "parameter k1",
+                    "details": []
+                  },
+                  {
+                    "value": 0.75,
+                    "description": "parameter b",
+                    "details": []
+                  },
+                  {
+                    "value": 2.9947643,
+                    "description": "avgFieldLength",
+                    "details": []
+                  },
+                  {
+                    "value": 3, &lt;-- 幾個 term ??
+                    "description": "fieldLength",
+                    "details": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "value": 4.8485627,
+        "description": "weight(address:quentin in 0) [PerFieldSimilarity], result of:",
+        "details": [
+          {
+            "value": 4.8485627,
+            "description": "score(doc=0,freq=1.0 = termFreq=1.0 ), product of:",
+            "details": [
+              {
+                "value": 4.8520303,
+                "description": "idf, computed as log(1 + (docCount - docFreq + 0.5) / (docFreq + 0.5)) from:",
+                "details": [
+                  {
+                    "value": 1,
+                    "description": "docFreq",
+                    "details": []
+                  },
+                  {
+                    "value": 191,
+                    "description": "docCount",
+                    "details": []
+                  }
+                ]
+              },
+              {
+                "value": 0.99928534,
+                "description": "tfNorm, computed as (freq * (k1 + 1)) / (freq + k1 * (1 - b + b * fieldLength / avgFieldLength)) from:",
+                "details": [
+                  {
+                    "value": 1,
+                    "description": "termFreq=1.0",
+                    "details": []
+                  },
+                  {
+                    "value": 1.2,
+                    "description": "parameter k1",
+                    "details": []
+                  },
+                  {
+                    "value": 0.75,
+                    "description": "parameter b",
+                    "details": []
+                  },
+                  {
+                    "value": 2.9947643,
+                    "description": "avgFieldLength",
+                    "details": []
+                  },
+                  {
+                    "value": 3,
+                    "description": "fieldLength",
+                    "details": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-explain.html">Explain API | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/@nschsravanthi/customize-relevance-with-elasticsearch-7735a9ac550e">Customize relevance with Elasticsearch – Sravanthi Naraharisetti – Medium</a> (2018-04-16) #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-rank-eval.html">Ranking Evaluation API | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/consistent-scoring.html#_scores_are_not_reproducible">Scores are not reproducible - Getting consistent scoring | Elasticsearch Reference [6.5] | Elastic</a> 跟 replica 有關 #ril</li>
+</ul>
+<h2 id="boosting">Boosting ??<a class="headerlink" href="#boosting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.compose.com/articles/elasticsearch-query-time-strategies-and-techniques-for-relevance-part-ii/">Elasticsearch Query-Time Strategies and Techniques for Relevance: Part II - Compose Articles</a> (2016-03-31) #ril</li>
+<li>
+<p><a href="https://marcobonzanini.com/2015/06/22/tuning-relevance-in-elasticsearch-with-custom-boosting/">Tuning Relevance in Elasticsearch with Custom Boosting – Marco Bonzanini</a> (2015-06-22) #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-index-boost.html">Index Boost | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>Allows to configure different boost level per index when searching across more than one indices. This is very handy when hits coming from ONE INDEX MATTER MORE than hits coming from another index (think social graph where each user has an index).</li>
+<li>
+<p>You can also specify it as an array to control the order of boosts.</p>
+<pre><code>GET /_search
+{
+    "indices_boost" : [
+        { "alias1" : 1.4 },
+        { "index*" : 1.3 }
+    ]
+}
+</code></pre>
+</li>
+<li>
+<p>This is important when you use aliases or wildcard expression. If multiple matches are found, the first match will be used. For example, if an index is included in both <code>alias1</code> and <code>index*</code>, boost value of <code>1.4</code> is applied. 一個 index 最多被 boost 一次。</p>
+</li>
+<li>Boost 的值要怎麼給? 給了 <code>{ "wiki": 5 }</code> 結果 score 從 2.96 衝到 14.80，它跟 score 計算式的關係是什麼?? 搭配 index per document type 的策略比較好發揮。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html">boost | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-boosting-query.html">Boosting Query | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/practical-scoring-function.html">Lucene’s Practical Scoring Function | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+</ul>
+<h2 id="pagination">Pagination ??<a class="headerlink" href="#pagination" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-from-size.html">From / Size | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="highlighting">Highlighting ??<a class="headerlink" href="#highlighting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html">Highlighting | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="suggestion">Suggestion ??<a class="headerlink" href="#suggestion" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://hackernoon.com/elasticsearch-building-autocomplete-functionality-494fcf81a7cf">Elasticsearch: Building AutoComplete functionality – Hacker Noon</a> (2017-12-31) #ril</li>
+<li><a href="https://hackernoon.com/elasticsearch-using-completion-suggester-to-build-autocomplete-e9c120cf6d87">Elasticsearch: Using Completion Suggester to build AutoComplete</a> (2018-01-26) #ril</li>
+<li><a href="https://qbox.io/blog/how-to-build-did-you-mean-feature-with-elasticsearch-phrase-suggester">How to Build a “Did You Mean” Feature with Elasticsearch</a> (2018-01-04) #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html">Suggesters | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters-term.html">Term suggester | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="aggregation">Aggregation ??<a class="headerlink" href="#aggregation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://m.alphasights.com/practical-guide-to-grouping-results-with-elasticsearch-a7e544343d53">Practical guide to grouping results with elasticsearch</a> (2016-06-06) #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-aggregations.html">Executing Aggregations | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">Aggregations | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="security">Security ??<a class="headerlink" href="#security" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/x-pack/current/field-and-document-access-control.html">Setting Up Field and Document Level Security | X-Pack for the Elastic Stack [6.2] | Elastic</a> #ril</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.slant.co/topics/11537/~elasticsearch-gui-clients">5 Best Elasticsearch GUI clients as of 2018 - Slant</a> Postman 排名第一!? #ril</li>
+<li><a href="https://www.elastic.co/guide/en/sense/current/sense-ui.html">The Sense UI | Sense Documentation | Elastic</a> Sense UI 是一個 Kibana app? #ril</li>
+<li><a href="http://www.elastichq.org/">ElasticHQ - Elasticsearch Management and Monitoring</a> 看起來很專業，但偏向系統管理 #ril</li>
+<li><a href="https://github.com/mobz/elasticsearch-head">mobz/elasticsearch-head: A web front end for an elastic search cluster</a> #ril</li>
+<li><a href="https://github.com/appbaseio/dejavu">appbaseio/dejavu: The Missing Web UI for Elasticsearch: Import, browse and edit data with rich filters and query views, create search UIs visually.</a> #ril</li>
+<li><a href="https://github.com/jettro/elasticsearch-gui">jettro/elasticsearch-gui: An angularJS client for elasticsearch as a plugin</a> #ril</li>
+<li><a href="https://github.com/appbaseio/mirage">appbaseio/mirage: GUI for simplifying Elasticsearch Query DSL</a> #ril</li>
+<li><a href="https://www.supermind.org/elasticsearch/query-dsl-builder.html">ElasticSearch 1.7.2 Query DSL Builder</a> #ril</li>
+<li><a href="https://github.com/danpaz/bodybuilder">danpaz/bodybuilder: An elasticsearch query body builder</a> #ril</li>
+<li><a href="https://github.com/sudo-suhas/elastic-builder">sudo-suhas/elastic-builder: A Node.js implementation of the elasticsearch Query DSL</a> #ril</li>
+<li><a href="https://github.com/KunihikoKido/atom-elasticsearch-client">KunihikoKido/atom-elasticsearch-client: elasticsearch-client</a> #ril</li>
+<li><a href="https://github.com/searchkit/searchkit">searchkit/searchkit: React UI components / widgets. The easiest way to build a great search experience with Elasticsearch.</a> 提供前端 search 的 UI 元件 #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

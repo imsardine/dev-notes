@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/php-cli/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>PHP / CLI - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/php-cli.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#php-cli">PHP / CLI</a></li>
+            <li class="second-level"><a href="#interactive-shell">Interactive Shell</a></li>
+                
+            <li class="second-level"><a href="#tools">Tools</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="php-cli"><a href="../php/">PHP</a> / CLI<a class="headerlink" href="#php-cli" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/features.commandline.introduction.php">PHP: Introduction - Manual</a></p>
+<ul>
+<li>
+<p>The main focus of CLI SAPI is for developing SHELL APPLICATIONS with PHP. There are quite a few differences between the CLI SAPI and other SAPIs which are explained in this chapter.</p>
+<p>其中 SAPI = Server Application Programming Interface，用 CLI 時跟 server 有什麼關係 ??</p>
+<p>It is worth mentioning that CLI and CGI are different SAPIs although they do share many of the same behaviors.</p>
+</li>
+<li>
+<p>The CLI SAPI is enabled by default using <code>--enable-cli</code>, but may be disabled using the <code>--disable-cli</code> option when running <code>./configure</code>.</p>
+<p>The name, location and existence of the CLI/CGI binaries will differ depending on how PHP is installed on your system.</p>
+<p>By default when executing <code>make</code>, both the CGI and CLI are built and placed as <code>sapi/cgi/php-cgi</code> and <code>sapi/cli/php</code> respectively, in your PHP source directory.</p>
+<p>You will note that both are named <code>php</code>. What happens during <code>make install</code> depends on your CONFIGURE LINE. If a module SAPI is chosen during configure, such as apxs, or the <code>--disable-cgi</code> option is used, the CLI is copied to <code>{PREFIX}/bin/php</code> during <code>make install</code> otherwise the CGI is placed there. So, for example, if <code>--with-apxs</code> is in your configure line then the CLI is copied to <code>{PREFIX}/bin/php</code> during <code>make install</code>.</p>
+<p>If you want to override the installation of the CGI binary, use <code>make install-cli`` after</code>make install<code>. Alternatively you can specify</code>&ndash;disable-cgi` in your configure line.</p>
+<p>好亂，CGI 跟 CLI 的 binary 會蓋來蓋去? <code>{PREFIX}/bin/php</code> 會是 CGI 或 CLI 有這麼不確定!?</p>
+<p>Note: Because both <code>--enable-cli</code> and <code>--enable-cgi</code> are enabled by default, simply having <code>--enable-cli</code> in your configure line does not necessarily mean the CLI will be copied as <code>{PREFIX}/bin/php</code> during <code>make install</code>.</p>
+</li>
+<li>
+<p>As of PHP 5, the CLI binary is distributed in the main folder as <code>php.exe</code> on Windows. The CGI version is distributed as <code>php-cgi.exe</code>.</p>
+<p>Additionally, a <code>php-win.exe</code> is distributed if PHP is configured using <code>--enable-cli-win32</code>. This does the same as the CLI version, except that it DOESN&rsquo;T OUTPUT ANYTHING and thus provides NO CONSOLE.</p>
+</li>
+<li>
+<p>Note: What SAPI do I have?</p>
+<p>From a shell, typing <code>php -v</code> will tell you whether <code>php</code> is CGI or CLI. See also the function <code>php_sapi_name()</code> and the constant <code>PHP_SAPI</code>.</p>
+<pre><code>$ docker run --rm -it php:cli php -v
+PHP 7.4.1 (cli) (built: Dec 28 2019 20:44:54) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+
+$ docker run --rm -it php:cli php -r 'echo php_sapi_name();'
+cli
+
+$ docker run --rm -it php:cli php -r 'echo PHP_SAPI;'
+cli
+</code></pre>
+</li>
+<li>
+<p>Note: A Unix manual page is available by typing <code>man php</code> in the shell environment.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.php.net/manual/en/features.commandline.usage.php">PHP: Usage - Manual</a></p>
+<ul>
+<li>
+<p>There are three different ways of supplying the CLI SAPI with PHP code to be executed:</p>
+<ol>
+<li>
+<p>Tell PHP to execute a certain file.</p>
+<pre><code>$ php my_script.php
+$ php -f my_script.php
+</code></pre>
+<p>Both ways (whether using the <code>-f</code> switch or not) execute the file <code>my_script.php</code>. Note that there is no restriction on which files can be executed; in particular, the filename is not required have a <code>.php</code> extension.</p>
+<p>Note: If arguments need to be passed to the script when using <code>-f</code>, the first argument must be <code>--</code>.</p>
+</li>
+<li>
+<p>Pass the PHP code to execute directly on the command line.</p>
+<pre><code>$ php -r 'print_r(get_defined_constants());'
+</code></pre>
+<p>Special care has to be taken with regard to shell variable substitution and usage of quotes.</p>
+<p>Note: Read the example carefully: there are NO BEGINNING OR ENDING TAGS! The <code>-r</code> switch simply does not need them, and using them will lead to a parse error.</p>
+</li>
+<li>
+<p>Provide the PHP code to execute via standard input (stdin).</p>
+<p>This gives the powerful ability to create PHP code dynamically and feed it to the binary, as shown in this (fictional) example:</p>
+<pre><code>$ some_application | some_filter | php | sort -u &gt; final_output.txt
+</code></pre>
+</li>
+</ol>
+<p>You cannot combine any of the three ways to execute code.</p>
+</li>
+<li>
+<p>As with every shell application, the PHP BINARY accepts a number of arguments; however, the PHP SCRIPT can also receive further arguments. The number of arguments that can be passed TO YOUR SCRIPT is not limited by PHP (and although the shell has a limit to the number of characters which can be passed, this is not in general likely to be hit).</p>
+<p>注意 PHP binary (<code>php</code>) 與 PHP script (<code>.php</code>) 的差別。</p>
+<p>The arguments passed to the script are available in the global array <code>$argv</code>. The first index (zero) always contains the name of the script as called from the command line. Note that, if the code is executed in-line using the command line switch <code>-r</code>, the value of <code>$argv[0]</code> will be just a dash (<code>-</code>). The same is true if the code is executed via a pipe from STDIN.</p>
+</li>
+<li>
+<p>A second global variable, <code>$argc</code>, contains the number of elements in the <code>$argv</code> array (not the number of arguments passed to the script).</p>
+<p>比 arguments passed to the script 的數量多一個 &ndash; <code>$argv[0]</code> (name of the script)。</p>
+</li>
+<li>
+<p>As long as the arguments to be passed to the script do not start with the <code>-</code> character, there&rsquo;s nothing special to watch out for.</p>
+<p>Passing an argument to the script which starts with a <code>-</code> will cause trouble because the PHP interpreter thinks it has to handle it itself, even before executing the script. To prevent this, use the ARGUMENT LIST SEPARATOR <code>--</code>. After this separator has been parsed by PHP, every following argument is PASSED UNTOUCHED to the script.</p>
+<pre><code># This will not execute the given code but will show the PHP usage
+$ php -r 'var_dump($argv);' -h
+Usage: php [options] [-f] &lt;file&gt; [args...]
+[...]
+
+# This will pass the '-h' argument to the script and prevent PHP from showing its usage
+$ php -r 'var_dump($argv);' -- -h
+array(2) {
+  [0]=&gt;
+  string(1) "-"
+  [1]=&gt;
+  string(2) "-h"
+}
+</code></pre>
+</li>
+<li>
+<p>However, on Unix systems there&rsquo;s another way of using PHP for shell scripting: make the first line of the script start with <code>#!/usr/bin/php</code> (or whatever the path to your PHP CLI binary is if different). The rest of the file should contain normal PHP code within the usual PHP STARTING AND END TAGS.</p>
+<p>只有 <code>-r</code> 才不需要有 <code>&lt;?php ... ?&gt;</code>。</p>
+<p>Once the execution attributes of the file are set appropriately (e.g. <code>chmod +x test</code>), the script can be executed like any other shell or perl script:</p>
+</li>
+</ul>
+<p>Example #1 Execute PHP script as shell script</p>
+<pre><code>#!/usr/bin/php
+&lt;?php
+var_dump($argv);
+?&gt;
+</code></pre>
+<ul>
+<li>
+<p>Assuming this file is named <code>test</code> in the current directory, it is now possible to do the following:</p>
+<pre><code>$ chmod +x test
+$ ./test -h -- foo
+array(4) {
+  [0]=&gt;
+  string(6) "./test"
+  [1]=&gt;
+  string(2) "-h"
+  [2]=&gt;
+  string(2) "--"
+  [3]=&gt;
+  string(3) "foo"
+}
+</code></pre>
+<p>As can be seen, in this case no special care needs to be taken when passing parameters starting with <code>-</code>.</p>
+</li>
+<li>
+<p>The PHP executable can be used to run PHP scripts absolutely independent of the web server. On Unix systems, the special <code>#!</code> (or &ldquo;shebang&rdquo;) first line should be added to PHP scripts so that the system can automatically tell which program should run the script.</p>
+<p>On Windows platforms, it&rsquo;s possible to associate <code>php.exe</code> with the double click option of the <code>.php</code> extension, or a batch file can be created to run scripts through PHP. The special shebang first line for Unix does no harm on Windows (as it&rsquo;s formatted as a PHP comment), so CROSS PLATFORM programs can be written by including it. A simple example of writing a command line PHP program is shown below.</p>
+</li>
+</ul>
+<p>Example #2 Script intended to be run from command line (<code>script.php</code>)</p>
+<pre><code>#!/usr/bin/php
+&lt;?php
+
+if ($argc != 2 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
+?&gt;
+
+This is a command line PHP script with one option.
+
+  Usage:
+  &lt;?php echo $argv[0]; ?&gt; &lt;option&gt;
+
+  &lt;option&gt; can be some word you would like
+  to print out. With the --help, -help, -h,
+  or -? options, you can get this help.
+
+&lt;?php
+} else {
+    echo $argv[1];
+}
+?&gt;
+</code></pre>
+<ul>
+<li>
+<p>The script above includes the Unix shebang first line to indicate that this file should be run by PHP. We are working with a CLI version here, so no HTTP headers will be output.</p>
+<p>這一點在 <a href="https://www.php.net/manual/en/features.commandline.differences.php">Differences to other SAPIs</a> 中有說明，一樣是把 <code>.php</code> 當成 template，在 <code>&lt;?php ... ?&gt;</code> 之外的都直接輸出。</p>
+</li>
+<li>
+<p>The program first checks that there is the required one argument (in addition to the script name, which is also counted). If not, or if the argument was <code>--help</code> , <code>-help</code> , <code>-h</code> or <code>-?</code> , the help message is printed out, using <code>$argv[0]</code> to dynamically print the script name as typed on the command line. Otherwise, the argument is echoed out exactly as received.</p>
+</li>
+<li>
+<p>To run the above script on Unix, it must be made executable, and called simply as <code>script.php echothis</code> or <code>script.php -h</code>. On Windows, a batch file similar to the following can be created for this task:</p>
+</li>
+</ul>
+<p>Example #3 Batch file to run a command line PHP script (<code>script.bat</code>)</p>
+<pre><code>@echo OFF
+"C:\php\php.exe" script.php %*
+</code></pre>
+<ul>
+<li>
+<p>Assuming the above program is named <code>script.php</code>, and the CLI <code>php.exe</code> is in <code>C:\php\php.exe</code>, this batch file will run it, passing on all appended options: <code>script.bat echothis</code> or <code>script.bat -h</code>.</p>
+<p>See also the Readline extension documentation for more functions which can be used to enhance command line applications in PHP.</p>
+</li>
+<li>
+<p>On Windows, PHP can be configured to run without the need to supply the <code>C:\php\php.exe</code> or the <code>.php</code> extension, as described in <a href="https://www.php.net/manual/en/install.windows.legacy.index.php#install.windows.legacy.commandline">Command Line PHP on Microsoft Windows</a>. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.php.net/manual/en/features.commandline.differences.php">PHP: Differences to other SAPIs - Manual</a> #ril</p>
+</li>
+</ul>
+<h2 id="interactive-shell">Interactive Shell<a class="headerlink" href="#interactive-shell" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/features.commandline.interactive.php">PHP: Interactive shell - Manual</a></p>
+<ul>
+<li>
+<p>As of PHP 5.1.0, the CLI SAPI provides an interactive shell using the <code>-a</code> (等同 <code>--interactive</code>) option if PHP is compiled with the <code>--with-readline</code> option. As of PHP 7.1.0 the interactive shell is also available on Windows, if the <a href="https://www.php.net/manual/en/book.readline.php">readline extension</a> is enabled. #ril</p>
+<p>Using the interactive shell you are able to type PHP code and have it executed directly.</p>
+</li>
+</ul>
+<p>Example #1 Executing code using the interactive shell</p>
+<pre><code>$ php -a
+Interactive shell
+
+php &gt; echo 5+8;
+13
+php &gt; function addTwo($n)
+php &gt; {
+php { return $n + 2;
+php { }
+php &gt; var_dump(addtwo(2));
+int(4)
+php &gt;
+</code></pre>
+<ul>
+<li>The interactive shell also features tab completion for functions, constants, class names, variables, static method calls and class constants.</li>
+</ul>
+<p>Example #2 Tab completion</p>
+<ul>
+<li>
+<p>Pressing the tab key TWICE when there are multiple possible completions will result in a list of these completions:</p>
+<pre><code>php &gt; strp[TAB][TAB]
+strpbrk   strpos    strptime
+php &gt; strp
+</code></pre>
+</li>
+<li>
+<p>When there is only one possible completion, pressing tab ONCE will complete the rest on the same line:</p>
+<pre><code>php &gt; strpt[TAB]ime(
+</code></pre>
+</li>
+<li>
+<p>Completion will also work for names that have been defined during the current interactive shell SESSION:</p>
+<pre><code>php &gt; $fooThisIsAReallyLongVariableName = 42;
+php &gt; $foo[TAB]ThisIsAReallyLongVariableName
+</code></pre>
+<p>The interactive shell stores your history which can be accessed using the up and down keys. The history is saved in the <code>~/.php_history</code> file.</p>
+</li>
+<li>
+<p>As of PHP 5.4.0, the CLI SAPI provides the <code>php.ini</code> settings <code>cli.pager</code> and <code>cli.prompt</code>. The <code>cli.pager</code> setting allows an external program (such as <code>less</code>) to act as a pager for the output instead of being displayed directly on the screen. The <code>cli.prompt</code> setting makes it possible to change the <code>php &gt;</code> prompt.</p>
+<p>In PHP 5.4.0 it was also made possible to set <code>php.ini</code> settings in the interactive shell using a shorthand notation. (下面 example #3 就會講到)</p>
+</li>
+</ul>
+<p>Example #3 Setting <code>php.ini</code> settings in the interactive shell</p>
+<ul>
+<li>
+<p>The <code>cli.prompt</code> setting:</p>
+<pre><code>php &gt; #cli.prompt=hello world :&gt;
+hello world :&gt;
+</code></pre>
+<p><code>#</code> 的用法為何這麼特別 ??</p>
+</li>
+<li>
+<p>Using backticks it is possible to have PHP code executed in the prompt:</p>
+<pre><code>php &gt; #cli.prompt=`echo date('H:i:s');` php &gt;
+15:49:35 php &gt; echo 'hi';
+hi
+15:49:43 php &gt; sleep(2);
+15:49:45 php &gt;
+</code></pre>
+<p>這表示 PHP 也適合用來做 shell scripting。</p>
+</li>
+<li>
+<p>Setting the pager to <code>less</code>:</p>
+<pre><code>php &gt; #cli.pager=less
+php &gt; phpinfo();
+(output displayed in less)
+php &gt;
+</code></pre>
+</li>
+<li>
+<p>The <code>cli.prompt</code> setting supports a few escape sequences:</p>
+<ul>
+<li><code>\e</code> - Used for adding colors to the prompt. An example could be <code>\e[032m\v \e[031m\b \e[34m\&gt; \e[0m</code></li>
+<li><code>\v</code> - The PHP version.</li>
+<li><code>\b</code> - Indicates which block PHP is in. For instance <code>/*</code> to indicate being inside a multi-line comment. The outer scope is denoted by <code>php</code>.</li>
+<li><code>\&gt;</code> - Indicates the prompt character. By default this is <code>&gt;</code>, but changes when the shell is inside an unterminated block or string. Possible characters are: <code>' " { ( &gt;</code></li>
+</ul>
+</li>
+<li>
+<p>Note: Files included through <code>auto_prepend_file</code> and <code>auto_append_file</code> are parsed in this mode but with some restrictions - e.g. functions have to be defined before called.</p>
+<p>Note: <a href="https://www.php.net/manual/en/language.oop5.autoload.php">Autoloading</a> is not available if using PHP in CLI interactive mode. #ril</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.cloudways.com/blog/php-libraries/#symfonyconsole">Symfony Console Component - 40 Best PHP Libraries For Web Applications in 2019</a> #ril</li>
+<li><a href="https://codeengineered.com/blog/building-cli-applications-in-php/">Building Command Line Applications in PHP | Code Engineered</a> (2012-12-10) #ril</li>
+<li><a href="https://dev.to/erikaheidi/bootstrapping-a-cli-php-application-in-vanilla-php-4ee">Bootstrapping a CLI PHP application in Vanilla PHP - DEV Community</a> (2019-12-10) #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p>進入 interactive shell</p>
+<pre><code>docker run --rm -it php:cli`
+</code></pre>
+</li>
+<li>
+<p>執行 script (從 STDIN 傳入)</p>
+<pre><code>$ cat hello.php
+&lt;?php
+echo 'Hello, World!';
+?&gt;
+
+$ cat hello.php | docker run --rm -i php
+Hello, World!
+</code></pre>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/_/php">How to use this image - php - Docker Hub</a> #ril</p>
+<ul>
+<li>
+<p>Create a <code>Dockerfile</code> in your PHP project</p>
+<pre><code>FROM php:7.2-cli
+COPY . /usr/src/myapp
+WORKDIR /usr/src/myapp
+CMD [ "php", "./your-script.php" ]
+</code></pre>
+<p>Then, run the commands to build and run the Docker image:</p>
+<pre><code>$ docker build -t my-php-app .
+$ docker run -it --rm --name my-running-app my-php-app
+</code></pre>
+</li>
+<li>
+<p>Run a single PHP script</p>
+<p>For many simple, single file projects, you may find it inconvenient to write a complete <code>Dockerfile</code>. In such cases, you can run a PHP script by using the PHP Docker image directly:</p>
+<pre><code>$ docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/src/myapp php:7.2-cli php your-script.php
+</code></pre>
+<p>從 <a href="https://github.com/docker-library/php/blob/3a546766fdeb873090c7e87c4ec3491841bafb1c/7.2/buster/cli/Dockerfile"><code>php:7.2-cli</code> 的 <code>Dockerfile</code></a> 可以看到 <code>ENTRYPOINT ["docker-php-entrypoint"]</code> 與 <code>CMD ["php", "-a"]</code>，因此 <code>docker run --rm -it php:7.2-cli</code> 就會進 interactive shell。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/php">Image Variants - php - Docker Hub</a> #ril</p>
+<ul>
+<li>
+<p>The <code>php</code> images come in many flavors, each designed for a specific use case.</p>
+<p>Some of these tags may have names like buster or stretch in them. These are the suite CODE NAMES for releases of Debian and indicate which release the image is based on. If your image needs to install any additional packages beyond what comes with the image, you&rsquo;ll likely want to specify one of these explicitly to MINIMIZE BREAKAGE when there are new releases of Debian.</p>
+</li>
+</ul>
+<p><code>php:&lt;version&gt;-cli</code></p>
+<ul>
+<li>
+<p>This variant contains the PHP CLI tool with DEFAULT MODS. If you need a web server, this is probably not the image you are looking for. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as a base from which to build other images.</p>
+</li>
+<li>
+<p>It also is the only variant which contains the (not recommended) <code>php-cgi</code> binary, which is likely necessary for some things like <a href="https://github.com/php-pm/php-pm">PPM</a>. #ril</p>
+</li>
+<li>
+<p>Note that all variants of php contain the PHP CLI (<code>/usr/local/bin/php</code>).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://phpdocker.io/">PHPDocker.io - PHP and Docker development environment generator</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://www.php.net/manual/en/features.commandline.php">PHP: Command line usage - Manual</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../php-stdio/">Standard I/O</a></li>
+<li><a href="../symfony-console/">Symfony Console Component</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.php.net/manual/en/features.commandline.options.php">Command Line Options</a></li>
+<li><a href="https://www.php.net/manual/en/reserved.variables.argv.php"><code>$argv</code></a></li>
+<li><a href="https://www.php.net/manual/en/reserved.variables.argc.php"><code>$argc</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

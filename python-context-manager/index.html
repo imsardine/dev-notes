@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-context-manager/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Context Manager - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-context-manager.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-context-manager">Python / Context Manager</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-context-manager"><a href="../python/">Python</a> / Context Manager<a class="headerlink" href="#python-context-manager" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2.7/reference/datamodel.html#context-managers">3. Data model — Python 2.7.15 documentation</a></p>
+<ul>
+<li>
+<p>New in version 2.5. A context manager is an object that defines the RUNTIME CONTEXT to be established when executing a <code>with</code> statement.</p>
+<p>The context manager handles the entry into, and the exit from, the desired runtime context for the execution of the block of code.</p>
+</li>
+<li>
+<p>Context managers are normally invoked using the <code>with</code> statement (described in section The <code>with</code> statement), but can also be used by DIRECTLY INVOKING their methods.</p>
+<p>呼叫 <code>__enter__()</code> 不會很怪嗎 ??</p>
+</li>
+<li>
+<p>Typical uses of context managers include saving and restoring various kinds of global state, locking and unlocking resources, closing opened files, etc.</p>
+<p>其中 &ldquo;global state&rdquo; 的用法，很像是 mock 裡 <a href="https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch"><code>with patch()</code></a> 的用法。</p>
+</li>
+</ul>
+<p><code>object.__enter__(self)</code></p>
+<ul>
+<li>
+<p>Enter the runtime context RELATED TO THIS OBJECT. The <code>with</code> statement will BIND this method’s return value to the TARGET(S) specified in the <code>as</code> clause of the statement, if any.</p>
+<p>注意 &ldquo;target(s)&rdquo; 的說法，若 <code>__enter__()</code> 回傳多個值，<code>as</code> 後面要怎麼寫 ??</p>
+</li>
+</ul>
+<p><code>object.__exit__(self, exc_type, exc_value, traceback)</code></p>
+<ul>
+<li>
+<p>Exit the runtime context related to this object. The parameters describe the exception that caused the context to be exited. If the context was exited without an exception, all three arguments will be <code>None</code>.</p>
+<p>If an exception is supplied, and the method wishes to SUPPRESS THE EXCEPTION (i.e., prevent it from being propagated), it should return a TRUE VALUE. Otherwise, the exception will be processed normally upon exit from this method.</p>
+<p>意指 <code>with</code> code block 裡有任何 exception 拋出，從 <code>__exit__()</code> 都會先知道，傳回值會決定 exception 要不要繼續往外拋。</p>
+</li>
+<li>
+<p>Note that <code>__exit__()</code> methods should not reraise the passed-in exception; this is the caller’s responsibility.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/contextlib.html">28.7. contextlib — Utilities for with-statement contexts — Python 2.7.16 documentation</a> #ril</p>
+<ul>
+<li>This module provides utilities for common tasks involving the <code>with</code> statement. For more information see also Context Manager Types and With Statement Context Managers.</li>
+</ul>
+<p><code>contextlib.contextmanager(func)</code></p>
+<ul>
+<li>
+<p>This function is a DECORATOR that can be used to define a FACTORY FUNCTION for <code>with</code> statement context managers, without needing to create a class or separate <code>__enter__()</code> and <code>__exit__()</code> methods.</p>
+<p>While many objects natively support use in <code>with</code> statements, sometimes a resource needs to be managed that isn’t a context manager in its own right, and doesn’t implement a <code>close()</code> method for use with <code>contextlib.closing</code></p>
+</li>
+<li>
+<p>An abstract example would be the following to ensure correct resource management:</p>
+<pre><code>from contextlib import contextmanager
+
+@contextmanager
+def managed_resource(*args, **kwds):
+    # Code to acquire resource, e.g.:
+    resource = acquire_resource(*args, **kwds)
+    try:
+        yield resource
+    finally:
+        # Code to release resource, e.g.:
+        release_resource(resource)
+
+&gt;&gt;&gt; with managed_resource(timeout=3600) as resource:
+...     # Resource is released at the end of this block,
+...     # even if code in the block raises an exception
+</code></pre>
+<p>The function being decorated must return a GENERATOR-ITERATOR when called. This iterator must YIELD EXACTLY ONE VALUE, which will be bound to the targets in the <code>with</code> statement’s <code>as</code> clause, if any.</p>
+</li>
+<li>
+<p>At the point where the generator yields, the block nested in the <code>with</code> statement is executed. The generator is then resumed after the block is exited.</p>
+<p>If an unhandled exception occurs in the block, it is RERAISED INSIDE THE GENERATOR AT THE POINT WHERE THE YIELD OCCURRED. Thus, you can use a <code>try...except...finally</code> statement to trap the error (if any), or ENSURE THAT SOME CLEANUP TAKES PLACE.</p>
+<p>If an exception is trapped merely in order to log it or to perform some action (rather than to suppress it entirely), the generator must RERAISE that exception. Otherwise the generator context manager will indicate to the <code>with</code> statement that the exception has been handled, and execution will resume with the statement immediately following the <code>with</code> statement.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2.7/reference/compound_stmts.html#with">7. Compound statements — Python 2.7.16 documentation</a> #ril</p>
+</li>
+<li><a href="https://jeffknupp.com/blog/2016/03/07/python-with-context-managers/">Python with Context Managers</a> (2016-03-07) #ril<ul>
+<li>Context manager 最常見且最重要的用途是管理 resource，這也就是為何用 context manager 來讀取檔案 (<code>with open('what_are_context_managers.txt', 'r') as infile</code>；讀取檔案會耗費一項資源 &ndash; file descriptor，但這項資源是有限的。在 macOS 或 Linux 跑 <code>for x in range(100000): files.append(open('foo.txt', 'w'))</code> 可能會遇到 <code>OSError: [Errno 24] Too many open files: 'foo.txt'</code> 的錯誤 (但為什麼單純做 <code>open('foo.txt', 'w')</code> 不加入 list 不會有問題??)</li>
+<li>當你開啟一個檔案，OS 會配發一個 integer，做為存取的 handle，這就是 file descriptor。好處是可以在 process 間交換 reference to file，且 kernel 也可以居間要求 security。而 don&rsquo;t leak file descriptors! 中的 leak 指的是 not closing opened files，忘了做 <code>close()</code> 可能就會發現一個 process 的 file descriptor 數量是有限的 (<code>ulimit -n</code>)，所以只要把數字減個 5 (扣除 Python interpreter 一開始就會開啟的數量)，就能引發上面 Too many open files 的問題。</li>
+<li>實務上很難確保 <code>close()</code> 會被呼叫，尤其 function 可能會丟出 exception 或是有多個 return path 時。其他語言得用 <code>try...except...finally</code> 處理，所幸 Python 提供 context manager 可以確保 resource 有被 clean up，不管 code 成功 return 或是過程中有丟出 exception。</li>
+</ul>
+</li>
+<li><a href="http://book.pythontips.com/en/latest/context_managers.html">26. Context Managers — Python Tips 0.1 documentation</a> #ril</li>
+<li><a href="http://eigenhombre.com/introduction-to-context-managers-in-python.html">Introduction to Context Managers in Python</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/stdtypes.html#context-manager-types">5.11. Context Manager Types - 5. Built-in Types — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/3/library/contextlib.html">29.6. contextlib — Utilities for with-statement contexts — Python 3.6.6rc1 documentation</a> #ril</li>
+<li><a href="https://www.python.org/dev/peps/pep-0343/">PEP 343 -- The &ldquo;with&rdquo; Statement | Python.org</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

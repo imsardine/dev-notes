@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/sqlalchemy-orm/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SQLAlchemy / ORM (Object Relational Mapper) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/sqlalchemy-orm.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sqlalchemy-orm-object-relational-mapper">SQLAlchemy / ORM (Object Relational Mapper)</a></li>
+            <li class="second-level"><a href="#mapping-declarative-metadata-instrumentation">Mapping, Declarative, Metadata, Instrumentation ??</a></li>
+                
+            <li class="second-level"><a href="#session">Session ??</a></li>
+                
+            <li class="second-level"><a href="#relationship">Relationship ??</a></li>
+                
+            <li class="second-level"><a href="#relationship-one-to-many-many-to-one-one-to-one">Relationship &gt; One To Many, Many To One, One To One ??</a></li>
+                
+            <li class="second-level"><a href="#relationship-many-to-many">Relationship &gt; Many To Many ??</a></li>
+                
+            <li class="second-level"><a href="#fk-id-relationship-field">FK 需要同時揭露 ID 與 relationship 兩個 field 嗎?</a></li>
+                
+                <li class="third-level"><a href="#foreign-key-relationship">如何不用 Foreign Key 宣告 Relationship ??</a></li>
+            <li class="second-level"><a href="#noforeignkeyserror">NoForeignKeysError ??</a></li>
+                
+            <li class="second-level"><a href="#validation">Validation ??</a></li>
+                
+            <li class="second-level"><a href="#declarative-base">多個 Declarative Base 間會互相干擾??</a></li>
+                
+            <li class="second-level"><a href="#querying">Querying ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sqlalchemy-orm-object-relational-mapper"><a href="../sqlalchemy/">SQLAlchemy</a> / ORM (Object Relational Mapper)<a class="headerlink" href="#sqlalchemy-orm-object-relational-mapper" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html">Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</p>
+<ul>
+<li>SQLAlchemy ORM (Object Relational Mapper) 提出一種將 user-defined Python class 跟 database table 聯結 (associate) 起來的方法，也就是每個 instance 都對應到個別的 table row。有個 unit of work 的機制可以自動同步 object 與 row 的改變 (transparently)，也可以用 class 及宣告的 relationship 來表達 database query。</li>
+<li>
+<p>ORM 是基於 SQLAlchemy 的 SQL Expression Language (用 Python constructs 間接執行 SQL statements)，一個 application 完全只用 ORM 是沒有問題的，極少數情況下才需要直接使用 SQL Expression Language。</p>
+</li>
+<li>
+<p>生成 mapped class instance 只是第一步，要寫進 database 得透過 <code>Session.add()</code> 加進 session 才行，下次 flush 時就會被寫進資料庫。</p>
+<pre><code>&gt;&gt;&gt; ed_user = User(name='ed', fullname='Ed Jones', password='edspassword')
+&gt;&gt;&gt; session.add(ed_user)
+</code></pre>
+</li>
+<li>
+<p>加進 session 但還沒寫入資料庫前，這個 instance 處於 pending state (未加入 session 前是 transient state)，因為 SQL statement 尚未執行，而且在 database 裡也還沒有對應的 row (還沒有 PK)。<code>Session</code> 會在需要時執行 SQL 寫入資料庫，這個動作稱做 flush，例如在 query 前 - 因為 query 發生在 database 端，異動先進 database (但還沒 commit)，查詢的結果才能反應最新的異動。</p>
+<pre><code>&gt;&gt;&gt; our_user = session.query(User).filter_by(name='ed').first()
+&gt;&gt;&gt; our_user
+&lt;User(name='ed', fullname='Ed Jones', password='edspassword')&gt;
+</code></pre>
+</li>
+<li>
+<p>上面 query 的動作會先 flush 再執行 query。這裡傳回的 <code>our_user</code> 會等同於 <code>ed_user</code> (<code>assert our_user is ed_user</code>)，那是因為 session 會維護一個 identity map，在同一個 session 裡，在資料庫裡具有特定 primary key 的 row，只會對應到 session 裡的一個 Python object。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="mapping-declarative-metadata-instrumentation">Mapping, Declarative, Metadata, Instrumentation ??<a class="headerlink" href="#mapping-declarative-metadata-instrumentation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#declare-a-mapping">Declare a Mapping - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</p>
+<ul>
+<li>
+<p>When using the ORM, the configurational process starts by describing the database tables we’ll be dealing with, and then by defining our own classes which will be mapped to those tables. In modern SQLAlchemy, these two tasks are usually PERFORMED TOGETHER, using a system known as DECLARATIVE, which allows us to create classes that INCLUDE DIRECTIVES TO DESCRIBE THE ACTUAL DATABASE TABLE they will be mapped to.</p>
+<p>這段話很重要，但要先走過 SQLAlchemy Core 才知道單純的宣告 metadata 是怎麼回事，所以 declarative = mapper(class + metadata)，在 class 裡直接提供生成 metadata 需要的素材 (例如 <code>__tablename__</code>、<code>relationship()</code> 等)，這中間的魔法來自 declarative base class 的 metaclass 機制。</p>
+</li>
+<li>
+<p>Declarative system 需要先定義 mapping (實質上就是 mapped class)，裡面主要是 table name、column name/datatype 與 database table 的對應關係。這些 class 要繼承一個 declarative base class (用 <code>sqlalchemy.ext.declarative.declarative_base()</code> 產生)，內部會維護 class/table 的清單 (catalog)，通常一個 app 只會有一個 base class。</p>
+</li>
+<li>Mapped class 至少要宣告 <code>__tablename__</code> 跟一個 <code>Column</code> 做為 PK，因為 SQLAlchemy 不對 table name、data type、constraints 等不做任何假設；不過自訂 custom base class 或 mixin 是被鼓勵的 #ril</li>
+<li>
+<p>以 <code>User</code> 對應 <code>users</code> table 為例，有 <code>id</code> (PK)、<code>name</code>、<code>fullname</code> 與 <code>password</code> 4 個欄位；另外 <code>__repr__()</code> 不一定要實作，但印到 logs 時好像很方便?</p>
+<pre><code>from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
+
+Base = declarative_base()
+
+class User(Base):
+  __tablename__ = 'users'
+
+  id = Column(Integer, primary_key=True)
+  name = Column(String)
+  fullname = Column(String)
+  password = Column(String)
+
+  def __repr__(self):
+    return "&lt;User(name='%s', fullname='%s', password='%s')&gt;" % (
+           self.name, self.fullname, self.password)
+</code></pre>
+</li>
+<li>
+<p>當 class 建立時，declarative system 透過 metaclass (來自 declarative base class) 將所有的 <code>Column</code> 置換成 descriptor (對 attribute access 動手腳)、並自動產生 table metadata - <code>Table</code> (可以從 <code>__table__</code> attribute 取得)、透過 <code>Mapper</code> 建立兩邊的聯結，形成 mapped class，這個過程稱做 instrumentation，可以同步 class 與 database 兩邊的資料；這要先看過 SQL Expression Language 前面才會懂。</p>
+<pre><code>&gt;&gt;&gt; User.__table__
+Table('users', MetaData(bind=None),
+            Column('id', Integer(), table=&lt;users&gt;, primary_key=True, nullable=False),
+            Column('name', String(), table=&lt;users&gt;),
+            Column('fullname', String(), table=&lt;users&gt;),
+            Column('password', String(), table=&lt;users&gt;), schema=None)
+</code></pre>
+</li>
+<li>
+<p>Mapped class 跟其他 class 沒什麼不同，可以宣告其他的 attribute、method 等。</p>
+</li>
+<li>雖然建議使用 declarative system，但要使用 SQLAlchemy ORM 也可以走 classical mapping - 任何 Python class 都可以跟透過 <code>mapper()</code> 產生 <code>Mapper</code>，以建立 class 與 <code>Table</code> 的聯結。</li>
+<li>
+<p><code>Table</code> 只是 <code>MetaData</code> 的一員，可以從 declarative base class 的 <code>metadata</code> attribute 取得，可以把它想成是整個 schema，底下有許多 <code>Table</code>。可以想見，透過 <code>MetaData.create_all()</code> (搭配 <code>Engine</code> 做為 database connectivity) 就可以建立資料庫 - 把不存在的 table 建立起來。</p>
+<pre><code>&gt;&gt;&gt; Base.metadata.create_all(engine) # 這時才會用到 engine 跟資料庫溝通
+SELECT ...
+PRAGMA table_info("users")
+()
+CREATE TABLE users (
+    id INTEGER NOT NULL, name VARCHAR,
+    fullname VARCHAR,
+    password VARCHAR,
+    PRIMARY KEY (id)
+)
+()
+COMMIT
+</code></pre>
+</li>
+<li>
+<p>Minimal Table Descriptions vs. Full Descriptions 提到 &ldquo;The length field on String, as well as similar precision/scale fields available on Integer, Numeric, etc. are not referenced by SQLAlchemy other than when creating tables.&rdquo;，也就是說透過 SQLAlchemy 來建立資料結構時這些 constraint 才會作用，跟 validation 無關。</p>
+</li>
+<li>
+<p>要新增一個 instance/row 時，首先要生成一個 mapped class 的 instance：</p>
+<pre><code>&gt;&gt;&gt; ed_user = User(name='ed', fullname='Ed Jones', password='edspassword')
+&gt;&gt;&gt; ed_user.name
+'ed'
+&gt;&gt;&gt; ed_user.password
+'edspassword'
+&gt;&gt;&gt; str(ed_user.id)
+'None'
+</code></pre>
+</li>
+<li>
+<p>顯然 instrumentation 還提供了 <code>__init__()</code> constructor，可以接受以 column 為名的 keyword arguments，除非有自訂 <code>__init__()</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/glossary.html#term-instrumentation">instrumentation - Glossary — SQLAlchemy 1.2 Documentation</a></p>
+<ul>
+<li>Instrumentation refers to the process of augmenting the FUNCTIONALITY and ATTRIBUTE SET of a particular class. Ideally, the behavior of the class should REMAIN CLOSE TO A REGULAR CLASS, except that additional behaviors and features are made available.</li>
+<li>The SQLAlchemy MAPPING PROCESS, among other things, adds DATABASE-ENABLED descriptors to a mapped class which each represent a particular database column or relationship to a related class.</li>
+</ul>
+</li>
+</ul>
+<h2 id="session">Session ??<a class="headerlink" href="#session" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/tutorial.html">SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a> 這裡完全沒提到 session，是 ORM 才有的概念。</li>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#creating-a-session">Creating a Session - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</p>
+<ul>
+<li>
+<p>ORM 跟 database 對話的接口 (handle) 是 <code>Session</code>，一個 session 是一個 workspace，對應一個 database connection (來自 engine 的 connection pool)。首先得用 <code>sqlalchemy.orm.sessionmaker()</code> 產生一個 <code>Session</code> 的 factory (可以設定 auto flush、auto commit 等)，有趣的是這個 factory 也習慣命名為 <code>Session</code> (callable)，然後呼叫它以產生一個 <code>Session</code> instance &hellip; 這聽起來有點繞口? This custom-made <code>Session</code> class will create new <code>Session</code> objects which are bound to our database.</p>
+<pre><code>from sqlalchemy.orm import sessionmaker
+Session = sessionmaker(bind=engine)
+# Session.configure(bind=engine) # 事後綁定
+
+session = Session()
+</code></pre>
+</li>
+<li>
+<p>跟 <code>Engine</code> 一樣，雖然 <code>Session()</code> 生成了 <code>Session</code> instance，但還沒有建立連線，開始使用時才會從 engine 的 connection pool 取用一個 connection，直到 commit 或關閉 session 時。</p>
+</li>
+<li>Session Lifecycle Patterns 提到 <code>Session</code> instance 的產生時機會因應用類型而異，強調 session 是個 workspace - local to a particular database connection。</li>
+<li>Session Lifecycle Patterns 強調 &ldquo;the Session is just a workspace for your objects, local to a particular database connection&rdquo;，workspace 這說法類似於 Git 的 working tree，有助於理解 transient、pending、dirty、new 這些說法 #ril</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/orm/session.html">Using the Session — SQLAlchemy 1.2 Documentation</a> #ril</p>
+</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/session_basics.html">Session Basics — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/session_state_management.html">State Management — SQLAlchemy 1.2 Documentation</a> object Mapped class 的 instance 在 session 看來有 transient、pending、persistent、deleted 四種狀態 #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/session_api.html">Session API — SQLAlchemy 1.2 Documentation</a> #ril</li>
+</ul>
+<h2 id="relationship">Relationship ??<a class="headerlink" href="#relationship" title="Permanent link"> #</a></h2>
+<p>日前重新看過 SQLAlchemy Core &amp; ORM 的文件，覺得 SQLAlchemy 的 metadata 主要是跟 SQL DDL (<code>CREATE XXX</code>) 有關，跟 SQL DML (<code>SELECT</code>, <code>UPDATE</code>, <code>DELETE</code> 等) 應該沒有關係才對。</p>
+<p>這樣的想法透過下面的實驗得到證實；注意 <code>ForeignKey()</code> 跟 <code>relationship()</code> 都是一般的用法：</p>
+<pre><code>class User(Base):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    addresses = relationship('Address', order_by='Address.id', back_populates='user')
+
+class Address(Base):
+    __tablename__ = 'address'
+    id = Column(Integer, primary_key=True)
+    email_address = Column(String, nullable=False)
+    _user_id = Column('user_id', Integer, ForeignKey('user.id'))
+    user = relationship('User', back_populates='addresses')
+
+def test_orm_without_fk_constraints__mysql(mysql_engine):
+    conn = mysql_engine.connect()
+    trans = conn.begin()
+    try:
+        # 刻意用單純的 SQL 來建立 table (而非 Metadata.create_all())，確認 DB 裡沒有 FK constraints
+        conn.execute(&quot;CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT, name CHAR(20) NOT NULL, PRIMARY KEY (id));&quot;)
+        conn.execute(&quot;CREATE TABLE address (id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, email_address VARCHAR(50), PRIMARY KEY (id));&quot;)
+        conn.execute(&quot;INSERT INTO user (id, name) VALUES (1, 'Jeremy');&quot;)
+        conn.execute(&quot;INSERT INTO address (id, user_id, email_address) VALUES (1, 1, 'imsardine@gmail.com'), (2, 1, 'jeremykao@kkbox.com')&quot;)
+        trans.commit()
+    except:
+        trans.rollback()
+        raise
+
+    # Start a new transaction implicitly
+    Session = sessionmaker(bind=mysql_engine)
+    session = Session()
+
+    try:
+        # Test ORM querying 讀取沒問題
+        jeremy = session.query(User).filter_by(id=1).one()
+        assert jeremy.name == 'Jeremy'
+        assert [addr.email_address for addr in jeremy.addresses] == \
+                ['imsardine@gmail.com', 'jeremykao@kkbox.com']
+
+        judy = User(name='Judy')
+        judy.addresses.append(Address(email_address='imjudykao@gmail.com'))
+        session.add(judy)
+        session.commit()
+
+        # Test ORM writing 寫入也沒問題
+        judy = session.query(User).filter_by(name='Judy').one()
+        assert [addr.email_address for addr in judy.addresses] == ['imjudykao@gmail.com']
+        assert judy.addresses[0].user is judy # backref
+    finally:
+        session.close()
+</code></pre>
+
+<p><strong>過去我們對 &ldquo;MySQL Cluster 不支援 FK constraints&rdquo; 這句話可能有誤解</strong>，所以一開始就把 <code>_user_id = Column('user_id', Integer, ForeignKey('user.id'))</code> 中的 <code>ForeignKey</code> construct 拿掉，但根據 API 文件的說法，那是 <code>relationship()</code> 推導 table 間關聯方式的根據，結果就變成要手動在 <code>relationship()</code> 裡明確給定 <code>foreign_keys</code>、<code>primaryjoin</code> 等。</p>
+<p><a href="https://docs.sqlalchemy.org/en/latest/orm/tutorial.html#building-a-relationship">Building a Relationship - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a></p>
+<blockquote>
+<p>&hellip; uses the <strong>foreign key relationships</strong> between the two tables to determine the nature of this linkage</p>
+</blockquote>
+<p>這裡的 foreign key relationships 指的就是 <code>ForeignKey()</code> 或 <code>ForeignKeyConstraint()</code>：</p>
+<p><a href="https://docs.sqlalchemy.org/en/latest/orm/relationship_api.html#sqlalchemy.orm.relationship.params.foreign_keys">foreign_keys - Relationships API — SQLAlchemy 1.2 Documentation</a></p>
+<blockquote>
+<p><strong>In normal cases, the foreign_keys parameter is not required.</strong> <code>relationship()</code> will automatically determine which columns in the <code>primaryjoin</code> conditition are to be considered “foreign key” columns based on those <code>Column</code> objects that specify <code>ForeignKey</code>, or are otherwise listed as referencing columns in a <code>ForeignKeyConstraint</code> construct. <code>foreign_keys</code> is only needed when:</p>
+</blockquote>
+<p>很明顯的，我們一開始誤將 <code>ForeignKey()</code> construct 拿掉，因此要自訂 <code>foreign_keys</code> &ndash; 但這通常都不用給，SQLAlchemy 會自己推算，跟 DB backend 支不支援 FK constraints 也沒有關係。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#building-a-relationship">Building a Relationship - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</p>
+<ul>
+<li>
+<p>系統內一個 user 可以有多個 email address，也就是 <code>users</code> 與 <code>addresses</code> 兩個 table 間有 one to many association；Mapping 可以這麼做：(建議對照 <a href="https://docs.sqlalchemy.org/en/latest/core/tutorial.html#define-and-create-tables">Define and Create Tables (Core)</a> 一起看，很多設定是 Core 本來就有的，並非專屬於 ORM)</p>
+<pre><code>&gt;&gt;&gt; from sqlalchemy import ForeignKey
+&gt;&gt;&gt; from sqlalchemy.orm import relationship
+
+&gt;&gt;&gt; class Address(Base):
+...     __tablename__ = 'addresses'
+...     id = Column(Integer, primary_key=True)
+...     email_address = Column(String, nullable=False)
+...     user_id = Column(Integer, ForeignKey('users.id')) # Core 也是類似的寫法
+...
+...     user = relationship("User", back_populates="addresses") # 這是 ORM 才有的
+...
+...     def __repr__(self):
+...         return "&lt;Address(email_address='%s')&gt;" % self.email_address
+
+&gt;&gt;&gt; User.addresses = relationship( # 可以 instrumentation 後才給?
+...     "Address", order_by=Address.id, back_populates="user")
+</code></pre>
+</li>
+<li>
+<p><code>user_id = Column(Integer, ForeignKey('users.id'))</code> 中 <code>ForeignKey</code> 的意義是 &ldquo;values in this column should be CONSTRAINED to be values present in the named remote column&rdquo;，就這個例子而言是指 <code>addresses.user_id</code> 的值一定要出現在 <code>uses.id</code> 裡；事實上這寫法在 Define and Create Tables (Core) 就有，只是在描述 schema/metadata，跟 ORM 沒有直接關係。</p>
+</li>
+<li><code>user = relationship("User", back_populates="addresses")</code> 就跟 ORM 有關，表示 <code>Address</code> 透過 <code>Address.user</code> 與 <code>User</code> 產生連結 (linkage)，<code>relationship()</code> 內部會依 foreign key relationships (<code>ForeignKey</code>/<code>ForeignKeyConstraint</code>) 決定連結的類型 &ndash; 按照 <code>relationship()</code> API 文件的說法，應該是決定 <code>foreign_keys</code>。</li>
+<li><code>relationship("User", back_populates="addresses")</code> 與 <code>relationship("Address", order_by=Address.id, back_populates="user")</code> 互相引用對方的 attribute name，形成所謂的 bidirectional relationship，這樣 <code>relationship()</code> 就會知道這其實是同一個 relationship，只是方向不同而已 (the same relationship as expressed in reverse)。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/latest/orm/relationship_api.html#sqlalchemy.orm.relationship">sqlalchemy.orm.relationship() - Relationships API — SQLAlchemy 1.2 Documentation</a> #ril</p>
+<ul>
+<li><code>foreign_keys</code> - In normal cases, the <code>foreign_keys</code> parameter is NOT REQUIRED. <code>relationship()</code> will automatically determine which columns in the <code>primaryjoin</code> conditition are to be considered “foreign key” columns based on those <code>Column</code> objects that specify <code>ForeignKey</code>, or are otherwise listed as referencing columns in a <code>ForeignKeyConstraint</code> construct.</li>
+<li><code>foreign_keys</code> is only needed when: 提到 &ldquo;as there are multiple foreign key references present&rdquo; 及 &ldquo;The <code>Table</code> being mapped does not actually have <code>ForeignKey</code> or <code>ForeignKeyConstraint</code> constructs present, often because the table was REFLECTED from a database that does not support foreign key reflection (MySQL MyISAM).&rdquo; 可見 foreign key relationships 指的正是 <code>ForeignKey</code>/<code>ForeignKeyConstraint</code>；就算 backend 不支援 FK，只要手動補上 <code>ForeignKey</code>/<code>ForeignKeyConstraint</code> 即可?</li>
+<li><code>primaryjoin</code> - By default, this value is computed based on the FOREIGN KEY RELATIONSHIPS of the parent and child tables (or association table). 不就是 <code>Column(..., ForeignKey())</code>?</li>
+</ul>
+</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/glossary.html#term-bidirectional-relationship">bidirectional relationship - Glossary — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#relationships-many-to-many">Basic Relationship Patterns — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#working-with-related-objects">Working with Related Objects - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#eager-loading">Eager Loading - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#deleting">Deleting - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#building-a-many-to-many-relationship">Building a Many To Many Relationship - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/relationships.html">Relationship Configuration — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/backref.html">Linking Relationships with Backref — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/join_conditions.html">Configuring how Relationship Joins — SQLAlchemy 1.2 Documentation</a> #ril</li>
+</ul>
+<h2 id="relationship-one-to-many-many-to-one-one-to-one">Relationship &gt; One To Many, Many To One, One To One ??<a class="headerlink" href="#relationship-one-to-many-many-to-one-one-to-one" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#one-to-many">One To Many - Basic Relationship Patterns — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#many-to-one">Many To One - Basic Relationship Patterns — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#one-to-one">One To One - Basic Relationship Patterns — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#building-a-relationship">Building a Relationship - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> 最後 Did you know? 提到 FOREIGN KEY can refer to its own table. This is referred to as a “self-referential” foreign key. 這要如何 mapping?</li>
+</ul>
+<h2 id="relationship-many-to-many">Relationship &gt; Many To Many ??<a class="headerlink" href="#relationship-many-to-many" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#many-to-many">Many To Many - Basic Relationship Patterns — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/basic_relationships.html#association-object">Assocation Object - Basic Relationship Patterns — SQLAlchemy 1.2 Documentation</a> #ril</li>
+</ul>
+<h2 id="fk-id-relationship-field">FK 需要同時揭露 ID 與 relationship 兩個 field 嗎?<a class="headerlink" href="#fk-id-relationship-field" title="Permanent link"> #</a></h2>
+<ul>
+<li>若同時揭露 ID 與 relationship，要存取 ID 是很方便，但更新 relationship 時 ID 會變嗎? 或者更新 ID 時 relationship 會變嗎?</li>
+</ul>
+<h3 id="foreign-key-relationship">如何不用 Foreign Key 宣告 Relationship ??<a class="headerlink" href="#foreign-key-relationship" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://groups.google.com/forum/#!msg/sqlalchemy/q7mREhovAGw/Aufi76-GYp4J">Defining a relationship without a foreign key constraint? - Google Groups</a> 用 <code>relation()</code> #ril</li>
+<li><a href="https://gist.github.com/nickretallack/7cf6d4f255b248a9f6ec">How do I do a join without a real foreign key constraint?</a> 用 <code>relationship('Parent', primaryjoin='foreign(Child.parent_id) == remote(Parent.id)')</code> 搭配 SQLite in-memory database 來測。用 <code>create_engine(echo=True)</code> 可以觀察 <code>CREATE TABLE</code> #ril</li>
+<li><a href="https://stackoverflow.com/questions/37806625/">orm - sqlalchemy: create relations but without foreign key constraint in db? - Stack Overflow</a> 不要定義 <code>ForeignKey</code> constraint，改用 <code>relationship()</code> 搭配 <code>foreign_keys</code> 與 <code>primaryjoin</code> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/constraints.html#sqlalchemy.schema.ForeignKey">Defining Constraints and Indexes — SQLAlchemy 1.2 Documentation</a> 是個 constraint #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/join_conditions.html">Configuring how Relationship Joins — SQLAlchemy 1.2 Documentation</a> 說明 <code>relationship()</code> 的用法 #ril</li>
+<li><a href="https://stackoverflow.com/questions/6352141/">python - SQLAlchemy and joins, we have no foreign keys - Stack Overflow</a> 方法之一是 <code>relationship</code> + <code>primaryjoin</code> #ril</li>
+</ul>
+<h2 id="noforeignkeyserror">NoForeignKeysError ??<a class="headerlink" href="#noforeignkeyserror" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/28015524/">python - How do I correct this sqlalchemy.exc.NoForeignKeysError? - Stack Overflow</a> 加 <code>Column()</code> 裡加上 <code>ForeignKey()</code> 即可 #ril</li>
+<li><a href="https://www.crifan.com/flask_sqlalchemy_noforeignkeyserror_could_not_determine_join_condition_between_parent_child_tables_on_relationship/">【已解决】Flask的SQLAlchemy出错：NoForeignKeysError Could not determine join condition between parent child tables on relationship – 在路上</a> (2016-12-13) #ril</li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/exceptions.html?highlight=noforeignkeyserror#sqlalchemy.exc.NoForeignKeysError">NoForeignKeysError - Core Exceptions — SQLAlchemy 1.2 Documentation</a> Raised when no foreign keys can be located between two selectables during a join.</li>
+</ul>
+<h2 id="validation">Validation ??<a class="headerlink" href="#validation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/mapped_attributes.html#simple-validators">Simple Validators - Changing Attribute Behavior — SQLAlchemy 1.3 Documentation</a> #ril<ul>
+<li>A quick way to add a “validation” routine to an attribute is to use the <code>validates()</code> decorator. An attribute validator can raise an exception, halting the process of mutating the attribute’s value, or can change the given value into something different. (像是 filtering)</li>
+<li>Validators, like all attribute extensions, are only called by normal USERLAND CODE; they are not issued when the ORM is populating the object: 這表示從資料庫載入資料時不會經過這一層，不會有多餘的運算。<pre><code>from sqlalchemy.orm import validates
+
+class EmailAddress(Base):
+    __tablename__ = 'address'
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String)
+
+    @validates('email')
+    def validate_email(self, key, address):
+        assert '@' in address
+        return address
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="declarative-base">多個 Declarative Base 間會互相干擾??<a class="headerlink" href="#declarative-base" title="Permanent link"> #</a></h2>
+<p>在生成第一個 mapping class 的 instance 時，觸發了下面的初始化：</p>
+<pre><code># Initialize the inter-mapper relationships of all mappers that have been constructed thus far.
+sqlalchemy.orm.mapper.configure_mappers()
+sqlalchemy.orm.relationships._determine_joins()
+</code></pre>
+
+<p>問題或許就在 &ldquo;inter-mapper relationships of all mappers&rdquo;，會引發下面的錯誤：</p>
+<pre><code>NoForeignKeysError: Could not determine join condition between parent/child tables on relationship Address.user - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper|Address|address'. Original exception was: Could not determine join condition between parent/child tables on relationship Address.user - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+</code></pre>
+
+<p>其中 &ldquo;One or more mappers failed to initialize&rdquo; 看起來就滿合理的。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/1589748/">python - Must two SQLAlchemy declarative models share the same declarative_base()? - Stack Overflow</a> Denis Otkidach: 成功地在一個 session 中使用多個 declarative base，每個 base 有自己的 metadata，綁定不同的 database。 #ril</li>
+<li><a href="https://blaxpirit.com/blog/10/flask-sqlalchemy-with-multiple-dababases-and-shared-models.html">Flask+SQLAlchemy with multiple dababases and shared models - Blog - BlaXpirit</a> 提到 <code>scoped_session(sessionmaker(engine))</code> 的用法，不過這裡是共用一個 declarative base #ril</li>
+</ul>
+<h2 id="querying">Querying ??<a class="headerlink" href="#querying" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#querying">Querying - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#querying-with-joins">Querying with Joins - Object Relational Tutorial — SQLAlchemy 1.2 Documentation</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/orm/">SQLAlchemy ORM — SQLAlchemy Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

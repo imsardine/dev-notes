@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/workday-intsys-external-payslips/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Workday / Integration / Import External Payslips - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/workday-intsys-external-payslips.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#workday-integration-import-external-payslips">Workday / Integration / Import External Payslips</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="workday-integration-import-external-payslips"><a href="../workday-intsys/">Workday / Integration</a> / Import External Payslips<a class="headerlink" href="#workday-integration-import-external-payslips" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/67pT7WIK_69cX3MztvC9mA">Steps: Set Up Import External Payslips Integration • Integrations • Reader • Administrator Guide</a> #ril</p>
+<p>Prerequisites</p>
+<ul>
+<li>Set up an external FTP server that is accessible by Workday and the external payroll system.</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>The external payroll endpoint loads the external payslip files on the FTP server. You can set up an Import External Payslips integration to retrieve external payslip files for selected pay groups and import the files into Workday.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/sFNboMRVofF~aC0CMmzg~A">Reference: Import External Payslips Files • Integrations • Reader • Administrator Guide</a></p>
+<p>File Descriptions</p>
+<ul>
+<li>
+<p>CSV or XML files containing employee payslip data are called MANIFEST FILES. PDF files, each containing an IMAGE of a payslip, are called ARCHIVE FILES. PDF files are placed in a ZIP file, which is called a COMPRESSED archive file.</p>
+<p>每次 integration run 都面對 manifest file (<code>.csv</code>/<code>.xml</code>) x 1 + compressed archive file (<code>.zip</code>) x 1；不過若是 Document Retrieval 拿到多個 manifest file 跟 ZIP files，會發生什麼事?? 又 manifest file 與 ZIP 間是如何對應的??</p>
+<p>一個 manifest file 裡，有多個 manifest record，都用 <code>File_Name</code> 對應一支在 ZIP 裡的 payslip archive file (<code>.pdf</code>)，而且 <code>File_Name</code> 的值在 manifest 裡要是唯一的 (沒道理跟其他 worker 拿到同一份 payslip)。</p>
+<p>就一個 tenant 而言 (跨越所有 integration run)，<code>Worker</code> + <code>Pay_Group</code> + <code>Pay_Period_End_Date</code> + <code>Payment_Date</code> + <code>Check_Number</code> 的組合必須是唯一值；如果要達成員工在同一天有多個 payslip，只能從 <code>Check_Number</code> 動手腳??</p>
+</li>
+</ul>
+<p>CSV File Format</p>
+<ul>
+<li>
+<p>For manifest data in CSV format, ensure your external payroll endpoint generates a CSV file with these values:</p>
+<ul>
+<li>
+<p><code>Worker</code></p>
+<p>Worker identifier.</p>
+<p>在 Workday 這邊的編號，表示外部系統若採用不同的編號，要有能力自行轉換。</p>
+</li>
+<li>
+<p><code>Pay_Group</code></p>
+<p>Either the Workday REFERENCE ID for the Pay Group or the EXTERNAL Pay Group CODE. If you use the external Pay Group code, you configure the integration to MAP the external Pay Group code to a Workday Pay Group.</p>
+</li>
+<li>
+<p><code>Pay_Period_End_Date</code></p>
+<p>End date of the Pay Period.</p>
+<p>若 Pay Period 是 &ldquo;薪資週期&rdquo; 的週期的意思，為什麼沒有 start date ??</p>
+</li>
+<li>
+<p><code>Payment_Date</code></p>
+<p>Date of the payment.</p>
+</li>
+<li>
+<p><code>Net_Amount</code></p>
+<p>Net pay amount.</p>
+</li>
+<li>
+<p><code>Gross_Amount</code></p>
+<p>Gross pay amount.</p>
+</li>
+<li>
+<p><code>Currency</code></p>
+<p>Currency code for the pay amounts. Example: USD.</p>
+</li>
+<li>
+<p><code>Check_Number</code></p>
+<p>Number of the check.</p>
+<p>若不是給支票，這要給什麼值?? 下面提到，除 <code>Display_Date</code> 之後，其餘都不能是空白。</p>
+</li>
+<li>
+<p><code>Display_Date</code></p>
+<p>Display date for the payslip. This date is displayed when viewing the payslip details in Workday.</p>
+</li>
+<li>
+<p><code>File_Name</code></p>
+<p>Filename of the payslip PDF archive file.</p>
+<p>也就是在 ZIP 裡的 PDF 檔名。</p>
+</li>
+</ul>
+<p>Note: If the integration attribute CSV Contains Header is enabled, ensure the column names in the CSV header row match the column names in the preceding table.</p>
+</li>
+</ul>
+<p>Manifest File Validation</p>
+<ul>
+<li>
+<p>Ensure your manifest file is valid:</p>
+<ul>
+<li>
+<p>Only <code>Display_Date</code> can be empty.</p>
+<p>空白時會根據 <code>Payment_Date</code> 做為顯示??</p>
+</li>
+<li>
+<p>Date fields require time zones. Example time zones: -03:00, Z. Example date with time zone: 2014-11-25-03:00.</p>
+</li>
+<li>
+<p><code>Pay_Group</code> is a valid active Payroll Interface Pay Group.</p>
+</li>
+<li>
+<p><code>File_Name</code> is unique in the manifest file FOR EACH INTEGRATION RUN.</p>
+<p>A manifest RECORD is considered invalid from the first manifest record with the same filename.</p>
+</li>
+<li>
+<p><code>File_Name</code> specifies an archive file (a PDF file with the extension <code>.pdf</code>) that exists in the compressed archive file (the ZIP file).</p>
+</li>
+<li>
+<p>Any archive file not referenced by a manifest record is SENT TO the invalid archive file.</p>
+</li>
+<li>
+<p>Any archive file referenced by a manifest record that failed a VALIDATION TEST is sent to the invalid archive file.</p>
+</li>
+<li>
+<p>CSV files have the extension <code>.csv</code>. The integration only reads <code>.csv</code> manifest files when you configure the integration to read CSV files.</p>
+<p>由於 integration attributes 裡沒有任何跟 <code>.csv</code>/<code>.xml</code> 或 <code>.zip</code> 相關的 filename pattern 可以設定，猜想每次 integration run 會把所有 <code>.zip</code> 都解開，把所有 <code>.csv</code>/<code>.xml</code> 視為一個 manifest file ??</p>
+</li>
+<li>
+<p>When using CSV files, and the integration attribute CSV Contains Header is enabled, ensure the column names in the CSV header row are correct.</p>
+<p>The column names are <code>Worker</code>, <code>Pay_Group</code>, <code>Pay_Period_End_Date</code>, <code>Payment_Date</code>, <code>Net_Amount</code>, <code>Gross_Amount</code>, <code>Currency</code>, <code>Check_Number</code>, <code>Display_Date</code>, and <code>File_Name</code>.</p>
+</li>
+<li>
+<p>XML files have the extension <code>.xml</code>. The integration only reads <code>.xml</code> manifest files when you configure the integration to read XML files.</p>
+</li>
+<li>
+<p>Compressed archive files are ZIP files and have the extension <code>.zip</code>. The integration only reads <code>.zip</code> files for the compressed archive files.</p>
+</li>
+<li>
+<p>Manifest files must be located outside of ZIP files.</p>
+</li>
+<li>PDF files have the extension <code>.pdf</code>, and are placed in a compressed archive file.</li>
+<li>
+<p>PDF file size is below the limit for each payslip. ??</p>
+</li>
+<li>
+<p>Combination of <code>Worker</code>, <code>Pay_Group</code>, <code>Pay_Period_End_Date</code>, <code>Payment_Date</code>, and <code>Check_Number</code> UNIQUELY identify an external payslip.</p>
+<p>The combination is unique for all manifest records for each integration run, and are UNIQUE FOR ALL EXTERNAL PAYSLIPS PER TENANT. A manifest record is considered invalid from the first manifest record having the same combination.</p>
+</li>
+<li>
+<p>Worker is valid and has a position currently assigned to the specified Payroll Interface Pay Group.</p>
+</li>
+<li>
+<p><code>Pay_Period_End_Date</code> is within 1 YEAR OF THE CURRENT YEAR. Example: For 2014, a pay period end date of 2012 or earlier is invalid.</p>
+</li>
+<li>
+<p><code>Pay_Period_End_Date</code> is valid for the Pay Group.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The integration generates a DATA AUDIT file, which contains details for the import. Invalid manifest records and invalid archive records files are generated to help you correct failed record imports.</p>
+</li>
+<li>
+<p>After 5 unsuccessful attempts to import a manifest file, ALL RECORDS in that file are considered invalid and are written to the invalid manifest file. The data audit file differentiates records that have errors from records that exceeded the maximum number of import attempts.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/sFNboMRVofF~aC0CMmzg~A">Import External Payslips Files</a> &ndash; 規範 manifest file (CSV/XML) 的格式，以及對 archive files (ZIP) 內容的要求</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

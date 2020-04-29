@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dev-org/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Software Development / Org (組織架構) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dev-org.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#software-development-org">Software Development / Org (組織架構)</a></li>
+            <li class="second-level"><a href="#engprod">Engineering Productivity (EP, EngProd)</a></li>
+                
+            <li class="second-level"><a href="#swe-software-engineer">SWE (Software Engineer)</a></li>
+                
+            <li class="second-level"><a href="#seti">SETI (Software Engineer, Tools and Infrastructure)</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="software-development-org"><a href="../dev/">Software Development</a> / Org (組織架構)<a class="headerlink" href="#software-development-org" title="Permanent link"> #</a></h1>
+<h2 id="engprod">Engineering Productivity (EP, EngProd)<a class="headerlink" href="#engprod" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>隨著產品線增加，參與 development process 的 SWE 進一步發展出 TE (Test Engineer)、RE (Release Engineer) 及 SRE (Site Reliability Engineer)。</p>
+</li>
+<li>
+<p>早期 development process 裡最耗時的在手動整合測試的環節 (testing cycle)，因此將重點擺在發展 test automation，這過程中又從 TE 進一步發展出 SET (Software Engineer in Test)。</p>
+<p>TE 是產品專家，知道要測試什麼，而 SET 則是 infrastructure &amp; tooling 的專家，負責建造 framework/package/tool、發展最佳實務以幫助 TE 及 SWE 實現 automation，像 <a href="https://developer.android.com/training/testing/espresso">Espresso</a>、<a href="https://github.com/google/EarlGrey">EarlGrey</a> 等都是 SET 的產出的成果。</p>
+<p>他們相信 metrics/data-driven engineering &ndash; can’t improve what you can’t measure，例如量測 code/feature coverage。</p>
+</li>
+<li>
+<p>當 testing cycle 因為 test automation 明顯縮短後，整體的 development cycle 並沒有縮短，因此 SET 這群人又投入加速那些新的瓶頸 &ndash; 開發 IDE 套件、自動化 release verification、monitorying、anomaly detection 等，工作範圍擴及 Engineering Productivity (EP)，這樣的轉變也讓 Google <a href="https://events.withgoogle.com/gtac-2017/">重新思考 GTAC 的定位</a>。</p>
+<p>為了反應 SET 的工作內容，大家同意將職稱正名為 SETI (Software Engineer, Tools &amp; Infrastructure)；唸做 <a href="https://youtu.be/-yxoYb9qbiI?t=10"><code>sɛtɪ</code></a>。</p>
+</li>
+<li>
+<p>EP 透過開發/導入各類工具、推廣最佳實務、指供正確的指引 (guideline)、優化流程、文化的建立、教育訓練、引導 (guidance/coaching) 等不同方法，提昇工程師整體的生產力，建立對 code health、testability、maintainability 共同的價值關。</p>
+<ul>
+<li>Be passionate about changing the way engineering is done</li>
+<li>Prevention over detection</li>
+<li>Quantitative mindset. Can’t improve what you can’t measure</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://testing.googleblog.com/2016/03/from-qa-to-engineering-productivity.html">Google Testing Blog: From QA to Engineering Productivity</a> (2016-03-22)</p>
+<ul>
+<li>
+<p>In Google’s early days, a small handful of software engineers built, tested, and released software. But as the user-base grew and products proliferated, engineers started SPECIALIZING IN ROLES, creating more scale in the DEVELOPMENT PROCESS:</p>
+<ul>
+<li>Test Engineers (TEs) &ndash; tested new products and systems integration</li>
+<li>Release Engineers (REs) &ndash; pushed bits into production</li>
+<li>Site Reliability Engineers (SREs) &ndash; managed systems and data centers 24x7.</li>
+</ul>
+<p>This story focuses on the evolution of quality assurance and the roles of the engineers behind it at Google. The REs and SREs also evolved, but we’ll leave that for another day.</p>
+<p>看來 SRE 不在 Engineering Productivity 的範圍內?</p>
+</li>
+<li>
+<p>Initially, teams relied heavily on MANUAL OPERATIONS. When we attempted to automate testing, we largely focused on the frontends, which worked, because Google was small and our products had fewer INTEGRATIONS.</p>
+<p>However, as Google grew, longer and longer manual test cycles bogged down iterations and delayed feature launches. Also, since we identified bugs later in the development cycle, it took us longer and longer to fix them. We determined that PUSHING TESTING UPSTREAM VIA AUTOMATION would help address these issues and accelerate velocity.</p>
+</li>
+<li>
+<p>As manual testing transitioned to automated processes, two separate testing roles began to emerge at Google:</p>
+<ul>
+<li>Test Engineers (TEs) &ndash; With their deep PRODUCT KNOWLEDGE and test/quality domain expertise, TEs focused on WHAT SHOULD BE TESTED.</li>
+<li>Software Engineers in Test (SETs) &ndash; Originally software engineers with deep INFRASTRUCTURE AND TOOLING EXPERTISE, SETs built the frameworks and packages required to implement automation.</li>
+</ul>
+</li>
+<li>
+<p>The impact was significant:</p>
+<ul>
+<li>Automated tests became more efficient and deterministic (e.g. by improving runtimes, eliminating sources of flakiness, etc.)</li>
+<li>METRICS DRIVEN engineering proliferated (e.g. improving code and feature coverage led to higher quality products).</li>
+</ul>
+</li>
+<li>
+<p>Manual operations were reduced to manual verification on new features, and typically only in END-TO-END, CROSS PRODUCT INTEGRATION BOUNDARIES.</p>
+<p>呼應前面 &ldquo;our products had fewer integrations&rdquo;，這裡講的 test automation 指的是以往手動測試的部份，跟 unit testing 無關。</p>
+<p>TEs developed extreme depth of knowledge for the products they supported. They became GO-TO engineers for product teams that needed expertise in test automation and integration. Their role evolved into a broad spectrum of responsibilities: writing SCRIPTS to automate testing, creating tools so developers could test their own code, and constantly designing better and more creative ways to identify weak spots and break software.</p>
+<p>SETs (in collaboration with TEs and other engineers) built a wide array of test automation tools and developed BEST PRACTICES that were applicable across many products. Release velocity accelerated for products. All was good, and there was much rejoicing!</p>
+</li>
+<li>
+<p>SETs INITIALLY FOCUSED ON building tools for reducing the testing cycle time, since that WAS THE MOST manually intensive and time consuming phase of getting product code into production. We made some of these tools available to the software development community: webdriver improvements, protractor, espresso, EarlGrey, martian proxy, karma, and GoogleTest.</p>
+<p>SETs were interested in sharing and collaborating with others in the industry and established conferences. The industry has also embraced the Test Engineering discipline, as other companies hired software engineers into similar roles, published articles, and drove Test-Driven Development into mainstream practices.</p>
+</li>
+<li>
+<p>Through these efforts, the testing cycle time decreased dramatically, but interestingly the overall velocity did NOT increase proportionately, since other phases in the development cycle became the bottleneck. SETs started building tools to accelerate all other aspects of product development, including:</p>
+<ul>
+<li>Extending IDEs to make writing and reviewing code easier, shortening the “write code” cycle</li>
+<li>Automating release verification, shortening the “release code” cycle.</li>
+<li>Automating real time production system log verification and ANOMALY DETECTION, helping automate production monitoring.</li>
+<li>Automating measurement of DEVELOPER PRODUCTIVITY, helping understand what’s working and what isn’t.</li>
+</ul>
+<p>In summary, the work done by the SETs naturally progressed from supporting only product TESTING efforts to include supporting product DEVELOPMENT efforts as well. Their role now encompassed a much broader Engineering Productivity agenda.</p>
+<p>SET 的初衷是加速開發流程，早期針對 testing cycle，後來焦點擴展到 write code &amp; release code cycle，所以後來改稱 SETI。</p>
+</li>
+<li>
+<p>Given the expanded SET charter, we wanted the title of the role to reflect the work. But what should the new title be? We empowered the SETs to choose a new title, and they overwhelmingly (91%) selected Software Engineer, Tools &amp; Infrastructure (abbreviated to SETI).</p>
+<p>Today, SETIs and TEs still collaborate very closely on optimizing the ENTIRE DEVELOPMENT LIFE CYCLE with a goal of eliminating all FRICTION from getting features into production. Interested in building next generation tools and infrastructure?  Join us (SETI, TE)!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.quora.com/Whats-the-Engineering-Productivity-group-at-Google">What&rsquo;s the Engineering Productivity group at Google? - Quora</a> #ril</p>
+</li>
+<li>
+<p><a href="https://srejobs.com/2019-11-28-director-of-engineering-productivity-ny-ny-east-coast-usa-or-argentina-ar-us.html">Director of Engineering Productivity (NY, NY, East Coast USA or Argentina) - SRE Jobs board</a></p>
+<p>As the Director of Engineering Productivity you will focus on improving engineering productivity by improving our processes, tools, and technologies.</p>
+<p>You will grow an existing SRE team and create a Build team. You will lead your teams to deliver highly scalable and resilient cloud deployment and provisioning solutions. You will need to have experience in delivering and maintaining large-scale high-availability systems.</p>
+<p>看來 SRE 也是 Engineering Productivity 的一環。</p>
+</li>
+<li>
+<p><a href="https://jobs.apple.com/en-ie/details/200107585/site-reliability-engineer">Site Reliability Engineer - Jobs at Apple (IE)</a></p>
+<p>The Engineering Productivity and Quality team is looking for Site Reliability Engineers to build and run the services that enable thousands of Apple engineers to develop the software products that delight millions of Apple customers.</p>
+<p>也是 EP 在找 SRE 的例子。</p>
+</li>
+<li>
+<p><a href="https://events.withgoogle.com/gtac-2017/">Evolution of GTAC and Engineering Productivity - GTAC 2017 - Home</a></p>
+<ul>
+<li>
+<p>When Google first hosted GTAC in 2006, we didn’t know what to expect. We kicked off this conference with the intention to share our innovation in TEST AUTOMATION, learn from others in the industry and connect with academia. Over the last decade we’ve had great participation and had the privilege to host GTAC in North America, Europe and Asia &ndash; largely thanks to the many of you who spoke, participated and connected!</p>
+</li>
+<li>
+<p>In the recent months, we’ve been taking a hard look at the discipline of Engineering Productivity as a logical NEXT STEP in the evolution OF TEST AUTOMATION.</p>
+<p>In that same vein, we’re going to rethink what an Engineering Productivity focused conference should look like today. As we pivot, we will be extending these changes to GTAC and because we expect changes in theme, content and format, we are canceling the upcoming event scheduled in London this November. We’ll be bringing the event back in 2018 with a fresh outlook and strategy.</p>
+<p>原來 Engineering Productivity 是 Test Automation 的下一步!!?</p>
+</li>
+<li>
+<p>While we know this may be disappointing for many of the folks who were looking forward to GTAC, we’re excited to come back with a new format which will serve this conference well in today’s environment.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://testing.googleblog.com/2017/04/code-health-googles-internal-code.html">Google Testing Blog: Code Health: Google&rsquo;s Internal Code Quality Efforts</a> (2017-04-03) #ril</p>
+<ul>
+<li>
+<p>There are many aspects of GOOD CODING PRACTICES that don&rsquo;t fall under the normal areas of testing and tooling that most Engineering Productivity groups focus on in the software industry.</p>
+<p>For example, having readable and maintainable code is about more than just writing good tests or having the right tools—it&rsquo;s about having code that can be easily understood and modified IN THE FIRST PLACE. But how do you make sure that engineers follow these practices while still allowing them the independence that they need to make sound engineering decisions?</p>
+<p>顯然 good coding practices 也是 EP 要關心的。</p>
+</li>
+<li>
+<p>Many years ago, a group of Googlers came together to work on this problem, and they called themselves the &ldquo;Code Health&rdquo; group. Why &ldquo;Code Health&rdquo;? Well, many of the other terms used for this in the industry—engineering productivity, best practices, coding standards, code quality—have CONNOTATIONS that could lead somebody to think we were working on something other than what we wanted to focus on.</p>
+<p>What we cared about was the PROCESSES AND PRACTICES of software engineering IN FULL—any aspect of how software was written that could influence the readability, maintainability, stability, or simplicity of code. We liked the analogy of having &ldquo;healthy&rdquo; code as covering all of these areas.</p>
+</li>
+<li>
+<p>This is a field that many authors, theorists, and conference speakers touch on, but not an area that usually has dedicated resources within engineering organizations. Instead, in most software companies, these efforts are pushed by a few dedicated engineers in their EXTRA TIME or led by the senior tech leads.</p>
+<p>However, every software engineer is actually involved in code health in some way. After all, we all write software, and most of us care deeply about doing it the &ldquo;right way.&rdquo; So why not start a GROUP that helps engineers with that &ldquo;right way&rdquo; of doing things?</p>
+<p>有點悲傷，大家都覺得重要，但沒有投入資源在做這件事。</p>
+</li>
+<li>
+<p>This isn&rsquo;t to say that we are PRESCRIPTIVE (規定) about engineering practices at Google. We still let engineers make the decisions that are most sensible for their projects.</p>
+<p>What the Code Health group does is work on efforts that universally improve the lives of engineers and their ability to write products with shorter iteration time, decreased development effort, greater stability, and improved performance.</p>
+<p>Everybody appreciates their code getting easier to understand, their libraries getting simpler, etc. because we all know those things let us MOVE FASTER and make better products.</p>
+<p>寫好 code 可以加速開發，也可以是 Engineering Productivity 關心的領域。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://testing.googleblog.com/2019/01/android-platform-testing-made-easy.html">Google Testing Blog: Android Platform Testing Made Easy</a> (2019-01-15)</p>
+<p>Android Engineering Productivity (Android EngProd) seeks to ease development of the Android operating system for the entire ecosystem. Android EngProd creates TOOLS, PROCESSES, and DOCUMENTATION aimed at Android platform development.</p>
+<p>We are now starting to push the best previously internal development infrastructure into the open for all to benefit.</p>
+</li>
+<li>
+<p><a href="https://testing.googleblog.com/2011/01/how-google-tests-software.html">Google Testing Blog: How Google Tests Software - Part One</a> (2011-01-25) #ril</p>
+<ul>
+<li>
+<p>The one question I get more than any other is &ldquo;How does Google test?&rdquo; It&rsquo;s been explained in bits and pieces on this blog but the explanation is due an update. The Google testing strategy has never changed but the tactical ways we execute it has evolved as the company has evolved.</p>
+<p>We&rsquo;re now a search, apps, ads, mobile, operating system, and so on and so forth company. Each of these FOCUS AREAS (as we call them) have to do things that make sense for their PROBLEM DOMAIN. As we add new FAs and grow the existing ones, our testing has to expand and improve. What I am documenting in this series of posts is a combination of what we are doing today and the direction we are trending toward in the foreseeable future.</p>
+</li>
+<li>
+<p>Let&rsquo;s begin with organizational structure and it&rsquo;s one that might surprise you. There ISN&rsquo;T an actual testing organization at Google. Test exists within a Focus Area called Engineering Productivity. Eng Prod owns any number of horizontal and vertical ENGINEERING DISCIPLINES, TEST IS THE BIGGEST. In a nutshell, Eng Prod is made of:</p>
+<ul>
+<li>
+<p>A PRODUCT TEAM that produces internal and open source PRODUCTIVITY TOOLS that are consumed by all walks of engineers across the company. We build and maintain code analyzers, IDEs, TEST CASE MANAGEMENT SYSTEMS, automated testing tools, build systems, source control systems, code review schedulers, bug databases&hellip; The idea is to make the tools that MAKE ENGINEERS MORE PRODUCTIVE. Tools are a very large part of the strategic goal of PREVENTION OVER DETECTION.</p>
+</li>
+<li>
+<p>A SERVICES TEAM that provides expertise to Google product teams on a wide array of topics including tools, DOCUMENTATION, testing, release management, TRAINING and so forth. Our expertise covers reliability, SECURITY, INTERNATIONALIZATION, etc., as well as product-specific functional issues that Google product teams might face. Every other FA has access to Eng Prod expertise.</p>
+</li>
+<li>
+<p>EMBEDDED ENGINEERS that are effectively LOANED OUT to Google product teams on an AS-NEEDED BASIS. Some of these engineers might sit with the same product teams FOR YEARS, others cycle through teams wherever they are needed most. Google encourages all its engineers to change product teams often to STAY FRESH, engaged and objective. Testers are no different but the cadence of changing teams is left to the individual. I have testers on Chrome that have been there for several years and others who join for 18 months and cycle off. Keeping a healthy balance between product knowledge and fresh eyes is something a test manager has to pay close attention to.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>So this means that testers REPORT TO Eng Prod managers but identify themselves with a product team, like Search, Gmail or Chrome. Organizationally they are PART OF BOTH TEAMS.</p>
+<p>They sit with the product teams, participate in their planning, go to lunch with them, share in ship bonuses and get treated like full members of the team. The benefit of the SEPARATE REPORTING STRUCTURE is that it provides a forum for testers to share information.</p>
+<p>Good testing ideas migrate easily within Eng Prod giving all testers, no matter their product ties, access to the best technology within the company.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://testing.googleblog.com/2011/02/how-google-tests-software-part-two.html">Google Testing Blog: How Google Tests Software - Part Two</a> (2011-02-09) #ril</p>
+</li>
+<li>
+<p><a href="https://testing.googleblog.com/2017/02/discomfort-as-tool-for-change.html">How EngProd fixes product-wide problems - Google Testing Blog: Discomfort as a Tool for Change</a> (2017-02-13) #ril</p>
+</li>
+<li>
+<p><a href="https://landing.google.com/engprod/">Google Engineering Productivity: SWE and Test Engineer (TE)</a></p>
+<ul>
+<li>
+<p>Engineering Productivity : Delivering FRICTIONLESS engineering and excellent products</p>
+<p>What is Engineering Productivity?</p>
+<p>We are a DATA-DRIVEN engineering discipline focused on optimizing the ENGINEERING PROCESS so that Google can deliver amazing experiences to our users, faster.</p>
+</li>
+<li>
+<p>Core Principles - Our approach to building at scale</p>
+<ul>
+<li>
+<p>System analysis - With a system-level view and a user-centric view, we work hard to identify GAPS and INEFFICIENCIES in our engineering process so that we can build solutions to improve engineering excellence and velocity.</p>
+</li>
+<li>
+<p>Instrumentation - We believe that you CAN’T IMPROVE WHAT YOU CAN’T MEASURE. Google is a data-driven company and we are a data-driven discipline. We obsess over metrics and work hard to move them in the right direction.</p>
+</li>
+<li>
+<p>Tools and infrastructure - We build critical tools and infrastructure to help Google engineers work more effectively and efficiently. This enables Google to ship excellent products, faster.</p>
+</li>
+<li>
+<p>Focus on the user - We EMBED in PRODUCT ENGINEERING teams where we champion polished products for Google’s users and fast, scalable engineering for our users, GOOGLE’S ENGINEERS.</p>
+<p>服務內部工程師。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Interested in joining Engineering Productivity?</p>
+<p>We’re looking for world-class engineers that bring a QUANTITATIVE MINDSET, execution velocity, LEADERSHIP skills, and a PASSION TO CHANGE THE WAY ENGINEERING IS DONE at Google and beyond.</p>
+<p>Google strives to cultivate an <a href="https://www.collinsdictionary.com/dictionary/english/inclusive">INCLUSIVE</a> WORKPLACE (多樣且共榮). We believe diversity of perspectives and ideas leads to better discussions, decisions, and outcomes for everyone.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://landing.google.com/engprod/careers/">Careers - Google Engineering Productivity: SWE and Test Engineer (TE)</a></p>
+<ul>
+<li>
+<p>Change the way software is developed, not just at Google, but for all developers</p>
+</li>
+<li>
+<p>Roles in Engineering Productivity - Engineering Productivity (EngProd) is a vibrant community of teams and roles at Google.</p>
+</li>
+</ul>
+<p>Software Engineer (SWE)</p>
+<ul>
+<li>
+<p>Software Engineers solve a broad range of computer science problems at Google. In EngProd, they build INFRASTRUCTURE, HARNESSES, and TOOLING to help improve engineering velocity and product excellence.</p>
+</li>
+<li>
+<p>You might love this role if:</p>
+<ul>
+<li>You love developing tools that make the engineering process better — be it command line tools, web services, debugging tools, test data factories, etc.</li>
+<li>You’re passionate about high-quality software, but not so happy about shortcuts and hacks in the code.</li>
+<li>You’ve worked to automate and remove repetitive and manual tasks because inefficiency is one of your least favorite things.</li>
+<li>You believe that unless you can QUANTIFY or measure something, you probably can’t improve it.</li>
+</ul>
+<p>旁邊的影片帶出了 EngProd 下的 SWE，也就是 SETI。</p>
+</li>
+</ul>
+<p>Test Engineer (TE)</p>
+<ul>
+<li>
+<p>TE at Google is a technical role in Engineering that focuses on advancing product excellence and engineering productivity.</p>
+</li>
+<li>
+<p>You might love this role if:</p>
+<ul>
+<li>You have an unwavering passion for, and focus on, polished products, engineering excellence, and productivity.</li>
+<li>You enjoy thinking through complex product and system interactions to find gaps, failure modes, and edge cases.</li>
+<li>You&rsquo;ve worked to automate and remove repetitive and manual tasks because inefficiency is one of your least favorite things.</li>
+<li>You love to design, implement, and improve tools, frameworks, metrics, and processes.</li>
+<li>You love to work, collaborate, and lead cross-functionally.</li>
+</ul>
+<p>完全沒提到 test，跟上面的 SWE 差別不大? 不過旁邊的影片帶出 SET (Software Engineer in Test) 的工作，雖然影片裡都稱 Test Engineer。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=-yxoYb9qbiI">Meet Software Engineers Who Build Google&rsquo;s Tools and Infrastructure - YouTube</a> (2018-03-01) #ril</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=-yxoYb9qbiI">Meet Software Engineers Who Build Google&rsquo;s Tools and Infrastructure - YouTube</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.awesome-testing.com/2017/07/testops-5-engineering-productivity.html">Software testing Blog – Awesome Testing: TestOps #5 - Engineering Productivity</a> (2017-07-30) SRE 是 EP 下的角色之一 #ril</p>
+<p>Introduction</p>
+<ul>
+<li>
+<p>Google has recently surprised everyone by renaming their famous GTAC into Engineering Productivity conference. It means that already complicated and confusing testing dictionary received one more entry (ISTQB dictionary for instance, fails to explain the meaning of this term).</p>
+<p>The meaning of Engineering Productivity is very broad and it&rsquo;s not easy define it in one blog post. With help of various resources I&rsquo;ll try.</p>
+</li>
+</ul>
+<p>What is Engineering Productivity?</p>
+<ul>
+<li>
+<p>As described in How Google Tests Software Engineering Productivity in testing context was first introduced by Patrick Copeland:</p>
+<blockquote>
+<p>So I decided to make it official and I changed the name of the team to Engineering Productivity. With the name change also came a CULTURAL ADJUSTMENT. People began talking about productivity instead of testing and quality. Productivity is our job; testing and quality are the job of everyone involved in development. This means that developers own testing and developers own quality. The productivity team is responsible for ENABLING development to nail those two things.</p>
+</blockquote>
+</li>
+<li>
+<p>As noted by Patrick (later confirmed by Ashley Hunsberger on Souce Lab Blog) QA people may not be enough to guarantee demanded quality. Engineering Productivity team is kind of EXTENSION which allow companies to focus on quality FROM START of Software Engineering process (often called &lsquo;left&rsquo;) to the product release and live maintenance/monitoring (&lsquo;right&rsquo; - Testing in Production).</p>
+<p>從左到右，Engineering Productivity 含括了開發到上線後的事情。</p>
+<p>I&rsquo;m sure that most of my readers employed as QA/testers observe that their responsibilities often go beyond simple testing role. At least that&rsquo;s what I encouraged you to do in my posts, for example Testing Learning Checklist. It&rsquo;s worth to remain once again that TRADITIONAL (mostly manual) QA is getting OBSOLETE. It was confirmed by Yahoo decision to disband their team.</p>
+</li>
+</ul>
+<p>Engineering Productivity goals &amp; responsibilities</p>
+<ul>
+<li>
+<p>In summary Engineering Productivity team wants to make sure that:</p>
+<ul>
+<li>a) software is released as fast as possible</li>
+<li>b) software has the highest quality possible</li>
+<li>c) software works correctly on production</li>
+</ul>
+<p>In the past QA team was focused mostly on point b leaving a to developers and c to OPERATION TEAM.</p>
+</li>
+<li>
+<p>New goals have impact on tasks performed by EP (Engineering Productivity) team. Testers responsibilities change in the following way:</p>
+<p>a) More focus on test frameworks, internal CONSULTING and COACHING</p>
+<ul>
+<li>Demanding business realities usually mean that developers have to write tests. To be fully effective They need GUIDANCE &amp; tools provided by experienced testing specialists.</li>
+<li>EP team should also provide CORRECT GUIDELINES. For example 100% unit tests coverage probably won&rsquo;t detect performance problems. Limited testing effort should be used in correct place.</li>
+</ul>
+<p>b) SHIFT LEFT in software engineering process</p>
+<ul>
+<li>Obviously testing at the beginning is the cheapest. Spending time on things like IDE plugins, unit tests, code coverage tools, effective code review, OWASP secure coding practices usually have high ROI (Return of Investment).</li>
+<li>EP team should also make sure that NO FAILURES are allowed to move downstream on Continuous Integration process.</li>
+</ul>
+<p>c) SHIFT RIGHT in software engineering process</p>
+<ul>
+<li>Successful release doesn&rsquo;t end EP team duties. They need to constantly MONITOR how their application perform on production. See my Testing in Production post for detailed techniques how it&rsquo;s done.</li>
+<li>I have also covered SHIFT LEFT &amp; RIGHT in software engineering process in my <a href="https://www.awesome-testing.com/2016/10/testops-3-continuous-testing.html">Continuous Testing</a> post. #ril</li>
+</ul>
+<p>d) Need for speed</p>
+<ul>
+<li>
+<p>EP team should make sure that testing doesn&rsquo;t become a bottleneck and it doesn&rsquo;t slow down developers. For example if Selenium E2E run too long at some point they will stop giving any feedback at all, because people won&rsquo;t run them.</p>
+<p>See my <a href="http://www.awesome-testing.com/2017/01/testops-4-continuous-improvement.html">Continuous Improvement</a> post for details. #ril</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Roles in Engineering Productivity team</p>
+<ul>
+<li>
+<p>Looks like there are no correct EP team structure and it&rsquo;s implementation varies in various companies, but we can distinguish:</p>
+<p>a) Test Engineers (TE)</p>
+<ul>
+<li>Testers with broad product &amp; business domain knowledge who focus on what should be tested. They drive test strategy and help to identify product risks. Usually aligned in Scrum Team.</li>
+</ul>
+<p>b) Software Engineers in Tests (SETs)</p>
+<ul>
+<li>Software Engineers (developers) interested in testing domain who build frameworks and tools aiming to speed up software engineering process.</li>
+</ul>
+<p>c) Software Engineers, Tools &amp; Infrastructure (SETI)</p>
+<ul>
+<li>Google name for SETs. 正確地說，SETI 早期確實叫 SET，但 SETI 的工作也變廣了。</li>
+</ul>
+<p>d) Release Engineers, CI Engineers, DevOps Engineers, TestOps Engineers</p>
+<ul>
+<li>Highly technical role which focuses on Continuous Integration, Continuous Delivery and whole RELEASE PROCESS AUTOMATION.</li>
+</ul>
+<p>e) Site Reliability Engineers, Software Reliability Engineers (SRE)</p>
+<ul>
+<li>Another highly technical role which focus on production platform maintenance, performance, monitoring and scalability. Google described this role in detail in their <a href="https://landing.google.com/sre/book/index.html">opensourced book</a>. #ril</li>
+</ul>
+<p>f) Product Owner, Product Manager</p>
+<ul>
+<li>
+<p>According to already mentioned Ashley Hunsberger if we invest in such a big team it should be led by someone who not only plan work, but also STAYS IN CONTACT WITH BUSINESS.</p>
+</li>
+<li>
+<p>Generally speaking he should make sure that EP team goals are ALIGNED WITH BUSINESS GOALS. I highly recommend Ashley&rsquo;s talk from Selenium Conf 2017 called <a href="https://www.youtube.com/watch?v=GYXm8gpE5_c&amp;index=2&amp;list=PLRdSclUtJDYXFVU37NEqh4KkT78BLqjcG">Transformative Culture</a> about this role in EP team. #ril</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=GYXm8gpE5_c&amp;index=2&amp;list=PLRdSclUtJDYXFVU37NEqh4KkT78BLqjcG">Transformative Culture - Ashley Hunsberger – Test Automation Architect, Blackboard - YouTube</a> 講到她在 EP team 的第一個專案 #ril</p>
+</li>
+<li>
+<p><a href="https://saucelabs.com/blog/qa-is-not-enough-you-need-to-engineer-productivity">QA is Not Enough: You Need to Engineer Productivity | Sauce Labs</a> (2017-03-07) #ril</p>
+</li>
+<li>
+<p><a href="https://books.google.com.tw/books?id=oNa_DwAAQBAJ&amp;pg=PT247">97 Things Every Engineering Manager Should Know: Collective Wisdom from the ... - Camille Fournier - Google Books</a> &ndash; Chapter 23. Engineering Productivity</p>
+</li>
+<li>
+<p><a href="https://codingsans.com/blog/engineering-productivity">Engineering Productivity: How Two Sigma Keeps Developers Engaged | Coding Sans</a> (2020-01-20)</p>
+</li>
+<li>
+<p><a href="https://gitlab.com/gitlab-org/quality/team-tasks/issues?label_name=Engineering+Productivity">Issues · GitLab.org / quality / team-tasks · GitLab</a> Engineering Productivity 是 GitLab issue 的一個 label? #ril</p>
+</li>
+<li>
+<p><a href="https://www.se-radio.net/2018/02/se-radio-episode-317-travis-kimmel-on-measuring-software-engineering-productivity/">SE-Radio Episode 317: Travis Kimmel on Measuring Software Engineering Productivity : Software Engineering Radio</a> (2018-02-06) #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/@ProdEngSV/productivity-engineering-4aff8b560d0b">Productivity Engineering - Productivity Engineering SV - Medium</a> (2017-10-25) #ril</p>
+<ul>
+<li>
+<p>The response from the companies at the forefront of the DevOps movement is the emerging practice of Productivity Engineering.</p>
+<blockquote>
+<p>Productivity Engineering aims to reduce COGNITIVE LOAD ?? so that engineers can devote the majority of their attention to delivering BUSINESS VALUE.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://otter.ly/productivity-engineering/">Why Developers Should Embrace Productivity Engineering</a> (2018-11-02) #ril</p>
+</li>
+<li>
+<p><a href="https://careers.google.com/jobs/results/112763425769038534">Engineering Productivity Manager, Google Nest - Google - Bengaluru, Karnataka, India - Google Careers</a></p>
+<ul>
+<li>
+<p>A line of code can be many things - an amazing feature, a beautiful UI, a transformative algorithm. The faster this line of code reaches millions of users, the sooner it impacts their lives. As a Software Engineer, Tools and Infrastructure, you will be at the HEART of Google’s ENGINEERING PROCESS building software that empowers ENGINEERING TEAMS to develop and deliver high quality products quickly. We are focused on solving the hardest, most interesting challenges of developing software at scale without sacrificing stability, quality, velocity or CODE HEALTH.</p>
+</li>
+<li>
+<p>We ensure Google&rsquo;s success by PARTNERING with engineering teams and developing scalable tools and infrastructure that help engineers develop, test, debug and release software quickly. We impact thousands of Googlers and billions of users by increasing the pace of product development and ensuring our products are thoroughly tested. We are advocates for code health, testability, maintainability and best practices for development and testing.</p>
+</li>
+</ul>
+<p>Responsibilities</p>
+<ul>
+<li>Lead a team of software and test engineers and collaborating closely with all APAC and North America sites where Google Nest products are developed</li>
+<li>Provide HANDS ON technical leadership for all team projects</li>
+<li>Define team strategy and roadmap and DRIVE ADOPTION of infrastructure across teams</li>
+<li>Develop the careers and professional growth of engineers on the team through project and task assignment, individual coaching, and identifying relevant training opportunities.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://careers.google.com/jobs/results/116103765087396550">Director of Engineering Productivity, Storage/Databases - Google - Sunnyvale, CA, USA - New York, NY, USA - Google Careers</a></p>
+<ul>
+<li>
+<p>As the Director of Engineering Productivity, you will drive the Engineering Productivity strategy for Google Cloud Storage and Databases and head a team that focuses on the BUILD, TEST, RELEASE, and MONITORING of the infrastructure for Google’s products. This is one of the largest areas of Google Cloud. You will work closely with VPs, Senior Directors and leaders across the Engineering Productivity function at Google.</p>
+<p>The team&rsquo;s scope ranges from developer infrastructure challenges of storage systems to low-level hardware and performance validation. Within this domain, you will manage the developer and release tools, efficiency, and test coverage story.</p>
+</li>
+</ul>
+<p>Responsibilities</p>
+<ul>
+<li>Manage a diverse team to navigate deep technical problem spaces.</li>
+<li>Lead the Infrastructure and Tooling strategy while BALANCING a wide variety of projects and engagements.</li>
+<li>Build, grow and RETAIN top talent and continually find ways to inspire and challenge the engineering organization.</li>
+<li>Build CROSS-FUNCTIONAL PARTNERSHIPS, and work closely with developers and product managers to identify productivity, production quality and coverage issues, and provide INSIGHT on improving both through scale and tooling.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://careers.google.com/jobs/results/72884162022777542">Engineering Productivity Manager, Ads - Google - Bengaluru, Karnataka, India - Google Careers</a></p>
+<ul>
+<li>Build an understanding of the Next Billion Users space, business growth opportunities, as well as the product area and infrastructure.</li>
+<li>Deliver meaningful contributions towards product and feature testing and automation, and guide the team towards successful production launches.</li>
+<li>Provide initiative and leadership on Code Health and ENGINEERING EXCELLENCE ??.</li>
+<li>Build and lead a robust Engineering Productivity Team FROM THE GROUND UP, and collaborate effectively with senior engineering partners across functions and time-zones.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://careers.google.com/jobs/results/131053504404824774">Senior Software Engineer, Engineering Productivity - Google - Stockholm, Sweden - Google Careers</a></p>
+<ul>
+<li>Lead/contribute to engineering efforts from DESIGN to implementation, solving complex technical challenges around developer and engineering productivity and velocity.</li>
+<li>Design and build advanced automated build, test, and release infrastructure.</li>
+<li>Drive adoption of best practices in code health, testing, and maintainability.</li>
+<li>Analyse and decompose complex software systems and collaborate with cross-functional teams to INFLUENCE DESIGN FOR TESTABILITY.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://jobs.disneycareers.com/job/new-york/manager-developer-productivity-engineering/391/14528182">Manager - Developer Productivity Engineering at DISNEY</a></p>
+<p>Job Summary:</p>
+<ul>
+<li>
+<p>Developer Productivity Engineering is a DISTRIBUTED group that owns INTERNAL TOOLS used to build, deploy, and operate the services that make up Disney Streaming’s products. Built for AWS with a variety of open source software, our services are USED BY DOZENS OF ENGINEERING TEAMS across the company. We strive to act as a PRODUCTIVITY MULTIPLIER by offering our customers rich primitives for delivering their services, allowing them to focus more on product.</p>
+</li>
+<li>
+<p>As a manager in Developer Productivity Engineering, you will help CULTIVATE AN ENVIRONMENT where people can do their best work through strategic thinking, coaching, and career advocacy. You will own the delivery and quality of your team’s COMMITMENTS to its customers and collaborate across the organization to ensure appropriate PRIORITIZATION.</p>
+<p>You should have a passion for SERVANT LEADERSHIP, team building, and EMPATHY-DRIVEN ?? development.</p>
+</li>
+<li>
+<p>Requirements:</p>
+<ul>
+<li>You care deeply about COACHING, MENTORING, and growing the careers of your team</li>
+<li>5 to 7 years or technical experience, including 2+ years in an engineering leadership role</li>
+<li>You have a technical track record that speaks to your team’s problem space, and allows you to offer them guidance ??</li>
+<li>You’re a SELF-LEARNER, independent, and have excellent PROBLEM-SOLVING skills</li>
+<li>You have exemplary written and verbal communication skills</li>
+</ul>
+</li>
+<li>
+<p>Nice to Have but not required:</p>
+<ul>
+<li>Experience with software containers (e.g. Docker, rkt, runC) and schedulers (e.g. ECS, Kubernetes, Nomad)</li>
+<li>You have led a distributed engineering team</li>
+<li>You have deployed and operated geographically distributed, redundant services</li>
+<li>Engagement with OPEN SOURCE COMMUNITY</li>
+</ul>
+</li>
+<li>
+<p>Technologies we love:</p>
+<ul>
+<li>Languages: Go, Ruby, Bash</li>
+<li>Tools: Ansible, Docker, Git, Graphite, GraphQL, Jenkins, Logstash, Packer, Sensu</li>
+<li>Data stores: DynamoDB, Elasticsearch, PostgreSQL, Redis</li>
+</ul>
+</li>
+</ul>
+<p>Responsibilities:</p>
+<ul>
+<li>Support the team in continuously improving the ORGANIZATION’S TOOLS and BEST PRACTICES for owning and operating software</li>
+<li>Hire and nurture distributed engineers through mentorship and career advocacy</li>
+<li>Enable DATA-DRIVEN PRIORITIZATION and decision-making for your team through cross-organizational communication</li>
+<li>Encourage individual decision-making amongst your team to support growth opportunities for your directs</li>
+<li>Foster an OPEN ENVIRONMENT of MUTUAL SUPPORT and ENGINEERING EFFECTIVENESS</li>
+</ul>
+</li>
+<li>
+<p><a href="https://sa.ylib.com/MagArticle.aspx?Unit=columns&amp;id=1971">科技的阻力 &ndash; 科學人雜誌</a> &ndash; 阻力指的是麻煩事，像是步驟或過程。</p>
+</li>
+</ul>
+<h2 id="swe-software-engineer">SWE (Software Engineer)<a class="headerlink" href="#swe-software-engineer" title="Permanent link"> #</a></h2>
+<h2 id="seti">SETI (Software Engineer, Tools and Infrastructure)<a class="headerlink" href="#seti" title="Permanent link"> #</a></h2>
+<ul>
+<li>SETI 中的 E 為何不是 Engineering? 因為 SETI 是個職缺 (Software Engineer) 而非部門名稱，與 SWE 不同的是更專注在 &ldquo;Tools and Infrastructure&rdquo;。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.reddit.com/r/cscareerquestions/comments/3nrtf1">&ldquo;Software Engineer, Tools And Infrastructure&rdquo; role at Google : cscareerquestions</a></p>
+<ul>
+<li>
+<p>CrazedLumberjack: I&rsquo;ve been a SETI at Google for just under 2 years now. Let me try to answer your questions.</p>
+<ul>
+<li>
+<p>What do we do? In the two years I&rsquo;ve been at Google I&rsquo;ve worked on a large TESTING FRAMEWORK. The stuff I focused on involved some devops work as well as some fun engineering work in rewriting core scheduling algorithms to get better resource efficiency and performance.</p>
+<p>Now I&rsquo;m working on setting up testing infrastructure for a new team - they&rsquo;re the ones writing the tests but I&rsquo;m setting up the plumbing and infrastructure so it&rsquo;s easy for them to use.</p>
+<p>There are also teams that work on making the RELEASE PROCESS EASIER by writing automated tools and validation.</p>
+</li>
+<li>
+<p>Compensation - we&rsquo;re on the same pay scale as SWEs for salary, bonuses and stock. I&rsquo;ve had this confirmed by multiple managers who have both SETIs and SWEs reporting to them.</p>
+</li>
+<li>
+<p>SETIs aren&rsquo;t looked down upon at Google in my experience. Teams understand that having SETI support can make their lives much easier and better.</p>
+</li>
+<li>
+<p>I don&rsquo;t know first-hand how easy it is to transfer from SETI -&gt; SWE. Because there are similar expectations in terms of technical knowledge between the two roles I do think it&rsquo;s fairly doable. Typically when I&rsquo;ve seen it happens the person starts to do SWE-type work for a team for a quarter or two and then hopefully is able to convert to a SWE on that team.</p>
+<p>這問法有點怪，SWE -&gt; SETI 的轉變應該是更困難的，因為對 Software Engineering 要更有想法。</p>
+</li>
+<li>
+<p>Other companies don&rsquo;t look down on the role, especially now that TESTING ISN&rsquo;T MENTIONED IN THE NAME. I have my job title on LinkedIn listed as &ldquo;Software Engineer, Tools and Infrastructure&rdquo; and people there seem to assume that it means that I&rsquo;m a backend dev and plenty contact me with opportunities.</p>
+<p>職稱中有 &ldquo;測試&rdquo; 會被看低? 可能會跟 TE (Test Engineer) 混淆。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>knabo5: Thanks for the thorough response - this is really helpful information! I have a few followup questions if you don&rsquo;t mind:</p>
+<ul>
+<li>
+<p>When you started as a SETI, did you have a mentor and what was their role? My recruiter told me that SETIs sit with SWE teams, so is the mentor another SETI (I expect this would mean the mentor is not around much) or a SWE?</p>
+<p>既然 SETI 的工作是幫助 SWE，跟 SWE 一起工作也是很自然的事。</p>
+</li>
+<li>
+<p>It seems to me that once the infrastructure is set up for a team and they&rsquo;ve been using it for a while, there&rsquo;s little use for SETI to continue being around. Am I right? Do you frequently jump around to different teams?</p>
+<p>可以預見，這個 team 導入之後，又要換下個 team；持續影響所有開發團隊。</p>
+</li>
+<li>
+<p>Who decides what team you join next? Is this team in the same product area or could it be completely different?</p>
+</li>
+</ul>
+</li>
+<li>
+<p>CrazedLumberjack:</p>
+<ul>
+<li>
+<p>Within my organization (ads), we try to avoid having any singleton SETIs so there will generally be AT LEAST TWO SETIs working on any given project.</p>
+<p>This means that your SETI mentor would hopefully be someone who&rsquo;s working with you on your project and sitting next to you. This is what happened when I started and it&rsquo;s what has happened for all Nooglers that have joined my team since. I think it works really well at getting new people up to speed.</p>
+</li>
+<li>
+<p>In my experience people seem to change which SWE teams they support every year or two. However you should bear in mind that the code that SWE teams work on is constantly evolving so there is almost always SETI work that can be done to support new components and infrastructure being used by SWE teams.</p>
+</li>
+<li>
+<p>Answering the second part first: It&rsquo;s within the same PA typically. All of my team supports SWE teams within the ads PA at Google. If I wanted to work for another PA it would be a lot more effort as it&rsquo;d involve me changing managers (and most likely relocating since I&rsquo;m not in Mountain View).</p>
+<p>I recently (~4 months ago) switched projects. It started by me talking to my boss and telling him that I didn&rsquo;t feel like there was enough CHALLENGING work on my old project and asked him to let me know if there were any other SWE teams that WANTED OUR HELP.</p>
+<p>In our case there had been one team that had been asking for SETI ENGAGEMENT for a while but we just didn&rsquo;t have the manpower for it. I ended up talking to them about their product and what they thought they wanted from SETIs and I decided that it&rsquo;d be a good fit for me. If I had decided that I didn&rsquo;t want to work with them for good reasons (didn&rsquo;t think they would be supportive, they didn&rsquo;t have much need for it) then I could&rsquo;ve gone back to my boss and continued looking for other SWE teams to engage with.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.featurespace.com/careers-2/software-engineer-tools-infrastructure-seti/">Software Engineer, Tools and Infrastructure (SETI) | Featurespace</a> #ril</p>
+</li>
+<li><a href="https://1o24bbs.com/t/topic/3298">科普一下 SWE 和 SETI 和 TE @ Google - 求职 / CS资讯 - 1024 BBS</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

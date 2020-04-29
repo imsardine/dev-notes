@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/openssh-tunneling/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>OpenSSH / SSH Tunneling - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/openssh-tunneling.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#openssh-ssh-tunneling">OpenSSH / SSH Tunneling</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="openssh-ssh-tunneling"><a href="../openssh/">OpenSSH</a> / SSH Tunneling<a class="headerlink" href="#openssh-ssh-tunneling" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://man.openbsd.org/ssh">ssh(1) - OpenBSD manual pages</a> #ril</p>
+<ul>
+<li>
+<p><code>-J destination</code></p>
+<p>Connect to the target host by first making a ssh connection to the JUMP HOST described by <code>destination</code> and then establishing a TCP forwarding to the ULTIMATE DESTINATION FROM THERE.</p>
+<p>Multiple JUMP HOPS may be specified separated by comma characters. This is a shortcut to specify a <code>ProxyJump</code> configuration directive. Note that configuration directives supplied on the command-line generally apply to the DESTINATION HOST and not any specified JUMP HOSTS. Use <code>~/.ssh/config</code> to specify configuration for jump hosts.</p>
+<p>原來 SSH 連線有 <code>-J</code> 可以用，不需要再透過 <code>ssh -L &lt;local-port-to-listen&gt;:&lt;remote-host&gt;:&lt;remote-port&gt;</code> 另外建立 tunnel!!</p>
+</li>
+</ul>
+<p>TCP FORWARDING</p>
+<ul>
+<li>
+<p>Forwarding of arbitrary TCP connections over a SECURE CHANNEL can be specified either on the command line or IN A CONFIGURATION FILE. One possible application of TCP forwarding is a secure connection to a mail server; another is going through firewalls.</p>
+<p>常用的 port forwarding 能寫在 configuration file 確實方便許多，例如：</p>
+<pre><code>Host &lt;alias&gt;
+  HostName &lt;remote_host&gt;
+  ProxyJump &lt;jump_host&gt;
+</code></pre>
+<p>這樣直接用 <code>ssh &lt;alias&gt;</code> 就可以透過 <code>&lt;jump_host&gt;</code> 連往 <code>&lt;remote_host&gt;</code>，其中 <code>&lt;alias&gt;</code> 跟 DNS 解析無關。</p>
+</li>
+<li>
+<p>In the example below, we look at encrypting communication for an IRC client, even though the IRC server it connects to does not directly support encrypted communication. This works as follows: the user connects to the remote host using <code>ssh</code>, specifying the ports to be used to forward the connection. After that it is possible to start the program locally, and <code>ssh</code> will encrypt and forward the connection to the REMOTE SERVER.</p>
+</li>
+<li>
+<p>The following example tunnels an IRC session from the client to an IRC server at “server.example.com”, joining channel “#users”, nickname “pinky”, using the standard IRC port, 6667:</p>
+<pre><code>$ ssh -f -L 6667:localhost:6667 server.example.com sleep 10
+$ irc -c '#users' pinky IRC/127.0.0.1
+</code></pre>
+<p>The <code>-f</code> option BACKGROUNDS <code>ssh</code> and the remote command <code>sleep 10</code> is specified to allow an amount of time (10 seconds, in the example) to start the program which is going to use the tunnel. If no connections are made within the time specified, <code>ssh</code> will exit.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.madboa.com/blog/2017/11/02/ssh-proxyjump/">Using ProxyJump with SSH and SCP</a> (2017-11-02) #ril</p>
+<ul>
+<li><code>scp</code> 也支援 jump host，只是沒有像 <code>ssh</code> 有 <code>-J</code> 可以用，要自己給 option，例如 <code>scp -o 'ProxyJump your.jump.host'</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../ssh-tunneling/">SSH Tunneling</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

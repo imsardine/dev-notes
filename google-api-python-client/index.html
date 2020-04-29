@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/google-api-python-client/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google APIs / Python Client - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/google-api-python-client.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-apis-python-client">Google APIs / Python Client</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#authentication">Authentication ??</a></li>
+                
+            <li class="second-level"><a href="#pagination">Pagination ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-apis-python-client"><a href="../google-api/">Google APIs</a> / Python Client<a class="headerlink" href="#google-apis-python-client" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developers.google.com/api-client-library/python/">API Client Library for Python  |  Google Developers</a></p>
+<p>Call Google APIs simply. Use the simple, clean library to make calls from Python to one of the many supported Google APIs. This example uses the Google+ API:</p>
+<pre><code># List my public Google+ activities.
+result = service.activities().list(userId='me', collection='public').execute()
+tasks = result.get('items', [])
+for task in tasks:
+  print task['title']
+</code></pre>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/api-client-library/python/start/get_started#building-and-calling-a-service">Building and calling a service - Getting Started  |  API Client Library for Python  |  Google Developers</a></p>
+<p>Build the service object</p>
+<ul>
+<li>
+<p>Whether you are using simple or authorized API access, you use the <code>build()</code> function to create a SERVICE OBJECT. It takes an API name and API version as arguments. You can see the list of all API versions on the Supported APIs page. The service object is constructed with methods specific to the given API. To create it, do the following:</p>
+<pre><code>from googleapiclient.discovery import build
+service = build('api_name', 'api_version', ...)
+</code></pre>
+<p>雖然這裡稱 service object，但 <a href="http://googleapis.github.io/google-api-python-client/docs/epy/googleapiclient.discovery-module.html#build"><code>build()</code></a> 的 API 文件是寫 &ldquo;Returns: A RESOURCE object with methods for interacting with the service.&rdquo;，但確實可以把最頂層的 resource 視為 service (object) 沒錯。</p>
+</li>
+</ul>
+<p>Collections</p>
+<ul>
+<li>
+<p>Each API service provides access to one or more RESOURCES. A set of resources of the same type is called a COLLECTION. The names of these collections are specific to the API. The service object is constructed with a function for every collection defined by the API. If the given API has a collection named <code>stamps</code>, you create the collection object like this:</p>
+<pre><code>collection = service.stamps()
+</code></pre>
+<p>It is also possible for collections to be nested:</p>
+<pre><code>nested_collection = service.featured().stamps()
+</code></pre>
+<p>不太懂 &ldquo;The service object is constructed with a function &hellip;&rdquo; 這樣的說法，service object 不是透過上面的 <code>build()</code> 產生了嗎? 或許可以把 &ldquo;service object&rdquo; 都解讀為 resource，只是層級不同? 以 <a href="https://developers.google.com/resources/api-libraries/documentation/drive/v3/python/latest/">Drive API</a> 的 <code>files()</code> 為例，作用也是 &ldquo;Returns the files RESOURCE.&rdquo;</p>
+<p>也就是面對下面有不同 resource 時，我們稱 service，面對一群同型態的 resource 時，我們則稱 collection，但底層都是 resource。</p>
+</li>
+</ul>
+<p>Methods and requests</p>
+<ul>
+<li>Every collection has a list of methods defined by the API. Calling a collection&rsquo;s method returns an <code>HttpRequest</code> object. (還沒有真的送出) If the given API collection has a method named <code>list</code> that takes an argument called <code>cents</code>, you create a request object for that method like this:<pre><code>request = collection.list(cents=5)
+</code></pre>
+</li>
+</ul>
+<p>Execution and response</p>
+<ul>
+<li>
+<p>Creating a request DOES NOT ACTUALLY CALL THE API. To execute the request and get a response, call the <code>execute()</code> function:</p>
+<pre><code>response = request.execute()
+</code></pre>
+<p>Alternatively, you can combine previous steps on a single line:</p>
+<pre><code>response = service.stamps().list(cents=5).execute()
+</code></pre>
+</li>
+</ul>
+<p>Working with the response</p>
+<ul>
+<li>
+<p>The response is a Python object BUILT FROM THE JSON RESPONSE sent by the API server. The JSON structure is specific to the API; for details, see the API&rsquo;s reference documentation. You can also simply print the JSON to see the structure:</p>
+<pre><code>import json
+...
+print json.dumps(response, sort_keys=True, indent=4)
+</code></pre>
+<p>For example, if the printed JSON is the following: 真的就是單純的資料結構</p>
+<pre><code>{
+    "count": 2,
+    "items": [
+        {
+            "cents": 5,
+            "name": "#586 1923-26 5-cent blue Theodore Roosevelt MLH perf 10"
+        },
+        {
+            "cents": 5,
+            "name": "#628 1926 5-cent Ericsson Memorial MLH"
+        }
+    ]
+}
+</code></pre>
+<p>You can access the data like this:</p>
+<pre><code>print 'Num 5 cent stamps: %d' % response['count']
+print 'First stamp name: %s' % response['items'][0]['name']
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developers.google.com/sheets/api/quickstart/python">Python Quickstart  |  Sheets API  |  Google Developers</a> 這裡的 <code>service.spreadsheets().values().get()</code> 呼應 Sheets API 的文件 #ril</p>
+</li>
+<li><a href="https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get">Method: spreadsheets.values.get  |  Sheets API  |  Google Developers</a> #ril</li>
+</ul>
+<h2 id="authentication">Authentication ??<a class="headerlink" href="#authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/api-client-library/python/start/get_started#authentication-and-authorization">Authentication and authorization - Getting Started  |  API Client Library for Python  |  Google Developers</a></p>
+<ul>
+<li>It is important to understand the basics of how API authentication and authorization are handled. All API calls must use either SIMPLE or AUTHORIZED access (defined below). Many API methods require authorized access, but some can use either. Some API methods that can use either behave differently, depending on whether you use simple or authorized access. See the API&rsquo;s method documentation to determine the appropriate access type.</li>
+</ul>
+<p>Simple API access (API keys)</p>
+<ul>
+<li>
+<p>These API calls DO NOT access any private user data. Your application must AUTHENTICATE ITSELF AS AN APPLICATION belonging to your Google API Console project. This is needed to measure project usage for accounting purposes.</p>
+</li>
+<li>
+<p>API key: To authenticate your application, use an API key for your API Console project. Every simple access call your application makes must include this key.</p>
+<p>Warning: Keep your API key private. If someone obtains your key, they could use it to consume your quota or incur charges against your API Console project.</p>
+</li>
+</ul>
+<p>Authorized API access (OAuth 2.0)</p>
+<ul>
+<li>
+<p>These API calls access PRIVATE USER DATA. Before you can call them, the user that has access to the private data must GRANT YOUR APPLICATION ACCESS. Therefore, your application must be authenticated, the user must grant access for your application, and the user must be authenticated in order to grant that access. All of this is accomplished with OAuth 2.0 and libraries written for it.</p>
+<p>除了像 API key 要認證 application 本身之外，還要使用者授權 (grant access)，當然使用者自己也要先通過認證才能授權。</p>
+</li>
+<li>
+<p>Scope: Each API defines one or more scopes that declare A SET OF OPERATIONS PERMITTED. For example, an API might have read-only and read-write scopes. When your application requests access to user data, the request must include one or more scopes. The user needs to approve the scope of access your application is requesting.</p>
+</li>
+<li>
+<p>Refresh and access tokens: When a user grants your application access, the OAuth 2.0 authorization server provides your application with REFRESH AND ACCESS TOKENS. These tokens are only valid for the scope requested. Your application uses access tokens to authorize API calls. ACCESS TOKENS EXPIRE, BUT REFRESH TOKENS DO NOT. Your application can USE A REFRESH TOKEN TO ACQUIRE A NEW ACCESS TOKEN.</p>
+<p>Warning: Keep refresh and access tokens private. If someone obtains your tokens, they could use them to access private user data.</p>
+</li>
+<li>
+<p>Client ID and client secret: These strings uniquely IDENTIFY YOUR APPLICATION and are used to ACQUIRE TOKENS. They are created for your project on the API Console. There are three types of client IDs, so be sure to get the correct type for your application:</p>
+<ul>
+<li>Web application client IDs ??</li>
+<li>Installed application client IDs ??</li>
+<li>Service Account client IDs</li>
+</ul>
+<p>不過 server-to-server 的應用，好像不會涉及 client ID 與 client secret? 而 client secret 指的該不會是 service account credentials?? 裡面就有 <code>client_id</code> (值等同 service account 的 unique ID)。</p>
+<p>Warning: Keep your client secret private. If someone obtains your client secret, they could use it to consume your quota, incur charges against your Console project, and request access to user data.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="pagination">Pagination ??<a class="headerlink" href="#pagination" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/api-client-library/python/guide/pagination">Pagination  |  API Client Library for Python  |  Google Developers</a> #ril</p>
+<ul>
+<li>Some API methods may return very large lists of data. To reduce the response size, many of these API methods support PAGINATION. With paginated results, your application can iteratively request and process large lists one page at a time. For API methods that support it, there exist similarly named methods with a &ldquo;<code>_next</code>&rdquo; suffix. For example, if a method is named <code>list()</code>, there may also be a method named <code>list_next()</code>. These methods can be found in the API&rsquo;s PyDoc documentation on the Supported APIs page.</li>
+<li>
+<p>To process the first page of results, create a request object and call <code>execute()</code> as you normally would. For further pages, you call the corresponding <code>method_name_next()</code> method, and pass it the PREVIOUS REQUEST AND RESPONSE. Continue paging until <code>method_name_next()</code> returns <code>None</code>.</p>
+<p>In the following code snippet, the paginated results of a Google Plus activities <code>list()</code> method are processed:</p>
+<pre><code>activities = service.activities()
+request = activities.list(userId='someUserId', collection='public')
+
+while request is not None:
+  activities_doc = request.execute(http=http)
+
+  # Do something with the activities
+
+  request = activities.list_next(request, activities_doc)
+</code></pre>
+<p>Note that you only call <code>execute()</code> on the request once INSIDE THE WHILE LOOP.</p>
+<p>把 request 跟 response 傳進 <code>xxx_next()</code> 的做法好奇特，內部方便從 response 分析需不需要有下一個 request。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/api-client-library/python/start/installation">Installation  |  API Client Library for Python  |  Google Developers</a></p>
+<ul>
+<li>Python 2.7, or 3.4 or higher</li>
+<li><code>pip install --upgrade google-api-python-client</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/googleapis/google-api-python-client">googleapis/google-api-python-client - GitHub</a></li>
+<li><a href="https://pypi.org/project/google-api-python-client/">google-api-python-client - PyPI</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://github.com/googleapis/google-api-python-client/tree/master/samples">Sample Code</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://googleapis.github.io/google-api-python-client/docs/epy/index.html">API Documentation</a></li>
+<li><a href="http://googleapis.github.io/google-api-python-client/docs/epy/googleapiclient.discovery-module.html#build"><code>googleapiclient.discovery.build()</code></a></li>
+<li><a href="https://developers.google.com/api-client-library/python/apis/">Supported Google APIs</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

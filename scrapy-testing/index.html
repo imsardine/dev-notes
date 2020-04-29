@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/scrapy-testing/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Scrapy / Testing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/scrapy-testing.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#scrapy-testing">Scrapy / Testing</a></li>
+            <li class="second-level"><a href="#spider-contract">Spider Contract ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="scrapy-testing"><a href="../scrapy/">Scrapy</a> / Testing<a class="headerlink" href="#scrapy-testing" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://groups.google.com/forum/#!topic/scrapy-users/9pkJUptUQEM">Re: Recommendations for testing scrapy code offline? - Google Groups</a> (2012-09-08)</p>
+<ul>
+<li>
+<p>Steven Almeroth: Have you tried the <a href="http://doc.scrapy.org/en/latest/topics/downloader-middleware.html#module-scrapy.contrib.downloadermiddleware.httpcache"><code>HttpCacheMiddleware</code></a>?</p>
+<pre><code>HTTPCACHE_ENABLED = True
+HTTPCACHE_EXPIRATION_SECS = 0
+</code></pre>
+<p>引用了 Asheesh Laroia 最初的問題，希望可以安排不同 URL 的 status code 及 response body：</p>
+<ul>
+<li>The one feature I&rsquo;m missing is how to use pre-saved data to seed <code>Response</code> objects so that, instead of hitting the network, they USE DATA FROM THE FILESYSTEM. The reason we want that feature is that it permits us to write automated tests very easily for scrapers. (&ldquo;Automated tests&rdquo; in the sense of python&rsquo;s <code>unittest</code> module.)</li>
+<li>There could be some generic &ldquo;offline mode&rdquo; for scrapy, but if so, I haven&rsquo;t seen it. (Is there?) It&rsquo;d be convenient if you could configure it with e.g. a YAML file mapping URLs to HTTP status codes and file paths for the content to use as their bodies.</li>
+<li>Presumably one enchancement of that would be to have a dict of URLs to STATUS CODES, so that you can test the errback as well, not just the callback. (In the past, we did that through the &ldquo;python-mock&rdquo; module, but the architecture of Scrapy makes it seemingly possible to do all this without ever using mocks, which is lovely!)</li>
+</ul>
+<p><a href="https://www.linkedin.com/in/stevenalmeroth/">Steven Almeroth</a> 也是 Scrapinghub 的開發者。</p>
+</li>
+<li>
+<p>確實在 <code>HttpCacheMiddleware</code> &gt; Dummy policy (default) 有提到一些跟測試相關的東西：</p>
+<ul>
+<li>This policy has NO AWARENESS of any HTTP Cache-Control directives. Every request and its corresponding response are cached. When the same request is seen again, the response is returned without transferring anything from the Internet.</li>
+<li>
+<p>The Dummy policy is useful for testing spiders faster (without having to wait for downloads every time) and for trying your spider offline, when an Internet connection is not available. The goal is to be able to “REPLAY” a spider run exactly AS IT RAN BEFORE.</p>
+<p>問題是如何事先安排好 cache??</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.quora.com/How-do-I-write-tests-for-Scrapy-project">How do I write tests for Scrapy project? - Quora</a> (2017-03-09)</p>
+<p>Niranjan Sagar: There are two ways for this.</p>
+<ul>
+<li>
+<p><a href="https://doc.scrapy.org/en/latest/topics/contracts.html">Spiders Contracts</a> - We have somethings call Spider contracts available under Scrapy. This enables you to TEST EACH CALLBACK of your spider by HARDCODING a sample url and check various constraints for how the callback processes the response. Not only callback other things can also be tested.</p>
+</li>
+<li>
+<p>Other way is. Most of the people prefer running Scrapy crawlers using <code>scrapy crawl &lt;spider-name&gt;</code>. But instead we have one more way of running the crawler. The crawler can we written as Python Script, with main function and can be written as python <code>crawler_name.py</code> (from the same directory). For more information please refer this link <a href="https://doc.scrapy.org/en/latest/topics/practices.html#run-scrapy-from-a-script">Common Practices</a>. Similar to other Python script we can write the Unittest cases here.</p>
+<p>問題不在如何執行 spider，而是如何控制 response 不是?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/25764201/">python - How to work with the scrapy contracts? - Stack Overflow</a> (2014-09-10)</p>
+<p>alecxe: Yes, Spiders Contracts is FAR FROM being clear and detailed. 確實是如此 XD</p>
+<ul>
+<li>I&rsquo;m not an expert in writing spider contracts (actually wrote them only once while working on <a href="http://newcoder.io/scrape/">web-scraping tutorial</a> at newcoder.io). But whenever I needed to write tests for Scrapy spiders, I preferred to follow the approach <a href="https://stackoverflow.com/a/12741030/771848">suggested here</a> (2011 年的討論) - create a fake response from a local html file. It is ARGUABLE IF THIS IS STILL A UNIT TESTING PROCEDURE, but this gives you way more flexibility and robustness.</li>
+<li>Note that you can still write contracts but you will quickly feel the need of extending them and writing CUSTOM CONTRACTS. Which is pretty much ok. 常要自訂 contract，聽起來不 okay，但又說 okay?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://groups.google.com/forum/#!topic/scrapy-users/uh-t_UCRbnE">Unit testing - Google Groups</a> (2011-06-23)</p>
+<ul>
+<li>
+<p>Pablo Hoffman: There&rsquo;s an idea for automating some spider tests that never got implemented (so far): <a href="http://dev.scrapy.org/wiki/SEP-017">http://dev.scrapy.org/wiki/SEP-017</a></p>
+<p>But nothing prevents you from using standard Python unit-testing facilities to test the Spider object methods (ie. the callbacks). You build the <code>Response</code> in the test code, and then call the method with the response and assert that you get the expected items/requests in the output.</p>
+<p>A warning though: automating is the key. Otherwise, if you manage a lot of spiders, you may find that testing may take even longer than writing the spiders themselves - though this applies to other software testing as well, not only spiders :)</p>
+<p>Pablo Hoffman 是 <a href="https://twitter.com/PabloHoffman">Scrapy 跟 Scrapinghub co-founder</a>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/6456304/">python - Scrapy Unit Testing - Stack Overflow</a> (2011-06-23)</p>
+<ul>
+<li>ciferkey: I&rsquo;ve been talking on <a href="http://groups.google.com/group/scrapy-users/browse_thread/thread/ba1fadfd40916e71">Scrapy-Users</a> and I guess I am supposed to &ldquo;build the Response in the test code, and then call the method with the response and assert that I get the expected items/requests in the output&rdquo;. 提供這想法的是 Scrapy &amp; Scrapinghub 的 co-founder &ndash; Pablo Hoffman。</li>
+<li>Sam Stoelinga: (2012-10-05) The way I&rsquo;ve done it is create FAKE RESPONSES, this way you can test the parse function offline. But you get the real situation by using real HTML. #ril</li>
+<li>ciferkey: (2011-06-27) You can follow this <a href="https://snipplr.com/view/67006/">snippet</a> from the scrapy site to run it from a script. Then you can make any kind of asserts you&rsquo;d like on the returned items. 又提到從 script 執行 spider，似乎跟測試真有些關係??</li>
+<li>Shane Evans: (2012-10-05) The newly added Spider Contracts are worth trying. It gives you a simple way to add tests without requiring a lot of code.</li>
+<li>Anton Egorov: (2013-10-21) It is very poor at the current moment. You have to write your own contracts to check something more complicated than parsing of this page returns N items with fields <code>foo</code> and <code>bar</code> filled with any data 好像 2019 的現在還是一樣 XD，稍微複雜一點的檢查就要自訂 contract &hellip;</li>
+<li>Hadrien: (2016-07-05) I use <a href="http://betamax.readthedocs.io/">Betamax</a> to run test on real site the first time and keep http responses locally so that next tests run super fast after: #ril 像是 <code>HttpCacheMiddleware</code> 的做法?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/latest/topics/practices.html#run-scrapy-from-a-script">Run Scrapy from a script - Common Practices — Scrapy 1.6.0 documentation</a> 還真有提到 &ldquo;using the testspiders project as example.&rdquo; #ril</p>
+</li>
+<li>
+<p><a href="http://www.snip2code.com/Snippet/82002/Scrapy-Contracts-Evolution">Snip2Code - Scrapy Contracts Evolution</a> (2014-07-02) #ril</p>
+</li>
+</ul>
+<h2 id="spider-contract">Spider Contract ??<a class="headerlink" href="#spider-contract" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.scrapy.org/en/latest/topics/contracts.html">Spiders Contracts — Scrapy 1.6.0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>This is a new feature (introduced in Scrapy 0.15) and may be subject to minor functionality/API updates. Check the release notes to be notified of updates. 其實是 Scrapy 0.16.0 &ndash; added Spiders Contracts, a mechanism for testing spiders in a formal/reproducible way，時間是 2012-10-18</p>
+</li>
+<li>
+<p>Testing spiders can get particularly annoying and while nothing prevents you from writing unit tests the task gets cumbersome quickly. Scrapy offers an integrated way of testing your spiders by the means of CONTRACTS??.</p>
+</li>
+<li>This allows you to TEST EACH CALLBACK of your spider by hardcoding a sample url and CHECK VARIOUS CONSTRAINTS for how the callback processes the response. Each contract is prefixed with an <code>@</code> and included in the DOCSTRING. See the following example:<pre><code>def parse(self, response):
+    """ This function parses a sample response. Some contracts are mingled (混合)
+    with this docstring.
+
+    @url http://www.amazon.com/s?field-keywords=selfish+gene
+    @returns items 1 16
+    @returns requests 0 0
+    @scrapes Title Author Year Price
+    """
+</code></pre>
+</li>
+</ul>
+<p>測試要如何執行? 總有人要去解讀 <code>@xxx</code> (其間有順序??) &hellip; 若 <code>SPIDER_CONTRACTS_BASE</code> 有些 contract 預設啟用，都用 <code>scrapy crawl</code> 執行的話，Scrapy 如何知道現在是不是在測試? &rarr; 用 <code>scrapy check &lt;spider&gt;</code></p>
+<p>以 Python 的 Simple HTTP Server 觀察真正送出的 request：</p>
+<pre><code>class QuotesSpider(scrapy.Spider):
+    name = "quotes"
+    start_urls = [
+        'http://localhost:8000/0',
+    ]
+
+    def parse(self, response):
+        """
+        @url http://localhost:8000/1
+        @returns items 1
+
+        @url http://localhost:8000/2
+        @returns items 2
+        @scrapes text author
+
+        @url http://localhost:8000/3 &lt;-- 故意沒有安排 @returns 或 @scrapes
+        """
+
+        for quote in response.css('div.quote'):
+            ...
+
+$ touch 0 1 2 3 # 使 request 不會遇到 404
+$ python -m SimpleHTTPServer
+
+$ scrapy check -l
+quotes
+  * parse
+
+$ scrapy check --verbose
+[quotes] parse (@returns post-hook) ... FAIL
+[quotes] parse (@returns post-hook) ... FAIL
+[quotes] parse (@scrapes post-hook) ... ok
+
+======================================================================
+FAIL: [quotes] parse (@returns post-hook)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/scrapy/lib/python2.7/site-packages/scrapy/contracts/__init__.py", line 151, in wrapper
+    self.post_process(output)
+  File "/private/tmp/scrapy/lib/python2.7/site-packages/scrapy/contracts/default.py", line 74, in post_process
+    (occurrences, self.obj_name, expected))
+ContractFail: Returned 0 items, expected 1..inf
+
+======================================================================
+FAIL: [quotes] parse (@returns post-hook)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/scrapy/lib/python2.7/site-packages/scrapy/contracts/__init__.py", line 151, in wrapper
+    self.post_process(output)
+  File "/private/tmp/scrapy/lib/python2.7/site-packages/scrapy/contracts/default.py", line 74, in post_process
+    (occurrences, self.obj_name, expected))
+ContractFail: Returned 0 items, expected 2..inf
+
+----------------------------------------------------------------------
+Ran 3 contracts in 0.131s
+
+FAILED (failures=2)
+</code></pre>
+<p>對照 Simple HTTP Server 的輸出，會發現：</p>
+<pre><code>$ python -m SimpleHTTPServer
+Serving HTTP on 0.0.0.0 port 8000 ...
+127.0.0.1 - - [13/Feb/2019 22:49:54] code 404, message File not found
+127.0.0.1 - - [13/Feb/2019 22:49:54] "GET /robots.txt HTTP/1.1" 404 -
+127.0.0.1 - - [13/Feb/2019 22:49:54] "GET /3 HTTP/1.1" 200 -
+</code></pre>
+<ul>
+<li>一個 callback 就算有多個 <code>@url</code>，也只會往最後一個 <code>@url</code> 送出 &ldquo;一次&rdquo; request；完全不理會 <code>starts_url</code> 的設定。</li>
+<li>Docstring 裡除 <code>@url</code> 外的 <code>@xxx</code> 會依序做檢查，也就是最後報告的 Run N contracts in &hellip;s。</li>
+</ul>
+<p>顯然無法測試不同的 response，看來用 scriptable proxy (例如 mitmproxy) 安排不同的回應才是可行的?? 讓大部份的邏輯不要跟 Scrapy framework 相依就方便做單元測試 &hellip;</p>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/latest/news.html">Release notes — Scrapy 1.6.0 documentation</a></p>
+<p>由於 Spiders Contracts 很難入手，從 Release Notes 追 contract 的歷史；看來官方有持續在強化 Contract，只是文件沒寫好?</p>
+<p>Scrapy 0.16.0 (released 2012-10-18)</p>
+<ul>
+<li>added Spiders Contracts, a mechanism for testing spiders in a formal/reproducible way</li>
+</ul>
+<p>Scrapy 0.16.2 (released 2012-11-09)</p>
+<ul>
+<li>scrapy contracts: python2.6 compat (commit a4a9199)</li>
+<li>scrapy contracts verbose option (commit ec41673)</li>
+</ul>
+<p>Scrapy 0.18.0 (released 2013-08-09)</p>
+<ul>
+<li>Several improvements to spider contracts</li>
+</ul>
+<p>Scrapy 0.24.0 (2014-06-26)</p>
+<ul>
+<li>Set exit code to non-zero when contracts fails (issue 727)</li>
+<li>Improve scrapy check contracts command (issue 733, issue 752)</li>
+</ul>
+<p>Scrapy 1.3.1 (2017-02-08)</p>
+<ul>
+<li>Enforce numeric values for COMPONENTS ORDER in <code>SPIDER_MIDDLEWARES</code>, <code>DOWNLOADER_MIDDLEWARES</code>, <code>EXTENIONS</code> and <code>SPIDER_CONTRACTS</code> (issue 2420).</li>
+</ul>
+<p>Scrapy 1.6.0 (2019-01-30)</p>
+<ul>
+<li><code>scrapy.contracts</code> fixes and new features;</li>
+<li><code>scrapy.contracts</code> improvements<ul>
+<li>Exceptions in contracts code are handled better (issue 3377);</li>
+<li><code>dont_filter=True</code> is used for contract requests, which allows to test different callbacks with the same URL (issue 3381);</li>
+<li><code>request_cls</code> attribute in Contract subclasses allow to use different Request classes in contracts, for example <code>FormRequest</code> (issue 3383).</li>
+<li>Fixed errback handling in contracts, e.g. for cases where a contract is executed for URL which returns non-200 response (issue 3371).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/scrapy/scrapy/blob/master/scrapy/contracts/default.py"><code>scrapy/default.py</code> at master · scrapy/scrapy</a> #ril</p>
+<p>內建的 <code>UrlContract</code>、<code>ReturnsContract</code>、<code>ScrapesContract</code> 都在這裡，有助於理解 contract 的定位。</p>
+<ul>
+<li>除 <code>UrlContract</code> 實作 <code>adjust_request_args()</code> 外，其餘都在 <code>post_process()</code> 裡檢查 output，有狀況時丟出 <code>scrapy.exceptions.ContractFail</code>。</li>
+<li><code>UrlContract.adjust_request_args()</code> 固定將 <code>args['url']</code> 設定成 <code>@url ...</code> 所提供的 URL，感覺 Contract 不涉入如何提供 response 這一段，反正 <code>@url</code> 提供的 URL 的回應要自己控制?? 跟 <code>HttpCacheMiddleware</code> 有關? 如果要測試各種狀況，可以提供多個 <code>@url</code> 嗎??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/latest/topics/commands.html#std:command-check"><code>check</code> - Command line tool — Scrapy 1.6.0 documentation</a></p>
+<ul>
+<li>Syntax: <code>scrapy check [-l] &lt;spider&gt;</code></li>
+<li>Requires project: YES</li>
+<li>Run contract checks. Usage examples:<pre><code>$ scrapy check -l
+first_spider   &lt;-- spider name
+  * parse
+  * parse_item &lt;-- 有哪些 callback 的 docstring 含有 `@xxx`
+second_spider
+  * parse
+  * parse_item
+
+$ scrapy check
+[FAILED] first_spider:parse_item
+&gt;&gt;&gt; 'RetailPricex' field is missing
+
+[FAILED] first_spider:parse
+&gt;&gt;&gt; Returned 92 requests, expected 0..4
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://newcoder.io/scrape/part-2/">Part 2: Writing our Spider – New Coder</a> 程式碼有提及 <code>Testing contracts:</code> 及 <code>@xxx</code> 等，但沒有說明怎麼用?</p>
+</li>
+<li><a href="https://docs.scrapy.org/en/latest/topics/settings.html#spider-contracts"><code>SPIDER_CONTRACTS</code> - Settings — Scrapy 1.6.0 documentation</a><ul>
+<li>Default: <code>{}</code>. A dict containing the SPIDER CONTRACTS ENABLED in your project, used for testing spiders. For more info see Spiders Contracts.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.scrapy.org/en/latest/topics/settings.html?highlight=testing#spider-contracts-base"><code>SPIDER_CONTRACTS_BASE</code> - Settings — Scrapy 1.6.0 documentation</a></p>
+<ul>
+<li>
+<p>Default:</p>
+<p>Key-value pair 中的 value 是什麼數值? &rarr; 按 <a href="https://doc.scrapy.org/en/latest/news.html#scrapy-1-3-1-2017-02-08">Scrapy 1.3.1 (2017-02-08) Release Note</a> 的說法，是 components order。</p>
+<pre><code>{
+    'scrapy.contracts.default.UrlContract' : 1,
+    'scrapy.contracts.default.ReturnsContract': 2,
+    'scrapy.contracts.default.ScrapesContract': 3,
+}
+</code></pre>
+</li>
+<li>
+<p>A dict containing the scrapy contracts ENABLED BY DEFAULT in Scrapy. You should never modify this setting in your project, modify <code>SPIDER_CONTRACTS</code> instead. For more info see Spiders Contracts.</p>
+</li>
+<li>You can disable any of these contracts by assigning <code>None</code> to their CLASS PATH in <code>SPIDER_CONTRACTS</code>. E.g., to disable the built-in <code>ScrapesContract</code>, place this in your <code>settings.py</code>:<pre><code>SPIDER_CONTRACTS = {
+    'scrapy.contracts.default.ScrapesContract': None,
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.scrapy.org/en/1.5/topics/shell.html">Scrapy shell — Scrapy 1.5.0 documentation</a> INTERACTIVELY test your expressions while you’re writing your spider #ril</p>
+</li>
+<li><a href="https://doc.scrapy.org/en/1.5/topics/telnetconsole.html?highlight=scraper">Telnet Console — Scrapy 1.5.0 documentation</a> 跟測試好像沒什麼關係? #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

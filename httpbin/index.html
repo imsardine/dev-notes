@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/httpbin/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>HttpBin - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/httpbin.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#httpbin">HttpBin</a></li>
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路??</a></li>
+                
+            <li class="second-level"><a href="#request-inspection">Request Inspection ??</a></li>
+                
+            <li class="second-level"><a href="#anything">Anything</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="httpbin">HttpBin<a class="headerlink" href="#httpbin" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://httpbin.org/">httpbin.org</a><ul>
+<li>A simple HTTP Request &amp; Response Service.</li>
+<li>最早是 RequestBin 可以用來測 POST request，但無法控制 response，所以才有 HttpBin 的出現；但 HttpBin 不支援 POST (現在已支援)</li>
+</ul>
+</li>
+<li><a href="https://github.com/requests/httpbin">requests/httpbin: HTTP Request &amp; Response Service, written in Python + Flask.</a> 額外提到 written in Python + Flask</li>
+<li><a href="https://www.kennethreitz.org/essays/httpbin">Announcing Httpbin.org — Kenneth Reitz</a> (2011-06-12)<ul>
+<li>Requests 的測試在實務上有些惱人，現有的 PostBin.org (現在都會導到 <a href="http://requestb.in/">http://requestb.in/</a> ?) 只能用來測 HTTP POST，而且執行在 GAE 上，所以 httpbin.org 就這樣誕生了。</li>
+<li>例如 <code>curl http://httpbin.org/user-agent</code> 會得到 <code>{ "user-agent": "curl/7.43.0" }</code>。</li>
+<li>HttpBin 會打包在 PyPI 上，用 Flask 開發。</li>
+</ul>
+</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code>def test_hello_world():
+    query_string = {'greeting': 'Hello, World!'}
+    resp = requests.get('http://httpbin/get', params=query_string)
+    resp.raise_for_status() # best practice
+
+    assert resp.json()['args']['greeting'] == 'Hello, World!'
+</code></pre>
+
+<h2 id="getting-started">新手上路??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://httpbin.org/">httpbin.org</a> 首頁是用 Flasgger 產生的 API 文件，區分為 HTTP Methods、Auth、Status codes、Response formats、Cookies、Images、Redirects 及 Anything，可以分開學習。</li>
+</ul>
+<h2 id="request-inspection">Request Inspection ??<a class="headerlink" href="#request-inspection" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://httpbin.org/#operations-tag-Request_inspection">Request inspection - httpbin.org</a> 底下有 <code>/headers</code>、<code>/ip</code> 跟 <code>/user-agent</code>，感覺是 <code>GET /anything</code> 的簡化版?</li>
+</ul>
+<h2 id="anything">Anything<a class="headerlink" href="#anything" title="Permanent link"> #</a></h2>
+<p><code>/anything</code> 因為 &ldquo;returns anything passed in request data&rdquo; 的特定，又支援不同的 HTTP method，可以用來檢查往 server 端送出的資料是否正確，但無法安排特定的 response，因為型態固定是 <code>application/json</code>，結構也是固定的。例如：</p>
+<pre><code>$ curl https://httpbin.org/anything?key1=value1 --data key2=value2
+{
+  &quot;args&quot;: {        &lt;-- 收到的資料
+    &quot;key1&quot;: &quot;value1&quot;
+  },
+  &quot;data&quot;: &quot;&quot;,
+  &quot;files&quot;: {},
+  &quot;form&quot;: {
+    &quot;key2&quot;: &quot;value2&quot;
+  },
+  &quot;headers&quot;: {     &lt;-- 收到的 header
+    &quot;Accept&quot;: &quot;*/*&quot;,
+    &quot;Connection&quot;: &quot;close&quot;,
+    &quot;Content-Length&quot;: &quot;11&quot;,
+    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;,
+    &quot;Host&quot;: &quot;httpbin.org&quot;,
+    &quot;User-Agent&quot;: &quot;curl/7.54.0&quot;
+  },
+  &quot;json&quot;: null,
+  &quot;method&quot;: &quot;POST&quot;,
+  &quot;origin&quot;: &quot;12.34.56.78&quot;,
+  &quot;url&quot;: &quot;https://httpbin.org/anything?key1=value1&quot;
+}
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://httpbin.org/#operations-tag-Anything">Anything - httpbin.org</a><ul>
+<li>Returns anything that is passed to request 看似 Request inspection 是它的簡化版?</li>
+<li>支援 DELETE、GET、PATCH、POST、PUT，有 <code>/anything</code> 跟 <code>/anything/{anything}</code> 兩種 endpoint? 只要以 <code>/anything</code> 開頭即可。</li>
+</ul>
+</li>
+<li><a href="https://github.com/requests/httpbin/issues/421">Enable request logging · Issue #421 · requests/httpbin</a><ul>
+<li>drichards-levtech: 想看 server side 收到什麼?</li>
+<li>sigmavirus24: (member) <code>/anything</code> already returns the data as it is seen by HTTPbin =&gt; 這一點可以用來確認收到什麼!!</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>$ docker run --rm -d --name httpbin kennethreitz/httpbin
+$ docker run --rm -it --link httpbin alpine
+/ # apk add --no-cache curl
+/ # curl -i http://httpbin/get
+HTTP/1.1 200 OK
+Server: gunicorn/19.9.0
+Date: Fri, 28 Sep 2018 13:37:49 GMT
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 175
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+{
+  &quot;args&quot;: {},
+  &quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;*/*&quot;,
+    &quot;Host&quot;: &quot;httpbin&quot;,
+    &quot;User-Agent&quot;: &quot;curl/7.61.1&quot;
+  },
+  &quot;origin&quot;: &quot;172.17.0.5&quot;,
+  &quot;url&quot;: &quot;http://httpbin/get&quot;
+}
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://httpbin.org/">httpbin.org</a> 一開始就講 Run locally: <code>$ docker run -p 80:80 kennethreitz/httpbin</code></li>
+<li><a href="https://hub.docker.com/r/kennethreitz/httpbin/">kennethreitz/httpbin - Docker Hub</a> 這裡什麼都沒講<ul>
+<li><code>Dockerfile</code> 以 <code>ubuntu:18.04</code> 為基礎，執行用 <code>CMD ["gunicorn", "-b", "0.0.0.0:80", "httpbin:app", "-k", "gevent"]</code></li>
+<li>Tags 只有 <code>latest</code> XD</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://httpbin.org/">httpbin.org</a></li>
+<li><a href="https://github.com/requests/httpbin">requests/httpbin - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/hashtag/httpbin">#httpbin hashtag on Twitter</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

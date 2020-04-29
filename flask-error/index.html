@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/flask-error/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Flask / Error Handling - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/flask-error.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#flask-error-handling">Flask / Error Handling</a></li>
+            <li class="second-level"><a href="#logging">Logging</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="flask-error-handling"><a href="../flask/">Flask</a> / Error Handling<a class="headerlink" href="#flask-error-handling" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/errorhandling/">Application Errors — Flask 1.0.2 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Applications fail, servers fail. Sooner or later you will see an exception in production. Even if your code is 100% correct, you will still see exceptions from time to time. Why? Because everything else involved will fail. Here are some situations where perfectly fine code can lead to server errors:</p>
+<ul>
+<li>the client terminated the request early and the application was still reading from the incoming data</li>
+<li>the database server was overloaded and could not handle the query</li>
+<li>a filesystem is full</li>
+<li>a harddrive crashed</li>
+<li>a backend server overloaded</li>
+<li>a programming error in a library you are using</li>
+<li>network connection of the server to another system failed</li>
+</ul>
+<p>And that’s just a small sample of issues you could be facing. So how do we deal with that sort of problem? By default if your application runs in production mode, Flask will display a very SIMPLE PAGE for you and LOG THE EXCEPTION TO THE <code>logger</code>.</p>
+<p>都是不可控制的因素。雖然 &ldquo;log the exception to the logger&rdquo; 是指 <a href="http://flask.pocoo.org/docs/1.0/api/#flask.Flask.logger"><code>flask.Flask.logger</code></a>，但確認從 root logger 可以攔截到，會寫出 traceback (固定回 500)，也因此沒自訂 error handling 也沒關係，除非想要自訂 error response 的格式。</p>
+<p>從 <a href="http://flask.pocoo.org/docs/1.0/logging/#basic-configuration">Logging - Basic Configuration</a> 看來，不用擔心 <code>flask.app</code> 又被安排其他 handler：</p>
+<blockquote>
+<p>If <code>app.logger</code> is accessed before logging is configured, it will add a default handler. If possible, CONFIGURE LOGGING BEFORE CREATING THE APPLICATION OBJECT.</p>
+</blockquote>
+<p>實驗發現 <code>flask.app</code> 會不會被安排其他 handler 跟 application object 的建立無關，而是跟 <code>app.logger</code> 什麼時候被存取有關。也就是 <code>app.logger</code> 被存取時會檢查 root logger 有沒有 handler，如果沒有的話會在 <code>flask.app</code> 安排 handler &hellip; 聽起來有點怪，但在 entry point 一開始就設定好 configuration 就不會有奇奇怪怪的問題。</p>
+</li>
+<li>
+<p>But there is more you can do, and we will cover some better setups to deal with errors.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/errorhandling/#error-handlers">Error handlers - Application Errors — Flask 1.0.2 documentation</a> #ril</p>
+<ul>
+<li>
+<p>You might want to show CUSTOM ERROR PAGES to the user when an error occurs. This can be done by REGISTERING ERROR HANDLERS.</p>
+</li>
+<li>
+<p>An error handler is a NORMAL VIEW FUNCTION that return a response, but instead of being registered for a route, it is registered for an exception or HTTP status code that would is raised while trying to handle a request.</p>
+</li>
+</ul>
+<p>Registering</p>
+<ul>
+<li>
+<p>Register handlers by decorating a function with <code>errorhandler()</code>. Or use <code>register_error_handler()</code> to register the function later. Remember to set the error code when returning the response.</p>
+<pre><code>@app.errorhandler(werkzeug.exceptions.BadRequest)
+def handle_bad_request(e):
+    return 'bad request!', 400
+
+# or, without the decorator
+app.register_error_handler(400, handle_bad_request)
+</code></pre>
+<p><code>werkzeug.exceptions.HTTPException</code> subclasses like <code>BadRequest</code> and their HTTP codes are interchangeable when registering handlers. (<code>BadRequest.code == 400</code>)</p>
+</li>
+<li>
+<p>Non-standard HTTP codes cannot be registered by code because they are not known by Werkzeug. Instead, define a subclass of <code>HTTPException</code> with the appropriate code and register and raise that exception class.</p>
+<pre><code>class InsufficientStorage(werkzeug.exceptions.HTTPException):
+    code = 507
+    description = 'Not enough storage space.'
+
+app.register_error_handler(InsuffcientStorage, handle_507)
+
+raise InsufficientStorage()
+</code></pre>
+</li>
+<li>
+<p>Handlers can be registered for any exception class, not just <code>HTTPException</code> subclasses or HTTP status codes. Handlers can be registered for a specific class, or for all subclasses of a parent class.</p>
+<p>這一點很適合有發展自己 exception hierarchy 的應用。</p>
+</li>
+</ul>
+<p>Handling</p>
+<ul>
+<li>
+<p>When an exception is caught by Flask while handling a request, it is first looked up by CODE. If no handler is registered for the code, it is looked up by its CLASS HIERARCHY; the MOST SPECIFIC handler is chosen.</p>
+<p>If no handler is registered, <code>HTTPException</code> subclasses show a generic message about their code, while other exceptions are converted to a generic 500 Internal Server Error.</p>
+<p>過程中只有一個 handler 會處理到 request 過去中丟出的 error；實驗發現，若走進自訂的 handler，就不會自動做上述的 &ldquo;log the exception to the <code>logger</code>&ldquo;。</p>
+</li>
+<li>
+<p>For example, if an instance of <code>ConnectionRefusedError</code> is raised, and a handler is registered for <code>ConnectionError</code> and <code>ConnectionRefusedError</code>, the more specific <code>ConnectionRefusedError</code> handler is called with the exception instance to generate the response.</p>
+<p>不過 Flask 在什麼情況下會丟 <code>ConnectionRefusedError</code> ??</p>
+</li>
+<li>
+<p>Handlers registered on the BLUEPRINT take precedence over those registered GLOBALLY on the application, assuming a blueprint is handling the request that raises the exception. However, the blueprint CANNOT HANDLE 404 routing errors because the 404 occurs at the ROUTING LEVEL before the blueprint can be determined.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/errorhandling/#error-logging-tools">Error Logging Tools - Application Errors — Flask 1.0.2 documentation</a></p>
+<ul>
+<li>
+<p>Sending error mails, even if just for critical ones, can become OVERWHELMING if enough users are hitting the error and log files are TYPICALLY NEVER LOOKED AT.</p>
+<p>This is why we recommend using Sentry for dealing with application errors. It’s available as an Open Source project on GitHub and is also available as a hosted version which you can try for free.</p>
+<p>Sentry AGGREGATES duplicate errors, captures the full stack trace and LOCAL VARIABLES for debugging, and sends you mails based on NEW ERRORS or FREQUENCY THRESHOLDS.</p>
+<p>就像是 server-side application 的 HockeyApp / App Center。</p>
+</li>
+<li>
+<p>To use Sentry you need to install the <code>raven</code> client with extra <code>flask</code> dependencies:</p>
+<pre><code>$ pip install raven[flask]
+</code></pre>
+<p>And then add this to your Flask app:</p>
+<pre><code>from raven.contrib.flask import Sentry
+sentry = Sentry(app, dsn='YOUR_DSN_HERE')
+</code></pre>
+<p>Or if you are using factories you can also init it later:</p>
+<pre><code>from raven.contrib.flask import Sentry
+sentry = Sentry(dsn='YOUR_DSN_HERE')
+
+def create_app():
+    app = Flask(__name__)
+    sentry.init_app(app)
+    ...
+    return app
+</code></pre>
+<p>The <code>YOUR_DSN_HERE</code> value needs to be replaced with the DSN value ?? you get from your Sentry installation.</p>
+<p>猜想 <code>sentry.init_app(app)</code> 會在 application object 裡註冊 error handler，再往 Sentry 送?</p>
+</li>
+<li>
+<p>Afterwards failures are automatically reported to Sentry and from there you can receive error notifications.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/logging/#email-errors-to-admins">Email Errors to Admins - Logging — Flask 1.0.2 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li>Error logging 官方文件建議用 <a href="../sentry/">Sentry</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.Flask.errorhandler"><code>flask.Flask.errorhandler(code_or_exception)</code></a></li>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.Flask.register_error_handler"><code>flask.Flask.register_error_handler(code_or_exception, f)</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

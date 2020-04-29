@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gunicorn/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Gunicorn - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gunicorn.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gunicorn">Gunicorn</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#gunicorn-cli">gunicorn CLI ??</a></li>
+                
+            <li class="second-level"><a href="#pre-fork-worker-model">Pre-fork Worker Model ??</a></li>
+                
+            <li class="second-level"><a href="#syncasync-worker">Sync/Async Worker ??</a></li>
+                
+            <li class="second-level"><a href="#logging">Logging ??</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#deployment">Deployment ??</a></li>
+                
+            <li class="second-level"><a href="#statsd">statsD ??</a></li>
+                
+            <li class="second-level"><a href="#sharing-data-between-workers">Sharing Data Between Workers ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#snippets">Snippets</a></li>
+                
+                <li class="third-level"><a href="#dockerfile">Dockerfile</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gunicorn">Gunicorn<a class="headerlink" href="#gunicorn" title="Permanent link"> #</a></h1>
+<ul>
+<li>Gunicorn = &ldquo;Green Unicorn&rdquo; (logo 就是一隻綠色的獨角獸)，唸做 g-unicorn。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://gunicorn.org/">Gunicorn - Python WSGI HTTP Server for UNIX</a> Gunicorn &lsquo;Green Unicorn&rsquo; is a Python WSGI HTTP Server for UNIX. It&rsquo;s a PRE-FORK WORKER MODEL.</li>
+<li><a href="https://github.com/benoitc/gunicorn/issues/139">Ambiguous Pronunciation · Issue #139 · benoitc/gunicorn</a> davisp (collaborator) 說 green unicorn、g-unicorn 或 gun-i-corn 都可以。</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/deploying/wsgi-standalone/#gunicorn">Gunicorn - Standalone WSGI Containers — Flask 1.0.2 documentation</a> It’s a pre-fork worker model ported from Ruby’s <a href="https://en.wikipedia.org/wiki/Unicorn_(web_server)">Unicorn project</a>.</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://gunicorn.org/">Installation - Gunicorn - Python WSGI HTTP Server for UNIX</a></p>
+<pre><code>$ pip install gunicorn
+$ cat myapp.py
+  def app(environ, start_response): &lt;-- 同 WSGI 規範的，會收到資料 (environment info) 及 callback function
+      data = b"Hello, World!\n"
+      start_response("200 OK", [
+          ("Content-Type", "text/plain"),
+          ("Content-Length", str(len(data)))
+      ])
+      return iter([data])
+$ gunicorn -w 4 myapp:app &lt;-- -w 4 表示要有 4 個 worker，後面
+[2014-09-10 10:22:28 +0000] [30869] [INFO] Listening at: http://127.0.0.1:8000 (30869) &lt;-- 預設是 8000 port，但只在 localhost
+[2014-09-10 10:22:28 +0000] [30869] [INFO] Using worker: sync &lt;-- sync worker?
+[2014-09-10 10:22:28 +0000] [30874] [INFO] Booting worker with pid: 30874 &lt;-- 獨立的 worker process
+[2014-09-10 10:22:28 +0000] [30875] [INFO] Booting worker with pid: 30875
+[2014-09-10 10:22:28 +0000] [30876] [INFO] Booting worker with pid: 30876
+[2014-09-10 10:22:28 +0000] [30877] [INFO] Booting worker with pid: 30877
+</code></pre>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/quickstart/">Quickstart — Flask 1.0.2 documentation</a> 一開始就提到 First we imported the <code>Flask</code> class. An instance of this class will be our WSGI application，把它交給 Gunicorn 即可，就像上面不用任何 web framework 的 application object 一樣。</p>
+</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/deploying/">Deployment Options — Flask 1.0.2 documentation</a> 再次強調 Just remember that your <code>Flask</code> application object is the actual WSGI application.</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/deploying/wsgi-standalone/#gunicorn">Gunicorn - Standalone WSGI Containers — Flask 1.0.2 documentation</a> These servers stand alone when they run; you can proxy to them from your web server. &hellip; <code>gunicorn -w 4 -b 127.0.0.1:4000 myproject:app</code></li>
+</ul>
+<h2 id="gunicorn-cli"><code>gunicorn</code> CLI ??<a class="headerlink" href="#gunicorn-cli" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.gunicorn.org/en/latest/run.html">Running Gunicorn — Gunicorn 19.8.1 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Basic usage: <code>$ gunicorn [OPTIONS] APP_MODULE</code> Where <code>APP_MODULE</code> is of the pattern <code>$(MODULE_NAME):$(VARIABLE_NAME)</code>. The module name can be a FULL DOTTED PATH. (例如 <code>myproj.main:app</code>) The variable name refers to a WSGI callable that should be found in the specified module. 例如 <code>test.py</code> 的內容：</p>
+<pre><code>def app(environ, start_response):
+    """Simplest possible application object"""
+    ...
+</code></pre>
+<p>可以用 <code>gunicorn --workers=2 test:app</code> 執行。</p>
+</li>
+<li>
+<p><code>-b BIND, --bind=BIND</code> - Specify a server socket to bind. Server sockets can be any of <code>$(HOST)</code>, <code>$(HOST):$(PORT)</code>, or <code>unix:$(PATH)</code>. An IP is a valid <code>$(HOST)</code>. 可以同時指定 host 跟 port；預設是 <code>127.0.0.0:8000</code>。</p>
+</li>
+<li><code>-w WORKERS, --workers=WORKERS</code> - The number of worker processes. This number should generally be between 2-4 WORKERS PER CORE in the server. Check the FAQ for ideas on tuning this parameter.</li>
+<li>Settings can be specified by using environment variable <code>GUNICORN_CMD_ARGS</code>. 這點對於包裝 Docker image 時很重要，因為 <code>gunicorn [OPTIONS] APP_MODULE</code> 中的 <code>APP_MODULE</code> 一定要擺最後面，若採用 <code>ENTRYPOINT ["gunicorn", "myproject.wsgi"]</code>，使用 image 的人就無法透過 <code>CMD</code> 給 options；實驗發現 <code>gunicorn APP_MODULE [OPTIONS]</code> 的用法也是可行的，雖然文件沒有明確提及。</li>
+<li>跟 Django 的整合提到 Gunicorn will look for a WSGI callable named <code>application</code> if not specified. So for a typical Django project, invoking Gunicorn would look like: <code>gunicorn myproject.wsgi</code>；原來 <a href="https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/#the-application-object">Django 的樣板會這樣安排</a> &ndash; The <code>startproject</code> command creates a file <code>&lt;project_name&gt;/wsgi.py</code> that contains such an <code>application</code> callable. 所以 <a href="https://github.com/search?q=filename%3Awsgi.py+django">GitHub 上有一堆這樣的例子</a>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="pre-fork-worker-model">Pre-fork Worker Model ??<a class="headerlink" href="#pre-fork-worker-model" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.gunicorn.org/en/latest/design.html">Design — Gunicorn 19.8.1 documentation</a> #ril</p>
+<p>Server Model</p>
+<ul>
+<li>Gunicorn is based on the PRE-FORK WORKER MODEL. This means that there is a central MASTER PROCESS that manages a set of WORKER PROCESSES. The master NEVER knows anything about individual clients. All requests and responses are handled completely by worker processes.</li>
+</ul>
+<p>Server Model / Master</p>
+<ul>
+<li>
+<p>The master process is A SIMPLE LOOP that listens for various PROCESS SIGNALS and reacts accordingly. It manages the list of running workers by listening for SIGNALS ?? like TTIN, TTOU, and CHLD.</p>
+<p>TTIN and TTOU tell the master to increase or decrease the number of running workers. CHLD indicates that a child process has terminated, in this case the master process automatically restarts the failed worker.</p>
+<p>Gunicorn 的 master process 完全不會載入 Python code，跟 <a href="https://engineering.ticketea.com/uwsgi-preforking-lazy-apps/">uWSGI, Preforking and Lazy Apps</a> 中 uWSGI, forking and copy-on-write 描述的狀況完全不且。</p>
+</li>
+</ul>
+<p>Server Model / Sync Workers</p>
+<ul>
+<li>
+<p>The most basic and the DEFAULT worker type is a synchronous worker class that HANDLES A SINGLE REQUEST AT A TIME. This model is the simplest to reason about as any errors will affect AT MOST a single request.</p>
+<p>啟動時會看到 <code>[INFO] Using worker: sync</code> 的訊息。</p>
+<p>Though as we describe below only processing a single request at a time requires some ASSUMPTIONS ?? about how applications are programmed.</p>
+</li>
+<li>
+<p><code>sync</code> worker does NOT support PERSISTENT CONNECTIONS - each connection is closed after response has been sent (even if you manually add <code>Keep-Alive</code> or <code>Connection: keep-alive</code> header in your application).</p>
+<p>不適合 production ??</p>
+</li>
+</ul>
+<p>Server Model/ Async Workers</p>
+<ul>
+<li>The asynchronous workers available are based on Greenlets (via Eventlet and Gevent). Greenlets are an implementation of COOPERATIVE MULTI-THREADING ?? for Python. In general, an application should be able to make use of these worker classes WITH NO CHANGES.</li>
+</ul>
+<p>Server Model / Tornado Workers #ril</p>
+</li>
+<li>
+<p><a href="http://gunicorn.org/">Gunicorn - Python WSGI HTTP Server for UNIX</a> 一開始就講 It&rsquo;s a pre-fork worker model</p>
+</li>
+<li><a href="http://gunicorn.org/#quickstart">Quick Start - Gunicorn - Python WSGI HTTP Server for UNIX</a> Server 一啟動時 (<code>Listening at: http://127.0.0.1:8000</code>)，緊接著其他 worker process 就預先產生了 <code>Booting worker with pid: ...</code>，這就是 pre-fork worker?</li>
+<li><a href="http://docs.gunicorn.org/en/latest/faq.html#worker-processes">Worker Processes - FAQ — Gunicorn 19.8.1 documentation</a> #ril</li>
+</ul>
+<h2 id="syncasync-worker">Sync/Async Worker ??<a class="headerlink" href="#syncasync-worker" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://gunicorn.org/">Installation - Gunicorn - Python WSGI HTTP Server for UNIX</a> 範例出現 <code>[INFO] Using worker: sync</code>。</li>
+<li><a href="http://docs.gunicorn.org/en/latest/install.html#async-workers">Async Workers - Installation — Gunicorn 19.8.1 documentation</a> &ldquo;pause for extended periods of time during request processing&rdquo; 時要採用 async worker，加裝 <a href="http://eventlet.net/">Eventlet</a> 或 <a href="http://www.gevent.org/">Gevent</a>。</li>
+<li><a href="https://words.volant.is/articles/understanding-gunicorns-async-worker-concurrency-model/">Understanding gunicorn&rsquo;s async worker concurrency model | Volant.is</a> (2014-04-21) #ril</li>
+</ul>
+<h2 id="logging">Logging ??<a class="headerlink" href="#logging" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.gunicorn.org/en/stable/settings.html#logging">Logging - Settings — Gunicorn 19.9.0 documentation</a></p>
+<p><code>accesslog</code></p>
+<ul>
+<li><code>--access-logfile FILE</code> 預設 <code>None</code>。</li>
+<li>The Access log file to write to. <code>'-'</code> means log to stdout.</li>
+</ul>
+<p><code>access_log_format</code></p>
+<ul>
+<li>
+<p><code>--access-logformat STRING</code> 預設 <code>%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"</code></p>
+<p>有點難懂，舉個例子：</p>
+<pre><code>172.17.0.1 -     -     [29/Mar/2019:02:27:46 +0000] "POST / HTTP/1.1" 500   290   "-"     "curl/7.54.0"
+ %(h)s     %(l)s %(u)s %(t)s                        "%(r)s"           %(s)s %(b)s "%(f)s" "%(a)s"
+</code></pre>
+</li>
+</ul>
+<p><code>errorlog</code></p>
+<ul>
+<li><code>--error-logfile FILE</code>, <code>--log-file FILE</code></li>
+<li>The Error log file to write to. Using <code>'-'</code> for <code>FILE</code> makes gunicorn log to stderr.</li>
+<li>
+<p>Changed in version 19.2: Log to stderr by default.</p>
+</li>
+<li>
+<p>採用什麼格式? 實際的例子也看不太懂 &hellip;</p>
+<pre><code>[2019-03-29 02:27:46 +0000] [8] [DEBUG] POST /
+</code></pre>
+<p>從 <a href="https://github.com/benoitc/gunicorn/issues/1771">Gunicorn default error logging date format is not standard ISO8601 · Issue #1771 · benoitc/gunicorn</a> 看來，似乎是對應 <code>r"%(asctime)s [%(process)d] [%(levelname)s] %(message)s"</code></p>
+</li>
+</ul>
+<p><code>logger_class</code></p>
+<ul>
+<li><code>--logger-class STRING</code> 預設 <code>gunicorn.glogging.Logger</code></li>
+<li>The logger you want to use to log events in Gunicorn. The default class (<code>gunicorn.glogging.Logge</code>r) handle most of normal usages in logging. It provides error and access logging.</li>
+<li>
+<p>You can provide your own logger by giving Gunicorn a PYTHON PATH to a subclass like <code>gunicorn.glogging.Logger</code>.</p>
+<p>雖然沒有 <code>--error-logformat</code> 可用，但繼承 <code>gunicorn.glogging.Logger</code> 改寫 log 的處理方式，是有機會將 access &amp; error log 都寫出為 JSON Lines 的；也可以搭配 <code>--log-config</code> 使用。由 <code>--pythonpath STRING</code> 調整 Python path #ril</p>
+</li>
+</ul>
+<p><code>logconfig</code></p>
+<ul>
+<li><code>--log-config FILE</code> 預設 <code>None</code></li>
+<li>The log config file to use. Gunicorn uses the standard Python logging module’s Configuration file format.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/45088749/">python - How can I configure gunicorn to use a consistent error log format? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Kris Harper: I am using Gunicorn in front of a Python Flask app. I am able to configure the access log format using the <code>--access-log-format</code> command line parameter when I run gunicorn. But I can&rsquo;t figure out how to configure the error logs.</p>
+<p>I would be fine with the default format, except it&rsquo;s not consistent. It looks like Gunicorn status messages have one format, but application exceptions have a different format. This is making it difficult to use log aggregation. 不過若沒有 uncaught exception，就不會有這類問題?</p>
+<pre><code>[2017-07-13 16:33:24 +0000] [15] [INFO] Booting worker with pid: 15
+[2017-07-13 16:33:24 +0000] [16] [INFO] Booting worker with pid: 16
+[2017-07-13 16:33:24 +0000] [17] [INFO] Booting worker with pid: 17
+[2017-07-13 16:33:24 +0000] [18] [INFO] Booting worker with pid: 18
+[2017-07-13 18:31:11,580] ERROR in app: Exception on /api/users [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1982, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1614, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+...
+</code></pre>
+</li>
+<li>
+<p>aramaki: Using this logging config file, I was able to change the error log format</p>
+<pre><code>[loggers]
+keys=root, gunicorn.error
+
+[handlers]
+keys=error_console
+
+[formatters]
+keys=generic
+
+[logger_root]
+level=INFO
+handlers=error_console
+
+[logger_gunicorn.error]
+level=INFO
+handlers=error_console
+propagate=0
+qualname=gunicorn.error
+
+[handler_error_console]
+class=StreamHandler
+formatter=generic
+args=(sys.stderr, )
+
+[formatter_generic]
+format=%(asctime)s %(levelname)-5s [%(module)s] ~ %(message)s
+datefmt=%Y-%m-%d %H:%M:%S %Z
+class=logging.Formatter
+</code></pre>
+<p>The key is to overwrite the <code>gunicorn.error</code> logger config, and the snipped above does exactly that.</p>
+<p>Note the <code>propagate=0</code> field, it is important otherwise your log messages will be printed twice (gunicorn always keeps the default logging config).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/benoitc/gunicorn/blob/19.9.0/gunicorn/glogging.py#L171">gunicorn/glogging.py at 19.9.0 · benoitc/gunicorn</a> #ril</p>
+<pre><code>class Logger(object):
+
+    LOG_LEVELS = {
+        "critical": logging.CRITICAL,
+        "error": logging.ERROR,
+        "warning": logging.WARNING,
+        "info": logging.INFO,
+        "debug": logging.DEBUG
+    }
+    loglevel = logging.INFO
+
+    error_fmt = r"%(asctime)s [%(process)d] [%(levelname)s] %(message)s"
+    datefmt = r"[%Y-%m-%d %H:%M:%S %z]"
+
+    access_fmt = "%(message)s"
+    syslog_fmt = "[%(process)d] %(message)s"
+
+    atoms_wrapper_class = SafeAtoms
+
+    def __init__(self, cfg):
+        self.error_log = logging.getLogger("gunicorn.error")
+        self.error_log.propagate = False
+        self.access_log = logging.getLogger("gunicorn.access")
+        self.access_log.propagate = False
+        self.error_handlers = []
+        self.access_handlers = []
+        self.logfile = None
+        self.lock = threading.Lock()
+        self.cfg = cfg
+        self.setup(cfg)
+</code></pre>
+</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://docs.gunicorn.org/en/latest/configure.html">Configuration Overview — Gunicorn 19.9.0 documentation</a></p>
+<ul>
+<li>Gunicorn pulls configuration information from three distinct places. in order of least to most authoritative: 1. Framework Settings 2. Configuration File 3. Command Line 其中 framework specific configuration file 只支援 Paster。</li>
+<li>To check your configuration when using the command line or the configuration file you can run the following command: <code>$ gunicorn --check-config APP_MODULE</code> It also allows you to know if your application can be launched. 通常要搭配 <code>--config</code> 使用，因為 CLI options 有錯誤本來就會檢查；實驗發現，config file 裡有指定不對的 setting 時，例如 <code>preload</code> (正確是 <code>preload_app</code>)，執行 <code>gunicorn --config config.py --check-config ...</code> 會直接 exit，但 exit status 是 0，但不加 <code>--check-config</code> 就沒事。</li>
+<li>Not all Gunicorn SETTINGS are available to be set from the command line. 用 <code>gunicorn --help</code> 看最準；注意 setting 與 configuration 的不同，前者是可以調整的點，後者是設定的管道 &ndash; config file、CLI options 等。</li>
+<li>The configuration file should be a valid Python source file. It only needs to be readable from the file system. More specifically, it does not need to be IMPORTABLE. Any Python is valid. Just consider that this will be run every time you start Gunicorn (including when you signal Gunicorn to reload). 重新執行，實際上會有什麼影響嗎?</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.gunicorn.org/en/latest/settings.html">Settings — Gunicorn 19.9.0 documentation</a> #ril</p>
+<ul>
+<li>This is an exhaustive list of settings for Gunicorn. Some settings are only able to be set from a configuration file. The setting name is what should be used in the configuration file. 以 <code>preload_app</code>、<code>--preload</code>、<code>False</code> 為例，在 config file 裡要用 <code>preload_app</code> 設定，在 command line 要用 <code>--preload</code>，但預設值都是 <code>False</code>，另外 <code>default_proc_name</code>、<code>gunicorn</code> 沒有提示 <code>--xxx</code>，表示只能用在 config file 裡。</li>
+<li><code>raw_env</code>, <code>-e ENV, --env ENV</code>, <code>[]</code> &ndash; Set environment variable (<code>key=value</code>). PASS variables to the execution environment. Ex.: <code>$ gunicorn -b 127.0.0.1:8000 --env FOO=1 test:app</code> 原來要特別指定，環境變數才進得去，跟 Docker、tox 的做法一樣，預設不會 pass all。</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.gunicorn.org/en/latest/settings.html#security">Security - Settings — Gunicorn 19.9.0 documentation</a> #ril</p>
+<p><code>limit_request_line</code></p>
+<ul>
+<li>
+<p><code>--limit-request-line INT</code>, 4094</p>
+</li>
+<li>
+<p>The maximum size of HTTP REQUEST LINE in bytes.</p>
+</li>
+<li>
+<p>This parameter is used to limit the allowed size of a client’s HTTP request-line. Since the request-line consists of the HTTP method, URI, and protocol version, this directive places a restriction on the length of a request-URI allowed for a request on the server.</p>
+<p>A server needs this value to be large enough to hold any of its resource names, including any information that might be passed in the QUERY PART of a GET request. Value is a number from 0 (unlimited) to 8190.</p>
+<p>差不多就是 <code>https://...?key=value&amp;...</code> 的長度，若要限制 body 的長度 ??</p>
+</li>
+<li>
+<p>This parameter can be used to prevent any DDOS attack.</p>
+<p>跟 DDOS 攻擊為什麼有關係 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="deployment">Deployment ??<a class="headerlink" href="#deployment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.gunicorn.org/en/latest/deploy.html">Deploying Gunicorn — Gunicorn 19.8.1 documentation</a> #ril<ul>
+<li>一開始就說 We strongly recommend to use Gunicorn behind a proxy server. 為何??</li>
+</ul>
+</li>
+<li><a href="http://docs.gunicorn.org/en/latest/faq.html#how-might-i-test-a-proxy-configuration">How might I test a proxy configuration? - FAQ — Gunicorn 19.8.1 documentation</a> #ril<ul>
+<li>建議用 <a href="https://github.com/rakyll/hey">Hey</a> 測試 &ldquo;your proxy is correctly buffering responses for the synchronous workers&rdquo;，看來 proxy server 要負責 queue 住 reqeust!!</li>
+</ul>
+</li>
+<li><a href="http://docs.gunicorn.org/en/latest/faq.html#why-is-there-no-http-keep-alive">Why is there no HTTP Keep-Alive? - FAQ — Gunicorn 19.8.1 documentation</a> #ril<ul>
+<li>預設的 sync worker 被設計用在 Nginx 背後 (only uses HTTP/1.0 with its upstream servers?) 如果要 Gunicorn 自己面對 unbuffered requests (直接面對來自 internet 的 request)，就必須要改用 async worker。</li>
+</ul>
+</li>
+</ul>
+<h2 id="statsd">statsD ??<a class="headerlink" href="#statsd" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.gunicorn.org/en/latest/instrumentation.html">Instrumentation — Gunicorn 19.8.1 documentation</a> #ril</li>
+</ul>
+<h2 id="sharing-data-between-workers">Sharing Data Between Workers ??<a class="headerlink" href="#sharing-data-between-workers" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/prometheus/client_python/issues/30">Support sharing registry across multiple workers (where possible) · Issue #30 · prometheus/client_python</a><ul>
+<li>discordianfish: 用 Prometheus Client Library 遇到 Gunicorn/uWSGI 這類會起多個 worker 的 server 時，每次都只會刮取到單一個 worker 的數據 (each scrape it hits only one worker since they can&rsquo;t share state with others)，uWSGI 支援 <a href="http://uwsgi-docs.readthedocs.org/en/latest/SharedArea.html">sharedarea</a> 可以在 worker 間共享 registry，或許 Gunicorn 也支援類似的機制?</li>
+<li>brian-brazil: (member) 可能要自己實作 sharing mechanism 才能跨系統使用，僅限於 counter-based metrics 使用? 之後提出 <a href="https://github.com/brian-brazil/client_python/commit/d2d88ea1b22dcf96416877a81e0ec31ad999e96f">https://github.com/brian-brazil/client_python/commit/d2d88ea1b22dcf96416877a81e0ec31ad999e96f</a> 裡面有 <code>MultiProcessCollector</code>。</li>
+<li>justyns: 跟 brian-brazil 對話看來，<code>prometheus_multiproc_dir</code> 環境變數要給，底下會產生 <code>.db</code> 共用數據，但 server 停止後不會刪掉。</li>
+<li>brian-brazil: 重新整理在 <a href="https://github.com/prometheus/client_python/tree/multiproc">https://github.com/prometheus/client_python/tree/multiproc</a>，隨後也加上 gauge 的支援；最後送出 <a href="https://github.com/prometheus/client_python/pull/66">https://github.com/prometheus/client_python/pull/66</a> 裡面有用到 mmap，每個 process 一支 <code>.db</code> 的樣子?</li>
+<li>rvrignaud: 針對 Gunicorn? brian-brazil: 沒有，只是用 Gunicorn 來測試而已。</li>
+<li>grobie: 有做過 benchmark 嗎? brian-brazil: 沒有，there&rsquo;s a fdatasync in there that I need to eliminate though.</li>
+<li>gjcarneiro: I think this whole &ldquo;sharing&rdquo; design you guys are attempting is just over-engineered. 後面跟 brian-brazil 有一長串的討論，後來好像從 exporter 的角度下手? #ril</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/26854594/">python - Sharing static global data among processes in a Gunicorn / Flask app - Stack Overflow</a> aaa90210: nmap #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://docs.gunicorn.org/en/latest/install.html">Installation — Gunicorn 19.8.1 documentation</a> #ril</li>
+</ul>
+<h2 id="snippets">Snippets<a class="headerlink" href="#snippets" title="Permanent link"> #</a></h2>
+<h3 id="dockerfile"><code>Dockerfile</code><a class="headerlink" href="#dockerfile" title="Permanent link"> #</a></h3>
+<pre><code>FROM python:3.7.0 AS runtime
+ADD Pipfile* ./
+RUN pip install pipenv==2018.11.26 \
+    &amp;&amp; pipenv install --system --deploy \
+    &amp;&amp; rm Pipfile*
+
+FROM runtime AS dev
+WORKDIR /workspace
+ADD Pipfile* ./
+RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+        vim \
+    &amp;&amp; pipenv install --system --deploy --dev
+
+FROM runtime
+WORKDIR /workspace
+ADD myproject myproject/
+EXPOSE 8000
+ENTRYPOINT [&quot;gunicorn&quot;]
+CMD [&quot;--bind=0.0.0.0:8000&quot;, &quot;myporject.wsgi:app&quot;]
+</code></pre>
+
+<p>佈署時要自訂 options 有兩種選擇：</p>
+<ul>
+<li>透過 <code>GUNICORN_CMD_ARGS</code> 環境變數，例如 <code>docker run --env GUNICORN_CMD_ARGS='--workers=2' ...</code>。</li>
+<li>覆寫 <code>CMD</code>，例如 <code>docker run ... --bind=0.0.0.0:8000 --workers=2 myporject.wsgi:app</code>；原有的 <code>CMD</code> 要重寫一次，相對麻煩。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://gunicorn.org/">Gunicorn</a></li>
+<li><a href="https://github.com/benoitc/gunicorn">benoitc/gunicorn - GitHub</a></li>
+<li><a href="https://pypi.org/project/gunicorn/">gunicorn - PyPI</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="http://docs.gunicorn.org/en/stable/">Gunicorn Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://docs.gunicorn.org/en/latest/settings.html">Settings — Gunicorn Documentation</a></li>
+<li><a href="http://docs.gunicorn.org/en/latest/settings.html#access-log-format">Access Log Format</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

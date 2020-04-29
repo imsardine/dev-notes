@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/sqlalchemy-core/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SQLAlchemy / Core - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/sqlalchemy-core.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sqlalchemy-core">SQLAlchemy / Core</a></li>
+            <li class="second-level"><a href="#engine-connection">Engine, Connection ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sqlalchemy-core"><a href="../sqlalchemy/">SQLAlchemy</a> / Core<a class="headerlink" href="#sqlalchemy-core" title="Permanent link"> #</a></h1>
+<h2 id="engine-connection">Engine, Connection ??<a class="headerlink" href="#engine-connection" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.sqlalchemy.org/en/13/core/connections.html">Working with Engines and Connections — SQLAlchemy 1.3 Documentation</a> #ril</p>
+<ul>
+<li>
+<p>This section details direct usage of the <code>Engine</code>, <code>Connection</code>, and related objects. Its important to note that when using the SQLAlchemy ORM, these objects are NOT generally accessed; instead, the <code>Session</code> object is used as the interface to the database.</p>
+<p>However, for applications that are built around direct usage of TEXTUAL SQL STATEMENTS and/or SQL EXPRESSION CONSTRUCTS without involvement by the ORM’s higher level MANAGEMENT SERVICES, the <code>Engine</code> and <code>Connection</code> are king (and queen?) - read on.</p>
+<p>確實用 SQLAlchemy 並不一定要走 ORM 就可以讓 code base 不會綁定特定的 DBMS 或 DB-API 實作。</p>
+</li>
+</ul>
+<p>Basic Usage</p>
+<ul>
+<li>
+<p>Recall from Engine Configuration that an <code>Engine</code> is created via the <code>create_engine()</code> call:</p>
+<pre><code>engine = create_engine('mysql://scott:tiger@localhost/test')
+</code></pre>
+</li>
+<li>
+<p>The typical usage of <code>create_engine()</code> is once per particular DATABASE URL, held globally for the lifetime of a single application process.</p>
+<p>A single <code>Engine</code> manages MANY individual DBAPI CONNECTIONS on behalf of the process and is intended to be called upon in a CONCURRENT fashion.</p>
+<p>The <code>Engine</code> is not synonymous to the DBAPI <code>connect</code> function, which represents just one connection resource - the <code>Engine</code> is most efficient when created JUST ONCE AT THE MODULE LEVEL of an application, not per-object or per-function call.</p>
+<p><code>Engine</code> 背後有多個 DB-API connection (如果沒有停用 connection pooling 的話)，整個 process 會共用一個 <code>Engine</code>。</p>
+</li>
+<li>
+<p>For a multiple-process application that uses the <code>os.fork</code> system call, or for example the Python <code>multiprocessing</code> module, it’s usually required that a separate <code>Engine</code> be used for each child process. This is because the <code>Engine</code> maintains a reference to a CONNECTION POOL that ultimately references DBAPI connections - these tend to not be portable across process boundaries.</p>
+<p>An <code>Engine</code> that is configured not to use pooling (which is achieved via the usage of <code>NullPool</code>) does not have this requirement.</p>
+<p>所謂 the requirement 指的是 &ldquo;一個 process 共用一個 engine&rdquo;，背後如果沒有 pooling 的話 (<code>NullPool</code>)，就只會對應到一個 connection，這樣 per-object 或 per-function 也沒差。</p>
+</li>
+<li>
+<p>The engine can be used directly to issue SQL to the database. The most generic way is first procure a connection resource, which you get via the <code>Engine.connect()</code> method:</p>
+<pre><code>connection = engine.connect()
+result = connection.execute("select username from users")
+for row in result:
+    print("username:", row['username'])
+connection.close()
+</code></pre>
+<p>The connection is an instance of <code>Connection</code>, which is a PROXY OBJECT for an actual DBAPI connection. The DBAPI connection is retrieved from the CONNECTION POOL at the point at which <code>Connection</code> is created.</p>
+<p><code>Engine.connect()</code> 在生成 <code>Connection</code> 時只是從 pool 拿出一個 DBAPI connection (一直與 DB 保持連線) 包裝起來而已，如果當時 DBAPI connection 不夠 (且數量未達上限)，就會動態建立。</p>
+<p>根據 <a href="https://www.python.org/dev/peps/pep-0249/#connection-objects">DB-API connection object</a> 只有 <code>close()</code>、<code>commit()</code>、<code>rollback()</code> 及 <code>cursor()</code> 4 個 method，並沒有 <code>connect()</code>，可見 DB-API connection object 在生成的時候就已經與 DB 建立連線；搭配 MySQL 的 <code>SHOW PROCESSLIST</code> 觀察也是如此。</p>
+</li>
+<li>
+<p>The returned result is an instance of <code>ResultProxy</code>, which references a DBAPI cursor and provides a LARGELY COMPATIBLE INTERFACE with that of the DBAPI cursor. The DBAPI cursor will be closed by the <code>ResultProxy</code> when all of its result rows (if any) are exhausted. A <code>ResultProxy</code> that returns no rows, such as that of an <code>UPDATE</code> statement (without any returned rows), releases cursor resources immediately upon construction.</p>
+<p>DB-API cursor object 有個 <a href="https://www.python.org/dev/peps/pep-0249/#cursor-close"><code>close()</code></a>，這意謂著如果沒讀完，要明確呼叫 <code>ResultProxy.close()</code>。</p>
+</li>
+<li>
+<p>When the <code>close()</code> method is called, the referenced DBAPI connection is RELEASED TO THE CONNECTION POOL. From the perspective of the database itself, NOTHING IS ACTUALLY “CLOSED”, assuming pooling is in use. The pooling mechanism issues a <code>rollback()</code> call on the DBAPI connection so that any transactional state or locks are removed, and the connection is ready for its next usage.</p>
+<p>呼應上面 DB-API connection object 沒有 <code>connect()</code>，DB-API connection 一直都是與 DB 保持連線的，只是回到 connection pool 前會透過 <code>rollback()</code> 把 transactional resources &ndash; 進行到一半的 transaction、要求的 lock 等釋出，也確保下一個拿到這個 DB-API connection 的人不會受影響。</p>
+</li>
+<li>
+<p>The above procedure can be performed in a shorthand way by using the <code>execute()</code> method of <code>Engine</code> itself:</p>
+<pre><code>result = engine.execute("select username from users")
+for row in result:
+    print("username:", row['username'])
+</code></pre>
+<p>Where above, the <code>execute()</code> method acquires a new <code>Connection</code> on its own, executes the statement with that object, and returns the <code>ResultProxy</code>. In this case, the <code>ResultProxy</code> contains a special flag known as <code>close_with_result</code>, which indicates that when its underlying DBAPI cursor is closed, the <code>Connection</code> object itself is also closed, which again returns the DBAPI connection to the connection pool, releasing transactional resources.</p>
+<p>因為拿不到 connection 以呼叫 <code>close()</code>，所以設計成 result set 讀完時會自動呼叫 <code>Connection.close()</code> 讓 connection 回到 pool；但如果沒讀完會發生什麼事? 下面在解釋最好明確呼叫 <code>ResultProxy.close()</code>，雖然最終也會因為 GC 的關係讓 connection 回到 pool，但最好別依賴這樣的行為。</p>
+</li>
+<li>
+<p>If the <code>ResultProxy</code> potentially has rows remaining, it can be instructed to close out its resources explicitly:</p>
+<pre><code>result.close()
+</code></pre>
+<p>If the <code>ResultProxy</code> has pending rows remaining and is DEREFERENCED by the application without being closed, Python garbage collection will ultimately close out the cursor as well as trigger a return of the pooled DBAPI connection resource to the pool (SQLAlchemy achieves this by the usage of WEAKREF CALLBACKS - never the <code>__del__</code> method) - however it’s never a good idea to rely upon Python garbage collection to manage resources.</p>
+</li>
+<li>
+<p>Our example above illustrated the execution of a textual SQL string. The <code>execute()</code> method can of course accommodate more than that, including the variety of SQL expression constructs described in SQL Expression Language Tutorial.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/">SQLAlchemy Core Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine"><code>sqlalchemy.create_engine()</code></a></li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/connections.html#sqlalchemy.engine.Engine"><code>sqlalchemy.engine.Engine</code></a></li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/connections.html#sqlalchemy.engine.Connection"><code>sqlalchemy.engine.Connection</code></a></li>
+<li><a href="https://docs.sqlalchemy.org/en/latest/core/connections.html#sqlalchemy.engine.ResultProxy"><code>sqlalchemy.engine.ResultProxy</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

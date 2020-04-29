@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tomcat/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Tomcat - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tomcat.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tomcat">Tomcat</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#catalina">Catalina</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#unix-like">Unix-like</a></li>
+                <li class="third-level"><a href="#maven">Maven</a></li>
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tomcat">Tomcat<a class="headerlink" href="#tomcat" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://tomcat.apache.org/">Apache Tomcat® - Welcome!</a></p>
+<ul>
+<li>
+<p>The Apache Tomcat software is an open source implementation of the Java Servlet, JavaServer Pages, <a href="https://jcp.org/en/jsr/detail?id=341">Java Expression Language</a> and <a href="https://jcp.org/en/jsr/detail?id=356">Java WebSocket</a> technologies. #ril</p>
+</li>
+<li>
+<p>Apache Tomcat software powers numerous LARGE-SCALE, mission-critical web applications across a diverse range of industries and organizations. Some of these users and their stories are listed on the <a href="https://cwiki.apache.org/confluence/display/TOMCAT/PoweredBy">PoweredBy</a> wiki page. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tomcat.apache.org/whichversion.html">Apache Tomcat® - Which Version Do I Want?</a></p>
+<ul>
+<li>
+<p>Apache Tomcat is an open source software implementation of a SUBSET of the Jakarta EE (formally Java EE) technologies. Different versions of Apache Tomcat are available for different versions of the specifications. The mapping between the specifications and the respective Apache Tomcat versions is:</p>
+<p>不同版本的文件，也分別提供有不同版本 Spec 的 Javadoc API 文件。例如 Tomcat 9 實作 Servlet 4.0，就會有 <a href="https://tomcat.apache.org/tomcat-9.0-doc/">Servlet 4.0</a> 的 Javadoc。</p>
+</li>
+<li>
+<p>Each version of Tomcat is supported for any stable Java release that meets the requirements of the final column in the table above.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ol>
+<li>
+<p>啟動 Tomcat</p>
+<pre><code>$CATALINA_BASE/bin/startup.sh
+</code></pre>
+</li>
+<li>
+<p>下載 Sample Application</p>
+<pre><code>$ curl -O https://tomcat.apache.org/tomcat-9.0-doc/appdev/sample/sample.war
+</code></pre>
+</li>
+<li>
+<p>將 <code>.war</code> 複製到 <code>CATALINA_BASE/webapps</code>，即可完成佈署：</p>
+<pre><code>$ mv sample.war $CATALINA_BASE/webapps/
+$ curl http://localhost:8080/sample/ 2&gt;/dev/null | grep -i title
+&lt;title&gt;Sample "Hello, World" Application&lt;/title&gt;
+</code></pre>
+</li>
+</ol>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://tomcat.apache.org/tomcat-9.0-doc/introduction.html">Apache Tomcat 9 (9.0.33) - Introduction</a> #ril</p>
+</li>
+<li>
+<p><a href="https://tomcat.apache.org/tomcat-9.0-doc/appdev/sample/">Sample Application</a></p>
+<ul>
+<li>
+<p>The example app has been packaged as a war file and can be downloaded <a href="https://tomcat.apache.org/tomcat-9.0-doc/appdev/sample/sample.war">here</a> (Note: make sure your browser doesn&rsquo;t change file extension or append a new one).</p>
+</li>
+<li>
+<p>The easiest way to run this application is simply to move the war file to your <code>CATALINA_BASE/webapps</code> directory. A default Tomcat install will automatically EXPAND AND DEPLOY the application for you. You can view it with the following URL (assuming that you&rsquo;re running tomcat on port 8080 which is the default):</p>
+<pre><code>http://localhost:8080/sample
+</code></pre>
+<p>Note: <code>CATALINA_BASE</code> is usually the directory in which you unpacked the Tomcat distribution. For more information on <code>CATALINA_HOME</code>, <code>CATALINA_BASE</code> and the difference between them see <code>RUNNING.txt</code> in the directory you unpacked your Tomcat distribution.</p>
+<p>通常 <code>CATALINA_BASE</code> 跟 <code>CATALINA_HOME</code> 是一樣的，有什麼差別? 為什麼這裡傾向用 <code>CATALINA_BASE</code> ??</p>
+<pre><code>$ grep CATALINA_HOME bin/*.sh | grep CATALINA_BASE
+bin/catalina.sh:# Copy CATALINA_BASE from CATALINA_HOME if not already set
+bin/catalina.sh:[ -z "$CATALINA_BASE" ] &amp;&amp; CATALINA_BASE="$CATALINA_HOME"
+bin/catalina.sh:# Ensure that neither CATALINA_HOME nor CATALINA_BASE contains a colon
+bin/daemon.sh:test ".$CATALINA_BASE" = . &amp;&amp; CATALINA_BASE="$CATALINA_HOME"
+bin/daemon.sh:# If not explicitly set, look for jsvc in CATALINA_BASE first then CATALINA_HOME
+</code></pre>
+</li>
+<li>
+<p>If you just want to browse the contents, you can unpack the war file with the jar command.</p>
+<pre><code>jar -xvf sample.war
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tomcat.apache.org/tomcat-9.0-doc/appdev/index.html">Application Developer&rsquo;s Guide (9.0.33) - Table of Contents</a> #ril</p>
+</li>
+</ul>
+<h2 id="catalina">Catalina<a class="headerlink" href="#catalina" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mulesoft.com/tcat/tomcat-catalina">An introduction to Tomcat Catalina | MuleSoft</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="unix-like">Unix-like<a class="headerlink" href="#unix-like" title="Permanent link"> #</a></h3>
+<p>下載 Core binary distribution 後解壓縮即可：</p>
+<pre><code>$ curl -O http://ftp.mirror.tw/pub/apache/tomcat/tomcat-9/v9.0.33/bin/apache-tomcat-9.0.33.tar.gz
+$ tar xf apache-tomcat-9.0.33.tar.gz
+
+$ cd apache-tomcat-9.0.33/
+$ ls bin/*.sh
+bin/catalina.sh     bin/daemon.sh       bin/setclasspath.sh bin/tool-wrapper.sh
+bin/ciphers.sh      bin/digest.sh       bin/shutdown.sh     bin/version.sh
+bin/configtest.sh   bin/makebase.sh     bin/startup.sh
+</code></pre>
+<p>多數的 script 都間接呼叫了 <code>catalina.sh</code>：</p>
+<pre><code>$ grep catalina.sh bin/*.sh
+bin/catalina.sh:# For supported commands call "catalina.sh help" or see the usage section at
+bin/catalina.sh:  echo "Usage: catalina.sh ( commands ... )"
+bin/configtest.sh:EXECUTABLE=catalina.sh
+bin/makebase.sh:echo "    \$CATALINA_HOME/bin/catalina.sh run"
+bin/shutdown.sh:EXECUTABLE=catalina.sh
+bin/startup.sh:EXECUTABLE=catalina.sh
+bin/version.sh:EXECUTABLE=catalina.sh
+</code></pre>
+<p>啟動 &amp; 停止 Tomcat：</p>
+<pre><code>$ bin/startup.sh
+Using CATALINA_BASE:   /Users/jeremykao/dev/tomcat
+Using CATALINA_HOME:   /Users/jeremykao/dev/tomcat
+Using CATALINA_TMPDIR: /Users/jeremykao/dev/tomcat/temp
+Using JRE_HOME:        /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+Using CLASSPATH:       /Users/jeremykao/dev/tomcat/bin/bootstrap.jar:/Users/jeremykao/dev/tomcat/bin/tomcat-juli.jar
+Tomcat started.
+
+$ bin/shutdown.sh
+Using CATALINA_BASE:   /Users/jeremykao/dev/tomcat
+Using CATALINA_HOME:   /Users/jeremykao/dev/tomcat
+Using CATALINA_TMPDIR: /Users/jeremykao/dev/tomcat/temp
+Using JRE_HOME:        /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+Using CLASSPATH:       /Users/jeremykao/dev/tomcat/bin/bootstrap.jar:/Users/jeremykao/dev/tomcat/bin/tomcat-juli.jar
+</code></pre>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://tomcat.apache.org/download-90.cgi">Apache Tomcat® - Apache Tomcat 9 Software Downloads</a></p>
+<p>Please see the README file for packaging information. It explains what every distribution contains.</p>
+<p>Binary Distributions 分得很細，包括 Core、Full documentation、Deployer 與 Embedded。</p>
+</li>
+<li>
+<p><a href="http://ftp.mirror.tw/pub/apache/tomcat/tomcat-9/v9.0.33/README.html">Apache Tomcat 9.0.33</a></p>
+<ul>
+<li>
+<p>Useful references:</p>
+<ul>
+<li><a href="http://ftp.mirror.tw/pub/apache/tomcat/tomcat-9/v9.0.33/RELEASE-NOTES">Release notes</a>, with important information about known issues</li>
+<li><a href="https://tomcat.apache.org/tomcat-9.0-doc/changelog.html">Changelog</a> #ril</li>
+</ul>
+</li>
+<li>
+<p>Tomcat 9.0 requires Java 8 or later. Read the RELEASE-NOTES and the RUNNING.txt file in the distribution for more details.</p>
+</li>
+<li>
+<p>Packaging Details (or &ldquo;What Should I Download?&rdquo;)</p>
+<p><code>bin/</code></p>
+<ul>
+<li>
+<p><code>apache-tomcat-[version].zip</code> or <code>.tar.gz</code></p>
+<p>Base distribution. These distributions do NOT include the WINDOWS service wrapper nor the compiled APR/native library for WINDOWS.</p>
+<p>少了一些 Windows 專用的東西。</p>
+</li>
+<li>
+<p><code>apache-tomcat-[version].exe</code></p>
+<p>32-bit/64-bit Windows installer for Tomcat. Please note that while this distribution includes the vast majority of the base distribution, some of the command-line scripts for launching Tomcat are not included. This distribution is intended for those users planning to launch Tomcat through the Windows shortcuts or services.</p>
+<p>專為 Windows 桌面環境設計。</p>
+</li>
+<li>
+<p><code>apache-tomcat-[version]-windows-x86.zip</code></p>
+<p>32-bit Windows specific distribution that includes the Windows service wrapper and the compiled APR/native library for use with 32-bit JVMs on both 32 and 64 bit Windows platforms.</p>
+</li>
+<li>
+<p><code>apache-tomcat-[version]-windows-x64.zip</code></p>
+<p>64-bit Windows specific distribution that includes the Windows service wrapper and the compiled APR/native library for use with 64-bit JVMs on x64 Windows platforms.</p>
+</li>
+<li>
+<p><code>apache-tomcat-[version]-deployer.zip</code> or <code>.tar.gz</code></p>
+<p>The standalone <a href="https://tomcat.apache.org/tomcat-9.0-doc/deployer-howto.html">Tomcat Web Application Deployer</a>. #ril</p>
+</li>
+<li>
+<p><code>apache-tomcat-[version]-fulldocs.tar.gz</code></p>
+<p>The Tomcat documentation bundle, including complete javadocs.</p>
+<p>就只有文件，歸在 binary 有點怪。</p>
+</li>
+</ul>
+<p><code>src/</code></p>
+<ul>
+<li>
+<p><code>apache-tomcat-[version].zip</code> or <code>.tar.gz</code></p>
+<p>The source code. See <a href="https://tomcat.apache.org/tomcat-9.0-doc/building.html">building instructions</a>. #ril</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tomcat.apache.org/tomcat-9.0-doc/RUNNING.txt">Running With JRE 8 Or Later - Running The Apache Tomcat 9.0 Servlet/JSP Container (<code>RUNNING.txt</code>)</a></p>
+<p>Apache Tomcat 9.0 requires a Java Standard Edition Runtime Environment (JRE) version 8 or later.</p>
+<ol>
+<li>
+<p>Download and Install a Java SE Runtime Environment (JRE)</p>
+</li>
+<li>
+<p>Download and Install Apache Tomcat</p>
+<p>Unpack the binary distribution so that it resides in its own directory (conventionally named <code>apache-tomcat-[version]</code>).</p>
+<p>For the purposes of the remainder of this document, the name <code>CATALINA_HOME</code> is used to refer to the full pathname of that directory.</p>
+<p><a href="https://www.mulesoft.com/tcat/tomcat-catalina">An introduction to Tomcat Catalina | MuleSoft</a>:</p>
+<blockquote>
+<p>Tomcat is actually composed of a number of components, including a Tomcat JSP engine and a variety of different connectors, but its core component is called Catalina. Catalina provides Tomcat&rsquo;s actual implementation of the servlet specification; when you start up your Tomcat server, you&rsquo;re actually starting Catalina.</p>
+</blockquote>
+</li>
+<li>
+<p>Configure Environment Variables #ril</p>
+<p>Tomcat is a Java application and DOES NOT use environment variables DIRECTLY. Environment variables are used by the Tomcat STARTUP SCRIPTS. The scripts use the environment variables to prepare the command that starts Tomcat.</p>
+</li>
+<li>
+<p>Start Up Tomcat</p>
+<p>Tomcat can be started by executing one of the following commands:</p>
+<p>On Windows:</p>
+<pre><code>%CATALINA_HOME%\bin\startup.bat
+</code></pre>
+<p>or</p>
+<pre><code>%CATALINA_HOME%\bin\catalina.bat start
+</code></pre>
+<p>On *nix:</p>
+<pre><code>$CATALINA_HOME/bin/startup.sh
+</code></pre>
+<p>or</p>
+<pre><code>$CATALINA_HOME/bin/catalina.sh start
+</code></pre>
+<p>After startup, the default web applications included with Tomcat will be
+      available by visiting:</p>
+<pre><code>http://localhost:8080/
+</code></pre>
+</li>
+<li>
+<p>Shut Down Tomcat</p>
+<p>Tomcat can be shut down by executing one of the following commands:</p>
+<p>On Windows:</p>
+<pre><code>%CATALINA_HOME%\bin\shutdown.bat
+</code></pre>
+<p>or</p>
+<pre><code>%CATALINA_HOME%\bin\catalina.bat stop
+</code></pre>
+<p>On *nix:</p>
+<pre><code>$CATALINA_HOME/bin/shutdown.sh
+</code></pre>
+<p>or</p>
+<pre><code>$CATALINA_HOME/bin/catalina.sh stop
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://tomcat.apache.org/tomcat-9.0-doc/setup.html">Unix daemon - Apache Tomcat 9 (9.0.33) - Tomcat Setup</a> #ril</p>
+<ul>
+<li>
+<p>There are several ways to set up Tomcat for running on different platforms. The MAIN documentation for this is a file called <code>RUNNING.txt</code>. We encourage you to refer to that file if the information below does not answer some of your questions.</p>
+<p><code>RUNNING.txt</code> 才是主要的文件 XD</p>
+</li>
+<li>
+<p>Tomcat can be run as a DAEMON using the <code>jsvc</code> tool from the commons-daemon project. Source tarballs for jsvc are included with the Tomcat binaries, and NEED TO BE COMPILED. Building jsvc requires a C ANSI compiler (such as GCC), GNU Autoconf, and a JDK. #ril</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="maven">Maven<a class="headerlink" href="#maven" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="http://tomcat.apache.org/maven-plugin.html">Apache Tomcat® - Tomcat Maven Plugin</a> #ril</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://hub.docker.com/_/tomcat">tomcat - Docker Hub</a> #ril</li>
+<li><a href="https://medium.com/containers-101/using-docker-from-maven-and-maven-from-docker-1494238f1cf6">Using Docker from Maven and Maven from Docker - Container Hub - Medium</a> (2018-06-22) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://tomcat.apache.org/">Apache Tomcat</a></li>
+<li><a href="https://cwiki.apache.org/confluence/display/TOMCAT">Apache Tomcat Wiki</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="http://tomcat.apache.org/tomcat-9.0-doc/index.html">Apache Tomcat 9 Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://tomcat.apache.org/whichversion.html">Apache Tomcat Versions</a> &ndash; 不同 Tomcat 版本實作的 Java EE Spec 版本</li>
+<li><a href="https://tomcat.apache.org/tomcat-9.0-doc/config/index.html">Apache Tomcat 9 Configuration Reference</a></li>
+<li><a href="https://tomcat.apache.org/tomcat-9.0-doc/api/index.html">Apache Tomcat 9 API Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

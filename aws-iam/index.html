@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/aws-iam/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>AWS / IAM (Identity and Access Management) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/aws-iam.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#aws-iam-identity-and-access-management">AWS / IAM (Identity and Access Management)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#iam-role">IAM Role</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="aws-iam-identity-and-access-management"><a href="../aws/">AWS</a> / IAM (Identity and Access Management)<a class="headerlink" href="#aws-iam-identity-and-access-management" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">What Is IAM? - AWS Identity and Access Management</a></p>
+<ul>
+<li>
+<p>AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. You use IAM to control who is AUTHENTICATED (SIGNED IN) and AUTHORIZED (HAS PERMISSIONS) to use resources.</p>
+</li>
+<li>
+<p>When you first create an AWS ACCOUNT, you begin with a single SIGN-IN IDENTITY that has COMPLETE ACCESS to all AWS services and resources in the ACCOUNT. This identity is called the AWS ACCOUNT ROOT USER and is accessed by signing in with the EMAIL ADDRESS and password that you used to create the account.</p>
+<p>注意 (AWS) account 指的是整個 AWS 服務的層級 (用 email 識別)，對內就 AWS resource 的存取身份則泛稱為 (IAM) identity，底下再細分為 IAM user、group、role 等。這符合用 IAM user 登入 AWS console 時的體驗 &ndash; 畫面上依序提示 Account ID or alias、IAM user name、Password。</p>
+<p>用 AWS account 登入時，就是 root user 的身份 (sign-in identity)。</p>
+<p>We strongly recommend that you do not use the root user for your everyday tasks, EVEN THE ADMINISTRATIVE ONES. Instead, adhere to the best practice of using the root user only to create your first IAM user. Then securely lock away the root user credentials and use them to perform only a few account and service management tasks.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/intro-structure.html">Understanding How IAM Works - AWS Identity and Access Management</a> #ril</p>
+<ul>
+<li>
+<p>Before you create users, you should understand how IAM works. IAM provides the infrastructure necessary to control authentication and authorization for your account. The IAM infrastructure includes the following elements:</p>
+<p><img alt="" src="https://docs.aws.amazon.com/IAM/latest/UserGuide/images/intro-diagram%20_policies_800.png" /></p>
+<p>每個 AWS account 是完全隔開的；左上方的 Principal 細分為 User、Role、Federated User、Application。</p>
+</li>
+</ul>
+<p>Terms</p>
+<ul>
+<li>
+<p>Resources</p>
+<p>The user, group, role, policy, and identity provider objects that are stored in IAM. As with other AWS services, you can add, edit, and remove resources from IAM.</p>
+<p>很奇特的說法；IAM 是用來控制 resource 的存取，但 IAM 底下的 user、policy 等也都是 resource。</p>
+</li>
+<li>
+<p>Identities</p>
+<p>The IAM resource objects that are used to identify and group. You can ATTACH A POLICY to an IAM identity. These include USERS, GROUPS, and ROLES.</p>
+<p>policy 可以套用到不同的 identity 上 (IAM user、group、role 的集合)，而 identity 因此而有了 permission。</p>
+</li>
+<li>
+<p>Entities</p>
+<p>The IAM resource objects that AWS uses for authentication. These include users and roles. Roles can be assumed by IAM users and roles in your or another account. They can also be assumed by users federated through a web identity or SAML.</p>
+</li>
+<li>
+<p>Principals</p>
+<p>A person or application that uses the AWS account root user, an IAM user, or an IAM role to sign in and make requests to AWS.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="iam-role">IAM Role<a class="headerlink" href="#iam-role" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM Roles - AWS Identity and Access Management</a> #ril</p>
+<ul>
+<li>
+<p>An IAM ROLE is an IAM IDENTITY that you can create in your account that has specific permissions. An IAM role is similar to an IAM USER, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS.</p>
+<p>However, instead of being uniquely associated with ONE PERSON, a role is intended to be ASSUMABLE BY ANYONE WHO NEEDS IT. Also, a role does not have standard long-term credentials such as a password or access keys associated with it. Instead, when you assume a role, it provides you with TEMPORARY security credentials for your role SESSION.</p>
+<p>根據下面 &ldquo;switch to (or assume)&rdquo; 的說法，這裡的 assume 可以解釋成 &ldquo;假裝成 &hellip; 的樣子&rdquo;。但 temporary credentials 是多久??</p>
+<p>從 AWS Console &gt; IAM &gt; Roles &gt; Maximum CLI/API session duration &gt; Custom Duration 的提示看來：</p>
+<blockquote>
+<p>The custom duration must be between 3,600 (1 hour) and 43,200 (12 hours)</p>
+</blockquote>
+<p>一定要介於 1 ~ 12 hours 之間。</p>
+</li>
+<li>
+<p>You can use roles to delegate access to users, APPLICATIONS, or SERVICES that don&rsquo;t normally have access to your AWS resources. For example, you might want to grant users in your AWS account access to resources they don&rsquo;t usually have, or grant users in one AWS account access to resources in another account.</p>
+<p>Or you might want to allow a mobile app to use AWS resources, but not want to embed AWS keys within the app (where they can be difficult to ROTATE and where users can potentially extract them). Sometimes you want to give AWS access to users who already have identities defined outside of AWS, such as in your corporate directory. Or, you might want to grant access to your account to third parties so that they can perform an audit on your resources.</p>
+<p>不過終究是要有個 key，只是 key 是暫時的，所以才會提到 rotate。</p>
+</li>
+<li>
+<p>For these scenarios, you can delegate access to AWS resources using an IAM role. This section introduces roles and the different ways you can use them, when and how to choose among approaches, and how to create, manage, switch to (or assume), and delete roles.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html">Using an IAM Role to Grant Permissions to Applications Running on Amazon EC2 Instances - AWS Identity and Access Management</a> #ril</p>
+<ul>
+<li>
+<p>Applications that run on an EC2 instance must include AWS credentials in their AWS API requests. You could have your developers store AWS credentials directly within the EC2 instance and allow applications in that instance to use those credentials. But developers would then have to manage the credentials and ensure that they securely pass the credentials to each instance and update each EC2 instance when it&rsquo;s time to ROTATE the credentials. That&rsquo;s a lot of additional work.</p>
+</li>
+<li>
+<p>Instead, you can and SHOULD use an IAM role to manage TEMPORARY credentials for applications that run on an EC2 instance. When you use a role, you don&rsquo;t have to distribute long-term credentials (such as a user name and password or access keys) to an EC2 instance. Instead, the role supplies temporary permissions that applications can use when they make calls to other AWS resources.</p>
+<p>When you launch an EC2 instance, you specify an IAM role to associate with the instance. Applications that run on the instance can then use the ROLE-SUPPLIED TEMPORARY CREDENTIALS to sign API requests.</p>
+</li>
+<li>
+<p>Using roles to grant permissions to applications that run on EC2 instances requires a bit of extra configuration. An application running on an EC2 instance is abstracted from AWS by the virtualized operating system. Because of this extra separation, an additional step is needed to assign an AWS role and its associated permissions to an EC2 instance and make them available to its applications.</p>
+<p>This extra step is the creation of an INSTANCE PROFILE ?? that is attached to the instance. The instance profile contains the role and can provide the role&rsquo;s temporary credentials to an application that runs on the instance. Those temporary credentials can then be used in the application&rsquo;s API calls to access resources and to limit access to only those resources that the role specifies.</p>
+</li>
+<li>
+<p>Note that only one role can be assigned to an EC2 instance at a time, and all applications on the instance SHARE THE SAME ROLE and permissions.</p>
+<p>注意這裡講的是 share the same ROLE 而非 credentials，所以 application 跟 AWS CLI 拿到的 credentials 會不一樣 (畢竟是不同的 application)；實驗發現，自己用 Java SDK 寫的 application 重複啟動，跟 AWS CLI (<code>aws configure list</code>) 的行為很不一樣 &ndash; max session duration 設 1 hr 時，自己的 application 會在 1 hr 左右換成新的 credential，但 AWS CLI 更換的頻率更高?</p>
+<p>雖然沒有解釋 application 最終是如何拿到 (temporary) credentials，但至少可以確認同一 EC2 instance 上 AWS CLI 跟 application 會拿到相同的 credential??</p>
+</li>
+<li>
+<p>Using roles in this way has several benefits. Because role credentials are TEMPORARY and ROTATED AUTOMATICALLY, you don&rsquo;t have to manage credentials, and you don&rsquo;t have to worry about LONG-TERM SECURITY RISKS. In addition, if you use a single role for multiple instances, you can make a change to that one role and the change is propagated automatically to all the instances.</p>
+</li>
+<li>
+<p>Note: Although a role is usually assigned to an EC2 instance when you launch it, a role can also be attached to an EC2 instance that is ALREADY RUNNING. To learn how to attach a role to a running instance, see IAM Roles for Amazon EC2.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/java-dg-roles.html">Using IAM Roles to Grant Access to AWS Resources on Amazon EC2 - AWS SDK for Java</a> #ril</p>
+<ul>
+<li>
+<p>All requests to Amazon Web Services (AWS) must be cryptographically signed using credentials issued by AWS. You can use IAM roles to conveniently grant secure access to AWS resources from your Amazon EC2 instances.</p>
+<p>This topic provides information about how to use IAM roles with Java SDK applications running on Amazon EC2. For more information about IAM instances, see IAM Roles for Amazon EC2 in the Amazon EC2 User Guide for Linux Instances.</p>
+</li>
+</ul>
+<p>The default provider chain and EC2 instance profiles</p>
+<ul>
+<li>
+<p>If your application creates an AWS client using the default constructor, then the client will search for credentials using the default credentials provider chain, in the following order:</p>
+<ul>
+<li>In system environment variables: <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>.</li>
+<li>In the Java system properties: <code>aws.accessKeyId</code> and <code>aws.secretKey</code>.</li>
+<li>In the default credentials file (the location of this file varies by platform).</li>
+<li>In the instance profile credentials, which exist within the INSTANCE METADATA associated with the IAM role for the EC2 instance.</li>
+</ul>
+<p>The final step in the default provider chain is available only when running your application on an Amazon EC2 instance, but provides the greatest ease of use and BEST SECURITY when working with Amazon EC2 instances.</p>
+</li>
+<li>
+<p>You can also pass an <code>InstanceProfileCredentialsProvider</code> instance directly to the client constructor to get instance profile credentials without proceeding through the entire default provider chain.</p>
+<p>不過這會綁定 application 一定是佈署在 EC2 上。</p>
+<p>For example:</p>
+<pre><code>AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+              .withCredentials(new InstanceProfileCredentialsProvider(false))
+              .build();
+</code></pre>
+</li>
+<li>
+<p>When using this approach, the SDK retrieves temporary AWS credentials that have the same permissions as those associated with the IAM role associated with the Amazon EC2 instance in its instance profile. Although these credentials are temporary and would EVENTUALLY EXPIRE, <code>InstanceProfileCredentialsProvider</code> PERIODICALLY REFRESHES THEM FOR YOU so that the obtained credentials continue to allow access to AWS.</p>
+<p>Important: The automatic credentials refresh happens only when you use the default client constructor, which creates its own <code>InstanceProfileCredentialsProvider</code> as part of the default provider chain, or when you pass an <code>InstanceProfileCredentialsProvider</code> instance directly to the client constructor. If you use another method to obtain or pass instance profile credentials, you are responsible for checking for and refreshing expired credentials. ??</p>
+<p><a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/InstanceProfileCredentialsProvider.html#InstanceProfileCredentialsProvider-boolean-">InstanceProfileCredentialsProvider (AWS SDK for Java - 1.11.698)</a></p>
+<blockquote>
+<p>Spins up a new thread to refresh the credentials asynchronously if <code>refreshCredentialsAsync</code> is set to <code>true</code>, otherwise the credentials will be refreshed from the instance metadata service SYNCHRONOUSLY,</p>
+<p>It is strongly recommended to reuse instances of this credentials provider, especially when async refreshing is used since a background thread is created.</p>
+</blockquote>
+<p>聽起來都會 refresh，只是 asynchronously 跟 synchronously 的差別，但 synchronously 會發生在什麼時候??</p>
+</li>
+<li>
+<p>If the client constructor can’t find credentials using the credentials provider chain, it will throw an <code>AmazonClientException</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html">Using Temporary Credentials With AWS Resources - AWS Identity and Access Management</a> #ril</p>
+<ul>
+<li>You must make sure that you get a new set of credentials before the old ones expire. In some SDKs, you can use a provider that manages the process of refreshing credentials for you; check the documentation for the SDK you&rsquo;re using.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html">IAM Roles for Amazon EC2 - Amazon Elastic Compute Cloud</a> #ril</p>
+</li>
+<li>
+<p><a href="https://linuxacademy.com/hands-on-lab/5ca8172c-cb8e-4c98-a6bb-46d3e1e97511/">Hands-On Lab: Using EC2 Roles and Instance Profiles | Linux Academy</a> #ril</p>
+<ul>
+<li>提到 <code>aws sts get-caller-identity</code> 可以查看目前的身份。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/iam/index.html">AWS Identity and Access Management Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html">Class <code>com.amazonaws.auth.DefaultAWSCredentialsProviderChain</code></a></li>
+<li><a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentialsProvider.html">Interface <code>com.amazonaws.auth.AWSCredentialsProvider</code></a></li>
+<li><a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/AWSCredentials.html">Interface <code>com.amazonaws.auth.AWSCredentials</code></a></li>
+<li><a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/index.html?com/amazonaws/auth/InstanceProfileCredentialsProvider.html">Class <code>com.amazonaws.auth.InstanceProfileCredentialsProvider</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

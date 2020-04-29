@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/machine-learning/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Machine Learning (ML) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/machine-learning.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#machine-learning-ml">Machine Learning (ML)</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="machine-learning-ml">Machine Learning (ML)<a class="headerlink" href="#machine-learning-ml" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Machine_learning">Machine learning - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>Machine learning (ML) is the scientific study of ALGORITHMS and STATISTICAL MODELS that computer systems use to effectively perform a specific task without using EXPLICIT INSTRUCTIONS, relying on PATTERNS and INFERENCE instead.</p>
+<p>It is seen as A SUBSET OF ARTIFICIAL INTELLIGENCE. Machine learning algorithms build a MATHEMATICAL MODEL BASED ON SAMPLE DATA, known as &ldquo;TRAINING DATA&rdquo;, in order to make PREDICTIONS or DECISIONS without being explicitly programmed to perform the task.</p>
+</li>
+<li>
+<p>Machine learning algorithms are used in a wide variety of applications, such as email filtering, and computer vision, where it is INFEASIBLE to develop an algorithm of specific instructions for performing the task. Machine learning is closely related to computational statistics, which focuses on making predictions using computers. The study of MATHEMATICAL OPTIMIZATION delivers methods, theory and application domains to the field of machine learning.</p>
+</li>
+<li>
+<p>DATA MINING is a field of study within machine learning, and focuses on EXPLORATORY DATA ANALYSIS through UNSUPERVISED LEARNING. In its application across business problems, machine learning is also referred to as predictive analytics.</p>
+</li>
+</ul>
+<p>Overview</p>
+<ul>
+<li>
+<p>The name machine learning was coined in 1959 by Arthur Samuel. Tom M. Mitchell provided a widely quoted, more formal definition of the algorithms studied in the machine learning field:</p>
+<blockquote>
+<p>A computer program is said to LEARN FROM EXPERIENCE E with respect to some class of tasks T and performance measure P if its performance at tasks in T, as measured by P, improves with experience E.</p>
+</blockquote>
+<p>This definition of the tasks in which machine learning is concerned offers a fundamentally OPERATIONAL definition rather than defining the field in COGNITIVE terms. 不過就很侷限於 &ldquo;some class of tasks&rdquo;</p>
+</li>
+<li>
+<p>This follows Alan Turing&rsquo;s proposal in his paper &ldquo;Computing Machinery and Intelligence&rdquo;, in which the question &ldquo;Can machines THINK?&rdquo; is replaced with the question &ldquo;Can machines do what we (as thinking entities) can do?&rdquo;. In Turing&rsquo;s proposal the various characteristics that could be possessed by a thinking machine and the various implications in constructing one are exposed.</p>
+</li>
+</ul>
+<p>Machine learning tasks</p>
+<ul>
+<li>
+<p>Machine learning tasks are classified into several broad categories.</p>
+</li>
+<li>
+<p>In SUPERVISED LEARNING, the algorithm builds a mathematical model from a set of data that contains both the inputs and the DESIRED OUTPUTS. For example, if the task were determining whether an image contained a certain object, the training data for a supervised learning algorithm would include images WITH AND WITHOUT that object (the input), and each image would have a LABEL (the output) designating whether it contained the object.</p>
+<p>In special cases, the input may be only partially available, or restricted to special feedback.</p>
+</li>
+<li>
+<p>SEMI-SUPERVISED LEARNING algorithms develop mathematical models from INCOMPLETE training data, where a PORTION of the sample input DOESN&rsquo;T HAVE LABELS.</p>
+</li>
+<li>
+<p>CLASSIFICATION algorithms and REGRESSION algorithms are types of supervised learning.</p>
+<p>Classification algorithms are used when the OUTPUTS ARE RESTRICTED TO A LIMITED SET OF VALUES. For a classification algorithm that filters emails, the input would be an incoming email, and the output would be the name of the folder in which to file the email. For an algorithm that identifies spam emails, the output would be the prediction of either &ldquo;spam&rdquo; or &ldquo;not spam&rdquo;, represented by the Boolean values true and false.</p>
+<p>Regression algorithms are named for their CONTINUOUS OUTPUTS, meaning they may have ANY VALUE WITHIN A RANGE. Examples of a continuous value are the temperature, length, or price of an object.</p>
+</li>
+<li>
+<p>In UNSUPERVISED LEARNING, the algorithm builds a mathematical model from a set of data which contains ONLY INPUTS AND NO DESIRED OUTPUT LABELS. Unsupervised learning algorithms are used to FIND STRUCTURE IN THE DATA, like grouping or clustering of data points.</p>
+<p>Unsupervised learning can DISCOVER PATTERNS IN THE DATA, and can group the inputs into categories, as in feature learning. DIMENSIONALITY REDUCTION is the process of reducing the number of &ldquo;features&rdquo;, or inputs, in a set of data.</p>
+<p>Unsupervised learning 可以幫忙從大量的資料中找出分類的方式，似乎可以做為 supervised learning 分析的指標/因素 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Supervised_learning">Supervised learning - Wikipedia</a> #ril</p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Semi-supervised_learning">Semi-supervised learning - Wikipedia</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Unsupervised_learning">Unsupervised learning - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li>屬於 <a href="ai.md">AI</a> 的一環</li>
+<li><a href="../deep-learning/">Deep Learning</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/chrome-ext/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Chrome / Extension - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/chrome-ext.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#chrome-extension">Chrome / Extension</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#api">Chrome API</a></li>
+                
+            <li class="second-level"><a href="#debugging">Debugging</a></li>
+                
+            <li class="second-level"><a href="#manifest">Manifest ??</a></li>
+                
+            <li class="second-level"><a href="#ui">UI</a></li>
+                
+            <li class="second-level"><a href="#declarative-content">Declarative Content</a></li>
+                
+            <li class="second-level"><a href="#browser-action">Browser Action ??</a></li>
+                
+            <li class="second-level"><a href="#content-script">Content Script</a></li>
+                
+            <li class="second-level"><a href="#background-script">Background Script</a></li>
+                
+            <li class="second-level"><a href="#options-page">Options Page</a></li>
+                
+            <li class="second-level"><a href="#context-menu">Context Menu</a></li>
+                
+            <li class="second-level"><a href="#search-engine">Search Engine ??</a></li>
+                
+            <li class="second-level"><a href="#packaging">Packaging ??</a></li>
+                
+            <li class="second-level"><a href="#distribution">Distribution ??</a></li>
+                
+            <li class="second-level"><a href="#distribution-enterprise">Distribution (Enterprise) ??</a></li>
+                
+            <li class="second-level"><a href="#signing">Signing ??</a></li>
+                
+            <li class="second-level"><a href="#updating-auto-update">Updating, Auto-update</a></li>
+                
+            <li class="second-level"><a href="#developer-dashboard-web-store">Developer Dashboard (Web Store) ??</a></li>
+                
+            <li class="second-level"><a href="#web-store-hosting">Web Store Hosting ??</a></li>
+                
+            <li class="second-level"><a href="#web-store-publishing">Web Store Publishing ??</a></li>
+                
+            <li class="second-level"><a href="#analytics">Analytics ??</a></li>
+                
+            <li class="second-level"><a href="#testing">Testing ??</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#this-extension-is-not-listed-in-the-chrome-web-store-and-may-have-been-added-without-your-knowledge">This extension is not listed in the Chrome Web Store and may have been added without your knowledge.</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="chrome-extension"><a href="../chrome/">Chrome</a> / Extension<a class="headerlink" href="#chrome-extension" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developer.chrome.com/extensions">What are extensions? - Google Chrome</a></p>
+<ul>
+<li>
+<p>Extensions are SMALL software programs that customize the browsing experience. They enable users to tailor Chrome functionality and behavior to individual needs or preferences. They are built on web technologies such as HTML, JavaScript, and CSS.</p>
+<p>跟 Chrome App 一樣，只是沒打包成可以獨立執行的 app 而已。</p>
+</li>
+<li>
+<p>An extension must fulfill a SINGLE PURPOSE that is narrowly defined and easy to understand. A single extension can include multiple components and a range of functionality, as long as everything contributes towards a COMMON PURPOSE.</p>
+<p>User interfaces should be minimal and have INTENT. They can range from a simple icon, such as the Google Mail Checker extension shown on the right, to <a href="https://developer.chrome.com/override">overriding</a> an entire page. #ril</p>
+<p>強調 extension 是要解決特定的問題，UI 的的表現也簡單明瞭。</p>
+</li>
+<li>
+<p>Extension files are zipped into a single <code>.crx</code> package that the user downloads and installs. This means extensions DO NOT DEPEND ON CONTENT FROM THE WEB, unlike ordinary web apps.</p>
+<p>範例都是用 <code>.zip</code>，什麼時候會用到 <code>.crx</code> ??</p>
+</li>
+<li>
+<p>Extensions are distributed through the Chrome Developer Dashboard and published to the Chrome Web Store. For more information, see the <a href="https://developer.chrome.com/webstore">store developer documentation</a>. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/apps/about_apps">What Are Chrome Apps? - Google Chrome</a></p>
+<ul>
+<li>
+<p>Chrome will be removing support for Chrome Apps on Windows, Mac, and Linux. Chrome OS will continue to support Chrome Apps. Additionally, Chrome and the Web Store will continue to support extensions on all platforms.</p>
+<p>也就是 Chrome (browser) 撤掉了對 Chrome App 的支援，但 Chrome OS 不受影響 (因為 Chromebook 上只能跑 Chrome App)。至於 extension 完全不受影響，那是在 Chrome (browser) 內部的事情，還是透過 Web Store 安裝。</p>
+</li>
+<li>
+<p>Chrome Apps let you use HTML5, CSS, and JavaScript to deliver an experience comparable to a native application.</p>
+<p>也就是 packaged app 可以執行在 Chrome tab 之外，像是一個 first-class app，使用者看不出來背後是用 web 做的 (預設是 offline)；這一點很像是 Electron。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/extensions/single_purpose">Single Purpose - Extensions Quality Guidelines FAQ - Google Chrome</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.chrome.com/extensions#hello-extensions">Hello Extensions - What are extensions? - Google Chrome</a></p>
+<ul>
+<li>
+<p>Take a small step into extensions with this quick Hello Extensions example. Start by creating a new directory to store the extension&rsquo;s files, or download them from the <a href="https://developer.chrome.com/extensions/samples#search:hello">sample page</a>.</p>
+<p>Next, add a file called <code>manifest.json</code> and include the following code:</p>
+<pre><code>{
+  "name": "Hello Extensions",
+  "description" : "Base Level Extension",
+  "version": "1.0",
+  "manifest_version": 2
+}
+</code></pre>
+</li>
+<li>
+<p>Every extension requires a manifest, though most extensions will not do much with just the manifest. For this quick start, the extension has a POPUP FILE and icon declared under the <code>browser_action</code> field:</p>
+<pre><code>{
+  "name": "Hello Extensions",
+  "description" : "Base Level Extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "hello.html",
+    "default_icon": "hello_extensions.png"
+  }
+}
+</code></pre>
+<p><a href="https://developer.chrome.com/extensions/browserAction">chrome.browserAction - Google Chrome</a>:</p>
+<blockquote>
+<p>Use BROWSER ACTIONS to put icons in the main Google Chrome toolbar, to the right of the address bar. In addition to its icon, a browser action can have a tooltip, a BADGE, and a popup.</p>
+</blockquote>
+<p>所謂 popup file 指的是按下 icon 時會彈出的畫面，通常是選單。</p>
+</li>
+<li>
+<p>Download <a href="https://developer.chrome.com/static/images/index/hello_extensions.png"><code>hello_extensions.png</code> here</a> and then create a file titled <code>hello.html</code>:</p>
+<pre><code>&lt;html&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello Extensions&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</li>
+<li>
+<p>The extension now displays <code>hello.html</code> when the icon is clicked. The next step is to include a command in the <code>manifest.json</code> that enables a keyboard shortcut. This step is fun, but not necessary:</p>
+<pre><code>{
+  "name": "Hello Extensions",
+  "description" : "Base Level Extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "hello.html",
+    "default_icon": "hello_extensions.png"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Opens hello.html"
+    }
+  }
+}
+</code></pre>
+<p><a href="https://developer.chrome.com/extensions/commands#usage">chrome.commands - Google Chrome</a>:</p>
+<blockquote>
+<p>The <code>_execute_browser_action</code> and <code>_execute_page_action</code> COMMANDs are reserved for the action of opening your extension&rsquo;s popups.</p>
+</blockquote>
+</li>
+<li>
+<p>The last step is to install the extension on your local machine.</p>
+<ol>
+<li>
+<p>Navigate to chrome://extensions in your browser. You can also access this page by clicking on the Chrome menu on the top right side of the Omnibox, hovering over More Tools and selecting Extensions.</p>
+</li>
+<li>
+<p>Check the box next to DEVELOPER MODE.</p>
+<p>啟用 Developer Mode 後，上方會有三個按鈕 &ndash; Load unpacked、Pack extension 及 Update。</p>
+</li>
+<li>
+<p>Click Load Unpacked Extension and select the DIRECTORY for your &ldquo;Hello Extensions&rdquo; extension.</p>
+<p>載入後的 ID 是怎麼來的 ??</p>
+</li>
+</ol>
+<p>Congratulations! You can now use your POPUP-BASED extension by clicking the <code>hello_world.png</code> icon or by pressing <code>Ctrl+Shift+F</code> on your keyboard.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/extensions/overview">Overview - Google Chrome</a></p>
+<p>雖然官方文件把 Overview 安排在 Getting Started Tutorial 之後，但我覺得應該先把 Overview 看過才對，畢竟上面的 Hello Extension 已經有些概念。</p>
+<ul>
+<li>
+<p>Extensions are zipped bundles of HTML, CSS, JavaScript, images, and other files used in the web platform, that customize the Google Chrome browsing experience. Extensions are built using web technology and can use the same APIs the browser provides to the open web.</p>
+</li>
+<li>
+<p>Extensions have a wide range of functional possibilities. They can modify web content users see and interact with or extend and change the behavior of the browser itself.</p>
+<p>Consider extensions the gateway to making the Chrome browser the most PERSONALIZED BROWSER.</p>
+</li>
+</ul>
+<p>Extension Files</p>
+<ul>
+<li>
+<p>Extensions vary in types of files and amount of directories, but they are all required to have a manifest. Some basic, but useful, extensions may consist of just the manifest and its toolbar icon.</p>
+</li>
+<li>
+<p>The manifest file, titled <code>manifest.json</code>, gives the browser information about the extension, such as the most important files and the CAPABILITIES the extension might use.</p>
+<pre><code>{
+  "name": "My Extension",
+  "version": "2.1",
+  "description": "Gets information from Google.",
+  "icons": {
+    "128": "icon_16.png",
+    "128": "icon_32.png",
+    "128": "icon_48.png",
+    "128": "icon_128.png"
+  },
+  "background": {
+    "persistent": false,
+    "scripts": ["background_script.js"]
+  },
+  "permissions": ["https://*.google.com/", "activeTab"],
+  "browser_action": {
+    "default_icon": "icon_16.png",
+    "default_popup": "popup.html"
+  }
+}
+</code></pre>
+<p>其中 capabilities 不完全是指 permission，例如 <code>backgroup</code> 跟 <code>browser_action</code> 都代表著 extension 可以有哪些行為。</p>
+</li>
+<li>
+<p>Extensions must have an icon that sits in the browser toolbar. Toolbar icons allow easy access and keep users aware of which extensions are installed. Most users will interact with an extension that uses a popup by clicking on the icon.</p>
+<ul>
+<li>
+<p>This Google Mail Checker extension uses a browser action.</p>
+<p><img alt="" src="https://developer.chrome.com/static/images/overview/browser_arrow.png" /></p>
+</li>
+<li>
+<p>This Mappy extension uses a page action and content script.</p>
+<p><img alt="" src="https://developer.chrome.com/static/images/overview/mappy.png" /></p>
+</li>
+</ul>
+<p>注意 browser action 跟 page action 在 toolbar icon 的表現有何不同? browser action 跟特定 tab 無關，永遠都是 active (彩色)，但 page action 就不一定 (灰色)</p>
+</li>
+</ul>
+<p>Extension Files &gt; Referring to files</p>
+<ul>
+<li>
+<p>An extension&rsquo;s files can be referred to by using a RELATIVE URL, just as files in an ordinary HTML page.</p>
+<pre><code>&lt;img src="images/my_image.png"&gt;
+</code></pre>
+</li>
+<li>
+<p>Additionally, each file can also be accessed using an absolute URL.</p>
+<pre><code>chrome-extension://&lt;extensionID&gt;/&lt;pathToFile&gt;
+</code></pre>
+<p>In the absolute URL, the <code>&lt;extensionID&gt;</code> is a unique identifier that the extension system generates for each extension. The IDs for all loaded extensions can be viewed by going to the URL <code>chrome://extensions</code>. The <code>&lt;pathToFile&gt;</code> is the location of the file under the extension&rsquo;s top folder; it matches the relative URL.</p>
+<p>While working on an UNPACKED EXTENSION the extension ID can change. Specifically, the ID of an unpacked extension will change if the extension is loaded from a different directory; the ID will change again when the extension is packaged. If an extension&rsquo;s code relies on an absolute URL, it can use the <code>chrome.runtime.getURL()</code> method to avoid hardcoding the ID during development.</p>
+<p>原來 unpacked extension 的 ID 跟目錄位置有關。什麼情況下會用到 absolute URL ??</p>
+</li>
+</ul>
+<p>Background Script</p>
+<ul>
+<li>
+<p>The background script is the extension&rsquo;s EVENT HANDLER; it contains listeners for browser events that are important to the extension. It lies dormant until an event is fired then performs the instructed logic.</p>
+<p>An effective background script is only loaded when it is needed and UNLOADED WHEN IT GOES IDLE.</p>
+</li>
+</ul>
+<p>UI Elements</p>
+<ul>
+<li>
+<p>An extension&rsquo;s user interface should be purposeful and minimal. The UI should customize or enhance the browsing experience without distracting from it.</p>
+<p>Most extensions have a browser action or page action, but can contain other forms of UI, such as context menus, use of the omnibox, or creation of a keyboard shortcut.</p>
+</li>
+<li>
+<p>Extension UI PAGES, such as a popup, can contain ordinary HTML pages with JavaScript logic. Extensions can also call <code>tabs.create</code> or <code>window.open()</code> to display additional HTML files present in the extension.</p>
+<p>這時候就會用到 absolute URL ??</p>
+</li>
+<li>
+<p>An extension using a page action and a popup can use the DECLARATIVE CONTENT API to set RULES in the background script for when the popup is available to users. When the conditions are met, the background script communicates with the popup to MAKE IT’S ICON CLICKABLE to users. ??</p>
+<p><img alt="A browser window containing a page action displaying a popup." src="https://developer.chrome.com/static/images/overview/popuparc.png" /></p>
+</li>
+</ul>
+<p>Content scripts</p>
+<ul>
+<li>
+<p>Extensions that read or write to web pages utilize a content script. The content script contains JavaScript that executes IN THE CONTEXTS OF A PAGE that has been loaded into the browser. Content scripts read and modify the DOM of web pages the browser visits.</p>
+<p><img alt="A browser window with a page action and a content script." src="https://developer.chrome.com/static/images/overview/contentscriptarc.png" /></p>
+</li>
+<li>
+<p>Content scripts can communicate with their PARENT EXTENSION by exchanging messages and storing values using the <code>storage</code> API.</p>
+<p><img alt="Shows a communication path between the content script and the parent extension." src="https://developer.chrome.com/static/images/overview/contentscriptarc.png" /></p>
+<p>若 content script 執行在 page 裡，如何能調用得到 <code>storage</code> API ??</p>
+</li>
+</ul>
+<p>Options Page</p>
+<ul>
+<li>Just as extensions allow users to customize the Chrome browser, the options page enables customization of the extension.</li>
+<li>Options can be used to enable features and allow users to choose what functionality is relevant to their needs.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/extensions/overview#apis">Using Chrome APIs - Overview - Google Chrome</a></p>
+<ul>
+<li>
+<p>In addition to having access to the same APIs as web pages, extensions can also use extension-specific APIs that create tight integration with the browser.</p>
+<p>Extensions and webpages can both access the standard <code>window.open()</code> method to open a URL, but extensions can specify which window that URL should be displayed in by using the Chrome API <code>tabs.create</code> method instead.</p>
+</li>
+</ul>
+<p>Asynchronous vs. synchronous methods</p>
+<ul>
+<li>
+<p>Most Chrome API methods are asynchronous: they return immediately without waiting for the operation to finish. If an extension needs to know the outcome of an asynchronous operation it can pass a CALLBACK function into the method. The callback is executed later, potentially much later, after the method returns.</p>
+</li>
+<li>
+<p>If the extension needed to navigate the user’s currently selected tab to a new URL, it would need to get the current tab’s ID and then update that tab’s address to the new URL.</p>
+<p>If the <code>tabs.query</code> method were synchronous, it may look something like below.</p>
+<pre><code>//THIS CODE DOESN'T WORK
+var tab = chrome.tabs.query({'active': true}); //WRONG!!!
+chrome.tabs.update(tab.id, {url:newUrl});
+someOtherFunction();
+</code></pre>
+<p>This approach will fail because <code>query()</code> is asynchronous. It returns without waiting for the work to complete, and does not return a value. A method is asynchronous WHEN THE CALLBACK PARAMETER IS AVAILABLE IN ITS SIGNATURE.</p>
+<pre><code>// Signature for an asynchronous method
+chrome.tabs.query(object queryInfo, function callback)
+</code></pre>
+<p>To correctly query a tab and update its URL the extension must use the callback parameter.</p>
+<pre><code>//THIS CODE WORKS
+chrome.tabs.query({'active': true}, function(tabs) {
+  chrome.tabs.update(tabs[0].id, {url: newUrl});
+});
+someOtherFunction();
+</code></pre>
+<p>In the above code, the lines are executed in the following order: 1, 4, 2. (行號) The callback function specified to <code>query()</code> is called and then executes line 2, but only after information about the currently selected tab is available. This happens sometime after <code>query()</code> returns.</p>
+</li>
+<li>
+<p>Although <code>update()</code> is asynchronous the code doesn’t use a callback parameter, since the extension doesn’t do anything with the RESULTS of the update.</p>
+<p>有 <code>callback</code> 參數時代表是 asynchronous，但有 <code>callback</code> 參數不一定要用，除非想要等結果。</p>
+<pre><code>// Synchronous methods have no callback option and returns a type of string
+string chrome.runtime.getURL()
+</code></pre>
+<p>This method synchronously returns the URL as a string and performs no other asynchronous work.</p>
+</li>
+</ul>
+<p>Communication between pages</p>
+<ul>
+<li>
+<p>Different components in an extension often need to communicate with each other. Different HTML pages can find each other by using the <code>chrome.extension</code> methods, such as <code>getViews()</code> and <code>getBackgroundPage()</code>.</p>
+<p>Once a page has a reference to other extension pages the first one can invoke functions on the other pages and manipulate their DOMs. Additionally, all components of the extension can access values stored using the <code>storage</code> API and communicate through MESSAGE PASSING.</p>
+</li>
+</ul>
+<p>Saving data and incognito mode</p>
+<ul>
+<li>
+<p>Extensions can save data using the <code>storage</code> API, the <a href="https://html.spec.whatwg.org/multipage/webstorage.html">HTML5 web storage API</a>, or by making server requests that result in saving data. When the extension needs to save something, first consider if it&rsquo;s from an incognito window. By default, extensions DON&rsquo;T RUN in incognito windows.</p>
+</li>
+<li>
+<p>Incognito mode promises that the window will LEAVE NO TRACKS. When dealing with data from incognito windows, extensions should HONOR this promise. If an extension normally saves browsing history, don&rsquo;t save history from incognito windows. However, extensions can store setting preferences from any window, incognito or not.</p>
+<p>To detect whether a window is in incognito mode, check the <code>incognito</code> property of the relevant <code>tabs.Tab</code> or <code>windows.Window</code> object.</p>
+<pre><code>function saveTabData(tab) {
+  if (tab.incognito) {
+    return;
+  } else {
+    chrome.storage.local.set({data: tab.url});
+  }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/extensions/getstarted">Getting Started Tutorial - Google Chrome</a></p>
+<ul>
+<li>
+<p>Extensions are made of different, but cohesive, COMPONENTS. Components can include BACKGROUND SCRIPTS, CONTENT SCRIPTS, an OPTIONS PAGE, UI elements and various LOGIC FILES.</p>
+<p>Extension components are created with web development technologies: HTML, CSS, and JavaScript. An extension&rsquo;s components will depend on its functionality and may not require every option.</p>
+</li>
+<li>
+<p>This tutorial will build an extension that allows the user to change the background color of any page on developer.chrome.com. It will use many core components to give an introductory demonstration of their relationships.</p>
+<p>To start, create a new directory to hold the extension&rsquo;s files.</p>
+<p>The completed extension can be downloaded <a href="https://developer.chrome.com/extensions/examples/tutorials/get_started_complete.zip">here</a>.</p>
+</li>
+</ul>
+<p>Create the Manifest</p>
+<ul>
+<li>
+<p>Extensions start with their manifest. Create a file called <code>manifest.json</code> and include the following code, or download the file here.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "manifest_version": 2
+}
+</code></pre>
+</li>
+<li>
+<p>The directory holding the manifest file can be added as an extension in developer mode in its current state.</p>
+<p>除了 manifest 什麼都不寫，就是一個 extension 了，連 icon 都不用給。</p>
+<ol>
+<li>
+<p>Open the Extension Management page by navigating to chrome://extensions.</p>
+<p>The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.</p>
+</li>
+<li>
+<p>Enable Developer Mode by clicking the toggle switch next to Developer mode.</p>
+<p>Click the LOAD UNPACKED button and select the extension directory.</p>
+</li>
+</ol>
+<p>Ta-da! The extension has been successfully installed. Because no icons were included in the manifest, a GENERIC TOOLBAR ICON will be created for the extension.</p>
+</li>
+</ul>
+<p>Add Instruction</p>
+<ul>
+<li>
+<p>Although the extension has been installed, it has no INSTRUCTION. Introduce a background script by creating a file titled <code>background.js</code>, or downloading it here, and placing it inside the extension directory.</p>
+</li>
+<li>
+<p>Background scripts, and many other important components, must be registered in the manifest. Registering a background script in the manifest tells the extension which file to reference, and how that file should BEHAVE.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "manifest_version": 2
+}
+</code></pre>
+<p>The extension is now aware that it includes a NON-PERSISTENT background script and will SCAN the registered file for important EVENTS it needs to LISTEN FOR.</p>
+<p><a href="https://developer.chrome.com/extensions/background_pages#persistentWarning">Register Background Scripts - Manage Events with Background Scripts - Google Chrome</a></p>
+<blockquote>
+<p>The only occasion to keep a background script PERSISTENTLY ACTIVE is if the extension uses <code>chrome.webRequest</code> API to block or modify network requests. The <code>webRequest</code> API is incompatible with non-persistent background pages.</p>
+</blockquote>
+<p>所以 <code>persistent</code> 是在控制 persistently active 與否，因此大部份情況下用 <code>"persistent": false</code> 就夠了。</p>
+</li>
+<li>
+<p>This extension will need information from a PERSISTENT VARIABLE as soon as its installed. Start by including a listening event for <code>runtime.onInstalled</code> in the background script. Inside the <code>onInstalled</code> listener, the extension will set a value using the <code>storage</code> API. This will allow multiple extension components to access that value and update it.</p>
+<pre><code>chrome.runtime.onInstalled.addListener(function() {
+  chrome.storage.sync.set({color: '#3aa757'}, function() {
+    console.log("The color is green.");
+  });
+});
+</code></pre>
+<p>這裡 persistent variable 並非 JavaScript 的概念 (也不是指 <code>chrome</code> 這個 global variable)，而是先把某個參數的值在 extension 一安裝起來時透過 <code>storage</code> API 保存起來，其他 ext component 就可以讀取共用。</p>
+</li>
+<li>
+<p>Most APIs, including the <code>storage</code> API, must be registered under the <code>permissions</code> field in the manifest for the extension to use them.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "manifest_version": 2
+}
+</code></pre>
+</li>
+<li>
+<p>Navigate back to the extension management page and click the RELOAD link. A new field, Inspect views, becomes available with a blue link, background page.</p>
+<p><img alt="Inspect Views" src="https://developer.chrome.com/static/images/get_started/view_background.png" /></p>
+<p>Click the link to view the background script&rsquo;s console log, &ldquo;The color is green.&rdquo;</p>
+<p>Reload 的按鈕在個別的 extension (只有本地安裝的才有)，不在上面的 3 個按鈕裡；可以加速開發工作，若能自動 reload 就更好了!</p>
+<p>許多 extension 都有 &ldquo;Inspect views background page (inactive)&rdquo; 的連結，代表有 background script，但其中 inactive 指的是 ??</p>
+</li>
+</ul>
+<p>Introduce a User Interface</p>
+<ul>
+<li>
+<p>Extensions can have MANY FORMS of a user interface, but this one will use a popup. Create and add a file titled <code>popup.html</code> to the directory, or download it here. This extension uses a button to change the background color.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      button {
+        height: 30px;
+        width: 30px;
+        outline: none;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;button id="changeColor"&gt;&lt;/button&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>最後按 button 會改變 page 的背景色；只是 popup 要在目前的 host 是 <code>developer.chrome.com</code> 時，toolbar 上的 icon 才會是彩色的 (作用中)，使用者點擊才會顯示 popup。</p>
+</li>
+<li>
+<p>Like the background script, this file needs to be designated as a popup in the manifest under <code>page_action</code>.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}
+</code></pre>
+<p><a href="https://developer.chrome.com/extensions/pageAction">chrome.pageAction - Google Chrome</a>:</p>
+<blockquote>
+<p>Use the <code>chrome.pageAction</code> API to put icons in the main Google Chrome toolbar, to the right of the address bar. Page actions represent actions that can be taken on the CURRENT PAGE, but that AREN&rsquo;T APPLICABLE TO ALL PAGES. Page actions appear GRAYED OUT WHEN INACTIVE.</p>
+</blockquote>
+<p>這跟 Hello Extension 用的 <code>browser_action</code> 不同，難怪 Hello Extension 沒有灰色 icon 的現象。因為採用 <code>page_action</code> 的關係，所以預設是 inactive，執行期要由程式判斷當下的 page 要不要讓 extension 作用 ??</p>
+</li>
+<li>
+<p>Designation for toolbar icons is also included under <code>page_action</code> in the <code>default_icon</code> field. Download the images folder here, unzip it, and place it in the extension&rsquo;s directory. Update the manifest so the extension knows how to use the images.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    }
+  },
+  "manifest_version": 2
+}
+</code></pre>
+<p>其中 <code>default_icon</code> 有規定至少要給幾個不同大小嗎 ??</p>
+</li>
+<li>
+<p>Extensions also display images on the extension management page, the PERMISSIONS WARNING, and FAVICON. These images are designated in the manifest under <code>icons</code>.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "permissions": ["storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    }
+  },
+  "icons": {
+    "16": "images/get_started16.png",
+    "32": "images/get_started32.png",
+    "48": "images/get_started48.png",
+    "128": "images/get_started128.png"
+  },
+  "manifest_version": 2
+}
+</code></pre>
+<p>什麼是 permission page? 為什麼會跟 favicon 有關? 又 <code>icons</code> 跟 <code>page_action.default_icon</code> 有什麼不同 ??</p>
+</li>
+<li>
+<p>If the extension is reloaded at this stage, it will include a GREY-SCALE icon, but will not contain any functionality differences.</p>
+<p>Because <code>page_action</code> is declared in the manifest, it is up to the extension to tell the browser when the user can interact with <code>popup.html</code>.</p>
+</li>
+<li>
+<p>Add DECLARED RULES to the background script with the <code>declarativeContent</code> API within the <code>runtime.onInstalled</code> listener event.</p>
+<pre><code>chrome.runtime.onInstalled.addListener(function() {
+  chrome.storage.sync.set({color: '#3aa757'}, function() {
+    console.log('The color is green.');
+  });
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+    chrome.declarativeContent.onPageChanged.addRules([{
+      conditions: [new chrome.declarativeContent.PageStateMatcher({
+        pageUrl: {hostEquals: 'developer.chrome.com'},
+      })
+      ],
+          actions: [new chrome.declarativeContent.ShowPageAction()]
+    }]);
+  });
+});
+</code></pre>
+<p>為什麼是 <code>removeRules()</code> 搭配著 <code>addRules()</code> 的用法 ??</p>
+<p>The extension will need permission to access the <code>declarativeContent</code> API in its manifest.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+...
+  "permissions": ["declarativeContent", "storage"],
+...
+}
+</code></pre>
+<p>The browser will now show a FULL-COLOR page action icon in the browser toolbar when users navigate to a URL that contains <code>"developer.chrome.com"</code>. When the icon is full-color, users can click it to view <code>popup.html</code>.</p>
+</li>
+<li>
+<p>The last step for the popup UI is adding color to the button. Create and add a file called <code>popup.js</code> with the following code to the extension directory, or downloaded here.</p>
+<pre><code>let changeColor = document.getElementById('changeColor');
+
+chrome.storage.sync.get('color', function(data) {
+  changeColor.style.backgroundColor = data.color;
+  changeColor.setAttribute('value', data.color);
+});
+</code></pre>
+<p>This code grabs the button from <code>popup.html</code> and requests the color value from storage. It then applies the color as the background of the button. Include a <code>script</code> tag to <code>popup.js</code> in <code>popup.html</code>.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+...
+  &lt;body&gt;
+    &lt;button id="changeColor"&gt;&lt;/button&gt;
+    &lt;script src="popup.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Reload the extension to view the GREEN button.</p>
+<p>Popup 載入時，先將 button 的背景色換成 storage 裡的顏色；提示使用者按下 button 時，會將 page 的背景換成什麼顏色。</p>
+</li>
+</ul>
+<p>Layer Logic</p>
+<ul>
+<li>
+<p>The extension now knows the popup should be available to users on developer.chrome.com and displays a colored button, but needs logic for further user interaction. Update <code>popup.js</code> to include the following code.</p>
+<pre><code>let changeColor = document.getElementById('changeColor');
+...
+changeColor.onclick = function(element) {
+  let color = element.target.value;
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.executeScript(
+        tabs[0].id,
+        {code: 'document.body.style.backgroundColor = "' + color + '";'});
+  });
+};
+</code></pre>
+<p>注意這些 code 主要執行在 <code>popup.html</code> 裡，再透過 <code>chrome.tabs.executeScript()</code> 在 (active) tab 裡執行另一段 code。</p>
+</li>
+<li>
+<p>The updated code adds an <code>onclick</code> event the button, which triggers a <a href="https://developer.chrome.com/extensions/content_scripts#programmatic">PROGRAMATICALLY INJECTED CONTENT SCRIPT</a>. This turns the background color of the page the same color as the button. Using programmatic injection allows for user-invoked content scripts, instead of auto inserting unwanted code into web pages. #ril</p>
+<p>The manifest will need the <code>activeTab</code> permission to allow the extension TEMPORARY ACCESS to the <code>tabs</code> API. This enables the extension to call <code>tabs.executeScript</code>.</p>
+<pre><code>{
+  "name": "Getting Started Example",
+...
+  "permissions": ["activeTab", "declarativeContent", "storage"],
+...
+}
+</code></pre>
+<p>這裡的 <code>activeTab</code> 跟 <code>tabs</code> permission 有什麼不同 ?? 所謂 temporary access 是指 <code>tabs</code> 也只會拿到 active tab ?? 所以才會有 <code>tabs[0]</code> 的寫法。為什麼說是 temporary access ??</p>
+<p>所謂 injection，簡單的說就是 extension 的程式在 page content 插入 JS/CSS 或在裡面執行一小段程式。</p>
+</li>
+<li>
+<p>The extension is now fully functional! Reload the extension, refresh this page, open the popup and click the button to turn it green! However, some users may want to change the background to a different color.</p>
+</li>
+</ul>
+<p>Give Users Options</p>
+<ul>
+<li>
+<p>The extension currently only allows users to change the background to green. Including an options page gives users more control over the extension&rsquo;s functionality, further customizing their browsing experience.</p>
+</li>
+<li>
+<p>Start by creating a file in the directory called <code>options.html</code> and include the following code, or download it here.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      button {
+        height: 30px;
+        width: 30px;
+        outline: none;
+        margin: 10px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="buttonDiv"&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;p&gt;Choose a different background color!&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+  &lt;script src="options.js"&gt;&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p>注意 <code>options.js</code> 被擺在 <code>&lt;/html&gt;</code> 前 (不用宣告在 manifest 裡)，因為 <code>options.js</code> 會直接執行一些程式。</p>
+</li>
+<li>
+<p>Then register the options page in the manifest,</p>
+<pre><code>{
+  "name": "Getting Started Example",
+  ...
+  "options_page": "options.html",
+  ...
+  "manifest_version": 2
+}
+</code></pre>
+</li>
+<li>
+<p>Reload the extension and click DETAILS.</p>
+<p><img alt="Inspect Views" src="https://developer.chrome.com/static/images/get_started/click_details.png" /></p>
+<p>Scroll down the details page and select Extension options to view the options page, although it will currently appear blank.</p>
+<p><img alt="Inspect Views" src="https://developer.chrome.com/static/images/get_started/options.png" /></p>
+</li>
+<li>
+<p>Last step is to add the options logic. Create a file called <code>options.js</code> in the extension directory with the following code, or download it here.</p>
+<pre><code>let page = document.getElementById('buttonDiv');
+const kButtonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1'];
+function constructOptions(kButtonColors) {
+  for (let item of kButtonColors) {
+    let button = document.createElement('button');
+    button.style.backgroundColor = item;
+    button.addEventListener('click', function() {
+      chrome.storage.sync.set({color: item}, function() {
+        console.log('color is ' + item);
+      })
+    });
+    page.appendChild(button);
+  }
+}
+constructOptions(kButtonColors);
+</code></pre>
+</li>
+<li>
+<p>Four color options are provided then generated as buttons on the options page with <code>onclick</code> event listeners. When the user clicks a button, it updates the color value in the extension&rsquo;s GLOBAL STORAGE. Since all of the extension&rsquo;s files pull the color information from global storage no other values need to be updated.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://markb.co.uk/building-a-simple-google-chrome-extension.html">Building a simple Google Chrome extension - Mark Ashley Bell</a> (2014-09-30) #ril</p>
+</li>
+<li><a href="https://developer.chrome.com/webstore/get_started_simple">Tutorial: Getting Started - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="api">Chrome API<a class="headerlink" href="#api" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=bmxr75CV36A">Google Chrome Extensions: Extension API Design - YouTube</a> #ril</li>
+</ul>
+<h2 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/apps/tut_debugging">Debugging Extensions - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="manifest">Manifest ??<a class="headerlink" href="#manifest" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/manifest">Manifest File Format - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="ui">UI<a class="headerlink" href="#ui" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/user_interface">Design User Interface - Google Chrome</a> #ril</li>
+<li><a href="https://developer.chrome.com/apps/contextMenus">chrome.contextMenus - Google Chrome</a> #ril</li>
+<li><a href="https://developer.chrome.com/extensions/omnibox">chrome.omnibox - Google Chrome</a> #ril</li>
+<li><a href="https://developer.chrome.com/extensions/commands">chrome.commands - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="declarative-content">Declarative Content<a class="headerlink" href="#declarative-content" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/declarativeContent">chrome.declarativeContent - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="browser-action">Browser Action ??<a class="headerlink" href="#browser-action" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/browserAction">chrome.browserAction - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="content-script">Content Script<a class="headerlink" href="#content-script" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/content_scripts">Content Scripts - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="background-script">Background Script<a class="headerlink" href="#background-script" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/background_pages">Manage Events with Background Scripts - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="options-page">Options Page<a class="headerlink" href="#options-page" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/options">Give Users Options - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="context-menu">Context Menu<a class="headerlink" href="#context-menu" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.chrome.com/extensions/contextMenus">chrome.contextMenus - Google Chrome</a> #ril</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/38190701/">javascript - Why does chrome.contextMenus create multiple entries? - Stack Overflow</a> #ril</p>
+<p>Xan: Your background code will execute multiple times - at least on each browser start / extension reload, and at most every time an Event page (&ldquo;persistent&rdquo;: false) wakes up.</p>
+<p><code>chrome.contextMenus.create</code> does what it says on a tin - creates a new entry. Every time it&rsquo;s run. Which would be fine, as normally you want to setup everything when your extension is run, but context menu entries actually PERSIST BETWEEN EXTENSION RELOADS - so they keep piling up.</p>
+<p>為什麼沒遇到這種狀況?</p>
+<p>If you are actually using <code>"persistent": false</code> Event page, note that using <code>onclick</code> attribute is not allowed, as it will be invalidated by extension unload. A more robust way is to use <code>chrome.contextMenus.onClicked</code> event - the ID of the menu item will be passed to it to distinguish between options.</p>
+<pre><code>Unchecked runtime.lastError: Extensions using event pages cannot pass an onclick parameter to chrome.contextMenus.create. Instead, use the chrome.contextMenus.onClicked event.
+
+Context: _generated_background_page.html
+</code></pre>
+<p>錯誤訊息已經講得很清楚，改用 <code>chrome.contextMenus.onClicked</code> 即可。</p>
+</li>
+</ul>
+<h2 id="search-engine">Search Engine ??<a class="headerlink" href="#search-engine" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/mybit-default-search-engi/omkmhgmfbpahmkfdobdinpnkoohndnge?hl=en">myBit - Default Search Engine - Chrome Web Store</a> 看起來 extension 是可以在 search engine 動點手腳的 #ril</li>
+<li><a href="https://chrome.google.com/webstore/detail/qwant-for-chrome/hnlkiofnhhoahaiimdicppgemmmomijo?hl=en">Qwant for Chrome - Chrome Web Store</a> #ril</li>
+</ul>
+<h2 id="packaging">Packaging ??<a class="headerlink" href="#packaging" title="Permanent link"> #</a></h2>
+<ul>
+<li>chrome://extensions 啟用 Developer Mode 之後，上方會多出幾個按鈕，其中一個是 Pack extension。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://developer.chrome.com/extensions">What are extensions? - Google Chrome</a> Extension files are zipped into a single <code>.crx</code> package that the user downloads and installs. This means extensions do not depend on content from the web, unlike ordinary web apps.</li>
+<li><a href="http://www.adambarth.com/experimental/crx/docs/packaging.html">Packaging - Google Chrome Extensions - Google Code</a> 最後提到 command line 打包 <code>.crx</code> 的方法 #ril</li>
+</ul>
+<h2 id="distribution">Distribution ??<a class="headerlink" href="#distribution" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions">What are extensions? - Google Chrome</a> Extensions are distributed through the Chrome Developer Dashboard and published to the Chrome Web Store.</li>
+<li><a href="https://productforums.google.com/forum/#!topic/chrome/W9hnJxqpBXQ">Chrome Extension Distribution Options - Google Product Forums</a> #ril</li>
+<li><a href="https://blog.hunter.io/how-to-install-a-chrome-extension-without-using-the-chrome-web-store-31902c780034">How to install a Chrome extension without using the Chrome Web Store</a> (2016-05-23) 從 source code 或 <code>.CRX</code>，在 developer mode 下將檔案拖進去即可 #ril</li>
+<li><a href="https://www.quora.com/Is-it-possible-to-create-a-private-Chrome-Store-or-extension-that-is-not-publicly-available-without-a-Google-for-business-account">Is it possible to create a private Chrome Store or extension that is not publicly available without a Google for business account? - Quora</a> #ril</li>
+<li><a href="https://developer.chrome.com/apps/external_extensions">Alternative Extension Distribution Options - Google Chrome</a> 也提到 CRX #ril</li>
+<li><a href="https://stackoverflow.com/questions/12452817/">Is it possible to create a Chrome Extension for private distribution outside Chrome Web Store? - Stack Overflow</a> G Suite 的使用者可以用 Chrome Web Store 代管 private apps #ril</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/9931906/">.crx file install in chrome - Stack Overflow</a> 要拖進 <code>chrome://extensions</code> 頁面才有效 #ril</p>
+</li>
+<li>
+<p><a href="https://gokatz.me/blog/automate-your-chrome-extension-deployment-in-minutes/">Automate your chrome extension deployment in minutes! - Gokul Kathirvel</a> (2018-05-28) #ril</p>
+</li>
+</ul>
+<h2 id="distribution-enterprise">Distribution (Enterprise) ??<a class="headerlink" href="#distribution-enterprise" title="Permanent link"> #</a></h2>
+<p>ZIP 上傳後，後端會做一些基本的檢查，若發現一些顯而異見的問題 (例如 manifest 宣告的檔案不存在)，會收到類似的信件：</p>
+<blockquote>
+<p>Dear Developer, We routinely review items in the Chrome Web Store for compliance with our Program policies to ensure a safe and trusted experience for our users. Your item “XYZ,” with ID: jfikiggbdcelopifjibfkndkheikjckf, is being taken down as it currently does not work or provide any functionality upon installation. Items on the Chrome Web Store should work and provide the promised functionality that aligns with the description of the item. Please review your item and make necessary changes so that it provides the function/service included in the item’s description. Once your item complies with Chrome Web Store policies, you may request re-publication in your developer dashboard. Your item will be manually reviewed for policy compliance which typically takes a few business days, prior to re-publication. If you have any questions about this item’s removal, you may reply to this email and the Chrome Web Store developer support team will follow up with you. Important Note Repeated or egregious policy violations in the Chrome Web Store may result in your developer account being suspended. This may also result in the suspension of related Google services associated with your Google account. Thank you for your cooperation, Google Chrome Web Store team</p>
+</blockquote>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://support.google.com/chrome/a/answer/2714278?hl=en&amp;ref_topic=6274409">Create a private Chrome app - Google Chrome Enterprise Help</a> <code>auto-update.xml</code> 是為了在內部測試?? 為什麼 <code>manifest.json</code> 跟 icon 要在 web server 上露出? 因為最後還是得走 Publish your app publicly/privately 讓其他人可以安裝 #ril</p>
+</li>
+<li>
+<p><a href="https://support.google.com/chrome/a/answer/2663860?hl=en">Publish a private Chrome app - Google Chrome Enterprise Help</a> #ril</p>
+<ul>
+<li>This article is for Chrome administrators and developers looking to publish private Chrome web apps FOR THEIR ORGANIZATION. 根據下面 &ldquo;Many organizations have private Chrome web apps, such as a Chrome extension that &hellip;&rdquo; 的說法，這裡的 app 泛指 Chrome extension 與 app。</li>
+<li>Chrome customers using G Suite or Education can use the Chrome Web Store to host private apps restricted only to their users or people who you SHARE A DIRECT LINK to the app with. &hellip;  Users from the same Chrome DOMAIN will see their organization&rsquo;s private apps in a PRIVATE COLLECTION in the Chrome Web Store.</li>
+<li>
+<p>Administrators can choose which users they want to be able to publish private apps for their organization by clicking this checkbox in the Admin console under Device management &gt; Chrome management &gt; User settings &gt; Chrome Web Store Permissions.</p>
+<p>勾選 Allow users to publish private apps that are restricted to your domain on Chrome Web Store 即可。之後在 Developer Dashboard 發佈 app，就會多出 Visibility options &gt; Private &gt; Everyone at xxx.com 的選項。</p>
+</li>
+</ul>
+<p>How to publish private Chrome web apps</p>
+<ul>
+<li>Publishing a private app is very similar to publishing a public app to the Chrome Web Store. The only difference is there&rsquo;s an additional step of restricting access to the app to your domain: &hellip; Add a new item and upload your app as a zip file. Set the promotional image you want to use, and the category, and language for the app. Select Private and Everyone at <your domain>.</li>
+<li>Optionally, you can select Only trusted testers&hellip; which will restrict the app to trusted testers you&rsquo;ve specified in your developer dashboard.</li>
+<li>If you have restricted the visibility of the app to your domain, only users in your organization signed in to their G Suite accounts will be able to see the app. The app will have a private badge applied to it, which appears as a SMALL PADLOCK in the bottom right corner of the app on the Chrome Web Store. You can publish the app publicly by selecting Public.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://support.google.com/chrome/a/answer/2649489?hl=en&amp;ref_topic=9024358">Create a Chrome app collection - Google Chrome Enterprise Help</a> #ril</p>
+<ul>
+<li>As an administrator, you can recommend a collection of Chrome apps and extensions for users in your organization. You can include public and private apps in a collection. 原來 collection 只是推薦的管道，這說法跟 Firefox 的 Add-on Collection 有點像；可以混雜 private/public apps。</li>
+<li>Private apps, available only to your users and people you share a link with, appear alongside public apps in the Chrome Web Store. 左邊側欄 Extensions、Themes 會多一個 For xxx.com。</li>
+<li>
+<p>Create a collection &ndash; 在 Google Admin Console &gt; Device management &gt; Chrome management &gt; User settings &gt; Chrome Web Store Homepage</p>
+<p>可以調整 Chrome Web Store 的 landing page，在這裡可以將 private app 加入 collection；而 private app 則從 Developer Dashboard 發佈。</p>
+</li>
+<li>
+<p>Add apps or extensions 出現 domain app 的說法 (就是 private app)，但 business app 又是什麼?? 跟 G Suite 的 Business/Enterprise 版本有關?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://groups.google.com/a/chromium.org/forum/#!topic/chromium-extensions/dojqlG04iAA/discussion">Private Extension unreachable by organization members - Google Groups</a> #ril</p>
+<ul>
+<li>Jonathan Freeman: &hellip; the extension is labeled as &ldquo;published&rdquo; in the developer dashboard &hellip; Unfortunately, nobody in my organization is able to access the extension either from the private collection in the chrome webstore or via a direct link. What am I missing?</li>
+<li>
+<p>Antony Sargent:  one edge case I could imagine breaking this is if you and the other users all happen to <em>not</em> be logged in to chrome sync with an account for this domain, but do have many other google.com accounts logged in with web cookies.</p>
+<p>用 Guest Window 試過單純登入公司的帳號，還是只看到 public extensions。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="signing">Signing ??<a class="headerlink" href="#signing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/36707917/">What can I do if I lose my Chrome extension private key? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="updating-auto-update">Updating, Auto-update<a class="headerlink" href="#updating-auto-update" title="Permanent link"> #</a></h2>
+<ul>
+<li>增加版號並重新包裝 <code>.zip</code> 上傳即可，之後會自動更新；使用者完全無感。</li>
+<li>Google Chrome 每幾個小時會檢查一次是否有更新，但實際更新的頻率無法掌握，若要馬上更新，可以在 <code>chrome://extensions</code> 啟用 Developer Mode，按 Update 可以立即更新所有的 extension；實驗發現，重啟 Chrome 也可以觸發更新。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://developer.chrome.com/extensions/hosting#updating">Updating - Web Store Hosting and Updating - Google Chrome</a></p>
+<ul>
+<li>The Chrome Browser periodically checks for new versions of installed extensions and updates them WITHOUT USER INTERVENTION. 使用者也不會被提示已更新!!</li>
+<li>To release an update to an extension, increase the number in the “<code>version</code>” field of the manifest. Convert the updated extension directory into a ZIP file and locate the old version in the Developer Dashboard. Select Edit, upload the new package, and hit Publish. The browser will will automatically update the extension for users after the new version is published.</li>
+</ul>
+<p>Developer Dashboard 編輯某個現有的 extension 時，Upload 欄位 (Upload Updated Package) 的說明：</p>
+<ul>
+<li>Upload a new ZIP file to update the manifest (which specifies information such as the name, short description, version, and permissions) or to update any other files that are part of the package that the user downloads from the store. Don’t forget to increment the version number! 看來上新版就是從這裡下手，而且跳版很重要。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/webstore/publish">Publish in the Chrome Web Store - Google Chrome</a></p>
+<ul>
+<li>You can update your app as many times as you want, just remember to increase the version number each time.</li>
+<li>You can control how fast a new version of your app reaches existing users with Controlled Rollout. By using the “max deploy percentage” control, you can limit the percentage of existing users that are updated to the latest version of the app through the Chrome auto-update mechanism. &hellip; Currently the “controlled rollout” feature is only available for items with at least 10,000 users. 但 auto-update 不需要有 10000 個使用者吧??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.quora.com/Do-Google-Chrome-extensions-auto-update-to-the-latest-version-or-do-you-have-to-manually-update-them">Do Google Chrome extensions auto update to the latest version or do you have to manually update them? - Quora</a> 一面倒地說會自動更新</p>
+<ul>
+<li>Eric Hahn: Chrome extensions autoupdate so long as the extension has an autoupdate URL specified in the manifest. All extensions from the Chrome Web Store (and theextensions gallery) GET THIS FIELD SET AUTOMATICALLY. But if you host elsewhere, you can still specify it, and in that case, autoupdate will still work.</li>
+<li>Akhtaruzzaman Ashik: Yes, they automatically update to the latest version. But, sometimes it might delay A FEW DAYS. But, You can force Chrome to update them. Just go to the Extensions Tab and enable Developer Mode. After enabling, you&rsquo;ll see an option to update all extensions.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nighteye.app/how-to-check-chrome-extension-version-and-manually-update-it/">How to check chrome extension version and manually update it | Night Eye</a></p>
+<ul>
+<li>First and foremost all chrome extensions autoupdate if you installed them fom the Chrome webstore. In most cases you really don’t need to worry checking the current version and update the extension.</li>
+<li>In the extensions page you will not be able to check the current version, nor manually update them before you enable the Developer mode. &hellip; Once enabled, you will see next to the name of each extension different numbers. 顯示的版號是本地安裝的版本，至於最新版是多少，則要到 web store 上看。</li>
+<li>Although extensions are being updated automatically, if the developer pushed an update recently and you have not used Chrome for a while, it might take some time the automatic update to take place. 感覺無法預測自動更新的時間點??</li>
+<li>Once you enable Developer mode, you will notice second bar with 3 new buttons appear in the top left corner. The button you need is Update. Simply click it and Chrome will check all your extensions if they are up to date and if not, will get their latest versions. 無法更新特定的 extension。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/24100507/">How often do Chrome extensions automatically update? - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>Rory: Currently this defaults to 5 hours (based on <a href="https://cs.chromium.org/chromium/src/extensions/common/constants.cc?q=kDefaultUpdateFrequencySeconds&amp;dr=CSs&amp;l=45">the code here</a>).</p>
+<p>You can override this by launching chrome with the <code>extensions-update-frequency</code> command-line parameter, which is the frequency in seconds. And you can go to <code>chrome://extensions</code>, tick the Developer mode checkbox at the top right, then press the Update Extensions Now button</p>
+<p>Chrome docs doesn&rsquo;t specify this 5 hour value though, so it could change in future versions without notice: Every few hours, the browser checks whether any installed extensions or apps have an update URL. For each one, it makes a request to that URL looking for an update manifest XML file.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.chrome.com/apps/autoupdate">Autoupdating - Google Chrome</a> #ril</p>
+<ul>
+<li>Every few hours, the browser checks whether any installed extensions or apps have an update URL. For each one, it makes a request to that URL looking for an update manifest XML file. If the update manifest mentions a version that is more recent than what&rsquo;s installed, the browser downloads and installs the new version.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://chrome.google.com/webstore/detail/extensions-update-notifie/nlldbplhbaopldicmcoogopmkonpebjm?hl=en">Extensions Update Notifier - Chrome Web Store</a> 有人做了個會通知更新的 extension #ril</p>
+</li>
+</ul>
+<h2 id="developer-dashboard-web-store">Developer Dashboard (Web Store) ??<a class="headerlink" href="#developer-dashboard-web-store" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://chrome.google.com/webstore/developer/dashboard">Developer Dashboard - Chrome Web Store</a> #ril<ul>
+<li>The Chrome Web Store has created a new version of the Developer Dashboard. The new dashboard is experimental, so be aware of these Known Issues. 舊的 dashboard 真的大陽春，難怪新界面有 Dashboard 2.0 的說法。</li>
+<li>Your Developer Account 提到 You have published 0 item(s) (excluding themes) out of your maximum allotted 20.</li>
+<li>用公司 Gmail 帳號時，最下面會看到 A one-time developer registration fee of US$5.00 is required to verify your account and publish items. The fee is not required to publish only to users in xxx.com. 只在公司內發行，不需要註冊費 (一次性)；但為什麼新增 item 時沒有取消付款的選項??</li>
+<li>To publish a new app, extension or theme, click &ldquo;Add new item&rdquo;. 特別強調 &ldquo;Upload a ZIP file of your item directory, not a packaged CRX file.&rdquo; 為什麼?? 上傳後要填一大堆資料，最重要的是 Visibility options: Public/Unlisted/Private &ndash; Only trusted testers from your developer dashboard can see it. You can also include members of a Google Group that you own or manage. 好像也不是發佈給 xxx.com 底下所有的人??</li>
+</ul>
+</li>
+<li><a href="https://docs.google.com/document/d/e/2PACX-1vQi3OH0AE53rgDO1DSSRqLdH0h7790hPKiIHGlayLfhDGyEZWZLmxBQVNuSE4JFR3uj3fjRGY2lOK2J/pub">[Public] Chrome Web Store Developer Dashboard 2.0: Known Issues</a> #ril</li>
+</ul>
+<h2 id="web-store-hosting">Web Store Hosting ??<a class="headerlink" href="#web-store-hosting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/webstore">Distributing Products Built for Chrome - Google Chrome</a> #ril</li>
+<li><a href="https://developer.chrome.com/extensions/hosting_changes">Chrome 33 Hosting Changes - Google Chrome</a> #ril</li>
+<li><a href="https://developer.chrome.com/extensions/linux_hosting">Linux Installation - Google Chrome</a> Extensions hosted outside of the Chrome Web Store can only be installed by Linux users. 難得只有 Linux 可以 #ril</li>
+</ul>
+<h2 id="web-store-publishing">Web Store Publishing ??<a class="headerlink" href="#web-store-publishing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/webstore/publish">Publish in the Chrome Web Store - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="analytics">Analytics ??<a class="headerlink" href="#analytics" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/tut_analytics">Tutorial: Google Analytics - Google Chrome</a> #ril</li>
+</ul>
+<h2 id="testing">Testing ??<a class="headerlink" href="#testing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/2869827/">unit testing - How to test chrome extensions? - Stack Overflow</a> #ril</li>
+<li><a href="https://www.blazemeter.com/blog/6-easy-steps-testing-your-chrome-extension-selenium">How Use Selenium to Test Your Chrome Extension in 6 Steps</a> (2016-02-16) 用 Selenium 測的成本好像有點高? #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="this-extension-is-not-listed-in-the-chrome-web-store-and-may-have-been-added-without-your-knowledge">This extension is not listed in the Chrome Web Store and may have been added without your knowledge.<a class="headerlink" href="#this-extension-is-not-listed-in-the-chrome-web-store-and-may-have-been-added-without-your-knowledge" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.reddit.com/r/Chromium/comments/7ephdn/using_nonstore_extensions/">using non-store extensions : Chromium</a> atomic1fire: You could try using a GPO in windows to white-list the extensions you want to install. 什麼是 GPO ??</li>
+<li><a href="https://github.com/YePpHa/YouTubeCenter/issues/524#issuecomment-46626199">Google Chrome deactivated my extension and won&rsquo;t allow me to activate it again · Issue #524 · YePpHa/YouTubeCenter</a> 跟 group policy 有關 #ril</li>
+<li>
+<p><a href="https://productforums.google.com/forum/#!topic/chrome/Vh_JBtIaNdY">This extension is not listed in the Chrome Web Store... - Google Product Forums</a> 提到 For Enterprises, we’ll continue to support group policy to install extensions, irrespective of where the extensions are hosted. Note that any extension which is not hosted on the Web Store and installed via GPO on a machine which has not joined a domain will be hard-disabled. 實驗確認，跟機器有沒有加入 AD 無關。</p>
+<p>之前跟 Developer Support 信件往來，確認跟有沒有用 <a href="https://cloud.google.com/chrome-enterprise/browser/download/">Chrome for Enterprise</a> 無關。</p>
+</li>
+<li>
+<p>Developer Dashboard 的說明提到 Extensions, applications and themes require AT LEAST ONE SCREENSHOT or YouTube link. &hellip; We prefer screenshots to be 1280x800 pixels in size, as they will be used in future high dpi displays. Currently, &hellip; 一定要給截圖，而且一定要是 1280 x 800。</p>
+<p>後來知道原因了，若 visibility options 選 Public 或 Unlisted 才會檢查並提示 &ldquo;At least one screenshot or video is required.&rdquo;，選 private 就不會要求 screenshot。不過實驗下來的結果是，不論是 private 也要上傳 screenshot 才會顯示在 For XXX.com 下 (跟有沒有提供 icon 無關)</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://chrome.google.com/webstore/">Chrome Web Store</a></li>
+<li><a href="https://chrome.google.com/webstore/developer/dashboard">Developer Dashboard</a> (<a href="https://chrome.google.com/webstore/devconsole">New</a>)</li>
+<li><a href="https://developer.chrome.com/extensions">Chrome Extensions - Chrome Developer</a></li>
+<li><a href="https://blog.chromium.org/search/label/extensions">Chromium Blog: extensions</a></li>
+<li><a href="https://www.youtube.com/view_play_list?p=CA101D6A85FE9D4B">Google Chrome Extensions - YouTube</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/google-chrome-extension">&lsquo;google-chrome-extension&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://groups.google.com/a/chromium.org/forum/#!forum/chromium-extensions">Chromium Extensions - Google Groups</a></li>
+<li><a href="https://support.google.com/chrome_webstore/contact/developer_support/">Developer Support - Chrome Web Store</a> (可以上傳多個檔案)</li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://www.apress.com/gp/book/9781484217740">Creating Google Chrome Extensions - Apress</a> (2016-06)</li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="electron.md">Electron</a> - 跟 Chrome app 在做的事一樣。</li>
+<li><a href="../html/">HTML</a></li>
+<li><a href="../javascript/">JavaScript</a></li>
+<li><a href="../css/">CSS</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/devguide">Developer Guide</a></li>
+<li><a href="https://developer.chrome.com/extensions/api_index">Chrome Extension APIs</a></li>
+<li><a href="https://developer.chrome.com/extensions/manifest">Manifest File Format</a></li>
+<li><a href="https://developer.chrome.com/extensions/declare_permissions">Available Permissions</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

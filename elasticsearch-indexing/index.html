@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/elasticsearch-indexing/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Elasticsearch / Indexing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/elasticsearch-indexing.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#elasticsearch-indexing">Elasticsearch / Indexing</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#modeling">Modeling ??</a></li>
+                
+            <li class="second-level"><a href="#cluster">Cluster ??</a></li>
+                
+            <li class="second-level"><a href="#index">Index ??</a></li>
+                
+            <li class="second-level"><a href="#sharding">Sharding ??</a></li>
+                
+            <li class="second-level"><a href="#mapping">Mapping ??</a></li>
+                
+            <li class="second-level"><a href="#dynamic-mapping">Dynamic Mapping ??</a></li>
+                
+            <li class="second-level"><a href="#inverted-index">Inverted Index ??</a></li>
+                
+            <li class="second-level"><a href="#relationship">Relationship ??</a></li>
+                
+            <li class="second-level"><a href="#field-type">Field Type ??</a></li>
+                
+            <li class="second-level"><a href="#update">Update ??</a></li>
+                
+            <li class="second-level"><a href="#reindex">Reindex ??</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#import-export">Import / Export ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="elasticsearch-indexing"><a href="../elasticsearch/">Elasticsearch</a> / Indexing<a class="headerlink" href="#elasticsearch-indexing" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-explore.html">Exploring Your Cluster | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-cluster-health.html">Cluster Health | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-list-indices.html">List All Indices | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-create-index.html">Create an Index | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-query-document.html">Index and Query a Document | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>
+<p>We’ll index a simple customer document into the <code>customer</code> index, with an ID of <code>1</code> as follows:</p>
+<pre><code>PUT /customer/_doc/1?pretty &lt;-- 依序是 index, mapping type 及 ID，其中 _doc 是慣例?
+{
+  "name": "John Doe"
+}
+
+---
+
+{
+  "_index" : "customer",
+  "_type" : "_doc",
+  "_id" : "1",     &lt;-- 自訂 internal ID，注意型態是 string
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
+</code></pre>
+</li>
+<li>
+<p>From the above, we can see that a new customer document was successfully created inside the <code>customer</code> index. The document also has an INTERNAL ID of <code>1</code> which we specified at INDEX TIME. 為什麼 ID 不是由 Elasticsearch 自己產生? =&gt; 後續採相同的 ID 再 index 一次就是 update，若真要由 Elasticsearch 產生 ID，則要改用 <code>POST</code> method。</p>
+</li>
+<li>It is important to note that Elasticsearch does not require you to explicitly create an index first before you can index documents into it. In the previous example, Elasticsearch will automatically create the <code>customer</code> index if it didn’t already exist beforehand. 連帶地，mapping type 也是自動建立的。</li>
+<li>
+<p>Let’s now retrieve that document that we just indexed:</p>
+<pre><code>GET /customer/_doc/1?pretty
+
+---
+
+{
+  "_index" : "customer",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "found" : true,
+  "_source" : { "name": "John Doe" }
+}
+</code></pre>
+</li>
+<li>
+<p>Nothing out of the ordinary here other than a field, <code>found</code>, stating that we found a document with the requested ID <code>1</code> and another field, <code>_source</code>, which returns the full JSON document that we indexed from the previous step. 原來 index 傳進去的 JSON 整個被視為 <code>_source</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-delete-index.html">Delete an Index | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-modify-data.html">Modifying Your Data | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>Elasticsearch provides data manipulation and search capabilities in NEAR REAL TIME. By default, you can expect a ONE SECOND DELAY (REFRESH interval) from the time you index/update/delete your data until the time that it appears in your search results. This is an important distinction from other platforms like SQL wherein data is IMMEDIATELY available after a transaction is completed. 雖然不能馬上反應，但 1 秒已經很快了，這一段時間花在 source &rarr; inverted index 的轉換；加 <code>?refresh</code> 可以要求馬上更新</li>
+<li>
+<p>If we then executed the above command again with a different (or same) document, Elasticsearch will REPLACE (i.e. REINDEX) a new document on top of the existing one with the ID of <code>1</code>:</p>
+<pre><code>PUT /customer/_doc/1?pretty
+{
+  "name": "Jane Doe"
+}
+
+---
+
+{
+  "_index": "customer",
+  "_type": "_doc",
+  "_id": "1",
+  "_version": 2, &lt;-- 每次 _version 都會 +1，即便整個 input 都沒變
+  "result": "updated",
+  "_shards": {
+    "total": 2,
+    "successful": 1,
+    "failed": 0
+  },
+  "_seq_no": 1,
+  "_primary_term": 1
+}
+</code></pre>
+<p>注意是 replace (whole) document &ndash; 如果之前提供 <code>{"name": "John Doe", "height": 180}</code>，用 <code>{"name": "Jane Doe"}</code> 取代後 <code>"height": 180</code> 就不見了 &ndash; 而不單單只是更新 <code>name</code> field 而已，所以文件才會說這是 replace/reindex，那麼下一份文件的標題是 &ldquo;Update Documents&rdquo; 也就不奇怪了。</p>
+</li>
+<li>
+<p>When indexing, the ID part is OPTIONAL. If not specified, Elasticsearch will generate a random ID and then use it to index the document. The actual ID Elasticsearch generates (or whatever we specified explicitly in the previous examples) is returned as part of the index API call.</p>
+<pre><code>POST /customer/_doc?pretty
+{
+  "name": "Jane Doe"
+}
+
+---
+
+{
+  "_index": "customer",
+  "_type": "_doc",
+  "_id": "4HUxCGgBGR3KY_r1S5Vj",
+  "_version": 1,
+  "result": "created",
+  "_shards": {
+    "total": 2,
+    "successful": 1,
+    "failed": 0
+  },
+  "_seq_no": 0,
+  "_primary_term": 1
+}
+</code></pre>
+<p>Note that in the above case, we are using the <code>POST</code> verb instead of PUT since we didn’t specify an ID. 實務上就必須記錄這份 source 與 generated ID 的對照&hellip; 如果可以的話，可以從 source 的某些 field 算出一個 ID，例如 URL 的 SHA256，如果來源本來就有自己的 ID，直接用也無妨，搭配 Index per document type 的策略，也不用擔心 ID 會衝突。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-update-documents.html">Updating Documents | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>
+<p>In addition to being able to index and REPLACE documents, we can also UPDATE documents. Note though that Elasticsearch does NOT ACTUALLY DO IN-PLACE UPDATES under the hood. Whenever we do an update, Elasticsearch deletes the old document and then indexes a new document with the update applied to it in one shot. 注意 replace 與 update 的不同，雖然 Elasticsearch 底層不支援所謂的 update，但透過 update API 可以做到 &ldquo;更新 source 部份欄位 + 重新 index 整個 source&rdquo; 的效果。</p>
+<pre><code>POST /customer/_doc/1/_update?pretty
+{
+  "doc": { "name": "Jane Doe" } &lt;-- 注意走 POST，在 JSON document 外多了一層 doc
+}
+
+---
+
+{
+  "_index": "customer",
+  "_type": "_doc",
+  "_id": "1",
+  "_version": 2,
+  "result": "updated", &lt;-- 跟 PUT/replace 一樣
+  "_shards": {
+    "total": 2,
+    "successful": 1,
+    "failed": 0
+  },
+  "_seq_no": 1,
+  "_primary_term": 1
+}
+</code></pre>
+</li>
+<li>
+<p>This example shows how to update our previous document (ID of 1) by changing the <code>name</code> field to <code>Jane Doe</code> and at the same time add an <code>age</code> field to it:</p>
+<pre><code>POST /customer/_doc/1/_update?pretty
+{
+  "doc": { "name": "Jane Doe", "age": 20 }
+}
+</code></pre>
+</li>
+<li>
+<p>Updates can also be performed by using simple SCRIPTs. This example uses a script to increment the <code>age</code> by 5:</p>
+<pre><code>POST /customer/_doc/1/_update?pretty
+{
+  "script" : "ctx._source.age += 5"
+}
+</code></pre>
+<p>In the above example, <code>ctx._source</code> refers to the current source document that is about to be updated. 語法是 Painless，滿直覺的</p>
+</li>
+<li>
+<p>Elasticsearch provides the ability to update multiple documents given a query condition (like an <code>SQL UPDATE-WHERE</code> statement). See <code>docs-update-by-query</code> API 通常會搭配 script 使用。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-delete-documents.html">Deleting Documents | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>Deleting a document is fairly straightforward. This example shows how to delete our previous customer with the ID of <code>2</code>: <code>DELETE /customer/_doc/2?pretty</code></li>
+<li>See the <code>_delete_by_query</code> API to delete all documents matching a specific query.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-batch-processing.html">Batch Processing | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>In addition to being able to index, update, and delete individual documents, Elasticsearch also provides the ability to perform ANY of the above operations in batches using the <code>_bulk</code> API. This functionality is important in that it provides a very efficient mechanism to do multiple operations as fast as possible with as FEW NETWORK ROUNDTRIPS as possible.</li>
+<li>
+<p>The following call indexes two documents (ID 1 - John Doe and ID 2 - Jane Doe) in one bulk operation: 類 JSON Lines 的格式 &ndash; action 與 source 交替出現，可以用來準備測試資料；如何將現有的資料 dump 成這樣的格式??</p>
+<pre><code>POST /customer/_doc/_bulk?pretty
+{"index":{"_id":"1"}} &lt;-- action / ID
+{"name": "John Doe" } &lt;-- source
+{"index":{"_id":"2"}}
+{"name": "Jane Doe" }
+
+---
+
+{
+  "took" : 17,
+  "errors" : false,
+  "items" : [
+    {
+      "index" : {
+        "_index" : "customer",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_version" : 7,
+        "result" : "updated",
+        "_shards" : {
+          "total" : 2,
+          "successful" : 1,
+          "failed" : 0
+        },
+        "_seq_no" : 6,
+        "_primary_term" : 1,
+        "status" : 200
+      }
+    },
+    {
+      "index" : {
+        "_index" : "customer",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_version" : 2,
+        "result" : "created",
+        "_shards" : {
+          "total" : 2,
+          "successful" : 1,
+          "failed" : 0
+        },
+        "_seq_no" : 1,
+        "_primary_term" : 1,
+        "status" : 201
+      }
+    }
+  ]
+}
+</code></pre>
+<p>This example updates the first document (ID of 1) and then deletes the second document (ID of 2) in one bulk operation:</p>
+<pre><code>POST /customer/_doc/_bulk?pretty
+{"update":{"_id":"1"}}
+{"doc": { "name": "John Doe becomes Jane Doe" } } &lt;-- 寫法跟 update API 一樣
+{"delete":{"_id":"2"}}
+</code></pre>
+<p>Note above that for the delete action, there is no corresponding SOURCE DOCUMENT after it since deletes only require the ID of the document to be deleted. 通常是 action 與 source 交替出現，但是若 action 不需要 document，就不會跟著 document。</p>
+</li>
+<li>
+<p>The Bulk API does NOT FAIL DUE TO FAILURES IN ONE OF THE ACTIONS. If a single action fails for whatever reason, it will continue to process the remainder of the actions after it. When the bulk API returns, it will provide a status for EACH ACTION (in the same order it was sent in) so that you can check if a specific action failed or not. 很彈性的設計，一次回報個別 action 的結果。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html">?refresh | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/found-indexing-for-beginners-part1">Indexing for Beginners, Part 1 | Elastic</a> (2013-09-13) #ril</p>
+</li>
+<li><a href="https://www.elastic.co/blog/found-indexing-for-beginners-part2">Indexing for Beginners, Part 2 | Elastic</a> (2013-10-08) #ril</li>
+<li><a href="https://www.elastic.co/blog/found-indexing-for-beginners-part3">Indexing for Beginners, Part 3 | Elastic</a> (2013-10-29) #ril</li>
+</ul>
+<h2 id="modeling">Modeling ??<a class="headerlink" href="#modeling" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/modeling-your-data.html">Modeling Your Data | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/scale.html">Designing for Scale | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/parent-child-performance.html">Practical Considerations | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+</ul>
+<h2 id="cluster">Cluster ??<a class="headerlink" href="#cluster" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/blog/multiple-elasticsearch-clusters">Multiple Elasticsearch Clusters, or a Monster Cluster? | Elastic</a> (2015-11-30) #ril</li>
+</ul>
+<h2 id="index">Index ??<a class="headerlink" href="#index" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-index.html">Get Index | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>The get index API allows to retrieve information about ONE OR MORE indexes. 例如 <code>GET /twitter</code>；先知道如何看 index 的設定、如何刪除 index，再練習建立 index。</li>
+<li>Specifying an index, alias or wildcard expression is required. The get index API can also be applied to more than one index, or on all indices by using <code>_all</code> or <code>*</code> as index. 實驗確認逗號開多個 index 也是可以的，例如 <code>GET /twitter,test</code>。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html">Delete Index | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>The delete index API allows to delete an existing index. 例如 <code>DELETE /twitter</code>。</li>
+<li>Specifying an index or a wildcard expression is required. Aliases cannot be used to delete an index. Wildcard expressions are resolved to matching CONCRETE indices only. 這裡 concrete 是相對於 alias 的說法??</li>
+<li>The delete index API can also be applied to more than one index, by either using a COMMA SEPARATED list, or on all indices (be careful!) by using <code>_all</code> or <code>*</code> as index.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-exists.html">Indices Exists | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>Used to check if the index (indices) exists or not. The HTTP status code indicates if the index exists or not. A <code>404</code> means it does not exist, and <code>200</code> means it does. 例如 <code>HEAD twitter</code>。</li>
+<li>This request does not distinguish between an index and an alias, i.e. status code 200 is also returned if an alias exists with that name. 這不是很合理嗎? 有可能 alias 背後的 index 已經不在??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html">Create Index | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>
+<p>The most basic command is the following: <code>PUT twitter</code> This create an index named <code>twitter</code> with all default setting. 這裡的 default setting 指的是 index level setting，至於 mapping type 則要到 index 資料時才會動態產生。</p>
+<pre><code>PUT twitter
+
+#! Deprecation: the default number of shards will change from [5] to [1] in 7.0.0; if you wish to continue using the default of [5] shards, you must manage this on the create index request or with an index template
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true,
+  "index" : "twitter"
+}
+</code></pre>
+<p>原有的 default settings 未來將由 index template 提供。用 get index API 檢查剛建立的 index：</p>
+<pre><code>GET twitter
+
+{
+  "twitter" : {
+    "aliases" : { },
+    "mappings" : { }, &lt;-- 還沒有 mapping type
+    "settings" : {
+      "index" : {
+        "creation_date" : "1546072098512",
+        "number_of_shards" : "5",
+        "number_of_replicas" : "1",
+        "uuid" : "It4LvVmnSxmaTp_0ukJ8zA",
+        "version" : {
+          "created" : "6050499"
+        },
+        "provided_name" : "twitter"
+      }
+    }
+  }
+}
+</code></pre>
+</li>
+<li>
+<p>There are several limitations to what you can name your index. The complete list of limitations are: 1) Lowercase only 2) Cannot include <code>\</code>, <code>/</code>, <code>*</code>, <code>?</code>, <code>"</code>, <code>&lt;</code>, <code>&gt;</code>, <code>|</code>, <code></code> (space character), <code>,</code>, <code>#</code> 3) Indices prior to 7.0 could contain a colon (<code>:</code>), but that’s been deprecated and won’t be supported in 7.0+ 4) Cannot start with -, _, + 5) Cannot be <code>.</code> or <code>..</code> 6) Cannot be longer than 255 bytes 簡單來說，可以用英數字 (小寫)、<code>-</code>、<code>_</code>、<code>.</code>，但只能以英數字開頭。</p>
+</li>
+<li>
+<p>建立 index 的同時，可以提供 index level settings 及 mapping type：</p>
+<pre><code>PUT test
+{
+    "settings" : {
+        "number_of_shards" : 3,
+        "number_of_replicas" : 2
+    },
+    "mappings" : {
+        "_doc" : { &lt;-- mapping type 的名稱，自動建立的話會與 index 同名??
+            "properties" : { &lt;-- 定義 properties/fields
+                "field1" : { "type" : "text" }
+            }
+        }
+    }
+}
+</code></pre>
+<p>用 get index API 檢查剛建立的 index：</p>
+<pre><code>GET test
+
+{
+  "test" : {
+    "aliases" : { },
+    "mappings" : { &lt;-- 這次有 mapping type 了
+      "_doc" : {
+        "properties" : {
+          "field1" : {
+            "type" : "text"
+          }
+        }
+      }
+    },
+    "settings" : {
+      "index" : {
+        "creation_date" : "1546072910916",
+        "number_of_shards" : "3", &lt;-- 預設值也成功覆寫
+        "number_of_replicas" : "2",
+        "uuid" : "ooQ4vtBNQBStLEV8bi06RA",
+        "version" : {
+          "created" : "6050499"
+        },
+        "provided_name" : "test"
+      }
+    }
+  }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html">Index Aliases | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-open-close.html">Open / Close Index API | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="sharding">Sharding ??<a class="headerlink" href="#sharding" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/blog/how-many-shards-should-i-have-in-my-elasticsearch-cluster">How many shards should I have in my Elasticsearch cluster? | Elastic</a> (2017-09-18) #ril</p>
+<ul>
+<li>Elasticsearch is a very versatile platform, that supports a variety of use cases, and provides great flexibility around data ORGANISATION and REPLICATION strategies. This flexibility can however sometimes make it hard to DETERMINE UP-FRONT how to best organize your data into INDICES AND SHARDS, especially if you are new to the Elastic Stack. While suboptimal choices  will not necessarily cause problems when first starting out, they have the potential to cause performance problems as data volumes grow over time. The more data the cluster holds, the more difficult it also becomes to correct the problem, as REINDEXING of large amounts of data can sometimes be required. 用法很彈性，若沒在一開始決定好 organization (index/shard) 與 replication strategy，資料量變大時 performance 的問題就會浮現，最糟可能要對巨量的資料做 reindex。</li>
+<li>When we come across users that are experiencing performance problems, it is not uncommon that this can be traced back to issues around how data is indexed and NUMBER OF SHARDS in the cluster.</li>
+<li>Data in Elasticsearch is organized into indices. Each index is made up of one or more shards. Each shard is an instance of a Lucene index, which you can think of as a SELF-CONTAINED search engine that indexes and handles queries for a subset of the data in an Elasticsearch cluster. As data is written to a shard, it is periodically PUBLISHED into new immutable LUCENE SEGMENTS on disk, and it is at this time it becomes AVAILABLE FOR QUERYING. This is referred to as a REFRESH. 若每個 shard 都是獨立的 search engine，代表計分也是分開的?? 當搜尋結果來自不同 shard 時，計分的基礎是否會造成不公平??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/managing-time-based-indices-efficiently">And the big one said &ldquo;Rollover&rdquo; — Managing Elasticsearch time-based indices efficiently | Elastic</a> (2016-07-12) #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/inside-a-shard.html">Inside a Shard | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-shrink-index.html">Shrink Index | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-split-index.html">Split Index | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-rollover-index.html">Rollover Index | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="mapping">Mapping ??<a class="headerlink" href="#mapping" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html">Mapping | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>Mapping is the process of defining how a document, and the FIELDs it contains, are stored and INDEXed. For instance, use mappings to define:<ul>
+<li>which string fields should be treated as full text fields. (即採用 <code>text</code> field type)</li>
+<li>which fields contain numbers, dates, or geolocations.</li>
+<li>whether the values of all fields in the document should be indexed into the CATCH-ALL <code>_all</code> field. <code>_all</code> 的使用時機??</li>
+<li>the format of date values.</li>
+<li>custom rules to control the mapping for DYNAMICALLY ADDED FIELDs. 可以停用 dynamic mapping 嗎??</li>
+</ul>
+</li>
+<li>Each index has ONE mapping type which determines how the document will be indexed. (7.0 後則完全沒有 mapping 這東西)<ul>
+<li>Meta-fields - Meta-fields are used to customize how a document’s METADATA associated is treated. Examples of meta-fields include the document’s <code>_index</code>, <code>_type</code>, <code>_id</code>, and <code>_source</code> fields.</li>
+<li>Fields or properties - A mapping type contains a list of fields or properties PERTINENT to the document. 注意field 跟 property 是通用的說法。</li>
+</ul>
+</li>
+<li>Each field has a data <code>type</code> which can be:<ul>
+<li>a simple type like <code>text</code>, <code>keyword</code>, <code>date</code>, <code>long</code>, <code>double</code>, <code>boolean</code> or <code>ip</code>.</li>
+<li>a type which supports the HIERARCHICAL NATURE of JSON such as <code>object</code> or <code>nested</code>.</li>
+<li>or a specialised type like <code>geo_point</code>, <code>geo_shape</code>, or <code>completion</code>.</li>
+</ul>
+</li>
+<li>
+<p>It is often useful to INDEX THE SAME FIELD IN DIFFERENT WAYS FOR DIFFERENT PURPOSES. For instance, a <code>string</code> field could be indexed as a <code>text</code> field for full-text search, and as a <code>keyword</code> field for sorting or aggregations. Alternatively, you could index a <code>string</code> field with the <code>standard</code> analyzer, the <code>english</code> analyzer, and the <code>french</code> analyzer. This is the purpose of MULTI-FIELDS. Most datatypes support multi-fields via the <code>fields</code> parameter.</p>
+<p>每個 field 對應一個 &ldquo;主要的&rdquo; datatype，按最後一句 &ldquo;most datatypes support multi-fields via the <code>fields</code> parameter&rdquo;，有些 datatype 支援 multi-fields &ndash; 同一份資料以不同的方式 index 多次 &ndash; 也就是同一份資料的不同版本，套用不同的 datatype、搭配不同的 analyzer 等；例如 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html">Keyword datatype</a> 的 Parameters for keyword fields 有提到 <code>fields</code>，表示支援 multi-fields。</p>
+</li>
+<li>
+<p>Dynamic mapping - Fields and mapping types do not need to be defined before being used. Thanks to dynamic mapping, new field names will be added automatically, just by indexing a document. New fields can be added both to the TOP-LEVEL MAPPING TYPE, and to inner <code>object</code> and <code>nested</code> fields. 這裡 inner 是指有階層的 datatype??</p>
+</li>
+<li>
+<p>Explicit mappings - You know more about your data than Elasticsearch can guess, so while dynamic mapping can be useful to get started, at some point you will want to specify your own EXPLICIT MAPPINGS. You can create field mappings when you create an index, and you can add fields to an existing index with the PUT mapping API.</p>
+<p>注意相對於 dynamic mapping 的是 explicit mapping，而非 static mapping!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html">Removal of mapping types | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>Indices created in Elasticsearch 6.0.0 or later may only contain a SINGLE MAPPING TYPE. Indices created in 5.x with multiple mapping types will continue to function as before in Elasticsearch 6.x. Mapping types will be completely removed in Elasticsearch 7.0.0. 以前一個 index 可以有多個 mapping type，但 6.0 開始限定 1 個，到 7.0 就不支援 mapping type 了；少了 mapping type 這一層，往下就直接是 field (type)。</li>
+<li>Since the first release of Elasticsearch, each document has been stored in a single index and assigned a single mapping type. A mapping type was used to represent the TYPE OF DOCUMENT or entity being indexed, for instance a <code>twitter</code> index might have a <code>user</code> type and a <code>tweet</code> type. Each mapping type could have its own fields, so the <code>user</code> type might have a <code>full_name</code> field, a <code>user_name</code> field, and an <code>email</code> field, while the <code>tweet</code> type could have a <code>content</code> field, a <code>tweeted_at</code> field and, like the <code>user</code> type, a <code>user_name</code> field. 以前每個 document 都會有 mapping type 用來識別 document type，不同的 document type 有不同的 fields &hellip; 這結構 index &rarr; mapping/document type(s) &rarr; fields 很像是 RDBMS 裡 database &rarr; table &rarr; columns 的關係，但這樣的類比並不恰當&hellip;</li>
+<li>In an Elasticsearch index, fields that have the same name in different mapping types are backed by the same Lucene field internally. In other words, using the example above, the <code>user_name</code> field in the <code>user</code> type is stored in exactly the same field as the <code>user_name</code> field in the <code>tweet</code> type, and both <code>user_name</code> fields must have the same mapping (definition) in both types. This can LEAD TO FRUSTRATION when, for example, you want <code>deleted</code> to be a <code>date</code> field in one type and a <code>boolean</code> field in another type IN THE SAME INDEX. 上面的類比 database &rarr; table &rarr; columns 會讓人誤以為不同 mapping/document type 間同名的 field 間沒有關係，但事實上同一個 index 下同名的 field 必須要有相同的 mapping definition (主要是 field type)，為了避免這樣的誤會，決定把 mapping type 這一層拿掉，原先識別不同 document type 的用途，則有其他替代方案。</li>
+<li>On top of that, storing different entities that have FEW OR NO FIELDS IN COMMON in the same index leads to SPARSE DATA and interferes with Lucene’s ability to compress documents efficiently. 很像是 RDBMS table 的概念，硬要將不同 document/entity 存進同一個 table 裡，自然有些非通用的 column 產生，會影響儲存的效率；這呼應了下面 Index per document type 的方案，不同 document type 拆成不同的 index。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html#_index_per_document_type">Index per document type - Removal of mapping types | Elasticsearch Reference [6.5] | Elastic</a></p>
+<ul>
+<li>The first alternative is to HAVE AN INDEX PER DOCUMENT TYPE. Instead of storing tweets and users in a single <code>twitter</code> index, you could store tweets in the <code>tweets</code> index and users in the <code>user</code> index. Indices are completely independent of each other and so there will be no conflict of field types between indices. 拆 index 會影響到什麼?? relationship 效率變差?</li>
+<li>This approach has two benefits: Data is more likely to be DENSE and so benefit from compression techniques used in Lucene. The TERM STATISTICS used for scoring in full text search are more likely to be accurate because all documents in the same index represent a single entity. 不然跨 index 的 scoring 是怎麼計算的??</li>
+<li>Each index can be sized appropriately for the number of documents it will contain: you can use a smaller number of PRIMARY SHARDs for users and a larger number of primary shards for tweets. 確實總量不多的 document type 若被分散到太多 shard，之後存取的效能會變差??</li>
+<li>如果真依 document type 來分 index 的話，將不同 wiki system 的 wiki pages 併到一個 index 也是合理，因為大家都有 title、content、slug 的概念。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html">Multi-fields - fields | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-mapping.html">Get Mapping | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-get-field-mapping.html">Get Field Mapping | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-types-exists.html">Types Exists | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-mapping.html">Put Mapping | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="dynamic-mapping">Dynamic Mapping ??<a class="headerlink" href="#dynamic-mapping" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html#_dynamic_mapping">Dynamic mapping - Mapping | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-mapping.html">Dynamic Mapping | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>
+<p>One of the most important features of Elasticsearch is that it tries to get out of your way and let you start exploring your data as quickly as possible. To index a document, you DON’T HAVE TO first create an index, define a mapping type, and define your fields — you can just index a document and the index, type, and fields will spring to life automatically: 塞資料就會自動定義 mapping、fields，連 index 都會自動產生</p>
+<pre><code>PUT data/_doc/1 &lt;-- 3 個元素依序是 index、mapping type 跟 ID
+{ "count": 5 }
+</code></pre>
+<p>Creates the <code>data</code> index, the <code>_doc</code> mapping type, and a field called <code>count</code> with datatype <code>long</code>.</p>
+</li>
+<li>
+<p>The automatic DETECTION and addition of new fields is called dynamic mapping. The dynamic mapping rules can be customised to suit your purposes with: 搞得好複雜，回到 dynamic mapping 存在的原因 &ndash; &ldquo;tries to get out of your way&rdquo;，確實有助於初期上手，但最好還是明確定義 mapping。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.elastic.co/blog/logstash_lesson_elasticsearch_mapping">Little Logstash Lessons: Using Logstash to help create an Elasticsearch mapping template | Elastic</a> (2017-03-30) 似乎 dynamic mapping 在實務上有其必要? #ril</p>
+</li>
+</ul>
+<h2 id="inverted-index">Inverted Index ??<a class="headerlink" href="#inverted-index" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/inverted-index.html">Inverted Index | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/blog/found-elasticsearch-from-the-bottom-up">Elasticsearch from the Bottom Up, Part 1 | Elastic</a> (2013-09-16) #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/making-text-searchable.html">Making Text Searchable | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+</ul>
+<h2 id="relationship">Relationship ??<a class="headerlink" href="#relationship" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/relations.html">Handling Relationships | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/blog/managing-relations-inside-elasticsearch">Managing Relations Inside Elasticsearch | Elastic</a> (2013-02-20) #ril</li>
+</ul>
+<h2 id="field-type">Field Type ??<a class="headerlink" href="#field-type" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html">Field datatypes | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="update">Update ??<a class="headerlink" href="#update" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html">Update API | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update-by-query.html">Update By Query API | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+</ul>
+<h2 id="reindex">Reindex ??<a class="headerlink" href="#reindex" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html">Reindex API | Elasticsearch Reference [6.5] | Elastic</a> 只要有 <code>_source</code> 就可以重新 index，但 <code>_source</code> 不是都有嗎?? #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html#_custom_type_field_2">Removal of mapping types | Elasticsearch Reference [6.5] | Elastic</a> 搭配 script 做 reindex #ril</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.2/breaking_50_settings_changes.html#_index_level_settings">Index Level Settings - Settings changes | Elasticsearch Reference [5.2] | Elastic</a> In previous versions Elasticsearch allowed to specify index level setting as defaults on the NODE LEVEL, inside the <code>elasticsearch.yaml</code> file or even via command-line parameters. From Elasticsearch 5.0 on only selected settings like for instance <code>index.codec</code> can be set on the node level. All other settings must be set on each individual index. To set DEFAULT VALUES on every index, INDEX TEMPLATEs should be used instead. 預設值改用 index template，</p>
+</li>
+<li>
+<p><a href="https://discuss.elastic.co/t/es-5-2-fails-to-start-with-setting-index-number-of-shards-2-in-elasticsearch-yml/83654/4">ES 5.2 fails to start with setting &ldquo;index.number_of_shards: 2&rdquo; in elasticsearch.yml - Elasticsearch - Discuss the Elastic Stack</a> nik9000: 改用 index template。如果 index level 還是寫在 <code>elasticsearch.yml</code> 裡的話，會提示：</p>
+<pre><code>Found index level settings on node level configuration.
+
+Since elasticsearch 5.x index level settings can NOT be set on the nodes
+configuration like the elasticsearch.yaml, in system properties or command line
+arguments.In order to upgrade all indices the settings must be updated via the
+/${index}/_settings API. Unless all settings are dynamic all indices must be closed
+in order to apply the upgrade. Indices created in the future should use index templates
+to set default values.
+
+Please ensure all required values are updated on all indices by executing:
+
+curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -d '{
+  "index.number_of_shards" : "2"
+}'
+</code></pre>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html">Index Templates | Elasticsearch Reference [6.5] | Elastic</a> #ril</p>
+<ul>
+<li>Index templates allow you to define templates that will automatically be applied when new indices are created. 也就是過往寫在 node level (<code>elasticsearch.yml</code>) 但有關 index 的預設值可以先安排在 template 裡。</li>
+</ul>
+</li>
+</ul>
+<h2 id="import-export">Import / Export ??<a class="headerlink" href="#import-export" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://qbox.io/blog/how-to-export-data-elasticsearch-into-csv-file">How to Export Data from Elasticsearch into a CSV File</a> (2016-11-16) #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html">Snapshot And Restore | Elasticsearch Reference [6.5] | Elastic</a> #ril</li>
+<li><a href="https://www.quora.com/Whats-the-easiest-way-to-export-ElasticSearch-data-for-later-re-import-say-at-a-later-time-on-another-server">What&rsquo;s the easiest way to export ElasticSearch data for later re-import, say, at a later time on another server? - Quora</a> #ril</li>
+<li><a href="https://github.com/taskrabbit/elasticsearch-dump">taskrabbit/elasticsearch-dump: Import and export tools for elasticsearch</a> #ril</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/backing-up-your-cluster.html">Backing Up Your Cluster | Elasticsearch: The Definitive Guide [2.x] | Elastic</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

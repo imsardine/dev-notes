@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-pdb/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python > PDB (Python Debugger) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-pdb.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-pdb-python-debugger">Python &gt; PDB (Python Debugger)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#debugger-command">Debugger Command ??</a></li>
+                
+            <li class="second-level"><a href="#pdbrc">.pdbrc ??</a></li>
+                
+            <li class="second-level"><a href="#breakpoint-built-in">breakpoint() Built-In ??</a></li>
+                
+            <li class="second-level"><a href="#post-mortem-debugging">Post-Mortem Debugging ??</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-pdb-python-debugger"><a href="../python/">Python</a> &gt; PDB (Python Debugger)<a class="headerlink" href="#python-pdb-python-debugger" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/pdb.html">pdb — The Python Debugger — Python 3.7.2rc1 documentation</a></p>
+<ul>
+<li>The module <code>pdb</code> defines an INTERACTIVE source code debugger for Python programs. It supports setting (conditional) breakpoints and single stepping at the source line level, inspection of STACK FRAMES, source code listing, and evaluation of arbitrary Python code in the context of any stack frame. 操作起來像是 Python 的 interactive shell，主要是執行 debug command，但也可以寫些簡單的 Python expression (執行在所處的 stack frame 下)。</li>
+<li>It also supports POST-MORTEM DEBUGGING and can be called UNDER PROGRAM CONTROL. 相對於 under debugger control 的說法；後者是由 debugger 執行 program，前者則是 program 執行過程中進入 debugger，因此有 &ldquo;break into the debugger&rdquo; 的說法，pdb 支持這兩種用法。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://realpython.com/python-debugging-pdb/">Python Debugging With Pdb – Real Python</a> (2018-04-09)</p>
+<ul>
+<li>pdb, and other debuggers, are indispensable tools. When you need a debugger, there’s no substitute. You really need it. 這句話有點奇妙</li>
+<li>Sometimes, stepping through code in pdb and seeing how values change can be a real eye-opener and lead to “aha” moments, along with the occasional “face palm”.</li>
+<li>pdb is part of Python’s standard library, so it’s ALWAYS THERE and available for use. This can be a life saver if you need to debug code in an environment where you don’t have access to the GUI debugger you’re familiar with. 雖然 GUI debugger 很誘人，但 pdb 還是得學。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/pdb.html">pdb — The Python Debugger — Python 3.7.2rc1 documentation</a></p>
+<ul>
+<li>
+<p>The debugger’s prompt is <code>(Pdb)</code>. Typical usage to run a program UNDER CONTROL OF THE DEBUGGER is:</p>
+<pre><code>&gt;&gt;&gt; import pdb
+&gt;&gt;&gt; import mymodule
+&gt;&gt;&gt; pdb.run('mymodule.test()') # 進 interactive shell 再用 debugger 執行 program，實務上比較少見?
+&gt; &lt;string&gt;(0)?() # 不過這是什麼東西? 應該是因為沒有 source，執行 ll 會提示 "could not get source code"
+(Pdb) continue
+&gt; &lt;string&gt;(1)?()
+(Pdb) continue
+NameError: 'spam'
+&gt; &lt;string&gt;(1)?()
+(Pdb)
+</code></pre>
+</li>
+<li>
+<p>Changed in version 3.3: Tab-completion via the <code>readline</code> module is available for commands and command arguments, e.g. the current global and local names are offered as arguments of the <code>p</code> command. 在 <code>p</code>/<code>pp</code> 後按 tab，可以列出當時存取得到的 global 跟 local names，很方便。</p>
+</li>
+<li><code>pdb.py</code> can also be invoked AS A SCRIPT to debug OTHER SCRIPTS. For example: <code>python3 -m pdb myscript.py</code> 會停在 <code>myscript.py</code> 的第 1 行前面。</li>
+<li>
+<p>New in version 3.7: <code>pdb.py</code> now accepts a <code>-m</code> option that execute modules similar to the way <code>python3 -m</code> does. As with a script, the debugger will pause execution just before the first line of the module. 例如：</p>
+<pre><code>$ python -m pdb -m unittest
+&gt; /usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/unittest/__main__.py(1)&lt;module&gt;()
+-&gt; """Main entry point"""
+(Pdb)
+</code></pre>
+</li>
+<li>
+<p>The typical usage to BREAK INTO THE DEBUGGER FROM A RUNNING PROGRAM is to insert <code>import pdb; pdb.set_trace()</code> at the location you want to break into the debugger. You can then step through the code following this statement, and continue running without the debugger using the <code>continue</code> command. 以上都是 under debugger control 的做法，要走 under program control 至少要在程式裡安插一個 breakpoint，呼應了下面 &ldquo;each ENTERS THE DEBUGGER in a slightly different way&rdquo; 的說法，一旦進入 debugger 後，面對的都是 PDB prompt。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://realpython.com/python-debugging-pdb/#getting-started-printing-a-variables-value">Getting Started: Printing a Variable’s Value - Python Debugging With Pdb – Real Python</a> (2018-04-09) #ril</p>
+<ul>
+<li>Insert the following code at the location where you want to BREAK INTO THE DEBUGGER: <code>import pdb; pdb.set_trace()</code> When the line above is executed, Python stops and waits for you to tell it what to do next. You’ll see a (Pdb) prompt. 如果在 GUI debugger 裡安插 breakopoint 一樣。</li>
+<li>You can also break into the debugger, without modifying the source and using <code>pdb.set_trace()</code> or <code>breakpoint()</code>, by running Python directly from the command-line and passing the option <code>-m pdb</code>. 例如 <code>python3 -m pdb app.py arg1 arg2</code>，一開始停在那裡? =&gt; 第 1 行之前</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.pytest.org/en/latest/usage.html#dropping-to-pdb-python-debugger-on-failures">Dropping to PDB (Python Debugger) on failures - Usage and Invocations — pytest documentation</a> #ril</p>
+</li>
+<li><a href="https://nose.readthedocs.io/en/latest/plugins/debug.html">Debug: drop into pdb on errors or failures — nose 1.3.7 documentation</a> #ril</li>
+</ul>
+<h2 id="debugger-command">Debugger Command ??<a class="headerlink" href="#debugger-command" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/pdb.html#debugger-commands">Debugger Commands - 26.2. pdb — The Python Debugger — Python 2.7.15 documentation</a> #ril<ul>
+<li>Most commands can be abbreviated to one or two letters; e.g. <code>h(elp)</code> means that either <code>h</code> or <code>help</code> can be used to enter the help command (but not <code>he</code> or <code>hel</code>, nor <code>H</code> or <code>Help</code> or <code>HELP</code>). Arguments to commands must be separated by whitespace (spaces or tabs). 只能採用指定的縮寫，否則就只能用全名。</li>
+<li>Entering a blank line repeats the last command entered. Exception: if the <code>last</code> command was a list command, the NEXT 11 lines are listed. 但對 <code>ll</code> 無效。</li>
+<li>Commands that the debugger doesn’t recognize are assumed to be Python statements and are executed in the CONTEXT of the program being debugged. Python statements can also be prefixed with an exclamation point (<code>!</code>). This is a powerful way to inspect the program being debugged; it is even possible to CHANGE A VARIABLE or call a function. When an exception occurs in such a statement, the exception name is printed but the debugger’s STATE IS NOT CHANGED. 完全不輸 GUI debugger!! 不過 Python statement 還是明確用 <code>!</code> 帶出來比較好，避免誤執行到 debugger command。</li>
+<li>Multiple commands may be entered on a single line, separated by <code>;;</code>. &hellip; No intelligence is applied to separating the commands; the input is split at the first <code>;;</code> pair, even if it is in the middle of a quoted string. 實際的應用??</li>
+<li>The debugger supports aliases. Aliases can have parameters which allows one a certain level of ADAPTABILITY to the context under examination. 搭配 <code>.pdbrc</code> 比較實用。</li>
+<li><code>c(ont(inue))</code> - Continue execution, only stop when a breakpoint is encountered. 直到下一個 breakpoint。</li>
+<li><code>p expression</code> - Evaluate the expression in the current context and print its value.</li>
+<li><code>pp expression</code> - Like the <code>p</code> command, except the value of the expression is pretty-printed using the <code>pprint</code> module.</li>
+<li><code>unt(il)</code> - Continue execution until the line with the line number greater than the current one is reached or when returning from current frame.</li>
+<li><code>q(uit)</code> - Quit from the debugger. The program being executed is ABORTED. 不單純只是離開 debugger</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/library/pdb.html#debugger-commands">Stack Frame - Debugger Commands - 26.2. pdb — The Python Debugger — Python 2.7.15 documentation</a> 整理出跟 stack frame、function call 相關的 commands #ril<ul>
+<li><code>w(here)</code> - Print a stack trace, with the most recent frame at the bottom. An arrow indicates the current frame, which determines the CONTEXT of most commands. 印出一路執行到這裡的路徑</li>
+<li><code>s(tep)</code> - Execute the current line, stop at the first possible occasion (either in a function that is called or on the next line in the current function). 類 GUI debugger 的 Step Into</li>
+<li><code>n(ext)</code> - Continue execution until the next line in the current function is reached or it returns. (The difference between <code>next</code> and <code>step</code> is that step stops INSIDE a called function, while <code>next</code> executes called functions at (nearly) full speed, only stopping at the next line in the current function.) 類 GUI debugger 的 Step Over</li>
+<li><code>d(own)</code> - Move the current frame one level down in the stack trace (to a newer frame). 搭配 <code>w(here)</code> 使用比較清楚；可以在 stack frame 間游走，有點神奇!!</li>
+<li><code>u(p)</code> - Move the current frame one level up in the stack trace (to an older frame).</li>
+<li><code>r(eturn)</code> - Continue execution until the current function returns. 直到離開所在的 function；類 GUI debugger 的 Step Out</li>
+</ul>
+</li>
+</ul>
+<h2 id="pdbrc"><code>.pdbrc</code> ??<a class="headerlink" href="#pdbrc" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/pdb.html#debugger-commands">Debugger Commands - 26.2. pdb — The Python Debugger — Python 2.7.15 documentation</a><ul>
+<li>If a file <code>.pdbrc</code> exists in the user’s home directory or in the current directory, it is read in and executed as if it had been typed at the debugger prompt. This is particularly useful for ALIASES. If both files exist, the one in the home directory is read first and aliases defined there can be overridden by the local file. 自己慣用的 alias 放 home dir，專案特有的 alias 就放專案底下。</li>
+</ul>
+</li>
+</ul>
+<h2 id="breakpoint-built-in"><code>breakpoint()</code> Built-In ??<a class="headerlink" href="#breakpoint-built-in" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://realpython.com/python-debugging-pdb/#getting-started-printing-a-variables-value">Getting Started: Printing a Variable’s Value - Python Debugging With Pdb – Real Python</a> (2018-04-09) Python 3.7 新加入了 <code>breakpoint()</code> built-in，只要在 code 裡面安插 <code>breakpoint()</code> 即可，效果跟上面 <code>import pdb; pdb.set_trace()</code> 一樣，但可以進一步透過 <code>PYTHONBREAKPOINT</code> 環境變數來控制要不要作用，例如 <code>PYTHONBREAKPOINT=0</code> 可以停用 debugging (所以 <code>breakpoint()</code> 可以留在 source code 裡)；作者建議 Python 3.7 用 <code>breakpoint()</code> 來取代 <code>pdb.set_trace()</code>。</li>
+<li><a href="https://realpython.com/python37-new-features/#the-breakpoint-built-in">The breakpoint() Built-In - Cool New Features in Python 3.7 – Real Python</a> (2018-06-27) #ril</li>
+<li><a href="https://hackernoon.com/python-3-7s-new-builtin-breakpoint-a-quick-tour-4f1aebc444c">Python 3.7’s new builtin breakpoint — a quick tour – Hacker Noon</a> (2018-05-17) #ril</li>
+<li><a href="https://docs.python.org/3/library/functions.html#breakpoint">breakpoint() - Built-in Functions — Python 3.7.2rc1 documentation</a> #ril</li>
+</ul>
+<h2 id="post-mortem-debugging">Post-Mortem Debugging ??<a class="headerlink" href="#post-mortem-debugging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/pdb.html">pdb — The Python Debugger — Python 3.7.2rc1 documentation</a> 一開始就提到支援 post-mortem debugging #ril<ul>
+<li>When invoked as a script, pdb will automatically enter post-mortem debugging if the program being debugged EXITS ABNORMALLY. After post-mortem debugging (or after normal exit of the program), pdb will restart the program. Automatic restarting preserves pdb’s state (such as breakpoints) and in most cases is more useful than quitting the debugger upon program’s exit. ??</li>
+</ul>
+</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://documen.tician.de/pudb/index.html">Welcome to pudb’s documentation! — pudb 2.0.1.8...1 documentation</a> #ril</li>
+<li><a href="https://github.com/romanvm/python-web-pdb">romanvm/python-web-pdb: Web-based remote UI for Python&rsquo;s PDB debugger</a> #ril</li>
+<li><a href="https://wiki.python.org/moin/PythonDebuggingTools">PythonDebuggingTools - Python Wiki</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/library/pdb.html">pdb — The Python Debugger</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.python.org/3/library/pdb.html#debugger-commands">Debugger Commands</a></li>
+<li><a href="https://github.com/python/cpython/blob/3.7/Lib/pdb.py"><code>cpython/pdb.py</code> - python/cpython</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

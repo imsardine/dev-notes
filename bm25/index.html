@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/bm25/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>BM25 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/bm25.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#bm25">BM25</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#if-idf">IF-IDF ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="bm25">BM25<a class="headerlink" href="#bm25" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Okapi_BM25">Okapi BM25 - Wikipedia</a> #ril<ul>
+<li>In information retrieval (信息檢索), Okapi BM25 (BM stands for Best Matching) is a RANKING FUNCTION used by search engines to rank matching documents according to their RELEVANCE TO A GIVEN SEARCH QUERY. 若 BM = Best Matching，那 25 是什麼??</li>
+<li>The name of the actual ranking function is BM25. To set the right context, however, it is usually referred to as &ldquo;Okapi BM25&rdquo;, since the Okapi information retrieval system, implemented at London&rsquo;s City University in the 1980s and 1990s, was the first system to implement this function. 其 Okapi 唸做 <code>[o‵kɑpɪ]</code>，一種非洲鹿。</li>
+<li>BM25 and its newer variants, e.g. BM25F (a version of BM25 that can take document STRUCTURE and ANCHOR TEXT into account), represent state-of-the-art TF-IDF-LIKE retrieval functions used in document retrieval. 所以 TF-IDF 是一種類型，而 BM25 就是其中一種實作??</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Okapi_BM25#The_ranking_function">The ranking function - Okapi BM25 - Wikipedia</a> #ril</p>
+<ul>
+<li>BM25 is a BAG-OF-WORDS retrieval function that ranks a set of documents based on the QUERY TERMS APPEARING IN EACH DOCUMENT, regardless of the INTER-RELATIONSHIP BETWEEN THE QUERY TERMS WITHIN A DOCUMENT (e.g., their relative PROXIMITY). 不考慮同一份字詞間是否接近，是 BM25 的弱點?</li>
+<li>
+<p>It is not a single function, but actually a whole FAMILY OF SCORING FUNCTIONS (下面的公式還可以再展開), with slightly different components and parameters. One of the most prominent (著名的) instantiations of the function is as follows.</p>
+<p>Given a query $Q$, containing keywords $q_1$,&hellip;,$q_n$ the BM25 score of a document $D$ is: (將個別 keyword 在該 document 的分數加總)</p>
+<p><img alt="" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/43e5c609557364f7836b6b2f4cd8ea41deb86a96" /></p>
+<p>where $f(q_i, D)$ is $q_i$&rsquo;s TERM FREQUENCY in the document $D$, $|D|$ is the length of the document $D$ IN WORDS, and $avgdl$ is the average document length in the TEXT COLLECTION from which documents are drawn. 其中 $k_1$ 跟 $b$ 似乎分別調節 $f(q_i, D)$ 與 $\mid{D}\mid \over avgdl$ 的影響力? 但 $k_1$ 似乎也跟 $\mid{D}\mid \over avgdl$ 有關??</p>
+<p>$k_1$ and $b$ are FREE PARAMETERS, usually CHOSEN (精選的?), in absence of an advanced optimization??, as $k_1 \in [1.2,2.0]$ and $b = 0.75$. 調試出來，通常可以得到不錯的效果。</p>
+<p>$IDF(q_i)$ is the IDF (INVERSE DOCUMENT frequency) WEIGHT of the query term $q_i$. It is usually computed as:</p>
+<p><img alt="" src="https://wikimedia.org/api/rest_v1/media/math/render/svg/c652b6871ce4872c8e924ff0f806bc8b06dc94ed" /></p>
+<p>where $N$ is the total number of documents in the COLLECTION, and $n(q_i)$ is the number of documents containing $q_i$. 所在的 collection 越大，含有該 keyword 的 document 越少，IDF 的值就會越高 &ndash; 分數越高，表示該 keyword 越獨特，分數也就越高。</p>
+<p>注意 TF 跟 IDF 中 TERM frequency 與 DOCUMNET frequency 的差別，前者是 &ldquo;within a document&rdquo;，後者是 &ldquo;in the collection&rdquo;；前者是 keyword 在一份文件裡出現的次數，後者是該 keyword 在整個 collection 裡的獨特/稀有性。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Information_retrieval">Information retrieval - Wikipedia</a> #ril</p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Bag-of-words_model">Bag-of-words model - Wikipedia</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Ranking_(information_retrieval)">Ranking (information retrieval) - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="if-idf">IF-IDF ??<a class="headerlink" href="#if-idf" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tf–idf - Wikipedia</a> #ril</li>
+<li><a href="https://opensourceconnections.com/blog/2015/10/16/bm25-the-next-generation-of-lucene-relevation/">BM25 The Next Generation of Lucene Relevance</a> (2015-10-16) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../elasticsearch-query/#scoring">Elasticsearch</a> 採用 BM25 計分</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

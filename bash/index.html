@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/bash/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Bash - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/bash.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#bash">Bash</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#bash-builtin">如何查看 Bash builtin 的用法?</a></li>
+                
+            <li class="second-level"><a href="#quoting">Quoting ??</a></li>
+                
+            <li class="second-level"><a href="#history">History ??</a></li>
+                
+            <li class="second-level"><a href="#stdin">STDIN ??</a></li>
+                
+            <li class="second-level"><a href="#set-e">set -e ??</a></li>
+                
+            <li class="second-level"><a href="#list-">List - ||, &amp;&amp;, &amp;, ;</a></li>
+                
+            <li class="second-level"><a href="#io-redirection">I/O Redirection??</a></li>
+                
+            <li class="second-level"><a href="#shell-scripting">Shell Scripting</a></li>
+                
+                <li class="third-level"><a href="#if-else">If ... Else</a></li>
+            <li class="second-level"><a href="#files-io">Files I/O 檔案存取</a></li>
+                
+                <li class="third-level"><a href="#_1">如何判斷目錄是否存在?</a></li>
+                <li class="third-level"><a href="#_2">目錄不存在時才建立?</a></li>
+                <li class="third-level"><a href="#shell-scripting-shell">Shell Scripting 跟 Shell 的關係是什麼??</a></li>
+            <li class="second-level"><a href="#shell-expansion">Shell Expansion</a></li>
+                
+                <li class="third-level"><a href="#_3">如何一次展開多個 ~ ??</a></li>
+            <li class="second-level"><a href="#_4">生產力</a></li>
+                
+            <li class="second-level"><a href="#_5">參數處理</a></li>
+                
+            <li class="second-level"><a href="#_6">流程控制</a></li>
+                
+            <li class="second-level"><a href="#process">Process 行程管理</a></li>
+                
+            <li class="second-level"><a href="#_7">資料處理</a></li>
+                
+            <li class="second-level"><a href="#howto">HOWTO</a></li>
+                
+                <li class="third-level"><a href="#task">如何執行多個 task (忽略中間發生的錯誤) ??</a></li>
+            <li class="second-level"><a href="#_8">其他</a></li>
+                
+            <li class="second-level"><a href="#_9">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="bash">Bash<a class="headerlink" href="#bash" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>Bash Guide for Beginners <a href="http://tldp.org/LDP/Bash-Beginners-Guide/html/index.html">http://tldp.org/LDP/Bash-Beginners-Guide/html/index.html</a> #ril</li>
+</ul>
+<h2 id="bash-builtin">如何查看 Bash builtin 的用法?<a class="headerlink" href="#bash-builtin" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 <code>man</code> 查不到 Bash builtin 的用法，要用 <code>help</code>，例如 <code>help cd</code>。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>以 <code>cd</code> 而言，它是 builtin，所以用 <code>man cd</code> 看不到什麼說明，要用 <code>help cd</code> 才行；可以用 <code>help help</code> 查看 builtin 的說明。</li>
+</ul>
+<h2 id="quoting">Quoting ??<a class="headerlink" href="#quoting" title="Permanent link"> #</a></h2>
+<ul>
+<li>為什麼 <code>$VAR</code> 跟 <code>"$VAR"</code> 有差別?? 後者視為一個 arg?</li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Quoting">3.1.2 Quoting - Bash Reference Manual</a> #ril</li>
+<li><a href="http://wiki.bash-hackers.org/syntax/quoting">Quotes and escaping [Bash Hackers Wiki]</a> #ril<ul>
+<li>Quote charactes 跟 parsing 有關，但跟 command line 參數傳遞無關?? <code>command $MYARG</code> 會收到 3 個參數，但 <code>command "MYARG"</code> 會收到一個參數。</li>
+</ul>
+</li>
+</ul>
+<h2 id="history">History ??<a class="headerlink" href="#history" title="Permanent link"> #</a></h2>
+<ul>
+<li>感覺最後一個離開的 session，其 history 會覆寫 <code>~/.bash_history</code>?? 所以 <code>history -c</code> 或更動 <code>HISTSIZE</code> 會影響整個 <code>~/.bash_history</code>。</li>
+<li>Bash 的 history 好像不能在多佪 session 間共享? 所以 <a href="https://en.wikipedia.org/wiki/Z_shell">Zsh</a> 才會強調 &ldquo;Sharing of command history among all running shells&rdquo;。</li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Using-History-Interactively">9 Using History Interactively - Bash Reference Manual</a> #ril</li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Searching">8.2.5 Searching for Commands in the History - Bash Reference Manual</a> #ril</li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Commands-For-History">8.4.2 Commands For Manipulating The History - Bash Reference Manual</a> #ril</li>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html#Bash-Variables">5.2 Bash Variables - Bash Reference Manual</a> 說明 <code>HIST*</code> variable #ril</li>
+<li><a href="https://www.networkworld.com/article/3256279/linux/linux-command-history-choosing-what-to-remember-and-how.html">Linux command history: Choosing what to remember and how | Network World</a> (2018-02-20) #ril<ul>
+<li>最後提到 login session 的 history 在 log out 時才會寫到 history file，若是 log out 前先做 <code>history -c</code>，就不會記錄任何東西 &ndash; 整個 history file 會被清掉。</li>
+<li><code>HISTCONTROL</code> 設定 <code>ignorespace</code> 或 <code>ignoredups</code> (同時指定時用 <code>:</code> 分開，也可以用 <code>ignoreboth</code> 替代)，其中 <code>ignorespace</code> 表示當指令前面有空白時不會被記錄，<code>ignoredups</code> 表示連續的指令重複時只會記錄一個。</li>
+</ul>
+</li>
+<li><a href="https://www.if-not-true-then-false.com/2010/quit-bash-shell-without-saving-bash-history/">Quit Bash Shell Without Saving Bash History (5 Methods) – If Not True Then False</a> 看起來 history 會在 logout/quit/exit 時寫回檔案，難怪都在 <code>exit</code> 前對 <code>HISTFILE</code>/<code>HISTSIZE</code> 動些手腳 (或透過 <code>history -c</code> 清空)，而 <code>kill -9 $$</code> 暴力幹掉自己則是一絕。</li>
+<li><a href="https://stackoverflow.com/questions/9039107/">Don&rsquo;t save current bash session to history - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="stdin">STDIN ??<a class="headerlink" href="#stdin" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://superuser.com/questions/747884/">command line - How to write a script that accepts input from a file or from stdin? - Super User</a> 利用 <code>cat -</code> 來取得 STDIN 的內容。</li>
+<li><a href="https://stackoverflow.com/questions/6980090/">How to read from a file or stdin in Bash? - Stack Overflow</a> 也有提到 <code>cat -</code> 的用法 #ril</li>
+</ul>
+<h2 id="set-e">set -e ??<a class="headerlink" href="#set-e" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/19622198/">linux - What does set -e mean in a bash script? - Stack Overflow</a> #ril<ul>
+<li>twalberg: <code>man bash</code> 就可以找到答案；<code>set -e</code> 的說明是 &ldquo;Exit  immediately if a simple command (see SHELL GRAMMAR above) exits with a non-zero status.&rdquo;</li>
+<li>kenorb: Pipeline 的 exit status 是最後一個 command 的 exist status，除非 <code>pipefail</code> option 有啟用，就會是 &ldquo;the status of last command to exit with a non-zero status&rdquo;。</li>
+<li>Robin Green: <code>help set</code> 就可以看到說明，預設在 command 或 pipeline 裡的錯誤會被忽略。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/3474526/">bash - Stop on first error - Stack Overflow</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/2870992/">Automatic exit from bash shell script on error - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="list-">List - ||, &amp;&amp;, &amp;, ;<a class="headerlink" href="#list-" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://tiswww.case.edu/php/chet/bash/bashref.html#Lists">3.2.3 Lists of Commands - Bash Reference Manual</a> #ril<ul>
+<li>List 是比 pipeline 更大的單位 &ndash; A list is a sequence of one or more pipelines separated by one of the operators: ;, &amp;, &amp;&amp;, or ||。</li>
+<li><code>&amp;</code> 會將前面的 command 非同步地執行在 subshell，而 <code>;</code> 則是單純地依序執行 (sequentially)，return status 是最後一個 command 的 exit status。</li>
+<li><code>&amp;&amp;</code> 與 <code>||</code> 分別稱做 AND list 與 OR list。就 <code>command1 &amp;&amp; command2</code> 而言，<code>command2</code> 只有在 <code>command1</code> 的 exit status 為 zero 時才會執行，而 <code>command1 || command2</code> 處理方式不同，<code>command2</code> 只有在 <code>command1</code> 的 exit status 為 non-zero 才會執行。而整個 list 的 return status 是 list 中最後一個執行的 command 的 exit status。</li>
+</ul>
+</li>
+<li><a href="https://unix.stackexchange.com/questions/24684/">bash - Confusing use of &amp;&amp; and || operators - Unix &amp; Linux Stack Exchange</a> #ril<ul>
+<li>Shawn J. Goff: <code>&amp;&amp;</code> 只有在左側的 exit status 為 zero 才會執行，而 <code>||</code> 相反則是左側的 exit status 為 non-zero 時才會執行。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/41625521/">bash which OR operator to use - pipe v double pipe - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="io-redirection">I/O Redirection??<a class="headerlink" href="#io-redirection" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/File_descriptor">File descriptor - Wikipedia</a> Each Unix process (except perhaps a daemon) should expect to have three standard POSIX file descriptors, corresponding to the three standard streams &ndash; <code>stdin</code> (0)、<code>stdout</code> (1) 及 <code>stderr</code> (2)；括號裡的就是 file descriptor (non-negative integer)。</li>
+<li><a href="http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-3.html">BASH Programming - Introduction HOW-TO: All about redirection</a> #ril<ul>
+<li>有 3 個 file descriptor &ndash; <code>stdin</code>、<code>stdout</code> (1)、<code>stderr</code> (2)。</li>
+</ul>
+</li>
+<li><a href="https://www.gnu.org/software/bash/manual/html_node/Redirections.html">Bash Reference Manual: Redirections</a> #ril</li>
+<li><a href="https://www.tldp.org/LDP/abs/html/ioredirintro.html">A Detailed Introduction to I/O and I/O Redirection</a> #ril<ul>
+<li>一個 command 內部會預期有 3 個 file descriptor &ndash; fd 0 (<code>stdin</code>) 用在 reading/input，另外 fd 1 (<code>stdout</code>) 及 fd 2 (<code>stderr</code>) 則用在 writing/output；其中 fd 1 是 normal output，而 fd 2 則是 error output。</li>
+</ul>
+</li>
+<li><a href="https://www.tldp.org/LDP/abs/html/io-redirection.html">I/O Redirection</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/6871859/">bash - Piping command output to tee but also save exit code of command - Stack Overflow</a> 設定 <code>set -o pipefail</code>，在 pipeline 裡有任何 command 的 exit status 不是 0 時，都能從最後的 exit status 看出來 #ril</li>
+</ul>
+<h2 id="shell-scripting">Shell Scripting<a class="headerlink" href="#shell-scripting" title="Permanent link"> #</a></h2>
+<h3 id="if-else">If &hellip; Else<a class="headerlink" href="#if-else" title="Permanent link"> #</a></h3>
+<ul>
+<li>linux - Why should there be a space after &lsquo;[&lsquo; and before &lsquo;]&rsquo; in Bash? - Stack Overflow <a href="https://stackoverflow.com/questions/9581064/">https://stackoverflow.com/questions/9581064/</a> 為什麼 <code>if [ condition ]</code> 的兩側一定要有空白? Johnsyweb: 因為 <code>[</code> 是個 command，其實是 <code>test</code> 的 synonym (用 <code>help [</code> 及 <code>help test</code> 查看用法)，只是 <code>help [</code> 提到 <code>[</code> 的最後一個參數必須要是 <code>]</code>，所以才有 <code>[ expression ]</code> 的用法。</li>
+</ul>
+<h2 id="files-io">Files I/O 檔案存取<a class="headerlink" href="#files-io" title="Permanent link"> #</a></h2>
+<h3 id="_1">如何判斷目錄是否存在?<a class="headerlink" href="#_1" title="Permanent link"> #</a></h3>
+<pre><code>if [ -d file ]; then
+    statement1
+else
+    statement2
+fi
+</code></pre>
+
+<p>若是目錄不存在時才要做什麼事，用 <code>[ expression ] || statement</code> 也可以 (expression 不成立時才會執行 statement)，例如 <code>output/</code> 不存在時才建立：</p>
+<pre><code>[ -d output ] || mkdir output
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>Bash Reference Manual <a href="https://www.gnu.org/software/bash/manual/bash.html#Bash-Conditional-Expressions">https://www.gnu.org/software/bash/manual/bash.html#Bash-Conditional-Expressions</a> 提到 <code>-d file</code> 可以判斷 file 存在，而且是個 directory。</li>
+<li>How do I tell if a regular file does not exist in Bash? - Stack Overflow <a href="https://stackoverflow.com/questions/638975/">https://stackoverflow.com/questions/638975/</a> <code>test</code> 指令有個 not operator (<code>!</code>)，用起來像是 <code>if [ ! -f /tmp/foo.txt ]; then</code>。</li>
+<li>shell - How to mkdir only if a dir does not already exist? - Stack Overflow <a href="https://stackoverflow.com/questions/793858/">https://stackoverflow.com/questions/793858/</a> 出現 <code>[ -d foo ] || mkdir foo</code> 的用法。</li>
+</ul>
+<h3 id="_2">目錄不存在時才建立?<a class="headerlink" href="#_2" title="Permanent link"> #</a></h3>
+<ul>
+<li>shell - How to mkdir only if a dir does not already exist? - Stack Overflow <a href="https://stackoverflow.com/questions/793858/">https://stackoverflow.com/questions/793858/</a> 用 <code>mkdir -p</code> 或是 <code>[ -d foo ] || mkdir foo</code>。</li>
+</ul>
+<h3 id="shell-scripting-shell">Shell Scripting 跟 Shell 的關係是什麼??<a class="headerlink" href="#shell-scripting-shell" title="Permanent link"> #</a></h3>
+<ul>
+<li>Bash For Loop Examples – nixCraft <a href="https://www.cyberciti.biz/faq/bash-for-loop/">https://www.cyberciti.biz/faq/bash-for-loop/</a> 提到 &ldquo;A for loop can be used at a shell prompt or within a shell script itself&rdquo;，感覺兩者的界限很模糊。</li>
+</ul>
+<h2 id="shell-expansion">Shell Expansion<a class="headerlink" href="#shell-expansion" title="Permanent link"> #</a></h2>
+<ul>
+<li>Shell expansion <a href="http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_04.html">http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_04.html</a> #ril</li>
+</ul>
+<h3 id="_3">如何一次展開多個 <code>~</code> ??<a class="headerlink" href="#_3" title="Permanent link"> #</a></h3>
+<ul>
+<li><code>DIRS="~/dir1 ~/dir2" 因為</code>~<code>在雙引號內，完全不會解析；可以暫時用</code>$HOME` 來取代。</li>
+<li>Shell expansion <a href="http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_04.html">http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_04.html</a> 似乎 tilde expansion 有一些規則 #ril</li>
+</ul>
+<h2 id="_4">生產力<a class="headerlink" href="#_4" title="Permanent link"> #</a></h2>
+<ul>
+<li>怎麼用 alias ?? 是 Bash 的東西而非 Unix-like??</li>
+</ul>
+<h2 id="_5">參數處理<a class="headerlink" href="#_5" title="Permanent link"> #</a></h2>
+<ul>
+<li>要如何檢查參數數量，並印出用法? =&gt; <a href="http://stackoverflow.com/questions/18568706">http://stackoverflow.com/questions/18568706</a> 用 <code>if [ "$#" -ne 1 ]; then ... fi 或</code>if test &ldquo;$#&rdquo; -ne 1; then &hellip; fi`。</li>
+</ul>
+<h2 id="_6">流程控制<a class="headerlink" href="#_6" title="Permanent link"> #</a></h2>
+<h2 id="process">Process 行程管理<a class="headerlink" href="#process" title="Permanent link"> #</a></h2>
+<ul>
+<li>如何對 process 送出同使用者按 Ctrl-C 的 signal? =&gt; <a href="http://stackoverflow.com/questions/514771/">http://stackoverflow.com/questions/514771/</a> 送出 <code>SIGINT</code> (<code>kill -SIGINT &lt;PID&gt;</code>)，預設 <code>kill</code> 會送出 <code>SIGTERM</code>。</li>
+</ul>
+<h2 id="_7">資料處理<a class="headerlink" href="#_7" title="Permanent link"> #</a></h2>
+<ul>
+<li>怎麼模擬 SQL 裡的 <code>GROUP BY</code>?? =&gt; <a href="http://stackoverflow.com/questions/380817/">http://stackoverflow.com/questions/380817/</a> 搭配 <code>sort -n | uniq -c</code></li>
+</ul>
+<h2 id="howto">HOWTO<a class="headerlink" href="#howto" title="Permanent link"> #</a></h2>
+<h3 id="task">如何執行多個 task (忽略中間發生的錯誤) ??<a class="headerlink" href="#task" title="Permanent link"> #</a></h3>
+<p>利用 <code>||</code> 右側的 command 只有在左側 command 的 exit status 為 non-zero 時才會執行。</p>
+<pre><code>set -e
+
+sh -c 'echo one; exit 0' || EXIT_STATUS=$?
+sh -c 'echo two; exit 2' || EXIT_STATUS=$?
+sh -c 'echo three; exit 0' || EXIT_STATUS=$?
+
+exit $EXIT_STATUS
+</code></pre>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/11231937/">linux - Bash ignoring error for a particular command - Stack Overflow</a> #ril<ul>
+<li>Arslan Qadeer: 不想停下來，又想把 exit code 存下來，可以用 <code>set -e;</code> 搭配 <code>command || EXIT_CODE=$? &amp;&amp; true</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="_8">其他<a class="headerlink" href="#_8" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>iabbrev</code> 的展開很好用，只是不知道語法?? <a href="http://learnvimscriptthehardway.stevelosh.com/chapters/08.html">http://learnvimscriptthehardway.stevelosh.com/chapters/08.html</a></li>
+<li>什麼是 Quickfix List??
+   ** <a href="http://vi.stackexchange.com/questions/2280/show-only-matching-lines">http://vi.stackexchange.com/questions/2280/show-only-matching-lines</a> 提到 <code>:vimgrep pattern %</code> 的用法，再用 <code>:cwin</code> 開啟另一個視窗選取&hellip;</li>
+<li>如何快速地上下移動某些行?? =&gt; <a href="http://vim.wikia.com/wiki/Moving_lines_up_or_down">http://vim.wikia.com/wiki/Moving_lines_up_or_down</a></li>
+<li><code>NAME=VAL command</code> 的用法，為何 <code>NAME=VAL</code> 有 export 的效果??</li>
+<li>如何做 key-value 的 iteration?? <a href="http://stackoverflow.com/questions/3112687/how-to-iterate-over-associative-array-in-bash">http://stackoverflow.com/questions/3112687/how-to-iterate-over-associative-array-in-bash</a> 專業的說法是 associative array 跟一般的 array 有什麼不同??</li>
+<li><code>~/.bashrc</code> 跟 <code>~/.bash_profile</code> 的差別?? <a href="http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html[.bash_profile">http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html[.bash_profile</a> vs .bashrc] 帶出 login shell 跟 non-login shell</li>
+<li>根本沒有 local/global variable 這種說法，因為 environment variable 是每個 process 都會有的，跟 Bash 沒有關係?? <a href="http://guide.bash.academy/03.variables.html">http://guide.bash.academy/03.variables.html</a> 假設有個環境變數 <code>TOOL_DIR</code>，<code>TOOL_DIR=/tmp/tool</code> 是改了什麼?? 在那之前/之後，<code>$TOOL_DIR</code> 似乎分別讀取了 environment variable 跟 shell variable?? 有些時候 environment variable 跟 shell variable 似乎可以泛稱為 variable??</li>
+<li>Parameter expansion 跟 variable expansion 有什麼不同? 感覺是一樣的東西? =&gt; <a href="http://guide.bash.academy/03.variables.html">http://guide.bash.academy/03.variables.html</a> 說明了，shell variable 只是 paramter 的一種。</li>
+<li><a href="http://guide.bash.academy/[The">http://guide.bash.academy/[The</a> Bash Guide] 很值得參考?? 每一個章節都有練習</li>
+<li>Bash 的 variable 沒有資料型態，全部都是 string 吧?? <code>STR="Hello World!"</code> 中的 <code>"</code> 只是 quoating，跟資料型態無關??</li>
+<li>為什麼 <code>STR="Hello World!"</code> 在 command line 使用會有問題 <code>-bash: !": event not found</code>，但在 script file 裡使用就不會，shell prompt 跟 script file 裡 Bash 的用法有什麼差別??</li>
+<li>Shell 有好幾層的概念要怎麼解釋??</li>
+<li>怎麼做四則運算?? 好像都會被視為字串?</li>
+<li>怎麼做迴圈??</li>
+<li>怎麼做條件檢查?? 檢查檔案是否存在??</li>
+<li>怎麼處理參數??</li>
+<li>什麼是 POSIX??</li>
+<li><a href="http://stackoverflow.com/questions/11588583/is-the-shells-source-posix-standard">http://stackoverflow.com/questions/11588583/is-the-shells-source-posix-standard</a> ??</li>
+<li>為什麼 Mac 有 <code>/bin/sh</code> 跟 <code>/bin/bash</code> 不一樣的 binary??</li>
+<li>Bourne shell 跟 Bash 的關係??</li>
+<li>怎麼分 Bash builtin、function 跟 external command?? 用 printf 或 echo 好??</li>
+<li>什麼是 compound command?? <code>((</code> ?</li>
+<li><code>let</code> 怎麼用，跟直接做變數的 assignment 有什麼不同? 跟 <code>declare</code> 又有何不同??</li>
+<li>要怎麼解釋 expansion? =&gt; 做一些運算後，把結果置換回去；這跟 substitution 有什麼不同??</li>
+<li>怎麼定義 function?? 用 C 寫嗎??</li>
+</ul>
+<h2 id="_9">參考資料<a class="headerlink" href="#_9" title="Permanent link"> #</a></h2>
+<p>資源：</p>
+<ul>
+<li><a href="http://mywiki.wooledge.org/BashFAQ">BashFAQ - Greg&rsquo;s Wiki</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/bash/manual/bash.html">Bash Reference Manual</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pytest-assert/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pytest / Assertion - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pytest-assert.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pytest-assertion">pytest / Assertion</a></li>
+            <li class="second-level"><a href="#exception">Exception ??</a></li>
+                
+            <li class="second-level"><a href="#assertion-introspection">Assertion Introspection ??</a></li>
+                
+            <li class="second-level"><a href="#floating-point">驗證浮點數</a></li>
+                
+                <li class="third-level"><a href="#assertion-comparison">自訂 Assertion Comparison ??</a></li>
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pytest-assertion"><a href="../pytest/">pytest</a> / Assertion<a class="headerlink" href="#pytest-assertion" title="Permanent link"> #</a></h1>
+<h2 id="exception">Exception ??<a class="headerlink" href="#exception" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/assert.html#assertions-about-expected-exceptions">Assertions about expected exceptions - The writing and reporting of assertions in tests — pytest documentation</a> #ril<ul>
+<li>把 <code>pytest.raises()</code> 當成 context manager 來用，就可以攔截特定的 exception，例如 <code>with pytest.raises(ZeroDivisionError):</code> 或 <code>with pytest.raises(RuntimeError) as excinfo:</code>。</li>
+<li>其中 <code>excinfo</code> 的型態是 <code>ExceptionInfo</code> (pytest 內部的型態，對 raised exception 的 wrapper)，主要的 attribute 裡 <code>.type</code> (exception type)、<code>.value</code> (exception)、<code>traceback</code>。</li>
+<li>雖然 <code>@pytest.mark.xfail(raises=ZeroDivisionError)</code> 也可以達成類似的效果，但 <code>pytest.raises</code> 比較常用在 deliberately raising，而 <code>@pytest.mark.xfail</code> 則用在 unfixed bugs 的 documentation。另外 <code>pytest.raises</code> 還提供 <code>match</code> keyword argument 比對 exception 的 string representation，例如 <code>with pytest.raises(ValueError, match=r'.* 123 .*'):</code>，其中 regex 背後是用 <code>re.search</code>，所以寫成 <code>match='123'</code> 也可以。</li>
+</ul>
+</li>
+<li><a href="https://docs.pytest.org/en/latest/getting-started.html#asserting-that-a-certain-exception-is-raised">Asserting that a certain exception is raised - Installation and Getting Started — pytest documentation</a> 用 <code>with pytest.raises(EXCEPTION_TYPE):</code> 將可能丟出 error 的程式包起來。</li>
+<li><a href="https://docs.python.org/2/library/sys.html#sys.exc_info">28.1. sys — System-specific parameters and functions — Python 2.7.14 documentation</a> 回傳 <code>(type, value, traceback)</code>。</li>
+<li><a href="https://stackoverflow.com/questions/20274987/">python - How to use pytest to check that Error is NOT raised - Stack Overflow</a> 如何驗證沒有丟出 exception? Faruk Sahin: 攔截 exception 並呼叫 <code>pytest.fail(...)</code>；可這樣 stack trace 不見了??</li>
+<li><a href="https://docs.pytest.org/en/latest/example/simple.html#writing-well-integrated-assertion-helpers">Writing well integrated assertion helpers - Basic patterns and examples — pytest documentation</a> 提到 test helper 可以呼叫 <code>pytest.fail()</code> marker? 讓 test 失敗並說明原因</li>
+</ul>
+<h2 id="assertion-introspection">Assertion Introspection ??<a class="headerlink" href="#assertion-introspection" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/getting-started.html#create-your-first-test">Create your fist test - Installation and Getting Started — pytest documentation</a> 提到因為 assertion introspection 的關係，pytest 可以指出 assert expression 在執行期的 intermediate values，不需要去記 <code>assert*()</code> - 這裡稱之為 JUnit legacy methods。</li>
+<li><a href="https://docs.pytest.org/en/latest/assert.html">The writing and reporting of assertions in tests — pytest documentation</a> 這裡都是 <code>assert ACTUAL == EXPECTED</code> 的寫法，比較符合 Python code 的寫法 #ril</li>
+<li><a href="https://docs.python.org/3/library/unittest.html#basic-example">26.4. unittest — Unit testing framework — Python 3.6.5 documentation</a> 提醒用 <code>assert*()</code> 而非 <code>assert</code> statement，這樣才能累積測試結果並產生 report。</li>
+<li><a href="https://docs.pytest.org/en/latest/assert.html#advanced-assertion-introspection">Advanced assertion introspection - The writing and reporting of assertions in tests — pytest documentation</a> 說明 assertion introspection 背後的原理 #ril</li>
+</ul>
+<h2 id="floating-point">驗證浮點數<a class="headerlink" href="#floating-point" title="Permanent link"> #</a></h2>
+<pre><code>from pytest import approx
+
+def test_simple_equal__not_working():
+    assert not 1.0 / 7 == 0.142857142857
+
+def test_almost_equal__approx():
+    assert repr(approx(0.5, rel=1e-3)) == '0.5 +- 5.0e-04'
+    assert repr(approx(0.5, abs=1e-3)) == '0.5 +- 1.0e-03'
+
+    assert 1.0 / 7 == approx(0.142857142857) # rel=1e-6, abs=1e-12
+    assert 1.0 / 7 == approx(0.1428, abs=1e-4) # 0.1427 ... 0.1429
+
+def test_almost_equal__scale():
+    assert int((1.0 / 7) * 10**4) == 1428 # 0.1428... x 10000 = 1428...
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.pytest.org/en/latest/reference.html#pytest-approx">pytest.approx - Reference — pytest documentation</a></p>
+<ul>
+<li>
+<p>Assert that two numbers (or two sets of numbers) are equal to each other WITHIN SOME TOLERANCE.</p>
+<p>Due to the intricacies of floating-point arithmetic, numbers that we would intuitively expect to be equal are not always so:</p>
+<pre><code>&gt;&gt;&gt; 0.1 + 0.2 == 0.3
+False
+</code></pre>
+</li>
+<li>
+<p>This problem is commonly encountered when writing tests, e.g. when making sure that floating-point values are what you expect them to be. One way to deal with this problem is to assert that two floating-point numbers are equal to within some appropriate tolerance:</p>
+<pre><code>&gt;&gt;&gt; abs((0.1 + 0.2) - 0.3) &lt; 1e-6
+True
+</code></pre>
+</li>
+<li>
+<p>However, comparisons like this are tedious to write and DIFFICULT TO UNDERSTAND. Furthermore, ABSOLUTE COMPARISONS like the one above are USUALLY DISCOURAGED because there’s no tolerance that works well for ALL SITUATIONS.</p>
+<p>1e-6 is good for numbers around 1, but too small for very big numbers and too big for very small ones. It’s better to express the tolerance as a FRACTION OF THE EXPECTED VALUE, but RELATIVE COMPARISONS like that are even more difficult to write correctly and concisely.</p>
+<p>上面這種 absolute comparison 其實不建議用 (寫起來煩是另一回事)，因為 <code>1e-6</code> 對 1 可能剛好，但對比較大的數字而言又嫌太小，所以建議用 relative comparison (fraction of the expected value)。這概念還滿特別的，而且預設 1/1000000 對大部份情況已經夠精確，除非要比對的數字很大。</p>
+</li>
+<li>
+<p>The <code>approx</code> class performs floating-point comparisons using a syntax that’s as INTUITIVE as possible:</p>
+<pre><code>&gt;&gt;&gt; from pytest import approx
+&gt;&gt;&gt; 0.1 + 0.2 == approx(0.3)
+True
+</code></pre>
+<p>The same syntax also works for sequences of numbers:</p>
+<pre><code>&gt;&gt;&gt; (0.1 + 0.2, 0.2 + 0.4) == approx((0.3, 0.6))
+True
+</code></pre>
+<p>Dictionary values:</p>
+<pre><code>&gt;&gt;&gt; {'a': 0.1 + 0.2, 'b': 0.2 + 0.4} == approx({'a': 0.3, 'b': 0.6})
+True
+</code></pre>
+<p>numpy arrays:</p>
+<pre><code>&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; np.array([0.1, 0.2]) + np.array([0.2, 0.4]) == approx(np.array([0.3, 0.6]))
+True
+</code></pre>
+<p>And for a numpy array against a scalar:</p>
+<pre><code>&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; np.array([0.1, 0.2]) + np.array([0.2, 0.1]) == approx(0.3)
+True
+</code></pre>
+</li>
+<li>
+<p>By default, <code>approx</code> considers numbers within a RELATIVE TOLERANCE of <code>1e-6</code> (i.e. one part in a million) of its expected value to be equal.</p>
+<p>This treatment would lead to surprising results if the expected value was 0.0, because nothing but 0.0 itself is relatively close to 0.0. To handle this case less surprisingly, <code>approx</code> also considers numbers within an ABSOLUTE TOLERANCE of <code>1e-12</code> of its expected value to be equal.</p>
+</li>
+<li>
+<p>Infinity and NaN are special cases. Infinity is only considered equal to itself, regardless of the relative tolerance. NaN is not considered equal to anything by default, but you can make it be equal to itself by setting the <code>nan_ok</code> argument to <code>True</code>. (This is meant to facilitate comparing arrays that use NaN to mean “no data”.)</p>
+<p>這是 NumPy 才有的東西 ??</p>
+</li>
+<li>
+<p>Both the relative and absolute tolerances can be changed by passing arguments to the <code>approx</code> constructor:</p>
+<pre><code>&gt;&gt;&gt; 1.0001 == approx(1)
+False
+&gt;&gt;&gt; 1.0001 == approx(1, rel=1e-3)
+True
+&gt;&gt;&gt; 1.0001 == approx(1, abs=1e-3)
+True
+</code></pre>
+<p>If you specify <code>abs</code> but not <code>rel</code>, the comparison will NOT consider the relative tolerance at all. In other words, two numbers that are within the default relative tolerance of 1e-6 will still be considered unequal if they exceed the specified absolute tolerance. If you specify both <code>abs</code> and <code>rel</code>, the numbers will be considered equal if EITHER tolerance is met:</p>
+<pre><code>&gt;&gt;&gt; 1 + 1e-8 == approx(1)
+True
+&gt;&gt;&gt; 1 + 1e-8 == approx(1, abs=1e-12)
+False
+&gt;&gt;&gt; 1 + 1e-8 == approx(1, rel=1e-6, abs=1e-12)
+True
+</code></pre>
+<p>注意同時指定時，兩個條件的關係是 OR 不是 AND。另外 relative/absolute tolerance 預設值只有在 <code>rel</code> 跟 <code>abs</code> 都沒有給的情況下才會有作用；大部份的情況下兩者都不用給。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/8560131/">python - pytest: assert almost equal - Stack Overflow</a></p>
+<ul>
+<li>如何驗證 float 的 &ldquo;almost equal&rdquo;? 甚至是在資料結構裡，例如 <code>(1.32, 2.4)</code></li>
+<li>dbn: pytest 3.0 開始提供 <code>approx()</code>，用法像是 <code>assert 2.2 == pytest.approx(2.3)</code> (不會過，因為預設的誤差是 <code>1e-6</code>) 或 <code>assert 2.2 == pytest.approx(2.3, 0.1)</code> (會過，因為 <code>0.1</code> 或 <code>1e-1</code> 是指容許下數後一位數的差異)</li>
+</ul>
+</li>
+</ul>
+<h3 id="assertion-comparison">自訂 Assertion Comparison ??<a class="headerlink" href="#assertion-comparison" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/assert.html#defining-your-own-assertion-comparison">Defining your own assertion comparison - The writing and reporting of assertions in tests — pytest documentation</a> 為了 detailed explanations? 要在 <code>conftest.py</code> 提供 <code>pytest_assertrepr_compare()</code> 好不直覺，實作自己的 <code>__repr__()</code> 不行嗎?? #ril</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/latest/reference.html#exceptioninfo">class <code>ExceptionInfo</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-datetime/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Date/Time - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-datetime.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-datetime">Python / Date/Time</a></li>
+            <li class="second-level"><a href="#_1">解析/格式化 ??</a></li>
+                
+            <li class="second-level"><a href="#time-zone">Time Zone ??</a></li>
+                
+            <li class="second-level"><a href="#time-delta">Time Delta ??</a></li>
+                
+            <li class="second-level"><a href="#date-time-date-datetime-time">Date Time - date, datetime, time ??</a></li>
+                
+            <li class="second-level"><a href="#iso-8601">如何解析 ISO 8601 字串?</a></li>
+                
+            <li class="second-level"><a href="#_2">如何取得當地時間年、月、日、時、分等不同欄位的值??</a></li>
+                
+            <li class="second-level"><a href="#utc-aware-datetime">如何取得當下 UTC (aware) 的 datetime??</a></li>
+                
+            <li class="second-level"><a href="#typeerror-datetimedatetime-is-not-json-serializable">TypeError: datetime.datetime(...) is not JSON serializable</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-datetime"><a href="../python/">Python</a> / Date/Time<a class="headerlink" href="#python-datetime" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/datetime.html">datetime — Basic date and time types — Python 3.7.3 documentation</a> #ril</p>
+<ul>
+<li>
+<p>The <code>datetime</code> module supplies classes for manipulating dates and times in both simple and complex ways. While date and time arithmetic is supported, the focus of the implementation is on EFFICIENT ATTRIBUTE EXTRACTION FOR OUTPUT FORMATTING AND MANIPULATION. For related functionality, see also the <code>time</code> and <code>calendar</code> modules.</p>
+<p>為什麼說 <code>time</code>/<code>calendar</code> 較多時間的計算? 因為時間差 (<code>timedelta</code>) 跟比較大小都在 <code>datetime</code> module 裡。</p>
+</li>
+<li>
+<p>There are two kinds of date and time objects: “NAIVE” and “AWARE”.</p>
+<p>An aware object has sufficient knowledge of applicable algorithmic and political time adjustments, such as time zone and daylight saving time information, to LOCATE ITSELF RELATIVE TO OTHER AWARE OBJECTS. An aware object is used to represent a SPECIFIC MOMENT in time that is NOT OPEN TO INTERPRETATION.</p>
+<p>A naive object does not contain enough information to UNAMBIGUOUSLY locate itself relative to other date/time objects. Whether a naive object represents Coordinated Universal Time (UTC), local time, or time in some other timezone is PURELY UP TO THE PROGRAM, just like it is up to the program whether a particular number represents metres, miles, or mass.</p>
+</li>
+<li>
+<p>Naive objects are EASY TO UNDERSTAND AND TO WORK WITH, at the cost of ignoring some aspects of reality.</p>
+<p>從 &ldquo;easy to work with&rdquo; 及 &ldquo;applications requiring aware object&rdquo; 看來，似乎是比較推 naive 的，由於 open to interpretation 的特性，統一將 naive 視為 UTC 即可。</p>
+</li>
+<li>
+<p>For applications requiring aware objects, <code>datetime</code> and <code>time</code> objects have an OPTIONAL time zone information attribute, <code>tzinfo</code>, that can be set to an instance of a subclass of the abstract <code>tzinfo</code> class. These <code>tzinfo</code> objects capture information about the OFFSET FROM UTC TIME, the time zone name, and whether Daylight Saving Time is in effect.</p>
+<p>Note that only one concrete <code>tzinfo</code> class, the <code>timezone</code> class, is supplied by the <code>datetime</code> module. The <code>timezone</code> class can represent simple timezones with FIXED OFFSET from UTC, such as UTC ITSELF or North American EST and EDT timezones.</p>
+<p>這裡 &ldquo;fixed offset&rdquo; 要強調的是 <code>timezone</code> 未將 DST 等政治因素考量進去；唯一不受政治影響的是 UTC &ndash; <code>timezone.utc</code>。</p>
+<p>注意 Python 2 完全沒為 <code>tzinfo</code> 提供實作 <a href="https://docs.python.org/2/library/datetime.html">8.1. datetime — Basic date and time types — Python 2.7.16 documentation</a>，<code>datetime.timezone</code> 是 Python 3 才有的：</p>
+<blockquote>
+<p>Note that no concrete <code>tzinfo</code> classes are supplied by the <code>datetime</code> module.</p>
+</blockquote>
+</li>
+<li>
+<p>Supporting timezones at deeper levels of detail is UP TO THE APPLICATION. The rules for time adjustment across the world are more POLITICAL than rational, CHANGE FREQUENTLY, and there is NO STANDARD suitable for every application aside from UTC.</p>
+</li>
+</ul>
+<p>Available Types</p>
+<ul>
+<li>
+<p>class <code>datetime.date</code></p>
+<p>An idealized ?? naive date, assuming the current Gregorian calendar always was, and always will be, in effect. Attributes: <code>year</code>, <code>month</code>, and <code>day</code>.</p>
+</li>
+<li>
+<p>class <code>datetime.time</code></p>
+<p>An idealized time, independent of any particular day, assuming that every day has exactly 24<em>60</em>60 seconds (there is no notion of “leap seconds” here). Attributes: <code>hour</code>, <code>minute</code>, <code>second</code>, <code>microsecond</code>, and <code>tzinfo</code>.</p>
+</li>
+<li>
+<p>class <code>datetime.datetime</code></p>
+<p>A combination of a date and a time. Attributes: <code>year</code>, <code>month</code>, <code>day</code>, <code>hour</code>, <code>minute</code>, <code>second</code>, <code>microsecond</code>, and <code>tzinfo</code>.</p>
+</li>
+<li>
+<p>class <code>datetime.timedelta</code></p>
+<p>A duration expressing the difference between two <code>date</code>, <code>time</code>, or <code>datetime</code> instances to microsecond resolution.</p>
+</li>
+<li>
+<p>class <code>datetime.tzinfo</code></p>
+<p>An abstract base class for time zone information objects. These are used by the <code>datetime</code> and <code>time</code> classes to provide a customizable notion of time adjustment (for example, to account for time zone and/or daylight saving time).</p>
+</li>
+<li>
+<p>class <code>datetime.timezone</code></p>
+<p>A class that implements the <code>tzinfo</code> abstract base class as a fixed offset from the UTC. New in version 3.2.</p>
+</li>
+<li>
+<p>Objects of these types are IMMUTABLE.</p>
+<p><a href="https://stackoverflow.com/questions/43072149/">python - Do datetime objects need to be deep-copied? - Stack Overflow</a> 提到，因此所有對 <code>datetime</code> instance 的操作都會傳回新的 instance，不用怕動到原來的 instance。</p>
+</li>
+<li>
+<p>Objects of the <code>date</code> type are ALWAYS NAIVE.</p>
+<p>An object of type <code>time</code> or <code>datetime</code> may be naive or aware. A <code>datetime</code> object <code>d</code> is aware if <code>d.tzinfo</code> is not <code>None</code> and <code>d.tzinfo.utcoffset(d)</code> does not return <code>None</code>. If <code>d.tzinfo</code> is <code>None</code>, or if <code>d.tzinfo</code> is not <code>None</code> but <code>d.tzinfo.utcoffset(d)</code> returns <code>None</code>, <code>d</code> is naive. A <code>time</code> object t is aware if <code>t.tzinfo</code> is not <code>None</code> and <code>t.tzinfo.utcoffset(None)</code> does not return <code>None</code>. Otherwise, <code>t</code> is naive.</p>
+</li>
+<li>
+<p>The distinction between naive and aware doesn’t apply to <code>timedelta</code> objects.</p>
+<p>因為 <code>timedelta</code> 本身就是相對的概念，相對於 naive 或 aware 都沒問題。</p>
+</li>
+<li>
+<p>Subclass relationships:</p>
+<pre><code>object
+    timedelta
+    tzinfo
+        timezone
+    time
+    date
+        datetime
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/datetime.html">8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> 專注在取用 date/time 的 attribute extraction - 取年、月、日、時等 #ril</p>
+<ul>
+<li>Objects of these types are immutable，這也代表著所有的 <code>datetime.*</code> types 都是 hashable，可以搭配 hashable collection 使用。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/library/time.html">15.3. time — Time access and conversions — Python 2.7.14 documentation</a> 大部份 function 背後都是同名的 C function，可能因 platform 不同而異 #ril</li>
+<li><a href="https://docs.python.org/2/library/calendar.html">8.2. calendar — General calendar-related functions — Python 2.7.14 documentation</a> 會輪出類似 Unix-like <code>cal</code> 的日曆 #ril</li>
+</ul>
+<h2 id="_1">解析/格式化 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<pre><code>&gt;&gt;&gt; d = datetime.strptime('2017-02-02 18:00', '%Y-%m-%d %H:%M')
+&gt;&gt;&gt; d.isoformat()
+'2017-02-02T18:00:00'
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior">strftime() and strptime() Behavior - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> <code>datetime.date</code>、<code>datetime.time</code> 及 <code>datetime.datetime</code> 都有 <code>strftime(format)</code> 將代表的日期/時間轉成字串，不過反過來的 parsing 只有 <code>datetime.datetime</code> 有提供 <code>strptime(date_string, format)</code>，不過 <code>format</code> 都要自己用 format code 自己併就是了。</li>
+<li><a href="https://docs.python.org/2/library/datetime.html#datetime.datetime.isoformat">datetime.isoformat([sep]) - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> 輸出成 ISO 8601，但 timezone 只會用 <code>+/-HH:MM</code> 來表示，UTC 並不會在後面串上 <code>Z</code> (而是 <code>+00:00</code>)。反過來要解析的話，若要支援不同寫法的解析，得要寫多種 format code 應付各種狀況。</li>
+</ul>
+<h2 id="time-zone">Time Zone ??<a class="headerlink" href="#time-zone" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>Unicode 有所謂的 Unicode Sandwich &ndash; 進入程式都轉成 Unicode，輸出都用 byte string。在 time zone 的部份，實務上該如何取捨 naive 與 aware？</p>
+<p>程式跟儲存裡都用 naive，輸出時再轉 aware。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/datetime.html">8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a><ul>
+<li>date/time object 區分為 naive (天真的) 與 aware 兩種。所謂 aware 是知道 timezone、daylight saving time (DST) 是否作用中 (in effect)，可以明確地跟其他 aware object 比較 (unambiguously)，相對於 naive 就沒有這些資訊 (可以自己決定該如何解讀)。</li>
+<li><code>datetime</code> 跟 <code>time</code> 都有 <code>tzinfo</code> 屬性 (不是 <code>None</code> 時就是 aware，型態繼承自 <code>datetime.tzinfo</code> abstract class)，記錄著與 UTC 的偏移 (offset)、time zone 名稱、DST (Daylight Saving Time) 是否作用中等。</li>
+<li>有趣的是 <code>datetime</code> module 並未提供任何 <code>datetime.tzinfo</code> 的實作；或許跟 &ldquo;Naive objects are easy to understand and to work with, at the cost of ignoring some aspects of reality&rdquo; 與 &ldquo;The rules for time adjustment across the world are more political than rational, and there is no standard suitable for every application.&rdquo; 這兩段話有關，time zone 並非必要。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/library/datetime.html#datetime.datetime.astimezone">datetime.astimezone(tz) - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> 將 aware <code>datetime</code> 轉換成另一個 timezone，若想直接代換掉 timezone 則用 <code>replace(tzinfo=tz)</code>，其中 <code>tz</code> 若傳入 <code>None</code>，則會把 aware <code>datetime</code> 變成 naive object。</li>
+<li>
+<p><a href="https://docs.python.org/2/library/datetime.html#tzinfo-objects">tzinfo Objects - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> #ril</p>
+<ul>
+<li><code>datetime.tzinfo</code> 的實作一定要提供 <code>utcoffset(self, dt)</code>、<code>dst(self, dt)</code> 與 <code>tzname(self, dt)</code>。</li>
+<li><code>utcoffset()</code> 會傳回與 UTC 間的偏移 (<code>timedelta</code>)，並把 DST 考量進去。</li>
+<li>從 <code>LocalTimezone</code> 的實作看來，<code>utcoffset()</code>、<code>dst()</code> 及 <code>tzname()</code> 的回傳值都跟 <code>_isdst(dt)</code> 有關，也就是某個 date/time 是否 DST 有在作用中，也難怪所有的 method 都要傳 <code>dt</code> 進去；<code>tzname()</code> 的 &ldquo;return different names depending on the specific value of dt passed, especially if the tzinfo class is accounting for daylight time&rdquo; 印證了這個說法。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://julien.danjou.info/blog/2015/python-and-timezones">Timezones and Python | Julien Danjou</a> (2015-06-16) #ril</p>
+</li>
+<li><a href="http://pythonhosted.org/pytz/">pytz - World Timezone Definitions for Python — pytz 2014.10 documentation</a> #ril</li>
+</ul>
+<h2 id="time-delta">Time Delta ??<a class="headerlink" href="#time-delta" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/datetime.html#available-types">Available Types - 8.1. datetime — Basic date and time types — Python 2.7.15 documentation</a> 提到 <code>datetime.timedelta</code> 是 &ldquo;A DURATION expressing the difference between two <code>date</code>, <code>time</code>, or <code>datetime</code> instances to MICROSECOND resolution.&rdquo;，也提到 The distinction between naive and aware doesn’t apply to <code>timedelta</code> objects. 沒有 time zone naive/aware 的概念。</li>
+<li><a href="https://docs.python.org/2/library/datetime.html#timedelta-objects">timedelta Objects - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a><ul>
+<li><code>class datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]])</code> 所有 argument 預設都是 <code>0</code>，可以接受 integer/float，也可以是 positive/negative，彈性很大；但 microsecond 已經最小精度，再給小數好像也沒意思?</li>
+<li>雖然 constructor 提供了 <code>milliseconds</code>、<code>minutes</code>、<code>hours</code>、<code>weeks</code> 等，但內部只存 <code>days</code>、<code>seconds</code> 跟 <code>microseconds</code> (也就是 <code>timedelta</code> instance 的 3 個 attribute)；也就是內部會做 normalization 以確保 &ldquo;unique representation&rdquo;，所以 <code>milliseconds</code> =&gt; x 1000 macroseconds、<code>minutes</code> =&gt; x 60 seconds、<code>hours</code> =&gt; x 3600 seconds、<code>weeks</code> =&gt; x 7 days。</li>
+<li>除了 supported operations 提到的 <code>timedelta</code> objects 間可以做一些數學運算，例如 <code>t1 + t2</code>、<code>t1 - t2</code>、<code>t * i</code>、<code>t // i</code>、<code>+t</code>、<code>-t</code> 還有 <code>abs(t)</code>，另外 <code>timedelta</code> 間也可以比較，比的是 duration 的長短。</li>
+<li><code>timedelta</code> 本身是 hashable，也支援 pickling。在 boolean context 裡，只要不是 <code>timedelta(0)</code> 就會被視為 <code>True</code>。</li>
+<li>中間提到 <code>timedelta</code> 可以跟 <code>date</code>/<code>datetime</code> 做加減運算 (跟 <code>time</code> 不行??)，不過細節就在 <code>date</code>/<code>datetime</code> objects 的章節說明了。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/library/datetime.html">8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> 出現不少 <code>timedelta(0)</code> 的用法，甚至有 <code>ZERO = timedelta(0)</code>。</li>
+</ul>
+<h2 id="date-time-date-datetime-time">Date Time - date, datetime, time ??<a class="headerlink" href="#date-time-date-datetime-time" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/library/datetime.html#date-objects">date Objects - 8.1. datetime — Basic date and time types — Python 2.7.15 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/datetime.html#datetime-objects">datetime Objects - 8.1. datetime — Basic date and time types — Python 2.7.15 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/datetime.html#time-objects">time Objects - 8.1. datetime — Basic date and time types — Python 2.7.15 documentation</a> #ril</li>
+</ul>
+<h2 id="iso-8601">如何解析 ISO 8601 字串?<a class="headerlink" href="#iso-8601" title="Permanent link"> #</a></h2>
+<p>如果要解析 ISO 8601 (或它的子集 RFC 3339)，都不建議用 <code>datetime.strptime()</code>，處理各種變化型會很苦。建議用 <code>python-dateutil</code>：</p>
+<pre><code>&gt;&gt;&gt; from dateutil import parser
+&gt;&gt;&gt; parser.parse('2017-12-29T13:54:01.2732344+00:00')
+datetime.datetime(2017, 12, 29, 13, 54, 1, 273234, tzinfo=tzutc())
+&gt;&gt;&gt; parser.parse('2017-12-29T13:54:01.2732344')
+datetime.datetime(2017, 12, 29, 13, 54, 1, 273234)
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/127803/">python - How to parse an ISO 8601-formatted date? - Stack Overflow</a> <code>datetime.strptime()</code> 不好用，有什麼好方法解析 RFC 3339? Mark Amery: 因為 RFC 3339 有很多變化，別用 <code>strptime()</code>。許多人同意 Flimm 用 <code>python-dateutil</code> 套件的做法 <code>dateutil.parser.parse(...)</code>。</li>
+<li><a href="https://stackoverflow.com/questions/969285/">How do I translate a ISO 8601 datetime string into a Python datetime object? - Stack Overflow</a> Wes Winham: 傾向用 <code>python-dateutil</code>，用 <code>strptime()</code> 會很歡樂&hellip;</li>
+</ul>
+<h2 id="_2">如何取得當地時間年、月、日、時、分等不同欄位的值??<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<pre><code>from datetime import datetime
+
+now = datetime.now()
+year, month, day, hour, minute, second =
+    now.year, now.month, now.day,
+    now.hour, now.minute, now.second
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>8.1. datetime — Basic date and time types — Python 2.7.14 documentation <a href="https://docs.python.org/2/library/datetime.html">https://docs.python.org/2/library/datetime.html</a> <code>datetime.now()</code> 可以取得 <code>datetime.datetime</code> 的 instance，然後透過 <code>.year</code>、<code>.month</code>、<code>.day</code>、<code>.hour</code>、<code>.minute</code>、<code>.second</code> 就能取得不同欄位的值。提到 <code>datetime.today()</code> 等同於 <code>datetime.fromtimestamp(time.time())</code>，也就是等同於 <code>datetime.now()</code>。不過 <code>date.today()</code> 的可讀性似乎比 <code>datetime.today()</code>?</li>
+</ul>
+<h2 id="utc-aware-datetime">如何取得當下 UTC (aware) 的 datetime??<a class="headerlink" href="#utc-aware-datetime" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/datetime.html#datetime.datetime.now">datetime.now([tz]) - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> #ril<ul>
+<li><code>datetime.now()</code> 沒給 <code>tz</code> 時會拿到 local datetime，有提供 <code>tz</code> 時則會轉成 <code>tz</code> 的時間。</li>
+</ul>
+</li>
+<li><a href="https://docs.python.org/2/library/datetime.html#datetime.datetime.utcnow">datetime.utcnow() - 8.1. datetime — Basic date and time types — Python 2.7.14 documentation</a> 跟 <code>now()</code> 一樣，只不過傳回 UTC 時間，但 <code>tzinfo</code> 一樣是 <code>None</code> (naive)。</li>
+</ul>
+<h2 id="typeerror-datetimedatetime-is-not-json-serializable">TypeError: datetime.datetime(&hellip;) is not JSON serializable<a class="headerlink" href="#typeerror-datetimedatetime-is-not-json-serializable" title="Permanent link"> #</a></h2>
+<pre><code>from datetime import datetime, date
+import json
+import pytz
+
+def test_default_serializer():
+    def default(obj):
+        if isinstance(obj, (date, datetime)):
+            return obj.isoformat()
+        else:
+            return str(obj)
+            # raise TypeError('%r is not JSON serializable' % obj)
+
+    data = [
+        date(2018, 1, 2),
+        datetime(2018, 1, 2, 13, 50, tzinfo=pytz.utc),
+    ]
+    s = json.dumps(data, default=default)
+    assert s == '[&quot;2018-01-02&quot;, &quot;2018-01-02T13:50:00+00:00&quot;]'
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://opensource.com/article/17/5/understanding-datetime-python-primer">Serializing your datetime objects - Understanding datetime in Python: A primer | Opensource.com</a> 用 <code>datetime.isoformat()</code> 轉成 ISO 8601 字串，也可以轉成 timestamp，最後是是自己寫 serializer &ndash; 不知道如何 serialize 時會被呼叫的 function，搭配 <code>json.dumps(data, default=serializer)</code> 使用。</li>
+<li><a href="https://github.com/jeffknupp/sandman/issues/22">datetime.date(2008, 5, 27) is not JSON serializable · Issue #22 · jeffknupp/sandman</a> dolinsky: <code>flask.json_encoder</code> 有支援 <code>datetime.datetime</code>? 但不支援 <code>datetime.date</code>，這裡用 <code>flask.json.JSONEncoder</code> 重新改寫過</li>
+<li><a href="https://hynek.me/articles/serialization/">Better Python Object Serialization · Hynek Schlawack</a> (2016-08-22) 實作 <code>default()</code> 傳回 <code>JSONEncoder</code> 看得懂的東西，或是自己實作 <code>JSONEncoder</code>；但擴充性都很差，帶出了 PEP 443 #ril</li>
+<li><a href="https://stackoverflow.com/questions/11875770/">python - How to overcome &ldquo;datetime.datetime not JSON serializable&rdquo;? - Stack Overflow</a> jgbarah: 提供 <code>default</code> function，而 jmontes: 提出 <code>default=str</code> 的做法也滿妙的；或許可做為 <code>default</code> function 的 fallback?</li>
+<li><a href="https://docs.python.org/3/library/json.html#json.JSONEncoder.default">Encoders and Decoders - 19.2. json — JSON encoder and decoder — Python 3.6.4 documentation</a> 出現 2 次 <code>def default(self, obj)</code> 的實作，最後都轉回 <code>json.JSONEncoder.default(self, obj)</code>。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

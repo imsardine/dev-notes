@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/top/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>top - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/top.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#top">top</a></li>
+            <li class="second-level"><a href="#threads-mode">Threads Mode</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="top">top<a class="headerlink" href="#top" title="Permanent link"> #</a></h1>
+<h2 id="threads-mode">Threads Mode<a class="headerlink" href="#threads-mode" title="Permanent link"> #</a></h2>
+<ul>
+<li>在 Threads Mode 下，每個 thread 的數據會分開顯示，否則只是加總每個 process 下所有 thread 的數據而已。</li>
+<li>啟動時加 <code>-H</code> 可以直接進入 Threads Mode，也可以用 <code>H</code> (interactive command) 動態開關 Threads Mode；第 2 行 <code>Tasks/Threads: NN total</code> 可以看到明顯的差別。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://manpages.ubuntu.com/manpages/xenial/man1/top.1.html">Ubuntu Manpage: top - display Linux processes</a><ul>
+<li><code>-H  :Threads-mode operation</code> 要求顯示個別的 thread，否則會顯示一個 process 下所有 thread 的總和 (summation)。也可以用 <code>H</code> 切換 &ndash; 很明顯地，第 2 行會看到 <code>Tasks/Threads: NN total</code> 明顯的變化。</li>
+<li><code>PID  --  Process Id</code> 除了顯示 process ID，也可能是 process group ID、thread group ID 等，跟 thread ID 不同??</li>
+<li><code>%CPU  --  CPU Usage</code> 提到，在 SMP (對稱式多工處理, Symmetric MultiProcessing) 的環境下，不在 threads mode 時，CPU usage 可能出現大於 100% 的狀況。</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Light-weight_process">Light-weight process - Wikipedia</a> &ldquo;In those contexts, the term &ldquo;light-weight process&rdquo; typically refers to kernel threads and the term &ldquo;threads&rdquo; can refer to user threads.&rdquo; 某種程度上，lightweight process (LWP) 可以視為 thread</li>
+<li><a href="http://tech.asimio.net/2016/02/11/Troubleshoot-high-CPU-usage-in-Java-applications.html">Troubleshooting high CPU usage in Java applications</a> (2016-02-11) 用 <code>top -H</code> (threads mode) 找出 lightweight process (LWP) 的 ID，不過是對應到 thread dump 裡的 nid</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://linux.die.net/man/1/top">top(1) - die.net</a></li>
+<li><a href="http://manpages.ubuntu.com/manpages/xenial/man1/top.1.html">Ubuntu Manpage: top</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

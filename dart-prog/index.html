@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dart-prog/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dart / Programming - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dart-prog.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dart-programming">Dart / Programming</a></li>
+            <li class="second-level"><a href="#identifier">Identifier</a></li>
+                
+            <li class="second-level"><a href="#comment">Comment ??</a></li>
+                
+            <li class="second-level"><a href="#variable">Variable ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dart-programming"><a href="../dart/">Dart</a> / Programming<a class="headerlink" href="#dart-programming" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.dartlang.org/guides/get-started">Get Started | Dart</a></p>
+<pre><code>void main() {
+  for (int i = 0; i &lt; 5; i++) {
+    print('hello ${i + 1}');
+  }
+}
+</code></pre>
+<p>會依序印出 <code>hello 1</code> ~ <code>hello 5</code>，這正是 DartPad 下 Hello World 的範例。</p>
+<ul>
+<li>DartPad is a quick and easy way to become familiar with Dart language features.</li>
+<li>Note that DartPad supports only a few core libraries. If you want to use other libraries, such as <code>dart:io</code> or libraries from packages, you’ll need to download platform-specific tools.</li>
+<li>Learn about the Dart language and core libraries on this site. Once you have a use case in mind, go to the “get started” instructions for the appropriate Dart platform: 先弄懂 Dart 的基礎 (lang + core lib) 再往不同的 platform 移動。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/tools/dartpad">DartPad | Dart</a></p>
+<ul>
+<li>
+<p>DartPad supports <code>dart:*</code> libraries that work with WEB APPS; it doesn’t support <code>dart:io</code> or libraries from packages. If you want to use <code>dart:io</code>, use the Dart SDK instead. If you want to use a package, get the SDK for a platform that THE PACKAGE SUPPORTS.</p>
+<p>難怪 <a href="https://pub.dartlang.org/">Dart Packages</a> 套件會標示 <code>FLUTTER</code>、<code>WEB</code>、<code>OTHER</code> 等。</p>
+</li>
+<li>
+<p>The language features and APIs that DartPad supports depend on the Dart SDK version that DartPad is based on. You can find the SDK version at the bottom right of DartPad.</p>
+<p>這裡的 Dark SDK 指的正是 Dart for the web。</p>
+</li>
+</ul>
+<p>Open DartPad, and run some samples</p>
+<ul>
+<li>A sample appears on the left and the output appears on the right. 右上角 Samples 下拉提供的範例並不多。</li>
+<li>Choose an HTML sample like Sunflower, using the Samples list at the upper right. Again, the output appears to the right. By default, you see the HTML output—what you’d see in a browser.</li>
+<li>Click CONSOLE to view the sample’s console output. On the left, click the HTML tab to view the sample’s HTML markup.</li>
+</ul>
+<p>Create a command-line app</p>
+<ul>
+<li>Click the New Pad button, and confirm that you want to discard changes to the current pad.</li>
+<li>
+<p>Clear the SHOW WEB CONTENT checkbox, at the bottom right of DartPad. The HTML and CSS tabs disappear.</p>
+<p>原來不顯示 web content 就是 command-line app，不過 console 在 web app 下也會有。</p>
+</li>
+<li>
+<p>Change the code. For example, change the <code>main()</code> function to contain this code:</p>
+<pre><code>for (var char in 'hello'.split('')) {
+  print(char);
+}
+</code></pre>
+</li>
+<li>
+<p>Click the Format button. DartPad uses the Dart formatter to ensure that your code has proper indentation, white space, and line wrapping.</p>
+</li>
+<li>
+<p>If you didn’t happen to have any bugs while you were entering the code, try INTRODUCING A BUG.</p>
+<p>For example, if you change <code>split</code> to <code>spit</code>, you get warnings at the bottom of the window and in the Run button. If you run the app, you’ll see output from an UNCAUGHT EXCEPTION.</p>
+<pre><code>Error compiling to JavaScript: &lt;-- 印證了 SDK 是 Dart for the web 的說法
+main.dart:2:28:
+Error: The method 'spit' isn't defined for the class 'dart.core::String'.
+  for (var char in 'hello'.spit('')) {
+                           ^^^^
+Error: Compilation failed.
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/samples">Sample Code | Dart</a> #ril</p>
+</li>
+<li>
+<p><a href="https://dart.dev/guides/language/language-tour">Language tour | Dart</a> #ril</p>
+<ul>
+<li>
+<p>This page shows you how to use each major Dart feature, from variables and operators to classes and libraries, with the assumption that you already know how to program in another language. For a briefer, less complete introduction to the language, see the <a href="https://dart.dev/samples">language samples page</a>. #ril</p>
+<p>To learn more about Dart’s core libraries, see the library tour. Whenever you want more details about a language feature, consult the Dart language specification.</p>
+<p>Note: You can play with most of Dart’s language features using DartPad (learn more). Open DartPad</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/guides/language/language-tour#a-basic-dart-program">A basic Dart program - Language Tour | Dart</a></p>
+<pre><code>// Define a function.
+printInteger(int aNumber) {
+  print('The number is $aNumber.'); // Print to console.
+}
+
+// This is where the app starts executing.
+main() {
+  var number = 42; // Declare and initialize a variable.
+  printInteger(number); // Call a function.
+}
+</code></pre>
+<ul>
+<li><code>// This is a comment.</code> &ndash; A single-line comment. Dart also supports multi-line and DOCUMENT COMMENTS (產生 API Docs).</li>
+<li>
+<p><code>int</code> &ndash; A type. Some of the other built-in types are <code>String</code>, <code>List</code>, and <code>bool</code>.</p>
+<p>感覺基本的型態都用小寫? 不過不像 Java 有 primitive type!!</p>
+</li>
+<li>
+<p><code>42</code> &ndash; A number literal. Number literals are a kind of COMPILE-TIME CONSTANT.</p>
+</li>
+<li><code>print()</code> &ndash; A handy way to display output.</li>
+<li><code>'...'</code> (or <code>"..."</code>) &ndash; A string literal.</li>
+<li><code>$variableName</code> (or <code>${expression}</code>) &ndash; String interpolation: including a variable or expression’s string equivalent inside of a string literal.</li>
+<li><code>main()</code> &ndash; The special, required, TOP-LEVEL FUNCTION where app execution starts.</li>
+<li><code>var</code> &ndash; A way to declare a variable WITHOUT SPECIFYING ITS TYPE. 不同於 <code>dynamic</code>。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/guides/language/language-tour#important-concepts">Important concepts - Language Tour | Dart</a></p>
+<ul>
+<li>Everything you can place in a variable is an object, and every object is an instance of a class. Even numbers, functions, and <code>null</code> are objects. All objects inherit from the <code>Object</code> class.</li>
+<li>
+<p>Although Dart is strongly typed, TYPE ANNOTATIONS are optional because Dart can INFER types. In the code above, <code>number</code> is inferred to be of type <code>int</code>. When you want to explicitly say that NO TYPE IS EXPECTED, use the special type <code>dynamic</code>.</p>
+<p>沒有宣告 type 並不表示沒有限定 type，而是交給工具推斷，有別於什麼都能放的 <code>dynamic</code>；因為 type 不一定要寫明，所以才有 type &ldquo;annotation&rdquo; (註釋) 的說法。</p>
+</li>
+<li>
+<p>Dart supports generic types, like <code>List&lt;int&gt;</code> (a list of integers) or <code>List&lt;dynamic&gt;</code> (a list of objects of ANY TYPE).</p>
+</li>
+<li>Dart supports top-level functions (such as <code>main()</code>), as well as functions TIED TO A CLASS OR OBJECT (static and instance methods, respectively). You can also create functions within functions (nested or local functions).</li>
+<li>Similarly, Dart supports TOP-LEVEL VARIABLES, as well as variables tied to a class or object (static and instance variables). Instance variables are sometimes known as fields or properties.</li>
+<li>
+<p>Unlike Java, Dart doesn’t have the keywords <code>public</code>, <code>protected</code>, and <code>private</code>. If an identifier starts with an underscore (<code>_</code>), it’s PRIVATE TO ITS LIBRARY. for details, see Libraries and visibility.</p>
+<p>如何達到 private to a class 的效果?? 還是這一層的保護是不需要的?</p>
+</li>
+<li>
+<p>Identifiers can start with a letter or underscore (<code>_</code>), followed by any combination of those characters plus digits.</p>
+</li>
+<li>
+<p>Dart has both EXPRESSIONS (which have RUNTIME VALUES) and STATEMENTS (which don’t). For example, the conditional expression <code>condition ? expr1 : expr2</code> has a value of <code>expr1</code> or <code>expr2</code>. Compare that to an if-else statement, which has no value. A statement often contains one or more expressions, but an expression can’t directly contain a statement.</p>
+</li>
+<li>Dart tools can report two kinds of problems: warnings and errors. Warnings are just indications that your code might not work, but they don’t prevent your program from executing. Errors can be either compile-time or run-time. A compile-time error prevents the code from executing at all; a run-time error results in an EXCEPTION being raised while the code executes.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dart.dev/guides/language/effective-dart">Effective Dart | Dart</a> #ril</p>
+</li>
+</ul>
+<h2 id="identifier">Identifier<a class="headerlink" href="#identifier" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.dartlang.org/guides/language/language-tour#keywords">Keywords - Language Tour | Dart</a></p>
+<ul>
+<li>
+<p>Avoid using these words as identifiers. However, IF NECESSARY, the keywords marked with superscripts can be identifiers:</p>
+<p>保留字只在某些地方不能用，是其他語言沒見過的；不過數量真的不少!</p>
+<ul>
+<li>Words with the superscript 1 are CONTEXTUAL keywords, which have meaning only in specific places. They’re valid identifiers everywhere.</li>
+<li>
+<p>Words with the superscript 2 are BUILT-IN identifiers. To simplify the task of porting JavaScript code to Dart, these keywords are valid identifiers in most places, but they can’t be used as class or type names, or as import prefixes.</p>
+<p>若連 Dart 轉換的標的也要考量進來，保留字更多了? 不過若限定在 class/type name、import prefix 影響就不大，畢竟 class/type name 通常會以大寫開頭，而 import prefix 通常會簡寫。</p>
+</li>
+<li>
+<p>Words with the superscript 3 are NEWER (相對於 Dart 1.0), LIMITED RESERVED WORDS related to the asynchrony support that was added after Dart’s 1.0 release. You can’t use <code>await</code> or <code>yield</code> as an identifier in any function body marked with <code>async</code>, <code>async*</code>, or <code>sync*</code>. 跟標示有 &ldquo;superscript 1&rdquo; 的狀況類似，其他地方都可以用。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>All other words in the table are RESERVED WORDS, which can’t be identifiers.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/guides/language/effective-dart/style#identifiers">Identifiers - Effective Dart: Style | Dart</a></p>
+<p>Identifiers come in three flavors in Dart. 都會用到，只是各有場合不同。</p>
+<ul>
+<li><code>UpperCamelCase</code> names capitalize the first letter of each word, including the first.</li>
+<li><code>lowerCamelCase</code> names capitalize the first letter of each word, except the first which is always lowercase, even if it’s an acronym.</li>
+<li><code>lowercase_with_underscores</code> use only lowercase letters, even for acronyms, and separate words with <code>_</code>.</li>
+</ul>
+<p>DO name types using <code>UpperCamelCase</code>.</p>
+<ul>
+<li>
+<p>Classes, enums, typedefs, and type parameters should capitalize the first letter of each word (including the first word), and use no separators. 不過 type parameter 通常只有一個大寫字母。</p>
+<pre><code>class SliderMenu { ... }
+
+class HttpRequest { ... }
+
+typedef Predicate&lt;T&gt; = bool Function(T value);
+</code></pre>
+</li>
+<li>
+<p>This even includes CLASSES intended to be used in METADATA ANNOTATIONS.</p>
+<pre><code>class Foo {
+  const Foo([arg]);
+}
+
+@Foo(anArg)
+class A { ... }
+
+@Foo()
+class B { ... }
+</code></pre>
+<p>If the annotation class’s constructor takes no parameters, you might want to create a separate <code>lowerCamelCase</code> constant for it.</p>
+<pre><code>const foo = Foo();
+
+@foo
+class C { ... }
+</code></pre>
+<p><code>@deprecated</code> 跟 <code>@override</code> 應該就是這種狀況，否則就是例外了。</p>
+</li>
+</ul>
+<p>DO name libraries, packages, directories, and source files using <code>lowercase_with_underscores</code>.</p>
+<ul>
+<li>
+<p>Some file systems are not case-sensitive, so many projects require FILENAMES TO BE ALL LOWERCASE. Using a separating character allows names to still be readable in that form. Using underscores as the separator ensures that the name is STILL A VALID DART IDENTIFIER, which may be helpful if the language later supports SYMBOLIC IMPORTS. 原來是 FS 不一定區分大小寫的考量!</p>
+<pre><code>library peg_parser.source_scanner;
+
+import 'file_system.dart';
+import 'slider_menu.dart';
+</code></pre>
+</li>
+<li>
+<p>This guideline specifies how to name a library if you choose to name it. It is fine to omit the <code>library</code> directive in a file if you want. ??</p>
+</li>
+</ul>
+<p>DO name import prefixes using <code>lowercase_with_underscores</code>.</p>
+<pre><code>import 'dart:math' as math;
+import 'package:angular_components/angular_components'
+    as angular_components;
+import 'package:js/js.dart' as js;
+</code></pre>
+<p>DO name OTHER IDENTIFIERS using <code>lowerCamelCase</code>.</p>
+<ul>
+<li>Class members, top-level definitions, variables, parameters, and named parameters should capitalize the first letter of each word except the first word, and use no separators.<pre><code>var item;
+
+HttpRequest httpRequest;
+
+void align(bool clearItems) {
+  // ...
+}
+</code></pre>
+</li>
+</ul>
+<p>PREFER using <code>lowerCamelCase</code> for constant names.</p>
+<ul>
+<li>
+<p>In NEW CODE, use <code>lowerCamelCase</code> for constant variables, INCLUDING ENUM VALUES.</p>
+<pre><code>const pi = 3.14;
+const defaultTimeout = 1000;
+final urlScheme = RegExp('^([a-z]+):');
+
+class Dice {
+  static final numberGenerator = Random();
+}
+</code></pre>
+</li>
+<li>
+<p>You may use <code>SCREAMING_CAPS</code> for consistency with existing code, as in the following cases:</p>
+<ul>
+<li>When adding code to a file or library that already uses <code>SCREAMING_CAPS</code>.</li>
+<li>When generating Dart code that’s parallel to Java code — for example, in enumerated types generated from <a href="https://pub.dartlang.org/packages/protobuf">protobufs</a>.</li>
+</ul>
+</li>
+<li>
+<p>Note: We initially used Java’s <code>SCREAMING_CAPS</code> style for constants. We changed for a few reasons:</p>
+<ul>
+<li><code>SCREAMING_CAPS</code> looks bad for many cases, particularly enum values for things like CSS colors.</li>
+<li>Constants are often changed to final non-const variables, which would necessitate a name change.</li>
+<li>The <code>values</code> property automatically defined on an enum type is const and lowercase.</li>
+</ul>
+<p>有點難被說服，難怪這個 rule 是 PREFER 而非 DO &hellip;</p>
+</li>
+</ul>
+<p>DO capitalize acronyms and abbreviations longer than two letters like words.</p>
+<ul>
+<li>Capitalized acronyms can be hard to read, and MULTIPLE ADJACENT ACRONYMS can lead to ambiguous names. For example, given a name that starts with HTTPSFTP, there’s no way to tell if it’s referring to HTTPS FTP or HTTP SFTP.</li>
+<li>
+<p>To avoid this, acronyms and abbreviations are capitalized like REGULAR WORDS, except for two-letter acronyms. (Two-letter abbreviations like ID and Mr. are still capitalized like words.)</p>
+<pre><code>HttpConnectionInfo &lt;-- 做為 type 時，採 UpperCamelCase，HTTP 視為一般單字
+uiHandler          &lt;-- 做為其他 identifier 時，採 lowerCamelCase，且 UI 比較短所以一起變小寫
+IOStream           &lt;-- 做為 type 時，採 UpperCamelCase，但 IO 比較短所以一起變大寫
+HttpRequest
+Id
+DB
+</code></pre>
+<p>最後 <code>Id</code> 跟 <code>DB</code> 的例子很難懂? 因為 ID 是 abbreviation 而 DB 是 acronym 的關係?? 有趣的是，這個 style 沒有對應的 linter rule。</p>
+</li>
+</ul>
+<p>DON’T use prefix letters.</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Hungarian_notation">Hungarian notation</a> and other schemes arose in the time of <a href="https://en.wikipedia.org/wiki/BCPL">BCPL</a>, when the compiler didn’t do much to help you understand your code. Because Dart can tell you the type, scope, mutability, and other properties of your declarations, there’s NO REASON TO ENCODE THOSE PROPERTIES IN IDENTIFIER NAMES.</p>
+<p>例如 <code>defaultTimeout</code> 不要寫成 <code>iDefaultTimeout</code>；不過當初加前綴的想法是增加 source code 自身的可讀性，跟 compiler 沒什麼關係不是?</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="comment">Comment ??<a class="headerlink" href="#comment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.dartlang.org/guides/language/language-tour#comments">Comments - Language Tour | Dart</a> #ril</li>
+</ul>
+<h2 id="variable">Variable ??<a class="headerlink" href="#variable" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.dartlang.org/guides/language/language-tour#variables">Variables, Default value - Language Tour | Dart</a> #ril</li>
+<li><a href="https://www.dartlang.org/guides/language/language-tour#final-and-const">Final and const - Language Tour | Dart</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dartpad.dev/">DartPad</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../dart-type/">Data Type</a></li>
+<li><a href="../dart-concurrency/">Concurrency</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://dart.dev/guides/language/spec">Language Specification</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

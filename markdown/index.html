@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/markdown/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Markdown - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/markdown.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#markdown">Markdown</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#editor">Editor ??</a></li>
+                
+            <li class="second-level"><a href="#standard-variation">Standard, Variation ??</a></li>
+                
+            <li class="second-level"><a href="#list">List ??</a></li>
+                
+            <li class="second-level"><a href="#code-block">Code Block ??</a></li>
+                
+            <li class="second-level"><a href="#table">Table</a></li>
+                
+            <li class="second-level"><a href="#_1">如何引用文章段落??</a></li>
+                
+            <li class="second-level"><a href="#footnote">Footnote 註腳 ??</a></li>
+                
+            <li class="second-level"><a href="#python">有沒有可以分析文件結構的 Python 套件??</a></li>
+                
+            <li class="second-level"><a href="#_2">投影片 ??</a></li>
+                
+            <li class="second-level"><a href="#_3">其他</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="markdown">Markdown<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Markdown">Markdown - Wikipedia</a> #ril<ul>
+<li>Markdown 是一種容易轉換成 HTML 的純文字格式 (plain text formatting syntax)；and many other formats? 一開始只能轉成 (X)HTML</li>
+<li>Markdown 同時也是工具名稱 (<code>Mardown.pl</code>)。</li>
+<li>John Gruber 與 Aaron Swartz 於 2004 共同制定，目的是易讀、易寫的純文字格式，可以轉換成 (X)HTML。</li>
+<li>最重要的目標是 readability，直接可以閱讀 (readable as-is)，甚至看不出有做 formatting，靈感主要是來自於純文字的 email。</li>
+<li>Gruber 寫了一個 Perl script <code>Markdown.pl</code>，可以將 Mardown 文件轉成 (X)HTML。在那之後被用不同的語言重新實作。</li>
+</ul>
+</li>
+<li><a href="https://daringfireball.net/projects/markdown/">Daring Fireball: Markdown</a> #ril<ul>
+<li>Markdown = formatting syntax (強調直接可讀 readable as-is) + tool for HTML conversion；語法深受 Email 的影響</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://daringfireball.net/projects/markdown/syntax">Daring Fireball: Markdown Syntax Documentation</a> #ril</li>
+</ul>
+<h2 id="editor">Editor ??<a class="headerlink" href="#editor" title="Permanent link"> #</a></h2>
+<ul>
+<li>多數的 editor 採 source &amp; preview 雙欄顯示的做法，但後來出現了 WYSIWYG 的流派<ul>
+<li>雖然可以降低非技術人員進入 Markdown 寫作的門檻，但使用這類工具也意謂著不再那麼重視原始文件的可讀性 (或偏好)。</li>
+<li>最早採用這種做法的似乎是 <a href="typora.md">Typora</a>，但後來因為 <a href="https://github.com/typora/typora-issues/issues/16">open source 的問題</a>，大家都轉向了 <a href="marktext.md">Mark Text</a></li>
+</ul>
+</li>
+<li>Emacs Markdown Mode <a href="http://jblevins.org/projects/markdown-mode/">http://jblevins.org/projects/markdown-mode/</a> Emacs 看起來很不錯 #ril</li>
+</ul>
+<h2 id="standard-variation">Standard, Variation ??<a class="headerlink" href="#standard-variation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://daringfireball.net/projects/markdown/syntax">Daring Fireball: Markdown Syntax</a></li>
+<li>GitHub Flavored Markdown (GFM)</li>
+<li><a href="commonmark.md">CommonMark</a></li>
+</ul>
+<h2 id="list">List ??<a class="headerlink" href="#list" title="Permanent link"> #</a></h2>
+<ul>
+<li>雖然說項目符號 <code>*</code>/<code>+</code>/<code>-</code> 可以互換，但工具及多數人似乎都慣用 <code>-</code>？尤其 <code>*</code> 可以用來強調重點。</li>
+<li>原先採 GFM 的 (nested list)，在 Vim 裡可以用 <code>%s/^ \* /  - /g</code> 與 <code>%s/^   \* /      - /g</code> 取代成符合 four-space rule 的表示法。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://daringfireball.net/projects/markdown/basics">LISTS - Daring Fireball: Markdown Basics</a></p>
+<ul>
+<li>
+<p>Unordered/bulleted list 以 <code>*</code>/<code>+</code>/<code>-</code> 做為項目符號 (list marker)，而且可以互換；例如下面的 <code>*</code> 可以換成 <code>+</code> 或 <code>-</code>，但同一層 list 同時用上 <code>*</code>/<code>+</code>/<code>-</code> 會怎樣??</p>
+<pre><code>*   Candy. &lt;-- 注意 `*` 後面跟著 3 個空格 (加起來 4 個字元)，這是為了 item 有內文或 nested item 要內縮 4 格做準備
+*   Gum.
+*   Booze.
+</code></pre>
+</li>
+<li>
+<p>Ordered/numbered list 則用一般的數字後面加 period (<code>.</code>) 做為項目符號，例如：</p>
+<pre><code>1.  Red &lt;-- 注意 `1.` 後面跟著 2 個空格 (加起來一樣 4 個字元)
+2.  Green
+3.  Blue
+</code></pre>
+</li>
+<li>
+<p>在 item 間留有空白行，項目符號後的文字會以 <code>&lt;p&gt;</code> 來表現，內文跟著內縮 4 格 (或 1 個 tab)，就會形成 multi-paragrah list items，例如：</p>
+<pre><code>*   A list item. &lt;-- 內縮 4 格，項目符號後的第一個字剛好跟內文切齊 (正是 HTML 的表現方式)
+
+    With multiple paragraphs.
+
+*   Another item in the list.
+</code></pre>
+<p>產生的 HTML 如下：</p>
+<pre><code>&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;A list item.&lt;/p&gt;
+&lt;p&gt;With multiple paragraphs.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Another item in the list.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://daringfireball.net/projects/markdown/syntax#list">Lists - Daring Fireball: Markdown Syntax Documentation</a> #ril</p>
+<ul>
+<li>It’s important to note that the actual numbers you use to mark the list have NO EFFECT on the HTML output Markdown produces. &hellip; The point is, if you want to, you can use ordinal numbers in your ordered Markdown lists, so that the numbers in your source MATCH the numbers in your published HTML. But if you want to be lazy, you don’t have to. 如果考量到原始文件的可讀性，還是乖乖編號吧。</li>
+<li>List markers typically START AT THE LEFT MARGIN, but may be indented by up to three spaces. List markers must be followed by one or more spaces or a tab. 最多內縮 3 格 (排版上的彈性)，因為 list marker 必須出現在 4 格之內，否則就會視為 code block 了。這才知道項目符號習慣上是 &ldquo;貼著&rdquo; 左緣的? 雖然有點不直覺</li>
+<li>
+<p>To make lists look nice, you can wrap items with HANGING INDENTS: 一樣是考量原始文件的可讀性，雖然不一定要這麼做；下面兩個 item 的表現是一樣的：</p>
+<pre><code>*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
+    Suspendisse id sem consectetuer libero luctus adipiscing.
+*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit. &lt;-- 即便如此，作者還是保持項目符號佔用 4 個字元的習慣
+Suspendisse id sem consectetuer libero luctus adipiscing.
+</code></pre>
+</li>
+<li>
+<p>To put a blockquote within a list item, the blockquote’s <code>&gt;</code> delimiters need to be indented. To put a code block within a list item, the code block needs to be indented twice — 8 spaces or two tabs. 這些聽起來都很合理，在編寫 multi-paragraph list items 的內文時，要從內縮 4 格後的位置起算，例如：</p>
+<pre><code>*   A list item with a blockquote:
+
+    &gt; This is a blockquote
+    &gt; inside a list item.
+
+        CODE GOES HERE
+        ANOTHER LINE
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.github.com/gfm/#motivation">Motivation - 5.2List items - GitHub Flavored Markdown Spec</a></p>
+<ul>
+<li>這裡整理了 John Gruber 在 list 方面的陳述 (但就是沒講清楚 sublist) &ndash; These rules specify that a paragraph under a list item must be indented FOUR spaces (presumably, from the left margin, rather than the start of the list marker, but this is not said) &hellip; it is certainly reasonable to infer that all block elements under a list item, including other lists, must be indented four spaces. This principle has been called the FOUR-SPACE RULE.</li>
+<li>The four-space rule is CLEAR AND PRINCIPLED, and if the reference implementation <code>Markdown.pl</code> had followed it, it probably would have become the standard. However, <code>Markdown.pl</code> allowed paragraphs and sublists to start with only two spaces indentation, at least on the outer level. Worse, its behavior was inconsistent &hellip;看似很多人都拿 <code>Markdown.pl</code> 的實作來補足文件上沒講清楚的地方；但這些不一致，會不會是 <code>Markdown.pl</code> 的 bug?</li>
+<li>Different implementations of Markdown have developed very different rules for determining what comes under a list item. Pandoc and python-Markdown, for example, stuck with Gruber’s syntax description and the four-space rule, while discount, redcarpet, marked, PHP Markdown, and others followed <code>Markdown.pl</code>’s behavior more closely. 各有不同的堅持，很不幸地 Markdown 也面臨分裂的問題。</li>
+<li>
+<p>The spec given here should correctly handle lists formatted with either the four-space rule or the more FORGIVING <code>Markdown.pl</code> behavior, provided they are laid out in a way that is NATURAL FOR A HUMAN TO READ. The strategy here is to let the width and indentation of the list marker determine the indentation necessary for blocks to fall under the list item, rather than having a FIXED AND ARBITRARY number. The writer can think of the body of the list item as a unit which gets indented to the right ENOUGH TO FIT THE LIST MARKER (and any indentation on the list marker). The four-space rule is CLEAR BUT UNNATURAL. The choice of four spaces is arbitrary. It can be LEARNED, but it is not likely to be guessed, and it TRIPS UP (絆倒) beginners regularly. Rather than requiring a fixed indent from the MARGIN, we could require a fixed indent (say, two spaces, or even one space) FROM THE LIST MARKER (which may itself be indented). 在 GitHub 可以寫 Markdown 的地方試過，似乎就是內文要在項目符號後的第一個字之後 (含)：</p>
+<pre><code> * Item 1
+
+   Subparagraph
+
+       Code block here
+       line 2
+
+   ^ 內縮 4 格從項目符號後的第一個字起算，雖然從 left margin 起算是 6 個字元
+
+   * Sublist item 1
+   * Sublist item 2
+
+ * Item 2
+</code></pre>
+</li>
+<li>
+<p>However, on this proposal indented code would have to be indented six spaces after the list marker. And this would BREAK A LOT OF EXISTING MARKDOWN &hellip; This will match the four-space rule in cases where the list marker plus its initial indentation takes four spaces (a common case), but diverge in other cases. 關鍵就在這裡，因為有些實作堅持 four-space rule，而 GFM 也能正確地表現這樣的文件，結果就是要求自己用符合 four-space rule 的方法寫 Markdown，才能確保在不同 implemenation 下都能正確地被解讀。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="code-block">Code Block ??<a class="headerlink" href="#code-block" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://daringfireball.net/projects/markdown/syntax#precode">Code Blocks - Daring Fireball: Markdown Syntax Documentation</a> #ril</li>
+</ul>
+<h2 id="table">Table<a class="headerlink" href="#table" title="Permanent link"> #</a></h2>
+<pre><code>| Header 1 | Header 2 | Header 3 | (1)
+| :------- | :------: | ---:     | (2)
+| Col 1    | Col 2    | Col 3    | (3)
+| Row 2 | Content ||
+</code></pre>
+
+<ol>
+<li>
+<p><code>|</code> 用來劃分 column；<code>|</code> 兩側的空白並非必要，但可以提高可讀性。</p>
+</li>
+<li>
+<p><code>---</code> (至少 3 個 <code>-</code>) 用來隔開 header 與 body。</p>
+<p>在 <code>---</code> 單側或兩側加上 <code>:</code> 表示靠左、置中、靠右對齊。</p>
+</li>
+<li>
+<p>上下行的 <code>|</code> 不一定要對齊，但某些時候對齊可以提高可讀性。</p>
+</li>
+</ol>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://daringfireball.net/projects/markdown/syntax#html">Inline HTML - Daring Fireball: Markdown Syntax Documentation</a></p>
+<p>For example, to add an HTML table to a Markdown article:</p>
+<pre><code>This is a regular paragraph.
+
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Foo&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+<p>原始語法唯一提到 table 的地方。</p>
+</li>
+<li>
+<p><a href="https://help.github.com/en/articles/organizing-information-with-tables">Organizing information with tables - GitHub Help</a></p>
+<p>Creating a table</p>
+<ul>
+<li>
+<p>You can create tables with pipes <code>|</code> and hyphens <code>-</code>.</p>
+<p>Hyphens are used to create each COLUMN&rsquo;S HEADER, while pipes SEPARATE each column. You must include a blank line before your table in order for it to correctly render.</p>
+<pre><code>| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+</code></pre>
+<p>The pipes on either end of the table are optional.</p>
+<p>確認 <code>|</code> 兩側的空白並非必要，但可以提高可讀性。</p>
+</li>
+<li>
+<p>Cells can vary in width and do not need to be perfectly aligned within columns. There must be AT LEAST THREE HYPHENS in each column of the header row.</p>
+<pre><code>| Command | Description |
+| --- | --- |
+| git status | List all new or modified files |
+| git diff | Show file differences that haven't been staged |
+</code></pre>
+</li>
+</ul>
+<p>Formatting content within your table</p>
+<ul>
+<li>
+<p>You can use formatting such as links, inline code blocks, and text styling within your table:</p>
+<pre><code>| Command | Description |
+| --- | --- |
+| `git status` | List all *new or modified* files |
+| `git diff` | Show file differences that **haven't been** staged |
+</code></pre>
+</li>
+<li>
+<p>You can align text to the left, right, or center of a column by including colons <code>:</code> to the left, right, or on both sides of the hyphens within the header row.</p>
+<pre><code>| Left-aligned | Center-aligned | Right-aligned |
+| :---         |     :---:      |          ---: |
+| git status   | git status     | git status    |
+| git diff     | git diff       | git diff      |
+</code></pre>
+</li>
+<li>
+<p>To include a pipe <code>|</code> as content within your cell, use a <code>\</code> before the pipe:</p>
+<pre><code>| Name     | Character |
+| ---      | ---       |
+| Backtick | `         |
+| Pipe     | \|        |
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/23571724/github-markdown-colspan">github markdown colspan - Stack Overflow</a> #ril</p>
+</li>
+</ul>
+<h2 id="_1">如何引用文章段落??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<pre><code>&gt; Excerpt ....
+&gt; &lt;div style=&quot;text-align: right&quot;&gt;[Source](http://...)&lt;/div&gt;
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>How to right-align and justify-align in Markdown? - Stack Overflow <a href="https://stackoverflow.com/questions/35077507/">https://stackoverflow.com/questions/35077507/</a> 用 HTML - <code>&lt;div style="text-align: right"&gt; your-text-here &lt;/div&gt;</code> #ril</li>
+</ul>
+<h2 id="footnote">Footnote 註腳 ??<a class="headerlink" href="#footnote" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/25579868/">How to add footnotes to GitHub-flavoured Markdown? - Stack Overflow</a> #ril<ul>
+<li>Chris: GFM 不支援 footnote，但可以自己用 <code>&lt;sup&gt;1&lt;/sup&gt;</code> 模擬。</li>
+<li>Guildenstern: 可以按慣例把數字寫在 <code>[]</code> 裡，例如 <code>[1]</code>，這是很常見的手法。</li>
+<li>Surya Sankar: 在文件下方寫 footnote <code>&lt;a name="myfootnote1"&gt;1&lt;/a&gt;: Footnote content goes here</code>，再搭配 <code>&lt;sup&gt;[1](#myfootnote1)&lt;/sup&gt;</code> 連往 footnote。</li>
+</ul>
+</li>
+</ul>
+<h2 id="python">有沒有可以分析文件結構的 Python 套件??<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li>有沒有找出 headline 及 list 的套件?? 可以把內容取出來畫成 mind map 之類的 &hellip;</li>
+<li>alvinwan/md2py: converts markdown into a Python parse tree <a href="https://github.com/alvinwan/md2py">https://github.com/alvinwan/md2py</a> 有點陽春?</li>
+<li>python - Parse and traverse elements from a Markdown file - Stack Overflow <a href="https://stackoverflow.com/questions/27349951/">https://stackoverflow.com/questions/27349951/</a> Waylan: Mistune 採用 two step process，第一步先轉成 parse tree，第二步才是轉成 HTML。</li>
+<li>Help with parse-only use · Issue #98 · lepture/mistune <a href="https://github.com/lepture/mistune/issues/98">https://github.com/lepture/mistune/issues/98</a> 最後是繼承 <code>Renderer</code> 自訂 #ril</li>
+</ul>
+<h2 id="_2">投影片 ??<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/visit1985/mdp">visit1985/mdp: A command-line based markdown presentation tool.</a> #ril</li>
+<li><a href="https://github.com/jaspervdj/patat">jaspervdj/patat: Terminal-based presentations using Pandoc</a> #ril</li>
+<li><a href="https://github.com/ksky521/nodeppt">ksky521/nodeppt: This is probably the best web presentation tool so far!</a> #ril</li>
+<li><a href="https://github.com/tslide/tslide">tslide/tslide: Terminal SlideDeck, supporting markdown.</a> 利用 iTerm 2 的特性顯示圖片 #ril</li>
+<li><a href="https://github.com/hiroppy/fusuma">hiroppy/fusuma: ✍️Easily make slides with markdown.</a></li>
+<li><a href="https://github.com/sinedied/backslide">sinedied/backslide: CLI tool for making HTML presentations with Remark.js using Markdown</a> 包裝 remark.js #ril</li>
+<li><a href="https://github.com/yihui/xaringan">yihui/xaringan: Presentation Ninja 幻灯忍者 · 写轮眼</a> 好像也是包裝 remark.js? #ril</li>
+<li><a href="https://github.com/egonschiele/mdpress">egonSchiele/mdpress: [DEAD] Make impress.js presentations from markdown files.</a></li>
+<li><a href="https://github.com/tybenz/vimdeck">tybenz/vimdeck: VIM as a presentation tool</a></li>
+</ul>
+<h2 id="_3">其他<a class="headerlink" href="#_3" title="Permanent link"> #</a></h2>
+<p>Outline:</p>
+<ul>
+<li>Quick Start 只是單純說明用法，沒有要注意的地方 (比如不怎麼樣，就會怎樣，只有 happy path)，沒有什麼寫法比較好&hellip;</li>
+<li>為什麼 Copy Link extension 會在裡頭加 escape，這部份有定義在 spec 裡嗎??</li>
+<li>先介紹最基本的語法，再帶出不同的 flavor/variant；<a href="http://johnmacfarlane.net/babelmark2/[Babelmark">http://johnmacfarlane.net/babelmark2/[Babelmark</a> 2 - Compare markdown implementations] 可以用來比對各種實作的不同。</li>
+<li>變種 vs. 標準化 (CommonMark)，尤其是 Gruber 的觀點。</li>
+<li>可以安插練習題的話還不錯；用 Markdow 做出一份文件，用到所有的語法</li>
+<li>連結 (相對)、插入圖片、圖片連結、表格</li>
+<li>為什麼要學? 共筆 (Wiki)、</li>
+<li>幾個一定要懂的 flavor - GitHub、StackOverflow、WordPress</li>
+<li>相關的工具 HackMD、Atom <a href="https://toomuchlatte.com/2016/06/15/my-complete-atom-io-package-list-for-writing-markdown/[My">https://toomuchlatte.com/2016/06/15/my-complete-atom-io-package-list-for-writing-markdown/[My</a> Complete Atom.io Package List for Writing Markdown – TOO MUCH LATTE] 對 Markdown 的支援真不少
+   ** <a href="https://www.zybuluo.com/mdeditor">https://www.zybuluo.com/mdeditor</a> 大陸人寫的 很強大 竟能畫流程圖、甘特圖等</li>
+<li>一張同時有各種 flavor 的 cheat sheet。</li>
+<li>用 font awesome 來模擬 <ul>
+<li>NOTE <code>&lt;i class="fa fa-sticky-note-o fa-3x"&gt;&lt;/i&gt;</code> 註記</li>
+<li>TIP <code>&lt;i class="fa fa-lightbulb-o fa-3x"&gt;&lt;/i&gt;</code> 提示</li>
+<li>IMPORTANT <code>&lt;i class="fa fa-exclamation-circle fa-3x"&gt;&lt;/i&gt;</code> 重要</li>
+<li>WARNING <code>&lt;i class="fa fa-exclamation-triangle fa-3x"&gt;&lt;/i&gt;</code></li>
+<li>CAUTION <code>&lt;i class="fa fa-fire fa-3x"&gt;&lt;/i&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p>TBD:</p>
+<ul>
+<li>編輯時，建議採用等寬字</li>
+<li>標題後面的 <code>#</code> 可以省略 (數量通常會一樣)</li>
+<li>引用，通常要註明出處，Markdown 怎麼做</li>
+<li>multi-paragraph list items 在 <code>1.</code> 前後加個空白，nested graph 剛好可以對齊。</li>
+<li>Markdown 對待 block-level HTML tag 跟 Span-level HTML tag 的內容方式大不同，跟 HTML 並存的關係有必要解釋清楚。</li>
+<li>內縮 4 格於 code block 的差異；都是等寬字，但後者會有行號，這也滿合理的，因為後者才是 code block (但 GitBook 沒有這個差別，在 Hexo/NeXT 及 WordPress 都有差別)</li>
+<li>發覺 reference-style link 比較適合 external link (通常比較長)，而 inline-style link 則比較適合 internal link (通常比較短)</li>
+<li>越發覺得 reference-style link 的設計真好，內縮一格的可讀性會更高。適時用 <code>[text][]</code>，尤其 <code>[code][]</code> .. 注意 reference 的 backticks 不能省</li>
+<li>
+<p>Markdown 不像 AsciiDoc 會把 <code>=&gt;</code> 轉換成箭頭 =&gt; <a href="http://unicode-table.com/en/sets/arrows-symbols/">http://unicode-table.com/en/sets/arrows-symbols/</a> 直接輸入 Unicode 字元</p>
+</li>
+<li>
+<p>如何建立表格?</p>
+</li>
+<li>有沒有可以分析文件結構的 Python 套件??</li>
+<li>AsciiDoc 的圖片有 caption，現在沒有要怎麼做?? =&gt; 可以考慮插入 <code>&lt;i class="fa fa-camera"&gt;&lt;/i&gt;</code></li>
+<li>沒有像 AsciiDoc 的 callout，有沒有 Markdown 的替代方案?? 用 <code>// (1)</code> 圓括號比較直觀，之後貼到 WordPress 也比較不會有問題。</li>
+<li>GFM 的 code block 似乎跟內縮 4 格的表現會一樣??</li>
+<li>在某些平台，會不會只支援 Markdown 的 subset，比如在 SO 的 comment 裡，怎麼可能用 reference-style link??</li>
+<li>瞭解 <a href="https://daringfireball.net/projects/markdown/syntax">https://daringfireball.net/projects/markdown/syntax</a> 中的 &ldquo;Markdown is not a replacement for HTML&rdquo; 這一段，大概就能理解為何 Gruber 不建議擴充 Markdown??</li>
+<li>如果 <code>_</code> 是強調，而 <code>__</code> 是畫重點，在實務上只會 <code>__</code> 包著 <code>_</code>，不會是倒過來的用法??</li>
+<li><a href="http://daringfireball.net/projects/markdown/index.text">http://daringfireball.net/projects/markdown/index.text</a> 這裡的 reference link 習慣在前面加兩個空白??</li>
+<li>同一行裡面出現多個 <code>_</code> 或 <code>*</code> 時，很難控制它的表現，有沒有規則??</li>
+<li>如果不支援就用 HTML 的理念，後來對 Markdown 的擴充，是不是違背了這樣的想法??</li>
+<li>怎麼做 TOC，怎麼為 header 加上 anchor?? =&gt; <a href="http://daringfireball.net/projects/markdown/syntax.text">http://daringfireball.net/projects/markdown/syntax.text</a></li>
+<li>同一份文件裡 reference link 的 link name 好像可以定義多次?? =&gt; <a href="http://daringfireball.net/projects/markdown/syntax.text">http://daringfireball.net/projects/markdown/syntax.text</a> 另外 <a href="http://daringfireball.net/projects/markdown/index.text">http://daringfireball.net/projects/markdown/index.text</a> 出現在 header 後加上 <code>&lt;a id="..." /&gt;</code> 的用法，試過 <code>## 標題二 &lt;a id="anchor" /&gt; ##</code> 這樣也可以</li>
+<li><a href="http://daringfireball.net/projects/markdown/dingus">http://daringfireball.net/projects/markdown/dingus</a> 採用 Markdown 1.0.2b7 這是怎麼回事??</li>
+<li>在團隊裡使用 Markdown 要注意什麼?? =&gt; style 吧，前後要不要空白、要不要斷行等 (一行不要超過 80 個字?)，重點就是要維持原文的可讀性；雖然說只要產出的結果一樣就好，但 Markdown 在設計上也強調原始文件的可讀性；採用 inline link 還是 reference link，後者確實能大大提高可讀性。標題前的 <code>#</code> 跟文字要空一格</li>
+<li><a href="https://github.com/tj/mad">https://github.com/tj/mad</a> 用來預覽 markdown manual ??</li>
+<li>慣用的副檔名?? =&gt; <code>.md</code> 或 <code>.markdown</code>?</li>
+<li>怎麼在 terminal 裡預覽 Markdown?? <a href="https://github.com/axiros/terminal_markdown_viewer[axiros/terminal_markdown_viewer">https://github.com/axiros/terminal_markdown_viewer[axiros/terminal_markdown_viewer</a>: Styled Terminal Markdown Viewer] <a href="https://linux.die.net/man/1/markdown">https://linux.die.net/man/1/markdown</a> <a href="http://tosbourn.com/view-markdown-files-terminal/[View">http://tosbourn.com/view-markdown-files-terminal/[View</a> Markdown Files in your Terminal] 常見的解法都是 pandoc + lynx/w3m <a href="http://unix.stackexchange.com/questions/4140/markdown-viewer">http://unix.stackexchange.com/questions/4140/markdown-viewer</a> =&gt; <a href="https://coderwall.com/p/iryumw/viewing-markdown-files-in-terminal">https://coderwall.com/p/iryumw/viewing-markdown-files-in-terminal</a> <a href="http://brettterpstra.com/projects/mdless/">http://brettterpstra.com/projects/mdless/</a> 更酷 (Ruby)，搭配 iTerm2 顯示圖形 &hellip; 或許 syntax highlighting 就已經足夠??</li>
+<li><a href="https://github.com/adam-p/markdown-here/[adam-p/markdown-here">https://github.com/adam-p/markdown-here/[adam-p/markdown-here</a>: Google Chrome, Firefox, and Thunderbird extension that lets you write email in Markdown and render it before sending.] 的星星數也太多!!</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://daringfireball.net/projects/markdown/">Daring Fireball: Markdown</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../markdown-book/">用 Markdown 寫書</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.github.com/gfm/">GitHub Flavored Markdown Spec</a></li>
+<li><a href="https://daringfireball.net/projects/markdown/syntax">Daring Fireball: Markdown Syntax Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

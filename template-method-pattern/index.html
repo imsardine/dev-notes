@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/template-method-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Template Method Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/template-method-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#template-method-pattern">Template Method Pattern</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="template-method-pattern">Template Method Pattern<a class="headerlink" href="#template-method-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Template_method_pattern">Template method pattern - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>In object-oriented programming, the template method is one of the behavioral design patterns identified by Gamma et al. in the book Design Patterns.</p>
+<p>The template method is a method in a superclass, usually an abstract superclass, and defines the SKELETON OF AN OPERATION in terms of a number of HIGH-LEVEL STEPS. These steps are themselves implemented by additional HELPER METHODS in the same class as the TEMPLATE METHOD.</p>
+</li>
+<li>
+<p>The helper methods may be either abstract methods, for which case subclasses are required to provide concrete implementations, or HOOK METHODS, which have empty bodies in the superclass.</p>
+<p>Subclasses can (but are not required to) customize the operation by overriding the hook methods. The intent of the template method is to define the OVERALL STRUCTURE OF THE OPERATION, while allowing subclasses to refine, or redefine, certain STEPS.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://sourcemaking.com/design_patterns/template_method">Template Method Design Pattern</a> #ril</p>
+<p>Intent</p>
+<ul>
+<li>
+<p>Define the SKELETON OF AN ALGORITHM IN AN OPERATION, deferring some STEPS to CLIENT SUBCLASSES. Template Method lets subclasses redefine certain steps of an algorithm WITHOUT CHANGING THE ALGORITHM&rsquo;S STRUCTURE.</p>
+<p>最後一句 without chaning the algorith&rsquo;s structure 是關鍵 &ndash; 大的框架不能變，但可以自訂某些 step。</p>
+</li>
+<li>
+<p>Base class declares algorithm &lsquo;PLACEHOLDERS&rsquo;, and derived classes implement the placeholders.</p>
+</li>
+</ul>
+<p>Problem</p>
+<ul>
+<li>Two different components have significant similarities, but demonstrate no reuse of common interface or implementation. If a change common to both components becomes necessary, duplicate effort must be expended. ??</li>
+</ul>
+<p>Discussion</p>
+<ul>
+<li>
+<p>The COMPONENT DESIGNER decides which steps of an algorithm are INVARIANT (or STANDARD), and which are VARIANT (or CUSTOMIZABLE). The invariant steps are implemented in an abstract base class, while the variant steps are either given a default implementation, or no implementation at all.</p>
+<p>The variant steps represent &ldquo;hooks&rdquo;, or &ldquo;placeholders&rdquo;, that can, or must, be supplied by the component&rsquo;s client in a concrete derived class.</p>
+</li>
+<li>
+<p>The component designer mandates the required steps of an algorithm, and the ordering of the steps, but allows the component client to extend or replace some number of these steps.</p>
+</li>
+<li>
+<p>Template Method is used prominently in FRAMEWORKS. Each framework implements the invariant pieces of a DOMAIN&rsquo;S ARCHITECTURE, and defines &ldquo;placeholders&rdquo; for all necessary or interesting client customization options.</p>
+<p>In so doing, the framework becomes the &ldquo;center of the universe&rdquo;, and the client customizations are simply &ldquo;the third rock from the sun&rdquo;. This INVERTED CONTROL structure has been affectionately labelled &ldquo;the Hollywood principle&rdquo; - &ldquo;DON&rsquo;T CALL US, WE&rsquo;LL CALL YOU&rdquo;.</p>
+<p>從過去各種 framework 的體驗來看，step 不一定是動作，也可能是回傳某些資訊。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://refactoring.guru/design-patterns/template-method">Template Method</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

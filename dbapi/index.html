@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dbapi/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>DB-API (Python Database API) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dbapi.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#db-api-python-database-api">DB-API (Python Database API)</a></li>
+            <li class="second-level"><a href="#sqlalchemy-db-api">有 SQLAlchemy，為什麼要用 DB-API ??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#connection">Connection ??</a></li>
+                
+            <li class="second-level"><a href="#cursor">Cursor ??</a></li>
+                
+            <li class="second-level"><a href="#transaction">Transaction</a></li>
+                
+            <li class="second-level"><a href="#error-handling">Error Handling ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="db-api-python-database-api">DB-API (Python Database API)<a class="headerlink" href="#db-api-python-database-api" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0249/">PEP 249 &ndash; Python Database API Specification v2.0 | Python.org</a><ul>
+<li>This API has been defined to ENCOURAGE SIMILARITY between the Python modules that are used to access databases. By doing this, &hellip; code that is generally MORE PORTABLE ACROSS DATABASES, and a broader reach of database connectivity from Python. 感覺很像 Java 的 JDBC，為 API 制定一個可遵循的標準。</li>
+<li>For more information on database interfacing with Python and available packages see the <a href="http://www.python.org/topics/database/">Database Topic Guide</a> &larr;這份文件好舊，不過可以看出早期各自發展的亂向。</li>
+<li>這份文件在講 Python Database API Specification 2.0 及一些 optional extension &ndash; 異中求同，希望 package writer 以這份文件講的 interface 為基礎。</li>
+</ul>
+</li>
+<li><a href="http://www.sqlalchemy.org/features.html">Features - SQLAlchemy</a> No ORM Required 提到 &ldquo;providing a smooth layer of abstraction over a wide variety of DBAPI implementations and behaviors&rdquo;。</li>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/tutorial.html#connecting">Connecting - SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a> &ldquo;&hellip; the Engine establishes a real DBAPI connection to the database, which is then used to emit the SQL.&rdquo;，實際跟 DB 互動還是透過 DB-API。</li>
+<li><a href="https://docs.python.org/2/library/sqlite3.html">11.13. sqlite3 — DB-API 2.0 interface for SQLite databases — Python 2.7.15 documentation</a> Python 內建的 <code>sqlite3</code> 本身就符合 DB-API 的要求。</li>
+<li><a href="https://wiki.python.org/moin/DatabaseProgramming">DatabaseProgramming - Python Wiki</a> #ril</li>
+<li><a href="https://docs.python-guide.org/scenarios/db/">Databases — The Hitchhiker&rsquo;s Guide to Python</a> #ril</li>
+</ul>
+<h2 id="sqlalchemy-db-api">有 SQLAlchemy，為什麼要用 DB-API ??<a class="headerlink" href="#sqlalchemy-db-api" title="Permanent link"> #</a></h2>
+<ul>
+<li>有些時候只想直接操作 DB，但就算不用 SQLAlchemy 的 ORM，只用 Core (Expression Language) 也需要先定義 metadata，有點多此一舉。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.sqlalchemy.org/en/latest/core/tutorial.html#define-and-create-tables">SQL Expression Language Tutorial — SQLAlchemy 1.2 Documentation</a> 只用 SQL Expression Language，還是得先定義 database metadata。</li>
+<li><a href="https://chartio.com/resources/tutorials/how-to-execute-raw-sql-in-sqlalchemy/">How to Execute Raw SQL in SQLAlchemy</a> 試過真的不需要先宣告 metadata，這樣似乎沒理由用 DB-API 了!? #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p>以 SQLite 及 Python 內建的 <code>sqlite3</code> module 為例。</p>
+<pre><code>$ cat data.sql
+CREATE TABLE say_hello (
+  greeting varchar(30),
+  target varchar(30)
+);
+
+INSERT INTO say_hello VALUES ('Hello', 'World');
+
+$ cat data.sql &gt; sqlite3 data.db # create db
+
+$ python
+&gt;&gt;&gt; from sqlite3 import connect
+&gt;&gt;&gt; connection = connect('data.db')
+&gt;&gt;&gt; cursor = connection.cursor()
+&gt;&gt;&gt;
+&gt;&gt;&gt; cursor.execute('SELECT * FROM say_hello')
+&gt;&gt;&gt; cols = cursor.fetchone()
+&gt;&gt;&gt; cols
+(u'Hello', u'World')
+&gt;&gt;&gt; assert cursor.fetchone() is None
+&gt;&gt;&gt;
+&gt;&gt;&gt; cursor.execute('INSERT INTO say_hello (greeting, target) VALUES (?, ?)', ['Hey', 'SQLite'])
+&gt;&gt;&gt; cursor.execute('SELECT * FROM say_hello')
+&gt;&gt;&gt; cursor.fetchall()
+[(u'Hello', u'World'), (u'Hey', u'SQLite')]
+&gt;&gt;&gt; ^D
+
+$ sqlite3 data.db &quot;SELECT * FROM say_hello&quot;
+Hello|World
+</code></pre>
+
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.coursera.org/lecture/sql-data-science/writing-code-using-db-api-GM85O">Writing code using DB-API - Week 3 - Accessing Databases using Python | Coursera</a><ul>
+<li>01:20 每個 DBMS 都有自己的 library (符合 DB-API)，例如 MySQL 用 MySQL Connector/Python。</li>
+<li>02:00 DB-API 主要兩個概念是 connection object 與 cursor object，前者用來建立 connection 及管理 transaction，後者則用來執行 query (也包含 insert 等異動) &ndash; 先 open cursor 再 run query!!</li>
+<li>02:15 Cursor 像是文書處理器裡的 cursor，向下捲動時，可以把 result set 裡的資料取進 application。</li>
+<li>02:30 Connection object 有 <code>cursor()</code> 用來取得 cursor object，有 <code>commit()</code>/<code>rollback()</code> 可以將確認/取消 pending transaction，而 <code>close()</code> 則用來關閉連線。</li>
+<li>02:50 Cursor object 有 <code>callproc()</code>、<code>execute()</code>、<code>executemany()</code>、<code>fetchone()</code>、<code>fetchmany()</code>、<code>nextset()</code>、<code>Arraysize()</code> 等，用來管理 fetch operation 的 context，特別提到源自同一個 connection 的多個 cursor 之間並非隔離的 (isolated)，也就是說一個 cursor 的異動，在另一個 cursor 直接可見。若 cursor 源自不同的 connection，其間是否為 isolated 則要看 transaction support 支援到什麼程度。</li>
+<li>03:13 Cursor 可以用來走 (traverse) DB records，它像是個 file name/handle，以取得 query result，也會追蹤目前在 query result 中的位置。</li>
+<li>03:50 Python code 大概會像這樣 <code>from dbmodule import connect</code> -&gt; <code>connection = connect('databasename', 'username', 'pswd')</code> -&gt; <code>cursor = connection.cursor()</code> -&gt; <code>cursor.execute('SELECT * FROM mytable')</code> -&gt; <code>results = cursor.fetchall()</code> (注意 <code>execute()</code> 跟 <code>fetch*()</code> 是拆開的，就算是 <code>SELECT</code> 也是) -&gt; <code>cursor.close()</code> -&gt; <code>connection.close()</code>。</li>
+</ul>
+</li>
+<li><a href="https://mariadb.com/resources/blog/how-connect-python-programs-mariadb">How to connect Python programs to MariaDB | MariaDB</a> (2014-11-14) #ril</li>
+</ul>
+<h2 id="connection">Connection ??<a class="headerlink" href="#connection" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#module-interface">Module Interface - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> module 要提供 <code>connect(parameters...)</code> construtor 以建立 connection object，其中 <code>parameters</code> 會因 database 而異。</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#connection-objects">Connection Objects - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> Connection object 有 <code>close()</code>、<code>commit()</code>、<code>rollback()</code> 與 <code>cursor()</code>。<code>close()</code> 會關閉與 database 的連線，在這之前若沒有先 commit，背後會做 rollback。</li>
+</ul>
+<h2 id="cursor">Cursor ??<a class="headerlink" href="#cursor" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.coursera.org/lecture/sql-data-science/writing-code-using-db-api-GM85O">Writing code using DB-API - Week 3 - Accessing Databases using Python | Coursera</a> &hellip; 很多內容來自 PEP 249 直接唸 XD<ul>
+<li>02:15 Cursor 像是文書處理器裡的 cursor，向下捲動時，可以把 result set 裡的資料取進 application。</li>
+<li>02:30 Connection object 有 <code>cursor()</code> 用來取得 cursor object，有 <code>commit()</code>/<code>rollback()</code> 可以將確認/取消 pending transaction，而 <code>close()</code> 則用來關閉連線。</li>
+<li>02:50 Cursor object 有 <code>callproc()</code>、<code>execute()</code>、<code>executemany()</code>、<code>fetchone()</code>、<code>fetchmany()</code>、<code>nextset()</code>、<code>Arraysize()</code> 等，用來管理 fetch operation 的 context，特別提到源自同一個 connection 的多個 cursor 之間並非隔離的 (isolated)，也就是說一個 cursor 的異動，在另一個 cursor 直接可見。若 cursor 源自不同的 connection，其間是否為 isolated 則要看 transaction support 支援到什麼程度。</li>
+<li>03:13 Cursor 可以用來走 (traverse) DB records，它像是個 file name/handle，以取得 query result，也會追蹤目前在 query result 中的位置。</li>
+</ul>
+</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#cursor">.cursor() - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> 根據 connection 產生一個 cursor object。</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#paramstyle">paramstyle - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> <code>module.paramstyle</code> 可以查到 API 採用的 &ldquo;parameter marker formatting&rdquo;，有 <code>qmark</code> (<code>WHERE name=?</code>)、<code>numeric</code> (<code>WHERE name=:1</code>)、<code>named</code> (<code>WHERE name=:name</code>)、<code>format</code> (<code>WHERE name=%s</code>，也就是 ANSI C prinft format codes)、<code>pyformat</code> (<code>WHERE name=%(name)s</code>)；官方建議 <code>numeric</code>、<code>named</code> 或 <code>pyformat</code>，注意 parameter marker 不用加引號。</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#execute">.execute(operation [, parameters]) - PEP 249 -- Python Database API Specification v2.0 | Python.org</a><ul>
+<li>PREPARE and execute a database operation (query or command). 注意這裡 &ldquo;prepare&rdquo; 的用法；cursor 內部會留存 <code>operation</code> 的 reference，下次又用相同的 <code>operation</code> (通常會綁定不同的 <code>parameters</code>) 時內部就可以優化。</li>
+<li>為了把重複使用 <code>operation</code> 的效益最大化，最好能在 <code>execute()</code> 前先用 <code>setinpusizes()</code> 告知每個 parameter 的 type/size 以預先配置記憶空間，不過就算之後傳進去的資料不符合這裡的宣告，頂多也只是影響到效能而已，並不會出錯。</li>
+<li><code>operation</code> 內部可以用 <code>paramstyle</code> 宣告的方式表示 variable (正確的說法應是 parameter)，搭配 <code>parameters</code> 動態代換 (bound to variables)；依據 <code>paramstyle</code> 的不同，<code>parameters</code> 可以是 sequence 或 mapping。</li>
+<li>雖然 <code>parameters</code> 也可以是 list of tuples 達到一次插入許多 row 的效果，但建議改用 <code>executemany()</code>。</li>
+<li>Return values are not defined. 因為 operation 可以是 query/command，查詢結果不會從 return value 拿到，更何況取結果的方式不只一種 &ndash; <code>fetchall()</code>、<code>fetchone()</code> &hellip;</li>
+</ul>
+</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#fetchone">fetchone() - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> Fetch the next row of a query RESULT SET, returning a single SEQUENCE, or <code>None</code> when no more data is available. 但如果前一個 <code>execute*()</code> 沒有 result set 就會丟出 <code>Error</code>；注意取回的 row 是 sequence，表示只能透過 index 取出不同欄位的值。</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#fetchmany">fetchmany([size=cursor.arraysize]) - PEP 249 -- Python Database API Specification v2.0 | Python.org</a><ul>
+<li>Fetch the next SET OF ROWS of a query result, returning a sequence of sequences (e.g. a list of tuples). An empty sequence is returned when no more rows are available.</li>
+<li>Note there are performance considerations involved with the <code>size</code> parameter. For optimal performance, it is usually best to use the <code>.arraysize</code> attribute. If the <code>size</code> parameter is used, then it is best for it to retain the same value from one <code>.fetchmany()</code> call to the next. 看起來沒理由去動它。</li>
+</ul>
+</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#fetchall">fetchall() - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> Fetch all (remaining) rows of a query result, returning them as a sequence of sequences (e.g. a list of tuples). Note that the cursor&rsquo;s <code>arraysize</code> attribute can affect the performance of this operation. 內部應該是不斷呼叫 <code>fetchmany()</code>；一次傳回所有 rows，要考量 python process 的記憶體&hellip;</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#executemany">.executemany( operation, seq_of_parameters ) - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> #ril<ul>
+<li>Prepare a database operation (query or command) and then execute it against all parameter sequences or mappings found in the sequence <code>seq_of_parameters</code>.</li>
+<li>Use of this method for an operation which produces one or more result sets constitutes undefined behavior &hellip; 聽起來 <code>executemany()</code> 不適合用在 query。</li>
+</ul>
+</li>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#cursor-attributes">Cursor attributes - PEP 249 -- Python Database API Specification v2.0 | Python.org</a><ul>
+<li><code>description</code> - a sequence of 7-item sequences (name, type_code[, display_size, internal_size, precision, scale, null_ok])，用來表示 result set 裡每個 (result) column 的資訊。</li>
+<li><code>rowcount</code> - 跟最後一次 <code>execute*()</code> 有關的 row 數量；就 DQL 而言，就是 result set 的筆數，就 DML 而言，就是受影響的筆數。如果這個數字無法決定，就會傳回 <code>-1</code> (未來的 API 會改用 <code>None</code>)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="transaction">Transaction<a class="headerlink" href="#transaction" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#connection-objects">Connection Objects - PEP 249 -- Python Database API Specification v2.0 | Python.org</a><ul>
+<li><code>close()</code> - Note that closing a connection without committing the changes first will cause an IMPLICIT ROLLBACK to be performed.</li>
+<li><code>commit()</code> - Commit any PENDING TRANSACTION to the database. 但 &ldquo;Note that if the database supports an auto-commit feature, this must be initially off. An interface method may be provided to turn it back on.&rdquo; 這是什麼意思??</li>
+<li><code>rollback()</code> - In case a database does provide transactions this method causes the database to roll back to the start of any pending transaction.</li>
+</ul>
+</li>
+<li><a href="https://wiki.python.org/moin/UsingDbApiWithPostgres#transactions">Transactions - UsingDbApiWithPostgres - Python Wiki</a> For databases that support transactions, the Python interface SILENTLY STARTS A TRANSACTION when the cursor is created. The <code>commit()</code> method commits the updates made using that cursor, and the <code>rollback()</code> method discards them. Each method THEN STARTS A NEW TRANSACTION. 一直都會有 transaction，告一段落時用 <code>commit()</code>/<code>rollback()</code> 決定去留即可。</li>
+<li><a href="https://www.safaribooksonline.com/library/view/mysql-cookbook/0596001452/ch15s07.html">Using Transactions in Python Programs - MySQL Cookbook [Book]</a> 提到 Invoke <code>begin()</code> to begin a transaction and either <code>commit()</code> or <code>rollback()</code> to end it. 但 DB-API 1.0 跟 2.0 都沒有 <code>begin()</code> 啊?</li>
+<li><a href="https://stackoverflow.com/questions/2546926/">sql - Why connection in Python&rsquo;s DB-API does not have &ldquo;begin&rdquo; operation? - Stack Overflow</a> newtover: 引用了 SQL The Complete Reference 的說法，因為 SQL standard (SQL1) 提了 implicit transaction mode，只支援 <code>COMMIT</code>/<code>ROLLBACK</code>，也就是說 transaction 會在第一個 SQL statement 開始，直到 <code>COMMIT</code>/<code>ROLLBACK</code> 結束，但另一個 transaction 隨即又會開始。後來 SQL2 提了 explicit transaction mode，但 D API 並沒有反應這項變化。</li>
+<li><a href="https://stackoverflow.com/questions/15856976/transactions-with-python-sqlite3/23634805">Transactions with Python sqlite3 - Stack Overflow</a><ul>
+<li><code>executescript()</code> 裡故意安排個錯誤，但竟然沒有整個 rollback!?</li>
+<li>CL.: 引用 <a href="https://docs.python.org/2/library/sqlite3.html#sqlite3-controlling-transactions">Controlling Transactions - sqlite3</a> 的文件，會在 DML 前自動開始 transaction，可怕的是會在 non-DML &amp; non-query statement 前自動 commit!? 所以才有人包裝了另一個 Python SQLite wrapper - <a href="https://github.com/rogerbinns/apsw">apsw</a></li>
+</ul>
+</li>
+<li><a href="http://structure.usc.edu/mysqldb/MySQLdb-3.html">MySQLdb: a Python interface for MySQL: MySQLdb -- DB API interface</a><ul>
+<li>這裡也提到 &ldquo;transactions start when a cursor execute a query, but end when COMMIT or ROLLBACK is executed by the Connection object&rdquo;。</li>
+<li><code>begin()</code> 也提到 &ldquo;Normally you do not need to use this: Executing a query implicitly starts a new transaction if one is not in progress.&rdquo;。</li>
+<li>Note carefully that these are methods of the connection and not methods of the cursor, even though c.execute(&hellip;) is what started the transaction. 這確實有點怪&hellip;</li>
+</ul>
+</li>
+</ul>
+<h2 id="error-handling">Error Handling ??<a class="headerlink" href="#error-handling" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0249/#exceptions">Exceptions - PEP 249 -- Python Database API Specification v2.0 | Python.org</a> 每個 library 都會宣告這些同名的 exception，在特定的情況下會丟出。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../sqlalchemy/">SQLAlchemy</a> 底層也是透過 DB-API 跟 DB 溝通。</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0249/">PEP 249 &ndash; Python Database API Specification v2.0 | Python.org</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0248/">PEP 248 &ndash; Python Database API Specification v1.0 | Python.org</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

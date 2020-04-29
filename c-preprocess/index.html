@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/c-preprocess/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>C / Preprocessing - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/c-preprocess.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#c-preprocessing">C / Preprocessing</a></li>
+            <li class="second-level"><a href="#macro">Macro ??</a></li>
+                
+            <li class="second-level"><a href="#header-file">Header File ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="c-preprocessing"><a href="../c/">C</a> / Preprocessing<a class="headerlink" href="#c-preprocessing" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/C_preprocessor">C preprocessor - Wikipedia</a> #ril<ul>
+<li>C preprocessor (CPP) 是 C/C++ 的 preprocessor，用來引入 header、macro expansions、conditional compilation 等。C 通常實作成獨立的程式，由 compiler 調用。</li>
+<li>Preprocessing is defined by the first four (of eight) phases of TRANSLATION specified in the C Standard. 包括 trigraph replacement??、line splicing (接合 escaped newline sequences 拆開的 logical lines)、tokenization、macro expansion 及 directive handling</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/C_preprocessor#Conditional_compilation">Conditional compilation - C preprocessor - Wikipedia</a> #ril</li>
+<li><a href="https://gcc.gnu.org/onlinedocs/cpp/Conditionals.html#Conditionals">The C Preprocessor: Conditionals</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/C_preprocessor#Token_stringification">Token stringification - C preprocessor - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="macro">Macro ??<a class="headerlink" href="#macro" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/cpp/Macros.html#Macros">The C Preprocessor: Macros</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/C_preprocessor#Macro_definition_and_expansion">Macro definition and expansion - C preprocessor - Wikipedia</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/C_preprocessor#Special_macros_and_directives">Special macros and directives - C preprocessor - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="header-file">Header File ??<a class="headerlink" href="#header-file" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc-4.1.2/cpp/Header-Files.html">Header Files - The C Preprocessor</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/C_preprocessor#Including_files">Including Files - C preprocessor - Wikipedia</a> #ril</li>
+<li>
+<p><a href="https://gcc.gnu.org/onlinedocs/cpp/Header-Files.html#Header-Files">The C Preprocessor: Header Files</a> #ril</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/20180734/">c - Are function prototypes needed in header files? - Stack Overflow</a> Keith Thompson:</p>
+<ul>
+<li>Header file 裡只應放 function declaration (prototype) &ndash; 宣告 arguments 的 type，回傳值等，而 function definition (<code>{ ...}</code> 的實作) 應該留在 <code>.c</code> 裡。</li>
+<li>每個 header file 在一個 translation unit 裡 (編譯一個 source file 的過程) 只應被 include 一次，應透過 <a href="https://en.wikipedia.org/wiki/Include_guard">include guards</a>?? 避免 multiple inclusion。</li>
+<li>如果某個 function 只被用在一個 <code>.c</code> 裡，可以把 function declaration 及 definition 都放在 <code>.c</code> 裡；如果 definition 出現在 function call 之前，則 declaration 可以省略，因為 definition 就可以做為 declaration。</li>
+</ul>
+</li>
+<li>
+<p><code>#include &lt;stdio.h&gt;</code> 中的 <code>stdio.h</code> 在哪??</p>
+</li>
+<li><code>#include &lt;stdio.h&gt;</code> 什麼時候要用雙引號? =&gt; <a href="https://learnxinyminutes.com/docs/c/">https://learnxinyminutes.com/docs/c/</a> 角括號指來自 C standard library，自己的 header 則要用雙引號</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

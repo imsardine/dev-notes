@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/workday-bp/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Workday / Business Process - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/workday-bp.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#workday-business-process">Workday / Business Process</a></li>
+            <li class="second-level"><a href="#create">Create</a></li>
+                
+            <li class="second-level"><a href="#custom-validation">Custom Validation</a></li>
+                
+            <li class="second-level"><a href="#delegation">Delegation ??</a></li>
+                
+            <li class="second-level"><a href="#request">Request</a></li>
+                
+            <li class="second-level"><a href="#custom-field">Custom Field</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="workday-business-process"><a href="../workday/">Workday</a> / Business Process<a class="headerlink" href="#workday-business-process" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/G9K_pGWc18mq9w_C4CAhZg">Concept: Business Processes and Organizations • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+<ul>
+<li>
+<p>To define a custom business process, you must first ASSOCIATE IT WITH A BUSINESS OBJECT (typically an organization). The business process definition is then available within that organization and, if that organization has a hierarchy, all organizations beneath it.</p>
+<p>從哪裡新建 process ?? 又如何讓 process 出現在首頁 ??</p>
+<p>To determine which ORGANIZATION TYPES you can associate with a business process, run the Business Process Configuration Options report. ??</p>
+</li>
+<li>
+<p>If you are in a supervisory organization and its parent organization has a business process defined, you can use that business process. However, you can create YOUR OWN VERSION of that same business process in the child supervisory organization. When you do, the version associated with the parent organization is no longer available.</p>
+</li>
+<li>
+<p>You can&rsquo;t have 2 versions of the same business process in the same organization. If you need a variation, either use conditions or create another organization for the second version of the business process.</p>
+</li>
+<li>
+<p>When you initiate a business process, Workday identifies which version of the business process to run by looking at the organizations associated with the object of the business process. Example: For business processes that ACT ON employee job records, the target is a job or a position assigned to an organization. ??</p>
+</li>
+<li>
+<p>An exception is a business process that handles a worker&rsquo;s person-related data, as this information isn&rsquo;t associated with a specific organization. In this case, Workday selects the business process definition for the organization related to the worker&rsquo;s PRIMARY JOB or INTERNATIONAL ASSIGNMENT ??, if they have one.</p>
+<p>This exception is important because workers with more than 1 job (a primary job and an additional job or jobs) might be assigned to more than 1 organization.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/YJCBPIJ3q42m6v9C0NBMIg">Event • Manage Workday • Reader • Administrator Guide</a></p>
+<p>A business process TRANSACTION that occurs within your organization, such as hiring or terminating an employee.</p>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/Ef~iPpz10vmODOYHhA4P9A">Concept: Find Events • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+</li>
+</ul>
+<h2 id="create">Create<a class="headerlink" href="#create" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/w22AwVgXVHU_7F9XVETR0g">Create Custom Business Processes • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+<p>Prerequisites</p>
+<ul>
+<li>Security: Business Process Administration domain in the System functional area.</li>
+</ul>
+</li>
+</ul>
+<h2 id="custom-validation">Custom Validation<a class="headerlink" href="#custom-validation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/UPHci9o43srKWwD4cbYhJQ">Configure Validation Text • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+<p>Context</p>
+<ul>
+<li>
+<p>Workday enables you to OVERRIDE the DEFAULT VALIDATION MESSAGE with configurable message text. Validation messages are used in the following 3 areas in Workday, and configuration is the same for all 3 types:</p>
+<ul>
+<li>Absence types</li>
+<li>Business process validations</li>
+<li>Custom validations (used in Financials)</li>
+</ul>
+<p>訊息都可以自訂，但為什麼 custom validation 只用在財務??</p>
+</li>
+<li>
+<p>Validation messages take different forms, but they are all based on conditions and send a message to the end user when a condition is encountered. By default, the message contains the name of the associated condition; however, you can configure custom validation text to replace it.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/dHvoVCr~P~0GOgQgE5Ot4A/5kRo7d6B9RAg1C2nPd8c~Q">Steps: Set Up Custom Validations • Financial Management • Reader • Administrator Guide</a> #ril</p>
+<p>Prerequisites</p>
+<ul>
+<li>
+<p>Security: Business Process Administration domain in the System functional area.</p>
+<p>畢竟這還是跟 business process 有關，雖然這份文件在 Financial Management 下。</p>
+</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>
+<p>You can use custom validations to help workers identify TRANSACTION ISSUES. The custom validations you can create varies by TRANSACTION TYPE. Create custom validations to:</p>
+<ul>
+<li>Alert transaction APPROVERS to conditions that need more careful review.</li>
+<li>Display warning or error messages when workers create a transaction that meets the conditions for the validation.</li>
+<li>Prevent workers from submitting invalid transactions until they resolve an error.</li>
+</ul>
+<p>跟錢的交易有關，要儘早辨識出問題，所以 custom valiation 只有 FIN module 有??</p>
+</li>
+</ul>
+<p>Steps</p>
+<ul>
+<li>
+<p>(Optional) Access the Maintain Condition Rule Categories task.</p>
+<p>To organize your custom validation rules, define the condition rule categories by selecting the Custom Validation Rule option.</p>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/dHvoVCr~P~0GOgQgE5Ot4A/X4ciT4oo9Wtj0I2UZ26EdQ">Set Up Custom Validation Severity and Conditions</a>. #ril</p>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/dHvoVCr~P~0GOgQgE5Ot4A/2ya8wW63DdMDk6PoT3AdVw">Configure Custom Validation Messages</a>. #ril</p>
+</li>
+</ul>
+<p>Next Steps</p>
+<ul>
+<li>You can use Object Transporter (OX) ?? to MIGRATE custom validations from 1 tenant to another. Example: You can test custom validations in your Sandbox tenant, then migrate them to your Production tenant.</li>
+</ul>
+</li>
+</ul>
+<h2 id="delegation">Delegation ??<a class="headerlink" href="#delegation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/VE6QO05yYizUY3ShPh1vwA">Concept: Delegation - Act On Behalf Of Another User • Manage Workday • Reader • Administrator Guide</a></p>
+<ul>
+<li>
+<p>Workday makes it easy for you to manage and perform delegated tasks. When tasks are delegated to you, you can switch accounts to perform the tasks ON BEHALF OF ANOTHER USER. Workday displays the Switch Account option</p>
+<ul>
+<li>in the menu displayed when you click your name or photo in the application header.</li>
+<li>in delegated Inbox tasks displayed in your Inbox.</li>
+</ul>
+<p>只能針對 delegated task 操作，不會拿到另一個人的權限，或是看到另一個人才能看的東西 ??</p>
+</li>
+<li>
+<p>Selecting Switch Account presents you with a list of users who have delegated Inbox tasks or Initiating Actions to you. Select the user for whom you want to act as a DELEGATE. Once you switch accounts, Workday displays:</p>
+<p>Delegate 可以用另一個人 (delegator) 的身份起單、在 process 過程中採取 action，在測試 business process 的過程尤其實用!!</p>
+<ul>
+<li>On Behalf of, followed by the name and photo of the DELEGATOR.</li>
+<li>The Delegation Dashboard ?? which includes the Delegated Actions worklet ??, and from which you can take Initiating Actions on any business processes that have been delegated to you by the user on whose behalf you are acting.</li>
+<li>The Inbox which (when selected) contains only the Inbox tasks delegated to you by the user on whose behalf you are acting, and from which you can view the details and complete the tasks.</li>
+</ul>
+<p>Note: Delegated Inbox tasks are displayed in your Inbox (for your Workday account) as well. The action item titles display On Behalf of, followed by the name of the delegator to indicate that they are delegated tasks. However, you cannot view the details or complete the tasks until you switch accounts. In addition, you CANNOT VIEW THE DETAILS of or complete delegated Tasks steps, such as those found in the Onboarding business process.</p>
+</li>
+<li>
+<p>To switch back to your Workday account, select Switch Account again, and select your own name.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/pjUnzsXxq4b8On9vr_3gPg">Set Up Delegations • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+<p>Prerequisites</p>
+<ul>
+<li>
+<p>Configure the Request Delegation Change (Default Definition) business process and security policy in the System functional area.</p>
+<p>該流程預設只有一個 step，起單後直接結束。</p>
+</li>
+<li>
+<p>Security: Business Process Delegation domain in the System functional area.</p>
+</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>You can configure delegations in your tenant so that workers can select a delegate to complete Inbox tasks and initiate business process actions.</li>
+</ul>
+<p>Steps</p>
+<ul>
+<li>
+<p>Access the Manage Delegation Settings report.</p>
+</li>
+<li>
+<p>Click Request Delegation Change.</p>
+<p>這裡的 Worker 要選 delegator (委派工作的一方)，而非 delegate (被委派的一方)。</p>
+</li>
+<li>
+<p>As you complete the task, consider:</p>
+<ul>
+<li>
+<p>Begin Date, End Date</p>
+<p>Delegation begins and ends based on the TIME ZONE OF THE DELEGATOR.</p>
+<p>雖然 End Date 沒有星號，但也是必填。</p>
+</li>
+<li>
+<p>Use Default Alternate</p>
+<p>Workday displays the check box when you select Apply Routing Restrictions During Delegation on the Edit Tenant Setup - Business Processes task. The default alternate is the PRIMARY MANAGER DELEGATE.</p>
+<p>這裡應該是在講 Delegate 的設定 (必填)，沒填預設是往主管委派 ??</p>
+</li>
+<li>
+<p>Start On My Behalf</p>
+<p>Select the initiating actions the delegate can perform.</p>
+</li>
+<li>
+<p>Do Inbox Tasks On My Behalf</p>
+<p>這一段文件沒提到，有 For all Business Processes、For Business Process、None of the above 可選。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Next Steps</p>
+<ul>
+<li>Run the Business Process Tasks Not Delegated report to review tasks that Workday doesn&rsquo;t delegate due to ROUTING RESTRICTIONS ??.</li>
+</ul>
+</li>
+</ul>
+<h2 id="request">Request<a class="headerlink" href="#request" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/PGI3Br2majE9o4c1IqaLcw">Setup Considerations: Requests • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+<ul>
+<li>
+<p>You can use this topic to help make decisions when planning your configuration and use of Requests. It explains:</p>
+<ul>
+<li>Why to set it up.</li>
+<li>How it fits into the rest of Workday.</li>
+<li>Downstream impacts and cross-product interactions.</li>
+<li>Security requirements and business process configurations.</li>
+<li>Questions and limitations to consider before implementation.</li>
+</ul>
+<p>Refer to detailed task instructions for full configuration details.</p>
+<p>High-level process:</p>
+<ul>
+<li>Administrators can create multiple REQUEST TYPES with different steps and approvers.</li>
+<li>Users initiate requests.</li>
+<li>Process users implement requests by approving, closing, and setting resolutions on closed requests.</li>
+</ul>
+</li>
+</ul>
+<p>What It Is</p>
+<ul>
+<li>The Request business process, enables you to set up CUSTOM REQUEST PROCESSES that are initiated and tracked within Workday. You control who makes, approves, and completes the request. You also have A RECORD OF THIS INFORMATION when the process completes.</li>
+</ul>
+<p>Business Benefits</p>
+<ul>
+<li>
+<p>Workday requests free you from using WORD OF MOUTH, or email and messaging software, to REQUEST CHANGES or COLLECT INFORMATION. The Request business process enables you to KEEP TRACK of the initiation, approval, implementation, and final verification processes for your request.</p>
+<p>The business process history for completed requests is available for AUDITING PURPOSES.</p>
+<p>在系統裡留下記錄，這不就是公文簽辦單的功能?</p>
+</li>
+<li>
+<p>If the request is ASSOCIATED with a Workday business object, you can view the request on the audit trail for that business object. Requests enable you to define your own request types and PROCESS FLOWS. You configure the security access, steps, and LEVELS OF REQUIRED APPROVAL.</p>
+</li>
+</ul>
+<p>Use Cases</p>
+<ul>
+<li>
+<p>Here are examples of use cases for requests:</p>
+<ul>
+<li>Business process changes.</li>
+<li>Organization changes.</li>
+<li>System account access.</li>
+<li>Equipment.</li>
+<li>Learning courses.</li>
+<li>New security groups.</li>
+<li>New reports.</li>
+<li>New job profiles.</li>
+</ul>
+</li>
+</ul>
+<p>Questions to Ask</p>
+<ul>
+<li>Do I want users to request changes using Workday?</li>
+<li>Is there information that I want to collect?</li>
+</ul>
+<p>Recommendations</p>
+<ul>
+<li>Create a RULE BASED Request business process definition for each request type you use. In this way, you create independent process flows for different request types.</li>
+<li>Display relevant tasks and reports in an easily accessible format by configuring the Requests WORKLET?? on the Workday-delivered Home dashboard.</li>
+</ul>
+<p>Requirements</p>
+<ul>
+<li>Workday requests don&rsquo;t replace existing functionality.</li>
+</ul>
+<p>Limitations</p>
+<ul>
+<li>A request DOESN&rsquo;T CHANGE ANYTHING on its own. It&rsquo;s a REQUEST FOR ACTION.</li>
+<li>
+<p>Only the request initiator can change request content.</p>
+</li>
+<li>
+<p>You can only LINK requests to these business objects:</p>
+<ul>
+<li>Business Process Definition.</li>
+<li>Committee.</li>
+<li>~Employee. 前面的毛毛蟲 ??</li>
+<li>~Worker.</li>
+<li>~Contingent Worker.</li>
+<li>Union.</li>
+<li>Organization.</li>
+<li>Location.</li>
+<li>Accounting Journal.</li>
+<li>Supplier Contract.</li>
+<li>Business Asset.</li>
+<li>Supplier Invoice Document.</li>
+<li>Customer Invoice Document.</li>
+<li>Academic Record.</li>
+<li>Course Definition.</li>
+<li>Student.</li>
+<li>Course Section Definition.</li>
+</ul>
+</li>
+</ul>
+<p>Tenant Setup</p>
+<ul>
+<li>No impact.</li>
+</ul>
+<p>Security</p>
+<ul>
+<li>
+<p>Administrators must configure a security policy for the Request business process default definition in your tenant (secured to the Set Up: Requests domain). Members with modify permissions on the Set Up: Requests domain security policy have access to the Create Request Type task, enabling them to create request types.</p>
+<p>一開始是空的，所以要知道如何改 domain 的 security policy。</p>
+</li>
+<li>
+<p>When you configure the security policy for the Request business process default definition, include all of the security groups that you might use when creating other business process request types.</p>
+<p>Other request types you create will use a SUBSET of the security groups you set up on the Request business process security policy.</p>
+</li>
+<li>
+<p>Understand segment-based security groups and segmented security, and determine how you want to restrict request type access for groups of workers.</p>
+<p>如果 request 只是 request for change/request，為什麼會跟 segment 有關??</p>
+</li>
+<li>
+<p>When you configure security for a request type, security groups you select for the View All field can view all event details for requests OF THIS REQUEST TYPE.</p>
+<p>安全性也是依 request type 拆開的。</p>
+</li>
+<li>
+<p>Configure the 5 domain security policies for the Request business process:</p>
+<ul>
+<li>
+<p>Set Up: Requests in the System functional area.</p>
+<p>Users secured to this domain can access the:</p>
+<ul>
+<li>Create Request Type task.</li>
+<li>View Request Types report.</li>
+</ul>
+</li>
+<li>
+<p>Self-Service: Requests in the System functional area.</p>
+<p>Users secured to this domain can access these reports:</p>
+<ul>
+<li>My Requests.</li>
+<li>My Recent Requests.</li>
+<li>View Request Types.</li>
+</ul>
+</li>
+<li>
+<p>View: Requests in the System functional area.</p>
+<p>Users secured to this domain can view results on these reports:</p>
+<ul>
+<li>My Recent Requests.</li>
+<li>My Requests.</li>
+</ul>
+<p>比 Self-Service: Requests 少了 View Request Types，實務上有什麼差別??</p>
+</li>
+<li>
+<p>Requests Segmented Setup in the System functional area.</p>
+<p>Users secured to this domain can access this task: Create Request Type Security Segment.</p>
+</li>
+<li>
+<p>Reports: Requests in the System functional area.</p>
+<p>Users secured to this domain can access these reports:</p>
+<ul>
+<li>All Requests.</li>
+<li>Requests in Progress.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Business Processes</p>
+<ul>
+<li>
+<p>Business process administrators can add multiple steps to a Request business process definition, including approvals or additional questionnaires.</p>
+<p>Workday routes request steps according to the organization OF THE REQUEST INITIATOR. Example: Workday routes a step to the HR Partner of the initiator and not the subject of the request.</p>
+<p>可以處理 acting 的狀況嗎??</p>
+</li>
+<li>
+<p>If you DON&rsquo;T create a rule based Request business process definition for a request type, Workday uses the default Request business process definition. However, if you configure a rule based request business process definition, you can create a HIERARCHY OF CONDITION RULES that determines which Request business definition Workday runs.</p>
+<p>所謂 rule based 是指大家都用同一個 Request BP，但 BP 會根據 request type 走不同的路??</p>
+</li>
+<li>
+<p>The Close Request action step must always be the completion step in a Request business process.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="custom-field">Custom Field<a class="headerlink" href="#custom-field" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://community.workday.com/node/393235">Custom Fields: Configuration and Administration | Workday Community</a> #ril</p>
+<ul>
+<li>Once configured, custom fields are available throughout the application, from reporting, to business rules, to integrations.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/MsTDuohl3TabdzwtzjXbRw">Custom Objects and Labels • Manage Workday • Reader • Administrator Guide</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/Y6D0oWkd27J4gI9YBdfqbQ">Business Processes - Administrator Guide</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li>Manage Delegation Settings - 有 Request Delegation Change 可以調整設定</li>
+<li>Business Process Tasks Not Delegated - 查看哪些 BP 因為某些限制無法成功被 delegate。</li>
+<li>Business Process Unassigned Step Audit - 查看哪些 BP 因找不到人而卡關</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

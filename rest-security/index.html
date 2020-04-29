@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/rest-security/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>REST / Security - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/rest-security.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#rest-security">REST / Security</a></li>
+            <li class="second-level"><a href="#authentication">Authentication ??</a></li>
+                
+            <li class="second-level"><a href="#api-key">API Key ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="rest-security"><a href="../rest/">REST</a> / Security<a class="headerlink" href="#rest-security" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#ssl">SSL everywhere - all the time - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a></p>
+<ul>
+<li>總是使用 SSL，沒有例外! 避免資料被偷聽 (eavesdropping) 或透過 authentication credentials 被劫持 (hijackted) 用來假扮 (impersonation)。</li>
+<li>同時，因為 SSL 的通訊是加密的，可以大幅簡化 authentication &ndash; 只要傳 simple access token 即可，不需要為每個 API request 加密。</li>
+<li>不要把 non-SSL request 轉向 SSL counterpart，直接丟錯。除非對像是 unencrypted endpoint，就靜靜地轉向 encrpyted endpoint 即可。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=2">Why Does Security Matter? - REST API Security - DZone - Refcardz</a></p>
+<p>Organizations Understand the Need for API Security</p>
+<ul>
+<li>
+<p>In today’s CONNECTED WORLD, where information is being shared via APIs to external stakeholders and within internal teams, security is a TOP CONCERN.</p>
+</li>
+<li>
+<p>API security is the single biggest challenge organizations want to see solved in the years ahead, and solving the security challenge is expected to be a catalyst (催化劑) for growth in the API world.</p>
+<p>呼應下面 Security is the #4 technology area expected to drive the most API growth in the next two years; 24% of API providers say digital security will drive the most API growth in the next two years. 的說法，沒有 security 的話 API 確實很難發展出規模。</p>
+</li>
+<li>
+<p>With the explosive growth of RESTful APIs, the security layer is often the one that is most OVERLOOKED in the architectural design of the API.</p>
+</li>
+</ul>
+<p>Data Protection</p>
+<ul>
+<li>A RESTful API is the way in which a given service can PRESENT VALUE TO THE WORLD. As a result, protection of the data provided via RESTful endpoints should always be a high priority.</li>
+<li>You have to define CLEAR ACCESS RIGHTS, especially for methods like DELETE (deletes a resource) and PUT (updates a resource). Those methods must be accessed by AUTHENTICATED users only, and for each such call, an AUDIT must be saved.</li>
+</ul>
+<p>TLS</p>
+<ul>
+<li>
+<p>Transport Layer Security (TLS) and its predecessor, Secure Sockets Layer (SSL), are cryptographic protocols that provide communications security over a computer network.</p>
+</li>
+<li>
+<p>When secured by TLS, connections between a client and a server have one or more of the following properties:</p>
+<ul>
+<li>The connection is private (or secure) because symmetric cryptography is used to encrypt the data transmitted.</li>
+<li>The keys for this symmetric encryption are generated uniquely for each connection and are based on a shared secret negotiated at the start of the session.</li>
+<li>The identity of the communicating parties can be authenticated using public-key cryptography. ??</li>
+<li>The connection ensures integrity because each message transmitted includes a message integrity check using a MESSAGE AUTHENTICATION CODE to prevent undetected loss or alteration of the data during transmission. 本來就有的機制!!</li>
+</ul>
+</li>
+</ul>
+<p>DOS Attacks</p>
+<ul>
+<li>In a Denial of Service (DOS) attack, the attacker usually sends excessive messages asking the network or server to authenticate requests that have INVALID RETURN ADDRESSES. DOS attacks can render a RESTful API into a non-functional state if the right SECURITY MEASURES are not taken.</li>
+<li>Today, even if your API is not exposed to the public, it still might be accessible by others. This means that REST API security is getting more and more valuable and important. Consider that someone succeeds in making a DOS attack- it means that all the connected clients (partners, apps, mobile devices, and more) will not be able to access your API.</li>
+</ul>
+<p>Anti-Farming</p>
+<ul>
+<li>Today, there are several marketing-heavy websites that offer consumers the best deal on everything from flights to vehicles and even groceries. In many of these cases, the aggregated service is taking advantage of other APIs to obtain the information they want you to utilize. When this happens, the RESTful API is being FARMED OUT (外包) for the benefit of another entity. ??</li>
+<li>In case your API does not have an Authorization/Authentication mechanism, it might lead to misuse of your API, loading the servers and the API itself, making it less responsive to others.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=12">Secure Your REST API: Best Practices - REST API Security - DZone - Refcardz</a> #ril</p>
+</li>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=8">JSON Web Token (JWT) - REST API Security - DZone - Refcardz</a> #ril</p>
+</li>
+<li><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=6">Security Assessment Markup Language (SAML) - REST API Security - DZone - Refcardz</a> #ril</li>
+<li><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=7">OAuth 2 - REST API Security - DZone - Refcardz</a> #ril</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#authentication">Authentication - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+</ul>
+<h2 id="authentication">Authentication ??<a class="headerlink" href="#authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=3">REST API Authentication Types Overview - REST API Security - DZone - Refcardz</a></p>
+<ul>
+<li>
+<p>RESTful applications rely on the underlying security of the API ecosystem rather than including security within the REST architecture style. In addition to securing RESTful API calls with the HTTPS protocol, SESSION-BASED AUTHENTICATION should be utilized.</p>
+<p>Currently, most RESTful applications leverage OAuth 2.0 and JWT is the newcomer that is gaining more and more popularity with API developers.</p>
+<p>所謂 session-based 指的是有時效性 ??</p>
+</li>
+<li>
+<p>OAuth, JWT, and Basic Auth all use HEADERS for transmitting credentials, and API providers should be doing the same with all API KEYS. While easy to do as parameters, they are more secure as headers.</p>
+<p>用 header 來傳 credentials 相較 query string 安全。只是 OAuth 過程中不像 Basic Auth 要拿到帳密，但最終都是根據某種 token 來識別身份，原理都跟 API key 很像。</p>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=7">OAuth 2 - REST API Security - DZone - Refcardz</a> 提到 &ldquo;Since an access token is like A SPECIAL TYPE OF API KEY, the most likely place to put it is the authorization header, &hellip;&rdquo;</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=4">Basic Authentication - REST API Security - DZone - Refcardz</a></p>
+<ul>
+<li>HTTP Basic authentication implementation is the simplest technique for enforcing access controls to web resources because it DOESN’T REQUIRE COOKIES, SESSION IDENTIFIERS, or LOGIN PAGES; rather, HTTP Basic authentication uses standard fields in the HTTP header, REMOVING THE NEED FOR HANDSHAKES.</li>
+<li>To receive authorization, the client sends the userid and password, separated by a single colon (&ldquo;:&rdquo;) character, within a Base64 encoded string in the credentials.</li>
+<li>
+<p>If the user agent wishes to send the userid &ldquo;Aladdin&rdquo; and password &ldquo;open sesame,&rdquo; it would use the following header field: <code>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</code></p>
+</li>
+<li>
+<p>The Basic authentication scheme is not a secure method of user authentication, nor does it in any way protect the entity, which is transmitted in CLEARTEXT across the physical network used as the carrier.</p>
+<p>The most serious flaw in Basic authentication is that it results in the essentially cleartext transmission of the user&rsquo;s password over the physical network.</p>
+<p>Because Basic authentication involves the cleartext transmission of passwords, it should be used over TLS or SSL protocols (HTTPS) in order to protect sensitive or valuable information.</p>
+<p>結論是，Basic Authentication 本身並不安全，但搭配 TLS/SSL 還可以？</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nordicapis.com/3-common-methods-api-authentication-explained/">3 Common Methods of API Authentication Explained | Nordic APIs |</a> (2018-02-06) 在 authentication 與 authorization 的差別這一段解釋得很清楚 #ril</p>
+</li>
+<li>
+<p><a href="https://blog.restcase.com/restful-api-authentication-basics/">RESTful API Authentication Basics</a> (2016-11-28) #ril</p>
+</li>
+</ul>
+<h2 id="api-key">API Key ??<a class="headerlink" href="#api-key" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=5">API Keys - REST API Security - DZone - Refcardz</a></p>
+<ul>
+<li>
+<p>Not any formal standard, but something in common practice by API providers, and supported by API management providers. It is the usage of ONE OR TWO KEYS WHAT ACCOMPANY EVERY API CALL. API keys are really more about IDENTIFYING THE APPLICATION AND USER over being anything about security, but is perceived as secure by many.</p>
+<p>注意是 application + user 的組合，也就是不同 application 不該用相同的 API key。搭配 TLS/SSL 妥善保管 API key 還是有些保護作用，雖然 API key 主要是用來識別 application + user 以控制用量、計費。</p>
+<p>由於是 accompany every API call，所以 server side 每個 API call 都要驗證一次 API key 是否合法；這個動作如何做到很快? 透過 Redis 與 DB ??</p>
+</li>
+<li>
+<p>Public REST services without access control run the risk of BEING FARMED, leading to excessive bills for bandwidth or compute cycles. API keys can be used to mitigate this risk. They are also often used by organization to MONETIZE APIs; instead of blocking high-frequency calls, clients are given access in accordance to a purchased access plan.</p>
+</li>
+<li>
+<p>Typically, an API key gives FULL ACCESS to every operation an API can perform, including writing new data or deleting existing data. If you use THE SAME API KEY IN MULTIPLE APPS, a broken app could destroy your users&rsquo; data without an easy way to stop just that one app.</p>
+<p>Some apps let users generate new API keys, or even have multiple API keys with the option to REVOKE one that may have gone into the wrong hands. The ABILITY TO CHANGE AN API KEY limits the security downsides.</p>
+<p>如果提供介面建立/撤銷多個 API key，使用者就可以讓不同 application 採用不同的 API key (呼應前面 API key = application + user 的說法)。為不同 API key 指定不同的權限也是可能的，例如 App Center API 就是這種做法，可以有多個 API token，並區分 Full Access 或 Read Only。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://restful.io/an-introduction-to-api-s-cee90581ca1b#c3db">API Key Authentication - An Introduction to API’s – The RESTful Web</a> (2015-08-26)</p>
+<ul>
+<li>
+<p>API Key Authentication is a technique that overcomes the weakness of using SHARED CREDENTIALS. by requiring the API to be accessed with a UNIQUE KEY. Unlike Basic Auth, API keys were CONCEIVED at multiple companies in the early days of the web. As a result, API Key Authentication has NO STANDARD and everybody has its own way of doing it.</p>
+<p>&ldquo;大家構想出來的做法，並沒有標準的做法&rdquo;，這段故事很有趣，為了改善 Basic Auth 的缺點 &ndash; 要交換帳密。</p>
+</li>
+<li>
+<p>The most common approach has been to include it onto the URL (<code>http://example.com?apikey=mysecret_key</code>). 放 header 會好一點?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nordicapis.com/3-common-methods-api-authentication-explained/#apikeys">API Keys - 3 Common Methods of API Authentication Explained | Nordic APIs |</a> (2018-02-06)</p>
+<ul>
+<li>
+<p>API keys are an INDUSTRY STANDARD, but shouldn’t be considered a HOLISTIC (全部的) SECURITY MEASURE.</p>
+</li>
+<li>
+<p>API Keys were created as somewhat of a FIX to the early authentication issues of HTTP Basic Authentication and other such systems. In this approach, a unique generated value is ASSIGNED to each FIRST TIME USER, signifying that the user is known. When the user attempts to RE-ENTER the system, their unique key (sometimes generated from their hardware combination and IP data, and other times randomly generated by the server which knows them) is used to prove that they’re THE SAME USER AS BEFORE.</p>
+</li>
+<li>
+<p>On one hand, this is very FAST. The ability to prove identity once and move on is very AGILE, and is why it has been used for many years now as a DEFAULT APPROACH for many API providers. Additionally, setting up the system itself is quite easy, and CONTROLLING THESE KEYS once generated is even easier. This also allows systems to PURGE KEYS, thereby removing authentication after the fact and denying entry to any system attempting to use a removed key.</p>
+<p>看起來 API key 並不糟；那什麼情況下一定得用 OAuth ??</p>
+</li>
+<li>
+<p>The problem, however, is that API keys are often used for what they’re not – an API key is NOT A METHOD OF AUTHORIZATION, it’s a method of AUTHENTICATION. Because anyone who makes a request of a service transmits their key, in theory, this key can be picked up just as easy as any network transmission, and if any point in the entire network is insecure, the entire network is exposed. This makes API keys a hard thing to recommend – often misused and fundamentally insecure, they nonetheless do have their place when PROPERLY SECURED and hemmed in by authorization systems.</p>
+<p>似乎有點難區分 authentication 與 authorization，不過在上面 Authentication vs Authorization 有解釋到：</p>
+<blockquote>
+<p>Consider for a moment a driver’s license. In many countries, a driver’s license proves both that you are who you say you are via a picture or other certified element, and then goes further to prove that you have a right to drive the vehicle class you’re driving. In such a case, we have authentication and authorization – and in many API solutions, we have systems that give a piece of code that BOTH AUTHENTICATES THE USER AND PROVES THEIR AUTHORIZATION. In such a case, we have HYBRID SOLUTIONS.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nordicapis.com/why-api-keys-are-not-enough/">API Keys ≠ Security: Why API Keys Are Not Enough | Nordic APIs |</a> (2018-02-02) #ril</p>
+<ul>
+<li>Unfortunately, many API providers make a dangerous mistake that exposes a large amount of data and makes an entire ecosystem insecure. In plain English — if you’re only using API keys, you may be doing it wrong!</li>
+</ul>
+<p>What is an API Key?</p>
+<ul>
+<li>
+<p>An API Key is a piece of code assigned to a specific program, developer, or user that is used whenever that entity makes a call to an API. This Key is typically a long string of generated characters which follow a set of GENERATION RULES specified by the authority that creates them: <code>IP84UTvzJKds1Jomx8gIbTXcEEJSUilGqpxCcmnx</code></p>
+</li>
+<li>
+<p>Upon account creation or app registration, many API providers assign API keys to their developers, allowing them to function in a way similar to an account username and password. API keys are unique, and because of this, many providers have opted to use these keys as a type of SECURITY LAYER, barring entry and further rights to anyone unable to provide the key for the service being requested.</p>
+<p>感覺 API Key 要複雜到無法猜測，後端也要有防止一直嘗試的異常行為 ??</p>
+</li>
+<li>
+<p>Despite the alluring simplicity and ease of utilizing API Keys in this method, the shifting of security responsibility, lack of GRANULAR CONTROL, and misunderstanding of purpose and use amongst most developers makes solely relying on API Keys a poor decision. More than just protecting API keys, we need to program robust identity control and access management features to safeguard the entire API platform.</p>
+</li>
+</ul>
+<p>Shifting of Responsibility</p>
+<ul>
+<li>
+<p>In most common implementations of the API Key process, the security of the system as a whole is entirely dependent on the ability of the developer consumer to PROTECT THEIR API KEYS and maintain security. However, this isn’t always stable.</p>
+<p>Take Andrew Hoffman’s <a href="http://www.programmableweb.com/news/why-exposed-api-keys-and-sensitive-data-are-growing-cause-concern/analysis/2015/01/05">$2375 Amazon EC2 Mistake</a> that involved a fluke API key push to GitHub. As developers rely on cloud-based development tools, the accidental or malicious public exposure of API keys can be a real concern.</p>
+<p>把責任推給使用者，要把 API key 保管好；不過 OAuth、JWT 等要由 client 提供 token 的做法，不也有相同的問題 ??</p>
+</li>
+<li>
+<p>From the moment a key is generated, it is passed through the network to the user over a connection with limited encryption and security options. Once the user receives the key, which in many common implementations is provided in PLAIN TEXT, the user must then save the key using a PASSWORD MANAGER, write it down, or save it to a file on the desktop. Another common method for API Key storage is device storage, which takes the generated key and saves it to the device on which it was requested.</p>
+</li>
+<li>When a key is used, the API provider must RELY ON THE DEVELOPER to encrypt their traffic, secure their network, and uphold their side of the security bargain. There are many vulnerabilities at stake (在危急關頭) here: applications that contain keys can be decompiled to extract keys, or deobfuscated from on-device storage, plaintext files can be stolen for unapproved use, and password managers are SUSCEPTIBLE to security risks as with any application. 問題在於，API key 怎麼保存都有被偷的風險。</li>
+<li>Due to its relative simplicity, most common implementations of the API Key method provide a sense of FALSE SECURITY. Developers embed the keys in Github pushes, utilize them in third-party API calls, or even share them between various services, each with their own security caveats. In such a vulnerable situation, security is a huge issue, but it’s one that isn’t really brought up with API Keys because “they’re so simple — and the user will keep them secure!”</li>
+<li>This is a reckless (不顧後果的) viewpoint. API Keys are ONLY SECURE WHEN USED WITH SSL, which isn’t even a requirement in the basic implementation of the methodology. Other systems, such as OAuth 2, Amazon Auth, and more, require the use of SSL for this very reason. Shifting the responsibility from the service provider to the developer consumer is also a negligent (粗心的) decision from a UX perspective. 本來就要搭配 SSL 不是，問題是有 SSL 就沒問題了嗎??</li>
+</ul>
+<p>Lack of Granular Control</p>
+<ul>
+<li>Some people FORGIVE the lack of security. After all, it’s on the developer to make sure solutions like SSL are implemented. However, even if you do assure security, your issues don’t stop there — API Keys by design LACK GRANULAR CONTROL??.</li>
+<li>Somewhat IRONICALLY, before API keys were used with RESTful services, we had <a href="https://en.wikipedia.org/wiki/WS-Security">WS-Security</a> tokens for SOAP services that let us perform many things with more fine-grained control. While other solutions can be scoped, audienced, controlled, and managed down to the smallest of minutia, API Keys, more often than not, ONLY PROVIDE ACCESS UNTIL REVOKED. They can’t be specifically controlled dynamically.</li>
+<li>That’s not to say API Keys lack any control — relatively useful read/write/readwrite control is definitely possible in an API Key application. However, the needs of the average API developer often warrant more full-fledged options.</li>
+<li>This is not a LOCALIZED issue either. As more and more devices are integrated into the Internet of Things, this control will become more important than ever before, magnifying the choices made in the early stages of development to gargantuan proportions later on in the API Lifecycle. ??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.servicestack.net/api-key-authprovider#supported-auth-repositories">Supported Auth Repositories - API Key Auth Provider</a> <code>RedisAuthRepository</code> - Uses Redis back-end data store 似乎可以把 API key 存在 Redis #ril</p>
+</li>
+<li>
+<p><a href="https://developers.google.com/maps/api-key-best-practices">Google Maps Platform  |  Google Developers</a> #ril</p>
+</li>
+<li><a href="https://medium.freecodecamp.org/how-to-securely-store-api-keys-4ff3ea19ebda">Best practices for securely storing API keys – freeCodeCamp.org</a> (2017-10-25) #ril</li>
+<li><a href="https://medium.freecodecamp.org/best-practices-for-building-api-keys-97c26eabfea9">Best practices for building secure API Keys – freeCodeCamp.org</a> (2018-09-29) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://apisecurity.io/">APIsecurity.io</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../jwt/">JWT (JSON Web Token)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

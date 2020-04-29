@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-logging-perf/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Logging / Performance - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-logging-perf.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-logging-performance">Python / Logging / Performance</a></li>
+            <li class="second-level"><a href="#queue">Queue Solution</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-logging-performance"><a href="../python-logging/">Python / Logging</a> / Performance<a class="headerlink" href="#python-logging-performance" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p>從 <a href="https://docs.python.org/3.6/howto/logging.html#logging-flow">logging flow</a> 看來，呼叫 logging method 當下，在經過 level、filter 的檢查之後，就會馬上交由 handlers 寫出，所以 handler 寫出的動作確實會影響程式的執行速度。</p>
+</li>
+<li>
+<p>雖然 logging method 內部一定會做 <code>isEnabledFor(level)</code> 的檢查，但若是準備傳入 logging method 的參數需要花點時間，建議自行先做過 <code>isEnabledFor(level)</code> 的檢查，才不會花時間準備了資料，但最後卻用不到。</p>
+<pre><code>if logger.isEnabledFor(logging.DEBUG):
+    logger.debug("Diagnostic data; %r", _prepare_data())
+</code></pre>
+</li>
+<li>
+<p>在 logging method 呼叫的當下，就會花時間蒐集 logging 的位置、當下的 thread、process 等，這些資訊若最後沒有要輸出，把一些開關關掉，就不用花時間蒐集：</p>
+<pre><code>logging._srcfile = None
+logging.logThreads = False
+logging.logProcesses = False
+</code></pre>
+<p>實驗確認，把 <code>logging._srcfile</code> 設為 <code>None</code>，在發生錯誤時 <code>logger.exception()</code> 仍然可以回報出錯的位置，不用擔心。</p>
+</li>
+<li>
+<p>Handler 寫出 log 時受限於 I/O 效能，解法是把 I/O 拉到背景做 &ndash; 呼叫 logging method 當下先將 <code>LogRecord</code> 寫進 queue，另一邊再將 queue 裡面的 <code>LogRecord</code> 轉換成 log 寫出。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3.6/howto/logging.html#logging-flow">Logging Flow - Logging HOWTO — Python 3.6.8 documentation</a> 從 flowchart 先釐清幾件事：</p>
+<ul>
+<li>左側 logger flow 從 logging call in user code 開始，經過 level、filter 判斷，就會進入 pass to handlers of current logger，這中間並非是 async 的，所以 handler 寫出 log 的過程，可能會拖慢 user code 的執行。</li>
+<li>右側 handler flow 在經過 level、filter 的判斷，最後要寫出前才會做 formatting。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/35520160/">multithreading - python logging performance comparison and options - Stack Overflow</a> #ril</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/howto/logging.html#optimization">Optimization - Logging HOWTO — Python 2.7.16 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Formatting of message arguments is DEFERRED UNTIL IT CANNOT BE AVOIDED. However, COMPUTING THE ARGUMENTS passed to the logging method can also be expensive, and you may want to avoid doing it if the logger will just throw away your event.</p>
+<p>To decide what to do, you can call the <code>isEnabledFor()</code> method which takes a level argument and returns true if the event would be created by the <code>Logger</code> for that level of call. You can write code like this:</p>
+<pre><code>if logger.isEnabledFor(logging.DEBUG):
+    logger.debug('Message with %s, %s', expensive_func1(),
+                                        expensive_func2())
+</code></pre>
+<p>so that if the logger’s threshold is set above <code>DEBUG</code>, the calls to <code>expensive_func1()</code> and <code>expensive_func2()</code> are never made.</p>
+</li>
+<li>
+<p>Note In some cases, <code>isEnabledFor()</code> can itself be more expensive than you’d like (e.g. for DEEPLY NESTED LOGGERS where an explicit level is only set high up in the logger hierarchy).</p>
+<p>In such cases (or if you want to avoid calling a method in TIGHT LOOPS), you can cache the result of a call to <code>isEnabledFor()</code> in a local or instance variable, and use that instead of calling the method each time.</p>
+<p>Such a cached value would only need to be recomputed when the LOGGING CONFIGURATION CHANGES DYNAMICALLY while the application is running (which is not all that common).</p>
+<p>不過從 <a href="https://github.com/python/cpython/blob/3.7/Lib/logging/__init__.py#L1356"><code>logging.Logger</code> 的實作</a>看來，內部總會呼叫 <code>if self.isEnabledFor(level):</code>，且會將結果快取 (依 hierarchy 推算 effective level 會花點時間)，所以 client code 先做過 <code>isEnabledFor()</code> 的檢查肯定能省下準備 arguemnt 的時間，但 <code>isEnabledFor()</code> 時間花下去是否值得就不用多想了。</p>
+</li>
+<li>
+<p>There are other optimizations which can be made for specific applications which need more precise control over what logging information is COLLECTED. Here’s a list of things you can do to avoid processing during logging which you don’t need:</p>
+<ul>
+<li>
+<p>Information about where calls were made from.</p>
+<p>Set <code>logging._srcfile</code> to <code>None</code>. This avoids calling <code>sys._getframe()</code>, which may help to speed up your code in environments like PyPy (which can’t speed up code that uses <code>sys._getframe()</code>).</p>
+</li>
+<li>
+<p>Threading information.</p>
+<p>Set <code>logging.logThreads</code> to <code>0</code>.</p>
+</li>
+<li>
+<p>Process information.</p>
+<p>Set <code>logging.logProcesses</code> to <code>0</code>.</p>
+</li>
+</ul>
+<p>從 <a href="https://github.com/python/cpython/blob/3.7/Lib/logging/__init__.py#L282"><code>LoggerRecord</code> 的 constructor</a> 看來，<code>LogRecord.thread</code>、<code>LogRecord.threadName</code>、<code>LogRecord.process</code> 都是根據 <code>logging.logThreads</code>、<code>logging.logProcesses</code> 決定要不要 &ldquo;即時&rdquo; 取得這些資訊，跟 format string 是否有引用到 thread/process 相關的 attribute 無關，所以如果最後的輸出用不到，一開始就把它關了。</p>
+<p>至於 <code>logging._srcfile</code> 這個開關則是用在 <a href="https://github.com/python/cpython/blob/3.7/Lib/logging/__init__.py#L1497"><code>Logger._log()</code></a> 裡，這也是很花時間的。實驗確認，把 <code>logging._srcfile</code> 設為 <code>None</code>，在發生錯誤時 <code>logger.exception()</code> 仍然可以回報出錯的位置，這樣就很夠了。</p>
+<p>Also note that the core logging module only includes the basic handlers. If you don’t import <code>logging.handlers</code> and <code>logging.config</code>, they won’t take up any memory.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://bespokebytes.com/adventures-in-python-logging-part-1-avoiding-expensive-logging-call-parameters/">Adventures in Python Logging – Part 1 Avoiding expensive logging call parameters – Bespoke Bytes</a> (2017-11-19) #ril</p>
+</li>
+</ul>
+<h2 id="queue">Queue Solution<a class="headerlink" href="#queue" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/howto/logging-cookbook.html#dealing-with-handlers-that-block">Dealing with handlers that block - Logging Cookbook — Python 3.7.3 documentation</a></p>
+<ul>
+<li>
+<p>Sometimes you have to get your logging handlers to do their work WITHOUT BLOCKING THE THREAD YOU’RE LOGGING FROM. This is common in Web applications, though of course it also occurs in other scenarios.</p>
+<p>A common culprit which demonstrates sluggish behaviour is the <code>SMTPHandler</code>: sending emails can take a long time, for a number of reasons outside the developer’s control (for example, a poorly performing mail or network infrastructure). But almost ANY NETWORK-BASED HANDLER CAN BLOCK: Even a <code>SocketHandler</code> operation may do a DNS query under the hood which is too slow (and this query can be DEEP in the socket library code, below the Python layer, and outside your control).</p>
+<p>Queue 不僅可以避開單一個 handler 寫出資料時可能遇到 blocking 的問題，也可以解多個 process 寫入一個檔案的問題。</p>
+</li>
+<li>
+<p>One solution is to use a TWO-PART APPROACH. For the first part, attach only a <code>QueueHandler</code> to those loggers which are accessed from PERFORMANCE-CRITICAL THREADS. They simply write to their queue, which can be sized to a large enough capacity or initialized with no upper bound to their size.</p>
+<p>The write to the queue will typically be accepted quickly, though you will probably need to catch the <code>queue.Full</code> exception as a precaution in your code. If you are a LIBRARY DEVELOPER who has performance-critical threads in their code, be sure to document this (together with a suggestion to ATTACH ONLY <code>QueueHandler</code>S TO YOUR LOGGERS) for the benefit of other developers who will use your code.</p>
+<p>感覺整合 3<sup>rd</sup>-party library 時，可以將幾個比較大的 package 跟 application 的 log 拆開，例如：</p>
+<pre><code>root = logging.getLogger()
+root.addHandler(logging.handlers.RotatingFileHandler('app.log'))
+
+twisted = logging.getLogger('twisted')
+twisted.setLevel(logging.ERROR)
+twisted.addHandler(logging.handlers.RotatingFileHandler('twisted.log'))
+twisted.propagate = False
+</code></pre>
+</li>
+<li>
+<p>The second part of the solution is <code>QueueListener</code>, which has been designed as the counterpart to <code>QueueHandler</code>. A <code>QueueListener</code> is very simple: it’s passed a queue and some handlers, and it fires up an INTERNAL THREAD which listens to its queue for <code>LogRecord</code>s sent from <code>QueueHandler</code>s (or any other source of <code>LogRecord</code>s, for that matter). The <code>LogRecord</code>s are removed from the queue and passed to the handlers for processing.</p>
+<p>The advantage of having a separate <code>QueueListener</code> class is that you can use the same instance to service multiple <code>QueueHandler</code>s. This is more resource-friendly than, say, having threaded versions of the existing handler classes, which would eat up one thread per handler for no particular benefit.</p>
+</li>
+<li>
+<p>An example of using these two classes follows (imports omitted):</p>
+<pre><code>que = queue.Queue(-1)  # no limit on size
+queue_handler = QueueHandler(que)
+handler = logging.StreamHandler()
+listener = QueueListener(que, handler)
+root = logging.getLogger()
+root.addHandler(queue_handler)
+formatter = logging.Formatter('%(threadName)s: %(message)s')
+handler.setFormatter(formatter)
+listener.start()
+# The log output will display the thread which generated
+# the event (the main thread) rather than the internal
+# thread which monitors the internal queue. This is what
+# you want to happen.
+root.warning('Look out!')
+listener.stop()
+</code></pre>
+<p>which, when run, will produce:</p>
+<pre><code>MainThread: Look out!
+</code></pre>
+</li>
+<li>
+<p>Changed in version 3.5: Prior to Python 3.5, the <code>QueueListener</code> always passed every message received from the queue to every handler it was initialized with. (This was because it was assumed that LEVEL FILTERING WAS ALL DONE ON THE OTHER SIDE, where the queue is filled.)</p>
+<p>From 3.5 onwards, this behaviour can be changed by passing a keyword argument <code>respect_handler_level=True</code> to the listener’s constructor. When this is done, the listener compares the level of each message with the handler’s level, and only passes a message to a handler if it’s appropriate to do so.</p>
+</li>
+</ul>
+<p>Use of alternative formatting styles</p>
+<ul>
+<li>
+<p>One thing to note is that you pay no significant performance penalty with this approach: the actual formatting happens not when you make the logging call, but when (and if) the logged message is actually ABOUT TO BE OUTPUT TO A LOG by a handler.</p>
+<p>不過從上面 &ldquo;without blocking the thread you’re logging from&rdquo; 的說法來看，log 當下就會往 handler 寫，所以才要先寫進 queue 做為緩衝 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/logging.handlers.html#queuehandler">logging.handlers — Logging handlers — Python 3.7.3 documentation</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

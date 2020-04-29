@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/swagger-codegen/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Swagger / Codegen - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/swagger-codegen.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#swagger-codegen">Swagger / Codegen</a></li>
+            <li class="second-level"><a href="#cli">CLI</a></li>
+                
+            <li class="second-level"><a href="#online-generator">Online Generator ??</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#python-should-not-import-self">[Python] Should not import self ??</a></li>
+            <li class="second-level"><a href="#reference">安裝設定</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="swagger-codegen"><a href="../swagger/">Swagger</a> / Codegen<a class="headerlink" href="#swagger-codegen" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://swagger.io/tools/open-source/getting-started/">Getting Started With Swagger | Swagger</a></p>
+<ul>
+<li>
+<p>Use the Swagger Editor to create your OAS definition and then use Swagger Codegen to generate SERVER IMPLEMENTATION.</p>
+</li>
+<li>
+<p>If on the other hand you&rsquo;re an API CONSUMER who wants to integrate with an API that has an OpenAPI definition you can use Swagger Inspector or the online version of Swagger UI to explore the API (given that you have a URL to the APIs Swagger definition) - and then use Swagger Codegen to generate the CLIENT LIBRARY of your choice.</p>
+<p>Codegen 可以應用在 server implementation/stub 與 client library。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://swagger.io/tools/swagger-codegen/">Swagger Codegen | API Development Tools | Swagger</a></p>
+<ul>
+<li>Swagger Codegen can simplify your build process by generating SERVER STUBS and CLIENT SDKs for any API, defined with the OpenAPI (formerly known as Swagger) specification, so your team can focus better on your API’s implementation and adoption.</li>
+</ul>
+</li>
+</ul>
+<h2 id="cli">CLI<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<pre><code>$ swagger-codegen config-help -l python
+
+CONFIG OPTIONS
+    packageName
+        python package name (convention: snake_case). (Default: swagger_client)
+...
+
+$ swagger-codegen generate -i http://petstore.swagger.io/v2/swagger.json -l python -o /local/out -DpackageName=petstore
+[main] INFO io.swagger.parser.Swagger20Parser - reading from http://petstore.swagger.io/v2/swagger.json
+[main] WARN io.swagger.codegen.ignore.CodegenIgnoreProcessor - Output directory does not exist, or is inaccessible. No file (.swagger-codegen-ignore) will be evaluated.
+[main] INFO io.swagger.codegen.AbstractGenerator - writing file /local/out/petstore/models/api_response.py
+...
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen#getting-started">Getting Started - swagger-api/swagger-codegen: swagger-codegen contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition.</a></p>
+<ul>
+<li>
+<p>To generate a PHP client for <a href="http://petstore.swagger.io/v2/swagger.json">http://petstore.swagger.io/v2/swagger.json</a>, please run the following</p>
+<pre><code>git clone https://github.com/swagger-api/swagger-codegen
+cd swagger-codegen
+mvn clean package
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+   -i http://petstore.swagger.io/v2/swagger.json \
+   -l php \
+   -o /var/tmp/php_api_client
+</code></pre>
+</li>
+<li>
+<p>To get a list of general options available, please run <code>java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar help generate</code></p>
+</li>
+<li>To get a list of PHP specified options (which can be passed to the generator with a config file via the <code>-c</code> option), please run <code>java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l php</code></li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen#customizing-the-generator">Customizing the generator - swagger-api/swagger-codegen: swagger-codegen contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition.</a></p>
+<ul>
+<li>
+<p>There are different aspects of customizing the code generator beyond just creating or modifying templates. EACH LANGUAGE has a supporting CONFIGURATION FILE to handle different TYPE MAPPINGS, etc:</p>
+<pre><code>$ ls -1 modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/
+AbstractJavaJAXRSServerCodegen.java
+AbstractTypeScriptClientCodegen.java
+... (results omitted)
+TypeScriptAngularClientCodegen.java
+TypeScriptNodeClientCodegen.java
+</code></pre>
+<p>以 Python 而言就是 <a href="https://github.com/swagger-api/swagger-codegen/blob/master/modules/swagger-codegen/src/main/java/io/swagger/codegen/languages/PythonClientCodegen.java"><code>PythonClientCodegen.java</code></a></p>
+</li>
+<li>
+<p>Each of these files creates REASONABLE DEFAULTS so you can get running quickly. But if you want to configure package names, prefixes, model folders, etc. you can use a JSON CONFIG FILE to pass the values.</p>
+<pre><code>java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate \
+  -i http://petstore.swagger.io/v2/swagger.json \
+  -l java \
+  -o samples/client/petstore/java \
+  -c path/to/config.json
+</code></pre>
+<p>Supported config options can be DIFFERENT PER LANGUAGE. Running <code>config-help -l {lang}</code> will show available options.</p>
+<pre><code>java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli.jar config-help -l java
+</code></pre>
+</li>
+<li>
+<p>These options are applied via configuration file (e.g. <code>config.json</code>) or by passing them with <code>java -jar swagger-codegen-cli.jar -D{optionName}={optionValue}</code>. (If <code>-D{optionName}</code> does not work, please open a ticket and we&rsquo;ll look into it)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="online-generator">Online Generator ??<a class="headerlink" href="#online-generator" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/swagger-api/swagger-codegen#online-generators">Online generators - swagger-api/swagger-codegen: swagger-codegen contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition.</a> #ril</li>
+<li><a href="https://generator.swagger.io/">Swagger Generator - Swagger UI</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="python-should-not-import-self">[Python] Should not import self ??<a class="headerlink" href="#python-should-not-import-self" title="Permanent link"> #</a></h3>
+<ul>
+<li>手動將有問題的 import 移除，目前只能這樣。</li>
+<li>產出的 code 品質似乎有待加強，例如 <code>setup.py</code> 與 <code>requirements.txt</code> 對 3<sup>rd</sup>-party 套件的要求就不一樣。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen/issues/7541">[bug][python][model] Should not import self · Issue #7541 · swagger-api/swagger-codegen</a> (2018-01-31) #ril</p>
+<p>光一個簡單的 JSON 就可以產出這種無法執行的 code，在 Swagger Codegen 2.3.1 上：</p>
+<pre><code>from xms_client.models.placement_node import PlacementNode  # noqa: F401,E501
+
+class PlacementNode(object):
+</code></pre>
+<ul>
+<li>gorlins: ran into this too&hellip; did not occur in v2.2.3</li>
+<li>jimmyjames: Seeing this as well on 2.3.0. Maybe related to #6839? (looking at the generated # noqa: F401,E501 comments introduced there).</li>
+<li>
+<p>jacobweber: Same issue....had to manually remove one of the circular references before building.</p>
+</li>
+<li>
+<p>tomplus: (contributor) In my opinion WE SHOULD REMOVE THESE IMPORTS FROM MODELS. It makes a lot of problems with CIRCULAR DEPENDENCIES between 2 or more models (model A has an attribute with model B and model B has a optional attribute with model A). These imported objects are not used at all and we know about it - we added F401 to disable warning from pylint :/</p>
+<p>奇怪，加了 F401 後 Pylint 不會叫，但 runtime 根本跑不起來，這是哪招?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen/pull/7542">[python][client] Comment out useless imports by wy-z · Pull Request #7542 · swagger-api/swagger-codegen</a> 但最後沒被 merge #ril</p>
+</li>
+</ul>
+<h2 id="reference">安裝設定<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://swagger.io/tools/swagger-codegen/download/">Download Swagger Codegen | Swagger</a></p>
+<ul>
+<li>Swagger Codegen is an open source project which allows  generation of API client libraries (SDK generation), server stubs, and documentation automatically from an OpenAPI Specification. Swagger Codegen is available for download in the GitHub repository.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen#prerequisites">Prerequisites - swagger-api/swagger-codegen: swagger-codegen contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition.</a></p>
+<ul>
+<li>If you&rsquo;re looking for the latest stable version, you can grab it directly from Maven.org (Java 7 runtime at a minimum):<pre><code>$ wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.4.4/swagger-codegen-cli-2.4.4.jar -O swagger-codegen-cli.jar
+$ java -jar swagger-codegen-cli.jar help
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>$ alias swagger-codegen=&quot;docker run --rm -v \${PWD}:/local swaggerapi/swagger-codegen-cli&quot;
+$ alias swagger-codegen-v3=&quot;docker run --rm -v \${PWD}:/local swaggerapi/swagger-codegen-cli-v3&quot;
+$ swagger-codegen help
+
+$ swagger-codegen generate -i http://petstore.swagger.io/v2/swagger.json -l python -o /local/out
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen#swagger-codegen-cli-docker-image">Swagger Codegen CLI Docker Image - swagger-api/swagger-codegen: swagger-codegen contains a template-driven engine to generate documentation, API clients and server stubs in different languages by parsing your OpenAPI / Swagger definition.</a></p>
+<ul>
+<li>
+<p>The Swagger Codegen image acts as a standalone executable. It can be used as an ALTERNATIVE TO INSTALLING VIA HOMEBREW, or for developers who are unable to install Java or upgrade the installed version.</p>
+<p>To generate code with this image, you&rsquo;ll need to mount a local location as a volume. Example:</p>
+<pre><code>docker run --rm -v ${PWD}:/local swaggerapi/swagger-codegen-cli-v3 generate \
+    -i http://petstore.swagger.io/v2/swagger.json \
+    -l go \
+    -o /local/out/go
+</code></pre>
+<p>The generated code will be located under <code>./out/go</code> in the current directory.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen/blob/master/Dockerfile">swagger-codegen/Dockerfile at master · swagger-api/swagger-codegen</a></p>
+<pre><code>FROM jimschubert/8-jdk-alpine-mvn:1.0
+
+...
+
+ENV GEN_DIR /opt/swagger-codegen
+WORKDIR ${GEN_DIR}
+
+...
+
+COPY docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["help"]
+</code></pre>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://swagger.io/tools/swagger-codegen/">Swagger Codegen | Swagger</a></li>
+<li><a href="https://github.com/swagger-api/swagger-codegen">swagger-api/swagger-codegen - GitHub</a></li>
+<li><a href="https://hub.docker.com/r/swaggerapi/swagger-codegen-cli/">swaggerapi/swagger-codegen-cli - Docker Hub</a></li>
+<li><a href="https://hub.docker.com/r/swaggerapi/swagger-codegen-cli-v3/">swaggerapi/swagger-codegen-cli-v3 - Docker Hub</a></li>
+<li><a href="https://hub.docker.com/r/swaggerapi/swagger-generator/">swaggerapi/swagger-generator - Docker Hub</a></li>
+</ul>
+<p>CLI Usage:</p>
+<pre><code>$ swagger-codegen
+usage: swagger-codegen-cli &lt;command&gt; [&lt;args&gt;]
+
+The most commonly used swagger-codegen-cli commands are:
+    config-help   Config help for chosen lang
+    generate      Generate code with chosen lang
+    help          Display help information
+    langs         Shows available langs
+    meta          MetaGenerator. Generator for creating a new template set and configuration for Codegen.  The output will be based on the language you specify, and includes default templates to include.
+    validate      Validate specification
+    version       Show version information
+
+See 'swagger-codegen-cli help &lt;command&gt;' for more information on a specific
+command.
+
+$ swagger-codegen langs
+Available languages: [ada, ada-server, akka-scala, android, apache2, apex ...]
+</code></pre>
+
+<pre><code>$ swagger-codegen help generate
+NAME
+        swagger-codegen-cli generate - Generate code with chosen lang
+
+SYNOPSIS
+        swagger-codegen-cli generate
+                [(-a &lt;authorization&gt; | --auth &lt;authorization&gt;)]
+                [--additional-properties &lt;additional properties&gt;...]
+                [--api-package &lt;api package&gt;] [--artifact-id &lt;artifact id&gt;]
+                [--artifact-version &lt;artifact version&gt;]
+                [(-c &lt;configuration file&gt; | --config &lt;configuration file&gt;)]
+                [-D &lt;system properties&gt;...] [--git-repo-id &lt;git repo id&gt;]
+                [--git-user-id &lt;git user id&gt;] [--group-id &lt;group id&gt;]
+                [--http-user-agent &lt;http user agent&gt;]
+                (-i &lt;spec file&gt; | --input-spec &lt;spec file&gt;)
+                [--ignore-file-override &lt;ignore file override location&gt;]
+                [--import-mappings &lt;import mappings&gt;...]
+                [--instantiation-types &lt;instantiation types&gt;...]
+                [--invoker-package &lt;invoker package&gt;]
+                (-l &lt;language&gt; | --lang &lt;language&gt;)
+                [--language-specific-primitives &lt;language specific primitives&gt;...]
+                [--library &lt;library&gt;] [--model-name-prefix &lt;model name prefix&gt;]
+                [--model-name-suffix &lt;model name suffix&gt;]
+                [--model-package &lt;model package&gt;]
+                [(-o &lt;output directory&gt; | --output &lt;output directory&gt;)]
+                [--release-note &lt;release note&gt;] [--remove-operation-id-prefix]
+                [--reserved-words-mappings &lt;reserved word mappings&gt;...]
+                [(-s | --skip-overwrite)]
+                [(-t &lt;template directory&gt; | --template-dir &lt;template directory&gt;)]
+                [--type-mappings &lt;type mappings&gt;...] [(-v | --verbose)]
+
+OPTIONS
+        -a &lt;authorization&gt;, --auth &lt;authorization&gt;
+            adds authorization headers when fetching the swagger definitions
+            remotely. Pass in a URL-encoded string of name:header with a comma
+            separating multiple values
+
+        --additional-properties &lt;additional properties&gt;
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value. You can also have
+            multiple occurrences of this option.
+
+        --api-package &lt;api package&gt;
+            package for generated api classes
+
+        --artifact-id &lt;artifact id&gt;
+            artifactId in generated pom.xml
+
+        --artifact-version &lt;artifact version&gt;
+            artifact version in generated pom.xml
+
+        -c &lt;configuration file&gt;, --config &lt;configuration file&gt;
+            Path to json configuration file. File content should be in a json
+            format {&quot;optionKey&quot;:&quot;optionValue&quot;, &quot;optionKey1&quot;:&quot;optionValue1&quot;...}
+            Supported options can be different for each language. Run
+            config-help -l {lang} command for language specific config options.
+
+        -D &lt;system properties&gt;
+            sets specified system properties in the format of
+            name=value,name=value (or multiple options, each with name=value)
+
+        --git-repo-id &lt;git repo id&gt;
+            Git repo ID, e.g. swagger-codegen.
+
+        --git-user-id &lt;git user id&gt;
+            Git user ID, e.g. swagger-api.
+
+        --group-id &lt;group id&gt;
+            groupId in generated pom.xml
+
+        --http-user-agent &lt;http user agent&gt;
+            HTTP user agent, e.g. codegen_csharp_api_client, default to
+            'Swagger-Codegen/{packageVersion}}/{language}'
+
+        -i &lt;spec file&gt;, --input-spec &lt;spec file&gt;
+            location of the swagger spec, as URL or file (required)
+
+        --ignore-file-override &lt;ignore file override location&gt;
+            Specifies an override location for the .swagger-codegen-ignore file.
+            Most useful on initial generation.
+
+        --import-mappings &lt;import mappings&gt;
+            specifies mappings between a given class and the import that should
+            be used for that class in the format of type=import,type=import. You
+            can also have multiple occurrences of this option.
+
+        --instantiation-types &lt;instantiation types&gt;
+            sets instantiation type mappings in the format of
+            type=instantiatedType,type=instantiatedType.For example (in Java):
+            array=ArrayList,map=HashMap. In other words array types will get
+            instantiated as ArrayList in generated code. You can also have
+            multiple occurrences of this option.
+
+        --invoker-package &lt;invoker package&gt;
+            root package for generated code
+
+        -l &lt;language&gt;, --lang &lt;language&gt;
+            client language to generate (maybe class name in classpath,
+            required)
+
+        --language-specific-primitives &lt;language specific primitives&gt;
+            specifies additional language specific primitive types in the format
+            of type1,type2,type3,type3. For example:
+            String,boolean,Boolean,Double. You can also have multiple
+            occurrences of this option.
+
+        --library &lt;library&gt;
+            library template (sub-template)
+
+        --model-name-prefix &lt;model name prefix&gt;
+            Prefix that will be prepended to all model names. Default is the
+            empty string.
+
+        --model-name-suffix &lt;model name suffix&gt;
+            Suffix that will be appended to all model names. Default is the
+            empty string.
+
+        --model-package &lt;model package&gt;
+            package for generated models
+
+        -o &lt;output directory&gt;, --output &lt;output directory&gt;
+            where to write the generated files (current dir by default)
+
+        --release-note &lt;release note&gt;
+            Release note, default to 'Minor update'.
+
+        --remove-operation-id-prefix
+            Remove prefix of operationId, e.g. config_getId =&gt; getId
+
+        --reserved-words-mappings &lt;reserved word mappings&gt;
+            specifies how a reserved name should be escaped to. Otherwise, the
+            default _&lt;name&gt; is used. For example id=identifier. You can also
+            have multiple occurrences of this option.
+
+        -s, --skip-overwrite
+            specifies if the existing files should be overwritten during the
+            generation.
+
+        -t &lt;template directory&gt;, --template-dir &lt;template directory&gt;
+            folder containing the template files
+
+        --type-mappings &lt;type mappings&gt;
+            sets mappings between swagger spec types and generated code types in
+            the format of swaggerType=generatedType,swaggerType=generatedType.
+            For example: array=List,map=Map,string=String. You can also have
+            multiple occurrences of this option.
+
+        -v, --verbose
+            verbose mode
+</code></pre></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

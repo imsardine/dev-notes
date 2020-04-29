@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pubsub-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Publish/Subscribe (Pub/Sub) Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pubsub-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#publishsubscribe-pubsub-pattern">Publish/Subscribe (Pub/Sub) Pattern</a></li>
+            <li class="second-level"><a href="#vs-observer-pattern">Observer Pattern</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="publishsubscribe-pubsub-pattern">Publish/Subscribe (Pub/Sub) Pattern<a class="headerlink" href="#publishsubscribe-pubsub-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">Publish–subscribe pattern - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>In software architecture, publish–subscribe is a MESSAGING PATTERN where senders of messages, called PUBLISHERS, do not program the messages to be SENT DIRECTLY to specific receivers, called SUBSCRIBERS, but instead CATEGORIZE published messages into classes WITHOUT KNOWLEDGE OF WHICH SUBSCRIBERS, if any, there may be.</p>
+<p>Similarly, subscribers express INTEREST in one or more classes and only receive messages that are of interest, WITHOUT KNOWLEDGE OF WHICH PUBLISHERS, if any, there are.</p>
+</li>
+<li>
+<p>Publish–subscribe is a SIBLING of the MESSAGE QUEUE paradigm, and is typically one part of a larger message-oriented middleware system. Most messaging systems support both the pub/sub and message queue models in their API, e.g. Java Message Service (JMS).</p>
+<p>但 pub/sub 跟 message queue 差在哪裡 ?? 該不會是每個 subscriber 都能收到相同的 message，而 message queue 拿走就沒了?</p>
+</li>
+<li>
+<p>This pattern provides greater NETWORK SCALABILITY and a more dynamic network topology, with a resulting decreased flexibility to modify the publisher and the structure of the published data.</p>
+<p>不要動到 publisher/subscriber 溝通的 data structure 就好，不過就算是直接呼叫對方，data structure 一樣也不能隨便改不是?</p>
+</li>
+</ul>
+<p>Message filtering</p>
+<ul>
+<li>
+<p>In the publish-subscribe model, subscribers typically receive only a SUBSET of the total messages published. The process of selecting messages for reception and processing is called FILTERING. There are two common forms of filtering: topic-based and content-based.</p>
+</li>
+<li>
+<p>In a TOPIC-BASED system, messages are published to &ldquo;topics&rdquo; or NAMED LOGICAL CHANNELS. Subscribers in a topic-based system will receive all messages published to the topics to which they subscribe, and all subscribers to a topic will receive the SAME MESSAGES.</p>
+<p>The publisher is responsible for defining the CLASSES of messages to which subscribers can subscribe.</p>
+</li>
+<li>
+<p>In a CONTENT-BASED system, messages are only delivered to a subscriber if the attributes or content of those messages matches CONSTRAINTS DEFINED BY THE SUBSCRIBER. The subscriber is responsible for classifying the messages.</p>
+</li>
+<li>
+<p>Some systems support a hybrid of the two; publishers post messages to a topic while subscribers register content-based subscriptions to one or more topics.</p>
+</li>
+</ul>
+<p>Topologies</p>
+<ul>
+<li>
+<p>In many pub/sub systems, publishers post messages to an intermediary MESSAGE BROKER or EVENT BUS, and subscribers register subscriptions with that broker, letting the broker perform the filtering. The broker normally performs a store and forward function to route messages from publishers to subscribers. In addition, the broker may PRIORITIZE messages in a queue before routing.</p>
+</li>
+<li>
+<p>Subscribers may register for specific messages at build time, initialization time or runtime. In GUI systems, subscribers can be coded to handle user commands (e.g., click of a button), which corresponds to build time registration. 難以想像 build time 如何做 register ??</p>
+<p>Some frameworks and software products use XML configuration files to register subscribers. These configuration files are read at initialization time. The most sophisticated alternative is when subscribers can be added or removed at runtime. This latter approach is used, for example, in database triggers, mailing lists, and RSS.</p>
+</li>
+<li>
+<p>The Data Distribution Service (DDS) middleware does not use a broker in the middle. Instead, each publisher and subscriber in the pub/sub system shares meta-data about each other via IP multicast. The publisher and the subscribers cache this information locally and route messages based on the discovery of each other in the shared cognizance (認知).</p>
+</li>
+</ul>
+<p>Advantages &gt; Loose coupling</p>
+<ul>
+<li>
+<p>Publishers are LOOSELY COUPLED to subscribers, and need not even know of their EXISTENCE.</p>
+</li>
+<li>
+<p>With the topic being the focus, publishers and subscribers are allowed to remain ignorant of system topology. Each can continue to operate as per normal independently of the other.</p>
+<p>In the traditional TIGHTLY COUPLED CLIENT–SERVER PARADIGM, the client cannot post messages to the server while the server process is not running, nor can the server receive messages unless the client is running.</p>
+<p>雖然 &ldquo;nor can the server receive messages unless the client is running&rdquo; 聽起來怪怪的，但這裡只是要強調 client &amp; server 要同時都活著才能溝通。</p>
+</li>
+<li>
+<p>Many pub/sub systems decouple not only the LOCATIONS of the publishers and subscribers but also decouple them temporally. A common strategy used by middleware analysts with such pub/sub systems is to take down a publisher to allow the subscriber to work through the backlog (a form of bandwidth throttling). ??</p>
+</li>
+</ul>
+<p>Advantages &gt; Scalability</p>
+<ul>
+<li>
+<p>Pub/sub provides the opportunity for better scalability than traditional client-server, through parallel operation, message caching, tree-based or network-based routing, etc. However, in certain types of tightly coupled, high-volume enterprise environments, as systems scale up to become data centers with thousands of servers sharing the pub/sub infrastructure, current vendor systems often lose this benefit; scalability for pub/sub products under high load in these contexts is a research challenge. ??</p>
+</li>
+<li>
+<p>Outside of the enterprise environment, on the other hand, the pub/sub paradigm has proven its scalability to volumes far beyond those of a single data center, providing Internet-wide distributed messaging through web syndication protocols such as RSS and Atom.</p>
+<p>These syndication protocols accept higher latency and lack of delivery guarantees in exchange for the ability for even a low-end web server to syndicate messages to (potentially) millions of separate subscriber nodes.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/pub-sub-messaging/">What is Pub/Sub Messaging?</a></p>
+<p>What is Pub/Sub Messaging?</p>
+<ul>
+<li>
+<p>Publish/subscribe messaging, or pub/sub messaging, is a form of ASYNCHRONOUS SERVICE-TO-SERVICE COMMUNICATION used in serverless and microservices architectures.</p>
+<p>In a pub/sub model, any message published to a topic is IMMEDIATELY received by all of the subscribers to the topic.</p>
+<p>這裡提到 serverless，是要帶出 publisher 送出 message 時，subscriber 不一定要活著的特性?</p>
+</li>
+<li>
+<p>Pub/sub messaging can be used to enable EVENT-DRIVEN architectures, or to DECOUPLE applications in order to increase performance, reliability and scalability.</p>
+</li>
+</ul>
+<p>Pub/Sub Messaging Basics</p>
+<ul>
+<li>
+<p>In modern cloud architecture, applications are decoupled into smaller, independent building blocks that are easier to develop, deploy and maintain. Publish/Subscribe (Pub/Sub) messaging provides INSTANT event notifications for these distributed applications.</p>
+</li>
+<li>
+<p>The Publish Subscribe model allows messages to be BROADCAST TO DIFFERENT PARTS OF A SYSTEM ASYNCHRONOUSLY.</p>
+<p>A sibling to a MESSAGE QUEUE, a message topic provides a lightweight mechanism to broadcast asynchronous event notifications, and endpoints that allow software components to connect to the topic in order to send and receive those messages. To broadcast a message, a component called a publisher simply pushes a message to the topic.</p>
+<p>Unlike message queues, which BATCH MESSAGES UNTIL THEY ARE RETRIEVED, message topics transfer messages with no or very little queuing, and PUSH THEM OUT IMMEDIATELY to all subscribers. All components that subscribe to the topic will receive every message that is broadcast, unless a message filtering policy is set by the subscriber.</p>
+<p><img alt="Pub/Sub Model" src="https://d1.awsstatic.com/product-marketing/Messaging/sns_img_topic.e024462ec88e79ed63d690a2eed6e050e33fb36f.png" /></p>
+<p>上面 message queue 的連結都在推 SQS，跟這裡 pub/sub messaging 在推 SNS 形成對比。</p>
+<p>感覺在 topic 的機器上有為所有 subscriber 安排 inbox，所以上面才多次提到 publisher 送出的 message 是直接 (immediately) 給 subscriber ?? 就算當時 subscriber 不在線上也沒關係。</p>
+</li>
+<li>
+<p>The subscribers to the message topic often perform different functions, and can each do something different with the message in parallel. The publisher doesn’t need to know who is using the information that it is broadcasting, and the subscribers don’t need to know who the message comes from.</p>
+<p>This style of messaging is a bit different than message queues, where the component that sends the message OFTEN KNOWS ?? the destination it is sending to. For more information on message queuing, see “What is a Message Queue?”</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber">Publisher-Subscriber pattern | Microsoft Docs</a> (2018-12-07)</p>
+<ul>
+<li>
+<p>Enable an application to ANNOUNCE EVENTS TO MULTIPLE INTERESTED CONSUMERS ASYNCHRONOUSLY, without coupling the senders to the receivers.</p>
+<p>Also called: Pub/sub messaging</p>
+</li>
+</ul>
+<p>Context and problem</p>
+<ul>
+<li>
+<p>In cloud-based and distributed applications, components of the system often need to provide information to other components AS EVENTS HAPPEN.</p>
+</li>
+<li>
+<p>Asynchronous messaging is an effective way to DECOUPLE SENDERS FROM CONSUMERS, and AVOID BLOCKING THE SENDER TO WAIT FOR A RESPONSE.</p>
+<p>However, using a DEDICATED MESSAGE QUEUE FOR EACH CONSUMER does not effectively scale to many consumers. Also, some of the consumers might be interested in only a SUBSET of the information. How can the sender announce events to all interested consumers without knowing their identities?</p>
+<p>因為 message queue 裡面的 message 被拿走就沒了，沒有多個 receiver 的概念；顯然 pub/sub 至少可以把 &ldquo;message queue for each consumer&rdquo; 做得更有效率，但 pub/sub 不僅於此。</p>
+</li>
+</ul>
+<p>Solution</p>
+<ul>
+<li>
+<p>Introduce an asynchronous messaging subsystem that includes the following:</p>
+<ul>
+<li>
+<p>An input messaging CHANNEL used by the sender. The sender packages events into messages, using a KNOWN MESSAGE FORMAT, and sends these messages via the input channel. The sender in this pattern is also called the publisher.</p>
+<p>Note: A message is a packet of data. An event is a message that notifies other components about a change or an action that has taken place.</p>
+<p>Sender 跟 receiver 要約定好 message 的格式；有做版本控制的 JSON 應該是不錯的選擇?</p>
+</li>
+<li>
+<p>One output messaging channel PER CONSUMER. The consumers are known as subscribers.</p>
+<p>呼應上面 &ldquo;a dedicated message queue for each consumer&rdquo; 的說法，pub/sub 裡還是得為每個 receiver 安排一個 queue/inbox；下面 &ldquo;copying each message&rdquo; 解釋了這件事。</p>
+</li>
+<li>
+<p>A mechanism for COPYING each message from the input channel to the output channels for all subscribers interested in that message. This operation is typically handled by an intermediary such as a MESSAGE BROKER or EVENT BUS.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The following diagram shows the logical components of this pattern:</p>
+<p><img alt="Publish-subscribe pattern using a message broker" src="https://docs.microsoft.com/en-us/azure/architecture/patterns/_images/publish-subscribe.png" /></p>
+<p>Pub/sub messaging has the following benefits:</p>
+<ul>
+<li>
+<p>It decouples subsystems that still need to communicate. Subsystems can be managed independently, and messages can be properly managed even if one or more receivers are OFFLINE.</p>
+</li>
+<li>
+<p>It increases scalability and improves RESPONSIVENESS OF THE SENDER. The sender can QUICKLY SEND a single message to the input channel, then return to its core processing responsibilities. The messaging infrastructure is responsible for ensuring messages are delivered to interested subscribers.</p>
+<p>確實，若 sender 要確保有送出 receiver 手裡，除了要等結果，還不處理各種例外狀況 (例如重送)；下面最後一點又重申了一次。</p>
+</li>
+<li>
+<p>It improves reliability. Asynchronous messaging helps applications continue to run smoothly under increased loads and handle INTERMITTENT FAILURES more effectively.</p>
+</li>
+<li>
+<p>It allows for DEFERRED OR SCHEDULED PROCESSING. Subscribers can wait to pick up messages until off-peak hours, or messages can be routed or processed according to a specific schedule.</p>
+<p>對 receiver 也是有好處的，不用在 request 進來時馬上處理；雖然 request 進來先放在 queue 也可以。</p>
+</li>
+<li>
+<p>It enables simpler integration between systems using different platforms, programming languages, or communication protocols, as well as between on-premises systems and applications running in the cloud.</p>
+</li>
+<li>
+<p>It facilitates ASYNCHRONOUS WORKFLOWS across an enterprise.</p>
+</li>
+<li>
+<p>It improves testability. Channels can be monitored and messages can be inspected or logged as part of an overall INTEGRATION TEST STRATEGY.</p>
+<p>因為 channel 會形成一個斷點；可以單獨測試進到 channel 裡的 message 是否正確即可，至於 receiver 收到 message 後能否正常處理，那又是另一件事了。</p>
+</li>
+<li>
+<p>It provides SEPARATION OF CONCERNS for your applications. Each application can focus on its core capabilities, while the messaging infrastructure handles everything required to reliably route messages to multiple consumers.</p>
+<p>中間轉送 message 的這個角色要相當穩定，呼應了下面 &ldquo;rather than building your own&rdquo; 的說法，就算有像 Redis、RabbitMQ 這類的開源套件，要維持它穩定提供服務也是個問題；從這個角度想，AWS SNS 這類 cloud service 會是更好的選擇?</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Issues and considerations</p>
+<ul>
+<li>
+<p>Consider the following points when deciding how to IMPLEMENT this pattern:</p>
+<ul>
+<li>
+<p>Existing technologies. It is strongly recommended to use available messaging products and services that support a publish-subscribe model, RATHER THAN BUILDING YOUR OWN. In Azure, consider using Service Bus or Event Grid. Other technologies that can be used for pub/sub messaging include Redis, RabbitMQ, and Apache Kafka.</p>
+</li>
+<li>
+<p>Subscription handling. The messaging infrastructure must provide mechanisms that consumers can use to subscribe to or unsubscribe from available channels.</p>
+</li>
+<li>
+<p>Security. Connecting to any message channel must be restricted by security policy to prevent eavesdropping by unauthorized users or applications.</p>
+</li>
+<li>
+<p>Subsets of messages. Subscribers are usually only interested in subset of the messages distributed by a publisher. Messaging services often allow subscribers to narrow the set of messages received by:</p>
+<ul>
+<li>Topics. Each topic has a dedicated output channel, and each consumer can subscribe to all relevant topics.</li>
+<li>Content filtering. Messages are inspected and distributed based on the content of each message. Each subscriber can specify the content it is interested in.</li>
+</ul>
+</li>
+<li>
+<p>Wildcard subscribers. Consider allowing subscribers to subscribe to multiple topics via wildcards.</p>
+</li>
+<li>
+<p>Bi-directional communication. The channels in a publish-subscribe system are treated as UNIDIRECTIONAL.</p>
+<p>If a specific subscriber needs to send acknowledgment or communicate status back to the publisher, consider using the <a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html">Request/Reply Pattern</a>. This pattern uses one channel to send a message to the subscriber, and a SEPARATE REPLY CHANNEL for communicating back to the publisher. #ril</p>
+<p>Pub/Sub 本質上是單向的，但搭配另一個專用於回報結果的 channel，就有機會實現雙向溝通。</p>
+</li>
+<li>
+<p>Message ordering. The order in which consumer instances receive messages ISN&rsquo;T GUARANTEED, and doesn&rsquo;t necessarily reflect the order in which the messages were created.</p>
+<p>Design the system to ensure that message processing is IDEMPOTENT to help eliminate any dependency on the order of message handling.</p>
+</li>
+<li>
+<p>Message priority. Some solutions may require that messages are processed in a specific order. The <a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/priority-queue">Priority Queue Pattern</a> provides a mechanism for ensuring specific messages are delivered before others. #ril</p>
+<p>這也是 pub/sub 不支援的，否則就違反了上面 message ordering 的說法。</p>
+</li>
+<li>
+<p>Poison messages. A malformed message, or a task that requires access to resources that aren&rsquo;t available, can cause a service instance to fail. The system should prevent such messages being returned to the queue. Instead, capture and store the details of these messages elsewhere so that they can be analyzed if necessary.</p>
+<p>不過這代表中間轉送 message 的角色要知道 message 的格式，這聽起來不太合理 ??</p>
+</li>
+<li>
+<p>Repeated messages. The same message might be sent more than once. For example, the SENDER MIGHT FAIL AFTER POSTING A MESSAGE. Then a new instance of the sender might start up and repeat the message. The messaging infrastructure should implement duplicate message detection and removal (also known as DE-DUPING) based on MESSAGE IDs in order to provide AT-MOST-ONCE DELIVERY of messages.</p>
+<p>也就是 sender 自己要提供 message ID ??</p>
+</li>
+<li>
+<p>Message expiration. A message might have a LIMITED LIFETIME. If it isn&rsquo;t processed within this period, it might no longer be relevant and should be discarded. A sender can specify an expiration time as part of the data in the message.</p>
+<p>A receiver can examine this information before deciding whether to perform the business logic associated with the message.</p>
+<p>既然過期了，receiver 應該就收不到了才是?</p>
+</li>
+<li>
+<p>Message scheduling. A message might be temporarily EMBARGOED and should not be processed until a specific date and time. The message should not be available to a receiver until this time.</p>
+<p>Sender 先送出訊息，但 receiver 在約定的時間之後才拿得到；感覺中間轉送 message 的角色可以做很多控制 &hellip;</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>When to use this pattern</p>
+<ul>
+<li>
+<p>Use this pattern when:</p>
+<ul>
+<li>
+<p>An application needs to broadcast information to a SIGNIFICANT NUMBER OF CONSUMERS.</p>
+<p>下面 &ldquo;one or more independently-developed &hellip;&rdquo; 的說法，間接說明了 consumer 的數量不一定要很多。</p>
+</li>
+<li>
+<p>An application needs to communicate with one or more INDEPENDENTLY-DEVELOPED applications or services, which may use different platforms, programming languages, and communication protocols.</p>
+</li>
+<li>
+<p>An application can send information to consumers WITHOUT REQUIRING REAL-TIME RESPONSES from the consumers.</p>
+</li>
+<li>
+<p>The systems being integrated are designed to support an EVENTUAL CONSISTENCY MODEL for their data.</p>
+</li>
+<li>
+<p>An application needs to communicate information to multiple consumers, which may have different AVAILABILITY REQUIREMENTS or UPTIME SCHEDULES than the sender.</p>
+<p>也就是 sender 跟 receiver 可能不會同時間存在。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>This pattern might not be useful when:</p>
+<ul>
+<li>
+<p>An application has only a few consumers who need significantly different information from the producing application.</p>
+<p>因為 pub/sub 的做法是 broadcast，雖然 subscriber 可以做 filtering，但如果要的資訊本質上就很不一樣，就算可以 filtering 也沒用。</p>
+<p>不過話說回來，message 格式是 producing application 對外通知 event 用的，理當可以規劃出大家都適用的資料格式才對? 又或者可以針對不同的需求，往不同的 topic 送不同的 messsage，這樣 subscriber 就可以視需求訂閱不同的 topic。</p>
+</li>
+<li>
+<p>An application requires near real-time interaction with consumers.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/PublishSubscribeChannel.html">Enterprise Integration Patterns - Publish-Subscribe Channel</a> #ril</p>
+</li>
+</ul>
+<h2 id="vs-observer-pattern">Observer Pattern<a class="headerlink" href="#vs-observer-pattern" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://hackernoon.com/observer-vs-pub-sub-pattern-50d3b27f838c">Observer vs Pub-Sub pattern - By</a> (2017-10-28) #ril</li>
+<li><a href="https://medium.com/easyread/difference-between-pub-sub-pattern-and-observable-pattern-d5ae3d81e6ce">Difference Between Pub-Sub Pattern and Observable Pattern</a> (2019-02-05) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>方案：</p>
+<ul>
+<li><a href="../aws-sns/">AWS SNS (Simple Notification Service)</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

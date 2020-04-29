@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/docker/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Docker - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/docker.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#vs-vm">跟 VM 的不同??</a></li>
+                
+            <li class="second-level"><a href="#docker-windows-app">Docker 支援 Windows app??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#architecture-engine-daemon-client">Architecture -- Engine, Daemon, Client ??</a></li>
+                
+            <li class="second-level"><a href="#docker-daemon">Docker Daemon ??</a></li>
+                
+            <li class="second-level"><a href="#container">Container ??</a></li>
+                
+            <li class="second-level"><a href="#container-stateless">Container 是 stateless??</a></li>
+                
+            <li class="second-level"><a href="#container_1">Container 停止後狀態會不見??</a></li>
+                
+            <li class="second-level"><a href="#restart-policy">Restart Policy ??</a></li>
+                
+            <li class="second-level"><a href="#one-process-per-container">One process per container 是個迷思??</a></li>
+                
+            <li class="second-level"><a href="#attacheddetached-interactive-tty">Attached/detached? interactive? TTY??</a></li>
+                
+            <li class="second-level"><a href="#docker-run">docker run 如何執行多個指令??</a></li>
+                
+            <li class="second-level"><a href="#service">什麼是 service??</a></li>
+                
+            <li class="second-level"><a href="#container-os">Container 並不是完整的 OS??</a></li>
+                
+            <li class="second-level"><a href="#docker-vm">Docker 可以執行在 VM 裡?</a></li>
+                
+            <li class="second-level"><a href="#runtime-constraints">Runtime Constraints??</a></li>
+                
+            <li class="second-level"><a href="#ubuntu-docker-image-ubuntu-vm">Ubuntu 的 Docker image 能夠取代 Ubuntu VM 嗎??</a></li>
+                
+            <li class="second-level"><a href="#container_2">如何為 container 重新命名?</a></li>
+                
+            <li class="second-level"><a href="#root-user-user">root, USER, --user ??</a></li>
+                
+            <li class="second-level"><a href="#imagecontainer">如何查詢 image/container 暫用的磁碟空間?</a></li>
+                
+            <li class="second-level"><a href="#container_3">如何建立/暫停/繼續/停止 container??</a></li>
+                
+            <li class="second-level"><a href="#docker-runstartexec-dockerfile-cmdentrypoint">docker run/start/exec 與 Dockerfile 裡 CMD、ENTRYPOINT 的關係??</a></li>
+                
+            <li class="second-level"><a href="#container-container">如何查詢有哪些 container? 刪除用到不到 container?</a></li>
+                
+            <li class="second-level"><a href="#docker-build">docker build</a></li>
+                
+            <li class="second-level"><a href="#tag-image-name">Tag, Image Name ??</a></li>
+                
+            <li class="second-level"><a href="#makefile-gitlab-ci">Makefile, GitLab CI ??</a></li>
+                
+            <li class="second-level"><a href="#registry">Registry ??</a></li>
+                
+            <li class="second-level"><a href="#dockerignore">.dockerignore ??</a></li>
+                
+            <li class="second-level"><a href="#image">如何打造自己的 image??</a></li>
+                
+            <li class="second-level"><a href="#image_1">如何管理 image??</a></li>
+                
+            <li class="second-level"><a href="#image_2">拿到一個 image 後，如何知道它是怎麼被建構出來的??</a></li>
+                
+            <li class="second-level"><a href="#docker-hub">Docker Hub?</a></li>
+                
+            <li class="second-level"><a href="#container-registry-docker-hub">如何建立自己的 Container Registry (Docker Hub)??</a></li>
+                
+            <li class="second-level"><a href="#dockerfile">多個 Dockerfile??</a></li>
+                
+            <li class="second-level"><a href="#docker_1">如何將 Docker 應用在平時的開發??</a></li>
+                
+            <li class="second-level"><a href="#app-container">如何將現有的 app 搬到 container 裡??</a></li>
+                
+            <li class="second-level"><a href="#pi-docker">如何在 Pi 上執行 Docker??</a></li>
+                
+            <li class="second-level"><a href="#_1">其他</a></li>
+                
+            <li class="second-level"><a href="#docker-image">如何在 Docker 裡包 image??</a></li>
+                
+            <li class="second-level"><a href="#timezone">Timezone ??</a></li>
+                
+            <li class="second-level"><a href="#the-input-device-is-not-a-tty">The input device is not a TTY</a></li>
+                
+            <li class="second-level"><a href="#environment-variables">環境變數</a></li>
+                
+            <li class="second-level"><a href="#testing">Testing ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS</a></li>
+                <li class="third-level"><a href="#ubuntu">Ubuntu</a></li>
+                <li class="third-level"><a href="#mac-docker-virtualbox">Mac 上的 Docker 要用到 VirtualBox?</a></li>
+                <li class="third-level"><a href="#raspberry-pi">Raspberry Pi ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h1>
+<ul>
+<li>Docker (碼頭工人) 是一種 (software) container platform，定位在 A Better Way to Build Apps；這說法呼應了 Docker 的 logo - 一隻鯨魚做為一個平台 (platform) 並承載了許多貨櫃 (container)</li>
+<li>利用 continer 把 app 及 dependencies 打包隔離開來 (isolated)，這麼做可以避免衝突並提高安全性，在不同開發階段 (development, testing, deployment) 更提供了 portability 與 predictability，有效免除了 &ldquo;it works on my machine&rdquo; 的問題，也就是在解決多人協作時環境不一致的問題。</li>
+<li>開發完成後，operator 在佈署多個 app 時，就是在管理多個 isolated container，相對單純許多。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Docker - Build, Ship, and Run Any App, Anywhere <a href="https://www.docker.com/">https://www.docker.com/</a> 用 container 把 app 及 dependencies 打包隔離開來。</li>
+<li>What is Docker? <a href="https://www.docker.com/what-docker">https://www.docker.com/what-docker</a> 是一種 container platform，佈署 app 就是管理 isolated containers。</li>
+</ul>
+<h2 id="vs-vm">跟 VM 的不同??<a class="headerlink" href="#vs-vm" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/get-started/#virtual-machine-diagram">Containers vs. virtual machines - Get Started, Part 1: Orientation and setup | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="docker-windows-app">Docker 支援 Windows app??<a class="headerlink" href="#docker-windows-app" title="Permanent link"> #</a></h2>
+<ul>
+<li>如果多個 container 是共用 OS kernel，那麼內含 Linux app 的 container 不能執行在 Windows host 上，反之亦然?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://hub.docker.com/u/microsoft/">microsoft - Docker Hub</a> 還真的有一堆 image #ril</li>
+<li>What is Docker? <a href="https://www.docker.com/what-docker">https://www.docker.com/what-docker</a> 提到 &ldquo;with confidence for both Linux and Windows Server apps&rdquo;。</li>
+<li>What is a Container | Docker <a href="https://www.docker.com/what-container">https://www.docker.com/what-container</a> 提到 &ldquo;Available for both Linux and Windows based apps&rdquo;。</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code>$ docker run hello-world
+
+Hello from Docker!
+...
+$ docker run hello-world
+
+Hello from Docker!
+...
+
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+479d4f07e2fb        hello-world         &quot;/hello&quot;            27 seconds ago      Exited (0) 30 seconds ago                       romantic_galileo
+15f9d4284ced        hello-world         &quot;/hello&quot;            29 seconds ago      Exited (0) 31 seconds ago                       hopeful_poincare
+</code></pre>
+
+<p>原來每做一次 <code>docker run</code>，都產生一個 container。如何重複看到訊息，但只建立一個 container? 用 <code>--name</code> 給個名字：(不要被 <code>docker run</code> 中的 &ldquo;run&rdquo; 給騙了)</p>
+<pre><code>$ docker run --name hello hello-world
+
+Hello from Docker!
+...
+
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+051fcb601eca        hello-world         &quot;/hello&quot;            29 seconds ago      Exited (0) 32 seconds ago                       hello
+</code></pre>
+
+<p>如何再看到一次訊息呢?</p>
+<pre><code>$ docker run --name hello hello-world # 這行不通，因為 `hello` 這名字已經有 container 使用
+$ docker start hello # 什麼事都沒發生?
+hello
+$ docker start -a hello # 加上 `--attach, -a` 又可以看得到了
+
+Hello from Docker!
+...
+</code></pre>
+
+<p>原來 <code>run</code> 會啟動 container 並自動 attach，但 <code>start</code> 預設是 detached，所以 <code>docker start hello</code> 有執行但看不到輸出。</p>
+<pre><code>$ docker help start | grep attach
+  -a, --attach               Attach STDOUT/STDERR and forward signals
+</code></pre>
+
+<p><code>docker run</code> 或 <code>docker start</code> 時，預設會執行 <a href="https://github.com/docker-library/hello-world/blob/master/amd64/hello-world/Dockerfile"><code>Dockerfile</code></a> 中的 <code>CMD</code>：</p>
+<pre><code>FROM scratch
+COPY hello /
+CMD [&quot;/hello&quot;]
+</code></pre>
+
+<p>執行完就結束了，呼應 <code>docker ps -a</code> 顯示的 &ldquo;Exited&rdquo; status。</p>
+<p>參考資料：</p>
+<ul>
+<li>library/hello-world - Docker Hub <a href="https://hub.docker.com/_/hello-world/">https://hub.docker.com/_/hello-world/</a></li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>跟著 Getting Started with Docker 做一次，對所有的 term 有整體的瞭解。</p>
+<ul>
+<li>似乎可以從 <code>docker run hello-world</code> 開始?</li>
+<li>搞清楚 Docker for Mac、Docker Toolbox、Docker Machine、Docker Engine 的不同、關係&hellip;</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/get-started/">Get Started, Part 1: Orientation and setup | Docker Documentation</a></p>
+<p>Docker concepts</p>
+<ul>
+<li>
+<p>Docker is a platform for developers and sysadmins to develop, deploy, and run applications with containers. The use of Linux containers to deploy applications is called CONTAINERIZATION.</p>
+<p>Containers are not new, but their use for easily DEPLOYING APPLICATIONS is.</p>
+</li>
+<li>
+<p>Containerization is increasingly popular because containers are:</p>
+<ul>
+<li>Flexible: Even the most complex applications can be containerized.</li>
+<li>Lightweight: Containers LEVERAGE AND SHARE THE HOST KERNEL.</li>
+<li>Interchangeable: You can deploy updates and upgrades on-the-fly. ??</li>
+<li>Portable: You can build locally, deploy to the cloud, and run anywhere.</li>
+<li>Scalable: You can increase and automatically distribute CONTAINER REPLICAS.</li>
+<li>Stackable: You can STACK SERVICES VERTICALLY and on-the-fly. ??</li>
+</ul>
+</li>
+<li>
+<p>Images and containers</p>
+<ul>
+<li>
+<p>A CONTAINER IS LAUNCHED BY RUNNING AN IMAGE. An image is an EXECUTABLE PACKAGE that includes everything needed to run an application&ndash;the code, a runtime, libraries, environment variables, and configuration files.</p>
+<p>通常 configuration 會從外面掛進去。</p>
+</li>
+<li>
+<p>A container is a RUNTIME INSTANCE OF AN IMAGE&ndash;what the image becomes in memory when executed (that is, an image with state, or a user process). You can see a list of your running containers with the command, <code>docker ps</code>, just as you would in Linux.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Containers and virtual machines</p>
+<ul>
+<li>
+<p>A container runs NATIVELY on Linux and SHARES THE KERNEL OF THE HOST MACHINE with other containers. It runs a discrete process, taking no more memory than any other executable, making it lightweight.</p>
+<p>不用 <code>docker ps</code> 的話，用 <code>ps</code> 看得到 container 對應的 process 嗎 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p>By contrast, a virtual machine (VM) runs a FULL-BLOWN “guest” operating system with VIRTUAL ACCESS TO HOST RESOURCES THROUGH A HYPERVISOR. In general, VMs provide an environment with more resources than most applications need.</p>
+<p><img alt="" src="https://docs.docker.com/images/Container%402x.png" /></p>
+<p>每個 application 都用個別 VM 佈署的話，會多一層 Guest OS，資源運用上比較沒效率；若多個 application 共用一個 VM，環境會混在一起也不可能。</p>
+</li>
+</ul>
+<p>Prepare your Docker environment</p>
+<ul>
+<li>
+<p>Install a maintained version of Docker Community Edition (CE) or Enterprise Edition (EE) on a supported platform.</p>
+</li>
+<li>
+<p>For full Kubernetes Integration</p>
+<ul>
+<li>Kubernetes on Docker Desktop for Mac is available in 17.12 Edge (mac45) or 17.12 Stable (mac46) and higher.</li>
+<li>Kubernetes on Docker Desktop for Windows is available in 18.02 Edge (win50) and higher edge channels only.</li>
+</ul>
+<p>Docker 不是自己有 Swarm，為什麼也會推 Kubernetes ??</p>
+</li>
+</ul>
+<p>Test Docker version</p>
+<ul>
+<li>
+<p>Run <code>docker --version</code> and ensure that you have a supported version of Docker:</p>
+<pre><code>$ docker --version
+Docker version 17.12.0-ce, build c97c6d6
+</code></pre>
+</li>
+<li>
+<p>Run <code>docker info</code> (or <code>docker version</code> without <code>--</code>) to view even more details about your Docker installation:</p>
+<pre><code>$ docker info
+Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 0
+Server Version: 17.12.0-ce
+Storage Driver: overlay2
+...
+</code></pre>
+</li>
+<li>
+<p>To avoid permission errors (and the use of <code>sudo</code>), add your user to the <code>docker</code> group. Read more.</p>
+</li>
+</ul>
+<p>Test Docker installation</p>
+<ul>
+<li>
+<p>Test that your installation works by running the simple Docker image, <code>hello-world</code>:</p>
+<pre><code>$ docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+ca4f61b1923c: Pull complete
+Digest: sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...
+</code></pre>
+</li>
+<li>
+<p>List the <code>hello-world</code> image that was downloaded to your machine:</p>
+<pre><code>docker image ls
+</code></pre>
+</li>
+<li>
+<p>List the <code>hello-world</code> container (spawned by the image) which exits after displaying its message. If it were STILL RUNNING, you would not need the <code>--all</code> option:</p>
+<pre><code>$ docker container ls --all
+CONTAINER ID     IMAGE           COMMAND      CREATED            STATUS
+54f4984ed6a8     hello-world     "/hello"     20 seconds ago     Exited (0) 19 seconds ago
+</code></pre>
+</li>
+</ul>
+<p>Conclusion of part one</p>
+<ul>
+<li>
+<p>Containerization makes CI/CD seamless. For example:</p>
+<ul>
+<li>applications have NO SYSTEM DEPENDENCIES</li>
+<li>updates can be pushed to any part of a distributed application ??</li>
+<li>resource density can be optimized.</li>
+</ul>
+</li>
+<li>
+<p>With Docker, scaling your application is a matter of spinning up new executables, not running heavy VM hosts.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/get-started/part2/">Get Started, Part 2: Containers | Docker Documentation</a> #ril</p>
+<p>Introduction</p>
+<ul>
+<li>
+<p>It’s time to begin building an app the Docker way. We start at the bottom of the hierarchy of such app, a container, which this page covers. Above this level is a SERVICE, which defines how containers behave in production, covered in Part 3. Finally, at the top level is the STACK, defining the INTERACTIONS OF ALL THE SERVICES, covered in Part 5.</p>
+<ul>
+<li>Stack</li>
+<li>Services</li>
+<li>Container (you are here)</li>
+</ul>
+</li>
+</ul>
+<p>Your new development environment</p>
+<ul>
+<li>In the past, if you were to start writing a Python app, your first order of business was to install a Python runtime onto your machine. But, that creates a situation where the environment on your machine needs to be perfect for your app to run as expected, and also needs to MATCH YOUR PRODUCTION ENVIRONMENT.</li>
+<li>With Docker, you can just grab a portable Python runtime as an image, no installation necessary. Then, your build can include the base Python image right alongside your app code, ensuring that your app, its dependencies, and the runtime, ALL TRAVEL TOGETHER.</li>
+<li>These portable images are defined by something called a <code>Dockerfile</code>.</li>
+</ul>
+<p>Define a container with <code>Dockerfile</code></p>
+<ul>
+<li>
+<p><code>Dockerfile</code> defines what goes on in the environment inside your container. Access to resources like networking interfaces and disk drives is VIRTUALIZED INSIDE THIS ENVIRONMENT, which is isolated from the rest of your system, so you need to MAP ports to the outside world, and BE SPECIFIC about what files you want to “COPY IN” to that environment.</p>
+<p>However, after doing that, you can expect that the build of your app defined in this <code>Dockerfile</code> behaves exactly the same wherever it runs.</p>
+</li>
+<li>
+<p>Create an empty directory on your local machine. Change directories (<code>cd</code>) into the new directory, create a file called <code>Dockerfile</code>, copy-and-paste the following content into that file, and save it. Take note of the comments that explain each statement in your new Dockerfile.</p>
+<pre><code># Use an official Python runtime as a parent image
+FROM python:2.7-slim
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+</code></pre>
+</li>
+<li>
+<p>This <code>Dockerfile</code> refers to a couple of files we haven’t created yet, namely <code>app.py</code> and <code>requirements.txt</code>. Let’s create those next.</p>
+</li>
+</ul>
+<p>The app itself</p>
+<ul>
+<li>
+<p>Create two more files, <code>requirements.txt</code> and <code>app.py</code>, and put them in the same folder with the <code>Dockerfile</code>. This completes our app, which as you can see is quite simple. When the above <code>Dockerfile</code> is built into an image, <code>app.py</code> and <code>requirements.txt</code> is present because of that <code>Dockerfile</code>’s <code>COPY</code> command, and the output from <code>app.py</code> is accessible over HTTP thanks to the <code>EXPOSE</code> command.</p>
+<p><code>requirements.txt</code></p>
+<pre><code>Flask
+Redis
+</code></pre>
+<p><code>app.py</code></p>
+<pre><code>from flask import Flask
+from redis import Redis, RedisError
+import os
+import socket
+
+# Connect to Redis
+redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    try:
+        visits = redis.incr("counter")
+    except RedisError:
+        visits = "&lt;i&gt;cannot connect to Redis, counter disabled&lt;/i&gt;"
+
+    html = "&lt;h3&gt;Hello {name}!&lt;/h3&gt;" \
+           "&lt;b&gt;Hostname:&lt;/b&gt; {hostname}&lt;br/&gt;" \
+           "&lt;b&gt;Visits:&lt;/b&gt; {visits}"
+    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>Now we see that pip install -r requirements.txt installs the Flask and Redis libraries for Python, and the app prints the environment variable NAME, as well as the output of a call to socket.gethostname(). Finally, because Redis isn’t running (as we’ve only installed the Python library, and not Redis itself), we should expect that the attempt to use it here fails and produces the error message.</p>
+<p>Note: Accessing the name of the host when inside a container retrieves the container ID, which is like the process ID for a running executable.</p>
+<p>That’s it! You don’t need Python or anything in requirements.txt on your system, nor does building or running this image install them on your system. It doesn’t seem like you’ve really set up an environment with Python and Flask, but you have.</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/get-started/part3/">Get Started, Part 3: Services | Docker Documentation</a> #ril</p>
+</li>
+<li>
+<p>Get started with Docker for Mac | Docker Documentation <a href="https://docs.docker.com/docker-for-mac/">https://docs.docker.com/docker-for-mac/</a> #ril</p>
+</li>
+<li>library/hello-world - Docker Hub <a href="https://hub.docker.com/_/hello-world/">https://hub.docker.com/_/hello-world/</a> #ril</li>
+<li>library/ubuntu - Docker Hub <a href="https://hub.docker.com/_/ubuntu/">https://hub.docker.com/_/ubuntu/</a> #ril</li>
+<li>library/scratch - Docker Hub <a href="https://hub.docker.com/_/scratch/">https://hub.docker.com/_/scratch/</a> 從 Docker 1.5 開始 <code>FROM scratch</code> 就是個 no-op (不會形成一個 layer) #ril</li>
+</ul>
+<h2 id="architecture-engine-daemon-client">Architecture &ndash; Engine, Daemon, Client ??<a class="headerlink" href="#architecture-engine-daemon-client" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/docker-overview/">Docker overview | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="docker-daemon">Docker Daemon ??<a class="headerlink" href="#docker-daemon" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/config/daemon/">Configure and troubleshoot the Docker daemon | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/config/daemon/systemd/">Control Docker with systemd | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/config/labels-custom-metadata/">Docker object labels | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/dockerd/">dockerd | Docker Documentation</a> #ril</li>
+<li><a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml?search=docker">Service Name and Transport Protocol Port Number Registry</a> Port 2376 名為 <code>docker-s</code> #ril</li>
+</ul>
+<h2 id="container">Container ??<a class="headerlink" href="#container" title="Permanent link"> #</a></h2>
+<ul>
+<li>Container 把 software 用到的東西都打包進去，但不像 VM，這裡面不含 OS，只有 code、libraries、settings 等，不只是 isolated/self-contained 且更為輕量，而且跟最後被佈署到哪無關；這個 container 可能只是整個 application 的一部份 (app component)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.docker.com/what-docker">What is Docker?</a> 不像 VM，不含 OS。</li>
+<li>What is a Container | Docker <a href="https://www.docker.com/what-container">https://www.docker.com/what-container</a> #ril</li>
+<li><a href="https://docs.docker.com/get-started/">Get Started, Part 1: Orientation and setup | Docker Documentation</a> 提到 &ldquo;A container is a runtime instance of an image&rdquo;</li>
+</ul>
+<h2 id="container-stateless">Container 是 stateless??<a class="headerlink" href="#container-stateless" title="Permanent link"> #</a></h2>
+<ul>
+<li>Containers should be ephemeral - Best practices for writing Dockerfiles | Docker Documentation <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#general-guidelines-and-recommendations">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#general-guidelines-and-recommendations</a> #ril</li>
+<li>The Twelve-Factor App <a href="https://12factor.net/processes">https://12factor.net/processes</a> #ril</li>
+</ul>
+<h2 id="container_1">Container 停止後狀態會不見??<a class="headerlink" href="#container_1" title="Permanent link"> #</a></h2>
+<ul>
+<li>習慣換 app 就是換掉整個 image 並重建 container??</li>
+<li>應該把資料寫在外面方便備份? 方便更新 image 後採用舊的資料??</li>
+<li>How to run NGINX as a Docker container - TechRepublic <a href="https://www.techrepublic.com/article/how-to-run-nginx-as-a-docker-container/">https://www.techrepublic.com/article/how-to-run-nginx-as-a-docker-container/</a> 這裡 <code>docker run</code> 建立的 container，</li>
+<li><a href="http://container-solutions.com/understanding-volumes-docker/">Understanding Volumes in Docker - Container Solutions</a> (2014-12-09) #ril</li>
+<li><a href="https://docs.docker.com/engine/admin/volumes/">Manage data in Docker | Docker Documentation</a> 一開始就提到 &ldquo;The data won’t persist when that container is no longer running&rdquo;? 但試出來是會留存的 #ril</li>
+<li><a href="https://docs.docker.com/engine/admin/volumes/volumes/">Use volumes | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="restart-policy">Restart Policy ??<a class="headerlink" href="#restart-policy" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/config/containers/start-containers-automatically/">Start containers automatically | Docker Documentation</a> 啟動 container 時搭配 <code>--restart always</code>，這說明了 container 為什麼 stop 後再 start 不能改變設定 #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#restart-policies---restart">Restart policies (&ndash;restart) - Docker run reference | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="one-process-per-container">One process per container 是個迷思??<a class="headerlink" href="#one-process-per-container" title="Permanent link"> #</a></h2>
+<ul>
+<li>正確的說法是 &ldquo;One concern per container&rdquo;，而 &ldquo;Once process per container&rdquo; 的說法則有點偏頗。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>每個 container 都可以想成有獨立環境的 process?</li>
+<li>docker - Why it is recommended to run only one process in a container? - DevOps Stack Exchange <a href="https://devops.stackexchange.com/questions/447/">https://devops.stackexchange.com/questions/447/</a> 為什麼許多人建議 &ldquo;one process per container&rdquo;? Jon: 提出 &ldquo;one function per container&rdquo;，呼應後來官方 &ldquo;one concern&rdquo; 的說法。</li>
+<li>Each container should have only one concern - Best practices for writing Dockerfiles | Docker Documentation <a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#each-container-should-have-only-one-concern">https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#each-container-should-have-only-one-concern</a> 把 application 扮成多個 container，方便 scale horizontally。例如 web stack 可以拆成 web application、database 跟 in-memory cache 三個 container，其間可以透過 container network 溝通? 坊間 &ldquo;one process per container&rdquo; 的說法並不完全正確，許多程式都會產生 (spawn) 其他 (worker) processes。</li>
+<li>Fix &ldquo;one process per container&rdquo; &ndash; Add touchups to Dockerfile best practices by nathanleclaire · Pull Request #1418 · docker/docker.github.io <a href="https://github.com/docker/docker.github.io/pull/1418">https://github.com/docker/docker.github.io/pull/1418</a> 官方認為 one process per container 是個 misleading mantra (真言)，對 Dockerfile Best Practices 做了一點補充</li>
+<li>Operating System Containers vs. Application Containers (2015-05-19) <a href="https://blog.risingstack.com/operating-system-containers-vs-application-containers/">https://blog.risingstack.com/operating-system-containers-vs-application-containers/</a> #ril</li>
+<li>Run Multiple Processes in a Container | Runnable Docker Guides <a href="https://runnable.com/docker/rails/run-multiple-processes-in-a-container">https://runnable.com/docker/rails/run-multiple-processes-in-a-container</a> #ril</li>
+<li>Using Honcho to Create a Multi-Process Docker Container | via @codeship (2017-05-05) <a href="https://blog.codeship.com/using-honcho-create-multi-process-docker-container/">https://blog.codeship.com/using-honcho-create-multi-process-docker-container/</a> #ril</li>
+<li>Docker - one process per container? - Stack Overflow <a href="https://stackoverflow.com/questions/30003338/">https://stackoverflow.com/questions/30003338/</a> #ril</li>
+</ul>
+<h2 id="attacheddetached-interactive-tty">Attached/detached? interactive? TTY??<a class="headerlink" href="#attacheddetached-interactive-tty" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>docker start</code> 預設是 detached mode，而 <code>docker run</code> 預設是 attached mode；剛好呼應了 <code>docker start</code> 提供了 <code>--attach</code> 參數，而 <code>docker run</code> 則提供 <code>--detach</code>。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.docker.com/network/network-tutorial-standalone/#use-the-default-bridge-network">Networking with standalone containers | Docker Documentation</a> 提到 detached (in the background)、interactive (with the ability to type into it) 及 TTY (so you can see the input and output)；不懂 see the input 是指 typing 時的 echo? 另外也提到 detach (不中斷) 的話要用 <code>Ctrl-p q</code>。</li>
+<li>How to run NGINX as a Docker container - TechRepublic <a href="https://www.techrepublic.com/article/how-to-run-nginx-as-a-docker-container/">https://www.techrepublic.com/article/how-to-run-nginx-as-a-docker-container/</a> <code>docker run</code> 不加 <code>-d</code> 會是 attached，按 Ctrl-C 中斷讓 container 進入 exited status 後，再用 <code>docker start</code> 重新啟動，就直接進 detached mode。</li>
+<li>docker - Correct way to detach from a container without stopping it - Stack Overflow <a href="https://stackoverflow.com/questions/25267372/">https://stackoverflow.com/questions/25267372/</a> <code>docker run</code> 不加 <code>-d</code>，或是 <code>docker attach</code> 後，如何不停止 container 就能 detach?  #ril</li>
+<li>docker - Correct way to detach from a container without stopping it - Stack Overflow <a href="https://stackoverflow.com/questions/25267372/">https://stackoverflow.com/questions/25267372/</a> Regan 有提到 &ldquo;it will be detached by default&rdquo;。</li>
+<li>docker run | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/run/">https://docs.docker.com/engine/reference/commandline/run/</a> <code>--tty</code> 是 Allocate a pseudo-TTY，而 <code>--interactive</code> 則是 Keep STDIN open even if not attached</li>
+<li>
+<p><a href="https://github.com/moby/moby/issues/2838">Cannot kill or detach a docker container using Ctrl-C or Ctrl-\ · Issue #2838 · moby/moby</a> Docker 0.6.5 開始，加 <code>-t</code> 的話，按 Ctrl-C 會 detach，再加上 <code>-i</code> 的話，Ctrl-C 會中斷 container，這個時候要用 <code>Ctrl-p Ctrl-q</code> 達到 detach 的效果。</p>
+</li>
+<li>
+<p>為什麼 <code>--interactive</code> 還要搭配 <code>--tty</code>?</p>
+</li>
+<li>
+<p>為什麼 <code>docker run --name hello-world hello-world</code> 可以看到 &ldquo;Hello from Docker!&rdquo;，但之後再重啟 <code>docker start hello-world</code> 就看不到?? 因為 application 已經結束了?</p>
+</li>
+<li>
+<p>What does it mean to attach a tty/std-in-out to dockers or lxc? - Stack Overflow <a href="https://stackoverflow.com/questions/22272401/">https://stackoverflow.com/questions/22272401/</a> #ril</p>
+</li>
+<li>What does the -t or &ndash;tty do in Docker? - Quora <a href="https://www.quora.com/What-does-the-t-or-tty-do-in-Docker">https://www.quora.com/What-does-the-t-or-tty-do-in-Docker</a> #ril</li>
+<li>Detaching from a container in Mac OS X · Issue #20864 · moby/moby <a href="https://github.com/moby/moby/issues/20864">https://github.com/moby/moby/issues/20864</a> 在 Mac 上按 Ctrl-p Ctrl-q 無效? 後來證實這個 hotkey 要搭配 <code>-it</code> (<code>--interactive --tty</code>) 才會有作用。</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/docker-explained-using-dockerfiles-to-automate-building-of-images">Docker Explained: Using Dockerfiles to Automate Building of Images | DigitalOcean</a> 最後提到 &ldquo;To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.&rdquo;。</li>
+<li>docker attach | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/attach/">https://docs.docker.com/engine/reference/commandline/attach/</a> #ril</li>
+<li>How do you attach and detach from Docker&rsquo;s process? - Stack Overflow <a href="https://stackoverflow.com/questions/19688314/">https://stackoverflow.com/questions/19688314/</a> #ril</li>
+</ul>
+<h2 id="docker-run"><code>docker run</code> 如何執行多個指令??<a class="headerlink" href="#docker-run" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/28490874/">docker run <IMAGE> <MULTIPLE COMMANDS> - Stack Overflow</a> 用 <code>docker run IMAGE bash -c 'COMMAND1; COMMAND2 ...'</code>，切換目錄可以用 <code>-w, --workdir</code> 取代 #ril</li>
+</ul>
+<h2 id="service">什麼是 service??<a class="headerlink" href="#service" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/admin/volumes/#more-details-about-mount-types">Manage data in Docker | Docker Documentation</a> 第一次看到 &ldquo;Docker can create a volume during container or service creation&rdquo; #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/service/">docker service | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/">How services work | Docker Documentation</a> &ldquo;To deploy an application image when Docker Engine is in swarm mode, you create a service.&rdquo; 跟 swarm 有很深的關係 #ril</li>
+</ul>
+<h2 id="container-os">Container 並不是完整的 OS??<a class="headerlink" href="#container-os" title="Permanent link"> #</a></h2>
+<ul>
+<li>library/hello-world - Docker Hub <a href="https://hub.docker.com/_/hello-world/">https://hub.docker.com/_/hello-world/</a> 基於 <code>scratch</code> image，只有 1.x KB。</li>
+</ul>
+<h2 id="docker-vm">Docker 可以執行在 VM 裡?<a class="headerlink" href="#docker-vm" title="Permanent link"> #</a></h2>
+<ul>
+<li>What is a Container | Docker <a href="https://www.docker.com/what-container">https://www.docker.com/what-container</a> 提到 &ldquo;and on any infrastructure including VMs, bare-metal and in the cloud.&rdquo;</li>
+</ul>
+<h2 id="runtime-constraints">Runtime Constraints??<a class="headerlink" href="#runtime-constraints" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources">Runtime constraints on resources - Docker run reference | Docker Documentation</a> 有些 performance parameters 可以調，包括 memory (<code>--memory</code>)、CPU (<code>--cpus</code>)、I/O 速度等 #ril</li>
+<li><a href="https://docs.docker.com/engine/admin/resource_constraints/">Limit a container’s resources | Docker Documentation</a> 預設沒有 resource contraint #ril</li>
+<li><a href="https://docs.docker.com/compose/compose-file/#resources">Resources - Compose file version 3 reference | Docker Documentation</a> Docker compose 也支援 resource contraints #ril</li>
+</ul>
+<h2 id="ubuntu-docker-image-ubuntu-vm">Ubuntu 的 Docker image 能夠取代 Ubuntu VM 嗎??<a class="headerlink" href="#ubuntu-docker-image-ubuntu-vm" title="Permanent link"> #</a></h2>
+<ul>
+<li>library/ubuntu - Docker Hub <a href="https://hub.docker.com/_/ubuntu/">https://hub.docker.com/_/ubuntu/</a> 提到 &ldquo;it is a minimal install of Ubuntu&rdquo;，而 <code>Dockerfile</code> 的最後一行寫 <code>CMD ["/bin/bash"]</code> #ril</li>
+<li>How is Docker different from a normal virtual machine? - Stack Overflow <a href="https://stackoverflow.com/questions/16047306/">https://stackoverflow.com/questions/16047306/</a> 好多人在討論&hellip; #ril</li>
+</ul>
+<h2 id="container_2">如何為 container 重新命名?<a class="headerlink" href="#container_2" title="Permanent link"> #</a></h2>
+<p><code>docker run</code> 若忘了加 <code>--name</code> 自訂名稱，事後還是可以用 <code>docker rename</code> 更名：</p>
+<pre><code>docker rename CONTAINER NEW_NAME
+</code></pre>
+<p>參考資料：</p>
+<ul>
+<li>docker rename | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/rename/">https://docs.docker.com/engine/reference/commandline/rename/</a> <code>docker rename CONTAINER NEW_NAME</code> 可重新命名。</li>
+<li>How to copy and rename a Docker container? - Stack Overflow <a href="https://stackoverflow.com/questions/19035358/">https://stackoverflow.com/questions/19035358/</a> SergiiKozlov: Docker 1.5 開始提供 <code>docker rename</code>。</li>
+<li>linux - How to assign a name to running container in docker? - Stack Overflow <a href="https://stackoverflow.com/questions/40500966/">https://stackoverflow.com/questions/40500966/</a> <code>docker rename</code> 也可以用在 running container，在 Docker 1.10 才有?</li>
+</ul>
+<h2 id="root-user-user">root, USER, &ndash;user ??<a class="headerlink" href="#root-user-user" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://medium.com/redbubble/running-a-docker-container-as-a-non-root-user-7d2e00f8ee15">Running a Docker container as a non-root user – Redbubble – Medium</a> (2018-02-21) #ril</li>
+<li><a href="https://medium.com/@mccode/processes-in-containers-should-not-run-as-root-2feae3f0df3b">Processes In Containers Should Not Run As Root – Marc Campbell – Medium</a> (2017-09-28) #ril</li>
+<li><a href="https://stackoverflow.com/questions/41100333/">Difference between docker run --user and --group-add parameters - Stack Overflow</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#user">USER - Docker run reference | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="imagecontainer">如何查詢 image/container 暫用的磁碟空間?<a class="headerlink" href="#imagecontainer" title="Permanent link"> #</a></h2>
+<pre><code>$ sudo docker system df
+TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
+Images              214                 34                  12.78GB             12.24GB (95%)
+Containers          162                 0                   11.45GB             11.45GB (100%)
+Local Volumes       0                   0                   0B                  0B
+
+$ sudo docker system prune --all
+WARNING! This will remove:
+    - all stopped containers
+    - all volumes not used by at least one container
+    - all networks not used by at least one container
+    - all images without at least one container associated to them
+Are you sure you want to continue? [y/N] y
+
+...
+Total reclaimed space: xx.xxGB
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/system_df/">docker system df | Docker Documentation</a> <code>docker system df</code> 會印出 Docker daemon 的 disk usage &ndash; 包含 image、container 及 local volume。</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/system_prune/">docker system prune | Docker Documentation</a> <code>docker system prune</code> 可以刪除用不到的資料。</li>
+</ul>
+<h2 id="container_3">如何建立/暫停/繼續/停止 container??<a class="headerlink" href="#container_3" title="Permanent link"> #</a></h2>
+<ul>
+<li>在 image 的基礎上執行 command，就產生了一個 (running) container，而這個 command 可以從 <code>docker run</code> 或 <code>docker create</code> 的參數提供 (<code>[COMMAND] [ARG...]</code>)，或者 image 通常會提供預設值 (<code>Dockerfile</code> 裡的 <code>CMD</code>)，這呼應了 &ldquo;run image as container&rdquo; 的說法，以及 <code>docker ps</code> 會看到 <code>Exited (0)</code> 之類的 status。</li>
+<li>
+<p>由於 container 跟 command 的執行脫不了關係，所以 command 在 <code>docker run</code> 或 <code>docker create</code> 就決定了，所以 <code>docker start</code> 沒有 <code>[COMMAND] [ARG...]</code> 的用法。只是 <code>docker create</code> 建立 container 後沒有馬上執行，可以把 <code>docker run</code> 視為 <code>docker create</code> + <code>docker start --attach</code> 的組合。</p>
+</li>
+<li>
+<p>CMD - Dockerfile reference | Docker Documentation <a href="https://docs.docker.com/engine/reference/builder/#cmd">https://docs.docker.com/engine/reference/builder/#cmd</a> <code>CMD</code> 的用法有 3 種 - <code>CMD ["executable","param1","param2"]</code> (exec form)、<code>CMD ["param1","param2"]</code> (做為 <code>ENTRYPOINT</code> 的預設參數、<code>CMD command param1 param2</code> (shell form)，都跟要 &ldquo;如何執行&rdquo; 的預設值有關，也就是說 <code>CMD</code> 在 build time 不會執行，只是描述 &ldquo;intended command for the image&rdquo;，可以從 command line 覆寫，也就是 <code>docker run</code> 或 <code>docker create</code> 後面 <code>[COMMAND] [ARG...]</code> 的部份。</p>
+</li>
+<li>docker create | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/create/">https://docs.docker.com/engine/reference/commandline/create/</a> <code>docker create</code> 類似於 <code>docker run --detach</code>，準備好執行特定的 command，但</li>
+<li><code>docker run</code> 可以解讀為 &ldquo;run image as container&rdquo;。</li>
+<li><code>docker start</code> (Start one or more stopped containers) 跟 <code>docker run</code> (Run a command in a new container) 是什麼關係? 為什麼 <code>docker start</code> 沒有 <code>--publish</code>/<code>-p</code> 這類參數，感覺 <code>run</code> 就要決定了，之後的 <code>start</code> 不能再改變?</li>
+<li><code>docker exec</code> (Run a command in a running container) 跟 <code>docker run</code> (Run a command in a new container) 有什麼不同? </li>
+</ul>
+<h2 id="docker-runstartexec-dockerfile-cmdentrypoint">docker run/start/exec 與 Dockerfile 裡 CMD、ENTRYPOINT 的關係??<a class="headerlink" href="#docker-runstartexec-dockerfile-cmdentrypoint" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT - Dockerfile reference | Docker Documentation</a> <code>ENTRYPOINT ["executable", "param1", "param2"]</code> 是其中一種 exec form 的寫法，在 <code>docker run IMAGE</code> 提供的參數都會 &ldquo;附加&rdquo; 到 <code>ENTRYPOINT</code> 之後，同時也覆寫了 <code>CMD</code> 的 default arguments (<code>ENTRYPOINT</code> 裡提供的 params 固定會有，跟 <code>CMD</code> 無關)；但 <code>ENTRYPOINT</code> 也可以用 <code>docker run --entrypoint</code> 覆寫。</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#cmd">CMD - Dockerfile reference | Docker Documentation</a> 提到 <code>CMD</code> 若要做為 <code>ENTRYPOINT</code> 的 default arguments，那麼 <code>ENTRYPOINT</code> 跟 <code>CMD</code> 都要用 JSON array format 寫 #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#exec-form-entrypoint-example">Exec form ENTRYPOINT example - Dockerfile reference | Docker Documentation</a> 從 <code>docker exec -it test ps aux</code> 的例子看來，<code>docker exec</code> 跟 <code>ENTRYPOINT</code> 或 <code>CMD</code> 都無關，而且對象是一個 running container。</li>
+<li>若要包裝 image 給別人執行，善用 <code>ENTRYPOINT</code> 提供預設的參數 (例如 <code>ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]</code>)，搭配 <code>CMD</code> 提供可以從 command line 自訂的範例，這樣佈署的人就可以從 <code>docker run your_image</code> 後面直接提供參數，覆寫 <code>ENTRYPOINT</code> 預設的參數。</li>
+</ul>
+<h2 id="container-container">如何查詢有哪些 container? 刪除用到不到 container?<a class="headerlink" href="#container-container" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>docker start</code> - Start one or more stopped containers，應該是對應 <code>docker stop</code> - Stop one or more running containers。但</li>
+<li>docker ps | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/ps/">https://docs.docker.com/engine/reference/commandline/ps/</a> <code>docker ps</code> 預設會列出執行中 (running) 的 container，加上 <code>-a</code> (<code>--all</code>) 會列出所有 container，包含 stopped</li>
+</ul>
+<h2 id="docker-build"><code>docker build</code><a class="headerlink" href="#docker-build" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/">Dockerfile reference | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/build/">docker build | Docker Documentation</a> #ril<ul>
+<li>根據 <code>Dockerfile</code> 與 build context 裝配一個 image，所謂 context 是 &ldquo;set of files at a specified location&rdquo;，可以是 local path 或 (Git) URL。</li>
+<li>Image 是由 Docker daemon 來 build，一開始會蒐集 context 裡的檔案 (先根據 <code>.dockerignore</code> 排除一些檔案) 進 daemon &ndash; recursively (含 subdirectories 或 submodules)，那會成為 <code>Dockerfile</code> 裡參照檔案的來源。</li>
+<li>習慣上會將 <code>Dockerfile</code> 放 root of the context，也可以用 <code>-f, --file</code> 指定。</li>
+<li>可以用 <code>-t, --tag</code> 為最後的 image 加上 repository 及 tag。</li>
+</ul>
+</li>
+<li>觀察 <code>docker build</code> 的輸出，一開始會提示 &ldquo;Sending build context to Docker daemon  XXX MB&rdquo;</li>
+</ul>
+<h2 id="tag-image-name">Tag, Image Name ??<a class="headerlink" href="#tag-image-name" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/build/#tag-an-image--t">Tag an image (-t) - docker build | Docker Documentation</a><ul>
+<li><code>--tag, -t</code> 的說明是 &ldquo;Name and optionally a tag in the ‘name:tag’ format&rdquo;，在 <code>docker help build</code> 看到的則是 &ldquo;-t, &ndash;tag list   Name and optionally a tag in the &lsquo;name:tag&rsquo; format&rdquo; 所以 <code>--tag</code> 可以是 <code>name[:tag]</code>，對照 <code>docker image ls</code> 輸出的欄位，name 就是 repository name；而 <code>list</code> 是指可以使用多次 (給多個不同的 tag)</li>
+<li>從 Docker Hub 的操作介面看來，一個 repository 就是一個 image，但可以有許多 tag；例如 <a href="https://hub.docker.com/_/python/">python 的 repository</a> 下有<a href="https://hub.docker.com/r/library/python/tags/">多個 tag</a>，不同的 tag 除了版號不同，也可以區分不同的版本 (variation)，例如 <code>2.7.15-alpine</code>、<code>2.7.15-slim</code></li>
+<li>為 resulting image 加上 tag，以 <code>docker build -t vieux/apache:2.0 .</code> 為例，<code>vieux/apache</code> 是 repository name (沒有 repository URL，但 <code>vieux/</code> 可以視為 namespace)，<code>2.0</code> 才是 tag。使用多個 <code>-t</code> 就可以為 image 加上多個 tags，例如 <code>docker build -t whenry/fedora-jboss:latest -t whenry/fedora-jboss:v2.1 .</code> (顯然 name 是必要的)。</li>
+</ul>
+</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/tag/">docker tag | Docker Documentation</a> 建立一個 tag TARGET_IMAGE 參照 SOURCE_IMAGE?? #ril<ul>
+<li><code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]</code> 建立一個 tag <code>TARGET_IMAGE</code> 指向 <code>SOURCE_IMAGE</code>?</li>
+<li>首次出現 &ldquo;image name&rdquo; 與 &ldquo;tag name&rdquo; 的說法!! 但由 &ldquo;You can group your images together using names and tags, and then upload them &hellip;&rdquo; 這句看來，單純提到 name 時，指的則是 image name，相對於 tag 而言。</li>
+<li>Image name 由 <code>/</code> (slash) 分隔開來的 name components 構成，前面也可以有 registry hostname (可以帶 port，但不能有底線)；所以 image name 的格式為 <code>[registry_hostname[:port]]name_components</code>，其中 <code>registry_hostname</code> 預設是 <code>registry-1.docker.io</code> (central Docker registry)，而 <code>name_components</code> 就 Docker Hub 而言，就是 <code>namespace/repository</code>，例如 <code>username/my-project</code>，完整的表示法像是 <code>myregistryhost:5000/fedora/httpd:version1.0</code>。</li>
+<li>其中 <code>name_components</code> 只能由數字、小寫字母及一些 separator 組成，其中 separator 可以是 <code>.</code> (period)、1 ~ 2 個 <code>_</code> (underscore)、1 或多個 <code>-</code> (dash)，但開頭不能是 separator。而 tag name 則可以由大小寫字母、數字、底線、<code>.</code> (period) 及 <code>-</code> (dash) 組成 (也就是不能有 <code>:</code>、<code>/</code> 等)，最長 128 個字元。</li>
+<li>從幾個 &ldquo;Tag an image referenced by &hellip;&rdquo; 的例子看來，<code>SOURCE_IMAGE[:TAG]</code> 的表示法是有問題的，因為 <code>name[:tag]</code> 的表示法也是為了找到特定的 soruce image (<code>tag</code> 預設為 <code>latest</code>)，給 image ID 是最明確的。</li>
+</ul>
+</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#usage">Usage - Dockerfile reference | Docker Documentation</a> 提到 &ldquo;You can specify a repository and tag at which to save the new image if the build succeeds&rdquo; 及 &ldquo;To tag the image into multiple repositories after the build&rdquo; 的說法，原來 <code>-t</code> 不只是 tag，還包含了 repository，例如 <code>-t shykes/myapp:1.0.2</code>。</li>
+<li>
+<p>Build 出了兩個 image &ndash; <code>proj1:latest</code> 與 <code>proj2:latest</code>，執行 <code>docker tag proj1:latest proj2:latest</code> 後，<code>proj2:latest</code> 也指向 <code>proj1:latest</code> 相同的 image ID，而原來 <code>proj2:latest</code> 指向的 image ID 在 <code>docker image ls</code> 裡則呈現 <code>&lt;none&gt;:&lt;none&gt;</code>，由此可見 <code>name[:tag]</code> 只是 image ID 的 alias。</p>
+</li>
+<li>
+<p><a href="https://www.projectatomic.io/blog/2015/07/what-are-docker-none-none-images/">What are Docker <none>:<none> images? — Project Atomic</a> (2015-07-16) #ril</p>
+</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/docker-explained-using-dockerfiles-to-automate-building-of-images">Docker Explained: Using Dockerfiles to Automate Building of Images | DigitalOcean</a> 用 <code>docker build -t IMAGE_NAME .</code> 來建立 image，但 <code>-t, --tag list</code> 的說明是 Name and optionally a tag in the &lsquo;name:tag&rsquo; format ?</li>
+<li>library/ubuntu - Docker Hub <a href="https://hub.docker.com/_/ubuntu/">https://hub.docker.com/_/ubuntu/</a> 看到 Supported tags and respective Dockerfile links 及 The ubuntu:latest tag points to the &ldquo;latest LTS&rdquo; 的說法。</li>
+</ul>
+<h2 id="makefile-gitlab-ci">Makefile, GitLab CI ??<a class="headerlink" href="#makefile-gitlab-ci" title="Permanent link"> #</a></h2>
+<pre><code># Parameters
+VERSION ?= $(shell cat VERSION)
+
+# GitLab CI/CD Variables (for testing)
+CI_REGISTRY ?= gitlab.example.com:4567
+CI_PROJECT_PATH ?= ateam/awesome-project
+CI_COMMIT_SHA ?= 0123456789abcdef0123456789abcdef01234567
+
+# Internal Variables
+ifdef CI
+    image = $(CI_REGISTRY)/$(CI_PROJECT_PATH)/commit:$(CI_COMMIT_SHA) &lt;-- 送往下一層，方便定期清理
+else
+    image = $(CI_PROJECT_PATH)
+endif
+
+build:
+    docker build -t $(image) .
+ifdef CI
+    $(login-ci-registry)
+    docker push $(image) &lt;-- CI 下自動往 registry 送，其他 job 才拿得到
+endif
+
+ifdef CI_REGISTRY_USER
+define login-ci-registry
+    @docker login -u '$(CI_REGISTRY_USER)' -p '$(CI_REGISTRY_PASSWORD)' $(CI_REGISTRY)
+endef
+else
+define login-ci-registry
+    @docker login $(CI_REGISTRY)
+endef
+endif
+
+ifdef CI_COMMIT_TAG
+release: image_release = $(CI_REGISTRY)/$(CI_PROJECT_PATH):$(CI_COMMIT_TAG)
+release:
+ifneq ($(CI_COMMIT_TAG),$(VERSION)) &lt;-- 自動檢查 VERSION file 與觸發的 Git tag 是否一致
+    $(error CI_COMMIT_TAG ($(CI_COMMIT_TAG)) != VERSION ($(VERSION)))
+endif
+    $(login-ci-registry)
+    docker pull $(image)
+    docker tag $(image) $(image_release) &lt;-- 直接把 commit/&lt;sha&gt; 標上版號，送往它該去的地方
+    docker push $(image_release)
+endif
+</code></pre>
+
+<pre><code>image: docker:stable
+
+stages:
+  - build
+  - deploy
+
+build_image:
+  stage: build
+  tags:
+    - dind
+  only:
+    - branches
+  script:
+    - apk add --no-cache make
+    - make build
+
+release_image:
+  stage: deploy
+  tags:
+    - dind
+  except:
+    - branches
+  only:
+    - /^\d+\.\d+\.\d+$/
+  script:
+    - apk add --no-cache make
+    - make release
+</code></pre>
+
+<h2 id="registry">Registry ??<a class="headerlink" href="#registry" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/registry/">Docker Registry | Docker Documentation</a> #ril</li>
+<li><a href="https://hub.docker.com/_/registry/">library/registry - Docker Hub</a> 實現了 Docker Registry 2.0 #ril</li>
+<li><a href="https://github.com/docker/distribution">docker/distribution: The Docker toolset to pack, ship, store, and deliver content</a> #ril</li>
+<li><a href="https://docs.docker.com/registry/deploying/#get-a-certificate">Deploy a registry server | Docker Documentation</a> #ril</li>
+<li><a href="https://about.gitlab.com/2016/05/23/gitlab-container-registry/">GitLab Container Registry | GitLab</a> (2016-05-23) #ril<ul>
+<li>GitLab 8.8 開始提供 Container Registry &ndash; 一個與 GitLab 整合的 private registry (for Docker images)。</li>
+<li>Docker-based workflow 的主角是 image &ndash; 有 code change 時，透過 CI 建立並存放在某個地方，方便其他 developer/machine 取用，這個地方就是 container registry。</li>
+</ul>
+</li>
+<li><a href="https://aws.amazon.com/ecr/">AWS | Amazon Elastic Container Registry | Docker Registry</a> AWS 跟 GitLab 都有 Container Registry 的說法 #ril</li>
+<li><a href="https://stackoverflow.com/questions/34004076/">Difference between Docker registry and repository - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="dockerignore">.dockerignore ??<a class="headerlink" href="#dockerignore" title="Permanent link"> #</a></h2>
+<p>要同時維護 <code>.gitignore</code> 與 <code>.dockerignore</code> 似乎不太容易? 因為兩者不完全重疊，例如 <code>.git/</code> 不在 <code>.gitignore</code> 裡，但卻要從 <code>.dockerignore</code> 裡排除。</p>
+<p>按照 <a href="https://docs.docker.com/engine/reference/builder/#usage">Usage - Dockerfile reference | Docker Documentation</a> 的說法：</p>
+<blockquote>
+<p>In most cases, it’s best to start with an empty directory as context and keep your Dockerfile in that directory. Add only the files needed for building the Dockerfile.</p>
+</blockquote>
+<p>可以考慮做 whitelisting - 先用 <code>*</code> 排除，再明確把要放進 image 的檔案用 <code>!</code> 加回來。例如：</p>
+<pre><code>*
+!Dockerfile
+!dist/
+</code></pre>
+
+<p>在 build image 前，可以用 <code>git clean -xdf</code> 確保 source 是可以預期的。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/builder/#usage">Usage - Dockerfile reference | Docker Documentation</a> 提到 &ldquo;In most cases, it’s best to start with an empty directory as context and keep your Dockerfile in that directory. Add only the files needed for building the Dockerfile.&rdquo;，是不是用 whitelisting 會比較容易處理?</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file">.dockerignore file - Dockerfile reference | Docker Documentation</a> #ril<ul>
+<li><code>.dockerignore</code> 也可以將 <code>Dockerfile</code> 和 <code>.dockerignore</code> 排除，但這些檔案還是會送給 daemon，不過 <code>ADD</code>/<code>COPY</code> 不會將它們寫進 image。</li>
+<li>rather than which to exclude. To achieve this, specify * as the first pattern, followed by one or more ! exception patterns 明確寫出 whitelisting 的用法。</li>
+</ul>
+</li>
+<li><a href="https://github.com/moby/moby/pull/8748">Have .dockerignore support Dockerfile/.dockerignore by duglin · Pull Request #8748 · moby/moby</a><ul>
+<li>雖然說只要 <code>.dockerignore</code> 提到 <code>Dockerfile</code> 或 <code>.dockerignore</code>，還是會送到 daemon 去，但解析完 <code>Dockerfile</code> 就會刪掉，就像 <code>Dockerfile</code> 從未出現一樣。不過實測發現，<code>.dockerignore</code> 總是不會在 image 裡，但 <code>Dockerfile</code> 只有明確寫在 <code>.dockerignore</code> 裡時，才真的不會出現在 image。</li>
+<li>這很合理，因為 <code>.dockerignore</code> 是 CLI 要避免傳送不必要的檔案給 daemon，也就是說 daemon 從來都不需要它。不過若是 <code>.dockerignore</code> 沒有進到 context，daemon 又如何得知 <code>Dockerfile</code> 要清掉像是從未存在過一樣?</li>
+</ul>
+</li>
+<li><a href="https://github.com/CachetHQ/Docker/issues/116">Consider whitelisting on .dockerignore instead of blacklisting · Issue #116 · CachetHQ/Docker</a> 後來也改用 whitelisting，先用 <code>*</code> 全部排除，再用 <code>!</code> 一個個加回來。</li>
+<li><a href="https://codefresh.io/blog/not-ignore-dockerignore/">Do not ignore .dockerignore (it&rsquo;s expensive and potentially dangerous) - Codefresh</a> (2016-12-08) #ril</li>
+<li><a href="https://docs.docker.com/release-notes/docker-ce/#17070-ce-2017-08-29">17.07.0-ce (2017-08-29) - Docker CE release notes | Docker Documentation</a> 修正了使用 leading slash 的問題 &ndash; Fix <code>.dockerignore</code> entries with a leading <code>/</code> not matching anything moby/moby#32088</li>
+<li><a href="https://github.com/moby/moby/blob/master/.dockerignore">moby/.dockerignore at master · moby/moby</a></li>
+<li><a href="https://gist.github.com/neckhair/ace5d1679dd896b71403fda4bc217b9e">Sample dockerignore for a Rails app</a></li>
+<li><a href="https://github.com/GoogleCloudPlatform/python-docs-samples/blob/master/container_engine/django_tutorial/.dockerignore">python-docs-samples/.dockerignore at master · GoogleCloudPlatform/python-docs-samples</a></li>
+</ul>
+<h2 id="image">如何打造自己的 image??<a class="headerlink" href="#image" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://hub.docker.com/_/ubuntu/">library/ubuntu - Docker Hub</a> Supported tags and respective Dockerfile links 提及那麼多個 <code>Dockerfile</code>，要如何指定從哪個版本/tag 開始??</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/docker-explained-using-dockerfiles-to-automate-building-of-images">Docker Explained: Using Dockerfiles to Automate Building of Images | DigitalOcean</a> (2013-12-13) 說明 <code>Dockerfile</code> 裡逐層往上疊的概念 (layer-by-layer)，簡單說明 11 個 command 的用法 (有些說明不完整，甚或過時)，最後示範一個 MongoDB 的 image。</li>
+<li><a href="https://github.com/wagoodman/dive">wagoodman/dive: A tool for exploring each layer in a docker image</a> #ril</li>
+</ul>
+<h2 id="image_1">如何管理 image??<a class="headerlink" href="#image_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/image/">docker image | Docker Documentation</a> 用 <code>docker image ls</code> 列出 image，要刪除則用 <code>docker image rm</code> #ril</li>
+<li><a href="https://stackoverflow.com/questions/19234831/">Where are Docker images stored on the host machine? - Stack Overflow</a> Matt: <code>/var/lib/docker</code> 會因 Docker 使用的 storage driver 而異；這個討論有點舊，但在 Ubuntu 16.04 + Docker 17.09.0-ce + overlay2 上試過，<code>/var/lib/docker/</code> 的結構已經很不一樣 #ril</li>
+</ul>
+<h2 id="image_2">拿到一個 image 後，如何知道它是怎麼被建構出來的??<a class="headerlink" href="#image_2" title="Permanent link"> #</a></h2>
+<ul>
+<li>How can I view the Dockerfile in an image? - General Discussions - Docker Forums <a href="https://forums.docker.com/t/how-can-i-view-the-dockerfile-in-an-image/5687">https://forums.docker.com/t/how-can-i-view-the-dockerfile-in-an-image/5687</a> andyneff: 除非不是從 Git repo 建出來? 否則在 Docker hub 上應該都看得到 #ril</li>
+<li>repository - How to generate a Dockerfile from an image? - Stack Overflow <a href="https://stackoverflow.com/questions/19104847/">https://stackoverflow.com/questions/19104847/</a> #ril</li>
+</ul>
+<h2 id="docker-hub">Docker Hub?<a class="headerlink" href="#docker-hub" title="Permanent link"> #</a></h2>
+<ul>
+<li>library/nginx - Docker Hub <a href="https://hub.docker.com/_/nginx/">https://hub.docker.com/_/nginx/</a> 發現 official image 都沒有 namespace，例如 <code>nginx</code>，不像 <code>user/nginx</code> 之類的。</li>
+</ul>
+<h2 id="container-registry-docker-hub">如何建立自己的 Container Registry (Docker Hub)??<a class="headerlink" href="#container-registry-docker-hub" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://about.gitlab.com/2016/05/23/gitlab-container-registry/">GitLab Container Registry | GitLab</a> #ril</li>
+<li><a href="https://docs.docker.com/get-started/part2/#share-your-image">Share your image - Get Started, Part 2: Containers | Docker Documentation</a> 除了 Docker&rsquo;s public registry 外還有許多選擇，也可以用 Docker Trusted Registry 建造自己的 private registry。</li>
+<li><a href="https://docs.docker.com/datacenter/dtr/2.2/guides/">Docker Trusted Registry 2.2 overview | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="dockerfile">多個 Dockerfile??<a class="headerlink" href="#dockerfile" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/nodejs/docker-node">nodejs/docker-node: Official Docker Image for Node.js</a> 看到 <code>Docker*.template</code> 的用法 #ril</li>
+</ul>
+<h2 id="docker_1">如何將 Docker 應用在平時的開發??<a class="headerlink" href="#docker_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://tech.osteel.me/posts/2015/12/18/from-vagrant-to-docker-how-to-use-docker-for-local-web-development.html">From Vagrant to Docker: How to use Docker for local web development — osteel&rsquo;s blog</a> (2015-12-18) #ril</li>
+</ul>
+<h2 id="app-container">如何將現有的 app 搬到 container 裡??<a class="headerlink" href="#app-container" title="Permanent link"> #</a></h2>
+<ul>
+<li>Docker - Build, Ship, and Run Any App, Anywhere <a href="https://www.docker.com/">https://www.docker.com/</a> WORKS WITH ANY STACK 提到 &ldquo;Deploy both microservices and traditional apps anywhere without costly rewrites.&rdquo; 不用重寫，但要做哪些調整? 可以把所有 component 都裝在同一個 container 裡?</li>
+</ul>
+<h2 id="pi-docker">如何在 Pi 上執行 Docker??<a class="headerlink" href="#pi-docker" title="Permanent link"> #</a></h2>
+<ul>
+<li>在 Raspberry Pi 2 運行 Docker <a href="https://openhome.cc/Gossip/CodeData/DockerLayman/DockerLayman2.html">https://openhome.cc/Gossip/CodeData/DockerLayman/DockerLayman2.html</a> #ril</li>
+<li>Docker comes to Raspberry Pi - Raspberry Pi <a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/">https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/</a> #ril</li>
+</ul>
+<h2 id="_1">其他<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>其他：</p>
+<ul>
+<li>Learn Docker - Docker <a href="https://docs.docker.com/learn/">https://docs.docker.com/learn/</a> #ril</li>
+<li>Get started with Docker - Docker <a href="https://docs.docker.com/engine/getstarted/">https://docs.docker.com/engine/getstarted/</a> #ril</li>
+<li>
+<p>Learn Docker in 12 Minutes 🐳 - YouTube <a href="https://www.youtube.com/watch?v=YFl2mCHdv24">https://www.youtube.com/watch?v=YFl2mCHdv24</a> #ril</p>
+</li>
+<li>
+<p>感覺一個 container 就是一個 process 執行在裡面??</p>
+<ul>
+<li>從 <code>Dockerfile</code> 裡 <code>CMD</code> 的用法看來，一個 container 似乎可以想成一個 application??</li>
+<li>假設 app 要連資料庫怎麼辦? 資料庫要運作在另一個 container 裡?? 中間要怎麼連結??</li>
+<li>docker run 的行為最難懂，什麼是 attach/detach?? 為什麼 container 一跑完就會 exited??</li>
+</ul>
+</li>
+<li>Docker Hub 跟 Docker Cloud 有什麼差別??<ul>
+<li>按 <a href="https://docs.docker.com/docker-for-mac/">這裡</a> &ldquo;As an alternative to using Docker Hub to store your public or private images or Docker Trusted Registry,&rdquo; 的說法，Docker Hub 也支援 private image &hellip;</li>
+</ul>
+</li>
+<li>Docker 有好多元件組成，一開始好難搞懂其間的關係?? Docker Engine、Docker Compose、Docker Machine &hellip; 另外還有個 Docker Daemon</li>
+<li><code>docker run hello-world</code> 建議試試 <code>docker run -it ubuntu bash</code><ul>
+<li>其中 <code>-i</code> (<code>--interactive</code>) 的作用是 &ldquo;Keep STDIN open even if not attached&rdquo;，而 <code>-t</code> (<code>--tty</code>) 的作用則是 &ldquo;Allocate a pseudo-TTY&rdquo;。</li>
+<li>最後的 <code>bash</code> 是傳給 application 的指令?? 但 <code>Dockerfile</code> 裡已經寫 <code>CMD ["/bin/bash"]</code>??</li>
+</ul>
+</li>
+</ul>
+<h2 id="docker-image">如何在 Docker 裡包 image??<a class="headerlink" href="#docker-image" title="Permanent link"> #</a></h2>
+<pre><code>$ docker run --rm --tty \
+  --volume $(PWD):/workspace \
+  --workdir /workspace \
+  docker:dind docker info
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+</code></pre>
+
+<p>加上 <code>/var/run/docker.sock:/var/run/docker.sock</code> 的對應即可：</p>
+<pre><code>$ docker run --rm --tty \
+  --volume $(PWD):/workspace \
+  --volume /var/run/docker.sock:/var/run/docker.sock \
+  --workdir /workspace \
+  docker:dind docker info
+...
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/#the-solution">The solution - Using Docker-in-Docker for your CI or testing environment? Think twice.</a> (2015-09-03) 用 <code>-v /var/run/docker.sock:/var/run/docker.sock</code> 來解，但這不是 Docker in Docker? 因為 container 會建在 top-level Docker。</li>
+</ul>
+<h2 id="timezone">Timezone ??<a class="headerlink" href="#timezone" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>docker run --env TZ=XXX</code> 的做法似乎只能作用在該 process，比較全面的做法應該是改寫 <code>/etc/localtime</code>?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://serverfault.com/questions/683605/">date - Docker Container time &amp; timezone (will not reflect changes) - Server Fault</a> 可以從 <code>TZ</code> 環境變數下手，例如 <code>docker run --env TZ=Asia/Taipei</code> #ril</li>
+<li><a href="https://medium.com/@ibrahimgunduz34/be-careful-while-playing-docker-about-timezone-configuration-e7a2217e9b76">Be Careful About TimeZone Configuration While Playing With Docker</a> (2018-07-26) #ril</li>
+<li><a href="https://www.ivankrizsan.se/2015/10/31/time-in-docker-containers/">Time in Docker Containers – The Blog of Ivan Krizsan</a> (2015-10-31) #ril</li>
+</ul>
+<h2 id="the-input-device-is-not-a-tty">The input device is not a TTY<a class="headerlink" href="#the-input-device-is-not-a-tty" title="Permanent link"> #</a></h2>
+<ul>
+<li>在 GitLab CI 上執行 <code>docker run -it</code> 會直接噴 <code>The input device is not a TTY</code> 的錯誤，不過只用 <code>-t, --tty</code> 時就沒這個問題，而且在本地開發時，也可以按 <code>Ctrl-C</code> 中斷 container (而且輸出也會有顏色)，那 <code>-i</code> 什麼時候要加?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/43099116/">docker - Error &ldquo;The input device is not a TTY&rdquo; - Stack Overflow</a> #ril<ul>
+<li>Anthony: 在 <code>Jenkinsfile</code> 裡執行 <code>docker run --it ...</code> 時遇到 <code>The input device is not a TTY</code> 的錯誤。</li>
+<li>Gareth A. Lloyd: 在本地端開發時，可以按 <code>Ctrl-C</code> 很方便；用 <code>test -t 1 &amp;&amp; USE_TTY="-t"</code> 判斷，再用 <code>docker run ${USE_TTY}</code> 執行。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/40536778/">gruntjs - How to workaround &ldquo;the input device is not a TTY&rdquo; when using grunt-shell to invoke a script that calls docker run? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="environment-variables">環境變數<a class="headerlink" href="#environment-variables" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/engine/reference/commandline/run/">docker run | Docker Documentation</a> #ril</p>
+<ul>
+<li><code>--env , -e</code> &ndash; Set environment variables</li>
+<li><code>--env-file</code> &ndash; Read in a file of environment variables</li>
+</ul>
+<p>Set environment variables (<code>-e</code>, <code>--env</code>, <code>--env-file</code>)</p>
+<pre><code>$ docker run -e MYVAR1 --env MYVAR2=foo --env-file ./env.list ubuntu bash
+</code></pre>
+<ul>
+<li>
+<p>Use the <code>-e</code>, <code>--env</code>, and <code>--env-file</code> flags to set simple (non-array) environment variables in the container you’re running, or overwrite variables that are defined in the <code>Dockerfile</code> of the image you’re running.</p>
+</li>
+<li>
+<p>You can define the variable and its value when running the container:</p>
+<pre><code>$ docker run --env VAR1=value1 --env VAR2=value2 ubuntu env | grep VAR
+VAR1=value1
+VAR2=value2
+</code></pre>
+</li>
+<li>
+<p>You can also use variables that you’ve EXPORTED to your local environment:</p>
+<pre><code>export VAR1=value1
+export VAR2=value2
+
+$ docker run --env VAR1 --env VAR2 ubuntu env | grep VAR
+VAR1=value1
+VAR2=value2
+</code></pre>
+</li>
+<li>
+<p>When running the command, the Docker CLI client checks the value the variable has in your local environment and PASSES IT TO THE CONTAINER. If no <code>=</code> is provided and that variable is not exported in your local environment, the variable won’t be set in the container.</p>
+</li>
+<li>You can also load the environment variables from a file. This file should use the syntax <code>&lt;variable&gt;=value</code> (which sets the variable to the given value) or <code>&lt;variable&gt;</code> (which TAKES THE VALUE FROM THE LOCAL ENVIRONMENT), and <code>#</code> for comments.</li>
+</ul>
+</li>
+</ul>
+<h2 id="testing">Testing ??<a class="headerlink" href="#testing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html">Container Structure Tests: Unit Tests for Docker Images | Google Open Source Blog</a> (2018-01-09) #ril</li>
+<li><a href="https://alexei-led.github.io/post/docker_testing/">Testing Strategies for Docker Containers · Terra Nullius</a> (2016-03-07) #ril</li>
+<li><a href="https://medium.com/@aelsabbahy/tutorial-how-to-test-your-docker-image-in-half-a-second-bbd13e06a4a9">Tutorial: How to test your docker image in half a second</a> (2017-03-15) #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/docker-for-mac/release-notes/">Docker for Mac Release Notes</a></li>
+<li>Install Docker for Mac | Docker Documentation <a href="https://docs.docker.com/docker-for-mac/install/">https://docs.docker.com/docker-for-mac/install/</a> Docker for Mac 是 Docker Community Edition (CE) 的一部份?</li>
+<li>The Community Edition <a href="https://www.docker.com/community-edition">https://www.docker.com/community-edition</a> #ril</li>
+</ul>
+<h3 id="macos">macOS<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<ul>
+<li>OS 要求 macOS El Capitan 10.11 以上，硬體要是 2012 年後，用 <code>sysctl kern.hv_support</code> 檢查 (要是 <code>kern.hv_support: 1</code>)，要求 4GB RAM。</li>
+<li>下載 <code>Docker.dmg</code> 安裝。</li>
+<li>視情況取消 Preferences &gt; Daemon &gt; Experimental features</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/docker-for-mac/install/">Install Docker Desktop for Mac | Docker Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/docker/for-mac/issues/770">Docker for Mac doesn&rsquo;t listen on 2375 · Issue #770 · docker/for-mac</a></p>
+<ul>
+<li>Docker for Mac should listen on 2375, providing an HTTP API server.</li>
+<li>
+<p>samoht (contributor): For security reasons, we choose to not expose that port directly. However, as described in our FAQ you can run a SOCAT CONTAINER to redirect the Docker API exposed on the unix domain socket in Linux to the port of your choice on your OSX host:</p>
+<pre><code>$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 \
+             bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
+</code></pre>
+<p>and then:</p>
+<pre><code>export DOCKER_HOST=tcp://localhost:1234
+</code></pre>
+<p>採慣用的 2375 port 更直覺。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="ubuntu">Ubuntu<a class="headerlink" href="#ubuntu" title="Permanent link"> #</a></h3>
+<pre><code>$ sudo apt-get update
+$ # 讓 apt 可以透過 HTTPS 用 repository?
+$ sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+$ # 增加 Docker 官方的 GPG key
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+$ # 加入 stable repository (這裡以 amd64 為例)
+$ sudo add-apt-repository &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot;
+
+# 安裝 docker-ce 套件，可以用 docker-ce=VERSION 指定版本
+$ apt-get update
+$ sudo apt-get install docker-ce
+
+# 最後執行 hello-world image 試看看
+$ docker run --rm hello-world
+</code></pre>
+
+<p>執行 <code>docker</code> 要 <code>sudo</code> 的問題，可以把使用者加到 <code>docker</code> group 即可：</p>
+<pre><code>$ sudo usermod -aG docker USER
+$ newgrp docker # 刷新 login session 的群組，不用重新登入
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>Docker For Ubuntu | Docker <a href="https://www.docker.com/docker-ubuntu">https://www.docker.com/docker-ubuntu</a> 針對 bare metal 及 VM 上的 Ubuntu 優化，分為 Edge (每月) 與 Stable (每季) 兩種版本，也支援 ARM 32 的架構??</li>
+<li><a href="https://store.docker.com/editions/community/docker-ce-server-ubuntu">Docker Community Edition for Ubuntu - Docker Store</a> 只是一個介紹的頁面，有另一份文件說明詳細的安裝步驟。</li>
+<li>Get Docker CE for Ubuntu | Docker Documentation <a href="https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/">https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/</a> 要花一點時間設定 Docker repository，之後安裝 <code>docker-ce</code> 套件即可。</li>
+<li>How To Install and Use Docker on Ubuntu 16.04 | DigitalOcean <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04</a> #ril</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04">How To Install and Use Docker on Ubuntu 16.04 | DigitalOcean</a> (2016-11-03) Step 2 — Executing the Docker Command Without Sudo (Optional) 提到預設只有 <code>docker</code> group 裡的人可以執行，否則要加 <code>sudo</code>，把人用 <code>sudo usermod -aG docker ${USER}</code> 加入 group 即可 #ril</li>
+<li><a href="https://docs.docker.com/engine/installation/linux/linux-postinstall/">Post-installation steps for Linux | Docker Documentation</a> Manage Docker as a non-root user 也是將使用者加入 <code>docker</code> 群組，但似乎還有其他設定要調? #ril</li>
+<li><a href="https://askubuntu.com/questions/477551/">How can I use docker without sudo? - Ask Ubuntu</a> 用 <code>sudo gpasswd -a USER docker</code> 加入群組，再重新登入即可 (或用 <code>newgrp docker</code> 直接在這個 login session 生效)</li>
+</ul>
+<h3 id="mac-docker-virtualbox">Mac 上的 Docker 要用到 VirtualBox?<a class="headerlink" href="#mac-docker-virtualbox" title="Permanent link"> #</a></h3>
+<ul>
+<li>早期的 Docker Toolbox 確實採用 VirtualBox，但後來的 Docker for Mac 已改用新的 virtualization system - HyperKit - 基於 macOS 10.10 才有的 <code>Hypervisor.framework</code>。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Install Docker for Mac | Docker Documentation <a href="https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install">https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install</a> 明確提到 &ldquo;With Docker for Mac, you have a new, native virtualization system running (HyperKit) which takes the place of the VirtualBox system.&rdquo; 及 &ldquo;If your system does not satisfy these requirements, you can install Docker Toolbox, which uses Oracle VirtualBox instead of HyperKit.&rdquo;，但為什麼又說 VirtualBox prior to version 4.3.30 must NOT be installed?</li>
+<li>Docker Toolbox overview | Docker Documentation <a href="https://docs.docker.com/toolbox/overview/">https://docs.docker.com/toolbox/overview/</a> Docker Toolbox 已被 Docker for Mac 與 Docker for Windows 取代，What’s in the box 提到內含 Oracle VirtualBox。</li>
+<li>Frequently asked questions (FAQ) | Docker Documentation <a href="https://docs.docker.com/docker-for-mac/faqs/#what-is-dockerapp">https://docs.docker.com/docker-for-mac/faqs/#what-is-dockerapp</a> 明確指出 Docker for Mac 使用 macOS Hypervisor.framework (macOS 10.10 Yosemite 才有)，不需要 VirtualBox。</li>
+<li>Frequently asked questions (FAQ) | Docker Documentation <a href="https://docs.docker.com/docker-for-mac/faqs/#what-is-the-benefit-of-hyperkit">https://docs.docker.com/docker-for-mac/faqs/#what-is-the-benefit-of-hyperkit</a> HyperKit 是基於 Hypervisor.framework 的 hypervisor，不需要依賴 Oracle VirtualBox 或 VMware Fusion。</li>
+</ul>
+<h3 id="raspberry-pi">Raspberry Pi ??<a class="headerlink" href="#raspberry-pi" title="Permanent link"> #</a></h3>
+<ul>
+<li>Docker comes to Raspberry Pi - Raspberry Pi <a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/">https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/</a> #ril</li>
+<li>Getting started with Docker on your Raspberry Pi · Docker Pirates ARMed with explosive stuff <a href="https://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/">https://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/</a> #ril</li>
+<li>5 things about Docker on Raspberry Pi <a href="https://blog.alexellis.io/5-things-docker-rpi/">https://blog.alexellis.io/5-things-docker-rpi/</a> #ril</li>
+<li>How to install Docker on your Raspberry Pi - howchoo <a href="https://howchoo.com/g/nmrlzmq1ymn/how-to-install-docker-on-your-raspberry-pi">https://howchoo.com/g/nmrlzmq1ymn/how-to-install-docker-on-your-raspberry-pi</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://hub.docker.com/">Docker Hub</a></li>
+<li><a href="https://awesome-docker.netlify.com/">Awesome-docker</a> 整理 Docker 相關資源、工具</li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://forums.docker.com/">Docker Forums</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/docker">&lsquo;docker&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="dockly.md">Dockly</a> - Docker TUI</li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../docker-daemon/">Daemon</a></li>
+<li><a href="../docker-networking/">Networking</a></li>
+<li><a href="../docker-compose/">Compose</a></li>
+<li><a href="../docker-buildpack-deps/">buildpack-deps</a></li>
+<li><a href="../docker-swarm/">Swarm</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.docker.com/release-notes/docker-ce/">Docker CE Release Notes</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/"><code>Dockerfile</code> reference</a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/docker/"><code>docker</code></a></li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/dockerd/"><code>dockerd</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

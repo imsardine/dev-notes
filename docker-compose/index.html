@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/docker-compose/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Docker / Compose - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/docker-compose.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#docker-compose">Docker / Compose</a></li>
+            <li class="second-level"><a href="#swarm-mode">跟 Swarm Mode 的關係??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#multiple-isolated-environments">Multiple Isolated Environments ??</a></li>
+                
+            <li class="second-level"><a href="#variable-substitution">Variable Substitution ??</a></li>
+                
+            <li class="second-level"><a href="#networking">Networking ??</a></li>
+                
+            <li class="second-level"><a href="#compose-file">Compose File ??</a></li>
+                
+            <li class="second-level"><a href="#build">Build ??</a></li>
+                
+            <li class="second-level"><a href="#storage">Storage ??</a></li>
+                
+            <li class="second-level"><a href="#health-check">Health Check ??</a></li>
+                
+            <li class="second-level"><a href="#cli">docker-compose CLI</a></li>
+                
+            <li class="second-level"><a href="#resource-constraints">Resource Constraints??</a></li>
+                
+            <li class="second-level"><a href="#_1">控制啟動順序 ??</a></li>
+                
+            <li class="second-level"><a href="#v2">如何決定/限定記憶體用量?? (v2)</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#ubuntu">Ubuntu ??</a></li>
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="docker-compose"><a href="../docker/">Docker</a> / Compose<a class="headerlink" href="#docker-compose" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/overview/">Overview of Docker Compose | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Compose is a tool for defining and running MULTI-CONTAINER Docker applications.</p>
+<p>With Compose, you use a YAML file to configure your application’s SERVICES. Then, with a single command, you create and start all the services from your configuration.</p>
+<p>包括 volume、networking 等的建立。</p>
+</li>
+<li>
+<p>Compose works in all environments: production, staging, development, testing, as well as CI workflows.</p>
+<p>主要是 (local) development、testing 跟 CI 可以共用 composition，專案初期自己 hosting 時也很實用，雖然真正的 production 跟 staging 不一定會用 compose。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/docker/compose">docker/compose: Define and run multi-container applications with Docker</a> #ril</p>
+</li>
+</ul>
+<h2 id="swarm-mode">跟 Swarm Mode 的關係??<a class="headerlink" href="#swarm-mode" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/compose/compose-file/compose-versioning/#version-3">Version 3 - Compose file versions and upgrading | Docker Documentation</a> Version 3 的定位是 &ldquo;Designed to be cross-compatible between Compose and the Docker Engine’s swarm mode&rdquo;</li>
+<li><a href="https://docs.docker.com/compose/swarm/">Use Compose with Swarm | Docker Documentation</a> 這份文件在講 standalone Swarm，但 Docker 1.12 開始已經 Swarm Mode 整合進 Docker Engine #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p><code>docker-compose.yaml</code>:</p>
+<pre><code>proxy:
+    image: nginx
+    volumes:
+        - ./proxy-default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+        - &quot;80:80&quot;
+
+web:
+    image: nginx
+    volumes:
+        - ./web.conf:/etc/nginx/conf.d/deafault.conf
+        - ./dist:/usr/share/nginx/html
+    expose:
+        - &quot;3030&quot;
+    ports:
+        - &quot;3030:3030&quot;
+</code></pre>
+
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/overview/">Overview of Docker Compose | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Using Compose is basically a three-step process:</p>
+<ul>
+<li>
+<p>Define your app’s environment with a <code>Dockerfile</code> so it can be reproduced anywhere.</p>
+</li>
+<li>
+<p>Define the services that make up your app in <code>docker-compose.yml</code> so they can be RUN TOGETHER IN AN ISOLATED ENVIRONMENT.</p>
+<p>通常位在同一個 network 裡，但各自執行不在同的 container 裡。</p>
+</li>
+<li>
+<p>Run <code>docker-compose up</code> and Compose starts and runs your entire app.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>A <code>docker-compose.yml</code> looks like this:</p>
+<pre><code>version: '3' # 必須要是個 string
+services:
+  web:       # service name，會成為 image/container name 的一部份
+    build: . # 包括 application 自己，都是 service，只是自己要先 build
+    ports:
+    - "5000:5000"
+    volumes: # 支援 bind mount 跟 volume
+    - .:/code
+    - logvolume01:/var/log
+    links:   # container link (legacy)
+    - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
+</code></pre>
+</li>
+<li>
+<p>Compose has commands for managing the whole lifecycle of your application:</p>
+<ul>
+<li>Start, stop, and rebuild services</li>
+<li>View the status of running services</li>
+<li>Stream the log output of running services</li>
+<li>Run a ONE-OFF COMMAND on a service ??</li>
+</ul>
+</li>
+</ul>
+<p>Multiple isolated environments on a single host</p>
+<ul>
+<li>
+<p>Compose uses a PROJECT NAME to isolate environments from each other. You can make use of this project name in several different contexts:</p>
+<ul>
+<li>on a dev host, to create multiple copies of a single environment, such as when you want to run a stable copy for each feature branch of a project</li>
+<li>on a CI server, to keep builds from interfering with each other, you can set the project name to a UNIQUE BUILD NUMBER</li>
+<li>on a shared host or dev host, to prevent different projects, which may use the same service names, from interfering with each other</li>
+</ul>
+<p>原來 <code>services:</code> 下面定義的 (service) name，只是做為 container name 的一部份 (甚至是 image name 的一部份)，不用擔心多個 user/project 間會有命名上的衝突。例如上面的 <code>redis</code> service，在執行期的 container name 可能是 <code>myproject_redis_1</code>。</p>
+<p>類似的機制在 volume 上也會有，例如上面的 <code>logvolume01</code> 最後的名稱可能是 <code>myproject_logvolume01</code>。</p>
+<p>只是 port mapping 如何避免衝突 ??</p>
+</li>
+<li>
+<p>The default project name is the BASENAME OF THE PROJECT DIRECTORY. You can set a custom project name by using the <code>-p</code> command line option or the <code>COMPOSE_PROJECT_NAME</code> environment variable.</p>
+<p>實驗發現，如果沒有自訂 project name，在 compose file 裡取 <code>COMPOSE_PROJECT_NAME</code> 並不會拿到預設值。</p>
+</li>
+</ul>
+<p>Preserve volume data when containers are created</p>
+<ul>
+<li>
+<p>Compose preserves all volumes used by your services. When <code>docker-compose up</code> runs, if it finds any containers from previous runs, it COPIES THE VOLUMES from the old container to the new container. This process ensures that any data you’ve created in volumes isn’t lost.</p>
+<p>不過 <code>docker-compose down</code> 會把 container 都刪除，就算是用 Ctrl-C (或 `docker-compose stop) 停掉 container，下次也會延用相同的 container，何來 &ldquo;copies the volumes from the old container&rdquo; 的效果 ??</p>
+</li>
+</ul>
+<p>Only recreate containers that have changed</p>
+<ul>
+<li>
+<p>Compose caches the CONFIGURATION used to create a container. When you RESTART a service that has not changed, Compose re-uses the existing containers. Re-using containers means that you can make changes to your environment very quickly.</p>
+<p>針對 <code>docker-compose restart</code>。所謂 not changed 是指 variable substitution、<code>extends</code> 合併後的結果沒有變 ??</p>
+</li>
+</ul>
+<p>Variables and moving a COMPOSITION between environments</p>
+<ul>
+<li>
+<p>Compose supports VARIABLES in the Compose file. You can use these variables to customize your composition for different environments, or different users. See VARIABLE SUBSTITUTION for more details.</p>
+</li>
+<li>
+<p>You can extend a Compose file using the <code>extends</code> field or by creating MULTIPLE Compose files.</p>
+<p>其中 <code>extends</code> 的做法在 Compose v2.1 後就不支援。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/overview/#common-use-cases">Common Use Cases - Overview of Docker Compose | Docker Documentation</a></p>
+<p>Development environments</p>
+<ul>
+<li>
+<p>When you’re developing software, the ability to run an application in an isolated environment and interact with it is crucial. The Compose command line tool can be used to create the environment and interact with it.</p>
+<p>這奠定了 automated testing 的基礎</p>
+</li>
+<li>
+<p>The Compose file provides a way to DOCUMENT and configure all of the application’s service DEPENDENCIES (databases, queues, caches, web service APIs, etc). Using the Compose command line tool you can create and start one or more containers for each dependency with a single command (<code>docker-compose up</code>).</p>
+</li>
+<li>
+<p>Together, these features provide a convenient way for developers to GET STARTED ON A PROJECT. Compose can reduce a multi-page “developer getting started guide” to a single machine readable Compose file and a few commands.</p>
+<p>做為簡化開發流程的工具，同時也是 documentation；<a href="https://github.com/search?q=filename%3AMakefile+docker-compose&amp;type=Code">搭配 <code>Makefile</code> 更好用</a>。</p>
+</li>
+</ul>
+<p>Automated testing environments</p>
+<ul>
+<li>
+<p>An important part of any Continuous Deployment or Continuous Integration process is the automated test suite. AUTOMATED END-TO-END TESTING requires an environment in which to run tests.</p>
+</li>
+<li>
+<p>Compose provides a convenient way to create and destroy ISOLATED TESTING ENVIRONMENTS for your test suite. By defining the full environment in a Compose file, you can create and destroy these environments in just a few commands:</p>
+<pre><code>$ docker-compose up -d
+$ ./run_tests
+$ docker-compose down
+</code></pre>
+<p>如何確保 <code>docker-compose down</code> 一定會被執行 ??</p>
+</li>
+</ul>
+<p>Single host deployments</p>
+<ul>
+<li>
+<p>Compose has traditionally been focused on development and testing workflows, but with each release we’re making progress on more PRODUCTION-ORIENTED FEATURES.</p>
+</li>
+<li>
+<p>You can use Compose to deploy to a remote Docker Engine. The Docker Engine may be a single instance provisioned with Docker Machine or an entire Docker Swarm cluster.</p>
+<p>也可以用在 deployment!! 用 Docker Machine 將 <code>docker</code> 轉向，自然 <code>docker-compose</code> 就能作用在另一個 Docker host。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/gettingstarted/">Get started with Docker Compose | Docker Documentation</a></p>
+<ul>
+<li>On this page you build a simple Python web application running on Docker Compose. The application uses the Flask framework and maintains a hit counter in Redis. While the sample uses Python, the concepts demonstrated here should be understandable even if you’re not familiar with it.</li>
+</ul>
+<p>Step 1: Setup</p>
+<ul>
+<li>
+<p>Define the application dependencies.</p>
+<p>Create a directory for the project:</p>
+<pre><code>$ mkdir composetest
+$ cd composetest
+</code></pre>
+</li>
+<li>
+<p>Create a file called <code>app.py</code> in your project directory and paste this in:</p>
+<pre><code>import time
+
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+@app.route('/')
+def hello():
+    count = get_hit_count()
+    return 'Hello World! I have been seen {} times.\n'.format(count)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
+</code></pre>
+<p>In this example, <code>redis</code> is the hostname of the redis container on the APPLICATION’S NETWORK. We use the default port for Redis, 6379.</p>
+</li>
+<li>
+<p>Handling TRANSIENT ERRORS</p>
+<p>Note the way the <code>get_hit_count</code> function is written. This basic retry loop lets us attempt our request multiple times if the redis service is not available.</p>
+<p>This is useful at STARTUP while the application comes online, but also makes our application more RESILIENT if the Redis service needs to be restarted anytime during the app’s lifetime. In a cluster, this also helps handling MOMENTARY CONNECTION DROPS between nodes.</p>
+</li>
+<li>
+<p>Create another file called <code>requirements.txt</code> in your project directory and paste this in:</p>
+<pre><code>flask
+redis
+</code></pre>
+</li>
+</ul>
+<p>Step 2: Create a Dockerfile</p>
+<ul>
+<li>
+<p>In this step, you write a <code>Dockerfile</code> that builds a Docker image. The image contains all the dependencies the Python application requires, including Python itself.</p>
+</li>
+<li>
+<p>In your project directory, create a file named <code>Dockerfile</code> and paste the following:</p>
+<pre><code>FROM python:3.4-alpine
+ADD . /code
+WORKDIR /code
+RUN pip install -r requirements.txt
+CMD ["python", "app.py"]
+</code></pre>
+</li>
+</ul>
+<p>Step 3: Define services in a Compose file</p>
+<ul>
+<li>
+<p>Create a file called <code>docker-compose.yml</code> in your project directory and paste the following:</p>
+<pre><code>version: '3'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+  redis:
+    image: "redis:alpine"
+</code></pre>
+</li>
+<li>
+<p>This Compose file defines two services, <code>web</code> and <code>redis</code>. The <code>web</code> service:</p>
+<ul>
+<li>Uses an image that’s built from the <code>Dockerfile</code> in the current directory.</li>
+<li>Forwards the exposed port 5000 on the container to port 5000 on the host machine. We use the default port for the Flask web server, 5000.</li>
+</ul>
+<p>也就是 image 的來源有兩種 &ndash; 自己建立 (<code>build:</code>) 或用現成的 (<code>image:</code>)。</p>
+</li>
+<li>
+<p>The <code>redis</code> service uses a public Redis image pulled from the Docker Hub registry.</p>
+</li>
+</ul>
+<p>Step 4: Build and run your app with Compose</p>
+<ul>
+<li>
+<p>From your project directory, start up your application by running <code>docker-compose up</code>.</p>
+<pre><code>$ docker-compose up
+Creating network "composetest_default" with the default driver
+Creating composetest_web_1 ...
+Creating composetest_redis_1 ...
+Creating composetest_web_1
+Creating composetest_redis_1 ... done
+Attaching to composetest_web_1, composetest_redis_1
+web_1    |  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+redis_1  | 1:C 17 Aug 22:11:10.480 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis_1  | 1:C 17 Aug 22:11:10.480 # Redis version=4.0.1, bits=64, commit=00000000, modified=0, pid=1, just started
+redis_1  | 1:C 17 Aug 22:11:10.480 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+web_1    |  * Restarting with stat
+redis_1  | 1:M 17 Aug 22:11:10.483 * Running mode=standalone, port=6379.
+redis_1  | 1:M 17 Aug 22:11:10.483 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
+web_1    |  * Debugger is active!
+redis_1  | 1:M 17 Aug 22:11:10.483 # Server initialized
+redis_1  | 1:M 17 Aug 22:11:10.483 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+web_1    |  * Debugger PIN: 330-787-903
+redis_1  | 1:M 17 Aug 22:11:10.483 * Ready to accept connections
+</code></pre>
+<p>Compose pulls a Redis image, builds an image for your code, and starts the services you defined. In this case, the code is statically copied into the image at build time.</p>
+</li>
+<li>
+<p>Enter <a href="http://0.0.0.0:5000/">http://0.0.0.0:5000/</a> in a browser to see the application running.</p>
+<p>If you’re using Docker natively on Linux, Docker Desktop for Mac, or Docker Desktop for Windows, then the web app should now be listening on port 5000 on your Docker daemon host. Point your web browser to <a href="http://localhost:5000">http://localhost:5000</a> to find the Hello World message. If this doesn’t resolve, you can also try <a href="http://0.0.0.0:5000">http://0.0.0.0:5000</a>.</p>
+<p>If you’re using Docker Machine on a Mac or Windows, use <code>docker-machine ip MACHINE_VM</code> to get the IP address of your Docker host. Then, open <code>http://MACHINE_VM_IP:5000</code> in a browser.</p>
+</li>
+<li>
+<p>You should see a message in your browser saying:</p>
+<pre><code>Hello World! I have been seen 1 times.
+</code></pre>
+<p>Refresh the page. The number should increment.</p>
+</li>
+<li>
+<p>Switch to another terminal window, and type <code>docker image ls</code> to list local images.</p>
+<p>Listing images at this point should return <code>redis</code> and <code>web</code>.</p>
+<pre><code>$ docker image ls
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+composetest_web         latest              e2c21aa48cc1        4 minutes ago       93.8MB
+python                  3.4-alpine          84e6077c7ab6        7 days ago          82.5MB
+redis                   alpine              9d8fa9aa0e5b        3 weeks ago         27.5MB
+</code></pre>
+<p>You can inspect images with <code>docker inspect &lt;tag or id&gt;</code>.</p>
+<p>從 <code>composetest_web</code> 觀察到，不只 container 會被冠上 project name，連 image 也會。</p>
+</li>
+<li>
+<p>Stop the application, either by running <code>docker-compose down</code> from within your project directory in the second terminal, or by hitting <code>CTRL+C</code> in the original terminal where you started the app.</p>
+<p>實驗發現，<code>docker-compose down</code> 跟 Ctrl-C 的效果不同，前者會把 container、network 等都刪除，但 Ctrl-C 會留著，效果同 <code>docker-compose stop</code>。</p>
+<p>另外重複執行 <code>docker-compose down</code> 並不會出錯，用在專案 cleanup 很方便。</p>
+</li>
+</ul>
+<p>Step 5: Edit the Compose file to add a bind mount</p>
+<ul>
+<li>
+<p>Edit <code>docker-compose.yml</code> in your project directory to add a bind mount for the <code>web</code> service:</p>
+<pre><code>version: '3'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - .:/code
+  redis:
+    image: "redis:alpine"
+</code></pre>
+</li>
+<li>
+<p>The new <code>volumes</code> key mounts the project directory (current directory) on the host to <code>/code</code> inside the container, allowing you to MODIFY THE CODE ON THE FLY, without having to rebuild the image.</p>
+</li>
+</ul>
+<p>Step 6: Re-build and run the app with Compose</p>
+<ul>
+<li>
+<p>From your project directory, type <code>docker-compose up</code> to build the app with the updated Compose file, and run it.</p>
+<pre><code>$ docker-compose up
+Creating network "composetest_default" with the default driver
+Creating composetest_web_1 ...
+Creating composetest_redis_1 ...
+Creating composetest_web_1
+Creating composetest_redis_1 ... done
+Attaching to composetest_web_1, composetest_redis_1
+web_1    |  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+...
+</code></pre>
+</li>
+<li>
+<p>Check the Hello World message in a web browser again, and refresh to see the count increment.</p>
+</li>
+</ul>
+<p>Step 7: Update the application</p>
+<ul>
+<li>
+<p>Because the application code is now mounted into the container using a volume, you can make changes to its code and see the changes instantly, without having to rebuild the image.</p>
+</li>
+<li>
+<p>Change the greeting in <code>app.py</code> and save it. For example, change the <code>Hello World!</code> message to <code>Hello from Docker!</code>:</p>
+<pre><code>return 'Hello from Docker! I have been seen {} times.\n'.format(count)
+</code></pre>
+</li>
+<li>
+<p>Refresh the app in your browser. The greeting should be updated, and the counter should still be incrementing.</p>
+<p>注意過程中 counter 並不會歸零。</p>
+</li>
+</ul>
+<p>Step 8: Experiment with some other commands</p>
+<ul>
+<li>
+<p>If you want to run your services in the background, you can pass the <code>-d</code> flag (for “detached” mode) to <code>docker-compose up</code> and use <code>docker-compose ps</code> to see what is currently running:</p>
+<pre><code>$ docker-compose up -d
+Starting composetest_redis_1...
+Starting composetest_web_1...
+
+$ docker-compose ps
+Name                 Command            State       Ports
+-------------------------------------------------------------------
+composetest_redis_1   /usr/local/bin/run         Up
+composetest_web_1     /bin/sh -c python app.py   Up      5000-&gt;5000/tcp
+</code></pre>
+</li>
+<li>
+<p>The <code>docker-compose run</code> command allows you to run ONE-OFF commands for your services. For example, to see what environment variables are available to the web service:</p>
+<pre><code>$ docker-compose run web env
+</code></pre>
+<p>實驗發現，在 <code>docker-compose up</code> 所有 container 都執行起來後，<code>docker-compose run</code> 並不是執行在現有的 container 裡，而是另起一個 container；若要執行在現有的 container 裡，要改用 <code>docker-compose exec</code>。</p>
+<p><code>docker-compose run</code> 執行 one-off command 時，通常會搭配 <code>--no-deps</code> 避免其他相關的 service 跟著被帶起來。</p>
+</li>
+<li>
+<p>If you started Compose with <code>docker-compose up -d</code>, stop your services once you’ve finished with them:</p>
+<pre><code>$ docker-compose stop
+</code></pre>
+</li>
+<li>
+<p>You can BRING EVERYTHING DOWN, removing the containers entirely, with the <code>down</code> command. Pass <code>--volumes</code> to also remove the data volume used by the Redis container:</p>
+<pre><code>$ docker-compose down --volumes
+</code></pre>
+<p>本以為 anonymous volume 會因為 <code>docker-compose down</code> 將 container 刪除而跟著消失，但實驗發現並不會，所以真的要用 <code>--volumes</code> 才會一併刪除。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/faq/">Frequently asked questions | Docker Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="multiple-isolated-environments">Multiple Isolated Environments ??<a class="headerlink" href="#multiple-isolated-environments" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/production/">Use Compose in production | Docker Documentation</a></p>
+<ul>
+<li>
+<p>When you define your app with Compose in development, you can use this definition to run your application in different environments such as CI, staging, and production.</p>
+</li>
+<li>
+<p>The easiest way to deploy an application is to run it ON A SINGLE SERVER, similar to how you would run your development environment. If you want to scale up your application, you can run Compose apps on a Swarm cluster.</p>
+<p>這在專案初期由開發團隊 self-hosting 時很方便。</p>
+</li>
+</ul>
+<p>Modify your Compose file for production</p>
+<ul>
+<li>
+<p>You probably need to make changes to your app configuration to make it ready for production. These changes may include:</p>
+<ul>
+<li>Removing any volume bindings for application code, so that code stays inside the container and can’t be changed from outside</li>
+<li>Binding to different ports on the host</li>
+<li>Setting environment variables differently, such as when you need to decrease the verbosity of logging, or to enable email sending)</li>
+<li>Specifying a RESTART POLICY like <code>restart: always</code> to avoid downtime</li>
+<li>Adding extra services such as a LOG AGGREGATOR ??</li>
+</ul>
+</li>
+<li>
+<p>For this reason, consider defining an ADDITIONAL Compose file, say <code>production.yml</code>, which specifies production-appropriate configuration. This configuration file only needs to include the changes you’d like to make from the original Compose file.</p>
+<p>The additional Compose file can be APPLIED OVER the original <code>docker-compose.yml</code> to create a new configuration.</p>
+</li>
+<li>
+<p>Once you’ve got a second configuration file, tell Compose to use it with the <code>-f</code> option:</p>
+<pre><code>docker-compose -f docker-compose.yml -f production.yml up -d
+</code></pre>
+<p>See Using multiple compose files for a more complete example.</p>
+<p>注意預設的 <code>docker-compose.yml</code> 也要明確寫出來。</p>
+</li>
+</ul>
+<p>Deploying changes</p>
+<ul>
+<li>
+<p>When you make changes to your app code, remember to rebuild your image and recreate your app’s containers. To redeploy a service called <code>web</code>, use:</p>
+<pre><code>$ docker-compose build web
+$ docker-compose up --no-deps -d web
+</code></pre>
+<p>This first rebuilds the image for <code>web</code> and then stop, destroy, and recreate just the <code>web</code> service. The <code>--no-deps</code> flag prevents Compose from also recreating any services which <code>web</code> depends on.</p>
+<p>其中 &ldquo;depends on&rdquo; 指的應該是 <code>depends_on:</code> 的用法，跟 <code>links:</code> 有關嗎 ??</p>
+</li>
+</ul>
+<p>Running Compose on a single server</p>
+<ul>
+<li>
+<p>You can use Compose to deploy an app to a remote Docker host by setting the <code>DOCKER_HOST</code>, <code>DOCKER_TLS_VERIFY</code>, and <code>DOCKER_CERT_PATH</code> environment variables appropriately.</p>
+<p>For tasks like this, Docker Machine makes managing local and remote Docker hosts very easy, and is recommended even if you’re not deploying remotely.</p>
+</li>
+<li>
+<p>Once you’ve set up your environment variables, all the normal <code>docker-compose</code> commands work with no further configuration.</p>
+<p>透過 Docker Machine 可以簡化上面環境變數的設定，一旦 Docker host 轉向後，<code>docker-compose</code> 就會作用在另一台機器上。</p>
+</li>
+</ul>
+<p>Running Compose on a Swarm cluster</p>
+<ul>
+<li>
+<p>Docker Swarm, a Docker-native clustering system, exposes the same API as a SINGLE DOCKER HOST, which means you can use Compose against a Swarm instance and run your apps ACROSS MULTIPLE HOSTS.</p>
+<p>Read more about the Compose/Swarm integration in the integration guide.</p>
+<p>原來 Swam 從外面看起來就像一般的 Docker host，背後會自動協調多台實體機器。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/extends/">Share Compose configurations between files and projects | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Compose supports two methods of sharing common configuration:</p>
+<ul>
+<li>
+<p>Extending an ENTIRE Compose file by using multiple Compose files</p>
+</li>
+<li>
+<p>Extending INDIVIDUAL SERVICES with the <code>extends</code> field (for Compose file versions up to 2.1)</p>
+<p>也就是 v3 已不支援這種用法。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Using multiple Compose files enables you to customize a Compose application for different environments or DIFFERENT WORKFLOWS.</p>
+</li>
+</ul>
+<p>Understanding multiple Compose files</p>
+<ul>
+<li>
+<p>By default, Compose reads two files, a <code>docker-compose.yml</code> and an optional <code>docker-compose.override.yml</code> file. By convention, the <code>docker-compose.yml</code> contains your base configuration. The override file, as its name implies, can contain configuration OVERRIDES FOR EXISTING SERVICES or ENTIRELY NEW SERVICES.</p>
+<p>If a service is defined in both files, Compose MERGES the configurations using the rules described in Adding and overriding configuration.</p>
+<p>下面提到，其他 override file 不一定要是完整的 compose file。</p>
+</li>
+<li>
+<p>To use multiple OVERRIDE FILES, or an override file with a different name, you can use the <code>-f</code> option to specify the list of files. Compose merges files IN THE ORDER they’re specified on the command line. See the <code>docker-compose</code> command reference for more information about using <code>-f</code>.</p>
+</li>
+<li>
+<p>When you use multiple configuration files, you must make sure all paths in the files are RELATIVE to the BASE Compose file (the first Compose file specified with <code>-f</code>).</p>
+<p>This is required because override files need NOT be valid Compose files. Override files can contain small FRAGMENTS of configuration. Tracking which fragment of a service is relative to which path is difficult and confusing, so to keep paths easier to understand, all paths must be defined relative to the BASE FILE.</p>
+<p>從 base compose file 就是第一個 <code>-f</code> 看來，<code>docker-compose.yml</code> 在使用 override files 時也要給。</p>
+<p>雖然說 &ldquo;not to be valid compose file&rdquo;，但是至少要宣告相同的 <code>version:</code>，否則會遇到類似下面的錯誤：</p>
+<pre><code>ERROR: Version mismatch: file ./docker-compose.yml specifies version 3.0 but extension file ./docker-compose.local.yml uses version 1
+</code></pre>
+</li>
+</ul>
+<p>DIFFERENT ENVIRONMENTS</p>
+<ul>
+<li>
+<p>A common use case for multiple files is changing a development Compose app for a production-like environment (which may be production, staging or CI). To support these differences, you can SPLIT your Compose configuration into a few different files:</p>
+</li>
+<li>
+<p>Start with a base file that defines the canonical configuration for the services.</p>
+<pre><code>docker-compose.yml
+
+web:
+  image: example/my_web_app:latest
+  links:
+    - db
+    - cache
+
+db:
+  image: postgres:latest
+
+cache:
+  image: redis:latest
+</code></pre>
+</li>
+<li>
+<p>In this example the development configuration exposes some ports to the host, mounts our code as a volume, and builds the <code>web</code> image.</p>
+<pre><code>docker-compose.override.yml
+
+web:
+  build: . # 原本採用指定的 image，這裡改成自己 build
+  volumes:
+    - '.:/code'
+  ports:
+    - 8883:80
+  environment:
+    DEBUG: 'true'
+
+db:
+  command: '-d'
+  ports:
+    - 5432:5432
+
+cache:
+  ports:
+    - 6379:6379
+</code></pre>
+<p>When you run <code>docker-compose up</code> it reads the overrides automatically.</p>
+</li>
+<li>
+<p>Now, it would be nice to use this Compose app in a production environment. So, create another override file (which might be stored in a different git repo or managed by a different team).</p>
+<p>實務上 <code>docker-compose.prod.yml</code> 要共用 source repo 裡的 <code>docker-compose.yml</code> 也有困難，不過這並代表 multiple compose file 的需求不存在，因為除了 dev 之外，還有 CI 要顧到。</p>
+<pre><code>docker-compose.prod.yml
+
+web:
+  ports:
+    - 80:80
+  environment:
+    PRODUCTION: 'true'
+
+cache:
+  environment:
+    TTL: '500'
+</code></pre>
+<p>To deploy with this production Compose file you can run</p>
+<pre><code>docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+</code></pre>
+<p>This deploys all three services using the configuration in <code>docker-compose.yml</code> and <code>docker-compose.prod.yml</code> (but not the dev configuration in <code>docker-compose.override.yml</code>).</p>
+</li>
+</ul>
+<p>ADMINISTRATIVE TASKS</p>
+<ul>
+<li>
+<p>Another common use case is running ADHOC or administrative tasks against one or more services in a Compose app. This example demonstrates running a database backup.</p>
+</li>
+<li>
+<p>Start with a docker-compose.yml.</p>
+<pre><code>web:
+  image: example/my_web_app:latest
+  links:
+    - db
+
+db:
+  image: postgres:latest
+</code></pre>
+</li>
+<li>
+<p>In a <code>docker-compose.admin.yml</code> ADD A NEW SERVICE to run the database export or backup.</p>
+<pre><code>dbadmin:
+  build: database_admin/
+  links:
+    - db
+</code></pre>
+</li>
+<li>
+<p>To start a normal environment run <code>docker-compose up -d</code>. To run a database backup, include the <code>docker-compose.admin.yml</code> as well.</p>
+<pre><code>docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
+    run dbadmin db-backup
+</code></pre>
+<p>注意這裡是用 <code>docker-compose run</code>，會執行在同 <code>docker-compose up</code> 的環境裡，可以連結到 DB。但不能一開始就宣告在 <code>docker-compose.yml</code> 裡，但 <code>docker-compose</code> 不要執行 ??</p>
+</li>
+</ul>
+<p>Adding and overriding configuration</p>
+<ul>
+<li>Compose copies configurations from the original service over to the local one. If a configuration option is defined in both the original service and the local service, the local value replaces or extends the original value.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/docker/compose/issues/1294">Exclude service on docker-compose up, docker-compose rm, etc · Issue #1294 · docker/compose</a></p>
+<ul>
+<li>
+<p>olalonde: I have a service that I just need to run once (dc run createdbs):</p>
+<pre><code>createdbs:
+  image: postgres:9.3
+  links:
+    - db
+  command: &gt;
+    /bin/bash -c "
+      psql --host=db --username=postgres -c 'CREATE DATABASE testnet;';
+      psql --host=db --username=postgres -c 'CREATE DATABASE livenet;';
+    "
+</code></pre>
+<p>Is it possible to not have it launched every time I run <code>docker-compose up</code>? I have looked at alternatives for creating the databases, but I&rsquo;d rather not have separate file(s) just for this.</p>
+</li>
+<li>
+<p>olalonde: I&rsquo;ve solved my problem by using the <code>docker-compose up myservice</code> command instead which automatically only launches myservice&rsquo;s dependencies. I realised I actually never really need to do a <code>docker-compose up</code>.</p>
+<p>這做法看起來很不錯，不過不小心執行了 <code>docker-compose up</code> 會像是踩到雷一樣。</p>
+</li>
+<li>
+<p>dnephin: (contributor) The current options are the list the services in the up command, or split the services between multiple compose files, and only specify some of them when running some commands.</p>
+<p>這就是 <a href="https://docs.docker.com/compose/extends/#administrative-tasks">Administrative Tasks - Share Compose configurations between files and projects | Docker Documentation</a> 的用法 &ndash; 在 base file 之上另寫一個 <code>docker-compose.admin.yml</code>。</p>
+</li>
+<li>
+<p>dnephin: (contributor) Yes, I think this is covered by #1896.</p>
+<p>In general I think trying to exclude services is NOT GOING TO FIT WELL WITH THE DESIGN OF COMPOSE. Almost all the uses cases that require this are actually trying to do something like &ldquo;build automation&rdquo; NOT ACTUALLY RUNNING SERVICES.</p>
+<p>I&rsquo;ve been working on a prototype of a tool designed for that purpose. <a href="https://dnephin.github.io/dobi/">dobi</a> integrates with Compose, so you can do thing adhoc/admin/initialize tasks outside of the <code>docker-compose.yml</code>.</p>
+</li>
+<li>
+<p>TMiguelT: Can we not just scale it down to zero? e.g.</p>
+<pre><code>docker-compose up --scale service3=0
+</code></pre>
+<p>This starts all the services except <code>service3</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hackernoon.com/efficient-development-with-docker-and-docker-compose-e354b4d24831">Efficient development with Docker and docker-compose</a> (2018-11-09) #ril</p>
+</li>
+<li><a href="https://github.com/docker/compose/issues/1896">Define services which are not started by default · Issue #1896 · docker/compose</a> #ril</li>
+</ul>
+<h2 id="variable-substitution">Variable Substitution ??<a class="headerlink" href="#variable-substitution" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/environment-variables/">Environment variables in Compose | Docker Documentation</a></p>
+<p>Substitute environment variables in Compose files</p>
+<ul>
+<li>
+<p>It’s possible to use environment variables in your shell to populate values inside a Compose file:</p>
+<pre><code>web:
+  image: "webapp:${TAG}"
+</code></pre>
+<p>搭配 Makefile 的話，會更方便對 compose file 填值。</p>
+</li>
+<li>
+<p><code>.env</code> 可以提供 compose file 裡引用到的變數的預設值。</p>
+</li>
+</ul>
+<p>Set environment variables in containers</p>
+<ul>
+<li>
+<p>You can set environment variables in a service’s containers with the <code>environment</code> key, just like with <code>docker run -e VARIABLE=VALUE ...</code>:</p>
+<pre><code>web:
+  environment:
+    - DEBUG=1
+</code></pre>
+<p>注意 <code>environment</code> 沒有 <code>s</code>，而且底下的寫法有 sequence (<code>- KEY=VALUE</code>) 與 mapping (<code>KEY: VALUE</code>) 兩種寫法。</p>
+</li>
+</ul>
+<p>Pass environment variables to containers</p>
+<ul>
+<li>
+<p>You can pass environment variables from your shell straight through to a service’s containers with the <code>environment</code> key by NOT GIVING THEM A VALUE, just like with <code>docker run -e VARIABLE ...</code>:</p>
+<p>注意 set 與 pass 用字上的差別。</p>
+<pre><code>web:
+  environment:
+    - DEBUG
+</code></pre>
+<p>The value of the <code>DEBUG</code> variable in the container is taken from the value for the same variable in the shell in which Compose is run.</p>
+</li>
+</ul>
+<p>The “env_file” configuration option</p>
+<ul>
+<li>You can pass multiple environment variables from an external file through to a service’s containers with the <code>env_file</code> option, just like with <code>docker run --env-file=FILE ...</code>:<pre><code>web:
+  env_file:
+    - web-variables.env
+</code></pre>
+</li>
+</ul>
+<p>Set environment variables with ‘docker-compose run’</p>
+<ul>
+<li>
+<p>Just like with <code>docker run -e</code>, you can set environment variables on a ONE-OFF container with <code>docker-compose run -e</code>:</p>
+<pre><code>docker-compose run -e DEBUG=1 web python console.py
+</code></pre>
+</li>
+<li>
+<p>You can also pass a variable through from the shell by not giving it a value:</p>
+<pre><code>docker-compose run -e DEBUG web python console.py
+</code></pre>
+<p>The value of the <code>DEBUG</code> variable in the container is taken from the value for the same variable in the shell in which Compose is run.</p>
+</li>
+</ul>
+<p>The “.env” file</p>
+<ul>
+<li>
+<p>You can set DEFAULT VALUES for any environment variables referenced in the Compose file, or used to configure Compose, in an environment file named <code>.env</code>:</p>
+<pre><code>$ cat .env
+TAG=v1.5
+
+$ cat docker-compose.yml
+version: '3'
+services:
+  web:
+    image: "webapp:${TAG}"
+</code></pre>
+</li>
+<li>
+<p>When you run <code>docker-compose up</code>, the <code>web</code> service defined above uses the image <code>webapp:v1.5</code>. You can verify this with the <code>config</code> command, which prints your RESOLVED application config to the terminal:</p>
+<pre><code>$ docker-compose config
+
+version: '3'
+services:
+  web:
+    image: 'webapp:v1.5'
+</code></pre>
+<p>Values in the shell TAKE PRECEDENCE over those specified in the <code>.env</code> file. If you set <code>TAG</code> to a different value in your shell, the substitution in image uses that instead:</p>
+<pre><code>$ export TAG=v2.0
+$ docker-compose config
+
+version: '3'
+services:
+  web:
+    image: 'webapp:v2.0'
+</code></pre>
+</li>
+<li>
+<p>When you set the same environment variable in multiple files, here’s the priority used by Compose to choose which value to use:</p>
+<ul>
+<li>Compose file &ndash; 指 compose file 裡的 <code>environment:</code></li>
+<li>Shell environment variables</li>
+<li>Environment file</li>
+<li>Dockerfile</li>
+<li>Variable is not defined &ndash; 會出錯 ??</li>
+</ul>
+</li>
+<li>
+<p>In the example below, we set the same environment variable on an Environment file, and the Compose file:</p>
+<pre><code>$ cat ./Docker/api/api.env
+NODE_ENV=test
+
+$ cat docker-compose.yml
+version: '3'
+services:
+  api:
+    image: 'node:6-alpine'
+    env_file:
+     - ./Docker/api/api.env
+    environment:
+     - NODE_ENV=production
+</code></pre>
+<p>When you run the container, the environment variable defined in the Compose file takes precedence.</p>
+<pre><code>$ docker-compose exec api node
+
+&gt; process.env.NODE_ENV
+'production'
+</code></pre>
+</li>
+<li>
+<p>Having any <code>ARG</code> or <code>ENV</code> setting in a <code>Dockerfile</code> evaluates only if there is no Docker Compose entry for environment or <code>env_file</code>.</p>
+<p><code>ARG</code> 不會留在 image 裡，為何在 runtime 會有作用 ??</p>
+</li>
+</ul>
+<p>Configure Compose using environment variables</p>
+<ul>
+<li>Several environment variables are available for you to configure the Docker Compose command-line behavior. They begin with <code>COMPOSE_</code> or <code>DOCKER_</code>, and are documented in CLI Environment Variables.</li>
+</ul>
+<p>Environment variables created by links</p>
+<ul>
+<li>
+<p>When using the <code>links</code> option in a v1 Compose file, environment variables are CREATED FOR EACH LINK. They are documented in the Link environment variables reference. ??</p>
+<p>However, these variables are DEPRECATED. Use the link alias as a hostname instead. 其中 link alias 的用法是什麼 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/compose-file/#variable-substitution">Variable Substitution - Compose file version 3 reference | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Your configuration options can contain environment variables. Compose uses the variable values from the shell environment in which <code>docker-compose</code> is run. For example, suppose the shell contains <code>POSTGRES_VERSION=9.3</code> and you supply this configuration:</p>
+<pre><code>db:
+  image: "postgres:${POSTGRES_VERSION}"
+</code></pre>
+<p>When you run <code>docker-compose up</code> with this configuration, Compose looks for the <code>POSTGRES_VERSION</code> environment variable in the shell and substitutes its value in. For this example, Compose resolves the image to <code>postgres:9.3</code> before running the configuration.</p>
+</li>
+<li>
+<p>If an environment variable is not set, Compose substitutes with an EMPTY STRING. In the example above, if <code>POSTGRES_VERSION</code> is not set, the value for the image option is <code>postgres:</code>.</p>
+<p>為什麼 <code>$VAR</code> 不會像 <code>$$VAR</code> 一樣發出警告 ??</p>
+<p>You can set default values for environment variables using a <code>.env</code> file, which Compose automatically looks for. Values set in the shell environment override those set in the <code>.env</code> file.</p>
+</li>
+<li>
+<p>Important: The <code>.env</code> file feature only works when you use the <code>docker-compose up</code> command and does not work with <code>docker stack deploy</code>.</p>
+</li>
+<li>
+<p>Both <code>$VARIABLE</code> and <code>${VARIABLE}</code> syntax are supported. Additionally when using the 2.1 file format, it is possible to provide INLINE DEFAULT VALUES using typical shell syntax:</p>
+<ul>
+<li><code>${VARIABLE:-default}</code> evaluates to <code>default</code> if <code>VARIABLE</code> is UNSET OR EMPTY in the environment.</li>
+<li><code>${VARIABLE-default}</code> evaluates to <code>default</code> ONLY if <code>VARIABLE</code> is UNSET in the environment.</li>
+</ul>
+</li>
+<li>
+<p>Similarly, the following syntax allows you to specify MANDATORY variables:</p>
+<ul>
+<li><code>${VARIABLE:?err}</code> EXITS with an error message containing <code>err</code> if <code>VARIABLE</code> is unset or empty in the environment.</li>
+<li><code>${VARIABLE?err}</code> exits with an error message containing <code>err</code> if <code>VARIABLE</code> is unset in the environment.</li>
+</ul>
+</li>
+<li>
+<p>Other extended shell-style features, such as <code>${VARIABLE/foo/bar}</code>, are not supported.</p>
+</li>
+<li>
+<p>You can use a <code>$$</code> (double-dollar sign) when your configuration needs a LITERAL DOLLAR SIGN. This also prevents Compose from interpolating a value, so a <code>$$</code> allows you to refer to environment variables that you don’t want processed by Compose.</p>
+<pre><code>web:
+  build: .
+  command: "$$VAR_NOT_INTERPOLATED_BY_COMPOSE"
+</code></pre>
+<p>If you forget and use a single dollar sign ($), Compose interprets the value as an environment variable and warns you:</p>
+<pre><code>The VAR_NOT_INTERPOLATED_BY_COMPOSE is not set. Substituting an empty string.
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/compose-file/#environment">environment - Compose file version 3 reference | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Add environment variables. You can use either an array or a dictionary.</p>
+<p>Any boolean values; <code>true</code>, <code>false</code>, <code>yes</code> <code>no</code>, need to be ENCLOSED IN QUOTES to ensure they are NOT CONVERTED to <code>True</code> or <code>False</code> by the YML parser.</p>
+<p>這是採用 dictionary 可能會踩到的雷。</p>
+</li>
+<li>
+<p>Environment variables with ONLY A KEY are resolved to their values on the machine Compose is running on, which can be helpful for SECRET or host-specific values.</p>
+<pre><code>environment:
+  RACK_ENV: development
+  SHOW: 'true'
+  SESSION_SECRET:
+
+environment:
+  - RACK_ENV=development
+  - SHOW=true
+  - SESSION_SECRET
+</code></pre>
+<p>只寫 key 的用法也適用於 dictionary 的表示法。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/env-file/">Declare default environment variables in file | Docker Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="networking">Networking ??<a class="headerlink" href="#networking" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/networking/">Networking in Compose | Docker Documentation</a></p>
+<ul>
+<li>
+<p>By default Compose sets up a SINGLE NETWORK for your app. Each container for a service JOINS the DEFAULT network and is both REACHABLE by other containers on that network, and DISCOVERABLE by them at a hostname IDENTICAL TO THE CONTAINER NAME.</p>
+<p>這裡 &ldquo;hostname identical to the container name&rdquo; 的說法不完全正確，從下面的例子看來，雖然 container 最後會被冠上 project name，但 hostname 還是等同 service name；預設的 network 還真的叫做 <code>&lt;project_name&gt;_default</code>。</p>
+</li>
+<li>
+<p>For example, suppose your app is in a directory called <code>myapp</code>, and your <code>docker-compose.yml</code> looks like this:</p>
+<pre><code>version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+    ports:
+      - "8001:5432"
+</code></pre>
+<p>When you run <code>docker-compose up</code>, the following happens:</p>
+<ul>
+<li>A network called <code>myapp_default</code> is created.</li>
+<li>A container is created using web’s configuration. It joins the network <code>myapp_default</code> under the name <code>web</code>.</li>
+<li>A container is created using db’s configuration. It joins the network <code>myapp_default</code> under the name <code>db</code>.</li>
+</ul>
+<p>Each container can now look up the hostname <code>web</code> or <code>db</code> and get back the appropriate container’s IP address. For example, web’s application code could connect to the URL <code>postgres://db:5432</code> and start using the Postgres database.</p>
+</li>
+<li>
+<p>It is important to note the distinction between <code>HOST_PORT</code> and <code>CONTAINER_PORT</code>. In the above example, for <code>db</code>, the <code>HOST_PORT</code> is <code>8001</code> and the container port is <code>5432</code> (postgres default). Networked SERVICE-TO-SERVICE COMMUNICATION use the <code>CONTAINER_PORT</code>. When <code>HOST_PORT</code> is defined, the service is accessible outside the swarm as well.</p>
+<p>通常是 dev 才會把 port 公開出來，否則在環境內 container 本來就可以溝通。</p>
+</li>
+<li>
+<p>Within the <code>web</code> container, your connection string to <code>db</code> would look like <code>postgres://db:5432</code>, and from the host machine, the connection string would look like <code>postgres://{DOCKER_IP}:8001</code>.</p>
+</li>
+</ul>
+<p>Update containers</p>
+<ul>
+<li>
+<p>If you make a configuration change to a service and run <code>docker-compose up</code> to UPDATE IT, the old container is removed and the new one joins the network under a DIFFERENT IP ADDRESS BUT THE SAME NAME. Running containers can look up that name and connect to the new address, but the old address stops working.</p>
+<p>原來 up 除了有 bring up，還有 update 的意思。</p>
+</li>
+<li>
+<p>If any containers have connections open to the old container, they are CLOSED. It is a CONTAINER’S RESPONSIBILITY to detect this condition, look up the name again and reconnect.</p>
+<p>也就是 <a href="https://docs.docker.com/compose/gettingstarted/">Get started with Docker Compose | Docker Documentation</a> 提到的 &ldquo;makes our application more resilient&rdquo;。</p>
+</li>
+</ul>
+<p>Links</p>
+<ul>
+<li>
+<p>Links allow you to define extra aliases by which a service is reachable from another service. They are NOT REQUIRED to enable services to communicate - by default, any service can reach any other service at that SERVICE’S NAME. In the following example, <code>db</code> is reachable from <code>web</code> at the hostnames <code>db</code> AND <code>database</code>:</p>
+<pre><code>version: "3"
+services:
+
+  web:
+    build: .
+    links:
+      - "db:database"
+  db:
+    image: postgres
+</code></pre>
+<p>See the links reference for more information.</p>
+<p>如果本來 container 間就可以透過 service name 溝通，那 compose 裡為什麼要有 <code>links:</code> 的設計 ??</p>
+</li>
+</ul>
+<p>Specify custom networks</p>
+<ul>
+<li>
+<p>Instead of just using the DEFAULT APP NETWORK, you can specify your own networks with the TOP-LEVEL <code>networks</code> key. This lets you create more complex TOPOLOGIES and specify custom network drivers and options. You can also use it to connect services to EXTERNALLY-CREATED NETWORKS which aren’t managed by Compose.</p>
+</li>
+<li>
+<p>Each service can specify what networks to connect to with the SERVICE-LEVEL <code>networks</code> key, which is a list of names referencing entries under the top-level <code>networks</code> key.</p>
+<p>一個 service 可以同時接到多個 network。</p>
+</li>
+<li>
+<p>Here’s an example Compose file defining two custom networks. The <code>proxy</code> service is ISOLATED from the <code>db</code> service, because they do not share a network in common - only <code>app</code> can talk to both.</p>
+<p>呼應上面 &ldquo;more topologies&rdquo; 的訴求，開發時期可以儘可能模擬 production 的環境。</p>
+<pre><code>version: "3"
+services:
+
+  proxy:
+    build: ./proxy
+    networks:
+      - frontend
+  app:
+    build: ./app
+    networks:
+      - frontend
+      - backend
+  db:
+    image: postgres
+    networks:
+      - backend
+
+networks:
+  frontend:
+    # Use a custom driver
+    driver: custom-driver-1
+  backend:
+    # Use a custom driver which takes special options
+    driver: custom-driver-2
+    driver_opts:
+      foo: "1"
+      bar: "2"
+</code></pre>
+</li>
+<li>
+<p>Networks can be configured with static IP addresses by setting the <code>ipv4_address</code> and/or <code>ipv6_address</code> for each attached network.</p>
+</li>
+<li>
+<p>Networks can also be given a custom name (since version 3.5):</p>
+<pre><code>version: "3.5"
+networks:
+  frontend:
+    name: custom_frontend
+    driver: custom-driver-1
+</code></pre>
+</li>
+</ul>
+<p>Configure the default network</p>
+<ul>
+<li>Instead of (or as well as) specifying your own networks, you can also change the settings of the APP-WIDE DEFAULT NETWORK by defining an entry under <code>networks</code> named <code>default</code>:<pre><code>version: "3"
+services:
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+
+networks:
+  default:
+    # Use a custom driver
+    driver: custom-driver-1
+</code></pre>
+</li>
+</ul>
+<p>Use a pre-existing network</p>
+<ul>
+<li>
+<p>If you want your containers to join a PRE-EXISTING NETWORK, use the external option:</p>
+<pre><code>networks:
+  default:
+    external:
+      name: my-pre-existing-network
+</code></pre>
+<p>Instead of attempting to create a network called <code>[projectname]_default</code>, Compose looks for a network called <code>my-pre-existing-network</code> and connect your app’s containers to it.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="compose-file">Compose File ??<a class="headerlink" href="#compose-file" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/compose-file/">Compose file version 3 reference | Docker Documentation</a> #ril</p>
+<p>Compose and Docker compatibility matrix</p>
+<ul>
+<li>
+<p>There are several versions of the Compose file format – 1, 2, 2.x, and 3.x. The table below is a quick look. For full details on what each version includes and how to upgrade, see About versions and upgrading.</p>
+<p>This table shows which Compose file versions support specific Docker releases.</p>
+<p>因為某個 option 的加入通常跟 Docker Engine 支援新的功能有關，所以整理了 format version 跟 Docker Engine 版本的關係；注意這裡講的是 format version 而非 Docker Compose 工具本身的 version。</p>
+</li>
+<li>
+<p>In addition to Compose file format versions shown in the table, the Compose itself is on a release schedule, as shown in Compose releases, but file format versions do not necessarily increment with each release.</p>
+<p>For example, Compose file format 3.0 was first introduced in Compose release 1.10.0, and versioned gradually in subsequent releases.</p>
+</li>
+</ul>
+<p>Specifying durations</p>
+<ul>
+<li>
+<p>Some configuration options, such as the <code>interval</code> and <code>timeout</code> sub-options for <code>check</code>, accept a duration as a string in a format that looks like this:</p>
+<pre><code>2.5s
+10s
+1m30s
+2h32m
+5h34m56s
+</code></pre>
+<p>The supported units are <code>us</code> ??, <code>ms</code>, <code>s</code>, <code>m</code> and <code>h</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/release-notes/docker-compose/">Docker Compose release notes | Docker Documentation</a> 很多變更都是針對 compose file version XXX，也通常會補充 &ldquo;This version requires to be used with Docker Engine XXX or above&rdquo;，也就是說 compose file 某個新版本，需要 Docker Compose 與 Docker Engine 配合好。</p>
+</li>
+<li><a href="https://docs.docker.com/compose/compose-file/compose-versioning/">Compose file versions and upgrading | Docker Documentation</a> Compose 有自己的 release schedule，但不一定每次都會有新的 file format；就算 Compose 可以讀取 compose file，也要看 Engine 支不支援某項設定，也之所以 Compatibility matrix 才會用 Compose file format x Docker Engine release 來表現?</li>
+<li><a href="https://docs.docker.com/compose/compose-file/compose-versioning/#versioning">Versioning - Compose file versions and upgrading | Docker Documentation</a> 在 YAML root 用 <code>version: '3'</code> 指明 file version (預設視為 legacy version 1)，建議使用 version 3.x。而 version 會影響到 configuration keys 的用法、要求的 Docker Engine 版本、Compose 跟 networking 相關的行為。</li>
+</ul>
+<h2 id="build">Build ??<a class="headerlink" href="#build" title="Permanent link"> #</a></h2>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/reference/build/">docker-compose build | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Services are built once and then tagged, by default as <code>project_service</code>. For example, <code>composetest_db</code>.</p>
+<p>If the Compose file specifies an image name, the image is tagged with that name, SUBSTITUTING ANY VARIABLES BEFOREHAND. See variable substitution.</p>
+<p>這表示可以透過變數來指定 image name 跟 tag。</p>
+<p>由於 image name 的規則 <code>project_service</code>，如果需要對同一個 image 做多個 tag，可以按規則推導 image name，直接調用 <code>docker tag</code> &ndash; 因為沒有 <code>docker-compose tag</code> 的用法。</p>
+</li>
+<li>
+<p>If you change a service’s <code>Dockerfile</code> or the CONTENTS OF ITS BUILD DIRECTORY, run <code>docker-compose build</code> to rebuild it.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/compose-file/#image">image - Compose file version 3 reference | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Specify the image to start the container from. Can either be a repository/tag or a partial image ID.</p>
+<pre><code>image: redis
+image: ubuntu:14.04
+image: tutum/influxdb
+image: example-registry.com:4000/postgresql
+image: a4bc65fd
+</code></pre>
+</li>
+<li>
+<p>If the image does not exist, Compose attempts to pull it, unless you have also specified <code>build</code>, in which case it builds it using the specified options AND TAGS IT with the specified tag.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/reference/push/">docker-compose push | Docker Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/docker/compose/issues/5984">docker-compose tag [service] [image]:[tag] · Issue #5984 · docker/compose</a></p>
+<ul>
+<li>
+<p>y3ti: Would be nice to be able to tag images created by <code>docker-compose build</code> e.g.</p>
+</li>
+<li>
+<p>shin-: (contributor) Thanks for the suggestion! However, it&rsquo;s not part of the featureset we envision for Compose.</p>
+<p>Note that you can already give your built image a custom name by adding an <code>image</code> property to your service definition.</p>
+<p>但如果要對同一個 image 做多個 tag 就無法了。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/docker/compose/issues/4976">docker-compose build multiple tags · Issue #4976 · docker/compose</a></p>
+<ul>
+<li>Puneeth-n: I was wondering if it is possible to build docker images using docker-compose file with multiple tags?</li>
+<li>shin-: (contributor) No, that is not currently possible.</li>
+<li>
+<p>dirkschneemann: See <a href="https://stackoverflow.com/a/47327980/2545732">this answer on StackOverflow</a> for a couple of possible work-arounds to this issue.</p>
+</li>
+<li>
+<p>mixja: you can do this natively in docker-compose as follows:</p>
+<pre><code>services:
+  # build is your actual build spec
+  build:
+    image: myrepo/myimage
+    build:
+      context: .
+    ...
+    ...
+  # these extend from build and just add new tags statically or from environment variables
+  version_tag:
+    extends: build
+    image: myrepo/myimage:v1.0
+  some_other_tag:
+    extends: build
+    image: myrepo/myimage:${SOME_OTHER_TAG}
+</code></pre>
+<p>With the above in place, you can then just run <code>docker-compose build</code> and <code>docker-compose push</code> and you will build and push the correct set of tagged images</p>
+<p>不過 <code>extends</code> 在 compose v3 後就不支援了，而且因此而虛增很多不是 service 的 service 也很奇怪。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/47327979/">How to use multiple image tags with docker-compose - Stack Overflow</a> #ril</p>
+</li>
+</ul>
+<h2 id="storage">Storage ??<a class="headerlink" href="#storage" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/compose-file/#volumes">volumes - Compose file version 3 reference | Docker Documentation</a> #ril</p>
+<ul>
+<li>
+<p>Mount HOST PATHS or NAMED VOLUMES, specified as sub-options to a service.</p>
+<p>其中 host paths 指的就是 bind mount，跟 volume 不同。</p>
+</li>
+<li>
+<p>You can mount a host path as part of a definition for a single service, and there is no need to define it in the top level <code>volumes</code> key.</p>
+<p>But, if you want to reuse a volume ACROSS MULTIPLE SERVICES, then define a named volume in the top-level <code>volumes</code> key. Use named volumes with services, swarms, and stack files.</p>
+<p>Note: The top-level <code>volumes</code> key defines a named volume and REFERENCES ?? it from each service’s <code>volumes</code> list. This replaces <code>volumes_from</code> in earlier versions of the Compose file format. See Use volumes and Volume Plugins for general information on volumes.</p>
+</li>
+<li>
+<p>This example shows a named volume (<code>mydata</code>) being used by the <code>web</code> service, and a bind mount defined FOR A SINGLE SERVICE (first path under <code>db</code> service <code>volumes</code>).</p>
+<p>The <code>db</code> service also uses a named volume called <code>dbdata</code> (second path under <code>db</code> service <code>volumes</code>), but defines it using the OLD STRING FORMAT for mounting a named <code>volume</code>. Named volumes must be listed under the top-level <code>volumes</code> key, as shown.</p>
+<pre><code>version: "3.7"
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - type: volume
+        source: mydata
+        target: /data
+        volume:
+          nocopy: true
+      - type: bind
+        source: ./static
+        target: /opt/app/static
+
+  db:
+    image: postgres:latest
+    volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock" # bind mount
+      - "dbdata:/var/lib/postgresql/data" # named volume
+
+volumes:
+  mydata:
+  dbdata:
+</code></pre>
+<p>Note: See Use volumes and Volume Plugins for general information on volumes.</p>
+<p>感覺 short syntax (old string format) 明顯比 long syntax 簡潔許多。</p>
+</li>
+</ul>
+<p>SHORT SYNTAX</p>
+<ul>
+<li>
+<p>Optionally specify a path on the host machine (<code>HOST:CONTAINER</code>), or an access mode (<code>HOST:CONTAINER:ro</code>).</p>
+</li>
+<li>
+<p>You can mount a RELATIVE PATH on the host, that expands relative to the directory of the Compose configuration file being used. Relative paths should always begin with <code>.</code> or <code>..</code>.</p>
+<pre><code>volumes:
+  # Just specify a path and let the Engine create a volume
+  - /var/lib/mysql
+
+  # Specify an absolute path mapping
+  - /opt/data:/var/lib/mysql
+
+  # Path on the host, relative to the Compose file
+  - ./cache:/tmp/cache
+
+  # User-relative path
+  - ~/configs:/etc/configs/:ro
+
+  # Named volume
+  - datavolume:/var/lib/mysql
+</code></pre>
+<p>可以解讀 <code>~</code> 也滿酷了。注意 relative path 一定要以 <code>.</code> 或 <code>..</code> 開頭。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="health-check">Health Check ??<a class="headerlink" href="#health-check" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/compose-file/#healthcheck">healthcheck - Compose file version 3 reference | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Configure a check that’s run to determine whether or not containers for this service are “healthy”. See the docs for the <code>HEALTHCHECK</code> Dockerfile instruction for details on how healthchecks work.</p>
+<p>原來 <code>Dockerfile</code> 可以提供 default health check #ril</p>
+<pre><code>healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost"]
+  interval: 1m30s
+  timeout: 10s
+  retries: 3
+  start_period: 40s
+</code></pre>
+<p><code>interval</code>, <code>timeout</code> and <code>start_period</code> are specified as durations.</p>
+<p>Note: <code>start_period</code> is only supported for v3.4 and higher of the compose file format.</p>
+</li>
+<li>
+<p><code>test</code> must be either a string or a list. If it’s a list, the first item must be either <code>NONE</code>, <code>CMD</code> or <code>CMD-SHELL</code>. If it’s a string, it’s equivalent to specifying <code>CMD-SHELL</code> followed by that string.</p>
+<pre><code># Hit the local web app
+test: ["CMD", "curl", "-f", "http://localhost"]
+</code></pre>
+<p>As above, but wrapped in <code>/bin/sh</code>. Both forms below are equivalent.</p>
+<pre><code>test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+test: curl -f https://localhost || exit 1
+</code></pre>
+</li>
+<li>
+<p>To disable any DEFAULT HEALTHCHECK SET BY THE IMAGE, you can use <code>disable: true</code>. This is equivalent to specifying <code>test: ["NONE"]</code>.</p>
+<pre><code>healthcheck:
+  disable: true
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="cli"><code>docker-compose</code> CLI<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<p><code>docker-compose</code> 的用法：</p>
+<pre><code>docker-compose [OPTIONS] COMMAND [OPTIONS] SERVICE [COMMAND] [ARG...]
+</code></pre>
+
+<p>注意第一個 <code>OPTIONS</code> 是給 <code>docker-compose</code> 的 (<code>docker-compose help</code>)，第二個 <code>OPTIONS</code> 則是給特定 <code>COMMAND</code> 的 (<code>docker-compose help COMMAND</code>)，而且兩者不能混用。</p>
+<p><code>docker</code> 與 <code>docker-compose</code> 的用法很像，以 <code>run</code> 為例：</p>
+<pre><code>docker         run [OPTIONS] IMAGE   [COMMAND] [ARG...]
+docker-compose run [OPTIONS] SERVICE [COMMAND] [ARG...]
+</code></pre>
+
+<p>最明顯的差別在於 <code>docker</code> 面對的是特定的 image，而 <code>docker-compose</code> 面對的則是 compose file 裡邏輯上的 service，可惜少數 option 不太一樣，否則從 <code>docker</code> 遷移到 <code>docker-compose</code> 時會更為平順，例如：</p>
+<ul>
+<li><code>docker</code> 可以用 <code>-e KEY[=VALUE]</code> 或 <code>--env KEN[=VALUE]</code> 設定環境變數，但 <code>docker-compose</code> 只接受 <code>-e KEY[=VALUE]</code> 的用法。</li>
+<li><code>docker</code> 有 <code>-i, --interactive</code> 與 <code>-t, --tty</code> 分別控制是否綁定/配置 STDIN 與 pseudo-TTY ，但 <code>docker-compose</code> 反過來只有 <code>-T</code> 取消 pseudo-TTY 的配置。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/reference/overview/">Overview of docker-compose CLI | Docker Documentation</a></p>
+<p>Command options overview and help</p>
+<ul>
+<li>You can also see this information by running <code>docker-compose --help</code> from the command line.</li>
+<li>You can use Docker Compose binary, <code>docker-compose [-f &lt;arg&gt;...] [options] [COMMAND] [ARGS...]</code>, to build and manage multiple services in Docker containers.</li>
+</ul>
+<p>Specifying multiple Compose files</p>
+<ul>
+<li>
+<p>You can supply multiple <code>-f</code> configuration files. When you supply multiple files, Compose COMBINES them into a single configuration. Compose builds the configuration IN THE ORDER you supply the files. Subsequent files override and add to their predecessors.</p>
+</li>
+<li>
+<p>For example, consider this command line:</p>
+<pre><code>$ docker-compose -f docker-compose.yml -f docker-compose.admin.yml run backup_db
+</code></pre>
+<p>The <code>docker-compose.yml</code> file might specify a <code>webapp</code> service.</p>
+<pre><code>webapp:
+  image: examples/web
+  ports:
+    - "8000:8000"
+  volumes:
+    - "/data"
+</code></pre>
+<p>If the <code>docker-compose.admin.yml</code> also specifies this same service, any MATCHING FIELDS OVERRIDE the previous file. New values, ADD TO the <code>webapp</code> service configuration.</p>
+<pre><code>webapp:
+  build: .
+  environment:
+    - DEBUG=1
+</code></pre>
+</li>
+<li>
+<p>Use a <code>-f</code> with <code>-</code> (dash) as the filename to read the configuration from <code>stdin</code>. When <code>stdin</code> is used all paths in the configuration are relative to the current working directory.</p>
+</li>
+<li>
+<p>The <code>-f</code> flag is optional. If you don’t provide this flag on the command line, Compose TRAVERSES THE WORKING DIRECTORY AND ITS PARENT DIRECTORIES looking for a <code>docker-compose.yml</code> and a <code>docker-compose.override.yml</code> file.</p>
+<p>You must supply at least the <code>docker-compose.yml</code> file. If both files are present ON THE SAME DIRECTORY LEVEL, Compose combines the two files into a single configuration.</p>
+<p>The configuration in the <code>docker-compose.override.yml</code> file is applied over and in addition to the values in the <code>docker-compose.yml</code> file.</p>
+</li>
+</ul>
+<p>Specifying a path to a single Compose file</p>
+<ul>
+<li>
+<p>You can use <code>-f</code> flag to specify a path to Compose file that is not located in the current directory, either from the command line or by setting up a <code>COMPOSE_FILE</code> environment variable in your shell or in an environment file.</p>
+</li>
+<li>
+<p>For an example of using the <code>-f</code> option at the command line, suppose you are running the <a href="https://docs.docker.com/compose/rails/">Compose Rails sample</a>, and have a <code>docker-compose.yml</code> file in a directory called <code>sandbox/rails</code>. You can use a command like <code>docker-compose pull</code> to get the postgres image for the <code>db</code> service from anywhere by using the <code>-f</code> flag as follows: <code>docker-compose -f ~/sandbox/rails/docker-compose.yml pull db</code></p>
+<p>Here’s the full example:</p>
+<pre><code>$ docker-compose -f ~/sandbox/rails/docker-compose.yml pull db
+Pulling db (postgres:latest)...
+latest: Pulling from library/postgres
+ef0380f84d05: Pull complete
+50cf91dc1db8: Pull complete
+d3add4cd115c: Pull complete
+467830d8a616: Pull complete
+089b9db7dc57: Pull complete
+6fba0a36935c: Pull complete
+81ef0e73c953: Pull complete
+338a6c4894dc: Pull complete
+15853f32f67c: Pull complete
+044c83d92898: Pull complete
+17301519f133: Pull complete
+dcca70822752: Pull complete
+cecf11b8ccf3: Pull complete
+Digest: sha256:1364924c753d5ff7e2260cd34dc4ba05ebd40ee8193391220be0f9901d4e1651
+Status: Downloaded newer image for postgres:latest
+</code></pre>
+</li>
+</ul>
+<p>Use <code>-p</code> to specify a project name</p>
+<ul>
+<li>Each configuration has a project name. If you supply a <code>-p</code> flag, you can specify a project name. If you don’t specify the flag, Compose uses the current directory name. See also the <code>COMPOSE_PROJECT_NAME</code> environment variable.</li>
+</ul>
+<p>Set up environment variables</p>
+<ul>
+<li>
+<p>You can set environment variables for various <code>docker-compose</code> options, including the <code>-f</code> and <code>-p</code> flags.</p>
+<p>For example, the <code>COMPOSE_FILE</code> environment variable relates to the <code>-f</code> flag, and <code>COMPOSE_PROJECT_NAME</code> environment variable relates to the <code>-p</code> flag.</p>
+<p>Also, you can set some of these variables in an environment file.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/reference/envvars/">Compose CLI environment variables | Docker Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="resource-constraints">Resource Constraints??<a class="headerlink" href="#resource-constraints" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/compose/compose-file/compose-versioning/#version-3">Version 3 - Compose file versions and upgrading | Docker Documentation</a> <code>mem_limit</code>、<code>cpu_quota</code> 等在 version 3 由 <code>deploy</code> &gt; <code>resources</code> 取代，但為什麼說 &ldquo;Note that deploy configuration only takes effect when using docker stack deploy, and is ignored by docker-compose&rdquo;?? #ril</li>
+<li><a href="https://docs.docker.com/compose/compose-file/#resources">Resources - Compose file version 3 reference | Docker Documentation</a> Looking for options to set resources on non swarm mode containers? 提到這裡的 options 是針對 swarm mode，就 non swarm deployment 而言則要改用 version 2 的寫法。</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources">Runtime constraints on resources - Docker run reference | Docker Documentation</a> <code>docker run</code> 有很多跟 resource contraints 相關的參數。</li>
+<li><a href="https://github.com/docker/compose/issues/4513">How to specify Memory &amp; CPU limit in version 3 · Issue #4513 · docker/compose</a> #ril</li>
+</ul>
+<h2 id="_1">控制啟動順序 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/compose/startup-order/">Control startup order in Compose | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="v2">如何決定/限定記憶體用量?? (v2)<a class="headerlink" href="#v2" title="Permanent link"> #</a></h2>
+<p>用 <code>mem_limit: &lt;number&gt;[&lt;unit&gt;]</code> 指定，例如：</p>
+<pre><code>services:
+  db:
+    image: db
+    mem_limit: 100m
+</code></pre>
+
+<p>之後用 <code>docker stats --all</code> 驗證，可以看到 MEM USAGE/LIMIT 與 MEM %，例如：</p>
+<pre><code>CONTAINER           CPU %               MEM USAGE / LIMIT   MEM %               NET I/O             BLOCK I/O           PIDS
+118ec3fabe0f        0.70%               39.44MiB / 100MiB   39.44%              2.3kB / 0B          0B / 0B             13
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.docker.com/compose/compose-file/compose-file-v2/#cpu-and-other-resources">CPU and other resources - Compose file version 2 reference | Docker Documentation</a> 用個別的 <code>key: value</code> 指定，對應 <code>docker run</code> 的參數。</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources">Runtime constraints on resources - Docker run reference | Docker Documentation</a> <code>-m, --memory=""</code> 搭配 <code>&lt;number&gt;[&lt;unit&gt;]</code>，其中 <code>unit</code> 可以是 <code>b</code>/<code>k</code>/<code>m</code>/<code>g</code>，最小值是 4 MB。</li>
+<li><a href="https://docs.docker.com/compose/compose-file/#restart_policy">Out Of Memory Exceptions (OOME) - Compose file version 3 reference | Docker Documentation</a> 記憶體用量超過限制時，container 或 Docker daemon 會被 kernel OOM killer 殺掉。</li>
+<li><a href="https://stackoverflow.com/questions/28837544/">fig - Can I use mem_limit in docker-compose? and How? - Stack Overflow</a> 如何檢驗 <code>mem_limit</code> 有生效? maniekq: 用 <code>docker stats -a</code> 檢查。</li>
+<li><a href="https://github.com/moby/moby/issues/21083">What is Docker container exit code 137? · Issue #21083 · moby/moby</a> Error 137 可能是 Linux OOM Killer 造成，用 <code>mem_limit</code> 增加配置的記憶體即可；另外 Docker daemon 自己的限制可以從 Docker App &gt; Preferences &gt; Advanced 調整。</li>
+<li><a href="https://github.com/moby/moby/issues/22211">Container crashes with code 137 when given high load · Issue #22211 · moby/moby</a> 137 就是 SIGKILL，源自 OOM Killer。</li>
+<li><a href="http://tldp.org/LDP/abs/html/exitcodes.html">Exit Codes With Special Meanings</a> 137 (128 +9) 就是 SIGKILL</li>
+<li><a href="https://docs.docker.com/engine/admin/resource_constraints/#understand-the-risks-of-running-out-of-memory">Understand the risks of running out of memory - Limit a container’s resources | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/compose/install/">Install Docker Compose | Docker Documentation</a> #ril</p>
+<ul>
+<li>You can run Compose on macOS, Windows, and 64-bit Linux.</li>
+</ul>
+<p>Prerequisites</p>
+<ul>
+<li>
+<p>Docker Compose relies on Docker Engine for any meaningful work, so make sure you have Docker Engine installed either locally or remote, depending on your setup.</p>
+</li>
+<li>
+<p>On desktop systems like Docker Desktop for Mac and Windows, Docker Compose is included as part of those desktop installs.</p>
+<p>不過可以用 pip 安裝，或是 install Compose as a container 是怎麼回事 ??</p>
+</li>
+<li>
+<p>On Linux systems, first install the Docker for your OS as described on the Get Docker page, then come back here for instructions on installing Compose on Linux systems.</p>
+</li>
+<li>To run Compose as a non-root user, see Manage Docker as a non-root user.</li>
+</ul>
+</li>
+</ul>
+<h3 id="ubuntu">Ubuntu ??<a class="headerlink" href="#ubuntu" title="Permanent link"> #</a></h3>
+<p>Linux 下的 Docker Compose 要手動安裝，到 <a href="https://github.com/docker/compose/releases">GitHub 上的 release page</a>，用 curl 把 <code>docker-compose</code> 下載到 <code>/usr/local/bin/docker-compose</code>，再給它執行權限即可。</p>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/r/docker/compose/">docker/compose - Docker Hub</a></p>
+<p>沒有針對 <code>docker/compose</code> 這個 image 做說明，但很特別的是沒有 <code>latest</code> 或 <code>stable</code> tag。</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/39868369/">Run docker-compose build in .gitlab-ci.yml - Stack Overflow</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/compose/">Docker Compose</a></li>
+<li><a href="https://github.com/docker/compose">docker/compose - GitHub</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../gitlab-ci-docker/#docker-compose">在 GitLab CI 裡用 Docker Compose</a>。</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.docker.com/release-notes/docker-compose/">Release Notes</a> / <a href="https://github.com/docker/compose/blob/master/CHANGELOG.md">CHANGELOG</a></li>
+<li><a href="https://docs.docker.com/compose/compose-file/">Compose file v3 reference</a> / <a href="https://docs.docker.com/compose/compose-file/compose-file-v2/">v2</a></li>
+<li><a href="https://docs.docker.com/compose/compose-file/compose-versioning/#compatibility-matrix">Compatibility matrix - Compose file versions and upgrading | Docker Documentation</a> - Compose file format x Docker Engine release</li>
+<li><a href="https://docs.docker.com/compose/reference/">Command-line Reference</a></li>
+<li><a href="https://docs.docker.com/compose/reference/envvars/">Environment Variables</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

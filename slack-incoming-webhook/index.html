@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/slack-incoming-webhook/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Slack > Incoming Webhook - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/slack-incoming-webhook.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#slack-incoming-webhook">Slack / Incoming Webhook</a></li>
+            <li class="second-level"><a href="#runtime-customization">Runtime Customization</a></li>
+                
+            <li class="second-level"><a href="#here-menthion">在訊息裡加上 @here 之類的 menthion ??</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="slack-incoming-webhook"><a href="../slack/">Slack</a> / Incoming Webhook<a class="headerlink" href="#slack-incoming-webhook" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://api.slack.com/incoming-webhooks">Incoming Webhooks | Slack</a> #ril</p>
+<p>Send data into Slack in real-time.</p>
+<ul>
+<li>
+<p>Incoming Webhooks are a simple way to post messages from apps into Slack. Creating an Incoming Webhook gives you a unique URL to which you send a JSON payload with the message text and some options. You can use all the usual markup and attachments with Incoming Webhooks to make the messages stand out.</p>
+</li>
+<li>
+<p>You can&rsquo;t use Incoming Webhooks with Workspace Apps right now; those apps can request single channel write access and then use <code>chat.postMessage</code> in the Web API to post messages, providing very similar functionality to Incoming Webhooks.</p>
+<blockquote>
+<p><a href="https://api.slack.com/legacy-workspace-apps">Legacy workspace apps | Slack</a></p>
+<p>Fear not: over the next few months, we&rsquo;ll make sure that these features land gracefully in the world of CLASSIC Slack apps.</p>
+</blockquote>
+<p>已經成為過去式，用一般的 CLASSIC Slack app 即可。</p>
+</li>
+<li>
+<p>There are a few HTTP request examples in our guide, and to test these you can use something like cURL (a simple, ubiquitous tool for sending HTTP requests on the command line) or if you prefer a GUI you can also use a tool like Postman.</p>
+</li>
+</ul>
+<p>Getting started with Incoming Webhooks</p>
+<ul>
+<li>
+<p>We&rsquo;re going to walk through a really quick 4-step process (if you&rsquo;ve already done some of these things it&rsquo;ll be even easier) that will have you posting messages using Incoming Webhooks in a few minutes:</p>
+<ol>
+<li>
+<p>Create a Slack app (if you don&rsquo;t have one already)</p>
+<p>You won&rsquo;t get very far without doing this step, but luckily it&rsquo;s very simple, we even have a nice green button for you to click for it:</p>
+<p>Pick a name, choose a workspace to install your app to (bearing in mind that you&rsquo;ll probably be posting lots of test messages, so you might want to create A CHANNEL FOR SANDBOX USE), and then click Create App. If you&rsquo;ve already created one, you can use it too, also have a cookie 🍪.</p>
+</li>
+<li>
+<p>Enable Incoming Webhooks</p>
+<p>After creating, you&rsquo;ll be redirected to the settings page for your new app (if you are using an existing app, just load its settings via the Your Apps page).</p>
+<p>From here select the Incoming Webhooks feature, and click the Activate Incoming Webhooks toggle to switch it on. If you already have this activated, well you deserve another cookie 🍪.</p>
+</li>
+<li>
+<p>Create an Incoming Webhook</p>
+<p>Now that Incoming Webhooks are enabled, the settings page should refresh and some extra options will appear. One of those options will be a really helpful button marked Add New Webhook to Workspace, and you should click it.</p>
+<p>What this button does is trigger a SHORTCUT VERSION OF THE INSTALLATION FLOW for Slack apps, one that is completely self-contained so that you don&rsquo;t have to actually build any code to generate an Incoming Webhook URL. We&rsquo;ll talk more about that later on, but for now you&rsquo;ll see something like the following screen:</p>
+<p><img alt="Permissions screen with incoming webhooks channel selector" src="https://a.slack-edge.com/87036/img/api/incoming_webhooks_permission_screen@2x.png" /></p>
+<p>So go ahead and pick a channel that the app will post to, and then click to Authorize your app. You&rsquo;ll be sent back to your app settings, and you should now see a new entry under the Webhook URLs for Your Workspace section, with a Webhook URL that&rsquo;ll look something like this:</p>
+<pre><code>https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+</code></pre>
+<p>That URL is your shiny new Incoming Webhook, one that&rsquo;s SPECIFIC TO A SINGLE USER, AND A SINGLE CHANNEL. We&rsquo;ve kind of run out of cookies, but nice work anyway! Let&rsquo;s see how you can actually use that webhook to post a message.</p>
+<p>往這個 incoming webhook 寫入的 JSON payload，固定會送往特定的 channel (無法改變)，用的也是建立該 webhook 的使用者身份；決定了可以看到哪些 private channel。</p>
+</li>
+<li>
+<p>Use your Incoming Webhook URL to post a message</p>
+<p>Later in this doc we&rsquo;ll explain how to make your messages more expressive or INTERACTIVE, but for right now something simple will do, so we&rsquo;re going to use that old standby - &ldquo;Hello, world&rdquo;. #ril</p>
+<p>After all this build up, you might think posting a message will be really complicated, but it&rsquo;s very simple. Just make an HTTP POST request like this:</p>
+<pre><code>POST https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+Content-type: application/json
+{
+    "text": "Hello, world."
+}
+</code></pre>
+<p>The URL that you&rsquo;re making the POST request to should be the same URL you generated in the previous step.</p>
+<p>That&rsquo;s it! Go and check the channel that your app was installed into, and you should see that the &ldquo;Hello, World&rdquo; message has been posted by your app.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>You can use this in a real Slack app without much change, just substituting your favorite HTTP Request library for cURL, but structuring all the requests in the exact same way. You will also need to pay attention to some details we&rsquo;ve outlined below when you&rsquo;re DISTRIBUTING your app. #ril</p>
+</li>
+<li>
+<p>Great work, you&rsquo;ve set up Incoming Webhooks for your Slack app and made a successful test call, and you&rsquo;re ready to start making those messages more interesting and useful. Also, we baked some extra cookies to celebrate 🍪🍪🍪🍪.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://api.slack.com/custom-integrations/incoming-webhooks">Incoming Webhooks | Slack</a></p>
+<ul>
+<li>
+<p>You&rsquo;re reading this because you&rsquo;re looking for info on LEGACY CUSTOM INTEGRATIONS - an outdated way for teams to integrate with Slack. These integrations LACK NEWER FEATURES and they will be deprecated and POSSIBLY REMOVED in the future. We do not recommend their use.</p>
+<p>Instead, we suggest that you read about their replacement - Slack apps. Slack apps can be built just for your own workspace or distributed through the App Directory, and they can use the latest and greatest APIs and UI features.</p>
+</li>
+</ul>
+<p>Migrating from legacy incoming Webhooks</p>
+<ul>
+<li>
+<p>If you previously created any incoming Webhooks using legacy integrations, you should switch to using the same functionality with a Slack app instead. To do this you need to follow the Getting Started with Incoming Webhooks guide and create new Webhooks to replicate your existing ones.</p>
+<p>The majority of your legacy code for sending messages using incoming Webhooks should continue to work within a Slack app without much modification; the only thing you can no longer do is CUSTOMIZE THE DESTINATION CHANNEL AND AUTHOR IDENTITY AT RUNTIME.</p>
+<p>還有 icon 也不能換；因為 Slack app 下的 incoming webhook，其 author identity 就是 Slack app 本身，至於 channel 則在建立個別的 webhook 時就決定了。</p>
+<p>以 GitLab 的 Slack Integration 為例，設計上是一個 webhook、可以自訂 username，且每個不同用途可以指定其他 channel name，這用法也只有 legacy webhook 支援。</p>
+</li>
+</ul>
+<p>Legacy information</p>
+<ul>
+<li>
+<p>Though we recommend that all legacy custom integrations should migrate to Slack apps, we also understand that some will still need to MAINTAIN OLDER INTEGRATIONS. This section contains any information about using incoming Webhooks that is specific to the legacy implementation.</p>
+</li>
+<li>
+<p>Legacy managemet</p>
+<p>If you need to configure your legacy integrations, you can access the Integrations management pages here.</p>
+<p>還是可以建立新的 legacy incoming webhook。</p>
+</li>
+<li>
+<p>Additional limitations</p>
+<p>While you can use legacy incoming Webhooks to post messages, they do not have access to INTERACTIVE MESSAGES FEATURES. To make your messages interactive, you&rsquo;ll need to create an incoming Webhook with a Slack app instead.</p>
+<p>猜想就算硬是塞進 interactive component 按了沒不會有作用，因為不知道要往哪個 Slack app 的 request URL 送 ??</p>
+</li>
+<li>
+<p>Runtime customizations</p>
+<p>Here is a reference list of fields that are used with legacy incoming Webhooks to provide RUNTIME CUSTOMIZATION:</p>
+<ul>
+<li><code>username</code> - override the legacy integration&rsquo;s default name.</li>
+<li><code>icon_emoji</code> - an emoji code string to use in place of the default icon.</li>
+<li>
+<p><code>icon_url</code> - an icon image URL string to use in place of the default icon.</p>
+</li>
+<li>
+<p><code>channel</code> - override the legacy integration&rsquo;s default channel. This should be an ID, such as C8UJ12P4P.</p>
+<p>試過給名字也是可以的。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="runtime-customization">Runtime Customization<a class="headerlink" href="#runtime-customization" title="Permanent link"> #</a></h2>
+<p>官方不推薦使用 LEGACY custom integration，而 Slack app 提供的 incoming webhook 也不再支援覆寫 channel、username 跟 icon，顯然這個功能應該儘量少用。</p>
+<blockquote>
+<p>Though <strong>it is best to use a single incoming webhook for a specific purpose</strong>, &hellip;</p>
+<p>&ndash; <a href="https://api.slack.com/custom-integrations/incoming-webhooks#runtime_customizations">Runtime Customization - Incoming Webhooks | Slack</a></p>
+<p>You <strong>cannot override</strong> the default channel (chosen by the user who installed your app), username, or icon when you&rsquo;re using Incoming Webhooks to post messages. Instead, these values will always inherit from the associated Slack app configuration.</p>
+<p>&ndash; <a href="https://api.slack.com/incoming-webhooks">Incoming Webhooks | Slack</a></p>
+</blockquote>
+<p>參考資料：</p>
+<ul>
+<li>在 Your Apps &gt; Incoming Webhooks 下方 Webhook URLs for Your Workspace 列出的 webhook URLs，如果不是自己建的，URL 無法複製、Channel 如果是 private 也只會看到 &ldquo;a private channel&rdquo;，只會在 Added By 看得到 &ldquo;誰在什麼時候建了這個 webhook&rdquo;。</li>
+<li><a href="https://api.slack.com/custom-integrations/incoming-webhooks#runtime_customizations">Runtime Customization - Incoming Webhooks | Slack</a> #ril<ul>
+<li>一開始就說，最好是 &ldquo;use a single incoming webhook for a specific purpose&rdquo;，但某些情況下可能會想 override channel 跟 authoring identity 等。</li>
+<li>Username 跟 icon 可以分別用 <code>username</code> 與 <code>icon_emoji</code> fields 覆寫，例如 <code>{ "username": "ghost-bot", "icon_emoji": ":ghost:", "text": "..." }</code></li>
+<li>Default channel 則用 <code>channel</code> field 覆寫，可以轉向 public/private channel，甚至是多人的 direct message。這裡填 channel/user ID 的做法看不太懂?? 之前不都用 <code>#channel</code> 或 <code>@username</code>?</li>
+</ul>
+</li>
+<li><a href="https://api.slack.com/incoming-webhooks">Incoming Webhooks | Slack</a><ul>
+<li>You cannot override the default channel (chosen by the user who installed your app), username, or icon when you&rsquo;re using Incoming Webhooks to post messages. Instead, these values will always inherit from the associated Slack app configuration. 全都不能 override 了。</li>
+</ul>
+</li>
+</ul>
+<h2 id="here-menthion">在訊息裡加上 @here 之類的 menthion ??<a class="headerlink" href="#here-menthion" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://api.slack.com/docs/message-formatting#variables">Variables - Basic message formatting | Slack</a> 有些 special command 用 <code>&lt;!COMMAND&gt;</code> 表示，目前有 <code>!channel</code>、<code>!here</code> 跟 <code>!everyone</code> 分別對應 <code>@channel</code>、<code>@here</code> 與 <code>@everyone</code> 這些平常的用法。</li>
+<li>確認過加在 attachment 的 <code>text</code> 或 <code>title</code> 也可以有作用。</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<pre><code>import urllib2, json
+
+req = urllib2.Request('https://hooks.slack.com/services/A00000000/B00000000/XXXXXXXXXXXXXXXXXXXX')
+req.add_header('Content-Type', 'application/json')
+
+data = {
+    'text': 'Hello World!',
+    'channel': &quot;@yourname&quot;,
+    'attachments': [{
+        'color': &quot;#36a64f&quot;,
+        'text' : 'Attachment here'
+    }]
+}
+
+urllib2.urlopen(req, json.dumps(data))
+</code></pre>
+
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://api.slack.com/incoming-webhooks">Incoming Webhooks | Slack</a></li>
+<li><a href="https://api.slack.com/custom-integrations/incoming-webhooks">Incoming Webhooks (Legacy) | Slack</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

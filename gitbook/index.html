@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gitbook/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GitBook - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gitbook.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gitbook">GitBook</a></li>
+            <li class="second-level"><a href="#gitbook-legacy">GitBook Legacy ??</a></li>
+                
+            <li class="second-level"><a href="#alternatives">替代方案</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gitbook">GitBook<a class="headerlink" href="#gitbook" title="Permanent link"> #</a></h1>
+<h2 id="gitbook-legacy">GitBook Legacy ??<a class="headerlink" href="#gitbook-legacy" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitbook.com/v2-changes/important-differences">Important differences - GitBook</a> 初看覺得哀傷，也覺得 GitBook 玩完了?<ul>
+<li>We have MOVED AWAY FROM THE STATIC SITE GENERATOR MODEL, and no longer use the famous <code>gitbook</code> CLI to build documentation output. &hellip; The main one being that you can no longer host a GitBook generated documentation yourself. 覺得哀傷</li>
+<li>We are no longer versioning your books as a Git repository. With the new version, we have shifted to a GitBook specific versioning system. &hellip; so it is never locked on our platform. If you need your documentation to be accessible as a Git repository, you can always use our GitHub integration. For now, we do not support other git hosting services, such as GitLab. 還是被綁架了? 不過之前也只支援 GitHub 不是?</li>
+<li>The new version has dropped support for AsciiDoc, and now only support an extended Markdown syntax.</li>
+<li>The new version of GitBook no longer supports exporting to PDF and other ebooks format.</li>
+<li>The new version does not currently have a desktop editor app. Our efforts are concentrated on the web version so we can focus on quality and reliability first.</li>
+<li>In general, the PLUGIN SYSTEM NO LONGER EXISTS.</li>
+<li>The new GitBook editor does NOT OFFER A WAY TO EDIT THE MARKDOWN SOURCE of documents. We no longer store Markdown or HTML, instead we store rich JSON data structures. The reason for this change is that Markdown has limited features.</li>
+</ul>
+</li>
+<li><a href="https://www.kenming.idv.tw/about_gitbook-v2_and_gitlab_alternative/">關於 GitBook 平台的改版與 GitLab 替代的考量 | Kenmingの鮮思維</a> (2018-09-27) 2018-04 V2 改版之大，以及其售價策略，肯定會引發開源用戶的出走潮，短期內的替代方案是 GitLab (背後金主 Google)，一樣<a href="https://gitlab.com/pages/gitbook">用 <code>gitbook</code> CLI 產生網頁</a>。</li>
+<li><a href="https://github.com/GitbookIO/gitbook/issues/1808">Is GitBook still alive? · Issue #1808 · GitbookIO/gitbook</a> #ril</li>
+<li><a href="https://docs.gitbook.com/getting-started/migrating-from-the-previous-version">Migrating from the legacy version - GitBook</a> #ril</li>
+</ul>
+<h2 id="alternatives">替代方案<a class="headerlink" href="#alternatives" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://alternativeto.net/software/gitbook/">GitBook Alternatives and Similar Software - AlternativeTo.net</a></p>
+<ul>
+<li>依序是 Sphinx、Pandoc、Read The Docs、Daux.io &hellip; MkDocs 等；直接表明跟 GitBook 一樣的只有 mdBook。</li>
+<li>其中 Pandoc 倒是滿常出現在製作 ePub 電子書。</li>
+<li>Daux.io 對 code block 有 below/inline 兩種模式可切換，是其他工具沒看過的設計。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gitbook.com/">GitBook</a> (<a href="https://legacy.gitbook.com/">Legacy</a>)</li>
+<li><a href="https://github.com/GitbookIO/gitbook">GitbookIO/gitbook - GitHub</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

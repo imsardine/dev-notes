@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tui/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>TUI (Text-based User Interface) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tui.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tui-text-based-user-interface">TUI (Text-based User Interface)</a></li>
+            <li class="second-level"><a href="#showcase">應用實例</a></li>
+                
+            <li class="second-level"><a href="#python">Python ??</a></li>
+                
+            <li class="second-level"><a href="#go">Go ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tui-text-based-user-interface">TUI (Text-based User Interface)<a class="headerlink" href="#tui-text-based-user-interface" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Text-based_user_interface">Text-based user interface - Wikipedia</a> #ril</li>
+<li><a href="https://github.com/jroimartin/gocui">jroimartin/gocui: Minimalist Go package aimed at creating Console User Interfaces.</a> CUI (Console User Interface) 是另一種說法。</li>
+<li><a href="https://github.com/topics/cui">Topic: cui</a>、<a href="https://github.com/topics/tui">Topic: tui</a> 有些專案同時標示 tui 與 cui，甚至是 cli。</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/213826/">gui - Is it crazy to develop a TUI today? - Software Engineering Stack Exchange</a> #ril</li>
+<li><a href="https://askubuntu.com/questions/867416/">command line - Are there differences between cli and tui? - Ask Ubuntu</a> #ril</li>
+</ul>
+<h2 id="showcase">應用實例<a class="headerlink" href="#showcase" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://news.ycombinator.com/item?id=14401057">Ask HN: Good examples of interactive command-line user experience? | Hacker News</a> #ril</li>
+<li><a href="https://asciinema.org/">asciinema - Record and share your terminal sessions, the right way</a> &ndash; asciicasts 下應該找到不錯的應用，例如 mapscii #ril</li>
+</ul>
+<h2 id="python">Python ??<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/howto/curses.html">Curses Programming with Python — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://docs.python.org/2/library/curses.html#module-curses">15.11. curses — Terminal handling for character-cell displays — Python 2.7.14 documentation</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/18177142/">user interface - Input in a Python text-based GUI (TUI) - Stack Overflow</a> 許多人都提到 <code>curses</code>；rook: 推薦基於 curses 的 <a href="http://urwid.org/">urwid</a>；Peter Brittain: Linux 及 OS X 上的標準是 <code>ncurses</code>，而 Python built-in <code>curses</code> 就是包裝它，但在 Windows 上的支援有限。跨平台方案可選 <a href="https://github.com/peterbrittain/asciimatics">asciimatics</a>，此外它也提供許多高階的 UI widgets。</li>
+<li><a href="https://www.reddit.com/r/Python/comments/5gd3jd/">Good python library for a text based interface? : Python</a> 有人提到 asciimatics、curses、urwid、<a href="https://github.com/jquast/blessed">blessed</a>、<a href="https://github.com/jonathanslenders/python-prompt-toolkit">Python Prompt Toolkit</a> &ndash; IPython 就是用它!! 作者還寫了 pymux 與 pyvim，重刻了 tmux 與 vim !?</li>
+<li><a href="https://github.com/pfalcon/picotui">pfalcon/picotui: Lightweight, pure-Python Text User Interface (TUI) widget toolkit with minimal dependencies. Dedicated to MicroPython.</a> 支援 CPython 3 與 MicroPython!</li>
+<li><a href="https://www.reddit.com/r/Python/comments/1132ct/">I&rsquo;m trying to make a fancy CLI interface in python. Curses is very confusing (and I can&rsquo;t find a good tutorial!) Any suggestions? : Python</a> #ril</li>
+<li><a href="https://medium.com/@bad_day/create-tui-on-python-71377849879d">Create TUI on Python – Valery Krasnoselsky – Medium</a> (2018-04-21) 用 <code>npyscreen</code> #ril</li>
+<li><a href="https://github.com/tehmaze/diagram">tehmaze/diagram: Text mode diagrams using UTF-8 characters and fancy colors</a> #ril</li>
+</ul>
+<h2 id="go">Go ??<a class="headerlink" href="#go" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/marcusolsson/tui-go">marcusolsson/tui-go: A UI library for terminal applications.</a> #ril</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../text-mode/">Text Mode</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/bumpversion/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>bumpversion - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/bumpversion.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#bumpversion">bumpversion</a></li>
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#bumpversion-cli">bumpversion CLI ??</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#snippets">Snippets</a></li>
+                
+                <li class="third-level"><a href="#bumpversioncfg">.bumpversion.cfg</a></li>
+                <li class="third-level"><a href="#makefile">Makefile</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="bumpversion">bumpversion<a class="headerlink" href="#bumpversion" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://packaging.python.org/guides/single-sourcing-package-version/">Single-sourcing the package version — Python Packaging User Guide</a> 有外部 build tool 可以自動跳號 (改 source code、送 commit 等)，例如 bumpversion、changes、zest.releaser。</li>
+<li><a href="https://pypi.org/project/bumpversion/">bumpversion · PyPI</a> A small command line tool to simplify releasing software by updating ALL VERSION STRINGS in your source code by the correct increment. Also creates COMMITS and TAGS: 面對 text file，所以跟程式語言無關；version format 可以組態。</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/audreyr/cookiecutter-pypackage/blob/master/setup.cfg">cookiecutter-pypackage/setup.cfg at master · audreyr/cookiecutter-pypackage</a> Cookiecutter 的 Python package template 採用 Bumpversion。</li>
+<li><a href="https://github.com/search?q=filename%3A.bumpversion.cfg">Search · filename:.bumpversion.cfg</a></li>
+<li><a href="https://github.com/search?q=filename%3Asetup.cfg+bumpversion">Search · filename:setup.cfg bumpversion</a> 將 bumpversion 設定寫在 <code>setup.py</code> 裡的用法也不少。</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.atlassian.com/blog/2016/02/bumpversion-is-automation-for-semantic-versioning/">Bumpversion is automation for semantic versioning - Atlassian Developers</a> (2016-02-10)</p>
+<ul>
+<li>However, if you have already wired your build to use only 1 file, then you&rsquo;ve already made semver easy. Don&rsquo;t add one more tool just on my say so. The more compelling usage is with a <code>.bumpversion.cfg</code> file in the repo. 如果專案版號只出現在一個檔案 (例如 <code>VERSION</code>)，就不需要動用 bumpversion。</li>
+<li>
+<p>版號的源頭在 <code>.bumpversion.cfg</code>，變更版號透過 <code>bumpversion major|minor|patch</code>，就會一併調整 <code>[bumpversion:file:xxx]</code> 不同檔案內的版號：</p>
+<p>This file plays the same role as the previous <code>src/VERSION</code> file, in that it records what the current version is. But it also stores options for bumpversion that will PROPAGATE the version to other files.</p>
+<pre><code>[bumpversion]
+current_version = 0.5.1
+
+[bumpversion:file:setup.py]
+[bumpversion:file:README.rst] # 不用自訂 pattern 也可以；事實上版號在檔案裡的識別度並不低
+</code></pre>
+<p>實驗過，有路徑也沒問題，例如 <code>[bumpversion:file:app/v1/__init__.py]</code>；看來是相對於 <code>.bumpversion.cfg</code> 路徑表示法。</p>
+</li>
+<li>
+<p>Bumpversion can do that with the <code>--commit</code> switch or the <code>commit = True</code> option in the <code>.bumpversion.cfg</code> file. you can save some time when trying out bumpversion by using the <code>--dry-run</code> option 當然事先要把 Git 的 configuration 做好 (author, email)；可以用 <code>git reset --hard HEAD~1</code> 回復</p>
+</li>
+<li>but there are options to account for alternate VERSIONING SCHEMES, or additions to standard semver, like alpha/beta builds or release candidates. 原來不只可以處理 semver。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/peritus/bumpversion#usage">Usage - peritus/bumpversion: Version-bump your software with a single command</a> #ril</p>
+</li>
+</ul>
+<h2 id="bumpversion-cli"><code>bumpversion</code> CLI ??<a class="headerlink" href="#bumpversion-cli" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/peritus/bumpversion#options">Options - peritus/bumpversion: Version-bump your software with a single command</a><ul>
+<li>大部份的 configuration 都可以從 CLI option 給，但 CLI 還額外提供了一些 options。</li>
+<li><code>--dry-run, -n</code> - Don&rsquo;t touch any files, just pretend. Best used with <code>--verbose</code>. 事實上，沒加 <code>--verbose</code> 看不到東西，working dir 有其他異動也會被擋下，所以通常會 <code>--dry-run --verbose --allow-dirty</code> 一起使用。</li>
+<li><code>--allow-dirty</code> - Normally, bumpversion will abort if the working directory is dirty to protect yourself from releasing unversioned files and/or overwriting unsaved changes. Use this option to override this check.</li>
+<li>
+<p><code>--list</code> - List MACHINE READABLE information to stdout for consumption by other programs. 例如：</p>
+<pre><code>current_version=0.0.18
+new_version=0.0.19
+</code></pre>
+<p>不過跳版通常不會自動在 script 裡面做 (無法決定 major/minor/patch)，實際上的應用?</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/peritus/bumpversion#configuration">Configuration - peritus/bumpversion: Version-bump your software with a single command</a> #ril</li>
+<li>
+<p><a href="https://github.com/peritus/bumpversion#file-specific-configuration">File specific configuration - peritus/bumpversion: Version-bump your software with a single command</a> 可以設定 <code>parse</code>/<code>serialize</code> 或 <code>search</code>/<code>replace</code>，給定不同的 pattern。</p>
+<pre><code>[bumpversion]
+current_version = 1.5.6
+
+[bumpversion:file:requirements.txt]
+search = MyProject=={current_version}
+replace = MyProject=={new_version}
+</code></pre>
+</li>
+<li>
+<p><a href="https://github.com/peritus/bumpversion#part-specific-configuration">Part specific configuration - peritus/bumpversion: Version-bump your software with a single command</a> 這裡的 part specific 跟 file specific 有什麼關係? #ril</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/peritus/bumpversion#installation">Installation - peritus/bumpversion: Version-bump your software with a single command</a> 安裝 <code>bumpversion</code> 套件。</li>
+</ul>
+<h2 id="snippets">Snippets<a class="headerlink" href="#snippets" title="Permanent link"> #</a></h2>
+<h3 id="bumpversioncfg"><code>.bumpversion.cfg</code><a class="headerlink" href="#bumpversioncfg" title="Permanent link"> #</a></h3>
+<pre><code>[bumpversion]
+current_version = 1.0.0
+
+[bumpversion:file:VERSION]
+
+[bumpversion:file:myapp/__init__.py]
+search = version = '{current_version}' # 可以省略
+replace = version = '{new_version}'
+</code></pre>
+
+<h3 id="makefile"><code>Makefile</code><a class="headerlink" href="#makefile" title="Permanent link"> #</a></h3>
+<pre><code># Parameters
+BUMP =
+
+# Internal variables
+version = $(shell cat VERSION)
+
+define docker_run
+    docker run --rm --interactive --tty \
+        --volume $(PWD):/workspace \
+        $(docker_opts) \
+        $(docker_image) $(1)
+endef
+
+bump-version: docker_opts += --volume ~/.gitconfig:/root/.gitconfig
+bump-version:
+ifeq ($(BUMP),)
+    $(error BUMP=major|minor|patch make bumpversion)
+endif
+    $(call docker_run,bumpversion --commit $(BUMP))
+</code></pre>
+
+<p>用起來像是：</p>
+<pre><code>$ BUMP=patch make bump-version
+$ git log -1 --pretty=oneline --abbrev-commit
+8d129b1 (HEAD -&gt; dev) Bump version: 1.0.0 → 1.0.1
+</code></pre>
+
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/peritus/bumpversion">peritus/bumpversion - GitHub</a></li>
+<li><a href="https://pypi.org/project/bumpversion/">bumpversion - PyPI</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../semver/">Semantic Versioning</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/peritus/bumpversion#configuration">Configurations</a></li>
+<li><a href="https://github.com/peritus/bumpversion#options">CLI Options</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

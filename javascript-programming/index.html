@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/javascript-programming/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>JavaScript / Programming - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/javascript-programming.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#javascript-programming">JavaScript / Programming</a></li>
+            <li class="second-level"><a href="#comment">Comment</a></li>
+                
+            <li class="second-level"><a href="#variable">Variable</a></li>
+                
+            <li class="second-level"><a href="#global-object">Global Object</a></li>
+                
+            <li class="second-level"><a href="#control-flow">Control Flow</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="javascript-programming"><a href="../javascript/">JavaScript</a> / Programming<a class="headerlink" href="#javascript-programming" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Basics">Basics - Grammar and types - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>JavaScript borrows most of its syntax from Java, C and C++, but is also influenced by Awk, Perl and Python.</p>
+<p>沒想過 Awk、Perl 跟 Python 都影響了 Python，是哪些部份 ??</p>
+</li>
+<li>
+<p>JavaScript is CASE-SENSITIVE and uses the Unicode character set. For example, the word Früh (which means &ldquo;early&rdquo; in German) could be used as a variable name.</p>
+<pre><code>var Früh = "foobar";
+</code></pre>
+<p>But, the variable <code>früh</code> is not the same as <code>Früh</code> because JavaScript is case sensitive.</p>
+<p><code>"foobar"</code> 本身也是 Unicode，應該比能否用 Unicode 做為變數名稱重要。</p>
+</li>
+<li>
+<p>In JavaScript, instructions are called STATEMENTS and are separated by semicolons (;).</p>
+<p>A semicolon is NOT NECESSARY after a statement if it is written ON ITS OWN LINE. But if more than one statement on a line is desired, then they must be separated by semicolons.</p>
+<p>ECMAScript also has rules for AUTOMATIC INSERTION of semicolons (ASI) to end statements. (For more information, see the detailed reference about JavaScript&rsquo;s lexical grammar.)</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Automatic_semicolon_insertion">Automatic semicolon insertion - Lexical grammar - JavaScript | MDN</a>:</p>
+<blockquote>
+<p>Some JavaScript statements MUST be terminated with semicolons and are therefore affected by automatic semicolon insertion (ASI):</p>
+</blockquote>
+<p>It is considered BEST PRACTICE, however, to ALWAYS write a semicolon after a statement, even when it is not strictly needed. This practice reduces the chances of bugs getting into the code.</p>
+<p>習慣性在 statement 後加上 <code>;</code> 就對了，雖然 ECMAScript 有規範什麼情況下會自動補上 <code>;</code>，但建議還是自己來。</p>
+</li>
+<li>
+<p>The source text of JavaScript script gets scanned from left to right and is converted into a sequence of input elements which are tokens, control characters, line terminators, comments, or whitespace. Spaces, tabs, and newline characters are considered whitespace.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling">Control flow and error handling - JavaScript | MDN</a></p>
+<ul>
+<li>Any JavaScript expression is ALSO A STATEMENT. See <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators">Expressions and operators</a> for complete information about expressions. #ril</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript">A re-introduction to JavaScript (JS tutorial) - JavaScript | MDN</a> #ril</p>
+</li>
+</ul>
+<h2 id="comment">Comment<a class="headerlink" href="#comment" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Comments">Comments - Grammar and types - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>The syntax of comments is the same as in C++ and in many other languages:</p>
+<pre><code>// a one line comment
+
+/* this is a longer,
+ * multi-line comment
+ */
+
+/* You can't, however, /* nest comments */ SyntaxError */
+</code></pre>
+</li>
+<li>
+<p>Comments behave like whitespace and are discarded during script execution.</p>
+</li>
+<li>
+<p>Note: You might also see a third type of comment syntax at the start of some JavaScript files, along these lines: <code>#!/usr/bin/env</code> node. This is called HASHBANG COMMENT syntax, and is a special comment used to specify the path to a particular JavaScript interpreter that you want to use to execute the script. See Hashbang comments for more details.</p>
+<p>跟 Unix-like 的 shebang line 很像，但稱做 hashbang comment。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Hashbang_comments">Hashbang comments - Lexical grammar - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>A specialized third comment syntax, the hashbang comment, is in the process of being standardized in ECMAScript (see the Hashbang Grammar proposal).</p>
+<p>A hashbang comment behaves exactly like a single line-only (<code>//</code>) comment, but it instead begins with <code>#!</code> and is only valid at the ABSOLUTE START OF A SCRIPT OR MODULE. Note also that no whitespace of any kind is permitted before the <code>#!</code>.</p>
+<p>The comment consists of all the characters after <code>#!</code> up to the end of the first line; only one such comment is permitted.</p>
+</li>
+<li>
+<p>The hashbang comment specifies the path to a specific JavaScript interpreter that you want to use to execute the script. An example is as follows:</p>
+<pre><code>#!/usr/bin/env node
+
+console.log("Hello world");
+</code></pre>
+<p>Note: Hashbang comments in JavaScript mimic SHEBANGS In Unix used to run files with proper interpreter. 硬是要取另一個名字</p>
+</li>
+<li>
+<p>Although BOM before hashbang comment will work in a browser it is not advised to use BOM in a script with hasbang. BOM will not work when you try to run the script in Unix/Linux. So use UTF-8 without BOM if you want to run scripts directly from shell.</p>
+</li>
+<li>
+<p>You must only use the <code>#!</code> comment style to specify a JavaScript interpreter. In all other cases just use a <code>//</code> comment (or mulitiline comment).</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="variable">Variable<a class="headerlink" href="#variable" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_Types#Declarations">Declarations - Grammar and types - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>There are three kinds of variable declarations in JavaScript.</p>
+<ul>
+<li><code>var</code> Declares a variable, optionally initializing it to a value.</li>
+<li><code>let</code> Declares a block-scoped, local variable, optionally initializing it to a value.</li>
+<li><code>const</code> Declares a block-scoped, read-only named constant.</li>
+</ul>
+<p>那 <code>var</code> 的 scope 是? 在 ES6 引入 <code>let</code>/<code>const</code> 後還是沒變，在 function 裡宣告是 local，否則就是 global，也就是在 ES6 的 block 裡用 <code>var</code> 宣告還是 global。</p>
+</li>
+</ul>
+<p>Variables</p>
+<ul>
+<li>
+<p>You use variables as symbolic names for values in your application. The names of variables, called identifiers, conform to certain rules.</p>
+</li>
+<li>
+<p>A JavaScript identifier must start with a letter, underscore (<code>_</code>), or dollar sign (<code>$</code>); subsequent characters can also be digits (0-9). Because JavaScript is case sensitive, letters include the characters &ldquo;A&rdquo; through &ldquo;Z&rdquo; (uppercase) and the characters &ldquo;a&rdquo; through &ldquo;z&rdquo; (lowercase).</p>
+<p>注意 dollar sign 是合法的變數名稱，最有名的就是 jQuery 的 <code>$</code>。</p>
+</li>
+<li>
+<p>You can use most of ISO 8859-1 or Unicode letters such as å and ü in identifiers (for more details see this blog post). You can also use the Unicode escape sequences as characters in identifiers.</p>
+<p>Some examples of legal names are <code>Number_hits</code>, <code>temp99</code>, <code>$credit</code>, and <code>_name</code>.</p>
+</li>
+</ul>
+<p>Declaring variables</p>
+<ul>
+<li>
+<p>You can declare a variable in two ways:</p>
+<ul>
+<li>
+<p>With the keyword <code>var</code>. For example, <code>var x = 42</code>. This syntax can be used to declare BOTH local and global variables, depending on the EXECUTION CONTEXT.</p>
+</li>
+<li>
+<p>With the keyword <code>const</code> or <code>let</code>. For example, <code>let y = 13</code>. This syntax can be used to declare a BLOCK-SCOPE LOCAL VARIABLE. See Variable scope below.</p>
+</li>
+</ul>
+<p>按照下面 Variable scope 的說法 &ldquo;When you declare a variable outside of any function, it is called a global variable&rdquo;，<code>let</code>/<code>const</code> 也可以宣告出 global variable。</p>
+</li>
+<li>
+<p>You can also simply assign a value to a variable For example, <code>x = 42</code>. This form creates an UNDECLARED GLOBAL VARIABLE. It also generates a STRICT JAVASCRIPT WARNING. Undeclared global variables can often lead to unexpected behavior. Thus, it is discouraged to use undeclared global variables.</p>
+</li>
+</ul>
+<p>Evaluating variables</p>
+<ul>
+<li>
+<p>A variable declared using the <code>var</code> or <code>let</code> statement with no assigned value specified has the value of <code>undefined</code>.</p>
+<p><code>const</code> 沒這個問題，因為一開始就要給值。</p>
+</li>
+<li>
+<p>An attempt to access an UNDECLARED variable results in a <code>ReferenceError</code> exception being thrown:</p>
+<pre><code>var a;
+console.log('The value of a is ' + a); // The value of a is undefined
+
+console.log('The value of b is ' + b); // The value of b is undefined
+var b;
+// This one may puzzle you until you read 'Variable hoisting' below
+
+console.log('The value of c is ' + c); // Uncaught ReferenceError: c is not defined
+
+let x;
+console.log('The value of x is ' + x); // The value of x is undefined
+
+console.log('The value of y is ' + y); // Uncaught ReferenceError: y is not defined
+let y;
+</code></pre>
+</li>
+<li>
+<p>You can use <code>undefined</code> to determine whether a variable HAS A VALUE. In the following code, the variable <code>input</code> is not assigned a value, and the <code>if</code> statement evaluates to <code>true</code>.</p>
+<pre><code>var input;
+if (input === undefined) {
+  doThis();
+} else {
+  doThat();
+}
+</code></pre>
+<p>注意這裡用 <code>===</code> (strict equal)，不同於 <code>==</code> (equal)，前者會額外比對 type。</p>
+</li>
+<li>
+<p>The <code>undefined</code> value behaves as <code>false</code> when used in a BOOLEAN CONTEXT. For example, the following code executes the function <code>myFunction</code> because the <code>myArray</code> element is undefined:</p>
+<pre><code>var myArray = [];
+if (!myArray[0]) myFunction();
+</code></pre>
+</li>
+<li>
+<p>The <code>undefined</code> value converts to <code>NaN</code> when used in NUMERIC CONTEXT.</p>
+<pre><code>var a;
+a + 2;  // Evaluates to NaN
+</code></pre>
+</li>
+<li>
+<p>When you evaluate a <code>null</code> variable, the <code>null</code> value behaves as <code>0</code> in NUMERIC CONTEXTS and as <code>false</code> in boolean contexts. For example:</p>
+<pre><code>var n = null;
+console.log(n * 32); // Will log 0 to the console
+</code></pre>
+<p>注意 <code>null</code> 跟 <code>undefined</code> 不同，<code>null</code> 被視為有值 ??</p>
+</li>
+</ul>
+<p>Variable scope</p>
+<ul>
+<li>
+<p>When you declare a variable OUTSIDE OF ANY FUNCTION, it is called a global variable, because it is available to any other code in the CURRENT DOCUMENT.</p>
+<p>When you declare a variable within a function, it is called a local variable, because it is available only within that function.</p>
+</li>
+<li>
+<p>JavaScript before ECMAScript 2015 does not have block statement scope; rather, a variable declared within a block is LOCAL TO the function (or global scope) that the block resides within. For example the following code will log 5, because the scope of <code>x</code> is the global context (or the function if the following codes are part of the function), not the immediate <code>if</code> statement block.</p>
+<pre><code>if (true) {
+  var x = 5;
+}
+console.log(x);  // x is 5
+</code></pre>
+</li>
+<li>
+<p>This behavior changes, when using the <code>let</code> declaration introduced in ECMAScript 2015.</p>
+<pre><code>if (true) {
+  let y = 5;
+}
+console.log(y);  // ReferenceError: y is not defined
+</code></pre>
+<p>注意 <code>var</code> 的行為在支援 ES6 的環境下並沒有改變，只有用 <code>let</code>/<code>const</code> 在 block 宣告的變數才會是 block-scoped。</p>
+</li>
+</ul>
+<p>Variable hoisting</p>
+<ul>
+<li>
+<p>Another UNUSUAL thing about variables in JavaScript is that you can refer to a variable DECLARED LATER, without getting an exception. This concept is known as HOISTING; variables in JavaScript are in a sense &ldquo;HOISTED&rdquo; or LIFTED to the top of the function or statement.</p>
+<p>However, variables that are hoisted return a value of <code>undefined</code>. So even if you declare and initialize after you use or refer to this variable, it still returns <code>undefined</code>.</p>
+<pre><code>/**
+ * Example 1
+ */
+console.log(x === undefined); // true
+var x = 3;
+
+/**
+ * Example 2
+ */
+// will return a value of undefined
+var myvar = 'my value';
+
+(function() {
+  console.log(myvar); // undefined
+  var myvar = 'local value';
+})();
+</code></pre>
+<p>The above examples will be interpreted the same as:</p>
+<pre><code>/**
+ * Example 1
+ */
+var x;
+console.log(x === undefined); // true
+x = 3;
+
+/**
+ * Example 2
+ */
+var myvar = 'my value';
+
+(function() {
+  var myvar;
+  console.log(myvar); // undefined
+  myvar = 'local value';
+})();
+</code></pre>
+<p>也就是宣告會被拉到最上面，但給值還是在原來的位置。</p>
+</li>
+<li>
+<p>Because of hoisting, all <code>var</code> statements in a function should be placed as near to the top of the function as possible. This best practice increases the CLARITY of the code.</p>
+<p>In ECMAScript 2015, <code>let</code> and <code>const</code> are HOISTED BUT NOT INITIALIZED. Referencing the variable in the block before the variable declaration results in a <code>ReferenceError</code> because the variable is in a &ldquo;temporal dead zone&rdquo; from the start of the block until the declaration is processed.</p>
+<pre><code>console.log(x); // ReferenceError
+let x = 3;
+</code></pre>
+<p>既然還是會引發 <code>ReferenceError</code>，為何 ES6 的 <code>let</code>/<code>const</code> 也要淌 &ldquo;hoisted but not initialized&rdquo; 這個混水 ??</p>
+</li>
+</ul>
+<p>Function hoisting</p>
+<ul>
+<li>
+<p>For functions, only the FUNCTION DECLARATION gets hoisted to the top and NOT THE FUNCTION EXPRESSION.</p>
+<pre><code>/* Function declaration */
+
+foo(); // "bar"
+
+function foo() {
+  console.log('bar');
+}
+
+/* Function expression */
+
+baz(); // TypeError: baz is not a function
+
+var baz = function() {
+  console.log('bar2');
+};
+</code></pre>
+<p>後者 function expression 的範例，一開始 <code>baz</code> 因為 variable hoisting 的關係，它的值是 <code>undefined</code>。</p>
+</li>
+</ul>
+<p>Global variables</p>
+<ul>
+<li>
+<p>Global variables are in fact PROPERTIES of the GLOBAL OBJECT. In web pages, the global object is <code>window</code>, so you can set and access global variables using the <code>window.variable</code> syntax.</p>
+</li>
+<li>
+<p>Consequently, you can access global variables declared in one window or frame from another window or frame by specifying the window or frame name. For example, if a variable called <code>phoneNumber</code> is declared in a document, you can refer to this variable from an iframe as <code>parent.phoneNumber</code>.</p>
+</li>
+</ul>
+<p>Constants</p>
+<ul>
+<li>
+<p>You can create a read-only, named constant with the <code>const</code> keyword. The syntax of a constant identifier is the same as for a variable identifier: it must start with a letter, underscore or dollar sign (<code>$</code>) and can contain alphabetic, numeric, or underscore characters.</p>
+<pre><code>const PI = 3.14;
+</code></pre>
+</li>
+<li>
+<p>A constant cannot change value through assignment or be RE-DECLARED while the script is running. It must be initialized to a value.</p>
+</li>
+<li>
+<p>The scope rules for constants are the same as those for <code>let</code> block-scope variables. If the <code>const</code> keyword is omitted, the identifier is assumed to represent a variable.</p>
+<p>省略 <code>const</code> 不就是 undeclared global variable 了?</p>
+</li>
+<li>
+<p>You cannot declare a constant with the same name as a function or variable in the same scope. For example:</p>
+<pre><code>// THIS WILL CAUSE AN ERROR
+function f() {};
+const f = 5;
+
+// THIS WILL CAUSE AN ERROR TOO
+function f() {
+  const g = 5;
+  var g;
+
+  //statements
+}
+</code></pre>
+</li>
+<li>
+<p>However, the properties of objects assigned to constants are NOT PROTECTED, so the following statement is executed without problems.</p>
+<pre><code>const MY_OBJECT = {'key': 'value'};
+MY_OBJECT.key = 'otherValue';
+</code></pre>
+<p>Also, the contents of an array are not protected, so the following statement is executed without problems.</p>
+<pre><code>const MY_ARRAY = ['HTML','CSS'];
+MY_ARRAY.push('JAVASCRIPT');
+console.log(MY_ARRAY); //logs ['HTML','CSS','JAVASCRIPT'];
+</code></pre>
+<p>換句話說，constant 並不等同於 immutable。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#Block_statement">Block statement - Control flow and error handling - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>The most basic statement is a BLOCK STATEMENT that is used to group statements. The block is delimited by a pair of curly brackets:</p>
+<pre><code>{
+  statement_1;
+  statement_2;
+  .
+  .
+  .
+  statement_n;
+}
+</code></pre>
+</li>
+<li>
+<p>Block statements are commonly used with control flow statements (e.g. <code>if</code>, <code>for</code>, <code>while</code>).</p>
+<pre><code>while (x &lt; 10) {
+  x++;
+}
+</code></pre>
+<p>Here, <code>{ x++; }</code> is the block statement.</p>
+</li>
+<li>
+<p>Important: JavaScript prior to ECMAScript2015 (6<sup>th</sup> edition) does not have block scope. Variables introduced within a block are scoped to the containing function or script, and the effects of setting them persist BEYOND the block itself.</p>
+<p>注意 &ldquo;scoped to the containing function or script&rdquo; 的說法，就算 <code>var</code> 寫在 block 裡，scope 也會歸外層的 function 或 global，因為早期沒有 block scope 的概念；猜想在支援 ES6 (引入 <code>let</code> 與 <code>const</code>) 的 JavaScript engine 上也會保持相同的行為。</p>
+</li>
+<li>
+<p>In other words, block statements DO NOT DEFINE A SCOPE. &ldquo;Standalone&rdquo; blocks in JavaScript can produce completely different results from what they would produce in C or Java. For example:</p>
+<pre><code>var x = 1;
+{
+  var x = 2;
+}
+console.log(x); // outputs 2
+</code></pre>
+<p>實務上會單獨使用 block statement 嗎 ??</p>
+<p>This outputs 2 because the <code>var x</code> statement within the block is in the same scope as the <code>var x</code> statement before the block. In C or Java, the equivalent code would have outputted 1.</p>
+<p>Starting with ECMAScript2015, the <code>let</code> and <code>const</code> variable declarations are block scoped. See the <code>let</code> and <code>const</code> reference pages for more information.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="global-object">Global Object<a class="headerlink" href="#global-object" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Glossary/Global_object">Global object - MDN Web Docs Glossary: Definitions of Web-related terms | MDN</a>:</p>
+<ul>
+<li>
+<p>A global object is an object that always exists in the global scope. In JavaScript, there&rsquo;s always a global object defined.</p>
+</li>
+<li>
+<p>In a web browser, when scripts create global variables, they&rsquo;re created as members of the global object. (In Node.js this is NOT THE CASE.) The global object&rsquo;s interface depends on the execution context in which the script is running.</p>
+<ul>
+<li>In a web browser, any code which the script doesn&rsquo;t specifically start up as a background task has a <code>Window</code> as its global object. This is the vast majority of JavaScript code on the Web.</li>
+<li>Code running in a <code>Worker</code> has a <code>WorkerGlobalScope</code> object as its global object.</li>
+<li>Scripts running under Node.js have an object called <code>global</code> as their global object.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nodejs.org/api/globals.html#globals_global">Global Objects | Node.js v12.9.0 Documentation</a>:</p>
+<p>In browsers, the TOP-LEVEL SCOPE is the GLOBAL SCOPE. This means that within the browser <code>var something</code> will define a new global variable. In Node.js this is different. The top-level scope is not the global scope; <code>var something</code> inside a Node.js module will be LOCAL TO THAT MODULE.</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">Standard built-in objects - JavaScript | MDN</a></p>
+<ul>
+<li>
+<p>The term &ldquo;global objects&rdquo; (or standard built-in objects) here is not to be confused with the global object.</p>
+<p>單複數的差別，因為 global object 只有一個，但 &ldquo;objects in the global scope&rdquo; 則可以有多個。</p>
+</li>
+<li>
+<p>Here, global objects refer to OBJECTS IN THE GLOBAL SCOPE. The global object itself can be accessed using the <code>this</code> operator in the global scope (but only if ECMAScript 5 strict mode is not used; in that case it returns <code>undefined</code>).</p>
+<p>In fact, the global scope consists of the properties of the global object, including inherited properties, if any.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="control-flow">Control Flow<a class="headerlink" href="#control-flow" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling#Conditional_statements">Conditional statements - Control flow and error handling - JavaScript | MDN</a></p>
+<ul>
+<li>A conditional statement is a set of commands that executes if a specified condition is true. JavaScript supports two conditional statements: <code>if...else</code> and <code>switch</code>.</li>
+</ul>
+<p><code>if...else</code> statement</p>
+<ul>
+<li>
+<p>Use the <code>if</code> statement to execute a statement if a logical condition is true. Use the optional <code>else</code> clause to execute a statement if the condition is false. An if statement looks as follows:</p>
+<pre><code>if (condition) {
+  statement_1;
+} else {
+  statement_2;
+}
+</code></pre>
+<p>Here the <code>condition</code> can be any expression that evaluates to <code>true</code> or <code>false</code>. See Boolean for an explanation of what evaluates to <code>true</code> and <code>false</code>. If condition evaluates to <code>true</code>, <code>statement_1</code> is executed; otherwise, <code>statement_2</code> is executed. <code>statement_1</code> and <code>statement_2</code> can be any statement, including further nested if statements.</p>
+</li>
+<li>
+<p>You may also compound the statements using <code>else if</code> to have multiple conditions tested in sequence, as follows:</p>
+<pre><code>if (condition_1) {
+  statement_1;
+} else if (condition_2) {
+  statement_2;
+} else if (condition_n) {
+  statement_n;
+} else {
+  statement_last;
+}
+</code></pre>
+<p>In the case of multiple conditions only the first logical condition which evaluates to <code>true</code> will be executed. To execute multiple statements, group them within a block statement (<code>{ ... }</code>) . In general, it&rsquo;s good practice to ALWAYS USE BLOCK STATEMENTS, especially when nesting <code>if</code> statements:</p>
+<pre><code>if (condition) {
+  statement_1_runs_if_condition_is_true;
+  statement_2_runs_if_condition_is_true;
+} else {
+  statement_3_runs_if_condition_is_false;
+  statement_4_runs_if_condition_is_false;
+}
+</code></pre>
+</li>
+<li>
+<p>It is advisable to not use SIMPLE ASSIGNMENTS in a conditional expression, because the assignment can be confused with equality when glancing over the code. For example, do not use the following code:</p>
+<pre><code>if (x = y) {
+  /* statements here */
+}
+</code></pre>
+<p>If you need to use an assignment in a conditional expression, a common practice is to put ADDITIONAL PARENTHESES around the assignment. For example:</p>
+<pre><code>if ((x = y)) {
+  /* statements here */
+}
+</code></pre>
+<p>原來 JavaScript 裡的 assignment 是有有傳值的。</p>
+</li>
+<li>
+<p>The following values evaluate to <code>false</code> (also known as FALSY VALUES):</p>
+<pre><code>false
+undefined
+null
+0
+NaN
+the empty string ("")
+</code></pre>
+<p>All other values, including all objects, evaluate to <code>true</code> when passed to a conditional statement.</p>
+</li>
+<li>
+<p>Do not confuse the primitive boolean values <code>true</code> and <code>false</code> with the true and false values of the <code>Boolean</code> object. For example:</p>
+<pre><code>var b = new Boolean(false);
+if (b) // this condition evaluates to true
+if (b == true) // this condition evaluates to false
+</code></pre>
+<p>這也太 tricky 了吧!! 不像 Java 會自動 boxing/unboxing。</p>
+</li>
+<li>
+<p>In the following example, the function <code>checkData</code> returns <code>true</code> if the number of characters in a <code>Text</code> object is three; otherwise, it displays an alert and returns <code>false</code>.</p>
+<pre><code>function checkData() {
+  if (document.form1.threeChar.value.length == 3) {
+    return true;
+  } else {
+    alert('Enter exactly three characters. ' +
+    document.form1.threeChar.value + ' is not valid.');
+    return false;
+  }
+}
+</code></pre>
+</li>
+</ul>
+<p><code>switch</code> statement</p>
+<ul>
+<li>
+<p>A <code>switch</code> statement allows a program to evaluate an expression and attempt to match the expression&rsquo;s value to a CASE LABEL. If a match is found, the program executes the associated statement. A <code>switch</code> statement looks as follows:</p>
+<pre><code>switch (expression) {
+  case label_1:
+    statements_1
+    [break;]
+  case label_2:
+    statements_2
+    [break;]
+    ...
+  default:
+    statements_def
+    [break;]
+}
+</code></pre>
+</li>
+<li>
+<p>The program first looks for a <code>case</code> clause with a label matching the value of expression and then transfers control to that clause, executing the associated statements.</p>
+<p>If no matching label is found, the program looks for the optional <code>default</code> clause, and if found, transfers control to that clause, executing the associated statements. If no <code>default</code> clause is found, the program continues execution at the statement following the end of <code>switch</code>. By convention, the <code>default</code> clause is the last clause, but it does not need to be so.</p>
+</li>
+<li>
+<p>The optional <code>break</code> statement associated with each <code>case</code> clause ensures that the program breaks out of <code>switch</code> once the matched statement is executed and continues execution at the statement following <code>switch</code>. If <code>break</code> is omitted, the program continues execution at the next statement in the <code>switch</code> statement.</p>
+</li>
+<li>
+<p>In the following example, if <code>fruittype</code> evaluates to <code>"Bananas"</code>, the program matches the value with case &ldquo;Bananas&rdquo; and executes the associated statement. When <code>break</code> is encountered, the program terminates <code>switch</code> and executes the statement following <code>switch</code>. If <code>break</code> were omitted, the statement for case &ldquo;Cherries&rdquo; would also be executed.</p>
+<pre><code>switch (fruittype) {
+  case 'Oranges':
+    console.log('Oranges are $0.59 a pound.');
+    break;
+  case 'Apples':
+    console.log('Apples are $0.32 a pound.');
+    break;
+  case 'Bananas':
+    console.log('Bananas are $0.48 a pound.');
+    break;
+  case 'Cherries':
+    console.log('Cherries are $3.00 a pound.');
+    break;
+  case 'Mangoes':
+    console.log('Mangoes are $0.56 a pound.');
+    break;
+  case 'Papayas':
+    console.log('Mangoes and papayas are $2.79 a pound.');
+    break;
+  default:
+   console.log('Sorry, we are out of ' + fruittype + '.');
+}
+console.log("Is there anything else you'd like?");
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration">Loops and iteration - JavaScript | MDN</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../javascript-type/">Data Type</a></li>
+<li><a href="../javascript-data/">Data Structure</a></li>
+<li><a href="../javascript-oop/">Object-Oriented Programming</a></li>
+<li><a href="../javascript-error/">Error Handling</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

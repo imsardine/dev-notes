@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/docker-networking/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Docker / Networking - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/docker-networking.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#docker-networking">Docker / Networking</a></li>
+            <li class="second-level"><a href="#network-driver">Network Driver</a></li>
+                
+            <li class="second-level"><a href="#bridge-network">Bridge Network ??</a></li>
+                
+            <li class="second-level"><a href="#port-mapping">Port Mapping ??</a></li>
+                
+            <li class="second-level"><a href="#container-link-legacy">Container Link (LEGACY) ??</a></li>
+                
+            <li class="second-level"><a href="#docker-network-docker-run">docker network, docker run ??</a></li>
+                
+            <li class="second-level"><a href="#host-network">Host Network ??</a></li>
+                
+            <li class="second-level"><a href="#overlay-network">Overlay Network ??</a></li>
+                
+            <li class="second-level"><a href="#macvlan-network">Macvlan Network ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="docker-networking"><a href="../docker/">Docker</a> / Networking<a class="headerlink" href="#docker-networking" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://docs.docker.com/network/">Overview | Docker Documentation</a> Docker container/service 的威力在於它們可以連結在一起，甚至也可以連結 non-Docker workloads (工作量)，而且彼此都不需要知道對方是不是 Docker workload。</li>
+<li><a href="https://docs.docker.com/config/containers/container-networking/">Container networking | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/v17.09/engine/userguide/networking/">Docker container networking | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="network-driver">Network Driver<a class="headerlink" href="#network-driver" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/network/#network-drivers">Network drivers - Overview | Docker Documentation</a><ul>
+<li>Networking subsystem 設計成 pluggable，可以搭配不同的 driver，內建的 driver 有 Bridge (<code>bridge</code>)、Host (<code>host</code>)、None (<code>none</code>)、Overlay 及 Macvlan (括號裡是內建的 network name)，還可以安裝其他 network plugin 擴充。</li>
+<li>Bridge: 預設的 network driver，用於 application 有多個 standalone container，但其間需要 (直接) 溝通時。User-defined bridge networks are best when you need multiple containers to communicate ON THE SAME DOCKER HOST. 唯一的限制就是要在同一個 Docker host 下。</li>
+<li>Host: 拿掉 container 與 host 間的 network isolation，直接走 host&rsquo;s networking，只能用在 swarm services。Host networks are best when the network stack should not be isolated from the Docker host, but you want other aspects of the container to be isolated. 只是網路沒隔開而已。</li>
+<li>Overlay: 連結多個 Docker daemon 使 swarm services 可以相互溝通；也可以用來串接 swarm service 與 standalone container，或是不同 Docker daemon 的 standalone container。好處是可以避開 OS-level routing。相對於 <code>bridge</code> 而言，差別在於不同 Docker host。</li>
+<li>Macvlan: 可以為 container 指定 MAC address，使在網路上像個 physical device，通常用於 legacy application (預期直接連到 physical network)。Macvlan networks are best when you are MIGRATING FROM A VM SETUP or need your containers to look like physical hosts on your network, each with a unique MAC address.</li>
+</ul>
+</li>
+<li><a href="https://docs.docker.com/engine/reference/builder/#expose">EXPOSE - Dockerfile reference | Docker Documentation</a> 最後提到 <code>docker network</code> 可以建立一個讓 container 相互溝通的 network (透過任何 port)，不需要 expose/publish 任何 port。</li>
+<li><a href="https://docs.docker.com/network/none/">Disable networking for a container | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="bridge-network">Bridge Network ??<a class="headerlink" href="#bridge-network" title="Permanent link"> #</a></h2>
+<ul>
+<li>Bridge network 完整的說法是 user-defined bridge network，因此 user-defined network 跟 bridge network 指的是相同的東西，但 user-defined network 更強調不是 default <code>bridge</code> network。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/network/network-tutorial-standalone/">Networking with standalone containers | Docker Documentation</a></p>
+<ul>
+<li>預設的 bridge network (network name = <code>bridge</code>) 直接可以用，但不要用在 production；建議用自訂的 custom bridge network 去連結多個在同一個 Docker host 的多個 containers。</li>
+<li>
+<p><code>docker network ls</code> 可以列出所有的 network，至少會有 <code>bridge</code>、<code>host</code> 跟 <code>none</code>。</p>
+</li>
+<li>
+<p>Use the default bridge network 試驗連接到 <code>bridge</code> network 的多個 container 如何溝通</p>
+<ul>
+<li><code>docker run -dit --name alpine1 alpine ash</code> 跟 <code>docker run -dit --name alpine2 alpine ash</code> (省略預設的 <code>--network bridge</code>)，用 <code>docker network inspect bridge</code>，在 <code>Containers:</code> 下可以看到上面兩個 container 以及各自的 IP。</li>
+<li>記住 <code>alpine2</code> 的 IP，在 <code>docker attach alpine1</code> 裡試著 <code>ping &lt;IP_OF_ALPINE2&gt;</code> 是可以的，但 <code>ping alpine2</code> 會得到 <code>ping: bad address 'alpine2'</code>。</li>
+</ul>
+</li>
+<li>
+<p>Use user-defined bridge networks 試驗連接到 user-defined network (<code>alpine-net</code>)、連接到 <code>bridge</code> network、及同時連接 <code>alpine-net</code> 及 <code>bridge</code> 的 4 個 container 如何溝通</p>
+<ul>
+<li>首先 <code>docker network create alpine-net</code> 建立 user-defined network (省略預設的 <code>--driver bridge</code>)。</li>
+<li><code>docker run -dit --name alpineN --network alpine-net aalpine ash</code> 啟動 3 個 container &ndash; <code>alpine1</code>、<code>alpine2</code> 跟 <code>alpine4</code>，再用 <code>docker network connect bridge alpine4</code> 讓 <code>alpine4</code> 也同時接到 <code>bridge</code> network。</li>
+<li><code>docker run -dit --name alpine3 alpine ash</code> 啟動 <code>alpine3</code>，只接到 <code>bridge</code> network；用 <code>docker network inspect bridge</code> 確認 <code>alpine3</code> 跟 <code>alpine4</code> 都接到 <code>bridge</code> network，而 <code>docker network inspect alpine-net</code> 則可以看到 <code>alpine1</code>、<code>alpine2</code> 跟 <code>alpine4</code>。</li>
+<li>在 <code>apline1</code> 裡，除可以可用 IP 跟同一個 network 的 <code>alpine2</code>、<code>alpine4</code> 溝通外，也可以透過 container name (例如 <code>ping alpine2</code>)，這項功能叫 &ldquo;automatic service discovery&rdquo;，是 <code>bridge</code> network 沒有的功能。但 <code>alpine1</code> -&gt; <code>alpine3</code> 之間，因為沒有共同的 network，無論透過 IP 或 container name 都連接不到 (事實上，<code>alpine3</code> 這個名稱也無法解析出 IP)。</li>
+<li>在 <code>alpine4</code> 裡，跟 <code>alpine1、</code>alpine2<code>可以用 IP 及 container name 溝通，跟</code>alpine3` 還是只能透過 IP 溝通，因為它沒有接到共通的 user-defined bridge network。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/network/bridge/">Use bridge networks | Docker Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="port-mapping">Port Mapping ??<a class="headerlink" href="#port-mapping" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>docker port CONTAINER</code> 可以列出 <em>CONTAINER</em> 的 port mappings (running 時才有意義)，也可以搭配 <code>[PRIVATE_PORT[/PROTOCOL]]</code> 查詢 container 內的 private port (或稱 container port) 被 map/publish 到 host 的 public port (或稱 host port)。</li>
+<li><code>Dockerfile</code> 裡的 <code>EXPOSE</code> 只是用來說明哪些 container port 可以被 publish，但真正的 publish 發生在 <code>docker runer</code> 搭面 <code>--publish, -p</code> 或 <code>--publish-all, -P</code> 時。</li>
+<li>以 <code>docker run -p 8080:80 -name my-container ...</code> 為例，用 <code>docker port my-container 80</code> (或 <code>docker port my-container 80/tcp</code>) 會得到 <code>0.0.0.0:8080</code>，而 <code>docker port my-container 80/udp</code> 則會丟出 &ldquo;Error: No public port &lsquo;80/udp&rsquo; published for my-container&rdquo; 的錯誤，注意 public/private port 與 publish 的說法。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>How to run NGINX as a Docker container - TechRepublic <a href="https://www.techrepublic.com/article/how-to-run-nginx-as-a-docker-container/">https://www.techrepublic.com/article/how-to-run-nginx-as-a-docker-container/</a> 提到 <code>docker run</code> 時要加 <code>-p PUBLIC_PORT:PRIVATE_PORT</code> 做 mapping。</li>
+<li>docker port | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/port/">https://docs.docker.com/engine/reference/commandline/port/</a> <code>docker port</code> 可以列出所有的 port mapping，也可以查詢特定 private port (+ protocol) 是否被 publish 出去，例如 <code>docker run -p 8080:80 -name my-container...</code>，用 <code>docker port my-container 80</code> (或 <code>docker port my-container 80/tcp</code>) 會得到 <code>0.0.0.0:8080</code>，而 <code>docker port my-container 80/udp</code> 則會丟出 &ldquo;Error: No public port &lsquo;80/udp&rsquo; published for my-container&rdquo; 的錯誤 (注意 public/private port 與 publish 的說法)</li>
+<li>docker run | Docker Documentation <a href="https://docs.docker.com/engine/reference/commandline/run/">https://docs.docker.com/engine/reference/commandline/run/</a> <code>docker run</code> 跟 port 相關的參數有 <code>--publish, -p</code> - Publish a container’s port(s) to the host，<code>--publish-all, -P</code> - Publish all exposed ports to random ports 以及 <code>--expose</code> - Expose a port or a range of ports；要 publish 一定要先 expose??</li>
+<li>EXPOSE - Dockerfile reference | Docker Documentation <a href="https://docs.docker.com/engine/reference/builder/#expose">https://docs.docker.com/engine/reference/builder/#expose</a> <code>EXPOSE</code> 只是在說明 container 在 runtime 時有哪些 listen 的 port (TCP/UDP) 可以被 publish，但真正的 publish 發生在 <code>docker run</code> 搭配 <code>--publish, -p</code> 或 <code>--publish-all, -P</code> 時。</li>
+<li>EXPOSE (incoming ports) - Docker run reference | Docker Documentation <a href="https://docs.docker.com/engine/reference/run/#expose-incoming-ports">https://docs.docker.com/engine/reference/run/#expose-incoming-ports</a> <code>--link</code> 可以建立 container 間的連結? 這裡出現 host port 與 container port 的說法 #ril</li>
+<li><a href="https://stackoverflow.com/questions/19897743/">Exposing a port on a live Docker container - Stack Overflow</a> 從回應整體看起來，事後要做 port mapping 並不容易。<ul>
+<li>reberhardt: 一旦 container 執行起來，可以再做 port mapping 嗎?</li>
+<li>SvenDowideit: 你不能這麼做，但事實上從 host 可以存取到 un-exposed port? 試不出來 XD</li>
+</ul>
+</li>
+<li><a href="https://docs.docker.com/network/links/#connect-using-network-port-mapping">Connect using network port mapping - Legacy container links | Docker Documentation</a> 不知為何要在 link 裡講這麼多 porting mapping? #ril</li>
+</ul>
+<h2 id="container-link-legacy">Container Link (LEGACY) ??<a class="headerlink" href="#container-link-legacy" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/network/links/">Legacy container links | Docker Documentation</a><ul>
+<li>從 <a href="https://docs.docker.com/network/bridge/">Use bridge networks</a> 大概可以理解，&rdquo;link&rdquo; 專指 <code>--link</code>；links between the containers 或 linked container 都跟 <code>--link</code> 有關，不同於透過 network 連結的機制。</li>
+<li>The <code>--link</code> flag is a LEGACY feature of Docker. It may eventually be removed. Unless you absolutely need to continue using it, we recommend that you use user-defined networks to facilitate communication between two containers instead of using <code>--link</code>. 一開始就說，應該用 user-defined network 來取代 <code>--link</code>；不過現在還滿多人在用的&hellip;</li>
+<li>One feature that user-defined networks do not support that you can do with <code>--link</code> is sharing environmental variables between containers. However, you can use other mechanisms such as VOLUMES to share environment variables between containers in a more controlled way. 透過 volume 也可以共用環境變數??</li>
+<li>&ldquo;legacy container links within the Docker DEFAULT bridge network&rdquo;、&rdquo;you can still create links but they behave differently between DEFAULT bridge network and user defined networks&rdquo; 及 &ldquo;container linking in DEFAULT bridge network&rdquo; 等說法，看似 container link 跟 bridge network 有關，只是搭配 default <code>bridge</code> network 跟 user-defined network 有不同的效果；事實上這份文件也只講 &ldquo;legacy link feature in the default bridge network&rdquo;，也就是 <code>--network bridge</code> (或省略)。</li>
+<li>前面 Connect using network port mapping 講了一堆，只是為了帶出 Network port mappings are not the only way Docker containers can connect to one another。這裡的 linking system 也可以將多個 container 串接在一起，還有 &ldquo;send connection information from one to another&rdquo; &ndash; information about a SOURCE container can be sent to a RECIPIENT container，包括 connectivity information 跟 environment variables。</li>
+<li>不過 link 是透過 container name，所以 <code>docker run</code> 時用 <code>--name</code> 取個易懂的名稱很重要 &ndash; a reference point that allows it to refer to other containers</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/network/links/#communication-across-links">Communication across links - Legacy container links | Docker Documentation</a></p>
+<ul>
+<li>建立 container 間的 link，就像在 source container 與 recipient container 間拉一條導管 (conduit) 一樣，recipient 可以存取 source 的一些資料。</li>
+<li>用 <code>--link</code> 建立連結，例如 <code>docker run -d -P --name web --link db:db training/webapp python app.py</code>，其中 <code>--link db:db</code> 的用法是 <code>--link CONTAINER[:LINK_ALIAS]</code>，也就由 <code>web</code> 往 <code>db</code> 建立一個名稱為 <code>db</code> 的 link，但因為是 <code>web</code> 收到 <code>db</code> 的資訊 &ndash; 在 <code>web</code> 裡可以 <code>ping db</code>，但 <code>db</code> 裡認不得 <code>ping web</code>，所以 <code>web</code> 是 recipient，而 <code>db</code> 才是 source，這跟連線的方向剛好相反。</li>
+<li>Docker creates a SECURE TUNNEL between the containers that doesn’t need to expose any ports externally on the container. That’s a big benefit of linking: we don’t need to expose the source container.</li>
+<li>其實這背後的 magic 是 Docker 會自動調整 recipient container 的 <code>/etc/hosts</code>:<pre><code>$ docker run -it --rm --name web --link db:mydb alpine cat /etc/hosts
+...
+172.17.0.2  mydb 09bc088666d2 db &lt;-- container name 跟 link alias 都可以用
+172.17.0.4  83a22c0ed4fc &lt;-- 這是 container 自己
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/network/links/#environment-variables">Environment variables - Legacy container links | Docker Documentation</a> #ril</p>
+</li>
+<li><a href="https://docs.docker.com/network/bridge/#differences-between-user-defined-bridges-and-the-default-bridge">Differences between user-defined bridges and the default bridge - Use bridge networks | Docker Documentation</a> User-defined bridges provide automatic DNS resolution between containers. 也提到 <code>--link</code> #ril</li>
+</ul>
+<h2 id="docker-network-docker-run"><code>docker network</code>, <code>docker run</code> ??<a class="headerlink" href="#docker-network-docker-run" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/v17.09/engine/userguide/networking/work-with-networks/">Work with network commands | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#network-settings">Network settings - <code>docker run</code> | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/reference/run/#expose-incoming-ports">EXPOSE (incoming ports) - <code>docker run</code> | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="host-network">Host Network ??<a class="headerlink" href="#host-network" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/network/host/">Use host networking | Docker Documentation</a> 只支援 Linux host #ril</p>
+<ul>
+<li>
+<p>If you use the <code>host</code> network driver for a container, that container’s network stack is not isolated from the Docker host. For instance, if you run a container which binds to port 80 and you use <code>host</code> networking, the container’s application will be available on port 80 on the host’s IP address.</p>
+<p>其中 bind 指的是 container 裡的 application 直接在某個 port listen??</p>
+</li>
+<li>
+<p>The host networking driver only works on Linux hosts, and is NOT supported on Docker Desktop for Mac, Docker Desktop for Windows, or Docker EE for Windows Server.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/network/network-tutorial-host/">Networking using the host network | Docker Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/24319662/">nginx - From inside of a Docker container, how do I connect to the localhost of the machine? - Stack Overflow</a> #ril</p>
+<ul>
+<li>Phil: So I have a Nginx running inside a docker container, I have a mysql running on localhost, I want to connect to the MySql from within my Nginx.</li>
+<li>
+<p>Thomasleveil: If you are using Docker-for-mac or Docker-for-Windows 18.03+, just connect to your mysql service using the host <code>host.docker.internal</code>.</p>
+<p>As of Docker 18.09.3, this does not work on Docker-for-Linux. A <a href="https://github.com/docker/libnetwork/pull/2348">fix</a> has been submitted on March the 8<sup>th</sup>, 2019 and will hopefully be merged to the code base. Until then, a workaround is to use a container as described in qoomon&rsquo;s answer. 看起來，正解就是 <code>host.docker.internal</code></p>
+</li>
+<li>
+<p>Janne Annala: Docker v 18.03 and above (since March 21<sup>st</sup> 2018) &ndash; Use your internal IP address or connect to the special DNS name <code>host.docker.internal</code> which will resolve to the internal IP address used by the host. 所謂 &ldquo;internal IP&rdquo; 是 host 在 container 裡的 IP，跟 host 上看到的 IP 不同。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/docker-for-mac/networking/">Networking features in Docker Desktop for Mac | Docker Documentation</a> #ril</p>
+<p>I WANT TO CONNECT FROM A CONTAINER TO A SERVICE ON THE HOST</p>
+<ul>
+<li>
+<p>The host has a CHANGING IP address (or none if you have NO NETWORK ACCESS). From 18.03 onwards our recommendation is to connect to the special DNS name <code>host.docker.internal</code>, which resolves to the internal IP address used by the host. This is for development purpose and will not work in a production environment outside of Docker Desktop for Mac.</p>
+<p>由於 IP 會變動，也可能沒有網路，用虛擬的 <code>host.docker.internal</code> 確實是比較好的選擇。</p>
+</li>
+<li>
+<p>The gateway is also reachable as <code>gateway.docker.internal</code>. 什麼情況下會用到 gateway??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container">Docker Tip #65: Get Your Docker Host&rsquo;s IP Address from in a Container — Nick Janetakis</a> (2018-07-27) #ril</p>
+</li>
+</ul>
+<h2 id="overlay-network">Overlay Network ??<a class="headerlink" href="#overlay-network" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/network/overlay/">Use overlay networks | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/network/network-tutorial-overlay/">Networking with overlay networks | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="macvlan-network">Macvlan Network ??<a class="headerlink" href="#macvlan-network" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/network/macvlan/">Use Macvlan networks | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/network/network-tutorial-macvlan/">Networking using a macvlan network | Docker Documentation</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/docker/libnetwork">docker/libnetwork - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.docker.com/engine/reference/commandline/network/"><code>docker network</code> | Docker Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

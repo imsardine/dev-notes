@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/docker-daemon/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Docker / Daemon - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/docker-daemon.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#docker-daemon">Docker / Daemon</a></li>
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#runtime-program-exceeds-27720-thread-limit-fatal-error-thread-exhaustion">runtime: program exceeds 27720-thread limit fatal error: thread exhaustion ??</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="docker-daemon"><a href="../docker/">Docker</a> / Daemon<a class="headerlink" href="#docker-daemon" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/config/daemon/">Configure and troubleshoot the Docker daemon | Docker Documentation</a> #ril</p>
+<ul>
+<li>After successfully installing and starting Docker, the <code>dockerd</code> daemon runs with its default configuration. This topic shows how to customize the configuration, start the daemon manually, and troubleshoot and debug the daemon if you run into issues.</li>
+</ul>
+<p>Start the daemon using operating system utilities</p>
+<ul>
+<li>
+<p>On a typical installation the Docker daemon is started by a SYSTEM UTILITY, not manually by a user. This makes it easier to automatically start Docker when the machine reboots.</p>
+</li>
+<li>
+<p>The command to start Docker depends on your operating system. Check the correct page under Install Docker. To configure Docker to start automatically at system boot, see Configure Docker to start on boot.</p>
+<p><a href="https://docs.docker.com/install/linux/linux-postinstall/#configure-docker-to-start-on-boot">Configure Docker to start on boot - Post-installation steps for Linux | Docker Documentation</a>:</p>
+<blockquote>
+<p>Most current Linux distributions (RHEL, CentOS, Fedora, Ubuntu 16.04 and higher) use <code>systemd</code> to manage which services start when the system boots. Ubuntu 14.10 and below use <code>upstart</code>.</p>
+<pre><code>$ sudo systemctl enable docker
+</code></pre>
+<p>To disable this behavior, use <code>disable</code> instead.</p>
+<pre><code>$ sudo systemctl disable docker
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<p>Start the daemon manually</p>
+<ul>
+<li>
+<p>If you don’t want to use a system utility to manage the Docker daemon, or just want to test things out, you can manually run it using the <code>dockerd</code> command. You may need to use <code>sudo</code>, depending on your operating system configuration.</p>
+</li>
+<li>
+<p>When you start Docker this way, it runs in the foreground and sends its logs directly to your terminal.</p>
+<pre><code>$ dockerd
+
+INFO[0000] +job init_networkdriver()
+INFO[0000] +job serveapi(unix:///var/run/docker.sock)
+INFO[0000] Listening for HTTP on unix (/var/run/docker.sock)
+</code></pre>
+<p>To stop Docker when you have started it manually, issue a Ctrl+C in your terminal.</p>
+</li>
+</ul>
+<p>Docker daemon directory</p>
+<ul>
+<li>
+<p>The Docker daemon PERSISTS ALL DATA IN A SINGLE DIRECTORY. This tracks everything related to Docker, including containers, images, volumes, service definition, and secrets.</p>
+<p>By default this directory is:</p>
+<ul>
+<li><code>/var/lib/docker</code> on Linux.</li>
+<li><code>C:\ProgramData\docker</code> on Windows.</li>
+</ul>
+<p>You can configure the Docker daemon to use a different directory, using the <code>data-root</code> configuration option.</p>
+</li>
+<li>
+<p>Since the state of a Docker daemon is kept on this directory, make sure you use a dedicated directory for each daemon. If two daemons share the same directory, for example, an NFS share, you are going to experience errors that are difficult to troubleshoot.</p>
+</li>
+</ul>
+<p>Check whether Docker is running</p>
+<ul>
+<li>
+<p>The operating-system INDEPENDENT way to check whether Docker is running is to ask Docker, using the <code>docker info</code> command.</p>
+<p>前題是 Docker daemon 要活著。</p>
+</li>
+<li>
+<p>You can also use operating system utilities, such as <code>sudo systemctl is-active docker</code> or <code>sudo status docker</code> or <code>sudo service docker status</code>, or checking the service status using Windows utilities.</p>
+</li>
+<li>
+<p>Finally, you can check in the process list for the <code>dockerd</code> process, using commands like <code>ps</code> or <code>top</code>.</p>
+<p>這不一定準，之前就遇到 <code>dockerd</code> process 活著但 <code>docker info</code> 沒回應的狀況，這時候 <code>sudo systemctl is-active docker</code> 還會回 <code>deactivating</code>。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/config/daemon/#troubleshoot-the-daemon">Troubleshoot the daemon - Configure and troubleshoot the Docker daemon | Docker Documentation</a> #ril</p>
+<ul>
+<li>You can enable debugging on the daemon to learn about the runtime activity of the daemon and to aid in troubleshooting. If the daemon is completely non-responsive, you can also force a full stack trace of all threads to be added to the daemon log by sending the <code>SIGUSR</code> signal to the Docker daemon. ??</li>
+</ul>
+<p>Read the logs</p>
+<ul>
+<li>
+<p>The daemon logs may help you diagnose problems. The logs may be saved in one of a few locations, depending on the operating system configuration and the logging subsystem used:</p>
+<ul>
+<li>RHEL, Oracle Linux: <code>/var/log/messages</code></li>
+<li>Debian: <code>/var/log/daemon.log</code></li>
+<li>Ubuntu 16.04+, CentOS: Use the command <code>journalctl -u docker.service</code></li>
+<li>Ubuntu 14.10-: <code>/var/log/upstart/docker.log</code></li>
+<li>macOS (Docker 18.01+): <code>~/Library/Containers/com.docker.docker/Data/vms/0/console-ring</code></li>
+<li>macOS (Docker &lt;18.01): <code>~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/console-ring</code></li>
+<li>Windows: <code>AppData\Local</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="runtime-program-exceeds-27720-thread-limit-fatal-error-thread-exhaustion">runtime: program exceeds 27720-thread limit fatal error: thread exhaustion ??<a class="headerlink" href="#runtime-program-exceeds-27720-thread-limit-fatal-error-thread-exhaustion" title="Permanent link"> #</a></h3>
+<pre><code>$ sudo journalctl -u docker.service | grep fatal -i -A 2 -B 2
+Aug 05 10:17:55 my-docker-host dockerd[998]: time=&quot;2019-08-05T10:17:55.479257642+08:00&quot; level=info msg=&quot;Loading containers: start.&quot;
+Aug 05 10:26:32 my-docker-host dockerd[998]: runtime: program exceeds 27720-thread limit
+Aug 05 10:26:32 my-docker-host dockerd[998]: fatal error: thread exhaustion
+Aug 05 10:26:32 my-docker-host dockerd[998]: runtime stack:
+Aug 05 10:26:32 my-docker-host dockerd[998]: runtime.throw(0x56268f8c4419, 0x11)
+
+$ sudo ls -l /var/lib/docker
+total 3036
+drwx------     5 root root    4096 May 19  2017 aufs
+drwx------     2 root root    4096 Dec 11  2018 builder
+drwx------     4 root root    4096 Dec 11  2018 buildkit
+drwx------     3 root root    4096 Aug  5 10:12 containerd
+drwx------ 28826 root root 3047424 Aug  3 08:59 containers
+drwx------     3 root root    4096 May 19  2017 image
+drwxr-x---     3 root root    4096 May 19  2017 network
+drwx------     4 root root    4096 May 19  2017 plugins
+drwx------     2 root root    4096 Aug  5 13:43 runtimes
+drwx------     2 root root    4096 May 19  2017 swarm
+drwx------     2 root root    4096 Aug  5 13:43 tmp
+drwx------     2 root root    4096 May 19  2017 trust
+drwx------    10 root root    4096 Jul 24 18:04 volumes
+</code></pre>
+
+<p>這才發現 <code>/var/lib/docker/containers/</code> 下的 container 數量相當驚人，跟頻繁地執行 <code>docker run</code> (但沒有加 <code>--rm</code>) 有關。</p>
+<ul>
+<li>
+<p><a href="https://github.com/moby/moby/issues/15258">Docker crashes when MaxThreads is reached · Issue #15258 · moby/moby</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/moby/moby/issues/22207">orphaned diffs · Issue #22207 · moby/moby</a></p>
+<ul>
+<li>
+<p>CVTJNII: Stopping the Docker daemon and erasing all of <code>/var/lib/docker</code> will be safer. Erasing <code>/var/lib/docker/aufs</code> will cause you to lose your images anyway so it&rsquo;s better to start with a clean <code>/var/lib/docker</code> in my opinion. This is the &ldquo;solution&rdquo; I&rsquo;ve been using for several months for this problem now.</p>
+<p>把 <code>/var/lib/docker</code> 全刪真不會出事嗎 ??</p>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pyenv/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pyenv - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pyenv.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pyenv">pyenv</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#shim">Shim ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pyenv">pyenv<a class="headerlink" href="#pyenv" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://github.com/pyenv/pyenv">pyenv/pyenv: Simple Python version management</a><ul>
+<li>Simple Python version management，可以在不同版本的 Python 間切換；源自 rbenv、ruby-build，像是 nvm (Node)、rvm (Ruby) 這類的工具。</li>
+<li>從 <code>pyenv global pypy-2.6.0</code> 與 <code>miniconda3-3.16.0 (set by /Volumes/treasuredata/.python-version)</code> 看來，pyenv 支援 CPython、PyPy、Conda 等，有 global Python version 的概念 (per-user basis)，也支援 per-project Python version。</li>
+<li>pyenv 本身是用 shell script 寫的，不需要先裝 Python；也因此它不直接管理 virtualenv，但 <a href="https://github.com/pyenv/pyenv-virtualenv">pyenv-virtualenv</a> 是做什麼的??</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=3J02sec99RM">Which Python Package Manager Should You Use? - YouTube</a> #ril<ul>
+<li>03:22 唸做 &ldquo;py-ann-f&rdquo;；pyenv 在 virtualenv 及 Anaconda 之上?</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/2812471/">egg - Is there a python equivalent of Ruby&rsquo;s &lsquo;rvm&rsquo;? - Stack Overflow</a><ul>
+<li>Olivier Verdier: 原先講 virtualenv，後來修正為 pyenv；但就 scientific computing 而言，建議用 Anaconda。</li>
+<li>hytdsh: 原先講 Pythonbrew，後來也轉向 pyenv。</li>
+<li>Yuu Yamashita: 仿 rbenv 寫了 pyenv，也支援 Stackless、PyPy 及 Jython。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://medium.com/@sagarrakshe2/using-version-managers-e2c626b3bb50">Using version managers – Sagar Rakshe – Medium</a> (2017-09-10) #ril</li>
+<li><a href="http://akbaribrahim.com/managing-multiple-python-versions-with-pyenv/">Managing Multiple Python Versions with pyenv</a> (2016-01-11) #ril</li>
+</ul>
+<h2 id="shim">Shim ??<a class="headerlink" href="#shim" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pyenv/pyenv#basic-github-checkout">Basic GitHub Checkout - pyenv/pyenv: Simple Python version management</a> #ril</li>
+<li><a href="https://github.com/pyenv/pyenv#how-it-works">How It Works - pyenv/pyenv: Simple Python version management</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<pre><code>$ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+...
+WARNING: seems you still have not added 'pyenv' to the load path.
+
+# Load pyenv automatically by adding
+# the following to ~/.bashrc: &lt;-- 要手動加些東西，才能自動載入 pyenv
+
+export PATH=&quot;/Users/jeremykao/.pyenv/bin:$PATH&quot;
+eval &quot;$(pyenv init -)&quot;
+eval &quot;$(pyenv virtualenv-init -)&quot;
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/pyenv/pyenv#installation">Installation - pyenv/pyenv: Simple Python version management</a> #ril<ul>
+<li>macOS 上建議用 <code>brew install pyenv</code> 安裝，之後昇級用 <code>brew upgrade pyenv</code>；但還是要用動做 Add <code>pyenv init</code> to your shell to enable shims and autocompletion</li>
+<li>作者自己寫了個 <a href="https://github.com/pyenv/pyenv-installer">automatic installer</a>，執行 <code>curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash</code>，會安裝到 <code>~/.pyenv</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pyenv/pyenv">pyenv/pyenv - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/pyenv/pyenv/blob/master/COMMANDS.md">Command Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

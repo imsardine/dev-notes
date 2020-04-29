@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/stackdriver/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Stackdriver - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/stackdriver.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-stackdriver">Google Stackdriver</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-stackdriver">Google Stackdriver<a class="headerlink" href="#google-stackdriver" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Stackdriver">Stackdriver - Wikipedia</a></p>
+<ul>
+<li>Google Stackdriver is a FREEMIUM, credit card required, cloud computing systems management service offered by Google. It provides performance and diagnostics data (in the form of monitoring, LOGGING, tracing, ERROR REPORTING, and alerting) to public cloud users. Stackdriver is a hybrid cloud solution, providing support for both Google Cloud and AWS cloud environments. 其中 error reporting 是指 log level 為 warning/error 的嗎??</li>
+<li>In May 2014, the Stackdriver company was acquired by Google. An expanded version of the product (adding support for LOGS ANALYSIS, hybrid cloud support, and deep integration with Google Cloud) was rebranded as Google Stackdriver and was launched to general availability in October, 2016.</li>
+<li>
+<p>Stackdriver&rsquo;s focus is improving the performance and availability of large, complex applications running in the public cloud. It provides metrics detailing every layer of the &lsquo;stack&rsquo; in the form of charts and graphs. It supports multi-cloud environments, and provides a single pane of glass into users&rsquo; cloud services. It provides VIEWS INTO THE LOGS that are generated, and allows users to generate METRICS from those logs. It allows users to receive ALERTS when metrics breach normal levels.</p>
+<p>原始資料還是 log，從 log 產生 metrics，再根據 metric 的變化 alert。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cloud.google.com/stackdriver/">Stackdriver - Hybrid Monitoring  |  Stackdriver  |  Google Cloud</a> #ril</p>
+<ul>
+<li>Monitoring and management for services, containers, applications, and infrastructure.</li>
+</ul>
+<p>Full observability for your code and applications</p>
+<ul>
+<li>Stackdriver AGGREGATES metrics, logs, and events from infrastructure, giving developers and operators a rich set of OBSERVABLE SIGNALS that speed ROOT-CAUSE ANALYSIS and reduce mean time to resolution (MTTR). Stackdriver doesn’t require extensive integration or multiple “panes of glass,” and it won’t lock developers into using a particular cloud provider.</li>
+</ul>
+<p>Works with multiple clouds and on-premises infrastructure</p>
+<ul>
+<li>Stackdriver is built from the ground up for cloud-powered applications. Whether you’re running on Google Cloud Platform, Amazon Web Services, ON-PREMISES infrastructure, or with hybrid clouds, Stackdriver COMBINES metrics, logs, and metadata from all of your cloud accounts and projects into a single comprehensive view of your environment, so you can quickly understand service behavior and take action. 能合併不同地方的 log 一起看，對於 root-cause analysis 確實很有幫助!!</li>
+</ul>
+<p>Find and fix issues fast</p>
+<ul>
+<li>
+<p>Rich visualization and advanced alerting help you identify issues quickly, even hard-to-diagnose issues like host contention (爭奪??), cloud provider throttling, and degraded hardware. Integration with popular services like PagerDuty and SLACK provide for rapid incident response. Integrated logging, tracing, and error reporting enable rapid drill-down and root-cause analysis.</p>
+<p>能跟 Slack 整合，就不需要在自己的應用程式裡刻意安排 logger 把 warning/error 往 Slack 送了，但要怎麼做??</p>
+</li>
+</ul>
+<p>Full-stack insights</p>
+<ul>
+<li>
+<p>Stackdriver gives you access to logs, metrics, traces, and other signals from your infrastructure platform(s), virtual machines, containers, middleware, and application tier, so that you can track issues ALL THE WAY FROM YOUR END USER to your backend services and infrastructure. Native support for distributed systems, auto-scaling, EPHEMERAL RESOURCES, and application performance management means that your monitoring works seamlessly with your modern architecture.</p>
+<p>感覺 client 也可以直接送 log 到 Stackdriver，不就可以當 GA 用??</p>
+</li>
+</ul>
+<p>Native Google integration and more</p>
+<ul>
+<li>Native integration with Google Cloud data tools BigQuery, Cloud Pub/Sub, Cloud Storage, Cloud Datalab, and out-of-the-box integration with all your other application components.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://cloud.google.com/stackdriver/">Stackdriver |  Google Cloud</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

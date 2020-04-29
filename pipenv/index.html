@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/pipenv/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Pipenv - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/pipenv.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#pipenv">Pipenv</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#pipfile-pipfilelock">Pipfile, Pipfile.lock ??</a></li>
+                
+            <li class="second-level"><a href="#pipfile-setuppy">Pipfile 與 setup.py</a></li>
+                
+            <li class="second-level"><a href="#multiple-indexes">Multiple Indexes ??</a></li>
+                
+            <li class="second-level"><a href="#virtualenv">Virtualenv 的位置 ??</a></li>
+                
+            <li class="second-level"><a href="#packaging">Packaging ??</a></li>
+                
+            <li class="second-level"><a href="#pyenv">pyenv ??</a></li>
+                
+            <li class="second-level"><a href="#tox">搭配 tox 使用 ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="pipenv">Pipenv<a class="headerlink" href="#pipenv" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://pipenv.readthedocs.io/en/latest/">Pipenv: Python Dev Workflow for Humans — pipenv 2018.7.1.dev0 documentation</a> #ril<ul>
+<li>Slogan 是 Python Dev Workflow for Humans，重點在 DEV Workflow。</li>
+<li>It automatically creates and manages a VIRTUALENV for your projects, as well as adds/removes packages from your <code>Pipfile</code> as you install/uninstall packages. It also generates the ever-important <code>Pipfile.lock</code>, which is used to produce DETERMINISTIC BUILDS. 層次比 virtualenv 高了一階，這些概念其實是來自其他語言的套件，例如 Composer、npm、Yarn 等。</li>
+<li>Pipenv is primarily meant to provide USERS and DEVELOPERS of applications with an easy method to setup a working environment. 兼顧 user 與 developer，呼應 <code>pipenv install</code> 與 <code>pip --env install</code> 的用法。</li>
+</ul>
+</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv">Installing Pipenv - Pipenv &amp; Virtual Environments — pipenv 2018.10.14.dev0 documentation</a> Pipenv is a DEPENDENCY MANAGER for Python projects. If you’re familiar with Node.js’ npm or Ruby’s bundler, it is similar in spirit to those tools. While pip can install Python packages, Pipenv is recommended as it’s a HIGHER-LEVEL TOOL that simplifies dependency management for common use cases. 說明了 pip 與 Pipenv 的關係 &ndash; Pipenv 是 pip 的高階應用。</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=GBQAKldqgZs">Kenneth Reitz - Pipenv: The Future of Python Dependency Management - PyCon 2018 - YouTube</a> (2018-05-13) #ril</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/basics/#example-pipenv-workflow">Example Pipenv Workflow - Basic Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a> #ril<ul>
+<li>拿到一個專案後，先執行 <code>pipenv install</code> (就跟 Node.js 的 <code>npm install</code> 一樣)。</li>
+<li>用 <code>pipenv install &lt;package&gt;</code> 可以安裝其他套件，若 <code>Pipfile</code> 不存在則會自動建立。</li>
+<li>要進入 pipenv 的環境 (activate) 用 <code>pipenv shell</code> &ndash; spawn a new shell subprocess (這點跟 virtualenv 很不一樣)，要離開則執行 <code>exit</code> (比 virtualenv 的 <code>deactivate</code> 直覺)。</li>
+</ul>
+</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/install/#using-installed-packages">Using installed packages - Pipenv &amp; Virtual Environments — pipenv 2018.10.14.dev0 documentation</a> 提到 <code>pipenv run &lt;command&gt;</code> 可以執行環境內的 script，跟 <code>pipenv shell</code> 進到該環境執行一樣。</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/basics/">Basic Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a> #ril</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/advanced/#generating-a-requirements-txt">Generating a requirements.txt - Advanced Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a> 為什麼要提供這項功能?? #ril</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/advanced/#specifying-package-indexes">Specifying Package Indexes - Advanced Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a> 可以指定每個 dependncy 的 source/index #ril</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/advanced/">Advanced Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a> #ril</li>
+</ul>
+<h2 id="pipfile-pipfilelock">Pipfile, Pipfile.lock ??<a class="headerlink" href="#pipfile-pipfilelock" title="Permanent link"> #</a></h2>
+<ul>
+<li>若在 Docker image 裡佈署，建議 <code>pip install --deploy [--system]</code>，好處是檢查到 <code>Pipfile.lock</code> 與 <code>Pipfile</code> 失去同步時會噴錯，而且可以搭配 <code>--system</code> 直接裝到系統。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://pipenv.readthedocs.io/en/latest/basics/#general-recommendations-version-control">General Recommendations &amp; Version Control - Basic Usage of Pipenv — pipenv 2018.11.27.dev0 documentation</a></p>
+<ul>
+<li>Generally, keep both <code>Pipfile</code> and <code>Pipfile.lock</code> in version control. Do not keep <code>Pipfile.lock</code> in version control if multiple versions of Python are being targeted. 後者通常指的是 library。</li>
+<li>Specify your target Python version in your Pipfile’s <code>[requires]</code> section. Ideally, you should only have one target Python version, as this is a DEPLOYMENT tool. 不是 development tool?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/pypa/pipenv/blob/master/docs/advanced.rst#-using-pipenv-for-deployments">Using pipenv for Deployments - pipenv/advanced.rst at master · pypa/pipenv</a></p>
+<ul>
+<li>
+<p>You may want to use <code>pipenv</code> as part of a deployment process. You can enforce that your <code>Pipfile.lock</code> is up to date using the <code>--deploy</code> flag: <code>pipenv install --deploy</code>. This will fail a build if the <code>Pipfile.lock</code> is out–of–date, instead of generating a new one. &hellip; <code>pipenv install</code> by default does attempt to RE-LOCK unless using the <code>--deploy</code> flag</p>
+<p>原來 <code>pipenv install</code> 本來就會檢查 <code>Pipfile.lock</code> 是否跟 <code>Pipfile</code> 一致，遇到不一致時會 &ldquo;自動更新&rdquo; <code>Pipfile.lock</code> (這就是所謂的 re-lock)，加了 <code>--deploy</code> 在檢查到不一致時就會停下來。</p>
+</li>
+<li>
+<p>Or you can install packages exactly as specified in <code>Pipfile.lock</code> using the <code>sync</code> command. 不加以說明還以為是 sync <code>Pipfile</code> 與 <code>Pipfile.lock</code>，它的行為跟 <code>--ignore-pipfile</code> 接近；可以解釋成 &ldquo;sync <code>Pipfile.lock</code> 與 virtualenv，別管 <code>Pipfile</code> 了&rdquo;，但實在很難跟 sync 連結在一起。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/51517500/">python - Why are there two hashes in my Pipfile.lock for one module? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Joern Boegeholz: I&rsquo;ve started using pipenv and installed the flask package.</p>
+<p>In my Pipfile.lock there is this entry:</p>
+<pre><code> "flask": {
+            "hashes": [
+                "sha256:2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48",
+                "sha256:a080b744b7e345ccfcbc77954861cb05b3c63786e93f2b3875e0913d44b43f05"
+            ],
+            "index": "pypi",
+            "version": "==1.0.2"
+        },
+</code></pre>
+<p>I wonder why there are two different hashes. Can anyone elaborate on this? Thanks in advance!</p>
+</li>
+<li>
+<p>user10424986: Just take a look at <a href="https://pypi.org/project/Flask/1.0.2/#files">https://pypi.org/project/Flask/1.0.2/#files</a></p>
+<pre><code>2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48 is the tar.gz
+a080b744b7e345ccfcbc77954861cb05b3c63786e93f2b3875e0913d44b43f05 is the wheel-file
+</code></pre>
+<p>因為 <code>Pipfile</code> 裡指定 <code>flask==1.0.2</code> 的關係，所以 <code>Pipfile.lock</code> 會記錄 v1.0.2 所有 distribution package 的 hash。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pip.pypa.io/en/stable/reference/pip_install/#hash-checking-mode">pip install — pip 19.1.1 documentation</a> #ril</p>
+<ul>
+<li>The ability to use MULTIPLE HASHES is important when a package has both binary and source distributions or when it offers binary distributions for a variety of platforms.</li>
+</ul>
+</li>
+</ul>
+<h2 id="pipfile-setuppy">Pipfile 與 setup.py<a class="headerlink" href="#pipfile-setuppy" title="Permanent link"> #</a></h2>
+<ul>
+<li>Library 性質的專案，仍會將 library 需要的 (abstract) dependencies 寫在 <code>setup.py</code> 的 <code>install_requires</code> 裡，開發相關的套件才會宣告在 <code>Pipfile</code> 的 <code>[dev-packages]</code> 裡 (<code>[packages]</code> 底下空白)；開發時先用 <code>pipenv install -e .</code> 安裝 (abstract) dependencies，再用 <code>pipenv install --dev</code> 安裝開發相關的套件。</li>
+<li>Application 性質的專案，通常只有 <code>Pipfile</code>，將 application 執行期與開發時會用到的套件分別宣告在 <code>[packages]</code> 與 <code>[dev-packages]</code> 底下，再分別用 <code>pipenv install</code> 與 <code>pipenv install --dev</code> 安裝。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://pipenv.readthedocs.io/en/latest/advanced/#pipfile-vs-setuppy">Pipfile vs setup.py - Advanced Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a><ul>
+<li>Application 與 library 間有個微妙但很重大的差異 &ndash; library 要讓其他 library 或 application 使用，所以不會寫死 subdependencies 的版本 (pin dependency versions)，只會宣告 abstract dependencies &ndash; 只宣告需要什麼、或是要求一個範圍 (在 <code>setup.py</code> 的 <code>install_requires</code> 裡)，因為實際採用的版本是由使用它的 library/application 決定。</li>
+<li>而 application 會被佈署到特定的環境，所以 dependencies 及 subdependencies 的版本都要固定下來 (concrete)，而這正是 Pipenv 要解決的問題。</li>
+<li>For applications, define dependencies and where to get them in the Pipfile and use this file to update the set of concrete dependencies in <code>Pipfile.lock</code>. This file defines a specific IDEMPOTENT environment that is known to work for your project. The <code>Pipfile.lock</code> is your SOURCE OF TRUTH. The <code>Pipfile</code> is a convenience for you to create that lock-file, in that it allows you to still remain somewhat VAGUE about the exact version of a dependency to be used. Pipenv is there to help you define a working CONFLICT-FREE SET OF SPECIFIC DEPENDENCY-VERSIONS (協調不同套件間的要求), which would otherwise be a very tedious task.</li>
+<li>For libraries, define abstract dependencies via <code>install_requires</code> in <code>setup.py</code>. The decision of which version exactly to be installed and where to obtain that dependency is not yours to make! Of course, <code>Pipfile</code> and Pipenv are still useful for library developers, as they can be used to define a development or test environment. 也就是 <code>setup.py</code> 會宣告安裝這個 library 時需要的 abstract dependencies，但開發時會用到的套件則會宣告在 <code>Pipfile</code> (<code>[dev-packages]</code>)，並不相衝突。</li>
+<li>最後提到 <code>pipenv install -e .</code> This will tell Pipenv to lock all your <code>setup.py</code>–declared dependencies. 實驗發現，要有 <code>Pipfile</code> (空的也沒關係)，否則會遇到 <code>pipenv.vendor.requirementslib.exceptions.RequirementError: Error parsing requirement . -- are you sure it is installable?</code> 的錯誤；它會把套件安裝到 virtualenv 裡 (當然也就包含 <code>setup.py</code> 裡宣告的 <code>install_requires</code>)，至於 <code>Pipfile</code> 裡的 <code>[dev-packages]</code> 則要透過 <code>pipenv install --dev</code> 安裝。</li>
+</ul>
+</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/diagnose/#pipenv-does-not-respect-dependencies-in-setup-py">Pipenv does not respect dependencies in setup.py - Frequently Encountered Pipenv Problems — pipenv 2018.11.27.dev0 documentation</a> No, it does not, intentionally. <code>Pipfile</code> and <code>setup.py</code> serve different purposes, and should not consider each other by default. 但 <code>pipenv install -e .</code> 是個例外。</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/basics/#editable-dependencies-e-g-e">Editable Dependencies (e.g. -e . ) - Basic Usage of Pipenv — pipenv 2018.11.27.dev0 documentation</a> #ril</li>
+<li><a href="https://github.com/pypa/pipenv/issues/1263">How to keep setup.py install_requires and Pipfile in sync · Issue #1263 · pypa/pipenv</a> #ril<ul>
+<li>Korijn: 在寫 Python package，但如何維持 <code>setup(install_requires=...)</code> 與 <code>Pipfile</code> 同步? For applications that are deployed or distributed in installers, I just use <code>Pipfile</code>. For applications that are distributed as packages with <code>setup.py</code>, I put all my dependencies in <code>install_requires</code>, and I add an <code>extras_require</code> CATEGORY labeled &ldquo;dev&rdquo; for my development dependencies. Then I make my <code>Pipfile</code> depend on <code>setup.py</code> by running <code>pipenv install '-e .'</code> first, and then <code>pipenv install --dev '-e .[dev]'</code>. 但 dev 相關的套件宣告在 <code>Pipfile</code> 的 <code>[dev-packages]</code> 底下不是更直接?</li>
+<li>uranusjr: (member) I thiink @Korijn’s approach is best practice here. <code>Pipfile</code> (and <code>requirements.txt</code>) is for applications; <code>setup.py</code> is for packages. They serve different purposes. IF YOU NEED TO SYNC THEM, YOU’RE DOING IT WRONG (IMO). 兩邊負責的東西不同，其實不需要 sync；<code>setup.py</code> 是定義 library 需要的 dependencies，而 <code>Pipfile</code> 只宣告開發專用的 dependencies (<code>[dev-packages]</code>)。</li>
+</ul>
+</li>
+<li><a href="https://github.com/requests/requests">requests/requests: Python HTTP Requests for Humans</a> 同時有 <code>setup.py</code> 與 <code>Pipfile</code><ul>
+<li><a href="https://github.com/requests/requests/commit/c00783cd86b3de9592f498f4670a5ebad1e99e83#diff-1e61a31bf9b94805f869dc4137ec1885">let&rsquo;s see if this works · requests/requests@c00783c</a> 第一次把 <code>requirements.txt</code> 及 <code>requirements-to-freeze.txt</code> 拿掉，用 <code>Pipfile</code> 及 <code>Pipfile.lock</code> 取代；<code>Makefile</code> 也從 <code>pip install -r requirements.txt</code> 改成 <code>pipenv install --dev</code>。</li>
+<li><a href="https://github.com/requests/requests/commit/7b190acf82e41f8203143ad08eb8c76aaffc2f14#diff-1e61a31bf9b94805f869dc4137ec1885">Updated Pipfile to reflect version specs in setup.py; added Sphinx · requests/requests@7b190ac</a> 特別宣告 <code>pytest = "&gt;=2.8.0"</code> 及 <code>pytest-httpbin = "==0.0.7"</code>，跟 <code>setup.py</code> 裡的 <code>test_requirements = ['pytest&gt;=2.8.0', 'pytest-httpbin==0.0.7', 'pytest-cov', 'pytest-mock']</code> 一致。</li>
+<li><a href="https://github.com/requests/requests/commit/6746b2540dbf4f7a1389b499f2fd1fe3fca6d854#diff-1e61a31bf9b94805f869dc4137ec1885">faster · requests/requests@6746b25</a> 把 <code>Pipfile.lock</code> 刪掉，又出現 <code>requirements.txt</code> 了；雖然目前 master 是沒有這支檔案的。</li>
+<li><a href="https://github.com/requests/requests/commit/4c300c2067517738e80c3e908279828a6edc7de3#diff-1e61a31bf9b94805f869dc4137ec1885">pipfile · requests/requests@4c300c2</a> <code>Pipfile.lock</code> 再次回歸。</li>
+</ul>
+</li>
+<li><a href="https://github.com/pypa/pipenv">pypa/pipenv: Python Development Workflow for Humans.</a> 也同時有 <code>setup.py</code> 與 <code>Pipfile</code>!! <code>Pipfile</code> 裡只用到 <code>[dev-packages]</code>，但 <code>setup.py</code> 裡用到 <code>python_requires</code>、<code>setup_requires</code> 與 <code>install_requires</code>。</li>
+<li><a href="https://github.com/suned/serum/blob/master/Pipfile">serum/Pipfile at master · suned/serum</a> 沒有相依套件，但開發用套件都宣告在 <code>Pipfile</code> 裡 (<code>[dev-packages]</code>)，所以 <code>setup.py</code> 沒有任何 <code>*_requires</code>。</li>
+</ul>
+<h2 id="multiple-indexes">Multiple Indexes ??<a class="headerlink" href="#multiple-indexes" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.pipenv.org/en/latest/advanced/#specifying-package-indexes">Specifying Package Indexes - Advanced Usage of Pipenv — pipenv 2018.11.27.dev0 documentation</a></p>
+<ul>
+<li>
+<p>If you’d like a specific package to be installed with a specific package index, you can do the following:</p>
+<pre><code>[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "http://pypi.home.kennethreitz.org/simple"
+verify_ssl = false
+name = "home"
+
+[dev-packages]
+
+[packages]
+requests = {version="*", index="home"}
+maya = {version="*", index="pypi"}
+records = "*"
+</code></pre>
+<p>雖然從 log 觀察到會先問第一個 index 再問第二個 index，但官方文件沒有講明多個 <code>[[source]]</code> 間的順序會造成什麼影響，建議還是將 PyPI 擺在第一位，沒有指明 `index=&rdquo;xxx&rdquo; 的話，就會找第一個 index。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/pypa/pipenv/issues/716">support for multiple sources · Issue #716 · pypa/pipenv</a> #ril</p>
+</li>
+</ul>
+<h2 id="virtualenv">Virtualenv 的位置 ??<a class="headerlink" href="#virtualenv" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://pipenv.readthedocs.io/en/latest/install/#virtualenv-mapping-caveat">Virtualenv mapping caveat - Pipenv &amp; Virtual Environments — pipenv 2018.11.27.dev0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>The virtualenv is stored GLOBALLY with the name of the project’s root directory plus the HASH OF THE FULL PATH to the project’s root (e.g., <code>my_project-a3de50</code>). If you change your project’s path, you break such a default mapping and pipenv will no longer be able to find and to use the project’s virtualenv.</p>
+<p>這大概是 virtualenv 使用者一開始最不習慣的點</p>
+</li>
+<li>
+<p>You might want to set export <code>PIPENV_VENV_IN_PROJECT=1</code> in your <code>.bashrc</code>/<code>.zshrc</code> (or any shell configuration file) for creating the virtualenv inside your project’s directory, avoiding problems with subsequent path changes.</p>
+<p>實驗發現，virtualenv 會建在 <code>.venv/</code>，而且 <code>pipenv</code> 若發現 CWD 有 <code>.venv/</code>，就算沒有 <code>PIPENV_VENV_IN_PROJECT=1</code> 也會以它為 virtualenv。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pipenv.readthedocs.io/en/latest/advanced/#pipenv.environments.PIPENV_VENV_IN_PROJECT"><code>PIPENV_VENV_IN_PROJECT</code> - Advanced Usage of Pipenv — pipenv 2018.11.27.dev0 documentation</a></p>
+<ul>
+<li>If set, creates <code>.venv</code> in your project directory.</li>
+<li>Default is to create new virtual environments in a global location.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pipenv.readthedocs.io/en/latest/advanced/#custom-virtual-environment-location">Custom Virtual Environment Location - Advanced Usage of Pipenv — pipenv 2018.11.27.dev0 documentation</a></p>
+<ul>
+<li>
+<p>Pipenv automatically honors the <code>WORKON_HOME</code> environment variable, if you have it set — so you can tell pipenv to store your virtual environments wherever you want, e.g.:</p>
+<p>export WORKON_HOME=~/.venvs</p>
+<p>In addition, you can also have Pipenv stick the virtualenv in <code>project/.venv</code> by setting the <code>PIPENV_VENV_IN_PROJECT</code> environment variable.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="packaging">Packaging ??<a class="headerlink" href="#packaging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pypa/pipenv/issues/1288">documentation/question: package publishing · Issue #1288 · pypa/pipenv</a> Pipenv 跟 packaging 似乎不是完全沒有關聯? #ril</li>
+</ul>
+<h2 id="pyenv">pyenv ??<a class="headerlink" href="#pyenv" title="Permanent link"> #</a></h2>
+<ul>
+<li>當 Pipenv 要求的 Python version 不存在時，若環境內有 pyenv，會問要不要自動安裝該版的 Python：<pre><code>$ pipenv install
+Warning: Python 3.5 was not found on your system…
+Would you like us to install CPython 3.5.6 with pyenv? [Y/n]: Y
+Installing CPython 3.5.6 with pyenv (this may take a few minutes)…
+</code></pre>
+</li>
+</ul>
+<h2 id="tox">搭配 tox 使用 ??<a class="headerlink" href="#tox" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pipenv.readthedocs.io/en/latest/advanced/#tox-automation-project">Tox Automation Project - Advanced Usage of Pipenv — pipenv 2018.10.14.dev0 documentation</a> #ril</li>
+<li><a href="https://github.com/tox-dev/tox-pipenv">tox-dev/tox-pipenv: A pipenv plugin for Tox</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pipenv.readthedocs.io/en/latest/#install-pipenv-today">Pipenv: Python Dev Workflow for Humans — pipenv 2018.11.27.dev0 documentation</a> 提到 <code>brew install pipenv</code> 與 <code>sudo dnf install pipenv</code>，就是沒提到 <code>pip install pipenv</code>?</li>
+<li><a href="https://github.com/pypa/pipenv/issues/1263">How to keep setup.py install_requires and Pipfile in sync · Issue #1263 · pypa/pipenv</a> uranusjr: Pipenv should only be installed once (usually globally), and is used outside the project’s virtualenv to manage it, not inside the project’s virtualenv.</li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv">Installing Pipenv - Pipenv &amp; Virtual Environments — pipenv 2018.10.14.dev0 documentation</a> 提到 <code>brew install pipenv</code> 與 <code>pip install pipenv</code> 兩種方式 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pypa/pipenv">pypa/pipenv - GitHub</a></li>
+<li><a href="https://pypi.org/project/pipenv/">pipenv - PyPI</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://pipenv.readthedocs.io/">Pipenv Documentation - Read the Docs</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../reproducible-build/">Reproducible/Deterministic Build</a></li>
+<li><a href="../tox/">tox</a></li>
+<li><a href="../pyenv/">pyenv</a></li>
+<li><a href="../dotenv/">.env</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://pipenv.readthedocs.io/en/latest/#pipenv-usage"><code>pipenv</code> CLI Options</a></li>
+<li><a href="https://pipenv.readthedocs.io/en/latest/advanced/#configuration-with-environment-variables">Environment Variables</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

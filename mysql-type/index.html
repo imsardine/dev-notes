@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mysql-type/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MySQL / Data Type - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mysql-type.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mysql-data-type">MySQL / Data Type</a></li>
+            <li class="second-level"><a href="#null">NULL</a></li>
+                
+            <li class="second-level"><a href="#less-null">少用 NULL ?</a></li>
+                
+            <li class="second-level"><a href="#yearmon">YearMon</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mysql-data-type"><a href="../mysql/">MySQL</a> / Data Type<a class="headerlink" href="#mysql-data-type" title="Permanent link"> #</a></h1>
+<h2 id="null">NULL<a class="headerlink" href="#null" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/null-values.html">MySQL :: MySQL 8.0 Reference Manual :: 9.1.7 NULL Values</a> #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/working-with-null.html">MySQL :: MySQL 8.0 Reference Manual :: 3.3.4.6 Working with NULL Values</a> #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/problems-with-null.html">MySQL :: MySQL 8.0 Reference Manual :: B.4.4.3 Problems with NULL Values</a> #ril</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/is-null-optimization.html">MySQL :: MySQL 8.0 Reference Manual :: 8.2.1.15 IS NULL Optimization</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.oreilly.com/library/view/high-performance-mysql/0596003064/ch04.html#hpmysql-CHP-4-SECT-1.1.7">Indexing NULLs - 4. Indexes - High Performance MySQL [Book]</a> #ril</p>
+</li>
+</ul>
+<h2 id="less-null">少用 NULL ?<a class="headerlink" href="#less-null" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><code>NULL</code> 就是要保守的用 — 當用則用，沒有不該使用的理由。</p>
+<p>合理的使用情境類似 <code>deleted_at</code>、`confi</p>
+</li>
+<li>
+<p>功能面必須提供 &ldquo;暫存&rdquo; 時，可能會導致許多欄位都必須 allow <code>NULL</code>，該如何緩解？</p>
+<p>如果資料離開 “草稿” 時就應該有值，就不適合 allow <code>NULL</code>，應該有其他方式可以解，不管 column type 為何。
+例如新增記錄時，使用者編修的畫面就已經提供合理的預設值，例如今天的日期、空白等，所以使用者按下暫存時，就不需要用 <code>NULL</code> 來表現。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/data-size.html#data-size-table-columns">Table Columns - MySQL :: MySQL 8.0 Reference Manual :: 8.4.1 Optimizing Data Size</a></p>
+<p>Declare columns to be <code>NOT NULL</code> if possible. It makes SQL operations FASTER, by enabling better use of indexes and eliminating OVERHEAD for testing whether each value is <code>NULL</code>. You also save some storage space, ONE BIT PER COLUMN.</p>
+<p>If you really need <code>NULL</code> values in your tables, use them. Just avoid the DEFAULT setting that allows <code>NULL</code> values in EVERY column.</p>
+<p>當用則用。</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/229179/">sql - NULL in MySQL (Performance &amp; Storage) - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Bill Karwin (2008-10-23): It depends on which storage engine you use.</p>
+<ul>
+<li>In MyISAM format, each ROW HEADER contains a bitfield with one bit for each column to encode <code>NULL</code> state. A column that is <code>NULL</code> still takes up space, so <code>NULL</code>&lsquo;s don&rsquo;t reduce storage. See <a href="https://dev.mysql.com/doc/internals/en/myisam-introduction.html">https://dev.mysql.com/doc/internals/en/myisam-introduction.html</a></li>
+<li>In InnoDB, each column has a &ldquo;field start offset&rdquo; in the row header, which is one or two bytes per column. The high bit in that field start offset is on if the column is <code>NULL</code>. In that case, the column doesn&rsquo;t need to be stored at all. So if you have a lot of <code>NULL</code>&lsquo;s your storage should be significantly reduced. See <a href="https://dev.mysql.com/doc/internals/en/innodb-field-contents.html">https://dev.mysql.com/doc/internals/en/innodb-field-contents.html</a></li>
+</ul>
+<p>EDIT:</p>
+<ul>
+<li>The <code>NULL</code> bits are part of the row headers, you don&rsquo;t choose to add them.</li>
+<li>
+<p>The only way I can imagine <code>NULL</code>s improving performance is that in InnoDB, a page of data may fit more rows if the rows contain <code>NULL</code>s. So your InnoDB buffers may be more effective.</p>
+</li>
+<li>
+<p>But I would be very surprised if this provides a significant performance advantage in practice. Worrying about the effect <code>NULL</code>s have on PERFORMANCE is in the realm of MICRO-OPTIMIZATION.</p>
+<p>You should focus your attention elsewhere, in areas that give greater bang for the buck. For example adding well-chosen indexes or increasing database cache allocation.</p>
+</li>
+</ul>
+<p>話說回來，用 <code>NULL</code> 也不是為了 performance。</p>
+</li>
+<li>
+<p>Arian Acosta (2015-08-18): Bill&rsquo;s answer is good, but a little bit outdated. The use of one or two bytes for storing <code>NULL</code> applies only to InnoDB REDUNDANT row format. Since MySQL 5.0.3 InnoDB uses COMPACT row format which uses only one bit to store a <code>NULL</code> (of course one byte is the minimum), therefore:</p>
+<ul>
+<li>
+<p>Space Required for <code>NULL</code>s = <code>CEILING(N/8)</code> bytes where <code>N</code> is the number of <code>NULL</code> columns in a row.</p>
+<pre><code>0 NULLS = 0 bytes
+1 - 8 NULLS = 1 byte
+9 - 16 NULLS = 2 bytes
+17 - 24 NULLS = 3 bytes
+etc...
+</code></pre>
+</li>
+<li>
+<p>According to the official MySQL site about COMPACT vs REDUNDANT:</p>
+<p>The compact row format decreases row storage space by about 20% at the cost of increasing CPU use for some operations. If your workload is a typical one that is limited by cache hit rates and disk speed, compact format is likely to be faster. ??</p>
+</li>
+<li>
+<p>Advantage of using <code>NULL</code>S over Empty Strings or Zeros:</p>
+<ul>
+<li>1 <code>NULL</code> requires 1 byte</li>
+<li>1 <code>Empty</code> String requires 1 byte (assuming <code>VARCHAR</code>)</li>
+<li>1 Zero requires 4 bytes (assuming <code>INT</code>)</li>
+</ul>
+<p>You start to see the savings here:</p>
+<ul>
+<li>8 <code>NULL</code>s require 1 byte</li>
+<li>8 Empty Strings require 8 bytes</li>
+<li>8 Zeros require 32 bytes</li>
+</ul>
+<p>On the other hand, I suggest using <code>NULL</code>s over empty strings or zeros, because they&rsquo;re more ORGANIZED, PORTABLE, and require less space. To improve performance and save space, focus on using the proper data types, indexes, and queries instead of WEIRD TRICKS.</p>
+<p>More on: <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-physical-record.html">https://dev.mysql.com/doc/refman/5.7/en/innodb-physical-record.html</a></p>
+<p>話說回來，用 <code>NULL</code> 也不是為了省空間。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Captain Hypertext (2015-03-8): I would agree with Bill Karwin, although I would add <a href="https://code.tutsplus.com/tutorials/top-20-mysql-best-practices--net-7855">these MySQL tips</a>. Number 11 addresses this specifically:</p>
+<blockquote>
+<p>First of all, ask yourself if there is any DIFFERENCE between having an empty string value vs. a <code>NULL</code> value (for <code>INT</code> fields: 0 vs. <code>NULL</code>). If there is NO REASON to HAVE BOTH, you do not need a <code>NULL</code> field. (Did you know that Oracle considers <code>NULL</code> and empty string as being the same?)</p>
+<p><code>NULL</code> columns require additional space and they can add complexity to your comparison statements. Just avoid them when you can. However, I understand some people might have very specific reasons to have <code>NULL</code> values, which is NOT ALWAYS A BAD THING.</p>
+</blockquote>
+<p>主要是省空間的考量。</p>
+<p>On the other hand, I still utilize null on tables that DON&rsquo;T HAVE TONS OF ROWS, mostly because I like the logic of saying <code>NOT NULL</code>.</p>
+<p>Update: Revisiting this later, I would add that I personally DON&rsquo;T like to use <code>0</code> instead of <code>NULL</code> in the database, and I don&rsquo;t recommend it. This can easily lead to a lot of FALSE POSITIVES in your application if you are not careful.</p>
+<p>畢竟 empty string 是個特殊值，需要另外處理。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://books.google.com.tw/books?id=BL0NNoFPuAQC&amp;pg=PA81&amp;lpg=PA81&amp;dq=mysql+null+performance">Avoid NULL if possible - Choosing Optimal Data Types - High Performance MySQL: Optimization, Backups, Replication, and More - Baron Schwartz, Peter Zaitsev, Vadim Tkachenko, Jeremy D. Zawodny, Arjen Lentz, Derek J. Balling - Google Books</a></p>
+<ul>
+<li>
+<p>You should define fields as <code>NOT NULL</code> whenever you can. A lot of tables include nullable columns even when the application DOES NOT NEED to store <code>NULL</code> (the absence of a value), MERELY BECAUSE it&rsquo;s the default. You should be careful to specify columns as <code>NOT NULL</code> unless you INTEND to sore <code>NULL</code> in them.</p>
+<p>要想過真的需要用，而不是沒想過而直接做為 nullable 即可 &ndash; 當用則用；跟 <a href="https://dev.mysql.com/doc/refman/8.0/en/data-size.html#data-size-table-columns">MySQL Reference Manual</a> 的論點一致。</p>
+</li>
+<li>
+<p>It&rsquo;s harder for MySQL to optimize queries that refer to nullable columns, because they make INDEXES, index statistics, and value comparisons more complicated. A nullable column uses more storage space and require special processing inside MySQL.</p>
+<p>When a nullable column is indexed, it requires an extra byte per entry and can even cause a fixed-size index (such as an index on a single integer column) to be converted a variable-sized one in MyISAM.</p>
+</li>
+<li>
+<p>Even when you do need to store a &ldquo;no value&rdquo; fact in a table, you MIGHT NOT need to use <code>NULL</code>. Consider using zero, a special value, or an empty string instead.</p>
+<p>注意這裡 &ldquo;might not&rdquo; (可能不) 的用法，只是提供 <code>NOT NULL</code> 時如何表達 &ldquo;absence of a value&rdquo; 可能的做法；雖然這呼應了標題 &ldquo;Avoid NULL if possible&rdquo; 的說法 (針對下面的 index?)，但還是要考量 code 會不會因此變得複雜，甚至影響 maintainability。</p>
+</li>
+<li>
+<p>The performance improvment from changing <code>NULL</code> columns to <code>NOT NULL</code> is usually SMALL, so don&rsquo;t make finding and changing them on an existing schema a priority unless you know they are causing problems. However, if you&rsquo;re planning to index columns, avoid making them nullable IF POSSIBLE.</p>
+<p>看起來 nullable column 做為 index 時比較有影響。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.percona.com/blog/2016/10/18/upgrading-to-mysql-5-7-beware-of-the-new-strict-mode/">Upgrading to MySQL 5.7? Beware of the new STRICT mode - Percona Database Performance Blog</a> (2016-10-18)</p>
+<ul>
+<li>
+<p>If we can’t use <code>NULL</code>, we will have to create a default value. In strict mode we can’t use “0000-00-00” either:</p>
+<pre><code>mysql&gt; alter table events_t change event_date event_date datetime NOT NULL default '0000-00-00 00:00:00';
+ERROR 1067 (42000): Invalid default value for 'event_date'
+mysql&gt; alter table events_t change event_date event_date datetime NOT NULL default '2000-00-00 00:00:00';
+ERROR 1067 (42000): Invalid default value for 'event_date'
+</code></pre>
+<p>We have to use a real date:</p>
+<pre><code>mysql&gt; alter table events_t change event_date event_date datetime NOT NULL default '2000-01-01 00:00:00';
+Query OK, 0 rows affected (0.00 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+
+mysql&gt; insert into events_t (profile_id) values (1);
+Query OK, 1 row affected (0.00 sec)
+</code></pre>
+</li>
+<li>
+<p>Or, a most likely much BETTER APPROACH is to change the application logic to:</p>
+<ul>
+<li>allow <code>NULL</code>s, or</li>
+<li>always insert the real dates (i.e. use <code>NOW()</code> function), or</li>
+<li>change the table field to TIMESTAMP and update it automatically if no value has been assigned</li>
+</ul>
+<p>這裡沒有說明 timestamp 如何表現 &ldquo;no value&rdquo; ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.percona.com/blog/2020/03/05/handling-null-values-in-postgresql/">Handling NULL Values in PostgreSQL - Percona Database Performance Blog</a> (2020-03-05)</p>
+<ul>
+<li>
+<p>There is often some confusion about <code>NULL</code> value, as it is TREATED DIFFERENTLY IN DIFFERENT LANGUAGES. So there is an obvious need to clarify what <code>NULL</code> is, how it works in different languages, and what the actual value is behind the <code>NULL</code>.</p>
+</li>
+<li>
+<p>Before going into details, there is also a need to understand the concept of <a href="https://en.wikipedia.org/wiki/Three-valued_logic">THREE-VALUED LOGIC</a> and <a href="https://en.wikipedia.org/wiki/Principle_of_bivalence">TWO-VALUED LOGIC</a> known as bivalent.</p>
+<p>The bivalent is a concept of boolean value where value can be true or false, but contrary to bivalent the three-valued logic can be true, false, or (intermediate value) unknown. Now, back to <code>NULL</code>. In some languages <code>NULL</code> acts as bivalent, and in others, three-valued logic (especially in databases).</p>
+<p>當我們在講 ORM 時，應該都有 <a href="https://en.wikipedia.org/wiki/Null_pointer">Null pointer</a> 的概念，處理上應該不會有什麼差異? 更何況，這種差異應該是各程式語言要自己處理的，不應該成為不該用 <code>NULL</code> 的理由。</p>
+</li>
+</ul>
+<p>Usage of <code>NULL</code></p>
+<ul>
+<li>
+<p>If <code>NULL</code> does not have any value, then what is the ADVANTAGE of NULL? Here are some examples of usage:</p>
+</li>
+<li>
+<p>In case a field does not have any value, and for example, we have database fields with first/middle and last name. Does, in reality, everybody have a first/middle and last name? The answer is no, there shouldn’t be a field that cannot have any value.</p>
+<p>The other usage of <code>NULL</code> is to represent an empty string and empty numeric value. Numeric 0 HAS SIGNIFICANCE so it cannot be used to represent the empty numeric filed, the unknown value at a certain time.</p>
+<p><code>NULL</code> 有它的使用時機，雖然這篇是在講 PostgreSQL，但也不見儘量不要用 <code>NULL</code> 的主張，只說使用上要小心。</p>
+</li>
+</ul>
+<p>Conclusion</p>
+<ul>
+<li>The purpose of this blog is to be clear about the fact that every language has its own meaning of <code>NULL</code>. Therefore, be careful when you are using <code>NULL</code>, otherwise, you will get erroneous results. Especially in databases (PostgreSQL), <code>NULL</code> has some different concepts, so be careful when writing queries involving <code>NULL</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="yearmon">YearMon<a class="headerlink" href="#yearmon" title="Permanent link"> #</a></h2>
+<ul>
+<li>只有年月要儲存時，DB 欄位的型態要用 <code>CHAR(7)</code> (例如 <code>2020-01</code>) 還是 <code>DATE</code> (但日的部份用不到)？</li>
+<li>從 storage 來看，<code>CHAR(7)</code> 佔 6 x 4 = 24 bytes (以 <code>utf8mb4</code> 為例)，但 <code>DATE</code> 只有 3 bytes。</li>
+<li>
+<p><code>CHAR(7)</code> 要做 data range 的查詢雖然不會有問題，但背後其實是 <a href="../mysql-collation/">collation</a> 在決定大小，也不是那麼妥當，況且字串比對的效能一定不會比 <code>DATE</code> 來得快。</p>
+</li>
+<li>
+<p><code>2020-01</code> 是 date 的一種 representation，也可能是 <code>2020/01</code> 或 <code>2020/1</code>，不應該將兩者混淆；況且這類資料輸入時一定會轉成 date 做 validation，那就更沒理由再轉回 representation 才存進 DB。</p>
+</li>
+<li>
+<p>用 <code>DATE</code> 可以搭配 constraint 限定日期的部份一定要是每月 1 號</p>
+<pre><code>mysql&gt; CREATE TABLE `data` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `yearmon` DATE NOT NULL, PRIMARY KEY (`id`), CONSTRAINT `yearmon_1stday` CHECK (DAYOFMONTH(`yearmon`) = 1)) ;
+mysql&gt; mysql&gt; INSERT INTO data (yearmon) VALUES ('2020-12-01');
+Query OK, 1 row affected (0.02 sec)
+mysql&gt; INSERT INTO data (yearmon) VALUES ('2020-12-02');
+ERROR 3819 (HY000): Check constraint 'yearmon_1stday' is violated.
+</code></pre>
+</li>
+<li>
+<p>將年、月分開存成兩個 integer 欄位看似可行，但遇到 date range 的查詢，會比 <code>CHAR(7)</code> 更難處理；如何查出介於 2019-06 ~ 2021-06 的資料?</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://vladmihalcea.com/java-yearmonth-jpa-hibernate/">How to map the Java YearMonth type with JPA and Hibernate - Vlad Mihalcea</a> (2019-02-19)</p>
+<p>Mapping this entity to a database table requires choosing a column type for the <code>YearMonth</code> property. For this purpose we have the following options:</p>
+<ul>
+<li>We could save it in a <code>String</code> column type (e.g., <code>CHAR(6)</code>), but that will require 6-byte storage.</li>
+<li>We could save it as a <code>Date</code> column type, which requires 4 bytes.</li>
+<li>We could save it in a 3 or 4-byte Integer column type.</li>
+</ul>
+<p>Because the <code>String</code> alternative is the LEAST EFFICIENT, we are going to choose the <code>Date</code> and the <code>Integer</code> alternatives instead.</p>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/7802879">sql - what type of data type use for year and month? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>paxdiablo: Normally, I would advise to use the DATE date types no matter what your restrictions, since it allows you to do DATE MANIPULATIONS AND COMPARISONS. You could then use triggers to restrict dates to the first of the month. You&rsquo;d need triggers to ensure that you couldn&rsquo;t get two rows for a single month/year combo.</p>
+<p>Actually, as <code>Damian_The_Unbeliever</code> rightly points out in a comment, you don&rsquo;t need triggers if your intent is to only allow users to attempt insertion of dates where the day of the month is 1. In that case, constraints will probably be enough. It&rsquo;s only the case where you want to allow users to attempt to insert any date but actually force it to become the first day of that month, that triggers would be required.</p>
+<p>原來 constraint 可以做單一欄位的檢查，將年、月分開存好像不錯，不過遇到 range 的查詢時會出狀況。</p>
+<p>However, in this case, I&rsquo;d be quite happy with a TWO-COLUMN year/month setup, based on your use case.</p>
+<p>By using two integer-type columns, you don&rsquo;t need to worry about triggers, and you don&rsquo;t seem to have a need for massive processing of the table contents, based on your column specifications.</p>
+<p>I wouldn&rsquo;t store them as a single integer-type column if you ever foresee the need to process data for a given year (independent of the month). Having the year separate will allow a distinct index which will probably be faster than getting a range of <code>YYYYMM</code> values.</p>
+<p>Seriously, choose the one that you think will be EASIEST TO CODE UP (and meets the functional requirements). Then if, and only if, you discover a performance problem, look into a schema re-org. Databases are NOT SET-AND-FORGET THINGS, you should be constantly monitoring them for problems and, if necessary, changing things.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/storage-requirements.html">Data Type Storage Requirements</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

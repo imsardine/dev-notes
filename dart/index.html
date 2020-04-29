@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dart/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dart - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dart.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dart">Dart</a></li>
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dart">Dart<a class="headerlink" href="#dart" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://dart.dev/">Dart programming language | Dart</a></p>
+<ul>
+<li>
+<p>Paint your UI to life with Dart VM&rsquo;s instant HOT RELOAD.</p>
+</li>
+<li>
+<p>Dart is a CLIENT-OPTIMIZED language for fast apps on any platform. Made by Google.</p>
+<p>Watch video 說明了 hot reload 及 one team 的概念；其中 web 的應用好像只在 frontend ??</p>
+</li>
+<li>
+<p>Optimized for UI &ndash; Develop with a programming language specialized around the needs of USER INTERFACE creation</p>
+<ul>
+<li>
+<p>Mature and complete ASYNC-AWAIT for user interfaces containing EVENT-DRIVEN code, paired with ISOLATE-BASED CONCURRENCY</p>
+<pre><code>fetchTemperature() async {
+  // This call is non-blocking. The UI thread will continue to render with no locks
+  final response = await http.get('https://my/weather');
+
+  if (response.statusCode == 200) {
+    temp.setText(response.body);
+  } else {
+    temp.setText('Unknown temp.');
+  }
+</code></pre>
+</li>
+<li>
+<p>A programming language optimized for building user interfaces with features such as the SPREAD OPERATOR for expanding collections, and COLLECTION IF for customizing UI for each platform</p>
+<pre><code>TabBar build(BuildContext context) {
+  return TabBar(tabs: [
+    Tab(text: 'Shoes'),
+    Tab(text: 'Pants'),
+    Tab(text: 'Shirts'),
+    if (promoActive) Tab (text: 'Outlet'),
+  ]);
+}
+</code></pre>
+</li>
+<li>
+<p>A programming language that is easy to learn, with a familiar syntax</p>
+<p>比較了 Dart、Kotlin、Swift 及 TypeScript 的寫法。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Productive development &ndash; Make changes ITERATIVELY: use hot reload to see the result instantly in your running app</p>
+<ul>
+<li>
+<p>Make changes to your source code iteratively, using <a href="https://flutter.dev/docs/development/tools/hot-reload">hot reload</a> to instantly see the effect in the running app</p>
+</li>
+<li>
+<p>Write code using a flexible type system with rich static analysis and powerful, <a href="https://dart.dev/guides/language/analysis-options">configurable tooling</a> #ril</p>
+</li>
+<li>
+<p>Do <a href="https://flutter.github.io/devtools/timeline">profiling</a>, <a href="https://flutter.github.io/devtools/logging">logging</a>, and <a href="https://flutter.github.io/devtools/debugger#getting-started">debugging</a> with your code editor of choice #ril</p>
+</li>
+</ul>
+<p>Dart 跟 Flutter 的關係很特別 &ndash; Flutter 內建 Dart SDK，而 Dart 許多文件直接指向 Flutter。</p>
+</li>
+<li>
+<p>Fast on all platforms &ndash; Compile to ARM &amp; x64 machine code for mobile, desktop, and BACKEND. Or compile to JavaScript for the web</p>
+<ul>
+<li><a href="https://dart.dev/platforms">AOT-compile</a> apps to NATIVE MACHINE CODE for instant startup #ril</li>
+<li>Target the web with complete, mature, fast compilers for JavaScript</li>
+<li>Run backend code supporting your app, written using a single programming language</li>
+</ul>
+<p>如果 Dart 連 backend 都吃的話，加上 mobile, desktop 及 web，真的就通吃了!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/">Dart programming language | Dart</a> (舊版網站)</p>
+<p>Dart helps you craft beautiful, high-quality experiences ACROSS ALL SCREENS, with: 至少跨及 web 與 mobile</p>
+<ul>
+<li>
+<p>A client-optimized language &ndash; Dart started out being optimized for WEB APPS, and is evolving to provide great support for mobile apps. Dart also runs on the command line and SERVER-SIDE.</p>
+<p>為什麼 client-optimized 會是一項優勢? 但或許這也是為何 Dart 能從 web 一路發展到 mobile 的原因，也支援 ARM CPU。</p>
+</li>
+<li>
+<p>Rich, powerful FRAMEWORKS &ndash; For mobile apps, we recommend Flutter. For desktop apps, AngularDart.</p>
+<p>對 Dart 而言，web、mobile 等不同的 platform，只是不同的 framework。其中 AngularDart 是個 web app framework 而非 desktop?</p>
+</li>
+<li>
+<p>Delightful, flexible tooling &ndash; These range from general-purpose tools to FRAMEWORK-SPECIFIC ones like the <code>flutter</code> tool.</p>
+</li>
+</ul>
+<p>Why Dart?</p>
+<ul>
+<li>Developers at Google and elsewhere use Dart to create high-quality, mission-critical apps for iOS, Android, and the web. With features aimed at CLIENT-SIDE DEVELOPMENT, Dart is a great fit for both mobile and web apps.</li>
+<li>Productive - Dart’s syntax is clear and concise, its tooling simple yet powerful. SOUND TYPING?? helps you to identify subtle errors early. Dart has battle-hardened CORE LIBRARIES and an ecosystem of thousands of packages.</li>
+<li>
+<p>Fast - Dart provides optimizing AHEAD-OF-TIME COMPILATION to get predictably high performance and fast startup across mobile devices and the web.</p>
+</li>
+<li>
+<p>Portable &ndash; Dart compiles to ARM and x86 code, so that Dart mobile apps can run NATIVELY ON IOS, ANDROID, and beyond. For web apps, Dart transpiles to JavaScript.</p>
+<p>就 iOS/Android 而言，並非轉譯成其他語言再編譯，而是直接編譯成 native code，但為何 Flutter 有 Dart VM Observatory 可以用??</p>
+</li>
+<li>
+<p>Approachable - Dart is familiar to many existing developers, thanks to its unsurprising object orientation and syntax. If you already know C++, C#, or Java, you can be productive with Dart in just a few days.</p>
+</li>
+<li>
+<p>Reactive?? &ndash; Dart is well-suited to <a href="https://en.wikipedia.org/wiki/Reactive_programming">REACTIVE PROGRAMMING</a>, with support for managing short-lived objects—such as UI widgets—through Dart’s fast object allocation and generational garbage collector.</p>
+<p>Dart supports asynchronous programming through language features and APIs that use <code>Future</code> and <code>Stream</code> objects.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.dartlang.org/guides/platforms">Platforms | Dart</a></p>
+<ul>
+<li>
+<p>Dart is a SCALABLE language that you can use to write simple scripts or full featured apps. Whether you’re creating a mobile app, web app, command-line script, or server-side app, there’s a Dart solution for that.</p>
+<p>分為 Flutter、Web 跟 Server，其中 Flutter 跟 Web 都有獨立的網站，只有 Server 則在 <a href="http://www.dartlang.org">www.dartlang.org</a> 站內；Web 的全名是 Dart for the web，而 Server 的全名則是 Server-side Dart。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://medium.com/dartlang/announcing-dart-2-80ba01f43b6">Announcing Dart 2: Optimized for Client-Side Development</a> (2018-02-23) #ril</p>
+</li>
+<li><a href="https://hackernoon.com/why-flutter-uses-dart-dd635a054ebf">Why Flutter Uses Dart – Hacker Noon</a> (2018-02-26) #ril</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../flutter/">Flutter</a></li>
+<li><a href="https://www.dartlang.org/community/who-uses-dart">Who Uses Dart | Dart</a></li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dart.dev/">Dart Programming Language</a></li>
+<li><a href="https://github.com/dart-lang">Dart - GitHub</a></li>
+<li><a href="https://pub.dev/">Dart Packages</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/dart_lang">Google&rsquo;s Dart Team (@dart_lang) | Twitter</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/dart">&lsquo;dart&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>學習資源：</p>
+<ul>
+<li><a href="https://news.dartlang.org/">Dart News &amp; Updates</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="https://dartpad.dartlang.org/">DartPad</a></li>
+<li><a href="../dart-observatory/">Observatory</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../dart-prog/">Programming</a></li>
+<li><a href="../dart-cli/">CLI</a></li>
+<li><a href="../dart-lib/">Library</a></li>
+<li><a href="../dart-style/">Coding Style</a></li>
+<li><a href="../dart-vm/">VM</a></li>
+<li><a href="../dart-package/">Package</a></li>
+<li><a href="../dart-testing/">Testing</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>Dart 在 mobile 上的方案就是 <a href="../flutter/">Flutter</a>。</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://api.dartlang.org/stable/">Dart API Docs</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

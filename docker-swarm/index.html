@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/docker-swarm/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Docker / Swarm - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/docker-swarm.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#docker-swarm">Docker / Swarm</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="docker-swarm"><a href="../docker/">Docker</a> / Swarm<a class="headerlink" href="#docker-swarm" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.docker.com/engine/swarm/">Swarm mode overview | Docker Documentation</a></p>
+<ul>
+<li>
+<p>Current versions of Docker include SWARM MODE for natively managing a CLUSTER OF DOCKER ENGINES called a SWARM.</p>
+<p>Use the Docker CLI to create a swarm, deploy application services to a swarm, and manage swarm behavior.</p>
+<p>為什麼會有 mode 的說法，感覺 Docker 原本處在另一個 mode ?? 為什麼 deploy 的單位是 application services，不應該是 application stack (也就是 Compose 的 project) &ndash; 由多個 service 組成 ??</p>
+</li>
+</ul>
+<p>Feature highlights</p>
+<ul>
+<li>
+<p>Cluster management integrated with Docker Engine: Use the Docker Engine CLI to create a swarm of Docker Engines where you can deploy application services. You don’t need additional orchestration software to create or manage a swarm.</p>
+<pre><code>$ docker --help | grep -i swarm
+  node        Manage Swarm nodes
+  swarm       Manage Swarm
+</code></pre>
+</li>
+<li>
+<p>Decentralized design: Instead of handling differentiation between NODE roles at deployment time, the Docker Engine handles any specialization at runtime. You can deploy both kinds of nodes, MANAGERs and WORKERs, using the Docker Engine. This means you can build an entire swarm from a SINGLE DISK IMAGE.</p>
+<p>Swarm/Cluster 裡的每個 node 雖然角色上有分 manager 跟 worker，但用的是同一套程式；這裡 disk image 是指 ??</p>
+</li>
+<li>
+<p>Declarative service model: Docker Engine uses a DECLARATIVE approach to let you define the desired state of the various services in your APPLICATION STACK. For example, you might describe an application comprised of a web front end service with message queueing services and a database backend.</p>
+<p>由於 swarm 由多個 Docker Engine 組成，理論上可以佈署多個獨立的 application stack，就像 <a href="https://docs.docker.com/compose/production/#running-compose-on-a-swarm-cluster">Running Compose on a Swarm cluster</a> 講的：</p>
+<blockquote>
+<p>Docker Swarm, a Docker-native clustering system, exposes the same API as a single Docker host, which means you can use Compose against a Swarm instance and run your apps across multiple hosts.</p>
+</blockquote>
+<p>也就是一個 Swarm 從外面看來就像單一個 Docker host，一樣可以佈署多個獨立的 Compose project (由多個 service 組成)，但背後會自動在多個 Docker Engine 間調度。</p>
+</li>
+<li>
+<p>Scaling: For each service, you can declare the number of tasks you want to run. When you scale up or down, the swarm manager automatically adapts by adding or removing tasks to maintain the desired state.</p>
+<p>這裡 service 跟 task 是什麼關係 ??</p>
+</li>
+<li>
+<p>Desired state reconciliation: The swarm manager node constantly monitors the cluster state and reconciles any differences between the actual state and your expressed DESIRED STATE.</p>
+<p>For example, if you set up a service to run 10 REPLICAS of a container, and a worker machine hosting two of those replicas crashes, the manager creates two new replicas to replace the replicas that crashed. The swarm manager assigns the new replicas to workers that are running and available.</p>
+</li>
+<li>
+<p>Multi-host networking: You can specify an OVERLAY NETWORK for your services. The swarm manager automatically assigns addresses to the containers on the overlay network when it initializes or updates the application. ??</p>
+</li>
+<li>
+<p>Service discovery: Swarm manager nodes assign each service in the swarm a unique DNS name and LOAD BALANCES running containers. You can query every container running in the swarm through a DNS server embedded in the swarm.</p>
+<p>有時候搞不清楚，這裡的 service 指的是 application stack，還是 application stack 裡的 services ??</p>
+</li>
+<li>
+<p>Load balancing: You can expose the ports for services to an EXTERNAL LOAD BALANCER. Internally, the swarm lets you specify how to distribute service containers between nodes. ??</p>
+</li>
+<li>
+<p>Secure by default: Each node in the swarm enforces TLS mutual authentication and encryption to secure communications between itself and all other nodes. You have the option to use self-signed root certificates or certificates from a custom root CA.</p>
+<p>內部走 TLS 會不會多耗效能 ??</p>
+</li>
+<li>
+<p>Rolling updates: At ROLLOUT TIME you can apply service updates to nodes INCREMENTALLY.</p>
+<p>The swarm manager lets you control the DELAY between service deployment to different sets of nodes. If anything goes wrong, you can ROLL-BACK a task to a previous version of the service.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/engine/swarm/key-concepts/">Swarm mode key concepts | Docker Documentation</a> #ril</p>
+<p>Services and tasks</p>
+<ul>
+<li>
+<p>A SERVICE IS THE DEFINITION OF THE TASKS TO EXECUTE on the manager or worker nodes. It is the central structure of the swarm system and the primary root of user interaction with the swarm.</p>
+<p>When you create a service, you specify which container image to use and which commands to execute inside running containers.</p>
+</li>
+<li>
+<p>In the REPLICATED SERVICES MODEL, the swarm manager distributes a specific number of replica tasks among the nodes based upon the scale you set in the desired state.</p>
+<p>For GLOBAL SERVICES, the swarm runs one task for the service on EVERY AVAILABLE NODE in the cluster.</p>
+</li>
+<li>
+<p>A task carries a Docker container and the commands to run inside the container. It is the ATOMIC SCHEDULING UNIT of swarm.</p>
+<p>Manager nodes assign tasks to worker nodes according to the number of replicas set in the service scale. Once a task is assigned to a node, it cannot move to another node. It can only run on the assigned node or fail.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/engine/swarm/services/">Deploy services to a swarm | Docker Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/get-started/part3/">Get Started, Part 3: Services | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/get-started/part4/">Get Started, Part 4: Swarms | Docker Documentation</a> #ril</li>
+<li><a href="https://docs.docker.com/engine/swarm/swarm-tutorial/">Getting started with swarm mode | Docker Documentation</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

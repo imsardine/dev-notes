@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/apscheduler/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>APScheduler (Advanced Python Scheduler) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/apscheduler.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#apscheduler-advanced-python-scheduler">APScheduler (Advanced Python Scheduler)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#trigger-job-store-executor-scheduler">Trigger, Job Store, Executor, Scheduler ??</a></li>
+                
+            <li class="second-level"><a href="#error-handling">Error Handling</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="apscheduler-advanced-python-scheduler">APScheduler (Advanced Python Scheduler)<a class="headerlink" href="#apscheduler-advanced-python-scheduler" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://apscheduler.readthedocs.io/en/latest/">Advanced Python Scheduler — APScheduler 3.6.0.post2 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Advanced Python Scheduler (APScheduler) is a Python library that lets you schedule your Python code to be executed later, either just ONCE or PERIODICALLY. You can add new jobs or REMOVE OLD ONES on the fly as you please.</p>
+<p>從 &ldquo;remove old ones&rdquo; 看來，即便採用預設的 memory 做為 job store，還是有個 queue 記錄著累積的 job，才會有機會移除它。</p>
+</li>
+<li>
+<p>If you store your jobs in a database, they will also survive scheduler restarts and maintain their state. When the scheduler is restarted, it will then run all the jobs it should have run while it was offline. The CUTOFF PERIOD ?? for this is also configurable.</p>
+<p>這要看專案的需求，如果涉及商業流程的話，不該因為服務重啟就消失，但有些小型的應用，這種情況是可以接受的。</p>
+</li>
+<li>
+<p>Among other things, APScheduler can be used as a cross-platform, application specific replacement to PLATFORM SPECIFIC SCHEDULERS, such as the cron daemon or the Windows task scheduler.</p>
+<p>Please note, however, that APScheduler is NOT a daemon or service itself, nor does it come with any command line tools. It is primarily meant to be run inside existing applications. That said, APScheduler does provide some building blocks for you to build a scheduler service or to run a dedicated scheduler process.</p>
+<p>若整個 application 就是個 periodic task，由外部定期起 container 的做法在平時可以將運算資源釋放出來，但如果 application 本身有 background task 要處理所以有自己的 task/job queue，那麼 periodic task 就可以由內部的 scheduler 來做。</p>
+<p>至於 schdeuler 能否跟 web application 綁在一起，則要看應用而定；單純處理 request 引發的 background task 沒問題，但如果是跟個別 request 無關的 background task 就不適合，因為起多個 web 時，會導致某個時間點有多個 scheduler 在做同一件事。</p>
+</li>
+<li>
+<p>APScheduler has three built-in SCHEDULING SYSTEMS you can use:</p>
+<ul>
+<li>Cron-style scheduling (with optional start/end times)</li>
+<li>
+<p>Interval-based execution (runs jobs on EVEN intervals, with optional start/end times)</p>
+</li>
+<li>
+<p>ONE-OFF DELAYED EXECUTION (runs jobs once, on a set date/time)</p>
+<p>其實 task/job queue 在概念上，等同於 &ldquo;排程儘快執行&rdquo;，跟 scheduling 也有關係。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>You can mix and match scheduling systems and the BACKENDS where the JOBS ARE STORED any way you like. Supported backends for storing jobs include:</p>
+<ul>
+<li>Memory</li>
+<li>SQLAlchemy (any RDBMS supported by SQLAlchemy works)</li>
+<li>MongoDB</li>
+<li>Redis</li>
+<li>RethinkDB</li>
+<li>ZooKeeper</li>
+</ul>
+</li>
+<li>
+<p>APScheduler also integrates with several common Python frameworks, like:</p>
+<ul>
+<li>asyncio (PEP 3156)</li>
+<li>gevent</li>
+<li>Tornado</li>
+<li>Twisted</li>
+<li>Qt (using either PyQt or PySide)</li>
+</ul>
+<p>跟如何實現 concurrency 有關 ??</p>
+</li>
+</ul>
+<p>Choosing the right scheduler, job store(s), executor(s) and trigger(s)</p>
+<ul>
+<li>
+<p>Your choice of scheduler depends mostly on your programming environment and what you’ll be using APScheduler for. Here’s a quick guide for choosing a scheduler:</p>
+<ul>
+<li>
+<p><code>BlockingScheduler</code>: use when the scheduler is THE ONLY THING RUNNING IN YOUR PROCESS</p>
+</li>
+<li>
+<p><code>BackgroundScheduler</code>: use when you’re NOT using any of the frameworks below, and want the scheduler to run in the BACKGROUND INSIDE YOUR APPLICATION</p>
+</li>
+<li>
+<p><code>AsyncIOScheduler</code>: use if your application uses the <code>asyncio</code> module</p>
+</li>
+<li><code>GeventScheduler</code>: use if your application uses gevent</li>
+<li><code>TornadoScheduler</code>: use if you’re building a Tornado application</li>
+<li><code>TwistedScheduler</code>: use if you’re building a Twisted application</li>
+<li><code>QtScheduler</code>: use if you’re building a Qt application</li>
+</ul>
+</li>
+<li>
+<p>To pick the appropriate job store, you need to determine whether you need JOB PERSISTENCE or not.</p>
+<p>If you always recreate your jobs at the start of your application, then you can probably go with the default (<code>MemoryJobStore</code>).</p>
+<p>But if you need your jobs to persist over scheduler restarts or application crashes, then your choice usually boils down to what tools are used in your programming environment. If, however, you are in the position to choose freely, then <code>SQLAlchemyJobStore</code> on a PostgreSQL backend is the recommended choice due to its STRONG DATA INTEGRITY protection.</p>
+</li>
+<li>
+<p>Likewise, the choice of executors is usually MADE FOR YOU if you use one of the frameworks above. Otherwise, the default <code>ThreadPoolExecutor</code> should be good enough for most purposes.</p>
+<p>If your workload involves CPU INTENSIVE operations, you should consider using <code>ProcessPoolExecutor</code> instead to make use of multiple CPU cores. You could even use both at once, adding the process pool executor as a SECONDARY EXECUTOR ??.</p>
+</li>
+<li>
+<p>When you schedule a job, you need to choose a trigger for it. The trigger determines the logic by which the dates/times are calculated when the job will be run. APScheduler comes with three built-in trigger types:</p>
+<ul>
+<li><code>date</code>: use when you want to run the job just once at a certain point of time</li>
+<li><code>interval</code>: use when you want to run the job at fixed intervals of time</li>
+<li><code>cron</code>: use when you want to run the job periodically at certain time(s) of day</li>
+</ul>
+<p>It is also possible to combine multiple triggers into one which fires either on times agreed on by ALL the participating triggers, or when ANY of the triggers would fire. For more information, see the documentation for <a href="https://apscheduler.readthedocs.io/en/latest/modules/triggers/combining.html#module-apscheduler.triggers.combining">COMBINING TRIGGERS</a>. #ril</p>
+</li>
+<li>
+<p>You can find the plugin names of each job store, executor and trigger type on their respective API documentation pages.</p>
+</li>
+</ul>
+<p>Configuring the scheduler</p>
+<ul>
+<li>
+<p>APScheduler provides many different ways to configure the scheduler. You can use a CONFIGURATION DICTIONARY or you can pass in the options as KEYWORD ARGUMENTS.</p>
+<p>You can also instantiate the scheduler first, add jobs and configure the scheduler AFTERWARDS. This way you get maximum flexibility for any environment.</p>
+</li>
+<li>
+<p>The full list of SCHEDULER LEVEL configuration options can be found on the API reference of the <code>BaseScheduler</code> class. Scheduler subclasses may also have additional options which are documented on their respective API references.</p>
+<p>Configuration options for INDIVIDUAL JOB STORES and EXECUTORS can likewise be found on their API reference pages.</p>
+</li>
+<li>
+<p>Let’s say you want to run <code>BackgroundScheduler</code> in your application with the default job store and the default executor:</p>
+<pre><code>from apscheduler.schedulers.background import BackgroundScheduler
+
+scheduler = BackgroundScheduler()
+
+# Initialize the rest of the application here, or before the scheduler initialization
+</code></pre>
+<p>This will get you a <code>BackgroundScheduler</code> with a <code>MemoryJobStore</code> named <code>default</code> and a <code>ThreadPoolExecutor</code> named <code>default</code> with a default maximum thread count of <code>10</code>.</p>
+</li>
+<li>
+<p>Now, suppose you want more. You want to have two job stores using two executors and you also want to tweak the default values for new jobs and set a different timezone. The following three examples are completely equivalent, and will get you:</p>
+<ul>
+<li>a <code>MongoDBJobStore</code> named <code>mongo</code></li>
+<li>an <code>SQLAlchemyJobStore</code> named <code>default</code> (using SQLite)</li>
+<li>a <code>ThreadPoolExecutor</code> named <code>default</code>, with a worker count of <code>20</code></li>
+<li>a <code>ProcessPoolExecutor</code> named <code>processpool</code>, with a worker count of <code>5</code></li>
+<li>UTC as the scheduler’s timezone</li>
+<li>COALESCING ?? turned off for new jobs by default</li>
+<li>a default MAXIMUM INSTANCE LIMIT ?? of 3 for new jobs</li>
+</ul>
+<p>Method 1:</p>
+<pre><code>from pytz import utc
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.mongodb import MongoDBJobStore
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+
+jobstores = {
+    'mongo': MongoDBJobStore(),
+    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+}
+executors = {
+    'default': ThreadPoolExecutor(20),
+    'processpool': ProcessPoolExecutor(5)
+}
+job_defaults = {
+    'coalesce': False,
+    'max_instances': 3
+}
+scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
+</code></pre>
+<p>Method 2:</p>
+<pre><code>from apscheduler.schedulers.background import BackgroundScheduler
+
+# The "apscheduler." prefix is hard coded
+scheduler = BackgroundScheduler({
+    'apscheduler.jobstores.mongo': {
+         'type': 'mongodb'
+    },
+    'apscheduler.jobstores.default': {
+        'type': 'sqlalchemy',
+        'url': 'sqlite:///jobs.sqlite'
+    },
+    'apscheduler.executors.default': {
+        'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+        'max_workers': '20'
+    },
+    'apscheduler.executors.processpool': {
+        'type': 'processpool',
+        'max_workers': '5'
+    },
+    'apscheduler.job_defaults.coalesce': 'false',
+    'apscheduler.job_defaults.max_instances': '3',
+    'apscheduler.timezone': 'UTC',
+})
+</code></pre>
+<p>Method 3:</p>
+<pre><code>from pytz import utc
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from apscheduler.executors.pool import ProcessPoolExecutor
+
+jobstores = {
+    'mongo': {'type': 'mongodb'},
+    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+}
+executors = {
+    'default': {'type': 'threadpool', 'max_workers': 20},
+    'processpool': ProcessPoolExecutor(max_workers=5)
+}
+job_defaults = {
+    'coalesce': False,
+    'max_instances': 3
+}
+scheduler = BackgroundScheduler()
+
+# .. do something else here, maybe add jobs etc.
+
+scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
+</code></pre>
+</li>
+</ul>
+<p>Starting the scheduler</p>
+<ul>
+<li>
+<p>Starting the scheduler is done by simply calling <code>start()</code> on the scheduler. For schedulers other than <code>BlockingScheduler</code>, this call will return immediately and you can continue the initialization process of your application, possibly adding jobs to the scheduler.</p>
+</li>
+<li>
+<p>For <code>BlockingScheduler</code>, you will only want to call <code>start()</code> after you’re done with any initialization steps.</p>
+</li>
+<li>
+<p>Note: After the scheduler has been started, you can no longer alter its settings.</p>
+</li>
+</ul>
+<p>Adding jobs</p>
+<ul>
+<li>
+<p>There are two ways to add jobs to a scheduler:</p>
+<ul>
+<li>by calling <code>add_job()</code></li>
+<li>by decorating a function with <code>scheduled_job()</code></li>
+</ul>
+</li>
+<li>
+<p>The first way is the most common way to do it. The second way is mostly a convenience to declare jobs that DON’T CHANGE DURING THE APPLICATION’S RUN TIME. The <code>add_job()</code> method returns a <code>apscheduler.job.Job</code> instance that you can use to modify or remove the job later.</p>
+</li>
+<li>
+<p>You can schedule jobs on the scheduler at any time. If the scheduler is not yet running when the job is added, the job will be SCHEDULED TENTATIVELY and its first run time will only be computed when the scheduler starts.</p>
+</li>
+<li>
+<p>It is important to note that if you use an executor or job store that serializes the job, it will add a couple requirements on your job:</p>
+<ul>
+<li>The target callable must be GLOBALLY ACCESSIBLE ??</li>
+<li>Any arguments to the callable must be serializable</li>
+</ul>
+<p>Of the builtin job stores, only <code>MemoryJobStore</code> DOESN’T SERIALIZE jobs. Of the builtin executors, only <code>ProcessPoolExecutor</code> will serialize jobs.</p>
+</li>
+<li>
+<p>Important: If you schedule jobs in a persistent job store during your application’s initialization, you MUST define an explicit ID for the job and use <code>replace_existing=True</code> or you will get a new copy of the job every time your application restarts! ??</p>
+</li>
+<li>
+<p>Tip: To run a job IMMEDIATELY, OMIT <code>trigger</code> argument when adding the job.</p>
+<p>也就是 task/job queue 的用法。</p>
+</li>
+</ul>
+<p>Removing jobs</p>
+<ul>
+<li>
+<p>When you remove a job from the scheduler, it is removed from its associated job store and will not be executed anymore. There are two ways to make this happen:</p>
+<ul>
+<li>by calling <code>remove_job()</code> with the job’s ID and job store ALIAS</li>
+<li>by calling <code>remove()</code> on the <code>Job</code> instance you got from <code>add_job()</code></li>
+</ul>
+<p>Example:</p>
+<pre><code>job = scheduler.add_job(myfunc, 'interval', minutes=2)
+job.remove()
+Same, using an explicit job ID:
+
+scheduler.add_job(myfunc, 'interval', minutes=2, id='my_job_id')
+scheduler.remove_job('my_job_id')
+</code></pre>
+<p>The latter method is probably more convenient, but it requires that you store somewhere the <code>Job</code> instance you received when adding the job. For jobs scheduled via the <code>scheduled_job()</code>, the first way is the only way. </p>
+</li>
+<li>
+<p>If the job’s schedule ends (i.e. its trigger doesn’t produce any further run times), it is automatically removed.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://apscheduler.readthedocs.io/en/latest/userguide.html">User guide — APScheduler 3.6.0.post2 documentation</a> #ril</p>
+<p>Basic concepts</p>
+<ul>
+<li>
+<p>APScheduler has four kinds of components:</p>
+<ul>
+<li>Triggers</li>
+<li>Job stores</li>
+<li>Executors</li>
+<li>Schedulers</li>
+</ul>
+</li>
+<li>
+<p>Triggers contain the SCHEDULING LOGIC. Each job has its own trigger which determines WHEN THE JOB SHOULD BE RUN NEXT. Beyond their initial configuration, triggers are completely STATELESS.</p>
+</li>
+<li>
+<p>Job stores HOUSE THE SCHEDULED JOBS. The default job store simply keeps the jobs in MEMORY, but others store them in various kinds of databases.</p>
+<p>A job’s data is SERIALIZED when it is saved to a persistent job store, and deserialized when it’s loaded back from it.</p>
+<p>Job stores (other than the default one) don’t keep the job data in memory, but act as middlemen for saving, loading, updating and searching jobs in the backend. Job stores must NEVER BE SHARED BETWEEN SCHEDULERS.</p>
+</li>
+<li>
+<p>Executors are what handle the running of the jobs. They do this typically by SUBMITTING the designated callable in a job to a THREAD or PROCESS POOL. When the job is done, the executor notifies the scheduler which then emits an appropriate EVENT ??.</p>
+<p>感覺這跟 asyncio、gevent 等的選擇有關 ??</p>
+</li>
+<li>
+<p>Schedulers are what BIND THE REST TOGETHER. You typically have only ONE SCHEDULER running in your application.</p>
+<p>The application developer doesn’t normally deal with the job stores, executors or triggers directly. Instead, the scheduler provides the proper INTERFACE to handle all those.</p>
+<p>Configuring the job stores and executors is done through the scheduler, as is adding, modifying and removing jobs.</p>
+<p>所以嚴格來說 scheduler 不是 APScheduler 的一種 component，只是 job store + executor 的組合；帶有不同 trigger 的 job 被加進 scheduler (其實是加進 job store)，之後會被 executor 安排執行。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="trigger-job-store-executor-scheduler">Trigger, Job Store, Executor, Scheduler ??<a class="headerlink" href="#trigger-job-store-executor-scheduler" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://apscheduler.readthedocs.io/en/latest/userguide.html#basic-concepts">Basic concepts - User guide — APScheduler 3.5.0.post9 documentation</a> Cron、interval &hellip; #ril</li>
+<li><a href="https://enqueuezero.com/concrete-architecture/apscheduler.html">The Architecture of APScheduler | Enqueue Zero</a> #ril</li>
+</ul>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://apscheduler.readthedocs.io/en/latest/modules/events.html#event-codes">Event codes</a></p>
+<p><code>EVENT_JOB_ERROR</code> &ndash; A job raised an exception during execution</p>
+</li>
+<li>
+<p><a href="https://enqueuezero.com/concrete-architecture/apscheduler.html#event-listeners">Event Listeners - The Architecture of APScheduler | Enqueue Zero</a></p>
+<ul>
+<li>
+<p>Except for the job management API, APScheduler also provides a lightweight event system for a certain number of events.</p>
+<p>APScheduler fires events on certain occasions so that user code can listen to them.</p>
+</li>
+<li>
+<p>Below is an example of how apscheduler report job errors via prometheus:</p>
+<pre><code>def report_error(event):
+    if event.exception:
+        PROM_ERROR_METRICS.inc()
+
+scheduler.add_listener(report_error, EVENT_JOB_ERROR)
+</code></pre>
+<p>用 Prometheus 報錯? 從 <code>event.exception</code> 的用法看來，<code>event</code> 應該是 <code>apscheduler.events.JobExecutionEvent</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://apscheduler.readthedocs.io/en/latest/userguide.html#scheduler-events">Scheduler events - User guide — APScheduler 3.6.0.post4 documentation</a></p>
+<ul>
+<li>
+<p>It is possible to attach event listeners to the scheduler. Scheduler events are fired on certain occasions, and may carry additional information in them concerning the details of that particular event. It is possible to listen to only particular types of events by giving the appropriate <code>mask</code> argument to <code>add_listener()</code>, OR’ing the different constants together. The listener callable is called with one argument, the event object.</p>
+<pre><code>Example:
+
+def my_listener(event):
+    if event.exception:
+        print('The job crashed :(')
+    else:
+        print('The job worked :)')
+
+scheduler.add_listener(my_listener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
+</code></pre>
+</li>
+<li>
+<p>See the documentation for the events module for specifics on the available events and their attributes.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/agronholm/apscheduler/blob/v3.6.0/apscheduler/executors/base_py3.py#L35">apscheduler/base_py3.py at v3.6.0 · agronholm/apscheduler</a></p>
+<pre><code>events.append(JobExecutionEvent(EVENT_JOB_ERROR, job.id, jobstore_alias, run_time,
+                                exception=exc, traceback=formatted_tb))
+logger.exception('Job "%s" raised an exception', job)
+</code></pre>
+<p>發現 job 發生錯誤時，APScheduler 本身就會做 exception log，所以主程式在 root logger 就可以攔截到這個 log record 統一做處理。</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://apscheduler.readthedocs.io/en/latest/userguide.html#installing-apscheduler">Installing APScheduler - User guide — APScheduler 3.6.0.post2 documentation</a></p>
+<p>The preferred installation method is by using <code>pip</code>:</p>
+<pre><code>$ pip install apscheduler
+</code></pre>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://apscheduler.readthedocs.io/">Advanced Python Scheduler — APScheduler</a></li>
+<li><a href="https://github.com/agronholm/apscheduler">agronholm/apscheduler - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/apscheduler">Voted &lsquo;apscheduler&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://apscheduler.readthedocs.io/">APScheduler Documentation</a></li>
+<li>
+<p><a href="http://apscheduler.readthedocs.io/en/latest/py-modindex.html">API Reference</a></p>
+<ul>
+<li><a href="http://apscheduler.readthedocs.io/en/latest/modules/triggers/cron.html">Cron Trigger (<code>apscheduler.triggers.cron</code>)</a></li>
+<li><a href="https://apscheduler.readthedocs.io/en/latest/modules/triggers/interval.html">Interval Trigger (<code>apscheduler.triggers.interval</code></a></li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

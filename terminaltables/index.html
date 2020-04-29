@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/terminaltables/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>terminaltables - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/terminaltables.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#terminaltables">terminaltables</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="terminaltables">terminaltables<a class="headerlink" href="#terminaltables" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://robpol86.github.io/terminaltables/">terminaltables 3.1.0 — terminaltables</a> #ril</p>
+<ul>
+<li>
+<p>Easily draw tables in terminal/console applications from A LIST OF LISTS OF STRINGS. As easy as:</p>
+<pre><code>&gt;&gt;&gt; from terminaltables import AsciiTable
+&gt;&gt;&gt; table_data = [
+... ['Heading1', 'Heading2'], &lt;-- 結構上很直覺，預設第 1 行是 heading
+... ['row1 column1', 'row1 column2'],
+... ['row2 column1', 'row2 column2'],
+... ['row3 column1', 'row3 column2'],
+... ]
+&gt;&gt;&gt; table = AsciiTable(table_data)
+&gt;&gt;&gt; print table.table
++--------------+--------------+
+| Heading1     | Heading2     |
++--------------+--------------+
+| row1 column1 | row1 column2 |
+| row2 column1 | row2 column2 |
+| row3 column1 | row3 column2 |
++--------------+--------------+
+</code></pre>
+<p><img alt="" src="https://robpol86.github.io/terminaltables/_images/examples.png" /></p>
+</li>
+<li>
+<p>Windows 10, Windows XP, and OS X are also supported.</p>
+</li>
+</ul>
+<p>Features</p>
+<ul>
+<li>Multi-line rows: add newlines to table cells and terminatables will handle the rest.</li>
+<li>Table titles: show a title embedded in the TOP BORDER of the table. 雖然這位置有點奇特</li>
+<li>POSIX: Python 2.6, 2.7, PyPy, PyPy3, 3.3, 3.4, and 3.5 supported on Linux and OS X.</li>
+<li>
+<p>Windows: Python 2.7, 3.3, 3.4, and 3.5 supported on Windows XP through 10.</p>
+</li>
+<li>
+<p>CJK: Wide Chinese/Japanese/Korean characters displayed correctly.</p>
+<p>這點很重要，否則資料摻雜中文，線條就對不起來了</p>
+</li>
+<li>
+<p>RTL: Arabic and Hebrew characters aligned correctly.</p>
+</li>
+<li>Alignment/Justification: Align individual columns left, center, or right.</li>
+<li>Colored text: colorclass, colorama, termcolor, or just plain ANSI escape codes. 能搭配其他 package 產生顏色 #ril</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://robpol86.github.io/terminaltables/quickstart.html">Quickstart — terminaltables</a> #ril</p>
+<p>Table with Default Settings</p>
+<ul>
+<li>
+<p>Let’s begin by importing <code>AsciiTable</code>, which just uses <code>+</code>, <code>-</code>, and <code>|</code> characters.</p>
+<pre><code>&gt;&gt;&gt; from terminaltables import AsciiTable
+</code></pre>
+</li>
+<li>
+<p>Now let’s define the table data in a variable called <code>data</code>. We’ll do it the long way by creating an empty list representing the entire table. Then we’ll add rows one by one. EACH ROW IS A LIST REPRESENTING TABLE CELLS.</p>
+<pre><code>&gt;&gt;&gt; data = []
+&gt;&gt;&gt; data.append(['Row one column one', 'Row one column two'])
+&gt;&gt;&gt; data.append(['Row two column one', 'Row two column two'])
+&gt;&gt;&gt; data.append(['Row three column one', 'Row three column two'])
+</code></pre>
+</li>
+<li>
+<p>Next we can use <code>AsciiTable</code> to format the table properly and then we can just print it. <code>table.table</code> gives you just one long string WITH NEWLINE characters so you can easily print it.</p>
+<pre><code>&gt;&gt;&gt; table = AsciiTable(data)
+&gt;&gt;&gt; print table.table
++----------------------+----------------------+
+| Row one column one   | Row one column two   |
++----------------------+----------------------+
+| Row two column one   | Row two column two   |
+| Row three column one | Row three column two |
++----------------------+----------------------+
+</code></pre>
+</li>
+<li>
+<p>By default the FIRST ROW of the table is considered the HEADING. This can be turned off.</p>
+<p><a href="https://robpol86.github.io/terminaltables/settings.html#Table.inner_heading_row_border"><code>Table.inner_heading_row_border</code> - Settings — terminaltables</a></p>
+<blockquote>
+<p>Show a horizontal dividing border after the first row. If <code>False</code> this removes the border so THE FIRST ROW IS NO LONGER CONSIDERED A HEADER ROW. It’ll look just like any other row.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://robpol86.github.io/terminaltables/install.html">Installation — terminaltables</a> <code>pip install terminaltables</code></li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pypi.org/project/terminaltables/">terminaltables - PyPI</a></li>
+<li><a href="https://github.com/Robpol86/terminaltables">Robpol86/terminaltables - GitHub</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://robpol86.github.io/terminaltables/">terminaltables Documentation - Read the Docs</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

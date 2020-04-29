@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tensorflow/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>TensorFlow - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tensorflow.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tensorflow">TensorFlow</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+                <li class="third-level"><a href="#source">Source ??</a></li>
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#your-cpu-supports-instructions-that-this-tensorflow-binary-was-not-compiled-to-use-avx2-fma">Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tensorflow">TensorFlow<a class="headerlink" href="#tensorflow" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.tensorflow.org/">TensorFlow</a></p>
+<ul>
+<li>
+<p>An END-TO-END open source machine learning platform</p>
+<p>這裡的 end-to-end 指的是從頭到尾完成一個 task，因為 training、deploy 都只是其中一環。</p>
+</li>
+<li>
+<p>The core open source library to help you develop and train ML models. Get started quickly by running <a href="https://colab.research.google.com/">Colab notebooks</a> directly in your browser.</p>
+</li>
+<li>
+<p>For JavaScript &ndash; TensorFlow.js is a JavaScript library for training and deploying models in the browser and on Node.js. #ril</p>
+<p>Deploying model 還可以理解，但在 browser 裡做 traning !??</p>
+</li>
+<li>
+<p>For Mobile &amp; IoT &ndash; TensorFlow Lite is a lightweight library for deploying models on mobile and embedded devices.</p>
+</li>
+<li>For production &ndash; TensorFlow Extended is an end-to-end platform for preparing data, training, validating, and deploying models in large production environments. #ril</li>
+</ul>
+<p>Why TensorFlow</p>
+<ul>
+<li>TensorFlow is an end-to-end open source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in ML and developers easily build and deploy ML powered applications.</li>
+<li>
+<p>Easy model building &ndash; Build and train ML models easily using intuitive high-level APIs like Keras with eager execution, which makes for immediate model iteration and easy debugging.</p>
+</li>
+<li>
+<p>Robust ML production anywhere &ndash; Easily train and deploy models in the cloud, on-prem, in the browser, or on-device no matter what language you use.</p>
+<p>產出 model 後，要能夠用 model 做些事才是關鍵，能 deploy 到各式各樣的環境很重要。</p>
+</li>
+<li>
+<p>Powerful experimentation for research &ndash; A simple and flexible architecture to take new ideas from concept to code, to state-of-the-art models, and to publication faster.</p>
+<p>這一點 Colab 扮演了很重要的角色。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.tensorflow.org/about/">Why TensorFlow</a> #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/@ericsk/9f92c7bb1f50">透過 Google Colaboratory 學習使用 Python 做機器學習等科學計算 – Eric ShangKuan – Medium</a> (2018-10-08) #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.tensorflow.org/tutorials/">Get Started with TensorFlow</a> #ril</li>
+<li><a href="https://www.tensorflow.org/overview/">TensorFlow Core  |  TensorFlow</a> #ril</li>
+<li><a href="https://www.tensorflow.org/learn">Introduction to TensorFlow</a> #ril</li>
+<li><a href="https://www.tensorflow.org/resources/tools">Tools - TensorFlow</a> 提到 TensorBoard、TensorFlow Playground #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.tensorflow.org/install">Install TensorFlow</a></p>
+<ul>
+<li>
+<p>TensorFlow is tested and supported on the following 64-bit systems:</p>
+<ul>
+<li>Ubuntu 16.04 or later</li>
+<li>Windows 7 or later</li>
+<li>macOS 10.12.6 (Sierra) or later (no GPU support)</li>
+<li>Raspbian 9.0 or later</li>
+</ul>
+<p>好奇 RasPi 的運算能力夠嗎?? 可惜 macOS 不支援 GPU</p>
+</li>
+</ul>
+<p>Download a package</p>
+<ul>
+<li>
+<p>Install TensorFlow with Python&rsquo;s pip package manager.</p>
+<p>Official packages available for Ubuntu, Windows, macOS, and the Raspberry Pi.</p>
+<pre><code># Current stable release for CPU-only
+pip install tensorflow
+
+# Preview nightly build for CPU-only (unstable)
+pip install tf-nightly
+
+# Install TensorFlow 2.0 Alpha
+pip install tensorflow==2.0.0-alpha0
+</code></pre>
+<p>See the GPU guide for CUDA®-enabled cards.</p>
+<p>執行 <code>pip install tensorflow</code> 時會看到下載平台專屬的套件，例如 <code>tensorflow-1.13.1-cp37-cp37m-macosx_10_11_x86_64.whl</code>；很意外地，過程中不用編譯其他原生套件。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.tensorflow.org/install/pip">Install TensorFlow with pip  |  TensorFlow</a></p>
+<p>Available packages</p>
+<ul>
+<li>
+<p><code>tensorflow</code> — Latest stable release for CPU-only (Ubuntu and Windows)</p>
+</li>
+<li>
+<p><code>tensorflow-gpu</code> — Latest stable release with GPU support (Ubuntu and Windows)</p>
+<p>GPU 只有 Ubuntu 跟 Windows 支援，macOS 跟 RasPi 不支援。</p>
+</li>
+<li>
+<p><code>tf-nightly</code> — Preview nightly build for CPU-only (unstable)</p>
+</li>
+<li><code>tf-nightly-gpu</code> — Preview nightly build with GPU support (unstable, Ubuntu and Windows)</li>
+</ul>
+<p>System requirements</p>
+<ul>
+<li>Ubuntu 16.04 or later (64-bit)</li>
+<li>
+<p>macOS 10.12.6 (Sierra) or later (64-bit) (no GPU support)</p>
+</li>
+<li>
+<p>Windows 7 or later (64-bit) (Python 3 only)</p>
+<p>為何只有 Windows 特別要求 Python 3 ?? 其他 Python &#8532; 都可以。</p>
+</li>
+<li>
+<p>Raspbian 9.0 or later</p>
+</li>
+</ul>
+<p>Hardware requirements</p>
+<ul>
+<li>
+<p>Starting with TensorFlow 1.6, binaries use AVX instructions which may not run on older CPUs.</p>
+<p><a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions#Operating_system_support">Operating system support - Advanced Vector Extensions - Wikipedia</a> 各平台支援的時間點不同，macOS 從 10.6.8 (2011-06-23) 開始，Linux 則從 kernel 2.6.30 (2009-06-09) 開始。</p>
+</li>
+<li>
+<p>Read the GPU support guide to set up a CUDA®-enabled GPU card on Ubuntu or Windows.</p>
+</li>
+</ul>
+<p>Create a virtual environment (recommended)</p>
+<ul>
+<li>
+<p>Create a new virtual environment by choosing a Python interpreter and making a <code>./venv</code> directory to hold it:</p>
+<pre><code>virtualenv --system-site-packages -p python3 ./venv
+</code></pre>
+<p>為什麼要有 <code>--system-site-packages</code> (Give the virtual environment access to the global site-packages) ??</p>
+</li>
+<li>
+<p>Activate the virtual environment using a shell-specific command:</p>
+<pre><code>source ./venv/bin/activate  # sh, bash, ksh, or zsh
+</code></pre>
+</li>
+<li>
+<p>Install packages within a virtual environment without affecting the host system setup. Start by upgrading pip:</p>
+<pre><code>pip install --upgrade pip
+</code></pre>
+</li>
+</ul>
+<p>Install the TensorFlow pip package</p>
+<ul>
+<li>
+<p>Choose one of the following TensorFlow packages to install from PyPI</p>
+<ul>
+<li><code>tensorflow</code> — Latest stable release for CPU-only (recommended for beginners)</li>
+<li><code>tensorflow-gpu</code> — Latest stable release with GPU support (Ubuntu and Windows)</li>
+<li><code>tf-nightly</code> — Preview nightly build for CPU-only (unstable)</li>
+<li><code>tf-nightly-gpu</code> — Preview nightly build with GPU support (unstable, Ubuntu and Windows)</li>
+<li><code>tensorflow==2.0.0-alpha0</code> — Preview TF 2.0 Alpha build for CPU-only (unstable)</li>
+<li><code>tensorflow-gpu==2.0.0-alpha0</code> — Preview TF 2.0 Alpha build with GPU support (unstable, Ubuntu and Windows)</li>
+</ul>
+</li>
+<li>
+<p>Verify the install:</p>
+<pre><code>$ pip install --upgrade tensorflow
+$ python -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"
+
+2019-04-21 10:46:10.007608: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA &lt;-- 怎麼回事??
+tf.Tensor(-1940.5941, shape=(), dtype=float32)
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.tensorflow.org/install/gpu">GPU support  |  TensorFlow</a> #ril</p>
+</li>
+</ul>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.tensorflow.org/install/docker">Docker  |  TensorFlow</a> #ril</li>
+</ul>
+<h3 id="source">Source ??<a class="headerlink" href="#source" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://www.tensorflow.org/install/source">Build from source  |  TensorFlow</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/41293077/">x86 - How to compile Tensorflow with SSE4.2 and AVX instructions? - Stack Overflow</a> #ril</li>
+<li><a href="https://github.com/lakshayg/tensorflow-build">lakshayg/tensorflow-build: TensorFlow binaries supporting AVX, FMA, SSE</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="your-cpu-supports-instructions-that-this-tensorflow-binary-was-not-compiled-to-use-avx2-fma">Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA<a class="headerlink" href="#your-cpu-supports-instructions-that-this-tensorflow-binary-was-not-compiled-to-use-avx2-fma" title="Permanent link"> #</a></h3>
+<p>在 macOS 上安裝完 <code>tensorflow</code> 套件，簡單測試會被提示：</p>
+<pre><code>$ python -c &quot;import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))&quot;
+
+2019-04-21 10:46:10.007608: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA &lt;-- 怎麼回事??
+tf.Tensor(-1940.5941, shape=(), dtype=float32)
+</code></pre>
+
+<p>這不是錯誤訊息，只是說明了在這台機器上，重新編譯並啟用 AVX2 會更快。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/bitbionic/keras-to-tensorflow/issues/2">error: this TensorFlow binary was not compiled to use: AVX2 FMA · Issue #2 · bitbionic/keras-to-tensorflow</a></p>
+<ul>
+<li>
+<p>archcra (ower): That should be a warning, NOT AN ERROR. It&rsquo;s a pretty standard warning in TF from a GENERIC TF compiled binary. You can get rid of that warning if you build TF yourself and supply the <code>AVX2</code> flag.</p>
+<p>See <a href="https://github.com/tensorflow/tensorflow/issues/8037">tensorflow/tensorflow#8037</a> for a similar discussion on the TF GitHub. Good luck and thanks for checking out the tutorial.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/tensorflow/tensorflow/issues/8037">How to compile tensorflow using SSE4.1, SSE4.2, and AVX. · Issue #8037 · tensorflow/tensorflow</a></p>
+<ul>
+<li>
+<p>Carmezim (contributor): This isn&rsquo;t an error, just warnings saying if you build TensorFlow from source IT CAN BE FASTER ON YOUR MACHINE.</p>
+<p>SO question about this: <a href="http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions">http://stackoverflow.com/questions/41293077/how-to-compile-tensorflow-with-sse4-2-and-avx-instructions</a></p>
+<p>TensorFlow guide to build from source: <a href="https://www.tensorflow.org/install/install_sources">https://www.tensorflow.org/install/install_sources</a></p>
+</li>
+<li>
+<p>gunan (member): Just as @Carmezim stated these are simply warning messages.</p>
+<p>For each of your programs, you will only see them ONCE. And just like the warnings say, you should only compile TF with these flags if you need to make TF faster.</p>
+<p>You can follow our guide to install TensorFlow from sources to compile TF with support for SIMD instruction sets.</p>
+</li>
+<li>
+<p>Carmezim (contributor): @CGTheLegend @ocampesato you can use TF environment variable <code>TF_CPP_MIN_LOG_LEVEL</code> and it works as follows:</p>
+<ul>
+<li>It defaults to 0, displaying all logs</li>
+<li>To filter out INFO logs set it to 1</li>
+<li>WARNINGS additionally, 2</li>
+<li>and to additionally filter out ERROR logs set it to 3</li>
+</ul>
+<p>基本上就是調整 logging level，原先設定 0 可能就是 INFO，所以調成 1 才會去除 INFO；如果預設值是 INFO，好像也滿合理的。</p>
+<p>So you can do the following to silence the warnings:</p>
+<pre><code>import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+import tensorflow as tf
+</code></pre>
+<p>@gunan @mrry I&rsquo;ve seen many folks interested in silencing the warnings, would there be interest in adding this kind of info to the docs?</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.tensorflow.org/">TensorFlow</a></li>
+<li><a href="https://github.com/tensorflow">tensorflow - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/tensorflow">&lsquo;tensorflow&rsquo; Questions - Stack Overflow</a></li>
+<li><a href="https://twitter.com/hashtag/poweredbytf">#poweredbytf - Twitter</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../tensorflow-lite/">TensorFlow Lite</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>是一個 <a href="../machine-learning/">Machine Learning</a> 平台</li>
+<li><a href="../google-colab/">Colab</a> 提供了學習 TensorFlow 的環境</li>
+<li><a href="../keras/">Keras</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.tensorflow.org/api_docs/python/tf">Python Module: <code>tf</code> - TensorFlow API</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

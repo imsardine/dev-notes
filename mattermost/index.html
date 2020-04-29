@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mattermost/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Mattermost - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mattermost.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mattermost">Mattermost</a></li>
+            <li class="second-level"><a href="#alternatives">替代方案</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#ldap">AD/LDAP Authentication</a></li>
+                
+            <li class="second-level"><a href="#scale">Scale</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#join-team-domain-restriction">Team 只能加入同 Email Domain 的人？</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mattermost">Mattermost<a class="headerlink" href="#mattermost" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://mattermost.com/">Mattermost: Open Source, Self-hosted Slack Alternative</a> #ril</p>
+<p>High Trust Messaging for the Enterprise</p>
+<ul>
+<li>Mattermost is a flexible, open source messaging platform that enables secure team collaboration</li>
+</ul>
+</li>
+<li>
+<p><a href="https://mattermost.com/blog/remote-work-when-saas-is-not-an-option/?utm_campaign=remote-work">Remote work when SaaS is not an option - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> (2020-03-18) #ril</p>
+</li>
+<li>
+<p><a href="https://mattermost.com/pricing-feature-comparison/">Pricing Feature Comparison - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a></p>
+<p>Mattermost Enterprise Edition</p>
+<ul>
+<li>
+<p>Secure, self-hosted, and scalable messaging that bring together people, files and systems into a single view so teams can operate more effectively.</p>
+<p>即便是 Enterprise Edition，也是 self-hosted。</p>
+</li>
+</ul>
+<p>Self-hosted Team Communication</p>
+<ul>
+<li>Self-hosted one-to-one and group messaging, file sharing and search</li>
+<li>Native apps for iOS, Android, Windows, Mac and Linux</li>
+<li>UNLIMITED search history</li>
+<li>UNLIMITED integrations</li>
+<li>Tools for custom branding</li>
+<li>New monthly improvements to Team Edition</li>
+<li>Multi-factor authentication</li>
+</ul>
+<p>Multi-language Translations</p>
+<ul>
+<li>English, Chinese (Simplified &amp; Traditional), Dutch, French, German, Italian, Japanese, Korean, Polish, Brazilian Portuguese, Romanian, Russian, Turkish, Spanish, and Ukrainian.</li>
+</ul>
+<p>Enterprise Essentials</p>
+<ul>
+<li>Active Directory / LDAP single sign-on</li>
+<li>Encrypted push notifications via HPNS</li>
+<li>Advanced access control policies</li>
+<li>Next business day support</li>
+<li>New monthly improvements to Enterprise E10</li>
+</ul>
+</li>
+<li>
+<p><a href="https://mattermost.com/devops/">DevOps - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</p>
+</li>
+<li><a href="https://mattermost.com/chatops/">ChatOps - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</li>
+<li>
+<p><a href="https://mattermost.com/remote-work/">Collaboration Platform for Remote Work - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</p>
+</li>
+<li>
+<p><a href="https://mattermost.org/licensing/">Licensing | Mattermost</a> #ril</p>
+</li>
+</ul>
+<h2 id="alternatives">替代方案<a class="headerlink" href="#alternatives" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://mattermost.com/mattermost-vs-slack-total-cost-of-ownership/">Mattermost vs. Slack: Total Cost of Ownership - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</p>
+<ul>
+<li>
+<p>Mattermost customers enjoy huge savings of over 60% vs. Slack Enterprise Grid users. Those savings are further amplified with more users thanks to economies of scale.</p>
+<p>Mattermost offers a cost-effective, enterprise-grade, private cloud alternative to Slack’s SaaS-only WORKPLACE MESSAGING service.</p>
+</li>
+<li>
+<p>THIS IS USEFUL FOR:</p>
+<ul>
+<li>Decision makers interested in a cost-effective Slack alternative</li>
+<li>Privacy-conscious organizations that want the benefits of workplace messaging without compromising on security</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><a href="https://mattermost.com/wp-content/uploads/2019/06/Mattermost-vs-Slack-TCO.pdf">PDF</a></p>
+<ul>
+<li>
+<p>Mattermost offers a cost-effective, enterprise-grade, private cloud alternative to Slack’s SaaS-only workplace messaging service.</p>
+<p>While both products offer agility, efficiency and innovation benefits, Mattermost’s private cloud approach uniquely provides the control, privacy, legal compliance, extensibility and scalability required by top enterprises.</p>
+</li>
+<li>
+<p>Mattermost and Slack both increase productivity via modern workplace messaging</p>
+<p>Both solutions bring all your team’s communications to one place, providing modern workplace messaging across web, mobile and PC with continuous archiving, instant search and a wide array of options to INTEGRATE your existing TOOLS AND WORKFLOWS. These tools enable all your teams to:</p>
+<ul>
+<li>Do more in less time, with LESS EMAIL using searchable, topic-based messaging</li>
+<li>Solve problems faster with “war rooms” that assemble the right people and information</li>
+<li>Collaborate anywhere with cross-device access to vital communications</li>
+<li>Accelerate new hire onboarding with easy SHARING OF PAST TEAM DISCUSSIONS</li>
+</ul>
+</li>
+<li>
+<p>Enterprises need more</p>
+<ul>
+<li>
+<p>For technologists, modern messaging enables additional high-performance workflows: DevOps, ChatOps, Conversational Development and Social Coding, among other USE CASES, that improve software quality while reducing delivery time.</p>
+</li>
+<li>
+<p>These innovative approaches have exploded across startups and small and medium businesses. But today’s leading enterprises have a different set of needs that Mattermost was designed to meet.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Only Mattermost offers the control, privacy, legal compliance, extensibility and scalability top enterprises need.</p>
+<p>In contrast to Slack and other proprietary SaaS services, Mattermost offers an open source, private cloud platform where enterprises have complete control of their vital communications:</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://mattermost.com/mattermost-vs-slack/">Mattermost vs Slack - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</p>
+</li>
+<li>
+<p><a href="https://mattermost.com/mattermost-vs-microsoft-teams/">Mattermost vs. Microsoft Teams - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.mattermost.com/help/getting-started/creating-teams.html">Creating Teams — Mattermost 5.22 documentation</a> #ril</p>
+<ul>
+<li>
+<p>A team is a digital WORKSPACE where you and your teammates can collaborate in Mattermost. Depending on how Mattermost is set up in your organization, you can belong to ONE team OR MULTIPLE teams.</p>
+<p>同 Slack workspace 的概念。</p>
+</li>
+<li>
+<p>New teams can be created if the System Admin has Enable Team Creation set to true in the System Console.</p>
+<p>若將 team 視為公司別，實務上不太可能開放一般使用者可以自己建立 team/workspace。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ldap">AD/LDAP Authentication<a class="headerlink" href="#ldap" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.mattermost.com/overview/auth.html">Corporate Directory Integration — Mattermost 5.21 documentation</a> #ril</li>
+<li>
+<p><a href="https://github.com/Crivaledaz/Mattermost-LDAP">Crivaledaz/Mattermost-LDAP: This module provides an external LDAP authentication in Mattermost for the Team Edition (free).</a> #ril</p>
+</li>
+<li>
+<p><a href="https://forum.mattermost.org/t/ldap-in-the-open-source-version/2420">LDAP in the open source version - Mattermost, Inc.</a></p>
+<ul>
+<li>
+<p>Is there anything that can prevent me from implementing <a href="https://github.com/mattermost/mattermost-server/blob/dd1965ca3461dbf965a68015e063667d56970adb/einterfaces/ldap.go#L10"><code>LdapInterface</code></a> myself? I was wondering if the license has something.</p>
+</li>
+<li>
+<p>it33: Mattermost is an open source alternative to proprietary SaaS messaging and you’re welcome to modify it as you wish under its open source licenses.</p>
+<p>If you’re offering a modified version to others, you need to remove the Mattermost brand, since the brand is trademarked.</p>
+<p>口氣聽起來是官方的人?</p>
+</li>
+<li>
+<p>Crivaledaz: I have initiated a project to allow LDAP authentication on Mattermost Team Edition, WITHOUT USING GITLAB. This module uses a Oauth PHP server to link LDAP to Mattermost.</p>
+<p>If you are interested by the project you can download it from my Github repo : <a href="https://github.com/Crivaledaz/Mattermost-LDAP">https://github.com/Crivaledaz/Mattermost-LDAP</a> 2.1k</p>
+<p>I have implemented this module for my company to use LDAP with Mattermost and we have been using it for a few weeks. I will be happy to answer your questions about this module. Please do not hesitate to give me your feedbacks.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.mattermost.com/deployment/scaling.html#single-machine-deployment">Scaling for Enterprise — Mattermost 5.21 documentation</a> #ril</p>
+<ul>
+<li>
+<p>Single Machine Deployment</p>
+<p>Organizations can typically run Mattermost on a single server with up to 2,000 users, though more users have been observed based on different usage and server configurations.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="join-team-domain-restriction">Team 只能加入同 Email Domain 的人？<a class="headerlink" href="#join-team-domain-restriction" title="Permanent link"> #</a></h3>
+<p>透請同一 server 其他使用者加入 team 時，可能會遇到下面的錯誤：</p>
+<pre><code>Email must be from a specific domain (e.g. @example.com). Please ask your team or system administrator for details.
+</code></pre>
+
+<p>注意 &ldquo;ask your team &hellip;&rdquo; 這段，顯然能不能加入某個 team 除了跟 system 層級的設定有關，跟 team 層級的設定也可能有關。</p>
+<blockquote>
+<p>TIP:</p>
+<p>&ldquo;無法建立 team&rdquo; 跟 &ldquo;無法加入 team&rdquo; 的錯誤很像，後者多了 &ldquo;ask your team&rdquo; 這段。</p>
+<pre><code>{
+  "id": "api.team.is_team_creation_allowed.domain.app_error",
+  "translation": "Email must be from a specific domain (e.g. @example.com). Please ask your System Administrator for details."
+},
+...
+{
+  "id": "api.team.join_user_to_team.allowed_domains.app_error",
+  "translation": "Email must be from a specific domain (e.g. @example.com). Please ask your team or system administrator for details."
+},
+</code></pre>
+<p>&ndash; <a href="https://github.com/mattermost/mattermost-server/blob/03a55367d9815131c9c57adb398fcb79479336d9/i18n/en.json#L2062">https://github.com/mattermost/mattermost-server/blob/03a55367d9815131c9c57adb398fcb79479336d9/i18n/en.json#L2062</a></p>
+</blockquote>
+<p>在 System Console &gt; Authentication &gt; Signup 下有個設定：</p>
+<ul>
+<li>
+<p>Restrict account creation to specified email domains</p>
+<p>User accounts can only be created from a specific domain (e.g. &ldquo;mattermost.org&rdquo;) or list of comma-separated domains (e.g. &ldquo;corp.mattermost.com, mattermost.org&rdquo;). THIS SETTING ONLY AFFECTS EMAIL LOGIN.</p>
+</li>
+</ul>
+<p>在 Team Settings &gt; General 下也有兩個設定：</p>
+<ul>
+<li>
+<p>Allow only users with a specific email domain to join this team</p>
+<p>Users can only join the team if their email matches a specific domain (e.g. &ldquo;mattermost.org&rdquo;) or list of comma-separated domains (e.g. &ldquo;corp.mattermost.com, mattermost.org&rdquo;).</p>
+</li>
+<li>
+<p>Allow any user with an account on this server to join this team</p>
+<p>When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team.</p>
+</li>
+</ul>
+<p>試過將 &ldquo;Allow any user &hellip;&rdquo; 改成 Yes (雖然有點極端)，但對問題並沒有幫助。剩下：</p>
+<ul>
+<li>System Console &gt; Authentication &gt; Signup &gt; Restrict account creation to specified email domains</li>
+<li>Team Settings &gt; General &gt; Allow only users with a specific email domain to join this team</li>
+</ul>
+<p>後者預設是空白的，意謂著 Team Settings 預設採用 SYstem Console 的設定，也就是 Team Settings 可以 &ldquo;進一步限縮&rdquo; 哪些 email domain 才能加入該 team。</p>
+<p>NOTE: 注意 email domain(s) 設定值的兩側不含雙引號。</p>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://mattermost.com/">Mattermost</a></li>
+<li><a href="https://mattermost.com/blog/">Mattermost Blog</a></li>
+<li><a href="https://medium.com/@mattermost">Mattermost – Medium</a></li>
+<li><a href="https://github.com/mattermost/mattermost-server">mattermost/mattermost-server</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.mattermost.com/">Mattermost Documentation</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://forum.mattermost.org/">Mattermost Forum</a></li>
+<li><a href="https://www.youtube.com/channel/UCNR05H72hi692y01bWaFXNA">Mattermost - YouTube</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../mattermost-setup/">Setup</a></li>
+<li><a href="mattermost-intgration.md">Integration</a></li>
+<li><a href="../mattermost-api/">API</a></li>
+<li><a href="../mattermost-migration/">Migration from Slack</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.mattermost.com/guides/user.html#">User’s Guide</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

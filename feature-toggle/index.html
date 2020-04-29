@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/feature-toggle/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Feature Toggle/Flag - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/feature-toggle.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#feature-toggleflag">Feature Toggle/Flag</a></li>
+            <li class="second-level"><a href="#stale-flag">Stale Flag</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料：</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="feature-toggleflag">Feature Toggle/Flag<a class="headerlink" href="#feature-toggleflag" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Feature_toggle">Feature toggle - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>A feature toggle (also feature switch, feature flag, feature flipper, conditional feature, etc.) is a technique in software development that attempts to provide an ALTERNATIVE to maintaining multiple SOURCE-CODE BRANCHES (known as feature branches), such that a feature can be tested even before it is completed and ready for release.</p>
+<p>這說法很務實 &ndash; source code 可以併進 master，但功能可以只在 testing 環境開啟測試；後面新的 feature 還是可以繼續推，不會卡在有些已在 testing 環境的 feature 還不想推出。</p>
+<p>Feature toggle is used to hide, enable or disable the feature during run time. For example, during the development process, a developer can enable the feature for testing and disable it for other users.</p>
+</li>
+<li>
+<p>Continuous release and continuous deployment provide developers with rapid feedback about their coding. This requires the integration of their code changes as early as possible. Feature branches introduce a BYPASS to this process. Feature toggles are an IMPORTANT TECHNIQUE used for the implementation of continuous delivery.</p>
+<p>之前沒想過它跟 CI &amp; CD 的關係；看似沒什麼，但確實省下許多 branching &amp; merging 的成本。</p>
+</li>
+<li>
+<p>The technique allows developers to release a version of a product that has UNFINISHED features. These unfinished features are HIDDEN (TOGGLED) so they do not appear in the user interface.</p>
+<p>This allows many small incremental versions of software to be delivered without the COST OF CONSTANT BRANCHING AND MERGING. Feature toggles may allow shorter software integration cycles. A team working on a project can use feature toggle to speed up the process of development, that can include the incomplete code as well.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://martinfowler.com/articles/feature-toggles.html">Feature Toggles (aka Feature Flags)</a> #ril</p>
+<ul>
+<li>
+<p>Feature Toggles (often also refered to as Feature FLAGS) are a powerful technique, allowing teams to modify system behavior without changing code. They fall into various usage categories, and it&rsquo;s important to take that categorization into account when implementing and managing toggles.</p>
+<p>Toggles introduce COMPLEXITY. We can keep that complexity in check by using SMART toggle implementation practices and appropriate TOOLS to manage our TOGGLE CONFIGURATION, but we should also aim to CONSTRAIN the number of toggles in our system.</p>
+</li>
+<li>
+<p>&ldquo;Feature Toggling&rdquo; is a SET OF PATTERNS which can help a team to deliver new functionality to users RAPIDLY BUT SAFELY. In this article on Feature Toggling we&rsquo;ll start off with a short story showing some typical scenarios where Feature Toggles are helpful. Then we&rsquo;ll dig into the details, covering specific patterns and practices which will help a team succeed with Feature Toggles.</p>
+<p>Feature Toggles are also refered to as Feature Flags, Feature Bits, or Feature Flippers. These are all synonyms for the same set of techniques. Throughout this article I&rsquo;ll use feature toggles and feature flags interchangebly.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/user/project/operations/feature_flags.html">Feature Flags | GitLab</a> #ril</p>
+</li>
+</ul>
+<h2 id="stale-flag">Stale Flag<a class="headerlink" href="#stale-flag" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/uber/piranha">uber/piranha: A tool for refactoring code related to feature flag APIs</a></p>
+<ul>
+<li>
+<p>Feature flags are commonly used to enable gradual rollout or experiment with new features. In a few cases, even after the purpose of the flag is ACCOMPLISHED, the code pertaining to the feature flag is not removed. We refer to such flags as STALE FLAGS. The presence of code pertaining to stale flags can have the following drawbacks:</p>
+<ul>
+<li>Unnecessary code clutter increases the overall complexity w.r.t maintenance resulting in reduced developer productivity</li>
+<li>The flags can interfere with other experimental flags (e.g., due to NESTING under a flag that is always false)</li>
+<li>Presence of unused code in the source as well as the binary</li>
+<li>Stale flags can also cause bugs</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="_1">參考資料：<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>工具：</p>
+<ul>
+<li><a href="https://unleash.github.io/">Unleash</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mysql-collation/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MySQL / Collation - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mysql-collation.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mysql-collation">MySQL / Collation</a></li>
+            <li class="second-level"><a href="#utf8-utf8mb4">utf8 &amp; utf8mb4</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mysql-collation"><a href="../mysql/">MySQL</a> / Collation<a class="headerlink" href="#mysql-collation" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Collation">Collation - Wikipedia</a> #ril</p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-general.html">MySQL :: MySQL 8.0 Reference Manual :: 10.1 Character Sets and Collations in General</a></p>
+<ul>
+<li>
+<p>A character set is A SET OF SYMBOLS AND ENCODINGS. A collation is a set of RULES FOR COMPARING characters in a character set. Let&rsquo;s make the distinction clear with an example of an imaginary character set.</p>
+<p>Suppose that we have an alphabet with four letters: A, B, a, b. We give each letter a number: A = 0, B = 1, a = 2, b = 3. The letter A is a SYMBOL, the number 0 is the ENCODING for A, and the combination of all four letters and their encodings is a character set.</p>
+</li>
+<li>
+<p>Suppose that we want to compare two string values, A and B. The simplest way to do this is to look at the encodings: 0 for A and 1 for B. Because 0 is less than 1, we say A is less than B. What we&rsquo;ve just done is APPLY A COLLATION TO OUR CHARACTER SET. The collation is a set of rules (only one rule in this case): “compare the encodings.” We call this simplest of all possible collations a BINARY collation.</p>
+<p>But what if we want to say that the lowercase and uppercase letters are equivalent? Then we would have at least two rules: (1) treat the lowercase letters a and b as equivalent to A and B; (2) then compare the encodings. We call this a CASE-INSENSITIVE COLLATION. It is a little more complex than a binary collation.</p>
+<p>不同的 symbol，在 collation rule 裡可能被視為等同。</p>
+</li>
+<li>
+<p>In real life, most character sets have many characters: not just A and B but whole alphabets, sometimes multiple alphabets or eastern writing systems with thousands of characters, along with many special symbols and punctuation marks. Also in real life, most collations have many rules, not just for whether to distinguish lettercase, but also for whether to distinguish accents (an “accent” is a mark attached to a character as in German Ö), and for multiple-character mappings (such as the rule that Ö = OE in one of the two German collations).</p>
+</li>
+<li>
+<p>MySQL can do these things for you:</p>
+<ul>
+<li>Store strings using a variety of character sets.</li>
+<li>Compare strings using a variety of collations.</li>
+<li>Mix strings with different character sets or collations in the same server, the same database, or even the same table.</li>
+<li>Enable specification of character set and collation at any level.</li>
+</ul>
+<p>指定 collation 的最小單位是 column。</p>
+</li>
+<li>
+<p>To use these features effectively, you must know what character sets and collations are available, how to change the defaults, and how they affect the behavior of string operators and functions.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/charset.html">MySQL :: MySQL 8.0 Reference Manual :: 10 Character Sets, Collations, Unicode</a> #ril</p>
+</li>
+</ul>
+<h2 id="utf8-utf8mb4">utf8 &amp; utf8mb4<a class="headerlink" href="#utf8-utf8mb4" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">The utf8mb4 Upgrade – Make WordPress Core</a> (2015-04-02)</p>
+<ul>
+<li>
+<p>In WordPress 4.2, we’re upgrading tables to <code>utf8mb4</code>, when we can. Your site will only upgrade when the following conditions are met:</p>
+<ul>
+<li>You’re currently using the utf8 character set.</li>
+<li>Your MySQL server is version 5.5.3 or higher (including all 10.x versions of MariaDB).</li>
+<li>Your MySQL client libraries are version 5.5.3 or higher. If you’re using <a href="https://www.php.net/manual/en/book.mysqlnd.php">mysqlnd</a>, 5.0.9 or higher.</li>
+</ul>
+</li>
+<li>
+<p>The difference between <code>utf8</code> and <code>utf8mb4</code> is that the former can only store 3 BYTE CHARACTERS, while the latter can store 4 BYTE CHARACTERS. In Unicode terms, <code>utf8</code> can only store characters in the Basic Multilingual Plane, while <code>utf8mb4</code> can store ANY Unicode character. This greatly expands the language usability of WordPress, especially in countries that use Han character sets.</p>
+</li>
+<li>
+<p>Unicode isn’t without its problems, but it’s the best option available.</p>
+<p><code>utf8mb4</code> is 100% backwards compatible with <code>utf8</code>.</p>
+</li>
+<li>
+<p>Due to INDEX SIZE RESTRICTIONS ?? in MySQL, this does mean we need to re-create a handful of indexes to fit within MySQL’s rules. Using a standard configuration, MySQL allows 767 bytes per index, which for <code>utf8</code> means 767 bytes / 3 bytes = 255 characters. For <code>utf8mb4</code>, that means 767 bytes / 4 bytes = 191 characters. The indexes that will be resized are:</p>
+<ul>
+<li><code>wp_usermeta.meta_key</code></li>
+<li><code>wp_terms.slug</code></li>
+<li><code>wp_terms.name</code></li>
+<li><code>wp_commentmeta.meta_key</code></li>
+<li><code>wp.postmeta.meta_key</code></li>
+<li><code>wp_posts.post_name</code></li>
+</ul>
+<p>And from Multisite:</p>
+<ul>
+<li><code>wp_site.domain</code></li>
+<li><code>wp_sitemeta.meta_key</code></li>
+<li><code>wp_signups.domain</code></li>
+</ul>
+<p>為什麼 Workpress 這麼大的專案，只會影響到少數幾個 index ??</p>
+</li>
+<li>
+<p>Of course, the Multisite (and <code>wp_usermeta</code>) keys obey the <code>DO_NOT_UPGRADE_GLOBAL_TABLES</code> setting. The upgrade will only be attempted once, though we’ll probably add a check in a future WordPress version to see if we can upgrade now (say, if you’ve upgraded your MySQL server since upgrading to WordPress 4.2).</p>
+</li>
+<li>
+<p>If you’re a plugin developer and your plugin includes custom tables, please test that your indexes fit within MySQL’s limits. MySQL won’t always produce an error when the index is too big, so you’ll need to manually check the size of each index, instead of relying on automated testing.</p>
+</li>
+<li>
+<p>If you’d like to upgrade your custom tables to <code>utf8mb4</code> (and your indexes are all in order), you can do it really easily with the shiny new <code>maybe_convert_table_to_utf8mb4( $tablename )</code> function. It’s available in <code>wp-admin/includes/upgrade.php</code>, and will SANITY CHECK that your tables are ENTIRELY <code>utf8</code> before upgrading.</p>
+<p>有些 <code>utf8</code>，有些是 <code>utf8mb4</code> 會有什麼問題嗎??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.eversql.com/mysql-utf8-vs-utf8mb4-whats-the-difference-between-utf8-and-utf8mb4/">MySQL utf8 vs utf8mb4 - What&rsquo;s the difference between utf8 and utf8mb4?</a> (2017-07-11) #ril</p>
+<p>The Story of UTF8 VS UTF8MB4</p>
+<ul>
+<li>
+<p>I once got a call from the support team, saying that one of our customers reported that the application fails to save data in one of our business-critical features. The customer is seeing a general error from the application. About 30 of his 500 users are experiencing this issue and can’t save data in the application.</p>
+<p>After a short 15 minutes debugging session, we saw that the data is transmitted from the client side, successful received in the server side, and the insertion query is fired to the database. But still, no data in the database. Hmm.. now it got interesting.</p>
+</li>
+<li>
+<p>Looking at the logs, it turns out that for specific inputs, MySQL REFUSED TO INSERT THE DATA to the database. The error MySQL logged was:</p>
+<pre><code>Incorrect string value: ‘\xF0\x9F\x98\x81…’ for column ‘data’ at row 1
+</code></pre>
+<p>Looking at those first 4 bytes, I got to no conclusion as to what was the issue. When googling them, I found that they represent an EMOTICON in UTF8. So, it means that for this specific input, each character is probably ENCODED AS 4 BYTES.</p>
+<p>I tried to reproduce this issue with a different string, which has its characters encoded with 1-3 bytes per character. It turned out that it only happens when each character in the data was combined of 4-byte.</p>
+</li>
+<li>
+<p>We scratched our heads and thought – the character set we used in the database is UTF8, which should support 4 bytes (right?), so what’s wrong?</p>
+<p>Well, it turns out we were wrong. We quickly realized that MySQL decided that UTF-8 can only hold 3 bytes per character. Why? no good reason that I can find documented anywhere. Few years later, when MySQL 5.5.3 was released, they introduced a new encoding called <code>utf8mb4</code>, which is actually the REAL 4-BYTE utf8 encoding that you know and love.</p>
+</li>
+</ul>
+<p>Recommendation</p>
+<ul>
+<li>if you’re using MySQL (or MariaDB or Percona Server), make sure you know your encodings. I would recommend anyone to set the MySQL encoding to <code>utf8mb4</code>. Never use <code>utf8</code> in MySQL, there is no good reason to do that (unless you like tracing encoding related bugs).</li>
+</ul>
+<p>How to convert utf8 to utf8mb4 in MySQL?</p>
+<ul>
+<li>So now I had to fix this issue. As I recommend above, I wanted to use utf8mb4 and drop the old utf8. To do that, I used the following ALTER statements. Please DO NOT just copy paste them. You need to make sure you understand each of them and adjust them accordingly.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset.html">Character Sets, Collations, Unicode - MySQL Reference Manual</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-mysql.html">Character Sets and Collations</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-charsets.html">Supported Character Sets and Collations</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/charset-collation-names.html">Collation Naming Conventions</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

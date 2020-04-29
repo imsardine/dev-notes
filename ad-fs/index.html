@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/ad-fs/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Active Directory / Federation Services (ADFS) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/ad-fs.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#active-directory-federation-services-adfs">Active Directory / Federation Services (ADFS)</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="active-directory-federation-services-adfs"><a href="../ad/">Active Directory</a> / Federation Services (ADFS)<a class="headerlink" href="#active-directory-federation-services-adfs" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Active_Directory_Federation_Services">Active Directory Federation Services - Wikipedia</a></p>
+<ul>
+<li>
+<p>Active Directory Federation Services (AD FS), a software COMPONENT developed by Microsoft, can run on Windows Server operating systems to provide users with SINGLE SIGN-ON access to systems and applications located ACROSS ORGANIZATIONAL BOUNDARIES.</p>
+<p>AD 本身只是驗證身份，SSO 是 ADFS 疊加上去的功能；正確地說，ADFS 把 AD 做為 Identity Provider。</p>
+</li>
+<li>
+<p>It uses a CLAIMS-BASED ACCESS-CONTROL AUTHORIZATION model to maintain application security and to implement FEDERATED IDENTITY.</p>
+<p>Claims-based authentication involves authenticating a user based on a set of claims about that user&rsquo;s identity contained in a trusted token. Such a token is often issued and signed by an entity that is able to authenticate the user by other means, and that is trusted by the entity doing the claims-based authentication. It is part of the Active Directory Services.</p>
+<p>這裡 &ldquo;claims-based authentication&rdquo; 應該是 authorization??</p>
+</li>
+<li>
+<p>In AD FS, IDENTITY FEDERATION is established between two organizations by establishing trust between two SECURITY REALMS. A federation server on one side (the ACCOUNTS SIDE) authenticates the user through the standard means in Active Directory Domain Services and then issues a token containing a series of claims about the user, including its identity.</p>
+<p>為了跟 ADFS 區隔，AD 可以用 &ldquo;Domain Services&rdquo; 來強調。</p>
+<p>On the other side, the RESOURCES SIDE, another federation server validates the token and issues ANOTHER TOKEN for the local servers to accept the claimed identity.</p>
+<p>This allows a system to provide controlled access to its resources or services to a user that belongs to another security realm without requiring the user to authenticate directly to the system and without the two systems sharing a database of user identities or passwords.</p>
+<p>統一驗證身份，但 access control 由各個 security realm 各自管控。</p>
+</li>
+<li>
+<p>In practice a user might typically perceive this approach as follows:</p>
+<ol>
+<li>The user logs into their local PC (as they typically would when commencing work in the morning).</li>
+<li>The user needs to obtain information from a partner company&rsquo;s EXTRANET website, for example to obtain pricing or product details.</li>
+<li>
+<p>The user navigates to the partner-company extranet site, for example: <a href="http://example.com">http://example.com</a>.</p>
+</li>
+<li>
+<p>The partner website now does not require any password to be typed in; instead, the user credentials are passed to the partner extranet site using AD FS.</p>
+<p>把 credentials 傳給 partner，聽起來很危險??</p>
+</li>
+<li>
+<p>The user is now logged into the partner website and can interact with the website as if logged in.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>AD FS integrates with Active Directory Domain Services, using it as an IDENTITY PROVIDER. AD FS can interact with other WS-* and SAML 2.0-compliant federation services as FEDERATION PARTNERS.</p>
+<p>如果一個 application 要搭配 ADFS 實現 SSO，本身也要是 federation partner 嗎??</p>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

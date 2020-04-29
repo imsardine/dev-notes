@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/lxml/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>lxml - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/lxml.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#lxml">lxml</a></li>
+            <li class="second-level"><a href="#elementtree">跟 ElementTree 的關係</a></li>
+                
+            <li class="second-level"><a href="#html-parsing">HTML Parsing ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="lxml">lxml<a class="headerlink" href="#lxml" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://lxml.de/">lxml - Processing XML and HTML with Python</a> #ril<ul>
+<li>lxml XML toolkit 是 C libraies <code>libxml2</code> 與 <code>libxslt</code> 的 Python binding &ndash; 方便用 Python 處理 XML 與 HTML；它的 API 相容但優於 ElementTree API。</li>
+</ul>
+</li>
+</ul>
+<h2 id="elementtree">跟 ElementTree 的關係<a class="headerlink" href="#elementtree" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://lxml.de/">lxml - Processing XML and HTML with Python</a> <code>lxml.etree</code> 除了 ElementTree API，也提供 <code>lxml.etree</code> 專有的API，以揭露底層 <code>libxml2</code> 與 <code>libxslt</code> 專屬的功能，例如 XPath、XML Schema、XSLT 等。</li>
+<li><a href="https://lxml.de/tutorial.html">The lxml.etree Tutorial</a> 這份 Tutorial 主要是在講 ElementTree API，相較於另一份文件 <a href="https://lxml.de/api.html">lxml.etree specific API</a> 則是從 &ldquo;相較於 ElementTree API&rdquo;，<code>lxml.etree</code> 多了什麼&rdquo; 的角度在寫。</li>
+<li><a href="https://lxml.de/compatibility.html">ElementTree compatibility of lxml.etree</a> 注重 <code>lxml.etree</code> 與 <code>ElementTree</code> 的相容性，但還是有不相容的部份。</li>
+<li><a href="https://lxml.de/performance.html">Benchmarks and Speed</a> <code>lxml.etree</code> 在許多地方速度比 cElementTree 還快。</li>
+<li><a href="https://lxml.de/FAQ.html">lxml FAQ - Frequently Asked Questions</a> Who uses lxml? 提到 &ldquo;Also note that the compatibility to the ElementTree library does not require projects to set a hard dependency on lxml - as long as they do not take advantage of lxml&rsquo;s enhanced feature set.&rdquo; 意思是可以因 lxml 提昇效能，但又不綁定 lxml，不過前題是不能用到 lxml 特有的 API。</li>
+</ul>
+<h2 id="html-parsing">HTML Parsing ??<a class="headerlink" href="#html-parsing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://lxml.de/parsing.html#parsing-html">Parsing HTML - Parsing XML and HTML with lxml</a> #ril<ul>
+<li>HTML parsing is similarly simple. The parsers have a recover keyword argument that the HTMLParser sets by default. It lets libxml2 try its best to return a valid HTML tree with all content it can manage to parse. It will not raise an exception on parser errors. You should use libxml2 version 2.6.21 or newer to take advantage of this feature.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://lxml.de/">lxml - Processing XML and HTML with Python</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/lxml">lxml&rsquo; Questions - Stack Overflow</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

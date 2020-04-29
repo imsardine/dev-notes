@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-decorator/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Decorator - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-decorator.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-decorator">Python / Decorator</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#not-returning-callable">不傳回 callable 可以嗎？</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-decorator"><a href="../python/">Python</a> / Decorator<a class="headerlink" href="#python-decorator" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/glossary.html#term-decorator">Glossary — Python 3.7.3 documentation</a></p>
+<ul>
+<li>
+<p>A function RETURNING ANOTHER FUNCTION, usually applied as a FUNCTION TRANSFORMATION using the <code>@wrapper</code> syntax. Common examples for decorators are <code>classmethod()</code> and <code>staticmethod()</code>.</p>
+<p>包含 decorator 自己，共有 3 個 function；而 decorator 的 input 跟 output 都是 function，通常是用 output function (outer) 將 input function (inner) 包裝一層，未來呼叫 outer function 時會間接呼叫 inner function，其間就是 decorator 可以安插一些邏輯的地方。</p>
+<p><a href="https://stackoverflow.com/questions/20791056/">Can Python decorators be used to return non-function objects? - Stack Overflow</a></p>
+</li>
+<li>
+<p>The decorator syntax is merely SYNTACTIC SUGAR, the following two function definitions are semantically equivalent:</p>
+<pre><code>def f(...):
+    ...
+f = staticmethod(f)
+
+@staticmethod
+def f(...):
+    ...
+</code></pre>
+</li>
+<li>
+<p>The same concept exists for classes, but is LESS COMMONLY USED THERE. See the documentation for function definitions and class definitions for more about decorators.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<pre><code>&gt;&gt;&gt; def plus_five(func):
+...     x = func()
+...     return x + 5
+...
+&gt;&gt;&gt; @plus_five
+... def add_nums():
+...     return 1 + 2
+...
+&gt;&gt;&gt; type(add_nums) # &lt;1&gt;
+&lt;type 'int'&gt;
+&gt;&gt;&gt; type(add_nums), add_nums
+(&lt;type 'int'&gt;, 8)
+</code></pre>
+
+<ol>
+<li><code>add_nums</code> 的型態竟是 <code>int</code>。那是因為過程中已經發生 <code>add_nums = plus_five(add_nums)</code> 這件事，結果 <code>add_nums</code> 就是一個運算結果，而非包裝過一層的 function。</li>
+</ol>
+<p>解法就是 <code>plus_five</code> 回傳一個 function 而非運算結果：</p>
+<pre><code>&gt;&gt;&gt; def plus_five(func):
+...     def inner(*args, **kwargs):
+...         x = func(*args, **kwargs) + 5
+...         return x
+...     return inner
+...
+&gt;&gt;&gt; @plus_five
+... def add_nums(num1, num2):
+...     return num1 + num2
+&gt;&gt;&gt; type(add_nums), add_nums
+(&lt;type 'function'&gt;, &lt;function inner at 0x7ff8b2e0c668&gt;)
+&gt;&gt;&gt;
+</code></pre>
+
+<p>用 class 來寫的彈性比較大：</p>
+<p><code>deco.py</code>:</p>
+<pre><code>class decoargs():
+
+    def __init__(self, arg):
+        self.arg = arg
+
+    def __call__(self, func):
+
+        def wrapper(*args, **kwargs):
+            print '[%s] before' % self.arg
+            result = func(*args, **kwargs)
+            print '[%s] after' % self.arg
+            return result
+
+        return wrapper
+
+@decoargs('hello1')
+def calc1(a, b):
+    print '----------&gt; calc1'
+    return a + b
+
+decoargs = decoargs('hello2')
+
+@decoargs
+def calc2(a, b):
+    print '----------&gt; calc2'
+    return a + b
+
+print calc1(1, 1)
+print calc2(2, 2)
+</code></pre>
+
+<p>Python/Jython 都支援這樣的用法：</p>
+<pre><code>$ python deco.py
+[hello1] before
+----------&gt; calc1
+[hello1] after
+2
+[hello2] before
+----------&gt; calc2
+[hello2] after
+4
+
+$ jython deco.py
+[hello1] before
+----------&gt; calc1
+[hello1] after
+2
+[hello2] before
+----------&gt; calc2
+[hello2] after
+4
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/reference/compound_stmts.html#function-definitions">Function definitions - 8. Compound statements — Python 3.7.3 documentation</a></p>
+<pre><code>funcdef                 ::=  [decorators] "def" funcname "(" [parameter_list] ")"
+                             ["-&gt;" expression] ":" suite
+decorators              ::=  decorator+
+decorator               ::=  "@" dotted_name ["(" [argument_list [","]] ")"] NEWLINE
+</code></pre>
+<ul>
+<li>
+<p>A function definition may be wrapped by one or more DECORATOR EXPRESSIONS. Decorator expressions are EVALUATED WHEN THE FUNCTION IS DEFINED, in the scope that contains the function definition.</p>
+<p>The RESULT MUST BE A CALLABLE, which is invoked with the FUNCTION OBJECT as THE ONLY ARGUMENT. The RETURNED VALUE is bound to the function name INSTEAD OF THE FUNCTION OBJECT.</p>
+<p>下面 <code>func = f1(arg)(f2(func))</code> 的說法，呼應了 &ldquo;evaluated when the function is defined&rdquo; 的說法，許多 function 的呼叫會發生在 import time。</p>
+<p>廣義上來說，&rdquo;a function returning another function&rdquo; 可以視為 &ldquo;a callable returning another callable&rdquo;，只要該 callable 接受單一個 callable 做為參數即可；而 class 也是 callable，也就是 class 也可以用來實作 decorator。</p>
+</li>
+<li>
+<p>Multiple decorators are applied IN NESTED FASHION. For example, the following code</p>
+<pre><code>@f1(arg)
+@f2
+def func(): pass
+</code></pre>
+<p>is roughly equivalent to</p>
+<pre><code>def func(): pass
+func = f1(arg)(f2(func))
+</code></pre>
+<p>except that the original function is not TEMPORARILY bound to the name <code>func</code>.</p>
+<p>由內往外，最接近 function definition 那層會接到 function object，外層則會接到下一層回傳的結果 (return value)&hellip; 注意 decorator 也可以有自己的參數，例如 <code>f1(arg)(...)</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/reference/compound_stmts.html#class-definitions">Class definitions - 8. Compound statements — Python 3.7.3 documentation</a></p>
+<pre><code>classdef    ::=  [decorators] "class" classname [inheritance] ":" suite
+</code></pre>
+<ul>
+<li>
+<p>Classes can also be decorated: just like when decorating functions,</p>
+<pre><code>@f1(arg)
+@f2
+class Foo: pass
+</code></pre>
+<p>is roughly equivalent to</p>
+<pre><code>class Foo: pass
+Foo = f1(arg)(f2(Foo))
+</code></pre>
+</li>
+<li>
+<p>The evaluation rules for the decorator expressions are the same as for function decorators. The result is then bound to the class name.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gist.github.com/Zearin/2f40b7b9cfc51132851a">The best explanation of Python decorators I’ve ever seen. (An archived answer from StackOverflow.)</a> #ril</p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators">Decorators - Python syntax and semantics - Wikipedia</a> #ril</li>
+<li><a href="https://realpython.com/primer-on-python-decorators/">Primer on Python Decorators – Real Python</a> (2018-08-22) #ril</li>
+<li><a href="https://www.artima.com/weblogs/viewpost.jsp?thread=240808">Decorators I: Introduction to Python Decorators</a> (2008-10-18) #ril</li>
+<li><a href="https://www.artima.com/weblogs/viewpost.jsp?thread=240845">Python Decorators II: Decorator Arguments</a> (2008-10-19) #ril</li>
+<li><a href="https://www.artima.com/weblogs/viewpost.jsp?thread=241209">Python Decorators III: A Decorator-Based Build System</a> (2008-10-26) #ril</li>
+<li><a href="https://github.com/micheles/decorator">micheles/decorator: decorator</a> 內建許多可以簡化 decorators 開發的工具 #ril</li>
+<li><a href="https://wiki.python.org/moin/PythonDecorators">PythonDecorators - Python Wiki</a> #ril</li>
+<li><a href="https://wiki.python.org/moin/PythonDecoratorLibrary">PythonDecoratorLibrary - Python Wiki</a> #ril</li>
+<li><a href="https://www.jython.org/jythonbook/en/1.0/DefiningFunctionsandUsingBuilt-Ins.html#function-decorators">Function Decorators - Chapter 4: Defining Functions and Using Built-ins — Jython Book v1.0 documentation</a> #ril</li>
+<li><a href="http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/">simeonfranklin.com - Understanding Python Decorators in 12 Easy Steps!</a> (2012-07-01) #ril</li>
+<li><a href="https://pythonconquerstheuniverse.wordpress.com/2012/04/29/python-decorators/">Python Decorators | Python Conquers The Universe</a> (2012-04-29) #ril</li>
+<li><a href="http://www.siafoo.net/article/68">Python Decorators Don&rsquo;t Have to be (that) Scary - Siafoo</a> (2010-03-17) #ril</li>
+<li><a href="https://pythonconquerstheuniverse.wordpress.com/2009/08/06/introduction-to-python-decorators-part-1/">Introduction to Python Decorators | Python Conquers The Universe</a> (2009-08-06) #ril</li>
+<li><a href="https://stackoverflow.com/questions/739654/">python - How to make a chain of function decorators? - Stack Overflow</a> #ril</li>
+<li><a href="http://www.drdobbs.com/web-development/python-24-decorators/184406073">Python 2.4 Decorators | Dr Dobb&rsquo;s</a> (2005-03-01) #ril</li>
+</ul>
+<h2 id="not-returning-callable">不傳回 callable 可以嗎？<a class="headerlink" href="#not-returning-callable" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>根據 <a href="https://docs.python.org/3/reference/compound_stmts.html#function-definitions">Function definitions - 8. Compound statements — Python 3.7.3 documentation</a> 的說法：</p>
+<blockquote>
+<p>Multiple decorators are applied in nested fashion. For example, the following code</p>
+<pre><code>@f1(arg)
+@f2
+def func(): pass
+</code></pre>
+<p>is roughly equivalent to</p>
+<pre><code>def func(): pass
+func = f1(arg)(f2(func))
+</code></pre>
+<p>except that the original function is not temporarily bound to the name <code>func</code>.</p>
+</blockquote>
+<p><code>f1()</code> 傳回 non-function 沒什麼問題，但 <code>f2()</code> 傳回 non-function 可能就會讓預期收到 function 的外層 (<code>f1</code>) 出錯。</p>
+<p>這跟 <a href="https://stackoverflow.com/a/20791175/1691598">Can Python decorators be used to return non-function objects? - Stack Overflow</a> 中 mgilson 的想法/擔憂一致：</p>
+<blockquote>
+<p>However, doing so would be TERRIBLY UNCLEAR. People expect function decorators to return functions (or at least callable objects) and class decorators to return classes. If you stray from that pattern, DO SO AT YOUR OWN RISK</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/20791056/">Can Python decorators be used to return non-function objects? - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>mgilson: To quote PEP 0318:</p>
+<p>The current syntax for function decorators as implemented in Python 2.4a2 is:</p>
+<pre><code>@dec2
+@dec1
+def func(arg1, arg2, ...):
+    pass
+</code></pre>
+<p>This is equivalent to:</p>
+<pre><code>def func(arg1, arg2, ...):
+    pass
+func = dec2(dec1(func))
+</code></pre>
+<p>without the INTERMEDIATE ASSIGNMENT to the variable <code>func</code>.</p>
+<p>So, to answer your question, you CAN have a decorator return something which isn&rsquo;t a function and the behavior is COMPLETELY DEFINED. Otherwise, it wouldn&rsquo;t be equivalent to the code above.</p>
+<p>However, doing so would be TERRIBLY UNCLEAR. People expect function decorators to return functions (or at least callable objects) and class decorators to return classes. If you stray from that pattern, DO SO AT YOUR OWN RISK &ndash; If your neighbor decides to knock down your cubicle out of anger and frustration, that&rsquo;s your problem :).</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.python.org/dev/peps/pep-0318/">PEP 318 &ndash; Decorators for Functions and Methods | Python.org</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-3129/">PEP 3129 &ndash; Class Decorators | Python.org</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

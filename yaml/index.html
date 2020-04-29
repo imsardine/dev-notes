@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/yaml/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>YAML - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/yaml.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#yaml">YAML</a></li>
+            <li class="second-level"><a href="#json">跟 JSON 的關係 ??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#boolean">Boolean</a></li>
+                
+            <li class="second-level"><a href="#convention">Convention</a></li>
+                
+            <li class="second-level"><a href="#comment">Comment</a></li>
+                
+            <li class="second-level"><a href="#tab-indentation">不能用 Tab? 慣用的縮排</a></li>
+                
+            <li class="second-level"><a href="#---">---, ...</a></li>
+                
+            <li class="second-level"><a href="#collection-sequence-mapping-nested-indentation">Collection (Sequence, Mapping), Nested, Indentation ??</a></li>
+                
+            <li class="second-level"><a href="#string">String</a></li>
+                
+            <li class="second-level"><a href="#multiline-string">多行字串要如何表示 ??</a></li>
+                
+            <li class="second-level"><a href="#data-serialization">Data Serialization ??</a></li>
+                
+            <li class="second-level"><a href="#merge-multiple-files">Merge Multiple Files ??</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+            <li class="second-level"><a href="#java">Java</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="yaml">YAML<a class="headerlink" href="#yaml" title="Permanent link"> #</a></h1>
+<ul>
+<li>YAML 唸作 <code>/ˈjæməl/</code></li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://yaml.org/">The Official YAML Web Site</a></p>
+<ul>
+<li>YAML: YAML Ain&rsquo;t Markup Language</li>
+<li>What It Is: YAML is a human friendly data serialization standard for all programming languages. 這個網頁就用 YAML 來表現，可讀性還真的滿高的。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://learnxinyminutes.com/docs/yaml/">Learn yaml in Y Minutes</a></p>
+<ul>
+<li>
+<p>YAML is a data serialisation language designed to be directly writable and readable by humans.</p>
+</li>
+<li>
+<p>It’s a STRICT SUPERSET of JSON, with the addition of SYNTACTICALLY SIGNIFICANT NEWLINES and INDENTATION, like Python. Unlike Python, however, YAML doesn’t allow literal tab characters for indentation.</p>
+<p>這點確實跟 Python 有點像，但不能用 tab 來做縮排；明智的決定。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/YAML">YAML - Wikipedia</a> #ril</p>
+</li>
+</ul>
+<h2 id="json">跟 JSON 的關係 ??<a class="headerlink" href="#json" title="Permanent link"> #</a></h2>
+<ul>
+<li>就 JSON 不支援 comment 但 YAML 支援這點來看，可以把 YAML 視為 JSON for Humans 的版本，而 JSON 就留給 for Machine 的應用。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://learnxinyminutes.com/docs/yaml/">Learn yaml in Y Minutes</a> 算是 &ldquo;strict superset of JSON&rdquo;，跟 Python 一樣看重 newline 與 indentation，但不像 Python 允許 tab。</li>
+<li><a href="http://yaml.org/spec/1.2/spec.html#id2759572">1.3. Relation to JSON - YAML Ain’t Markup Language (YAML™) Version 1.2</a> #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code># Hello, World!
+greeting: Hello, YAML!
+</code></pre>
+
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://yaml.org/start.html">YAML Ain&rsquo;t Markup Language</a> 結構用 indentation 創造出來 (一或多個空格)、list (sequence items) 用 dash (<code>-</code>) 表示，而 key-value pair 則用 colon (<code>:</code>) 拆開 key 跟 value；其中 <code>&amp;</code> 跟 <code>*</code> 似乎可以用來參照?? <code>&gt;</code> 跟 <code>|</code> 可以用多行表示??</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://yaml.org/start.html">Getting Started - YAML Ain&rsquo;t Markup Language</a></p>
+<ul>
+<li>
+<p>Below is an example of an invoice expressed via YAML&trade;. STRUCTURE IS SHOWN THROUGH INDENTATION (one or more spaces). SEQUENCE items are denoted by a dash, and KEY VALUE PAIRS within a map are separated by a colon.</p>
+<pre><code>--- !clarkevans.com/^invoice
+invoice: 34843
+date   : 2001-01-23 # (1)
+bill-to: &amp;id001
+    given  : Chris
+    family : Dumars
+    address:
+        lines: |
+            458 Walkman Dr.
+            Suite #292
+        city    : Royal Oak
+        state   : MI
+        postal  : 48046
+ship-to: *id001
+product:
+    - sku         : BL394D
+      quantity    : 4
+      description : Basketball
+      price       : 450.00
+    - sku         : BL4438H
+      quantity    : 1
+      description : Super Hoop
+      price       : 2392.00
+tax  : 251.42
+total: 4443.52
+comments: &gt;
+    Late afternoon is best.
+    Backup contact is Nancy
+    Billsmer @ 338-4338.
+</code></pre>
+<ol>
+<li>空白可以拿來做排版，讓 <code>:</code> 對齊。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://learnxinyminutes.com/docs/yaml/">Learn yaml in Y Minutes</a> #ril</p>
+<p>Start, Comment</p>
+<pre><code>---  # document start (1) (2)
+
+# Comments in YAML look like this.
+</code></pre>
+<ol>
+<li>看來註解 <code>#</code> 不一定要出現在行首。</li>
+<li><code>---</code> 是用來隔開 front matter，應該不是必要的 ??</li>
+</ol>
+<p>SCALAR TYPES</p>
+<pre><code># Our root object (which continues for the entire document) will be a map, (1)
+# which is equivalent to a dictionary, hash or object in other languages.
+key: value
+another_key: Another value goes here.
+a_number_value: 100
+scientific_notation: 1e+12
+# The number 1 will be interpreted as a number, not a boolean. if you want
+# it to be interpreted as a boolean, use true
+boolean: true          # (2)
+null_value: null       # (3)
+key with spaces: value # (4)
+# Notice that strings don't need to be quoted. However, they can be.
+however: 'A string, enclosed in quotes.'
+'Keys can be quoted too.': "Useful if you want to put a ':' in your key."
+single quotes: 'have ''one'' escape pattern'
+double quotes: "have many: \", \0, \t, \u263A, \x0d\x0a == \r\n, and more."
+
+# Multiple-line strings can be written either as a 'literal block' (using |),
+# or a 'folded block' (using '&gt;').
+literal_block: | # (5)
+    This entire block of text will be the value of the 'literal_block' key,
+    with line breaks being preserved.
+
+    The literal continues until de-dented, and the leading indentation is
+    stripped.
+
+        Any lines that are 'more-indented' keep the rest of their indentation -
+        these lines will be indented by 4 spaces.
+folded_style: &gt;
+    This entire block of text will be the value of 'folded_style', but this
+    time, all newlines will be replaced with a single space.
+
+    Blank lines, like above, are converted to a newline character.
+
+        'More-indented' lines keep their newlines, too -
+        this text will appear over two lines.
+</code></pre>
+<ol>
+<li>事實上，root object 不一定要是 key-value pair，也可以是 sequence，甚至是 scalars，例如 <code>null</code>、<code>true</code>/<code>false</code> 等。</li>
+<li>Boolean 用 <code>true</code>/<code>false</code> 表示。</li>
+<li>Null 用 <code>null</code> 表示。</li>
+<li>Key 跟 value 都可以不加引號，即使含有空白字元；單引號不支援 escape，裡面的單引號用 <code>''</code> 表示，雙引號則支援 escape，例如 <code>\"</code>、<code>\t</code> 等。</li>
+<li><code>|</code> 表示要對齊左側，跟 Python 的 <a href="https://docs.python.org/3/library/textwrap.html#textwrap.dedent"><code>textwrap.dedent()</code></a> 很像，會保留換行字元 &ndash; 除開頭跟結尾的換行字元以外 ??</li>
+<li><code>&gt;</code> 表示相連的行要串接起來，空白行才會被視為換行，加上 &ldquo;&lsquo;More-indented&rsquo; lines keep their newlines&rdquo; 類 indented code block 的說法，很像是 Markdown 的解讀方式 ??</li>
+</ol>
+</li>
+<li>
+<p><a href="https://docs.saltstack.com/en/latest/topics/yaml/">Understanding YAML</a> #ril</p>
+</li>
+<li><a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax — Ansible Documentation</a> #ril</li>
+<li><a href="https://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html">YAML Idiosyncrasies</a> #ril</li>
+<li><a href="https://symfony.com/doc/current/components/yaml/yaml_format.html">The YAML Format (The Yaml Component - Symfony Docs)</a> #ril</li>
+</ul>
+<h2 id="boolean">Boolean<a class="headerlink" href="#boolean" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://yaml.org/type/bool.html">Boolean Language-Independent Type for YAML™ Version 1.1</a> 多種寫法可以兼顧可讀性</p>
+<ul>
+<li>Canonical: <code>y|n</code></li>
+<li>
+<p>Regexp: <code>y|Y|yes|Yes|YES|n|N|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF</code></p>
+</li>
+<li>
+<p>Definition: Mathematical Booleans.</p>
+<p>A Boolean represents a true/false value. Booleans are formatted as English words (“true”/“false”, “yes”/“no” or “on”/“off”) for readability and may be ABBREVIATED as a single character “y”/“n” or “Y”/“N”.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/yaml/pyyaml/issues/247">y|Y|n|N not Recognised as Booleans · Issue #247 · yaml/pyyaml</a> 實驗確認 3.13 也有這個問題，為什麼這個錯誤在 2019-02-01 才被回報? #ril</p>
+</li>
+</ul>
+<h2 id="convention">Convention<a class="headerlink" href="#convention" title="Permanent link"> #</a></h2>
+<ul>
+<li>雖然<a href="http://www.yaml.org/faq.html">官方 FAQ</a> 建議使用 <code>.yaml</code>，但因為 <code>.yml</code> 已經夠清楚、某些早期檔名 8.3 限制的習慣，結果 <code>.yml</code> 變成業界標準 (de facto standard)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://www.yaml.org/faq.html">YAML Ain&rsquo;t Markup Language</a> 副檔名建議用 <code>.yaml</code>。</li>
+<li><a href="https://stackoverflow.com/questions/21059124/">configuration files - Is it .yaml or .yml? - Stack Overflow</a> 雖然官方建議 <code>.yaml</code>，但大家普遍還是用 <code>.yml</code>? Bandrami: 8.3 的習慣很難拿掉 MarkDBlackwell: <code>.yml</code> 已經夠明確，只有少數的副檔名以 Y 開頭，<code>.yml</code> 已經成為 de facto standard。</li>
+<li><a href="https://en.wikipedia.org/wiki/YML">YML - Wikipedia</a> <code>.yml</code> 是 YAML 的副檔名</li>
+<li><a href="https://stackoverflow.com/questions/22268952/">symfony - What is the difference between YAML vs YML extension? - Stack Overflow</a> 因為歷史因素，Windows 開發人員還是害怕使用 3 個字元以上的副檔名。</li>
+<li><a href="https://stackoverflow.com/questions/22771226/">What is the canonical YAML naming style - Stack Overflow</a> camelCase、<code>-</code> 或 <code>_</code> 都有人用 #ril</li>
+</ul>
+<h2 id="comment">Comment<a class="headerlink" href="#comment" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://symfony.com/doc/3.3/components/yaml/yaml_format.html#comments">Comments - The YAML Format (The Yaml Component - Symfony 3.3 Docs)</a></p>
+<p>Comments can be added in YAML by prefixing them with a hash mark (<code>#</code>):</p>
+<pre><code># Comment on a line
+"symfony 1.0": { PHP: 5.0, Propel: 1.2 } # Comment at the end of a line
+"symfony 1.2": { PHP: 5.2, Propel: 1.3 }
+</code></pre>
+<p>NOTE: Comments are simply ignored by the YAML parser and DO NOT NEED TO BE INDENTED according to the current level of nesting in a collection.</p>
+<p>但跟著資料內縮會比較好讀。</p>
+</li>
+<li>
+<p><a href="https://learnxinyminutes.com/docs/yaml/">Learn yaml in Y Minutes</a> <code># Comments in YAML look like this.</code></p>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/YAML">YAML - Wikipedia</a> Comment 以 <code>#</code> 開頭表示，可以出現在一行的任何地方，直到行尾，但必須與其他 token 用 whitespace 隔開。在 Comparison with JSON 也提到，YAML 比 JSON 多了 comment 的支援。</li>
+<li><a href="https://stackoverflow.com/questions/2276572/">How do you do block comment in yaml? - Stack Overflow</a> 提到 inline comment 的說法，但不援 block comment 是真的。</li>
+</ul>
+<h2 id="tab-indentation">不能用 Tab? 慣用的縮排<a class="headerlink" href="#tab-indentation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.yaml.org/faq.html">YAML Ain&rsquo;t Markup Language</a> 由於 indentation 對 YAML 很重要，所以 YAML 裡不能用 tab，各種工具對 tab 有不同的解讀。</li>
+<li><a href="https://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html">YAML Idiosyncrasies</a> 建議用 2 spaces (Vim 搭配 <code>:set tabstop=2 expandtab</code>)；Nested Dictioanries 提到 nested dicts 的 identation 要特別注意。</li>
+</ul>
+<h2 id="---"><code>---</code>, <code>...</code><a class="headerlink" href="#---" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>對於文件一開始的 <code>---</code>，YAML 1.1 與 1.2 有不同的解釋：</p>
+<p><a href="https://yaml.org/spec/1.1/#id857577">YAML 1.1</a>:</p>
+<blockquote>
+<p>YAML uses three dashes (“<code>---</code>”) to separate documents within a stream.</p>
+</blockquote>
+<p><a href="https://yaml.org/spec/1.2/spec.html#id2760395">YAML 1.2</a>:</p>
+<blockquote>
+<p>YAML uses three dashes (“<code>---</code>”) to separate directives from document content. This also serves to signal the start of a document if no directives are present.</p>
+</blockquote>
+<p>顯然明確用 <code>---</code> 起頭的想法是源自 YAML 1.2，目的是為了強調沒有 directives；雖然相對而言 YAML 1.1，現有支擾 YAML 1.2 的 parser 是相對少的。</p>
+</li>
+<li>
+<p>&ldquo;multiple documents in a single stream&rdquo; 的用法其實並不常見，尤其是用在 configuration 時。</p>
+<blockquote>
+<p>Allowing multiple documents in a single stream makes YAML suitable for LOG FILES and similar applications. Note that each document is independent of the rest, allowing for heterogeneous log file entries.</p>
+<p>&ndash; <a href="https://yaml.org/spec/1.2/spec.html#id2801681">YAML 1.2</a></p>
+</blockquote>
+</li>
+<li>
+<p>要求文件一開始要有 <code>---</code> 的習慣可能來自 Puppet？</p>
+<p><a href="https://www.google.com/search?q=puppet+three+dashes">Google 搜尋結果</a> 都在講 YAML 要以 <code>---</code> 開頭，可能因此造成該領域的人誤以為 YAML 就是要以 <code>---</code> 開頭。</p>
+<p>同為 configurmation management 應用的 Ansible 也說一開始的 <code>---</code> 並非必要：</p>
+<blockquote>
+<p>There’s another small quirk to YAML. All YAML files (regardless of their association with Ansible or not) can OPTIONALLY begin with <code>---</code> and end with <code>...</code>. This is part of the YAML format and indicates the start and end of a document.</p>
+<p>&ndash; <a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-basics">YAML Syntax — Ansible Documentation</a></p>
+</blockquote>
+<p>在其他領域，包括 <a href="https://dart.dev/tools/pub/pubspec#example">Dart</a>、<a href="https://symfony.com/doc/master/components/yaml/yaml_format.html">Symfony</a>、<a href="https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml">Jekyll 的 <code>_config.yml</code></a>、<a href="https://docs.travis-ci.com/user/customizing-the-build/">Travis</a>、<a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/">Prometheus</a> 都未曾出現過這類要求。</p>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/50788277/">why --- (3 dashes/hyphen) in yaml file? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>YAML uses three dashes (“&mdash;”) to separate directives from document content. This also serves to signal the start of a document if NO DIRECTIVES ARE PRESENT.</p>
+</li>
+<li>
+<p>Yassin Hajaj: It&rsquo;s not mandatory to have them if you do not begin your YAML with a directive. If it&rsquo;s the case, you should use them.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://camel.readthedocs.io/en/latest/yamlref.html#general-syntax">General syntax - Brief YAML reference — Camel 0.1.2 documentation</a></p>
+<ul>
+<li>
+<p>A document begins with <code>---</code> and ends with <code>...</code>. Both are OPTIONAL, though a <code>...</code> can only be followed by directives or <code>---</code>.</p>
+<p>You DON’T see multiple documents very often, but it’s a very useful feature for sending INTERMITTENT CHUNKS of data over a single network connection. With JSON you’d usually put each chunk on its own line and delimit with newlines; YAML has support built in.</p>
+</li>
+<li>
+<p>Documents may be preceded by directives, in which case the <code>---</code> is REQUIRED to indicate the end of the directives.</p>
+<p>Directives are a <code>%</code> followed by an identifier and some parameters. (This is how directives are distinguished from a bare document without <code>---</code>, so the first non-blank non-comment line of a document can’t start with a <code>%</code>.)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://symfony.com/doc/master/components/yaml/yaml_format.html#unsupported-yaml-features">The YAML Format (The Yaml Component - Symfony 5.1 Docs)</a></p>
+<p>The following YAML features are not supported by the Symfony Yaml component: Multi-documents (<code>---</code> and <code>...</code> markers);</p>
+<p>如果只有一個 document 但以 <code>---</code> 開頭會怎樣?</p>
+</li>
+<li>
+<p><a href="https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.document_start">document-start - Rules — yamllint 1.20.0 documentation</a></p>
+<p>Use this rule to require or forbid the use of DOCUMENT START MARKER (<code>---</code>).</p>
+<p>Set <code>present</code> to <code>true</code> when the document start marker is required, or to <code>false</code> when it is forbidden.</p>
+<p>這工具的設計有點奇怪，<code>document-start: {present: true}</code> 時一定要有，<code>document-start: {present: false}</code> 一定不能有，若要讓使用者依需求自己決定呢?</p>
+<pre><code>$ yamllint settings.yml
+settings.yml
+  1:1       warning  missing document start "---"  (document-start)
+$ echo $?
+0
+</code></pre>
+<p>不過它只是 warning 就是了，除非啟用 <a href="https://yamllint.readthedocs.io/en/stable/configuration.html#errors-and-warnings">strict mode</a>：</p>
+<pre><code>$ yamllint --strict settings.yml
+settings.yml
+  1:1       warning  missing document start "---"  (document-start)
+$ echo $?
+2
+</code></pre>
+</li>
+</ul>
+<h2 id="collection-sequence-mapping-nested-indentation">Collection (Sequence, Mapping), Nested, Indentation ??<a class="headerlink" href="#collection-sequence-mapping-nested-indentation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://learnxinyminutes.com/docs/yaml/">Learn yaml in Y Minutes</a> #ril<ul>
+<li>Sequences (equivalent to lists or arrays) look like this (note that THE &lsquo;-&lsquo; COUNTS AS INDENTATION) 其中 <code>-</code> 也被視為 identation，那麼 key 的 value 是 list 時，為什麼不用再縮一排，就可以解釋了。</li>
+</ul>
+</li>
+<li><a href="https://github.com/Animosity/CraftIRC/wiki/Complete-idiot%27s-introduction-to-yaml">Complete idiot&rsquo;s introduction to yaml · Animosity/CraftIRC Wiki</a> #ril</li>
+<li>
+<p><a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax — Ansible Documentation</a> Dictionary 跟 list 都有 abbreviated form #ril</p>
+</li>
+<li>
+<p><a href="https://symfony.com/doc/3.3/components/yaml/yaml_format.html#collections">Collections - The YAML Format (The Yaml Component - Symfony 3.3 Docs)</a></p>
+<ul>
+<li>
+<p>A YAML file is rarely used to describe a simple scalar. Most of the time, it describes a collection. YAML collections can be a sequence (indexed arrays in PHP) or a mapping of elements (associative arrays in PHP).</p>
+</li>
+<li>
+<p>Sequences use a DASH followed by a SPACE:</p>
+<pre><code>- PHP
+- Perl
+- Python
+</code></pre>
+<p>The previous YAML file is equivalent to the following PHP code:</p>
+<pre><code>array('PHP', 'Perl', 'Python');
+</code></pre>
+</li>
+<li>
+<p>Mappings use a COLON followed by a SPACE (<code>:</code>) to mark each key/value pair:</p>
+<pre><code>PHP: 5.2
+MySQL: 5.1
+Apache: 2.2.20
+</code></pre>
+<p>注意 <code>:</code> 後面還要有個空格，否則會被視為 scalar value &ndash; string。</p>
+<p>which is equivalent to this PHP code:</p>
+<pre><code>array('PHP' =&gt; 5.2, 'MySQL' =&gt; 5.1, 'Apache' =&gt; '2.2.20');
+</code></pre>
+<p>NOTE: In a mapping, a key can be ANY VALID SCALAR.</p>
+<p>The number of spaces between the colon and the value does not matter:</p>
+<pre><code>PHP:    5.2
+MySQL:  5.1
+Apache: 2.2.20
+</code></pre>
+<p>為了提高可讀性時，也可以這麼做。</p>
+</li>
+<li>
+<p>YAML uses indentation with ONE OR MORE spaces to describe nested collections:</p>
+<pre><code>'symfony 1.0':
+  PHP:    5.0
+  Propel: 1.2
+'symfony 1.2':
+  PHP:    5.2
+  Propel: 1.3
+</code></pre>
+<p>The above YAML is equivalent to the following PHP code:</p>
+<pre><code>array(
+    'symfony 1.0' =&gt; array(
+        'PHP'    =&gt; 5.0,
+        'Propel' =&gt; 1.2,
+    ),
+    'symfony 1.2' =&gt; array(
+        'PHP'    =&gt; 5.2,
+        'Propel' =&gt; 1.3,
+    ),
+);
+</code></pre>
+</li>
+<li>
+<p>There is one important thing you need to remember when using indentation in a YAML file: Indentation must be done with one or more spaces, but never with tabulators.</p>
+<p>You can nest sequences and mappings as you like:</p>
+<pre><code>'Chapter 1':
+  - Introduction
+  - Event Types
+'Chapter 2':
+  - Introduction
+  - Helpers
+</code></pre>
+</li>
+<li>
+<p>YAML can also use FLOW STYLES for collections, using explicit indicators rather than indentation to denote scope.</p>
+<p>A sequence can be written as a comma separated list within square brackets (<code>[]</code>):</p>
+<pre><code>[PHP, Perl, Python]
+</code></pre>
+<p>A mapping can be written as a comma separated list of key/values within curly braces (<code>{}</code>):</p>
+<pre><code>{ PHP: 5.2, MySQL: 5.1, Apache: 2.2.20 }
+</code></pre>
+<p>You can mix and match styles to achieve a BETTER READABILITY:</p>
+<pre><code>'Chapter 1': [Introduction, Event Types]
+'Chapter 2': [Introduction, Helpers]
+
+'symfony 1.0': { PHP: 5.0, Propel: 1.2 }
+'symfony 1.2': { PHP: 5.2, Propel: 1.3 }
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="string">String<a class="headerlink" href="#string" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://symfony.com/doc/current/components/yaml/yaml_format.html#strings">Strings - The YAML Format (The Yaml Component - Symfony Docs)</a> #ril</p>
+<ul>
+<li>
+<p>Strings in YAML can be wrapped both in single and double quotes. In some cases, they can also be UNQUOTED:</p>
+<pre><code>A string in YAML
+'A singled-quoted string in YAML'
+"A double-quoted string in YAML"
+</code></pre>
+</li>
+<li>
+<p>Quoted styles are useful when a string starts or end with one or more relevant spaces, because UNQUOTED STRINGS ARE TRIMMED on both end when parsing their contents. Quotes are required when the string contains SPECIAL OR RESERVED CHARACTERS. 下面提到特殊字元指的是</p>
+<pre><code>:, {, }, [, ], ,, &amp;, *, #, ?, |, -, &lt;, &gt;, =, !, %, @, `
+</code></pre>
+</li>
+<li>
+<p>When using single-quoted strings, any single quote <code>'</code> inside its contents must be doubled to escape it: <code>'A single quote '' inside a single-quoted string'</code>，那雙引號怎麼 escape??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://docs.octoprint.org/en/master/configuration/yaml.html#scalars">Scalars - A YAML Primer — OctoPrint 1.3.9.post5.dev0+g09af281 documentation</a> In double quoted strings if you need to include a literal double quote in your string you can escape it by PREFIXING IT WITH A BACKSLASH <code>\</code> (which you can in turn escape by itself). In single quoted strings the single quote character can be escaped by prefixing it with another single quote, basically DOUBLING IT. Backslashes in single quoted strings do not need to be escaped. 在 single quote 與 double quote 裡要 escape quote 的方式很不一樣，double quote 裡因為 <code>\</code> 有作用的關係，用 <code>\"</code>，但 single quote 裡因為 <code>\</code> 沒有作用，所以改用 <code>''</code>。</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/19109912/">syntax - Do I need quotes for strings in Yaml? - Stack Overflow</a> <code>Yes</code> 跟 <code>No</code> 要加引號，否則會被解讀為 <code>True</code>/<code>False</code> #ril</li>
+</ul>
+<h2 id="multiline-string">多行字串要如何表示 ??<a class="headerlink" href="#multiline-string" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://yaml-multiline.info/">YAML Multiline Strings</a> #ril</p>
+<ul>
+<li>
+<p>There are two types of formats that YAML supports for strings: BLOCK SCALAR and FLOW SCALAR formats.</p>
+<p>(Scalars are what YAML calls basic values like numbers or strings, as opposed to complex types like arrays or objects.)</p>
+<p>Block scalars have more control over how they are interpreted, whereas flow scalars have more limited escaping support.</p>
+</li>
+<li>
+<p>最下面 Plain 的用法其實滿直覺的，結果幾乎跟 <code>'</code> 一樣。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/3790454">syntax - How do I break a string over multiple lines? - Stack Overflow</a> #ril</p>
+</li>
+</ul>
+<h2 id="data-serialization">Data Serialization ??<a class="headerlink" href="#data-serialization" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://yaml.org/">The Official YAML Web Site</a> 到處都看得到 data serialization 的說法，感覺可以定義 YAML 與 object 的對應規則?</li>
+<li><a href="https://pypi.org/project/PyYAML/">PyYAML · PyPI</a> 提到 pickle support 與 represent an arbitrary Python object。</li>
+</ul>
+<h2 id="merge-multiple-files">Merge Multiple Files ??<a class="headerlink" href="#merge-multiple-files" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://hexo.io/docs/configuration#Overriding-Theme-Config">Overriding Theme Config - Configuration | Hexo</a> 第一次在 Hexo 看到多個 YAML 合併的概念：</p>
+<p>Using multiple files combines all the config files and saves the merged settings to <code>_multiconfig.yml</code>. The later values take precedence. It works with any number of JSON and YAML files with arbitrarily deep objects.</p>
+<pre><code># _config.yml
+theme_config:
+  bio: "My awesome bio"
+
+# themes/my-theme/_config.yml
+bio: "Some generic bio"
+logo: "a-cool-image.png"
+Resulting theme configuration:
+
+{
+  bio: "My awesome bio",
+  logo: "a-cool-image.png"
+}
+</code></pre>
+<p>但實驗發現 <code>theme_config: footer: since: 2017</code> 會覆寫整個 <code>theme/_config.yml</code> 裡的 <code>footer:</code>，無法單純複寫 <code>since: 2017</code> 這項設定。</p>
+</li>
+<li>
+<p><a href="https://github.com/Scout24/yamlreader">Scout24/yamlreader: Read all YAML files in a directory and merge them</a> #ril</p>
+</li>
+<li>
+<p><a href="https://hexo.io/docs/configuration#Using-an-Alternate-Config">Using an Alternate Config - Configuration | Hexo</a></p>
+</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li>從 <a href="http://yaml.org/">YAML.org</a> 與 <a href="https://wiki.python.org/moin/YAML">Python Wiki</a> 的建議看來，<a href="../pyyaml/">PyYAML</a> 是最推薦的套件。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://yaml.org/">The Official YAML Web Site</a> Python 列出 PyYAML、ruamel.yaml 與 PySyck，但 PySyck 的連結已經斷了。</li>
+<li><a href="https://stackoverflow.com/questions/14261614/">How do I install the yaml package for Python? - Stack Overflow</a> 幾乎都在講 PyYAML 套件。</li>
+<li><a href="https://stackoverflow.com/questions/1773805/">How can I parse a YAML file in Python - Stack Overflow</a> Anthon 提到 ruamel.yaml，本身是作者</li>
+<li><a href="https://wiki.python.org/moin/YAML">YAML - Python Wiki</a> 由於 YAML spec 的複雜度，PyYAML 有完整的支援 (C-based)，但其他 library 只有局部的支援。</li>
+</ul>
+<h2 id="java">Java<a class="headerlink" href="#java" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/FasterXML/jackson">Jackson</a></li>
+<li><a href="https://bitbucket.org/asomov/snakeyaml/wiki/Home">SnakeYAML</a></li>
+</ul>
+<p>Jackson 的 YAML extension 及 Spring Boot 背後都是用 SnakeYAML。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackabuse.com/reading-and-writing-yaml-files-in-java-with-jackson/">Reading and Writing YAML Files in Java with Jackson</a> (2020-01-02)</p>
+<p>With a refresher on YAML, we&rsquo;re ready to write some code that reads/writes YAML files. To achieve this, we can use either of the two popular libraries: Jackson or SnakeYAML. In this article, we&rsquo;ll be focusing on Jackson.</p>
+</li>
+<li>
+<p><a href="https://dzone.com/articles/read-yaml-in-java-with-jackson">Read YAML in Java with Jackson - DZone Java</a> (2016-05-30)</p>
+<p>Jackson is one of the best JSON libraries for Java. Now with the YAML EXTENSION of Jackson, we can use Jackson to process YAML in Java. Under the hood, Jackson’s YAML extension uses the SnakeYAML library to parse YAML.</p>
+<p>所謂 extension (<code>com.fasterxml.jackson.dataformat:jackson-dataformat-yaml</code>) 背後也是用 SnakeYAML。</p>
+</li>
+<li>
+<p><a href="https://yaml.org/">Java - The Official YAML Web Site</a></p>
+<p>這裡提到 JvYaml、SnakeYAML、YamlBeans、JYaml 及 Camel，但沒有 Jackson。</p>
+</li>
+<li>
+<p><a href="https://mkyong.com/spring-boot/spring-boot-yaml-example/">Project Dependency - Spring Boot YAML example – Mkyong.com</a></p>
+<p>Spring Boot uses SnakeYAML library to parse the YAML file, and the SnakeYAML library is provided by <code>spring-boot-starter</code></p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://yaml.org/">YAML.org</a></li>
+<li><a href="https://github.com/yaml/yaml">yaml/yaml - GitHub</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li><a href="http://yaml-online-parser.appspot.com/">Online YAML Parser</a> 可以輸出成 JSON 或 Python</li>
+<li><a href="http://www.yamllint.com/">YAML Lint - The YAML Validator</a> 除了檢查，也會將 <code>[...]</code> (list) 或 <code>{...}</code> (dictionary) 轉換成階層的表示法</li>
+<li><a href="https://jsonformatter.org/yaml-validator">Best YAML Validator Online</a> 同時提供 Validate 與 Format YAML 的功能</li>
+<li><a href="https://github.com/adrienverge/yamllint">adrienverge/yamllint - GitHub</a> (Python)</li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://yaml.org/YAML_for_ruby.html">YAML Cookbook (Ruby)</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://yaml.org/spec/1.1/">YAML 1.1</a></li>
+<li><a href="http://yaml.org/spec/1.2/spec.html">YAML 1.2</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

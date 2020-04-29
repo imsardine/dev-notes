@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/multimeter/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Multimeter 三用電表 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/multimeter.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#multimeter">Multimeter 三用電表</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="multimeter">Multimeter 三用電表<a class="headerlink" href="#multimeter" title="Permanent link"> #</a></h1>
+<ul>
+<li>如何使用三用電表量測電壓、電流、電阻?? =&gt; How to Use a Multimeter - learn.sparkfun.com <a href="https://learn.sparkfun.com/tutorials/how-to-use-a-multimeter">https://learn.sparkfun.com/tutorials/how-to-use-a-multimeter</a> #ril</li>
+<li>英文 multimeter 翻做 &ldquo;多功(能)電表&rdquo; 或 &ldquo;萬用電表&rdquo;，而 Digital Multimeter (DMM) 則是 &ldquo;數位電表&rdquo;，相對於指針式的。</li>
+<li>以前叫做 &ldquo;三用電表&rdquo; 是哪三用?? =&gt; 電流、電壓、電阻?</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=BpRD_r4hlhI">三用電表怎麼用 How to use MultiMeter - YouTube</a> (2017-11-10) #ril<ul>
+<li>下方的旋鈕可以切換不同的 &ldquo;檔位&rdquo;，提供不同的功能，常用的有 V (電壓)、A (電流)、Ω (電阻)，另外可能還可以量電容、電感、電晶體、頻率等。</li>
+<li>01:15 V⎓ (&mdash; 與 &hellip; 疊加) 表示直流電，V~ 則是交流電。談到 A⎓ 時，由於電表上沒有 A~，所以 &ldquo;沒辦法量交流電&rdquo; (的電流)。</li>
+<li>02:00 若要測電壓，導線的 &ldquo;香蕉頭&rdquo; 要插進下方 COM (黑) 與 VΩ (紅)，其中 COM 是 Common &ldquo;共同接地&rdquo; 的意思。</li>
+<li>03:15 以量測 1.5V 三號電池為例，把檔位轉到 DC V⎓ 的 4 (表示可以測量的最大電壓是 4V)；雖然公規是 1.5V，但通常量出來的結果會大一點。</li>
+<li>05:15 量相機 7.4V 電池，一開始量得 .0L，因為超過目前檔位所能量測的最大電壓，調整一下檔位就可以量測得到；07：00 提到 &ldquo;空載&rdquo; 這個詞，表示電池被量測時沒有接到相機，單獨測量電池的狀況。</li>
+<li>07:20 測量直流電插座，但交流電沒有分正負極 (但有分中性線 (較寬) 跟火線 (較窄))，所以把探針插進 2 個孔即可，不用刻意區分。</li>
+<li>10:00 作者的電表可以量頻率，想測 AC 是否為台電宣稱的 60Hz (中國或歐洲則是 50Hz)，例如變壓器背後寫著 120VAC 60Hz</li>
+<li>13:25 想知道電器吃了多少電可以量電流，但量電流要把 &ldquo;電路切斷&rdquo; &ndash; 電流計的阻抗很低，電流完全通過；實務上有點危險性?? =&gt; 這說明了，為何之前量 LED 兩支腳量電流時，LED 暫時不會亮，因為都流經電表了。</li>
+<li>14:50 Ω 個個檔位是 400 外加像 Wi-Fi ))) 的符號，表示除了可以量極小的電阻外，若電阻趨近於零 (也就是短路) 時會嗶嗶叫；假設我們要量一根導線，等同於把兩支探針接在一起，這時電表就會叫 &ndash; 表示兩支探針接觸面存在的電阻幾乎是零。</li>
+<li>17:50 三用電表是俗稱，最常用來量電壓、電流、電阻 (三用)，但還有其他用途。</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=oXUXqpcPM78">驗電筆-傳統接觸式-感應式-如何使用-How to use voltage detector - YouTube</a> (2018-08-18) 竟有非接觸式的驗電筆 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="current.md">Current 電流</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

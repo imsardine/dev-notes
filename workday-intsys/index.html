@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/workday-intsys/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Workday / Integration - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/workday-intsys.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#workday-integration">Workday / Integration</a></li>
+            <li class="second-level"><a href="#eib">EIB (Enterprise Interface Builder)</a></li>
+                
+            <li class="second-level"><a href="#business-process">Business Process</a></li>
+                
+            <li class="second-level"><a href="#run">Run</a></li>
+                
+            <li class="second-level"><a href="#sequence-generator">Sequence Generator</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="workday-integration"><a href="../workday/">Workday</a> / Integration<a class="headerlink" href="#workday-integration" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/Ac4rVLAw3NRAINhHHOOoiQ">Setup Considerations: Integrations • Integrations • Reader • Administrator Guide</a></p>
+<ul>
+<li>
+<p>You can use this topic to help make decisions when planning your configuration and use of Workday integrations. It explains:</p>
+<ul>
+<li>Why to set them up.</li>
+<li>How they fit into the rest of Workday.</li>
+<li>Downstream impacts ?? and cross-product interactions.</li>
+<li>Security requirements and business process configurations. 流程可以整合外部系統!!</li>
+<li>Questions and limitations to consider before implementation.</li>
+</ul>
+</li>
+</ul>
+<p>What It Is</p>
+<ul>
+<li>
+<p>Workday integrations enable you to exchange data efficiently between Workday and an EXTERNAL ENDPOINT. Examples:</p>
+<ul>
+<li>EXPORT payroll data from Workday to a THIRD-PARTY PAYROLL PROVIDER.</li>
+<li>IMPORT data for employee hires into Workday using Enterprise Interface Builder (EIB).</li>
+</ul>
+<p>雙向的資料交換；其中 EIB 也分 inbound 跟 outbound。</p>
+</li>
+<li>
+<p>You can use Workday integrations to:</p>
+<ul>
+<li>Efficiently export and import large volumes of data.</li>
+<li>Initiate integrations ad hoc or on schedule.</li>
+<li>Complete most tasks in bulk that you can perform in Workday.</li>
+</ul>
+</li>
+</ul>
+<p>Business Benefits</p>
+<ul>
+<li>
+<p>Workday integrations make some tasks easier and other tasks possible. Example, an integration:</p>
+<ul>
+<li>
+<p>Can save you time and effort when transferring data from other applications into Workday.</p>
+</li>
+<li>
+<p>Is necessary to send large volumes of payroll results regularly to a third-party payroll service IN THE FORMAT THEY REQUIRE.</p>
+<p>竟然不是 3<sup>rd</sup>-party payroll service 要來遷就 Workday。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When you need to exchange large volumes of data in a specific format with an external endpoint, Workday integrations are a good choice. With Workday integrations, you can AVOID MANUAL RE-ENTRY of data between Workday and an external application.</p>
+</li>
+</ul>
+<p>Questions to Ask</p>
+<ul>
+<li>
+<p>Does a Workday-delivered INTEGRATION TEMPLATE support your use case?</p>
+<p>If a Workday-delivered integration template supports your use case, using that template can simplify building the integration.</p>
+</li>
+<li>
+<p>Do you need to import and export data regularly, or infrequently?</p>
+<p>You can configure most Workday integrations to run on a schedule.</p>
+</li>
+<li>
+<p>Can workers at your organization build the integrations using the technology approach that you select?</p>
+<p>Workday provides customer training for EIB, some Workday Connectors, and Workday Studio. 另外還有 template、API。</p>
+</li>
+</ul>
+<p>Recommendations</p>
+<ul>
+<li>
+<p>Workday provides several integration technologies. The best technology for your use case varies DEPENDING ON THE USE CASE.</p>
+</li>
+<li>
+<p>Inbound Enterprise Interface Builder (EIB)</p>
+<p>A tool for building simple integrations that load data into Workday.</p>
+<p>Advantages:</p>
+<ul>
+<li>
+<p>Available in Workday tenant.</p>
+<p>唯獨 Workday Studio 沒提到這點，想強調透過設定就可完成 (不用寫程式)?</p>
+</li>
+<li>
+<p>Simpler to use than other Workday integration technologies.</p>
+</li>
+<li>
+<p>Can use an INBOUND WEB SERVICE as a data source.</p>
+</li>
+<li>
+<p>Can generate spreadsheet for data entry by workers who don&rsquo;t have access to Workday.</p>
+<p>產生對應的 spreadsheet 讓使用者輸入 (內含選項、驗證 ??)，再匯進 Workday。</p>
+</li>
+<li>
+<p>Enables automation of multistep data entry in Workday (Example: Hire business process).</p>
+<p>若 Workday 裡的 business process 可以透過外部資料啟動，可以衍生出很多應用!! 例如這裡提到的 &ldquo;multistep data entry&rdquo; 透過 spreadsheet 來輸入會更有效率，尤其初上線筆數很多時。</p>
+</li>
+<li>
+<p>Best for ONE-TIME BULK DATA LOADS. 通常是系統初上線時。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Outbound Enterprise Interface Builder (EIB)</p>
+<p>A tool for building simple integrations that export data from Workday.</p>
+<p>Advantages:</p>
+<ul>
+<li>Available in Workday tenant.</li>
+<li>
+<p>Relatively simple to use.</p>
+</li>
+<li>
+<p>Can use 1 Workday CUSTOM REPORT or outbound web service as a data source.</p>
+<p>這裡的 &ldquo;outbound web service&rdquo; 指的是 Workday 自己的 outbound web service operation；雖然要 Workday 遶回自己的 web service 拉資料有點奇妙。</p>
+</li>
+<li>
+<p>Can run on schedule or LAUNCH FROM BUSINESS PROCESS STEP.</p>
+<p>流程中往系統外部推送資料，通常是在 process 走完時；有機會做到等外部系統產生結果再往下走嗎 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Template-Based Integrations (for specific endpoints)</p>
+<p>Tools for building integrations to specific services and vendors (Example: Salesforce.com). These integrations support FILE FORMATS that are SPECIFIC TO THE SERVICE.</p>
+<p>相較於 inbound/outbound EIB 採 Workday 要求的格式，這裡則反過來採 external endpoint 要求的格式。若外部系統不在名單裡，可以透過 template-based connector 來自訂。</p>
+<p>Advantages:</p>
+<ul>
+<li>Available in Workday tenant.</li>
+<li>Workday preconfigures much of the template for the specific endpoint it supports.</li>
+<li>Integration supports vendor file format without additional configuration required.</li>
+<li>Can run on schedule or launch from business process step.</li>
+<li>Simpler than Workday Studio or WWS API.</li>
+<li>Best solution if you have to integrate with the endpoint that the integration template supports.</li>
+</ul>
+<p>但 EIB 似乎也是種 integration template ??</p>
+</li>
+<li>
+<p>Template-Based Connectors</p>
+<p>Tools for building integrations that export data of a specific type (Example: Worker, Organization) and export or import data in a Workday-defined XML format.</p>
+<p>進出都是 Workday 要求的格式，跟 inbound/outbound EIB 有什麼不同 ?? 多了 import 也可以排程、由 business process step 觸發。</p>
+<p>Advantages:</p>
+<ul>
+<li>Available in Workday tenant.</li>
+<li>Provides a broad range of data fields.</li>
+<li>Can run on schedule or launch from business process step.</li>
+<li>Some Connectors can export additional report field output if the Connector doesn&rsquo;t already include a field for that data.</li>
+<li>Outbound Connectors can use Document Transformation Connector ?? to convert Workday XML into the file format used by the external endpoint.</li>
+<li>Best solution when Workday doesn&rsquo;t provide an integration template for your specific endpoint.</li>
+</ul>
+</li>
+<li>
+<p>Workday Studio</p>
+<p>An Eclipse-based Integrated Development Environment (IDE). You can build CUSTOM INTEGRATIONS that follow the same TEMPLATE-BASED MODEL as Workday Connectors.</p>
+<p>用 Workday Studio 開發自訂的 Template-Based Connector，稱做 &ldquo;Studio Integration&rdquo;。</p>
+<p>Advantages:</p>
+<ul>
+<li>Flexible developer tool available from Workday.</li>
+<li>
+<p>Enables you to build custom integrations that reside IN YOUR WORKDAY TENANT.</p>
+</li>
+<li>
+<p>STUDIO INTEGRATIONS can access data from ANY Workday Web Service operation.</p>
+<p>開發人員看得到所有的資料 ??</p>
+</li>
+<li>
+<p>Can run on schedule or launch from business process step.</p>
+</li>
+<li>Best solution if your developers have completed Workday Studio training.</li>
+</ul>
+</li>
+</ul>
+<p>Limitations</p>
+<ul>
+<li>
+<p>Inbound Enterprise Interface Builder (EIB)</p>
+<p>Supports only 1 data source per EIB.</p>
+</li>
+<li>
+<p>Outbound Enterprise Interface Builder (EIB)</p>
+<p>Supports only 1 data source (Custom Report or web service) per EIB.</p>
+</li>
+<li>
+<p>Template-based Integration (specific endpoint)</p>
+<ul>
+<li>Can be more complex to configure than EIB.</li>
+<li>Integration template can&rsquo;t support any other endpoint, even if use case is similar.</li>
+</ul>
+</li>
+<li>
+<p>Template-based Connector</p>
+<ul>
+<li>Can be more complex to configure than EIB.</li>
+<li>You can&rsquo;t add additional data sources to the integration, except for report fields.</li>
+</ul>
+</li>
+<li>
+<p>Workday Studio</p>
+<ul>
+<li>Studio is separate from Workday tenant.</li>
+<li>Studio requires trained developer to use.</li>
+<li>Development time required can be longer than for template-based integrations and Connectors.</li>
+</ul>
+<p>若想開發附加套件來賣，Workday Studio 會是更好的選擇；但若是公司專屬的應用，SOAP/REST API 才是正解 ??</p>
+</li>
+</ul>
+<p>Tenant Setup</p>
+<ul>
+<li>
+<p>The Edit Tenant Setup - Integrations task enables you to:</p>
+<ul>
+<li>
+<p>Require that Studio integrations include source code. ?? Including source code can make it easier to troubleshoot a Studio integration after you&rsquo;ve deployed it.</p>
+</li>
+<li>
+<p>Disable integration subscription notifications for all integrations in your tenant.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Security</p>
+<ul>
+<li>
+<p>Integrations (except EIBs) require an associated Integration System User (ISU) account. This account DOESN&rsquo;T HAVE AN ASSOCIATED WORKER.</p>
+<p>很像是 AWS/GCP 的 service account，可以限定程式可以存取的範圍。</p>
+</li>
+<li>
+<p>ISUs enable you to give an integration security ACCESS TO ONLY THE DOMAINS needed to run the integration. The ISU requires Get and Put access to the domains that secure the integration data sources. #ril</p>
+</li>
+</ul>
+<p>Business Processes</p>
+<ul>
+<li>
+<p>Workday provides 1 business process and 1 type of business process step all integrations except EIBs:</p>
+<p>以子流程、step 的方式將 integration 整進某個 process ??</p>
+</li>
+<li>
+<p>You can configure the Integration Process Event business process definition in the Integration functional area to control how an integration runs. Examples:</p>
+<p>透過 Integration Process Event 流程啟用 integration ??</p>
+<p>Inbound integration:</p>
+<ul>
+<li>Initiate.</li>
+<li>Retrieve file from external endpoint.</li>
+<li>Fire (load data into Workday).</li>
+</ul>
+<p>Outbound integration:</p>
+<ul>
+<li>Initiate.</li>
+<li>Send approval request to the worker you designate.</li>
+<li>After approval, fire (extract data from Workday).</li>
+<li>Send data file to external endpoint.</li>
+</ul>
+</li>
+<li>
+<p>The &ldquo;Integration&rdquo; business process step enables you to launch an integration from any business process that supports this step type. View the business process definition to see if the business process supports an Integration step.</p>
+<p>在 Type 選 Integration 然後呢 ?? 沒地方可以選要接哪個 integration?</p>
+<p>Example: You can add an integration step to the Complete Form I-9 business process. This step launches an E-Verify integration to send data for the worker.</p>
+</li>
+</ul>
+<p>Reporting</p>
+<ul>
+<li>
+<p>Workday provides these reports for integrations:</p>
+</li>
+<li>
+<p>View Integration System</p>
+<p>Displays all integration systems (EIB, Connector, Studio, and so on) that you&rsquo;ve created.</p>
+</li>
+<li>
+<p>View Integration Template</p>
+<p>Displays all integration templates that Workday provides, enabling you to find the template you need efficiently.</p>
+</li>
+<li>
+<p>Integration Events</p>
+<p>Displays:</p>
+<ul>
+<li>A summary of integration events that are in process or completed.</li>
+<li>Details about the status for each integration event.</li>
+</ul>
+<p>不同於一般的 (business process) event，這裡的 event 是 integration 歷次執行的記錄。</p>
+</li>
+</ul>
+<p>Touchpoints</p>
+<ul>
+<li>
+<p>Workday integrations interact with various parts of Workday, depending on the product area, purpose, and data sources for the integration:</p>
+<ul>
+<li>Outbound integrations extract data from Workday, but DON&rsquo;T CHANGE THE DATA in Workday.</li>
+<li>Inbound integrations add and update data in Workday.</li>
+</ul>
+</li>
+<li>
+<p>Workday offers a Touchpoints Kit ?? with resources to help you understand CONFIGURATION RELATIONSHIPS across your tenant. Learn more about the Workday Touchpoints Kit on Workday Community.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="eib">EIB (Enterprise Interface Builder)<a class="headerlink" href="#eib" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/CTqionLqcqBBxu2fkwnrRg">Setup Considerations: Enterprise Interface Builder (EIB) • Integrations • Reader • Administrator Guide</a> #ril</p>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/ujgXOK5Lg0sNYPHwwKcnbw">Concept: Enterprise Interface Builder • Integrations • Reader • Administrator Guide</a></p>
+<ul>
+<li>Use the Enterprise Interface Builder (EIB) to build simple inbound and outbound integrations between Workday and external endpoints. EIB gives you a FRAMEWORK to build your own integrations based on your unique business needs.</li>
+</ul>
+<p>Inbound (import data)</p>
+<ul>
+<li>
+<p>Upload data into Workday by using:</p>
+<ul>
+<li>An attachment.</li>
+<li>A REST-based URL. 由 Workday 往外部 URL 拉資料，還是外面往 Workday 的 URL 打??</li>
+<li>A file transfer from an external SFTP, FTP/SSL, or FTP endpoint.</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>
+<p>Import accounting journals into Workday from an Excel spreadsheet that you provide as an attachment.</p>
+<p>但 Excel 也要符合一定的格式??</p>
+</li>
+<li>
+<p>Import data into Workday from an Excel spreadsheet to perform a BULK BUSINESS PROCESS. Example: hiring a group of employees, or requesting mass compensation changes.</p>
+<p>不限於初期系統上線時。</p>
+</li>
+<li>
+<p>Import transactions for expense credit cards from a card issuer. You can then process the transactions in Workday Expenses.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Outbound (export data)</p>
+<ul>
+<li>
+<p>Export data from Workday in various formats, such as:</p>
+<ul>
+<li>CSV</li>
+<li><a href="https://en.wikipedia.org/wiki/GData">Google Data (GData)</a> #ril</li>
+<li>JavaScript Object Notation (JSON)</li>
+<li>Really Simple Syndication (RSS)</li>
+<li>Text files</li>
+<li>Workday XML</li>
+</ul>
+</li>
+<li>
+<p>Then send the data to an external endpoint by using various protocols, such as:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/AS2">AS2</a> - 規範如何在 Internet 上安全地交換結構他的 B2B 資料 #ril</li>
+<li>Email</li>
+<li>SFTP, FTP/SSL, or FTP</li>
+<li>HTTP/SSL</li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>Export all active employees from Workday in XML format and send it to an external endpoint with SFTP.</li>
+<li>Export employee hours and billing rates from Workday in CSV format and send it to an external endpoint with SFTP.</li>
+<li>Export employee headcount and contribution data from Workday in CSV format and send it to a life insurance provider by email.</li>
+</ul>
+<p>Note: Outbound EIBs can’t export data in Microsoft Excel format. Export data in CSV format, then open the CSV file using Microsoft Excel.</p>
+</li>
+</ul>
+<p>EIB Components</p>
+<ul>
+<li>
+<p>Workday represents the integration as an Enterprise Interface, which you build and configure before the integration is ready to launch. You can design an Enterprise Interface by using a WIZARD DESIGN method. Create simple inbound or outbound integrations in a few steps with the wizard, which guides your configuration with appropriate options based on the DATA FLOW.</p>
+</li>
+<li>
+<p>An EIB has 3 components:</p>
+<ul>
+<li>
+<p>Get Data</p>
+<p>This component can indicate:</p>
+<ul>
+<li>The data Workday receives from an external source (Example: a spreadsheet of budget data) and the location of that data (Example: a specific URL or FTP site).</li>
+<li>The data that the integration extracts from Workday (Example: a specific CUSTOM REPORT)</li>
+</ul>
+</li>
+<li>
+<p>Transform</p>
+<p>This component CONVERTS the data into a format that Workday or the receiving external endpoint can understand. Workday provides some delivered TRANSFORMATIONS, but you can also create your own transformations.</p>
+</li>
+<li>
+<p>Delivery</p>
+<p>This component defines how Workday imports data from or exports data to an external endpoint. Examples: email, SFTP, and web services.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/tcLTf0IIOachasS5P8DqyA">Steps: Set Up Outbound EIB • Integrations • Reader • Administrator Guide</a></p>
+<p>Prerequisites</p>
+<ul>
+<li>Determine the data source (web service or custom report) that best fits your needs.</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>
+<p>You can create an outbound Enterprise Interface Builder (EIB) integration that exports Workday data to an external endpoint. You can configure your EIB to get data from 1 of these data sources:</p>
+<ul>
+<li>
+<p>Web service. You can select a public, outbound Workday Web Service operation.</p>
+<p>要 Workday 往自己的 web service 要資料，有點奇妙!</p>
+</li>
+<li>
+<p>Custom report. You can select (or create and select) a custom report.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>
+<p>Create a data source for the outbound EIB.</p>
+<ul>
+<li>(Web service) <a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/2lqQYiTTOVLx2j3VrNRwBw">Create Web Service Data Source</a>. #ril</li>
+<li>(Custom advanced report) <a href="https://doc.workday.com/reader/HAJOEAaClxziA9ljvuBqZA/BPZtRpG8bsb3UJb2yj_SqA">Steps: Create Advanced Reports</a>. #ril</li>
+<li>(Custom search report) <a href="https://doc.workday.com/reader/HAJOEAaClxziA9ljvuBqZA/fs6Sh2oFsP3ndjVtNfsN0A">Steps: Create Search Reports</a>.</li>
+</ul>
+<p>When creating a custom report, select the Enable As Web Service check box. 往回打 Workday 自己??</p>
+</li>
+<li>
+<p>(Custom report) <a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/7Z7YAaMDohGr~Kqn0pMHqQ">Create Security Proxy to Grant Report Access</a>. #ril</p>
+</li>
+<li>
+<p>(Web service) <a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/VFoUW7ZWdKm3MzWuXNXYvg">Set Up Launch Parameters for Web Service Data Source</a>. #ril</p>
+</li>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/ixWSpgUjrsbPIevBZ4z3WQ">Set Up Outbound EIB Integration</a>. #ril</p>
+</li>
+<li>
+<p>(Optional) Grant the integration Get and Put access to the Integration Event security domain.</p>
+<p>See: <a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/n_FMD9ZqglJWCQiPkO6jUQ">Steps: Grant Integration or External Endpoint Access to Workday</a>.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="business-process">Business Process<a class="headerlink" href="#business-process" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/gImnQNUvlYvq8EumW5cUOw">Concept: Integration Business Processes • Integrations • Reader • Administrator Guide</a> #ril</li>
+</ul>
+<h2 id="run">Run<a class="headerlink" href="#run" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/vJoFEmMHwCtWwjE9KjM3zQ">Schedule or Manually Launch an Integration • Integrations • Reader • Administrator Guide</a> #ril</p>
+<p>Prerequisites</p>
+<ul>
+<li>
+<p>Your tenant must have a definition for the Integration Process Event business process including these steps:</p>
+<ul>
+<li>Initiation.</li>
+<li>Fire Integration.</li>
+</ul>
+<p>用 <code>bp:Integration Process Event</code> 可以找到 Integration Process Event (Default Definition)。</p>
+</li>
+<li>
+<p>Security: Integration Event domain in the Integration functional area.</p>
+<p>預設 Integration Administrator 有這個權限。</p>
+</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>
+<p>You can schedule an integration to run:</p>
+<ul>
+<li>Immediately.</li>
+<li>A single time (Example: 8 PM this evening).</li>
+<li>On a recurring basis (Example: daily, weekly, or monthly).</li>
+</ul>
+</li>
+<li>
+<p>You can also specify any LAUNCH CRITERIA that an integration requires. You can specify these values or have Workday determine the values using a report field?? or calculated field when the integration runs.</p>
+<p>Example: use &ldquo;As Of Entry DateTime of Last Completed Integration Event&rdquo;. This launch parameter ?? returns the &ldquo;As Of Entry DateTime&rdquo; value for the last integration event that has 1 of these statuses:</p>
+<ul>
+<li>Completed.</li>
+<li>Completed with Errors.</li>
+<li>Completed with Warnings.</li>
+</ul>
+</li>
+<li>
+<p>For EIBs, this report field returns the &ldquo;Initiated At&rdquo; or &ldquo;Sent On&rdquo; moment for that integration event. For Connectors, the &ldquo;As Of Entry DateTime&rdquo; represents the moment up to which any data used by the integration must have been previously entered into Workday.</p>
+<p>這裡的 connector 泛指了 Template-Based Integration/Connector，甚至是 Studio Integration，因為都是基於 template-based model。</p>
+<p>Note: Don&rsquo;t use Datetime of Last Successful Integration Event (Do Not Use) as a launch parameter. ??</p>
+</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>
+<p>Access the Launch / Schedule Integration task.</p>
+<p>You can&rsquo;t select an integration system with Critical errors. This restriction applies to integrations launched by:</p>
+<ul>
+<li>Schedule.</li>
+<li>Integration step on a business process.</li>
+<li>Integration subscriptions.</li>
+<li>API call.</li>
+</ul>
+<p>沒錯，task name 裡面有個 <code>/</code>。</p>
+</li>
+<li>
+<p>(Manual launch) Select the Organization. The prompt varies depending on the Integration Process Event and on your security access:</p>
+<ul>
+<li>
+<p>Owning Organization</p>
+<p>Displays if the Integration Process Event for this integration is ASSOCIATED WITH A SPECIFIC ORGANIZATION. You can select the organization or any of its subordinate organizations if:</p>
+<ul>
+<li>You&rsquo;re a member of the organization.</li>
+<li>You have an organizational role for that organization.</li>
+</ul>
+</li>
+<li>
+<p>Organization By Type</p>
+<p>Displays if the Integration Process Event for this integration has no associated organization. You can select ANY ORGANIZATION and subordinate organization of which you&rsquo;re a member or have an organization role.</p>
+</li>
+</ul>
+<p>For scheduled integrations, Workday ignores the Organization field value, basing the organization context (if any) on the Integration Process Event for the integration.</p>
+<p>為什麼非排程的 integration 要看 organization??</p>
+</li>
+<li>
+<p>Select a Run Frequency.</p>
+</li>
+<li>
+<p>(Optional) Workday uses the Request Name field as the Integration Name.</p>
+<p>Workday displays this name in the Process Monitor and Scheduled Future Processes reports to help you identify a specific process request.</p>
+</li>
+<li>
+<p>If the integration system has launch criteria, specify the required values on the Integration Criteria tab. Workday uses Specify Value unless you override this setting; a recurring integration uses the same value each time it runs.</p>
+<p>When scheduling integrations with a minute, hourly, daily, or weekly recurrence, use the Concurrent Integration Scheduling section to: ??</p>
+<ul>
+<li>
+<p>Configure a new integration event on the same schedule to launch if another integration event from the same schedule is in progress.</p>
+<p>Daily and weekly recurrent schedules default to this option, while minute and hourly recurrent schedules don&rsquo;t default to this option.</p>
+</li>
+<li>
+<p>Prevent concurrent integration events that use the same launch parameters, except for launch parameters that are configured with Use System Prompt. Workday ignores Deleted launch parameters.</p>
+</li>
+</ul>
+<p>Launch parameter 跟 launch criteria 是什麼關係??</p>
+</li>
+<li>
+<p>If you&rsquo;re scheduling the integration to run later, define the schedule on the Schedule tab.</p>
+<p>Example: The Start Date is 12:01 A.M. on the first possible day that a process could be scheduled, based on the recurrence criteria. The End Date is 11:59 P.M. on the last possible day that a recurrence could be scheduled and must be greater than or equal to the Start Date.</p>
+<p>You can&rsquo;t specify an End Date beyond December 31 of the next calendar year. 不能超過 1 年 ??</p>
+</li>
+</ol>
+<p>Result</p>
+<ul>
+<li>
+<p>If you scheduled the integration to run at a scheduled time, you OWN the schedule. If your Workday account becomes inactive, any integrations that you scheduled DON&rsquo;T LAUNCH, and Workday sends no notifications.</p>
+<p>不能掛在特定員工身上，否則離職就停擺了 ??</p>
+</li>
+<li>
+<p>The integration background process performs any required transformations and returns the appropriate files or web service messages, which you can access with the Process Monitor report. If the integration ran for a specific organization, the organization displays on the business process event for the integration run.</p>
+</li>
+<li>
+<p>When multiple integrations have the same run schedule time, Workday prioritizes the integrations based on the priority configuration in the Edit Tenant Setup - Integrations task. #ril</p>
+</li>
+</ul>
+<p>Next Steps</p>
+<ul>
+<li>
+<p>To modify, suspend, or delete a scheduled integration, access the Scheduled Future Processes report, and use the related actions menu on the request name.</p>
+<p>沒有 Request Name 的欄位，指的應該是 Scheduled Process，因為 menu &gt; Schedule Future Process 下有 Suspend、Delete 等不同的選項。</p>
+</li>
+<li>
+<p>To rerun the DOCUMENT DELIVERY for an EIB, access the integration event for the EIB and select Integration Event &gt; Re-Deliver Document as a related action.</p>
+<p>To rerun the document delivery of an Integration Process Event, access the integration event for the Document Delivery and select Integration Event &gt; Re-Deliver Document as a related action.</p>
+<p>跟 Scheduled Future Processes 無關，應該是在講 Integration Events ?? 但又找不到 Integration Event &gt; Re-Deliver Document 的選項&hellip;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="sequence-generator">Sequence Generator<a class="headerlink" href="#sequence-generator" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/8CFxLvHIyDoF8p2vgqR_JA">Set Up Integration Sequence Generators • Manage Workday • Reader • Administrator Guide</a></p>
+<p>Prerequisites</p>
+<ul>
+<li>Security: Integration Configure domain in the Integration functional area.</li>
+</ul>
+<p>Context</p>
+<ul>
+<li>
+<p>Enable integrations to generate a unique, sequenced number each time they run.</p>
+</li>
+<li>
+<p>If a process generates multiple requests for the next sequence number very close together:</p>
+<ul>
+<li>Workday attempts to generate the sequence numbers.</li>
+<li>Workday can generate SKIPPED, NONCONSECUTIVE numbers.</li>
+</ul>
+</li>
+</ul>
+<p>Steps</p>
+<ol>
+<li>
+<p>Select Integration System &gt; Configure Integration Sequence Generators as a related action on your integration system.</p>
+</li>
+<li>
+<p>Specify Most Recent Sequence values:</p>
+<ul>
+<li>
+<p>Last Number Used</p>
+<p>Manually sets the last sequence number. This option is useful if:</p>
+<ul>
+<li>You previously used a different ID generator.</li>
+<li>You want to continue from where the ID ended.</li>
+</ul>
+<p>When you set the number, the initial sequence number will be your number plus the Increment by value.</p>
+</li>
+<li>
+<p>Last Date Used</p>
+<p>Specify this date, plus an interval for Restart Every to determine whether the date is before or after the last restart interval. Then Workday sets the sequence number based on the date.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Specify Sequence Definition values:</p>
+<ul>
+<li>
+<p>Increment by</p>
+<p>Specify the value to increment sequence numbers by.</p>
+</li>
+<li>
+<p>Restart Every</p>
+<p>Specify how often Workday resets the sequence numbers.</p>
+</li>
+<li>
+<p>Restart Based on Time Zone</p>
+<p>The standard time zone is Pacific Standard Time/Pacific Daylight Time (PST/PDT). To use a different time zone for the file generation date and time used in the Format/Syntax field, select the time zone from the prompt.</p>
+<p>This value doesn&rsquo;t affect when the event actually occurs. Use this prompt only to localize the date for display purposes.</p>
+</li>
+<li>
+<p>Restart at Number</p>
+<p>Specify the number Workday uses when restarting sequence numbers. To use this field, you set the Restart Every value.</p>
+</li>
+<li>
+<p>Padding with &lsquo;0&rsquo;</p>
+<p>To pad sequence numbers, specify the number of zeros that Workday uses to pad each sequence number.</p>
+</li>
+<li>
+<p>Format/Syntax</p>
+<p>Define the filename format by entering:</p>
+<ul>
+<li>A string constant.</li>
+<li>A pattern for the date and time.</li>
+<li>A sequence number pattern.</li>
+<li>The file extension.</li>
+</ul>
+<p>Workday can dynamically generate only date values and a sequence number for use in the filename. Any other values are static; they&rsquo;re identical for all files generated by the integration. Hold your CURSOR OVER this field to see the full list of valid sequence generator and date/time patterns.</p>
+<p>例如 <code>FILE-[Seq].xml</code>，其中 <code>[Seq]</code> 會被代換成 sequence number，其餘都是常數。</p>
+</li>
+<li>
+<p>Low Volume (Ignore if gapless)</p>
+<p>(Optional) Select to ensure that sequences generated by the sequence generator don&rsquo;t have gaps. Use this option when you experience both of these situations:</p>
+<ul>
+<li>You aren&rsquo;t using the sequence in high-volume transactions.</li>
+<li>You experience unwanted gaps in the generated sequence.</li>
+</ul>
+</li>
+</ul>
+<p>Press TAB to view a sample value in the Example area. Verify that the sample meets your requirements.</p>
+</li>
+<li>
+<p>(Optional) Select 1 or more target environments for this sequence generator from the Restricted to Environment prompt.</p>
+<p>If you select more than 1 environment, Workday DOESN&rsquo;T SYNCHRONIZE the sequence numbers across environments. ??</p>
+</li>
+</ol>
+<p>Example</p>
+<ul>
+<li>
+<p>Format/Syntax: <code>[yyyy][MM][dd]_[Seq]_ER-GMS.csv</code></p>
+<p>Example: the integration first runs on January 1<sup>st</sup>, 2018, and runs on the 1<sup>st</sup> and 15<sup>th</sup> day of each month. The integration events for February 2018 generate output files named <code>20180201_3_ER-GMS.csv</code> and <code>20180215_4_ER-GMS.csv</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://doc.workday.com/reader/wsiU0cnNjCc_k7shLNxLEA/root">Integrations - Administrator Guide</a></li>
+<li><a href="https://community.workday.com/icp">Integration Cloud Platform</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../workday-intsys-pi/">Payroll Interface</a></li>
+<li><a href="../workday-intsys-external-payslips/">Import External Payslip</a></li>
+</ul>
+<p>手冊：</p>
+<p>Workday Objects:</p>
+<ul>
+<li>All Integration Systems</li>
+<li>Edit Tenant Setup - Integrations (Task)</li>
+<li>Integration Process Event (Business process)</li>
+<li>View Integration System (Report) - 列出特定 integration 的設定</li>
+<li>View Integration Template (Report)</li>
+<li>Integration Events (Report)</li>
+<li>Launch / Schedule Integration (Task)</li>
+<li>Process Monitor - 列出最近已執行的背景工作，包括 integration、report 等不同的 process type</li>
+<li>Scheduled Future Processes - 列出接下來會執行的背景工作</li>
+<li>Create Integration System</li>
+<li>Create Integration System User</li>
+<li>Integration System User Security Configuration &ndash; 列出所有的 ISU 及其所屬的 (integration) security group</li>
+<li>Move Integration Users to Integration System Security Group (Unconstrained)</li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../workday-studio/">Workday Studio</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/reactive/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Reactive Programming - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/reactive.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#reactive-programming">Reactive Programming</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+            <li class="second-level"><a href="#and-react">跟 React 的關係</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="reactive-programming">Reactive Programming<a class="headerlink" href="#reactive-programming" title="Permanent link"> #</a></h1>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Reactive_programming">Reactive programming - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>In computing, reactive programming is a DECLARATIVE programming paradigm concerned with DATA STREAMS and the PROPAGATION OF CHANGE.</p>
+<p>With this paradigm it is possible to express static (e.g., arrays) or dynamic (e.g., event emitters) data streams with ease, and also communicate that an INFERRED DEPENDENCY ?? within the associated EXECUTION MODEL ?? exists, which facilitates the AUTOMATIC PROPAGATION of the changed data flow.</p>
+</li>
+<li>
+<p>For example, in an imperative programming setting, <code>a:=b+c</code> would mean that <code>a</code> is being assigned the result of <code>b+c</code> in the instant the expression is evaluated, and later, the values of <code>b</code> and <code>c</code> can be changed with no effect on the value of <code>a</code>.</p>
+<p>On the other hand, in reactive programming, the value of <code>a</code> is automatically updated whenever the values of <code>b</code> or <code>c</code> change, without the program having to re-execute the statement <code>a:=b+c</code> to determine the presently assigned value of <code>a</code>.</p>
+<p>宣告關係式，<code>a</code> 就會自動維持 <code>b+c</code> 的結果。</p>
+</li>
+<li>
+<p>Reactive programming has been proposed as a way to simplify the creation of INTERACTIVE USER INTERFACES and near-real-time system animation.</p>
+<p>For example, in a model–view–controller (MVC) architecture, reactive programming can facilitate changes in an underlying model that are reflected automatically in an associated view.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developers.redhat.com/blog/2017/06/30/5-things-to-know-about-reactive-programming/">5 Things to Know About Reactive Programming - Red Hat Developer</a> (2017-06-30) #ril</p>
+<ul>
+<li>
+<p>Reactive, what an overloaded word. Many things turn out to become magically Reactive these days. In this post, we are going to talk about Reactive Programming, i.e. a development model structured around ASYNCHRONOUS DATA STREAMS.</p>
+</li>
+<li>
+<p>I know you are impatient to write your first reactive application, but before doing it, there are a couple of things to know. Using reactive programming changes how you design and write your code. Before jumping on the train, it’s good to know where you are heading.</p>
+<p>In this post, we are going to explain 5 things about reactive programming to see what it changes for you.</p>
+</li>
+<li>
+<p>Reactive Programming is programming with asynchronous data streams.</p>
+</li>
+<li>
+<p>When using reactive programming, data streams are going to be the SPINE of your application. Events, messages, calls, and even failures are going to be conveyed by a data stream. With reactive programming, you OBSERVE these streams and REACT when a value is emitted.</p>
+</li>
+<li>
+<p>So, in your code, you are going to create data streams of anything and from anything: click events, HTTP requests, ingested messages, availability notifications, changes on a variable, cache events, measures from a sensor, literally ANYTHING THAT MAY CHANGE OR HAPPEN. This has an interesting side-effect on your application: it’s becoming INHERENTLY ASYNCHRONOUS.</p>
+<p><img alt="" src="https://developers.redhat.com/blog/wp-content/uploads/2017/06/reactive-programming.png" /></p>
+<p>圖中 &ldquo;Retrieve something from server&rdquo; 指的是什麼??</p>
+</li>
+<li>
+<p>Reactive eXtension (<a href="http://reactivex.io">http://reactivex.io</a>, a.ka. RX) is an IMPLEMENTATION of the reactive programming principles to “compose asynchronous and event-based programs by using observable sequence”.</p>
+<p>With RX, your code creates and subscribes to data streams named OBSERVABLES. While Reactive Programming is about the CONCEPTS, RX provides you an amazing toolbox.</p>
+<p>By combining the OBSERVER and ITERATOR PATTERNS and FUNCTIONAL IDIOMS, RX gives you superpowers. You have an arsenal of functions to combine, merge, filter, transform and create the data streams. The next picture illustrates the usage of RX in Java (using <a href="https://github.com/ReactiveX/RxJava">https://github.com/ReactiveX/RxJava</a>).</p>
+<p><img alt="" src="https://developers.redhat.com/blog/wp-content/uploads/2017/06/rx.png" /></p>
+<p>While RX is not the only implementation of the reactive programming principles (for instance we can cite BaconJS – <a href="http://baconjs.github.io">http://baconjs.github.io</a>), it’s the most commonly used Today. In the rest of this post, we are going to use Rx Java.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://samueleresca.net/reactive-programming-damn-it-is-not-about-reactjs/">Reactive programming, DAMN. It is not about ReactJS</a> (2017-06-17) #ril</p>
+<ul>
+<li>
+<p>This article is about Reactive programming, a lot of topics inside the article are language independent and pattern oriented. The article is NOT about ReactJS.</p>
+<p>事實上，ReactJS 跟 reactive programming 一點關係都沒有??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="and-react">跟 React 的關係<a class="headerlink" href="#and-react" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.to/petyosi/reactive-programming-for-react-developers-the-absolute-beginner-guide-5eeg">Reactive Programming for React Developers - the Absolute Beginner Guide - DEV Community</a> (2019-05-31) #ril</li>
+<li><a href="https://dev.to/petyosi/reactive-programming-for-react-developers-part-2-integrate-with-react-5883">Reactive Programming for React Developers Part 2 - Integrate with React - DEV Community</a> (2019-06-03) #ril</li>
+<li><a href="https://medium.com/@vpranskunas/react-rxjs-reactive-programming-in-react-f122dfb3ca47">React + RxJs = Reactive programming in React - Vytautas Pranskunas - Medium</a> (2019-04-15) #ril</li>
+<li><a href="https://www.freecodecamp.org/news/e5da8e7dac10">How to make your React app fully functional, fully reactive, and able to handle all those crazy…</a> (2017-03-02) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../reactivex/">ReactiveX</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gcc/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GCC (GNU Compiler Collection) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gcc.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gcc-gnu-compiler-collection">GCC (GNU Compiler Collection)</a></li>
+            <li class="second-level"><a href="#_1">基礎</a></li>
+                
+                <li class="third-level"><a href="#search-path">Search Path ??</a></li>
+                <li class="third-level"><a href="#link">Link ??</a></li>
+                <li class="third-level"><a href="#environment-variable-substituion">Environment Variable Substituion ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gcc-gnu-compiler-collection">GCC (GNU Compiler Collection)<a class="headerlink" href="#gcc-gnu-compiler-collection" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://gcc.gnu.org/frontends.html">GCC Front Ends - GNU Project - Free Software Foundation (FSF)</a> GCC 由許多 frond end 組成，包括 C (<code>gcc</code>)、C++ (<code>g++</code>) 等 #ril</li>
+<li><a href="https://gcc.gnu.org/">GCC, the GNU Compiler Collection - GNU Project - Free Software Foundation (FSF)</a> News 2018-01-25 ~ 2018-10-26 陸續出版了 GCC 7.3、8.1、8.2 及 6.5，感覺每個 major version 各自在發展中。</li>
+</ul>
+<h2 id="_1">基礎<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="search-path">Search Path ??<a class="headerlink" href="#search-path" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html">The C Preprocessor: Search Path</a><ul>
+<li>就 <code>#include "file"</code> (quote form) 而言，preprocessor 會先從相對於目前檔案的位置找起，然後才是 standard system directories。例如 <code>/usr/include/sys/stat.h</code> 裡的 <code>#include "types.h"</code>，會優先找 <code>/usr/include/sys/types.h</code>。</li>
+<li>就 <code>#include &lt;file&gt;</code> (angle-bracket form) 而言，preprocessor 則只會在 standard system directories &ndash; 這個 list 會因 target system、GCC 的組態而有不同；用 <code>cpp -v /dev/null -o /dev/null</code> 可以查看 default search directory list。</li>
+<li>有些 command-line option 可以增加 search path，最常用的是 <code>-I&lt;DIR&gt;</code>，會在安插在 current directory (就 quote form 而言) 之後，其他 standard system directories 之前，如果使用 <code>-I</code> 多次的話，則會由左而右依續找。如果要分開控制 quote form 與 angle-bracket form 的話，可以分開用 <code>-iquote</code> 或 <code>-isystem</code>。</li>
+<li>搭配 <code>-nostdinc</code> 則可以完全略過 default system (header) directories，用於編譯 OS kernel 或程式用不到 standard C library 時。</li>
+</ul>
+</li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Directory-Options.html">Using the GNU Compiler Collection (GCC): Directory Options</a></li>
+</ul>
+<h3 id="link">Link ??<a class="headerlink" href="#link" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html">Using the GNU Compiler Collection (GCC): Link Options</a> #ril</li>
+<li><a href="https://www.rapidtables.com/code/linux/gcc/gcc-l.html">gcc -l -L option flags for library link</a> #ril</li>
+<li><a href="https://helloacm.com/how-to-link-static-library-in-cc-using-gcc-compiler/">How to Link Static Library in C/C++ using GCC compiler? | Technology of Computing</a> (2016-11-27) #ril</li>
+<li><a href="https://stackoverflow.com/questions/12573816/">c++ - What is an undefined reference/unresolved external symbol error and how do I fix it? - Stack Overflow</a> #ril</li>
+</ul>
+<h3 id="environment-variable-substituion">Environment Variable Substituion ??<a class="headerlink" href="#environment-variable-substituion" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://stackoverflow.com/questions/2299824/">c++ - How do I use the C preprocessor to make a substitution with an environment variable - Stack Overflow</a> 透過 <code>gcc ... -D"THE_VERSION_STRING=${THE_VERSION_STRING}"</code> (<code>-D</code> 是 preprocessor option) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://gcc.gnu.org/">GCC, the GNU Compiler Collection</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/">Using the GNU Compiler Collection (GCC)</a> #ril</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Invoking-GCC.html">GCC Command Options</a> (<a href="https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html">Summary</a>)<ul>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Preprocessor-Options.html">Preprocessor Options</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html">Code Gen Options</a></li>
+<li><a href="https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html">Link Options</a></li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

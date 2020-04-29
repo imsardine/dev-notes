@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/clang/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Clang - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/clang.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#clang">Clang</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#driver">Driver ??</a></li>
+                
+            <li class="second-level"><a href="#clang-cli">clang CLI ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="clang">Clang<a class="headerlink" href="#clang" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://clang.llvm.org/">Clang C Language Family Frontend for LLVM</a><ul>
+<li>C Language Family Frontend for LLVM 就 LLVM 而言，Clang 是面對整個 C language family 的 frontend；注意 frontend 不是介接現有的 compilers (例如 GCC) 與 LLVM，因為 Clang 本身就是 compiler。</li>
+<li>The Clang project provides a language front-end and tooling infrastructure for languages in the C language family (C, C++, Objective C/C++, OpenCL, CUDA, and RenderScript) for the LLVM project. Both a GCC-compatible compiler driver (<code>clang</code>) and an MSVC-compatible compiler driver (<code>clang-cl.exe</code>) are provided.</li>
+<li>Features and Goals 提到 expressive diagnostics (精確地指出 source code 的問題點)、GCC compatibility、Support diverse clients (refactoring, static analysis, code generation, etc.)、Allow tight integration with IDEs &hellip; 下面的 Why? 更提到 a license that is compatible with commercial products。容易跟 IDE 整合、發展出其他應用，這點真的很重要! 想起 <a href="https://www.jacoco.org/jacoco/trunk/doc/mission.html">JaCoCo 的發展背景</a> &ndash; none of them are really designed for integration。</li>
+<li>Clang is considered to be a production quality C, Objective-C, C++ and Objective-C++ compiler when targeting X86-32, X86-64, and ARM (other targets may have caveats, but are usually easy to fix).</li>
+</ul>
+</li>
+<li><a href="http://www.llvm.org/">The LLVM Compiler Infrastructure Project</a> The primary sub-projects of LLVM 提到 Clang 是個 &ldquo;LLVM native C/C++/Objective-C compiler&rdquo;，主要的訴求是快! (以 Objective-C + debug configuration，編譯速度比 GCC 快 3 倍)、產出更有用的 error/warning message，並可做為其他 soruce-level tools 的基礎。</li>
+<li><a href="https://clang.llvm.org/comparison.html#gcc">Clang vs GCC (GNU Compiler Collection) - Comparing Clang to other open source compilers</a> 雖然 GCC 比 Clang 支援更多的語言 (Java、FORTRAN、Go 等)、更多的平台 (target)，但 Clang 提供更多的好處 #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Clang">Clang - Wikipedia</a> #ril<ul>
+<li>Clang 唸做 /ˈklæŋ/，做為 C、C++、Objective-C、Objective-C++ 等的 compiler front end，也以 LLVM compiler infrastructure 做為它的 backend。在 LLVM 2.6 後，也成為 LLVM release cycle 的一部份。Clang 專案除了 Clang front end 之外，也包含了 static analyzer。</li>
+<li>它被設計為 GCC 的 drop-in replacement，支援大部份的 compilation flags 與 unofficial language extensions?</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://clang.llvm.org/docs/CommandGuide/clang.html#description">Description - clang - the Clang C, C++, and Objective-C compiler — Clang 8 documentation</a> While Clang is highly integrated, it is important to understand the STAGES of compilation, to understand how to invoke it. These stages are:<ul>
+<li>Preprocessing - This stage handles tokenization of the input source file, macro expansion, <code>#include</code> expansion and handling of other preprocessor directives. The output of this stage is typically called a “<code>.i</code>” (for C), “<code>.ii</code>” (for C++), “<code>.mi</code>” (for Objective-C), or “<code>.mii</code>” (for Objective-C++) file.</li>
+<li>Parsing and Semantic Analysis - This stage parses the input file, translating preprocessor tokens into a PARSE TREE. Once in the form of a parse tree, it applies semantic analysis to compute types for expressions as well and determine whether the code is WELL FORMED. This stage is responsible for generating most of the COMPILER WARNINGS as well as PARSE ERRORS. The output of this stage is an “Abstract Syntax Tree” (AST).</li>
+<li>Code Generation and Optimization - This stage translates an AST into low-level INTERMEDIATE CODE (known as “LLVM IR”) and ultimately to MACHINE CODE. This phase is responsible for optimizing the generated code and handling TARGET-SPECIFIC code generation. The output of this stage is typically called a “<code>.s</code>” file or “assembly” file. 不是產生 source code，而是 assembly code；至於轉 machine code 則是下一階段 assembler 的事。</li>
+<li>Assembler - This stage runs the TARGET ASSEMBLER to translate the output of the compiler into a TARGET OBJECT FILE. The output of this stage is typically called a “<code>.o</code>” file or “object” file. 將上階段的 assembly code 轉換成 machine code。</li>
+<li>Linker - This stage runs the TARGET LINKER to MERGE multiple object files into an EXECUTABLE or DYNAMIC LIBRARY. The output of this stage is typically called an “<code>a.out</code>”, “<code>.dylib</code>” or “<code>.so</code>” file. 將多個 object file merge/link 成 executable 或 dynamic libary，那 static library 呢?? 但 linker 應該不算 compilation 的一部份。</li>
+</ul>
+</li>
+</ul>
+<h2 id="driver">Driver ??<a class="headerlink" href="#driver" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://clang.llvm.org/docs/CommandGuide/clang.html#description">Description - clang - the Clang C, C++, and Objective-C compiler — Clang 8 documentation</a> Driver - The <code>clang</code> executable is actually a SMALL DRIVER which controls the OVERALL EXECUTION OF OTHER TOOLS such as the compiler, assembler and linker. Typically you do not need to interact with the driver, but you transparently use it to run the other tools. 所以才會有 &ldquo;GCC-compatible compiler driver (<code>clang</code>)&rdquo; 的說法。</li>
+</ul>
+<h2 id="clang-cli"><code>clang</code> CLI ??<a class="headerlink" href="#clang-cli" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://clang.llvm.org/docs/CommandGuide/clang.html">clang - the Clang C, C++, and Objective-C compiler — Clang 8 documentation</a> #ril<ul>
+<li><code>clang [options] filename ...</code> 從 <a href="http://nickdesaulniers.github.io/blog/2016/08/13/object-files-and-symbols/">Object Files and Symbols - Nick Desaulniers</a> <code>clang main.o helper.o</code> 的用法看來，其中 <code>filename</code> 似乎不一定要是 source code ??</li>
+<li><code>clang</code> is a C, C++, and Objective-C compiler which encompasses preprocessing, parsing, optimization, code generation, assembly, and linking. Depending on which high-level mode setting (指 stage selection option) is passed, Clang will stop before doing a FULL LINK.</li>
+<li>底下的 options 區分為 Stage Selection Options、Language Selection and Mode Options、Target Selection Options、Code Generation Options、Driver Options、Diagnostics Options、Preprocessor Options。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://clang.llvm.org/docs/CommandGuide/clang.html#stage-selection-options">Stage Selection Options - clang - the Clang C, C++, and Objective-C compiler — Clang 8 documentation</a> If no stage selection option is specified, all stages above are run, and THE LINKER IS RUN to combine the results into an executable or shared library. 呼應 Description 裡 stages of compilication，<code>-E</code>、<code>-fsyntax-only</code>、<code>-S</code>、<code>-c</code> 可以控制不要走完所有的 stage，否則最後會呼叫 linker 產生 executable 或 shared library：</p>
+<pre><code>Preprocessing -&gt; Parsing and Semantic Analysis -&gt; Code Generation and Optimization -&gt; Assembler -&gt; Linker
+             ^                                ^                                   ^            ^
+             |                                |                                   |            |
+             -E                               -fsyntax-only                       -S           -c (.o)
+</code></pre>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/20047218/">c++ - What is the difference? clang++ | clang -std=c++11 - Stack Overflow</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://clang.llvm.org/">Clang</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://clang.llvm.org/docs/UsersManual.html">Clang Compiler User’s Manual</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://clang.llvm.org/docs/CommandGuide/clang.html"><code>clang</code>(1) Manpage</a></li>
+<li><a href="https://clang.llvm.org/compatibility.html">Language Compatibility</a></li>
+<li><a href="https://clang.llvm.org/cxx_status.html">C++17, C++14, C++11 and C++98 Status</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

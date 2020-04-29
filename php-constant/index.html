@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/php-constant/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>PHP Programming / Constant - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/php-constant.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#php-programming-constant">PHP Programming / Constant</a></li>
+            <li class="second-level"><a href="#magic">Magic Constant</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="php-programming-constant"><a href="../php-prog/">PHP Programming</a> / Constant<a class="headerlink" href="#php-programming-constant" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/language.constants.php">PHP: Constants - Manual</a></p>
+<ul>
+<li>
+<p>A constant is an identifier (name) for a simple value. As the name suggests, that value cannot change during the execution of the script (except for magic constants, which aren&rsquo;t actually constants).</p>
+<p>A constant is CASE-SENSITIVE by default. By convention, constant identifiers are always uppercase.</p>
+<p>感覺 case-sensitive 與否可以調整??</p>
+</li>
+<li>
+<p>The name of a constant follows the same rules as any LABEL in PHP. A valid constant name starts with a letter or underscore, followed by any number of letters, numbers, or underscores. As a regular expression, it would be expressed thusly: <code>^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$</code></p>
+<p>TIP: See also the <a href="https://www.php.net/manual/en/userlandnaming.php">Userland Naming Guide</a>. #ril</p>
+</li>
+<li>
+<p>It is possible to <code>define()</code> constants with reserved or even invalid names, whose value can (only) be retrieved with <code>constant()</code>. However, doing so is not recommended.</p>
+<p>難道 constant 可以透過 <code>define()</code> 外的方法定義??</p>
+</li>
+<li>
+<p>Example #1 Valid and invalid constant names</p>
+<pre><code>&lt;?php
+
+// Valid constant names
+define("FOO",     "something");
+define("FOO2",    "something else");
+define("FOO_BAR", "something more");
+
+// Invalid constant names
+define("2FOO",    "something");
+
+// This is valid, but should be avoided:
+// PHP may one day provide a magical constant
+// that will break your script
+define("__FOO__", "something");
+
+?&gt;
+</code></pre>
+<p>Note: For our purposes here, a letter is a-z, A-Z, and the ASCII characters from 128 through 255 (0x80-0xff).</p>
+</li>
+<li>
+<p>Like <a href="https://www.php.net/manual/en/language.variables.predefined.php">superglobals</a>, the scope of a constant is GLOBAL. You can access constants anywhere in your script without regard to scope. For more information on scope, read the manual section on <a href="https://www.php.net/manual/en/language.variables.scope.php">variable scope</a>. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.php.net/manual/en/language.constants.syntax.php">PHP: Syntax - Manual</a> #ril</p>
+<ul>
+<li>
+<p>You can define a constant by using the <code>define()</code>-function or by using the <code>const</code> keyword OUTSIDE A CLASS DEFINITION as of PHP 5.3.0.</p>
+<p>While <code>define()</code> allows a constant to be defined to an arbitrary expression, the <code>const</code> keyword has RESTRICTIONS as outlined in the next paragraph. Once a constant is defined, it can never be changed or UNDEFINED.</p>
+</li>
+<li>
+<p>When using the <code>const</code> keyword, only SCALAR DATA (boolean, integer, float and string) can be contained in constants prior to PHP 5.6. From PHP 5.6 onwards, it is possible to define a constant as a SCALAR EXPRESSION, and it is also possible to define an array constant.</p>
+<p>It is possible to define constants as a resource, but it should be avoided, as it can cause unexpected results. ??</p>
+</li>
+<li>
+<p>You can get the value of a constant by simply specifying its name. Unlike with variables, you should NOT prepend a constant with a <code>$</code>. You can also use the function <code>constant()</code> to read a constant&rsquo;s value if you wish to obtain the constant&rsquo;s name DYNAMICALLY.</p>
+<p>Use <code>get_defined_constants()</code> to get a list of all defined constants.</p>
+</li>
+<li>
+<p>Note: Constants and (global) variables are in a DIFFERENT NAMESPACE. This implies that for example <code>TRUE</code> and <code>$TRUE</code> are generally different.</p>
+</li>
+<li>
+<p>If you use an undefined constant, PHP assumes that you MEAN THE NAME OF THE CONSTANT ITSELF, just as if you called it as a string (<code>CONSTANT</code> vs <code>"CONSTANT"</code>). This FALLBACK is deprecated as of PHP 7.2.0, and an error of level <code>E_WARNING</code> is issued when it happens (previously, an error of level <code>E_NOTICE</code> has been issued instead.)</p>
+<p>See also the manual entry on why <code>$foo[bar]</code> is wrong (unless you first <code>define()</code> <code>bar</code> as a constant). This does not apply to (fully) QUALIFIED constants, which will raise a fatal error if undefined. If you simply want to check if a constant is set, use the <code>defined()</code> function. ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="magic">Magic Constant<a class="headerlink" href="#magic" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/language.constants.predefined.php">PHP: Magic constants - Manual</a></p>
+<ul>
+<li>
+<p>PHP provides a large number of PREDEFINED CONSTANTS to any script which it runs. Many of these constants, however, are created by various EXTENSIONS, and will only be present when those extensions are available, either via dynamic loading or because they have been compiled in.</p>
+</li>
+<li>
+<p>There are nine MAGICAL CONSTANTS that CHANGE depending on WHERE THEY ARE USED.</p>
+<p>For example, the value of <code>__LINE__</code> depends on the line that it&rsquo;s used on in your script. All these &ldquo;magical&rdquo; constants are resolved AT COMPILE TIME, unlike REGULAR CONSTANTS, which are resolved at RUNTIME.</p>
+<p>說法好像相反了? 不過仔細想想，若 magic constant 跟 &ldquo;where the are used&rdquo; 有關，確實在 compile time 就會知道。這呼應了 <a href="https://www.php.net/manual/en/function.include.php">PHP: include - Manual</a> 的說法：</p>
+<blockquote>
+<p>An exception to this rule are magic constants which are EVALUATED BY THE PARSER BEFORE THE INCLUDE OCCURS.</p>
+</blockquote>
+<p>所以 compile time 似乎是指 parsing 的階段 ??</p>
+<p>These special constants are CASE-INSENSITIVE and are as follows:</p>
+<p>為何 magic constant 不跟 regular constant 一樣採 case-sensitive? 猜想是因為這些 magic constant 某種程度上像是 reserved word，以任何大小寫存在，都不被允許。這並不影響 global variable，因為跟 constant 位處不同的 namespace。</p>
+</li>
+</ul>
+<p>A few &ldquo;magical&rdquo; PHP constants</p>
+<ul>
+<li>
+<p><code>__LINE__</code></p>
+<p>The current line number of the file.</p>
+</li>
+<li>
+<p><code>__FILE__</code></p>
+<p>The FULL path and filename of the file with SYMLINKS RESOLVED. If used inside an include, the name of the INCLUDED FILE is returned.</p>
+</li>
+<li>
+<p><code>__DIR__</code></p>
+<p>The directory of the file. If used inside an include, the directory of the INCLUDED FILE is returned.</p>
+<p>This is equivalent to <code>dirname(__FILE__)</code>. This directory name does NOT HAVE A TRAILING SLASH unless it is the root directory.</p>
+</li>
+<li>
+<p><code>__FUNCTION__</code></p>
+<p>The function name, or {closure} for anonymous functions. ??</p>
+</li>
+<li>
+<p><code>__CLASS__</code></p>
+<p>The class name. The class name includes the NAMESPACE it was declared in (e.g. <code>Foo\Bar</code>).</p>
+<p>Note that as of PHP 5.4 <code>__CLASS__</code> works also in TRAITS ??. When used in a trait method, <code>__CLASS__</code> is the name of the class the trait is used in.</p>
+</li>
+<li>
+<p><code>__TRAIT__</code></p>
+<p>The trait name. The trait name includes the namespace it was declared in (e.g. <code>Foo\Bar</code>).</p>
+</li>
+<li>
+<p><code>__METHOD__</code></p>
+<p>The class method name.</p>
+</li>
+<li>
+<p><code>__NAMESPACE__</code></p>
+<p>The name of the current namespace.</p>
+</li>
+<li>
+<p><code>ClassName::class</code></p>
+<p>The FULLY QUALIFIED class name. See also <a href="https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.class"><code>::class</code></a>. #ril</p>
+</li>
+</ul>
+<p>See also <code>get_class()</code>, <code>get_object_vars()</code>, <code>file_exists()</code> and <code>function_exists()</code>.</p>
+<p>Changelog</p>
+<ul>
+<li>
+<p>5.5.0</p>
+<p>Added <code>::class</code> magic constant</p>
+</li>
+<li>
+<p>5.4.0</p>
+<p>Added <code>__TRAIT__</code> constant</p>
+</li>
+<li>
+<p>5.3.0</p>
+<p>Added <code>__DIR__</code> and <code>__NAMESPACE__</code> constants</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/reserved.constants.php">Predefined Constants</a></li>
+<li><a href="https://www.php.net/manual/en/function.define.php"><code>define()</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.constant.php"><code>constant()</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.defined.php"><code>defined()</code></a></li>
+<li><a href="https://www.php.net/manual/en/function.get-defined-constants.php"><code>get_defined_constants()</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

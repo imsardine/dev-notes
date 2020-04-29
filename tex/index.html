@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/tex/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>TeX - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/tex.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#tex">TeX</a></li>
+            <li class="second-level"><a href="#vs-latex">LaTeX</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos">macOS ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="tex">TeX<a class="headerlink" href="#tex" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/TeX">TeX - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>TeX (<code>/tɛx, tɛk/</code>, see below), stylized within the system as TEX, is a typesetting (排版) system (or &ldquo;FORMATTING system&rdquo;) designed and mostly written by Donald Knuth and released in 1978.</p>
+<p>下面 Pronunciation and spelling 進一步說明 The name TeX is intended by its developer to be <code>/tɛx/</code>, with the final consonant (子音) of loch (<code>[lɑk]</code>) or Bach (<code>[bɑk]</code>). &hellip; English speakers often pronounce it <code>/ˈtɛk/</code>, like the first syllable (音節) of technical. 也就是都以 <code>k</code> 結果，沒有 <code>[tɛks]</code> 的唸法。</p>
+</li>
+<li>
+<p>TeX was designed with two main goals in mind: to allow anybody to produce HIGH-QUALITY BOOKS using minimal effort, and to provide a SYSTEM that would give exactly the SAME RESULTS ON ALL COMPUTERS, at any point in time. TeX is free software, which made it accessible to a wide range of users.</p>
+<p>不只是 formatting language，也是個工具，而 LaTeX 是它的高階應用，更適合用在寫作。</p>
+</li>
+<li>
+<p>TeX is a popular means of typesetting complex mathematical formulae; it has been noted as one of the most sophisticated digital typographical systems. &hellip; It has largely displaced Unix troff, the other favored formatting system, in many Unix installations, which use BOTH for different purposes.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="vs-latex">LaTeX<a class="headerlink" href="#vs-latex" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.quora.com/Whats-the-difference-between-TeX-and-LaTeX">What&rsquo;s the difference between TeX and LaTeX? - Quora</a> Victor Eijkhout:</p>
+<ul>
+<li>
+<p>LaTeX is a user-friendly EXTENSION of TeX. &hellip; TeX&rsquo;s &ldquo;LANGUAGE&rdquo; is based on MACRO SUBSTITUTION: if you have to type the string <code>"if I recall correctly"</code> many times, you do</p>
+<pre><code>\def\iirc{if I recall correctly}
+</code></pre>
+<p>and you use the macro &ldquo;<code>\iirc</code>&rdquo; in your text.</p>
+</li>
+<li>
+<p>If all your section headings use a large font and boldface, you would define a macro with one PARAMETER</p>
+<pre><code>\def\section#1{{\bf\Large #1}}
+</code></pre>
+<p>and you write &ldquo;<code>\section{Introduction}</code>&rdquo; and such.</p>
+</li>
+<li>
+<p>And that is what LaTeX is: a bunch of, sometimes very sophisticated, abbreviations of sequences of TeX COMMANDS. It is a bit like building a new language on top of assembly, but in another sense that comparison is wrong: when you write Java, you can not put bits of assembler in your program. When you write LaTeX, it is quite possible to put bits of TeX in your &ldquo;program&rdquo;. 看似 LaTeX 是 TeX 比較高階的寫法，但要混用 TeX 也是可以的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://tex.stackexchange.com/questions/49/">tex core - What is the difference between TeX and LaTeX? - TeX - LaTeX Stack Exchange</a></p>
+<ul>
+<li>
+<p>Joseph Wright♦: TeX is both a program (which does the typesetting, <code>tex-core</code>) and format (a set of MACROS that the engine uses, <code>plain-tex</code>). Looked at in either way, TeX gives you the basics only. If you read the source for The TeXBook, you&rsquo;ll see that Knuth wrote more macros to be able to typeset the book, and made a format for that.</p>
+<p>LaTeX is a generalised SET OF MACROS to let you do many things. Most people don&rsquo;t want to have to PROGRAM TeX, especially to set up things like sections, title pages, bibliographies and so on. LaTeX provides all of that: these are the &lsquo;macros&rsquo; that it is made up of. 似乎可以想成 TeX 是基本的語法，但 LaTeX 包裝了許多可以直接調用的 function，感覺就像是個 library。</p>
+</li>
+<li>
+<p>Juan A. Navarro: In short TeX is all about FORMATTING, for document/template designers, while LaTeX is all about CONTENT, for document writers.</p>
+<p>TeX is a typesetting system. It provides many COMMANDS which allow you to specify the format of your document with great detail (e.g. font styles, spacing, kerning, ligatures, etc.), and has specialized algorithms to compute the optimal FLOW OF TEXT in your document (e.g. where to cut lines, pages, etc.). TeX is all about giving you powerful algorithms and commands to specify even the tiniest detail to make your documents look PRETTY.</p>
+<p>LaTeX is a set of macros built on top of TeX. The idea behind LaTeX is to SHIFT THE FOCUS FROM THE FORMAT TO THE CONTENT OF YOUR DOCUMENT. In LaTeX commands are all about giving a STRUCTURE to the content of your document (e.g. sections, emphasis, tables, indices, etc.). In LaTeX you just say <code>\section{...}</code> instead of: selecting a larger font, a different font style, and inserting appropriate spaces before and after the section heading. As LaTeX is built on top of TeX you also get, of course, a beautiful document as your output; but, more importantly, your source input can also be WELL STRUCTURED, EASIER TO READ (and write!) for humans.</p>
+<p>這比 &ldquo;new language on top of assembly&rdquo; 的說法更容易懂；<code>\xxx{}</code> 可能由 TeX 或 LaTeX 提供，但 <code>xxx</code> 若是關於 formatting，大概屬於 TeX，若是關於 structure (無關 formatting)，則比較偏 LaTex。猜想 <code>\sqrt{...}</code> 便是由 LaTeX 提供?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.texpad.com/support/latex/advanced/tex-vs-latex">Texpad · Help · TeX vs. LaTeX</a> #ril</p>
+</li>
+<li><a href="http://www.tug.org/levels.html">Levels of TeX - TeX Users Group</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="macos">macOS ??<a class="headerlink" href="#macos" title="Permanent link"> #</a></h3>
+<pre><code>$ brew install tex
+...
+Error: No available formula with the name &quot;tex&quot;
+Installing TeX from source is weird and gross, requires a lot of patches,
+and only builds 32-bit (and thus can't use Homebrew dependencies)
+
+We recommend using a MacTeX distribution: https://www.tug.org/mactex/
+
+You can install it with Homebrew Cask:
+  brew cask install mactex
+</code></pre>
+
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://tug.org/">TeX Users Group (TUG)</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://tex.stackexchange.com/">TeX - LaTeX Stack Exchange</a></li>
+</ul>
+<p>學習資源：</p>
+<ul>
+<li><a href="https://texfaq.org/">The TeX FAQ</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../mathjax/">MathJax</a> &ndash; 支援 TeX/LaTeX 做為 equation markup。</li>
+<li><a href="../latex/">LaTeX</a> &ndash; TeX 的高階應用，使寫作時能專注在內容/結構，而非表現方式。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

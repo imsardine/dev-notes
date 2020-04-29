@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/github/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GitHub - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/github.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#github">GitHub</a></li>
+            <li class="second-level"><a href="#deploy-key-machine-user-personal-access-token">Deploy Key, Machine User, Personal Access Token ??</a></li>
+                
+            <li class="second-level"><a href="#two-factor-authentication-2fa">Two-Factor Authentication (2FA)</a></li>
+                
+            <li class="second-level"><a href="#search">Search ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="github">GitHub<a class="headerlink" href="#github" title="Permanent link"> #</a></h1>
+<h2 id="deploy-key-machine-user-personal-access-token">Deploy Key, Machine User, Personal Access Token ??<a class="headerlink" href="#deploy-key-machine-user-personal-access-token" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://help.github.com/articles/user-organization-and-project-pages/#building-user-and-organization-pages-sites">Building User and Organization Pages sites - User, Organization, and Project Pages - User Documentation</a> 提到 Deploy keys aren&rsquo;t supported for Organization Pages sites，要改用 machine users。</li>
+<li><a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">Deploy keys - Managing deploy keys | GitHub Developer Guide</a><ul>
+<li>An SSH key that grants access to a SINGLE REPOSITORY. GitHub attaches the public part of the key directly to your repository instead of a personal user account, and the private part of the key remains on your server. 一把專為 build job 產生的 key pair。</li>
+<li>Deploy keys with WRITE ACCESS can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. 在新增 deploy key 時，要勾選 &ldquo;Allow write access&rdquo; (Can this key be used to push to this repository? Deploy keys always have pull access.)，這大概是帳號 SSH key 跟 repository 的 deploy key 最大的不同，後者可以限制 write access。</li>
+<li>Deploy keys only grant access to a single repository. More complex projects may have many repositories to pull to the same server. 例如有 submodule 時? 多個 project 可以用同一個 deploy key??</li>
+<li>Deploy keys are usually not protected by a PASSPHRASE, making the key easily accessible if the server is compromised. 是應該要保護。</li>
+</ul>
+</li>
+<li><a href="https://developer.github.com/v3/guides/managing-deploy-keys/#machine-users">Machine Users - Managing deploy keys | GitHub Developer Guide</a><ul>
+<li>If your server needs to access MULTIPLE REPOSITORIES, you can create a new GitHub account and attach an SSH key that will be USED EXCLUSIVELY FOR AUTOMATION. Since this GitHub account won&rsquo;t be used by a human, it&rsquo;s called a machine user. 就當成是是一般的 user 來用，但就無法像 deploy key 一樣限制其 write access (只有 organization 可以)。</li>
+<li>好處是 Multiple keys are not needed; one per server is adequate.</li>
+<li>主要的問題跟 deploy key 一樣，Machine user keys, like deploy keys, are usually not protected by a passphrase. 是因為 CI 通常不支援受密碼保護的 key??</li>
+</ul>
+</li>
+<li><a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Creating a personal access token for the command line - User Documentation</a><ul>
+<li>You can create a personal access token and use it IN PLACE OF A PASSWORD when performing Git operations over HTTPS with Git on the command line or the API. 取代走 HTTPS 時會用到的 password，所以也要像密碼一樣小心保存。</li>
+<li>提到啟用 2FA 時一定要用 personal access token；但這跟 SSH 無關，因為 SSH 是走 SSH key 而非密碼，這呼應了下面 &ldquo;Personal access tokens can only be used for HTTPS Git operations. If your repository uses an SSH remote URL, you will need to switch the remote from SSH to HTTPS.&rdquo; 的說法。</li>
+<li>Personal access token 在 Settings &gt; Developer settings &gt; Personal access tokens 下設定，比較特別的是 Select scopes 可以控制到很細，除了 repo (Full control of private repositories) 外，還有其他 admin 的控制；應該是因為 personal access token 也用在 GitHub API 的關係，不像 deploy key 是針對 repo 內容的讀寫。</li>
+</ul>
+</li>
+</ul>
+<h2 id="two-factor-authentication-2fa">Two-Factor Authentication (2FA)<a class="headerlink" href="#two-factor-authentication-2fa" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/">Securing your account with two-factor authentication (2FA) - User Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/about-two-factor-authentication/">About Two-Factor Authentication - User Documentation</a></p>
+<ul>
+<li>
+<p>Two-factor authentication, or 2FA, is an EXTRA LAYER of security used when logging into websites or apps. With 2FA, you have to log in with your username and password and provide another form of authentication that only you know or have access to.</p>
+</li>
+<li>
+<p>For GitHub, the second form of authentication is a code that&rsquo;s generated by an application on your mobile device or sent as a text message (SMS). After you enable 2FA, GitHub generates an AUTHENTICATION CODE any time someone attempts to sign into your GitHub account. The only way someone can sign into your account is if they know both your password and have access to the authentication code on your phone.</p>
+<p>After you configure 2FA using a mobile app or via text message, you can add a security key, like a fingerprint reader or Windows Hello. For more information, see &ldquo;WebAuthn&rdquo;.</p>
+<p>在 2FA 外又有另一層保護 ??</p>
+</li>
+<li>
+<p>Then, you can configure additional RECOVERY METHODS in case you lose access to your two-factor authentication credentials. For more information on setting up 2FA, see &ldquo;Configuring two-factor authentication&rdquo; and &ldquo;Configuring two-factor authentication recovery methods.&rdquo;</p>
+</li>
+<li>
+<p>We strongly urge you to turn on 2FA for the safety of your account, not only on GitHub, but on other websites and apps that support it. You can use 2FA to access GitHub via:</p>
+<ul>
+<li>The GitHub website</li>
+<li>The GitHub API</li>
+<li>GitHub Desktop</li>
+</ul>
+<p>跟 SSH key 存取 repo 無關。</p>
+</li>
+</ul>
+<p>Two-factor authentication recovery codes</p>
+<ul>
+<li>
+<p>When you configure two-factor authentication, you&rsquo;ll download and save your 2FA recovery codes. If you lose access to your phone, you can authenticate to GitHub using your RECOVERY CODES. For more information, see &ldquo;Recovering your account if you lose your 2FA credentials.&rdquo;</p>
+<p>Warning: For security reasons, GitHub Support may not be able to restore access to accounts with two-factor authentication enabled if you lose your two-factor authentication credentials or lose access to your account recovery methods. For more information, see &ldquo;Recovering your account if you lose your 2FA credentials.&rdquo;</p>
+<p>要 GitHub 客服確認你就是宣稱的那個人，確實有困難，但 GitHub &gt; Settings &gt; Security &gt; Two-factor authentication 下是可以重新拿回 recovery code 的。</p>
+<p>除了 recovery code，還有 Fallback SMS number 與 Recovery tokens 可供選擇 #ril</p>
+</li>
+</ul>
+<p>Requiring two-factor authentication in your organization</p>
+<ul>
+<li>Organization owners can REQUIRE that organization members, billing managers, and outside collaborators use two-factor authentication to secure their personal accounts. For more information, see &ldquo;Requiring two-factor authentication in your organization.&rdquo;</li>
+</ul>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/providing-your-2fa-authentication-code/#when-youll-be-asked-for-your-ssh-key-passphrase-as-a-password">When you&rsquo;ll be asked for your SSH key passphrase as a password - Providing your 2FA authentication code - User Documentation</a></p>
+<p>透過 SSH URL 存取 repo 時，要輸入的是 SSH key passphrase 而非 2FA code (跟 2FA 無關)；若是走 HTTPS URL 的話，就要輸入 personal access token。</p>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/providing-your-2fa-authentication-code/">Providing your 2FA authentication code - User Documentation</a> #ril</p>
+<ul>
+<li>啟用 2FA 後，存取 GitHub 除了要提供 password，還會被問 2FA authentication code &ndash; 依設定不同，authentication code 可能由手機上的 app 產生，也可能由 SMS 傳送過來。</li>
+<li>如果 authentication code 多次驗證失敗，有可能是手機的時間不對。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/requiring-two-factor-authentication-in-your-organization/">Requiring two-factor authentication in your organization - User Documentation</a> 從 organization 的層級要求 2FA，沒有啟用 2FA 的人會從 organization 被移除，要啟用 2FA 並重新接受 invitation 才能回到 organization #ril</p>
+</li>
+<li>
+<p>啟用 2FA 時，要選 Set up using an app 或 Set up using SMS。</p>
+<ul>
+<li>按下 Set up using an app 後會提示 16 組 recovery code &ndash; 收不到 authentication code 時可以用，建議存到 password manager (例如 Lastpass、1Password、Keeper 等)。</li>
+<li>安裝 Google Authenticator，掃描條碼就可以新增一個帳戶並取得 authentication code，輸入後即可完成 2FA 啟用。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://help.github.com/en/articles/configuring-two-factor-authentication#configuring-two-factor-authentication-using-a-totp-mobile-app">Configuring two-factor authentication using a TOTP mobile app - Configuring two-factor authentication - GitHub Help</a></p>
+<ul>
+<li>
+<p>A TIME-BASED one-time password (TOTP) application automatically generates an authentication code that changes after a certain period of time. We recommend using cloud-based TOTP apps such as: 1Password, Authy, LastPass Authenticator</p>
+<p>竟然沒有 Google Authenticator?</p>
+</li>
+<li>
+<p>Tip: To configure authentication via TOTP on MULTIPLE DEVICES, during setup, scan the QR code using each device AT THE SAME TIME.</p>
+<p>If 2FA is already enabled and you want to add another device, you must re-configure 2FA from your security settings.</p>
+<p>聽起來 QR code 是有時限的，之後若要換手機 (或重裝 app) 就得重新設定；按之前的經驗，2FA 需先改用 SMS 再切回 mobile app (切換過中會重新產生 recovery codes)，否則設定畫面的 Set up using an app 按下去也只是看到 recovery codes 而已。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/configuring-two-factor-authentication-via-a-totp-mobile-app/">Configuring two-factor authentication via a TOTP mobile app - User Documentation</a> SMS 在美國以外可能收不到 #ril</p>
+</li>
+</ul>
+<h2 id="search">Search ??<a class="headerlink" href="#search" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://help.github.com/articles/searching-code/">Searching code - User Documentation</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

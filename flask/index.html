@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/flask/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Flask - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/flask.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#flask">Flask</a></li>
+            <li class="second-level"><a href="#werkzeug">跟 Werkzeug 的關係</a></li>
+                
+            <li class="second-level"><a href="#jinja2">跟 Jinja2 的關係</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#routing">Routing ??</a></li>
+                
+            <li class="second-level"><a href="#context-local">Context Local ??</a></li>
+                
+            <li class="second-level"><a href="#request">Request ??</a></li>
+                
+            <li class="second-level"><a href="#response">Response</a></li>
+                
+            <li class="second-level"><a href="#redirection">Redirection ??</a></li>
+                
+            <li class="second-level"><a href="#session">Session ??</a></li>
+                
+            <li class="second-level"><a href="#restful">RESTful</a></li>
+                
+            <li class="second-level"><a href="#application-context">Application Context ??</a></li>
+                
+            <li class="second-level"><a href="#proxy-object">Proxy Object ??</a></li>
+                
+            <li class="second-level"><a href="#development-server">Development Server ??</a></li>
+                
+            <li class="second-level"><a href="#debugger">Debugger ??</a></li>
+                
+            <li class="second-level"><a href="#cli-flask">CLI (flask) ??</a></li>
+                
+            <li class="second-level"><a href="#template">Template ??</a></li>
+                
+            <li class="second-level"><a href="#forms">Forms</a></li>
+                
+            <li class="second-level"><a href="#shell">Shell??</a></li>
+                
+            <li class="second-level"><a href="#flask-run-flaskrun">用 flask run 取代 Flask.run() ??</a></li>
+                
+            <li class="second-level"><a href="#docker-image">如何打包成 Docker image??</a></li>
+                
+            <li class="second-level"><a href="#uwsgi-app">如何用 uWSGI 啟動 app?</a></li>
+                
+            <li class="second-level"><a href="#application-package">大型應用程式用 application package 比較好?</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+                <li class="third-level"><a href="#error-the-filepath-provided-xxx-does-not-appear-to-exist">Error: The file/path provided (xxx) does not appear to exist.</a></li>
+                <li class="third-level"><a href="#uwsgi-interactive-debugger">如何在 uWSGI 下啟用 interactive debugger?</a></li>
+                <li class="third-level"><a href="#log">如何將所有錯誤都導到 log 裡?</a></li>
+                <li class="third-level"><a href="#pdb-flask-app">如何用 pdb 為 Flask app 除錯?</a></li>
+            <li class="second-level"><a href="#json">JSON</a></li>
+                
+            <li class="second-level"><a href="#_1">其他</a></li>
+                
+                <li class="third-level"><a href="#managepy">manage.py 的作用是什麼?</a></li>
+                <li class="third-level"><a href="#db-schema-migration">如何實作 DB schema migration?</a></li>
+                <li class="third-level"><a href="#flask_1">如何測試 Flask 應用程式?</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="flask">Flask<a class="headerlink" href="#flask" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a><ul>
+<li>基於 Werkzeug 及 Jinja2 的 Python-based microframework；相容於 WSGI 1.0</li>
+<li>內建 development server 及 debugger，提供了 unit testing 的支援。</li>
+<li>RESTful request dispatching &ndash; 指 routing。</li>
+<li>支援 cookies (client side session)</li>
+</ul>
+</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/design/#what-flask-is-what-flask-is-not">What Flask is, What Flask is Not - Design Decisions in Flask — Flask 1.0.2 documentation</a> Flask 永遠不會有 database layer、form library 等，它只是橋接了 Werkzeug (WSGI application) 及 Jinja2 (templating)，其他的都是 extension，因為大家都有不同的需求。</li>
+<li><a href="https://www.heroku.com/python">Deploy and scale Python &amp; Django in the cloud | Heroku</a> Choice of frameworks 提到 MVC web apps with Django, lightweight APIs with Flask, flexible apps with Pyramid, evented apps with Twisted and headless worker apps 似乎 Django、Flask、Pyramid, Twisted 有各自不同的定位，顯然 Flask 很適合用來寫 API。</li>
+</ul>
+<h2 id="werkzeug">跟 Werkzeug 的關係<a class="headerlink" href="#werkzeug" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Installation — Flask 1.0.2 documentation</a> Werkzeug 實作了 WSGI，做為 application 與 web server 間的標準 Python interface。</li>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a> 基於 Werkzeug 及 Jinja2 的 Python-based microframework。</li>
+</ul>
+<h2 id="jinja2">跟 Jinja2 的關係<a class="headerlink" href="#jinja2" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a> 基於 Werkzeug 及 Jinja2 的 Python-based microframework；拿 Jinja2 當 template engine。</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Installation — Flask 1.0.2 documentation</a> Jinja 是一種 template language，用來畫 (render) web pages；Jinja 會帶出 MarkupSafe &ndash; 將 untrusted input 做 escape，避免 injection 攻擊。</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p><code>hello.py</code>:</p>
+<pre><code>from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, World!'
+</code></pre>
+
+<pre><code>$ FLASK_APP=hello.py FLASK_DEBUG=1 flask run
+$ curl http://127.0.0.1:5000/
+Hello, World!
+</code></pre>
+
+<p>若採用 package 的話 (<code>hello/__init__.py</code>)，Flask 1.0 前要用：</p>
+<pre><code>$ FLASK_APP=hello/__init__.py FLASK_DEBUG=1 flask run
+</code></pre>
+
+<p>或</p>
+<pre><code>$ FLASK_APP=hello FLASK_DEBUG=1 python -m flask run
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/">Welcome to Flask — Flask 1.0.2 documentation</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/quickstart/">Quickstart — Flask 1.0.2 documentation</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/tutorial/">Tutorial — Flask 1.0.2 documentation</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 virtualenv 安裝 <code>Flask</code> 套件。</li>
+<li>跟著 Qucikstart 做過一遍。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Quickstart — Flask Documentation <a href="http://flask.pocoo.org/docs/latest/quickstart/">http://flask.pocoo.org/docs/latest/quickstart/</a> #ril</li>
+<li>realpython/flask-skeleton: Real Python Flask Starter Project <a href="https://github.com/realpython/flask-skeleton">https://github.com/realpython/flask-skeleton</a> #ril</li>
+<li>Quickstart — Flask Documentation <a href="http://flask.pocoo.org/docs/quickstart/">http://flask.pocoo.org/docs/quickstart/</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/latest/">http://flask.pocoo.org/docs/latest/</a> 學習路徑: 安裝 &gt; Quickstart &gt; Tutorial &gt; Patterns</li>
+<li>為什麼 <code>app = Flask(__name__)</code> 會是這種用法?? 傳入的 <code>__name__</code> 說是 &ldquo;the name of the application package&rdquo; &hellip;</li>
+<li>怎麼做 logging? =&gt; <a href="https://gist.github.com/ibeex/3257877">https://gist.github.com/ibeex/3257877</a> 用 <code>app.logger.xxx()</code></li>
+<li>什麼是 WSGI application?? 相關的工具的支援&hellip;</li>
+<li>Tutorial — Flask Documentation <a href="http://flask.pocoo.org/docs/latest/tutorial/">http://flask.pocoo.org/docs/latest/tutorial/</a> 完整的範例 #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/patterns/#patterns">Patterns for Flask — Flask 1.0.2 documentation</a> #ril</li>
+</ul>
+<h2 id="routing">Routing ??<a class="headerlink" href="#routing" title="Permanent link"> #</a></h2>
+<ul>
+<li>什麼是 <code>path</code> converter?? 可以用在 rule 中間嗎? 又怎麼沒有 <code>bool</code> converter??</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a> 提到 RESTful request dispatching 就是 routing，但跟 RESTful 什麼關係??</li>
+<li><a href="https://stackoverflow.com/questions/14032066/">python - Can Flask have optional URL parameters? - Stack Overflow</a> 宣告兩個 route，搭配 function 的 default value (可讀性比<a href="http://flask.pocoo.org/docs/0.12/api/#url-route-registrations">官方文件</a>裡 <code>@app.route('/users/', defaults={'page': 1})</code> 的用法更高)；若一個 function 有多個 route，那 <code>url_for()</code> 怎麼用??<pre><code>@app.route('/&lt;user_id&gt;')
+@app.route('/&lt;user_id&gt;/&lt;username&gt;')
+def show(user_id, username='Anonymous'):
+    return user_id + ':' + username
+</code></pre>
+</li>
+</ul>
+<h2 id="context-local">Context Local ??<a class="headerlink" href="#context-local" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/quickstart/#context-locals">Context Locals - Quickstart — Flask 1.0.2 documentation</a></p>
+<ul>
+<li>Insider Information: If you want to understand how that works and how you can implement TESTS with context locals, read this section, otherwise just skip it. 跟測試有關??</li>
+<li>Certain objects in Flask are GLOBAL objects, but not of the usual kind. These objects are actually PROXIES to objects that are LOCAL TO A SPECIFIC CONTEXT. What a mouthful. But that is actually quite easy to understand.</li>
+<li>Imagine the context being the HANDLING THREAD. A request comes in and the web server decides to spawn a new thread (or something else, the underlying object is capable of dealing with concurrency systems other than threads). When Flask starts its internal request handling it figures out that the current thread is the active context and BINDS the current application and the WSGI environments to that context (thread). It does that in an intelligent way so that one application can INVOKE ANOTHER APPLICATION?? without breaking.</li>
+<li>
+<p>So what does this mean to you? Basically you can completely ignore that this is the case unless you are doing something like UNIT TESTING. You will notice that code which depends on a request object will suddenly break because there is no request object. The solution is creating a request object yourself and binding it to the context. The easiest solution for unit testing is to use the <code>test_request_context()</code> context manager. In combination with the <code>with</code> statement it will bind a test request so that you can interact with it. Here is an example:</p>
+<pre><code>from flask import request
+
+with app.test_request_context('/hello', method='POST'):
+    # now you can do something with the request until the
+    # end of the with block, such as basic assertions:
+    assert request.path == '/hello'
+    assert request.method == 'POST'
+</code></pre>
+<p>這跟 <code>Flask.test_client()</code> 是什麼關係?? 好像可以不用從 routing 這一層測試? 不過話說回來，離開 routing 這一層還跟 Flask 有相依，也是個問題&hellip;</p>
+</li>
+<li>
+<p>The other possibility is passing a whole WSGI environment to the <code>request_context()</code> method: 直接模擬環境變數??</p>
+<pre><code>from flask import request
+
+with app.request_context(environ):
+    assert request.method == 'POST'
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://werkzeug.pocoo.org/docs/0.14/local/">Context Locals — Werkzeug Documentation (0.14)</a> #ril</p>
+</li>
+</ul>
+<h2 id="request">Request ??<a class="headerlink" href="#request" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/quickstart/#accessing-request-data">Quickstart — Flask 1.0.2 documentation</a></p>
+<ul>
+<li>For web applications it’s crucial to react to the data a client sends to the server. In Flask this information is provided by the GLOBAL <code>request</code> object. If you have some experience with Python you might be wondering how that object can be global and how Flask manages to still be THREADSAFE. The answer is CONTEXT LOCALS:</li>
+</ul>
+<p>The Request Object</p>
+<ul>
+<li>The request object is documented in the API section and we will not cover it here in detail (see <code>Request</code>). Here is a broad overview of some of the most common operations. First of all you have to import it from the <code>flask</code> module: <code>from flask import request</code></li>
+<li>
+<p>The current request method is available by using the <code>method</code> attribute. To access form data (data transmitted in a POST or PUT request) you can use the <code>form</code> attribute. Here is a full example of the two attributes mentioned above:</p>
+<pre><code>@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if valid_login(request.form['username'],
+                       request.form['password']):
+            return log_the_user_in(request.form['username']) # 裡面應該會實現 Redirect After Post
+        else:
+            error = 'Invalid username/password'
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+    return render_template('login.html', error=error)
+</code></pre>
+</li>
+<li>
+<p>What happens if the key does not exist in the <code>form</code> attribute? In that case a special <code>KeyError</code> is raised. You can catch it like a standard <code>KeyError</code> but if you don’t do that, a HTTP 400 Bad Request error page is shown instead. So for many situations you DON’T have to deal with that problem.</p>
+</li>
+<li>
+<p>To access parameters submitted in the URL (<code>?key=value</code>) you can use the <code>args</code> attribute:</p>
+<pre><code>searchword = request.args.get('key', '')
+</code></pre>
+</li>
+<li>
+<p>We recommend accessing URL parameters with <code>get</code> or by catching the <code>KeyError</code> because users might change the URL and presenting them a 400 bad request page in that case is NOT USER FRIENDLY.</p>
+<p>還是得看情況吧，如果必要的參數沒拿到，又沒有合理的預設值，回 400 也是很合理的?</p>
+</li>
+<li>
+<p>For a full list of methods and attributes of the request object, head over to the <code>Request</code> documentation.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/reqcontext/">The Request Context — Flask 1.0.2 documentation</a> #ril</p>
+<ul>
+<li>The request context keeps track of the REQUEST-LEVEL data during a request. Rather than passing the request object to each function that runs during a request, the <code>request</code> and <code>session</code> PROXIES are accessed instead.</li>
+<li>
+<p>This is similar to the The Application Context, which keeps track of the APPLICATION-LEVEL data independent of a request. A corresponding application context is PUSHED when a request context is pushed.</p>
+<p>關於 push/pop, context 要先看過下面 How the Context Works 才會懂，簡單的講 <code>request</code>、<code>session</code> 這些 proxy object 都參照 request/application context stack 最上方的 context 來決定 current request/application，所以 push/pop 的動作很關鍵。</p>
+</li>
+</ul>
+<p>Purpose of the Context</p>
+<ul>
+<li>
+<p>When the <code>Flask</code> application handles a request, it creates a <code>Request</code> object based on the environment it received from the WSGI server. Because a WORKER (thread, process, or COROUTINE depending on the server) handles only one request at a time, the request data can be considered GLOBAL TO THAT WORKER during that request. Flask uses the term CONTEXT LOCAL for this.</p>
+<p>原來 worker 是這麼抽象，背後可能有不同的實作方式，但 worker 同時間只會面對一個 reqeust，這一點是肯定的。</p>
+</li>
+<li>
+<p>Flask automatically pushes a request context when handling a request. View functions, error handlers, and other functions that run during a request will have access to the request proxy, which POINTS TO the request object for the current request.</p>
+</li>
+</ul>
+<p>Lifetime of the Context</p>
+<ul>
+<li>When a Flask application begins handling a request, it pushes a request context, which also pushes an The Application Context. When the request ends it pops the request context then the application context.</li>
+<li>The context is unique to each thread (or other worker type). request cannot be passed to another thread, the other thread will have a different CONTEXT STACK and will not know about the request the PARENT THREAD?? was pointing to.</li>
+<li>Context locals are implemented in Werkzeug. See <a href="http://werkzeug.pocoo.org/docs/local/">Context Locals</a> for more information on how this works internally. 已經有 context，為何又要強調 local??</li>
+</ul>
+<p>&hellip;</p>
+<p>How the Context Works</p>
+<ul>
+<li>
+<p>The <code>Flask.wsgi_app()</code> method is called to handle each request. It manages the contexts during the request. Internally, the request and application contexts work as STACKS, <code>_request_ctx_stack</code> and <code>_app_ctx_stack</code>. When contexts are PUSHED onto the stack, the proxies that depend on them are available and point at information from the TOP CONTEXT on the stack.</p>
+<p>難怪會有 push/pop 的說法，而且 request context 跟 application context 是兩個不同的 stack。</p>
+</li>
+<li>
+<p>When the request starts, a <code>RequestContext</code> is created and pushed, which creates and pushes an <code>AppContext</code> FIRST if a context for that application is not already the top context. While these contexts are pushed, the <code>current_app</code>, <code>g</code>, <code>request</code>, and <code>session</code> proxies are available to the ORIGINAL THREAD handling the request.</p>
+</li>
+<li>After the request is dispatched and a response is generated and sent, the request context is popped, which then pops the application context. Immediately before they are popped, the <code>teardown_request()</code> and <code>teardown_appcontext()</code> functions are are executed. These execute EVEN IF an unhandled exception occurred during dispatch. 這 2 個 callback 都在 <code>flask.Flask</code> 上。</li>
+</ul>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/api/#flask.request"><code>flask.request</code> - API — Flask 1.0.2 documentation</a></p>
+<ul>
+<li>
+<p>To access incoming request data, you can use the GLOBAL <code>request</code> object. Flask parses incoming request data for you and gives you access to it through that global object. Internally Flask makes sure that you always get the correct data for the ACTIVE THREAD if you are in a multithreaded environment.</p>
+<p>This is a PROXY (<code>werkzeug.local.LocalProxy</code>). See Notes On Proxies for more information.</p>
+</li>
+<li>
+<p>The request object is an instance of a <code>Request</code> subclass and provides all of the attributes Werkzeug defines. This just shows a quick overview of the most important ones.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://flask.pocoo.org/docs/1.0/api/#flask.Request"><code>class flask.Request</code> - API — Flask 1.0.2 documentation</a> #ril</p>
+<ul>
+<li>
+<p>The request object used by default in Flask. Remembers the MATCHED ENDPOINT and VIEW ARGUMENTS ??.</p>
+<p>It is what ends up as <code>flask.request</code>. If you want to replace the request object used you can subclass this and set <code>Flask.request_class</code> to your subclass.</p>
+</li>
+<li>
+<p>The request object is a <code>Request</code> subclass and provides all of the attributes Werkzeug defines PLUS A FEW Flask SPECIFIC ONES.</p>
+<p><a href="https://werkzeug.palletsprojects.com/en/0.15.x/wrappers/#werkzeug.wrappers.Request"><code>werkzeug.wrappers.Request</code></a> 繼承自 <a href="https://werkzeug.palletsprojects.com/en/0.15.x/wrappers/#werkzeug.wrappers.BaseRequest"><code>werkzeug.wrappers.BaseRequest</code></a>。</p>
+</li>
+</ul>
+<p><code>environ</code></p>
+<ul>
+<li>The underlying WSGI environment.</li>
+</ul>
+<p><code>path</code>, <code>full_path</code>, <code>script_root</code>, <code>url</code>, <code>base_url</code>, <code>url_root</code></p>
+<ul>
+<li>
+<p>Provides different ways to look at the current IRI. Imagine your application is listening on the following application root:</p>
+<pre><code>http://www.example.com/myapplication
+</code></pre>
+<p>And a user requests the following URI:</p>
+<pre><code>http://www.example.com/myapplication/%CF%80/page.html?x=y
+</code></pre>
+<p>In this case the values of the above mentioned attributes would be the following:</p>
+<pre><code>path=u'/π/page.html'
+full_path=u'/π/page.html?x=y'
+script_root=u'/myapplication'
+base_url=u'http://www.example.com/myapplication/π/page.html'
+url=u'http://www.example.com/myapplication/π/page.html?x=y'
+url_root=u'http://www.example.com/myapplication/'
+</code></pre>
+</li>
+</ul>
+<p><code>args</code></p>
+<ul>
+<li>
+<p>The parsed URL parameters (the part in the URL after the question mark).</p>
+<p>也就是 query string。</p>
+</li>
+<li>
+<p>By default an <code>ImmutableMultiDict</code> is returned from this function. This can be changed by setting <code>parameter_storage_class</code> to a different type. This might be necessary if the ORDER of the form data is important.</p>
+</li>
+</ul>
+<p><code>content_encoding</code></p>
+<ul>
+<li>The <code>Content-Encoding</code> entity-header field is used as a modifier to the media-type. When present, its value indicates what additional content codings have been applied to the entity-body, and thus what decoding mechanisms must be applied in order to obtain the media-type referenced by the <code>Content-Type</code> header field. ??</li>
+</ul>
+<p><code>content_length</code></p>
+<ul>
+<li>The <code>Content-Length</code> entity-header field indicates the size of the entity-body in bytes or, in the case of the <code>HEAD</code> method, the size of the entity-body that would have been sent had the request been a GET. ??</li>
+</ul>
+<p><code>content_type</code></p>
+<ul>
+<li>The <code>Content-Type</code> entity-header field indicates the media type of the entity-body sent to the recipient or, in the case of the HEAD method, the media type that would have been sent had the request been a GET.</li>
+</ul>
+<p><code>cookies</code></p>
+<ul>
+<li>A <code>dict</code> with the contents of all cookies transmitted with the request.</li>
+</ul>
+<p><code>data</code></p>
+<ul>
+<li>
+<p>Contains the incoming request data as string in case it came with a mimetype Werkzeug DOES NOT HANDLE.</p>
+<p>也就是說，如果 Werkzeug 認得 content type，<code>data</code> 就會是空的? 這聽起來很不直覺，得從實作細節看起；<a href="https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L410"><code>BeseRequest.data</code></a>:</p>
+<pre><code>def data(self):
+    if self.disable_data_descriptor:
+        raise AttributeError("data descriptor is disabled")
+    return self.get_data(parse_form_data=True)
+</code></pre>
+<p>對照下面 <code>get_data()</code> 的實作，就算 <code>cache</code> 預設為 <code>True</code>，但因為 <code>parse_form_data=True</code> 先讀取並解析了 input stream，所以 <code>rv = self.stream.read()</code> 就讀不到東西了。</p>
+<p>也因此 <code>data</code> 通常都拿不到東西，若真的想拿原始的 data，得在解析 form data 之前先呼叫 <code>get_data()</code> 並把資料快取起來，之後解析 form data 時才有資料。簡單做個時驗，看 <code>request.form</code> 對 <code>request.get_data()</code> 及 <code>request.data</code> 會造成什麼影響：</p>
+<pre><code>@app.route('/', methods=['POST'])
+def post():
+    logging.info('request.get_data() = %r', request.get_data())
+    logging.info('request.data = %r', request.data)
+    logging.info('request.form = %r', request.form)
+</code></pre>
+<p>用 <code>curl --data 'key=value' http://...</code> 會得到：</p>
+<pre><code>root - request.get_data() = 'key=val'
+root - request.data = 'key=val'
+root - request.form = ImmutableMultiDict([('key', u'val')])
+</code></pre>
+<p>把 <code>request.form</code> 放到最前面：</p>
+<pre><code>root - request.form = ImmutableMultiDict([('key', u'val')])
+root - request.get_data() = ''
+root - request.data = ''
+</code></pre>
+<p>把 <code>request.data</code> 放到最前面，結果最詭異： (看過實作細節才能理解)</p>
+<pre><code>root - request.data = ''
+root - request.get_data() = ''
+root - request.form = ImmutableMultiDict([('key', u'val')])
+</code></pre>
+</li>
+<li>
+<p>The form parameters. By default an <code>ImmutableMultiDict</code> is returned from this function. This can be changed by setting <code>parameter_storage_class</code> to a different type. This might be necessary if the order of the form data is important.</p>
+</li>
+<li>Please keep in mind that file uploads will not end up here, but instead in the <code>files</code> attribute.</li>
+</ul>
+<p><code>get_data(cache=True, as_text=False, parse_form_data=False)</code></p>
+<ul>
+<li>
+<p>This reads the BUFFERED INCOMING DATA from the client into one BYTESTRING. By default this is CACHED but that behavior can be changed by setting <code>cache</code> to <code>False</code>.</p>
+<p>根據 <a href="https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L458"><code>BaseRequest.get_data()</code></a> 的實作，從 input stream 讀進來的值會快取在 <code>_cached_data</code> 裡，之後存取 <code>BaseRequest.form</code> 時會[觸發 <code>_load_form_data()](https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L479)，就會[間接從</code>_get_stream_for_parsing()<code>](https://github.com/pallets/werkzeug/blob/0.15.x/src/werkzeug/wrappers/base_request.py#L318) 取得</code>_cached_data`。</p>
+<pre><code>def get_data(self, cache=True, as_text=False, parse_form_data=False):
+    rv = getattr(self, "_cached_data", None)
+    if rv is None:
+        if parse_form_data:
+            self._load_form_data() # 除非有 _cached_data，否則會從 self.stream 讀資料
+        rv = self.stream.read()    # 如果做了 _load_form_data()，stream 裡就沒資料可讀了
+        if cache:
+            self._cached_data = rv # 快取的資料也會是空的
+    if as_text:
+        rv = rv.decode(self.charset, self.encoding_errors)
+    return rv
+
+def _get_stream_for_parsing(self):
+    cached_data = getattr(self, "_cached_data", None)
+    if cached_data is not None:
+        return BytesIO(cached_data)
+    return self.stream
+</code></pre>
+</li>
+<li>
+<p>Usually it’s a bad idea to call this method without checking the content length first as a client could send dozens of megabytes or more to cause memory problems on the server.</p>
+<p>聽起來是前端 web server 的責任 ??</p>
+</li>
+<li>
+<p>Note that if the FORM DATA WAS ALREADY PARSED this method will not return anything as form data parsing does not cache the data like this method does.</p>
+<p>To implicitly invoke form data parsing function set <code>parse_form_data</code> to <code>True</code>. When this is done the return value of this method will be an EMPTY STRING if the form parser handles the data. This generally is not necessary as if the whole data is cached (which is the default) the form parser will used the cached data to parse the form data. Please be generally aware of checking the content length first in any case before calling this method to avoid exhausting server memory.</p>
+</li>
+<li>
+<p>If <code>as_text</code> is set to <code>True</code> the return value will be a decoded UNICODE string.</p>
+</li>
+</ul>
+<p><code>get_json(force=False, silent=False, cache=True)</code></p>
+<ul>
+<li>
+<p>Parse and return the data as JSON. If the mimetype does not indicate JSON (<code>application/json</code>, see <code>is_json()</code>), this returns <code>None</code> unless <code>force</code> is true. If parsing fails, <code>on_json_loading_failed()</code> is called and its return value is used as the return value.</p>
+</li>
+<li>
+<p>Parameters:</p>
+<ul>
+<li><code>force</code> – Ignore the mimetype and always try to parse JSON.</li>
+<li><code>silent</code> – Silence parsing errors and return <code>None</code> instead.</li>
+<li><code>cache</code> – Store the parsed JSON to return for subsequent calls.</li>
+</ul>
+</li>
+</ul>
+<p><code>headers</code></p>
+<ul>
+<li>The headers from the WSGI environ as immutable <code>EnvironHeaders</code>.</li>
+</ul>
+<p><code>json</code></p>
+<ul>
+<li>
+<p>This will contain the parsed JSON data if the mimetype indicates JSON (<code>application/json</code>, see <code>is_json()</code>), otherwise it will be <code>None</code>.</p>
+<p>這很依賴 client 是否有帶正確的 content type，如果要無條件視為 JSON 則要改用 <code>get_json(force=True)</code>。</p>
+</li>
+</ul>
+<p><code>mimetype</code></p>
+<ul>
+<li>Like content_type, but without PARAMETERS (eg, without charset, type etc.) and always LOWERCASE. For example if the content type is <code>text/HTML; charset=utf-8</code> the mimetype would be <code>'text/html'</code>.</li>
+</ul>
+<p><code>mimetype_params</code></p>
+<ul>
+<li>The mimetype parameters as dict. For example if the content type is <code>text/html; charset=utf-8</code> the params would be <code>{'charset': 'utf-8'}</code>.</li>
+</ul>
+<p><code>stream</code></p>
+<ul>
+<li>
+<p>If the incoming form data was not encoded with a known mimetype the data is stored unmodified in this stream for consumption. Most of the time it is a better idea to use <code>data</code> which will give you that data as a string. THE STREAM ONLY RETURNS THE DATA ONCE.</p>
+</li>
+<li>
+<p>Unlike <code>input_stream</code> this stream is properly guarded that you can’t accidentally read past the length of the input. Werkzeug will internally always refer to this stream to read data which makes it possible to wrap this object with a stream that does filtering. ??</p>
+</li>
+</ul>
+<p><code>values</code></p>
+<ul>
+<li>
+<p>A <code>werkzeug.datastructures.CombinedMultiDict</code> that combines <code>args</code> and <code>form</code>.</p>
+<p>用在資料從哪裡來不重要時。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="response">Response<a class="headerlink" href="#response" title="Permanent link"> #</a></h2>
+<ul>
+<li>View function 直接 return，不傳回任何東西，就是單純的 200 OK 嗎? 還是用 <code>abort(200)</code> 比較好?<ul>
+<li>單純的 <code>return</code> (同 <code>return None</code>) 會引發 <code>ValueError: View function did not return a response</code> 的錯誤。</li>
+<li><code>abort(200)</code> 會引發 <code>LookupError: no exception for 200</code> 的錯誤。</li>
+<li>目前似乎只能回 <code>return ''</code> ??</li>
+</ul>
+</li>
+<li>Flask 裡怎麼先回應一些訊息，之後再透過 callback URL 再回一些?? 就算能把工作交出去，那之後結果要怎麼更新到前端??<ul>
+<li><a href="http://stackoverflow.com/questions/12317667/">http://stackoverflow.com/questions/12317667/</a> 用 Celery 或 Twisted，但需要搭配 external worker process；這會不會太小題大作了??</li>
+<li>multithreading - How do I run a long-running job in the background in Python - Stack Overflow <a href="http://stackoverflow.com/questions/34321986/">http://stackoverflow.com/questions/34321986/</a> &ldquo;the route will return a url (using the guid) that the user can use to check progress.&rdquo; 這做法似乎不錯??</li>
+<li>Celery Based Background Tasks — Flask Documentation <a href="http://flask.pocoo.org/docs/latest/patterns/celery/">http://flask.pocoo.org/docs/latest/patterns/celery/</a>  官方的 pattern 也提到 Celery #ril</li>
+</ul>
+</li>
+</ul>
+<h2 id="redirection">Redirection ??<a class="headerlink" href="#redirection" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/quickstart/#redirects-and-errors">Redirects and Errors - Quickstart — Flask 1.0.2 documentation</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/reqcontext/">The Request Context — Flask 1.0.2 documentation</a><ul>
+<li>Because the contexts are stacks, other contexts may be pushed to CHANGE THE PROXIES DURING A REQUEST. While this is not a common pattern, it can be used in advanced applications to, for example, do INTERNAL REDIRECTS or chain different applications together. 怎麼達成 internal redirect??</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/41270855/">python - Flask: redirect to same page after form submission - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="session">Session ??<a class="headerlink" href="#session" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a> 支援 cookies (client side session)</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Installation — Flask 1.0.2 documentation</a> ItsDangerous 可以做數位簽章 (signing)，Flask 用它來確保 session cookie 沒有被動過手腳 (integrity)。</li>
+<li><a href="http://flask.pocoo.org/snippets/category/sessions/">Sessions | Flask (A Python Microframework)</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/quickstart/#sessions">Sessions - Quickstart — Flask 1.0.2 documentation</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.session">class flask.session - API — Flask 1.0.2 documentation</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/quickstart/">http://flask.pocoo.org/docs/1.0/quickstart/</a>                  #sessions</li>
+<li><a href="https://medium.com/pyladies-taiwan/95290b80b2ed">實作 Flask Session Interface 將Session 資料存入資料庫 — 使用 FlaskSession套件</a> 使用 Flask-Session 後，cookie 裡只剩 session ID #ril</li>
+</ul>
+<h2 id="restful">RESTful<a class="headerlink" href="#restful" title="Permanent link"> #</a></h2>
+<ul>
+<li>可能的方案有 <a href="../flask-restful/">Flask-RESTful</a>、<a href="../flask-restplus/">Flask-RESTPlus</a>、<a href="../connexion/">Connexion</a>、<a href="../flasgger/">Flasgger</a> 等。</li>
+<li>提供 OAuth 驗證、產生 API 文件等，都是標準配備；目前好像只有 Connexion 內建支援 OAuth ??</li>
+</ul>
+<h2 id="application-context">Application Context ??<a class="headerlink" href="#application-context" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/appcontext/">The Application Context — Flask 1.0.2 documentation</a> #ril</li>
+</ul>
+<h2 id="proxy-object">Proxy Object ??<a class="headerlink" href="#proxy-object" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/0.12/reqcontext/#notes-on-proxies">Note On Proxies - The Request Context — Flask 0.12.4 documentation</a> #ril</li>
+</ul>
+<h2 id="development-server">Development Server ??<a class="headerlink" href="#development-server" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a> 提到內建 development server。</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Installation — Flask 1.0.2 documentation</a> Watchdog 提供更好的 reloader 讓 development server 使用。</li>
+</ul>
+<h2 id="debugger">Debugger ??<a class="headerlink" href="#debugger" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/">Welcome | Flask (A Python Microframework)</a> 提到內建 debugger。</li>
+</ul>
+<h2 id="cli-flask">CLI (<code>flask</code>) ??<a class="headerlink" href="#cli-flask" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/1.0/cli/#environment-variables-from-dotenv">Environment Variables From dotenv - Command Line Interface — Flask 1.0.2 documentation</a> <code>.flaskenv</code> 放 public variables (例如 <code>FLASK_APP</code>)，而 <code>.env</code> 可以放 private variables，所以不該被放進 repository。 #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Installation — Flask 1.0.2 documentation</a><ul>
+<li>Click 可以用來寫 CLI，它提供了 <code>flask</code> command，還可以自訂其他 management command ??</li>
+<li>python-dotenv 讓 <code>flask</code> command 支援 dotenv (<code>.env</code>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="template">Template ??<a class="headerlink" href="#template" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/0.12/tutorial/templates/">Step 7: The Templates — Flask Documentation (0.12)</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/templating/">Templates — Flask Documentation (0.12)</a> #ril</li>
+</ul>
+<h2 id="forms">Forms<a class="headerlink" href="#forms" title="Permanent link"> #</a></h2>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/0.12/patterns/wtforms/">Form Validation with WTForms — Flask Documentation (0.12)</a></p>
+<ul>
+<li>為了處理 form data，很快就會讓 code 變得很難讀，WTForms 就是在解決這個問題；另外 feature 了 Flask-WTF</li>
+<li>首先要為 form 定義一個 class，不過這裡 &ldquo;adding a separate module for the forms&rdquo; 的建議似乎怪怪的?</li>
+<li>
+<p>Form 在 view function 裡用起來像是：</p>
+<pre><code>@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User(form.username.data, form.email.data,
+                    form.password.data)
+        db_session.add(user)
+        flash('Thanks for registering')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+</code></pre>
+</li>
+<li>
+<p>無論如何都將 <code>request.form</code> 傳入 form class (當 form 是 GET 送出時，要改用 <code>request.args</code>)；當  method 是 POST 時做驗證，是 GET (或驗證失敗時) 就拿去 render。</p>
+</li>
+<li>驗證用 <code>validate()</code> (搭配 <code>request.method == 'POST' 的檢查，</code>validate_on_submit()<code>是 Flask-WTF 加的)，取得個別欄位的資料用</code>form.<NAME><code>.data</code>。</li>
+<li>驗證成功會搭配 <code>redirect()</code> 轉向，若沒有成功則重新 render 一次；從這個角度來看，form 的 action 應該指向自己會比較好? 否則驗證失敗時 URL 會揭露一些原本沒打算讓 end user 看到的資訊，也可能被 bookmark??</li>
+<li>在 template 裡是用 field function (form.<NAME>()`) 畫出 form element。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://wtforms.readthedocs.io/en/latest/fields.html#wtforms.fields.Field.__call__">Rendering - WTForms Documentation</a> To render a field, simply call it, providing any values the widget expects as keyword arguments. 好特別的設定，通常 keyword arguments 對應到其他的 HTML attributes</p>
+</li>
+</ul>
+<h2 id="shell">Shell??<a class="headerlink" href="#shell" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/0.12/shell/">Working with the Shell — Flask Documentation (0.12)</a> #ril</li>
+</ul>
+<h2 id="flask-run-flaskrun">用 <code>flask run</code> 取代 <code>Flask.run()</code> ??<a class="headerlink" href="#flask-run-flaskrun" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/0.12/server/">Development Server — Flask Documentation (0.12)</a> #ril</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/326517/">python - Why is flask CLI recommended over Flask.run? - Software Engineering Stack Exchange</a> #ril</li>
+</ul>
+<h2 id="docker-image">如何打包成 Docker image??<a class="headerlink" href="#docker-image" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/get-started/part2/">Get Started, Part 2: Containers | Docker Documentation</a> 以 Flask 做為範例 #ril</li>
+<li><a href="http://containertutorials.com/docker-compose/flask-simple-app.html">Dockerize Simple Flask App — Container Tutorials</a> #ril</li>
+</ul>
+<h2 id="uwsgi-app">如何用 uWSGI 啟動 app?<a class="headerlink" href="#uwsgi-app" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>uWSGI 是 Flask/WSGI application 跟 full-featured web server (例如 nginx、lighttpd 等) 介接的方式之一，uWSGI server 跟 web server 間是走 uwsgi protocol (小寫)，在 Unix-like 上通常透過 socket 溝通；uWSGI server 會調用 application module/package 的 WSGI callable (<code>Flask</code>)。</p>
+<pre><code>uwsgi --socket /tmp/yourapplication.sock --virtualenv venv \
+      --manage-script-name --mount /path=yourapplication:app \
+      --workers 4 --threads 4
+
+location = /yourapplication { rewrite ^ /yourapplication/; }
+location /yourapplication { try_files $uri @yourapplication; }
+location @yourapplication {
+  include uwsgi_params;
+  uwsgi_pass unix:/tmp/yourapplication.sock;
+}
+</code></pre>
+</li>
+<li>
+<p>在 staging 環境，則可以搭配 <code>FLASK_DEBUG=1</code> 與 <code>--catch-exceptions</code> 印出 backtrace：(若要在 uWSGI 下啟用 interactive debugger，要另外處理，跟 <code>--catch-exceptions</code> 無關)</p>
+<pre><code>FLASK_DEBUG=1 \
+uwsgi --socket /tmp/yourapplication.sock --virtualenv venv \
+      --manage-script-name --mount /path=yourapplication:app \
+      --workers 4 --threads 4 \
+      --catch-exceptions
+</code></pre>
+</li>
+<li>
+<p>在本地端開發，也可以用 uWSGI 來模擬 staging/production 的環境，例如：(注意 <code>--no-default-app</code> 可以避免 app 在 <code>/</code> 服務，跟 staging/production 不同，可能無法及早發覺某些錯誤)</p>
+<pre><code>FLASK_DEBUG=1 \
+uwsgi --http 127.0.0.1:5000 --virtualenv venv \
+      --manage-script-name --mount /path=yourapplication:app \
+      --workers 4 --threads 4 \
+      --catch-exceptions --no-default-app
+</code></pre>
+</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>uWSGI — Flask Documentation (0.12) <a href="http://flask.pocoo.org/docs/0.12/deploying/uwsgi/">http://flask.pocoo.org/docs/0.12/deploying/uwsgi/</a> 橋接 web server 與 WSGI application (通常走 socket)，支援 uwsgi、HTTP 等不同 protocol，也直接支援 virtual environment。</li>
+<li>Native HTTP support — uWSGI 2.0 documentation <a href="http://uwsgi-docs.readthedocs.io/en/latest/HTTP.html">http://uwsgi-docs.readthedocs.io/en/latest/HTTP.html</a> <code>--http &lt;address&gt;:&lt;port&gt;</code> 可以做為 HTTP server。</li>
+</ul>
+<h2 id="application-package">大型應用程式用 application package 比較好?<a class="headerlink" href="#application-package" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 application package (而非 application module)，底下可以拆分成多個 module；不過 <code>FLASK_APP=package_name</code> 的用法，必須要 &ldquo;安裝&rdquo; 過才行，還好 <code>pip install -e .</code> (搭配 <code>setup.py</code>) 可以安裝成 edit mode，開發時期修改程式會自動 reload 不成問題。</li>
+<li>但用一個 startup module 帶出 package 不也是一樣? 而且不用安裝，搭配 blueprint 一樣可以把 route 拆到不同的 component。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Larger Applications — Flask Documentation (0.12) <a href="http://flask.pocoo.org/docs/0.12/patterns/packages/">http://flask.pocoo.org/docs/0.12/patterns/packages/</a> 說明 &ldquo;For larger applications it’s a good idea to use a package instead of a module.&rdquo;</li>
+<li>Modular Applications with Blueprints — Flask Documentation (0.12) <a href="http://flask.pocoo.org/docs/0.12/blueprints/">http://flask.pocoo.org/docs/0.12/blueprints/</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<h3 id="error-the-filepath-provided-xxx-does-not-appear-to-exist">Error: The file/path provided (xxx) does not appear to exist.<a class="headerlink" href="#error-the-filepath-provided-xxx-does-not-appear-to-exist" title="Permanent link"> #</a></h3>
+<p>Flask 0.11 後，執行 development server 建議執行 <code>flask run</code>，搭配 <code>FLASK_APP</code> 指向 Python module 以取得 application object。</p>
+<pre><code>$ FLASK_APP=myapp flask run # 假如單純是個 module
+$ FLASK_APP=myapp flask run # 假如複雜一點是個 package (myapp/__init__.py)
+</code></pre>
+
+<p>第二種狀況會遇到下面的錯誤：</p>
+<pre><code>Error: The file/path provided (myapp) does not appear to exist.  Please verify the path is correct.  If app is not on PYTHONPATH, ensure the extension is .py
+</code></pre>
+
+<p>雖然 <a href="http://flask.pocoo.org/docs/0.12/patterns/packages/">Larger Applications</a> 說採用 package 時要用 <code>pip install --editable .</code> 安裝過才行，但追查過 <a href="https://github.com/pallets/flask/blob/0.12.2/flask/cli.py#L58"><code>flask/cli.py</code></a>，發現 <code>FLASK_APP=myapp/__init__.py flask run</code> 的寫法也可以，或是改用 <code>FLASK_APP=myapp python -m flask run</code>。</p>
+<p>這項限制已在 <a href="https://github.com/pallets/flask/pull/2414">PR #2414</a> 處理掉，但要 Flask 1.0 才會釋出。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/pallets/flask/issues/1847">Issue using Flask CLI with module layout recommended in Large Applications · Issue #1847 · pallets/flask</a> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/#creating-a-wsgi-file">Creating a .wsgi file - mod_wsgi (Apache) — Flask Documentation (0.12)</a> <code>.wsgi</code> file 只是用來取得 application object 的 Python module (跟採用 module/package 結構無關)</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/cli/">Command Line Interface — Flask Documentation (0.12)</a> Flask 0.11 開始提供 <code>flask</code> CLI，提到特殊情況下可用 <code>python -m flask</code> 效果一樣。<code>FLASK_APP</code> 可以是 import path 或 &ldquo;a filename of a Python module&rdquo;</li>
+<li><a href="https://stackoverflow.com/questions/45741800/">python - How to run Flask app as a package in PyCharm - Stack Overflow</a> Flask 1.0 之前，必須將 <code>FLASK_APP</code> 指向 <code>/path/to/flask_app/__init__.py</code>。比較好的方式是安裝 package，然後將 <code>FLASK_APP</code> 指向 package name，開發時可用 <code>pip install -e .</code>。</li>
+<li><a href="https://github.com/pallets/flask/pull/2414">FLASK_APP doesn&rsquo;t require .py extension for local packages by davidism · Pull Request #2414 · pallets/flask</a> 明確指出 &ldquo;This drops the requirement where FLASK_APP had to point to a .py file for packages that were not installed in develop mode. If the file is not importable, it will fail later in the loading process.&rdquo; 不過要 1.0 才有。</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/tutorial/packaging/">Step 3: Installing flaskr as a Package — Flask Documentation (0.12)</a> 也是要先安裝過 <code>pip install --editable .</code> 才能執行 <code>flask run</code>。</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/patterns/packages/">Larger Applications — Flask Documentation (0.12)</a> 大型 app 用 package，但要用 <code>pip install -e .</code> 安裝過。</li>
+</ul>
+<pre><code>$ flask --version
+Flask 0.12.2
+Python 2.7.10 (default, Jul 15 2017, 17:16:57)
+[GCC 4.2.1 Compatible Apple LLVM 9.0.0 (clang-900.0.31)]
+</code></pre>
+
+<p><code>bin/flask</code>:</p>
+<pre><code># -*- coding: utf-8 -*-
+import re
+import sys
+
+from flask.cli import main
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
+</code></pre>
+
+<p><code>lib/python2.7/site-packages/flask/cli.py</code>:</p>
+<pre><code>def prepare_exec_for_file(filename):
+    &quot;&quot;&quot;Given a filename this will try to calculate the python path, add it
+    to the search path and return the actual module name that is expected.
+    &quot;&quot;&quot;
+    module = []
+
+    # Chop off file extensions or package markers 原來也接受 package/__init__.py 的寫法
+    if os.path.split(filename)[1] == '__init__.py':
+        filename = os.path.dirname(filename)
+    elif filename.endswith('.py'):
+        filename = filename[:-3]
+    else:
+        raise NoAppException('The file provided (%s) does exist but is not a '
+                             'valid Python file.  This means that it cannot '
+                             'be used as application.  Please change the '
+                             'extension to .py' % filename)
+    filename = os.path.realpath(filename)
+
+    # 往上找到沒有 `__init__.py` 的那一層
+    dirpath = filename
+    while 1:
+        dirpath, extra = os.path.split(dirpath)
+        module.append(extra)
+        if not os.path.isfile(os.path.join(dirpath, '__init__.py')):
+            break
+
+    sys.path.insert(0, dirpath) # 調整 sys.path
+    return '.'.join(module[::-1])
+
+def locate_app(app_id):
+    &quot;&quot;&quot;Attempts to locate the application.&quot;&quot;&quot;
+    __traceback_hide__ = True
+    if ':' in app_id:
+        module, app_obj = app_id.split(':', 1)
+    else:
+        module = app_id
+        app_obj = None
+
+    # 這行可以看出 flask run 與 python -m flask run 的差異
+    print &quot;app_id = %r, cwd = %r, sys.path[:2] = %r&quot; % (app_id, os.getcwd(), sys.path[:2])
+
+    try:
+        __import__(module)
+    except ImportError:
+        # Reraise the ImportError if it occurred within the imported module.
+        # Determine this by checking whether the trace has a depth &gt; 1.
+        if sys.exc_info()[-1].tb_next:
+            raise
+        else:
+            raise NoAppException('The file/path provided (%s) does not appear'
+                                 ' to exist.  Please verify the path is '
+                                 'correct.  If app is not on PYTHONPATH, '
+                                 'ensure the extension is .py' % module)
+
+
+    mod = sys.modules[module]
+    if app_obj is None:
+        app = find_best_app(mod) # 找 app 或 application 或型態為 Flask 者
+    else:
+        app = getattr(mod, app_obj, None)
+        if app is None:
+            raise RuntimeError('Failed to find application in module &quot;%s&quot;'
+                               % module)
+
+    return app
+
+def find_default_import_path():
+    app = os.environ.get('FLASK_APP')
+    if app is None:
+        return
+    if os.path.isfile(app): # 是檔案才會調整 sys.path
+        return prepare_exec_for_file(app)
+    return app # 直接視為 module name
+</code></pre>
+
+<pre><code>$ FLASK_APP=myapp flask run
+app_id = 'myapp', cwd = '/Users/jeremykao/data/work/learning/flask/testing', sys.path[:2] = ['/Users/jeremykao/data/work/learning/flask/testing/venv-flask-testing/bin', '/Users/jeremykao/data/work/learning/flask/testing/venv-flask-testing/lib/python27.zip']
+Usage: flask run [OPTIONS]
+
+Error: The file/path provided (myapp) does not appear to exist.  Please verify the path is correct.  If app is not on PYTHONPATH, ensure the extension is .py
+
+$ FLASK_APP=myapp python -m flask run
+app_id = 'myapp', cwd = '/Users/jeremykao/data/work/learning/flask/testing', sys.path[:2] = ['', '/Users/jeremykao/data/work/learning/flask/testing/venv-flask-testing/lib/python27.zip']
+  - Serving Flask app &quot;myapp&quot;
+  - Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+</code></pre>
+
+<p><code>flask run</code> 與 <code>python -m flask run</code> 的差別在於 <code>sys.path[0]</code> 不同，不知道為什麼 <code>sys.path[0]</code> 會指向 <code>flask</code> 指令所在的目錄?</p>
+<h3 id="uwsgi-interactive-debugger">如何在 uWSGI 下啟用 interactive debugger?<a class="headerlink" href="#uwsgi-interactive-debugger" title="Permanent link"> #</a></h3>
+<ul>
+<li><code>FLASK_DEBUG=1 flask run</code> 發生錯誤時會調出 interactive debugger，但同樣的 app 用 <code>uwsgi --module myapp:app</code> 啟用時，發生錯誤只會有 Internal Server Error? 大概是因為 <code>flask run</code> 會參考 <code>FLASK_DEBUG</code> 將 <code>app.debug</code> 設為 <code>True</code>，並啟用 interactive debugger 的關係?</li>
+<li><code>uwsgi --catch-exceptions</code> 搭配 <code>FLASK_DEBUG=1</code> (或在程式裡明確做 <code>app.debug = True</code>) 確實可以在出錯時看到 traeback，但卻沒有 interactive runner，猜想 <code>Flask</code> instance 內部會參考 <code>FLASK_DEBUG</code> 要不要寫出 traceback，但 interactive debugger 則是 <code>flask run</code> 啟用的。</li>
+<li>在程式裡加上下面的程式，並用 <code>UWSGI_DEBUG</code> 控制 (避免使用 <code>flask run</code> 時套用兩層 debugger)，就可以在 staging 環境用 <code>UWSGI_DEBUG=1 uwsgi ...</code> 啟用 app，出問題時可以直接 debug。</li>
+</ul>
+<pre><code>if os.getenv('UWSGI_DEBUG'):
+    app.debug = True
+    from werkzeug.debug import DebuggedApplication
+    app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True, pin_security=False)
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p>python - Flask debug=True does not work when going through uWSGI - Stack Overflow <a href="https://stackoverflow.com/questions/10364854/">https://stackoverflow.com/questions/10364854/</a> #ril</p>
+<ul>
+<li>Edwardr: cannot use Flask&rsquo;s debug option with uWSGI, because it&rsquo;s not to be used in a forking environment. 呼應 <a href="http://flask.pocoo.org/docs/0.12/quickstart/">Quick Start</a> 裡 &ldquo;Even though the interactive debugger does not work in forking environments (which makes it nearly impossible to use on production servers)&rdquo; 的說法；在 uWSGI 裡可以用 <code>--catch-exceptions</code> 模擬 debugger? (只是印出 traceback)</li>
+<li>gonz: 那是 &ldquo;werkzeug error page&rdquo;，所以要用 <code>DebuggedApplication</code> middleware，另外 GaretJax 提到必須要用 single worker (<code>--workers 1</code>)? 試過多個 worker 倒是沒什麼問題<pre><code>from werkzeug.debug import DebuggedApplication
+app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Dubugging Flask applications under uWSGI (2012-10-28) <a href="https://codeseekah.com/2012/10/28/dubugging-flask-applications-under-uwsgi/">https://codeseekah.com/2012/10/28/dubugging-flask-applications-under-uwsgi/</a> 不懂為什麼 Flask 的 debugger 在 uWSGI 下不能用? 這裡用 <code>if app.debug:</code> 來判斷要不要加上 <code>DebuggedApplication</code>，不過這仍會造成用 <code>flask run</code> 執行時有兩層 debugger。</p>
+</li>
+<li>web application - Flask debug=True exploitation - Information Security Stack Exchange <a href="https://security.stackexchange.com/questions/140677/">https://security.stackexchange.com/questions/140677/</a> 出現 <code>DebuggedApplication(app, evalex=True, pin_security=False)</code> 的用法，原來 PIN 是可以關閉的。</li>
+<li>Quickstart — Flask Documentation (0.12) <a href="http://flask.pocoo.org/docs/0.12/quickstart/">http://flask.pocoo.org/docs/0.12/quickstart/</a> Even though the interactive debugger does not work in forking environments (which makes it nearly impossible to use on production servers) 好像有這麼回事? 上面 uWSGI 加上 <code>DebuggedApplication</code> 的做法，有時帶出的 debugger 是不太正常，但大部份時候又能作用 &hellip;</li>
+</ul>
+<h3 id="log">如何將所有錯誤都導到 log 裡?<a class="headerlink" href="#log" title="Permanent link"> #</a></h3>
+<p>參考資料：</p>
+<ul>
+<li>How to Handle Errors in Flask | Damyan&rsquo;s Blog (2015-06-11) <a href="https://damyanon.net/flask-series-logging/">https://damyanon.net/flask-series-logging/</a> 為 <code>app.logger</code> 增加一個 handler，另外也攔截了 500 error 與 unhandled exception #ril</li>
+<li>Logging — Flask Documentation (0.13-dev) <a href="http://flask.pocoo.org/docs/dev/logging/">http://flask.pocoo.org/docs/dev/logging/</a> #ril</li>
+<li>Application Errors — Flask Documentation (0.12) <a href="http://flask.pocoo.org/docs/0.12/errorhandling/">http://flask.pocoo.org/docs/0.12/errorhandling/</a> #ril<ul>
+<li>提到 &ldquo;By default if your application runs in production mode, Flask will display a very simple page for you and log the exception to the logger.&rdquo; 指的是 <code>app.logger</code></li>
+</ul>
+</li>
+<li>log exceptions using app.logger · Issue #192 · pallets/flask <a href="https://github.com/pallets/flask/issues/192">https://github.com/pallets/flask/issues/192</a> #ril</li>
+</ul>
+<h3 id="pdb-flask-app">如何用 pdb 為 Flask app 除錯?<a class="headerlink" href="#pdb-flask-app" title="Permanent link"> #</a></h3>
+<ul>
+<li>The Flask Mega-Tutorial, Part XVI: Debugging, Testing and Profiling - miguelgrinberg.com (2013-03-10) <a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-debugging-testing-and-profiling">https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xvi-debugging-testing-and-profiling</a> #ril</li>
+<li>Debugging Flask app with pdb (2015-05-28) <a href="http://www.pythonforhumans.com/notes/debugging-flask-app-with-pdb">http://www.pythonforhumans.com/notes/debugging-flask-app-with-pdb</a> #ril</li>
+<li>python - Debugging flask with pdb - Stack Overflow <a href="https://stackoverflow.com/questions/26812150/">https://stackoverflow.com/questions/26812150/</a> #ril</li>
+<li>Flask: drop into pdb on exception <a href="https://gist.github.com/alonho/4389137">https://gist.github.com/alonho/4389137</a> #ril</li>
+<li>Python: Using pdb with Flask application - Stack Overflow <a href="https://stackoverflow.com/questions/15726340/">https://stackoverflow.com/questions/15726340/</a> #ril</li>
+</ul>
+<h2 id="json">JSON<a class="headerlink" href="#json" title="Permanent link"> #</a></h2>
+<ul>
+<li>如何判斷 request 是 JSON，讀取 JSON 的內容? =&gt; 用 <code>flask.Request.is_json</code> 判斷 MIME type，用 <code>flask.Request.get_json()</code> 取得 JSON 資料。</li>
+<li>要如何回應 JSON??<ul>
+<li>python - How to return json using Flask web framework - Stack Overflow <a href="http://stackoverflow.com/questions/13081532/">http://stackoverflow.com/questions/13081532/</a> 傳回 <a href="http://flask.pocoo.org/docs/api/#flask.json.jsonify"><code>flask.jsonify(*args, **kwargs)</code></a> 即可。</li>
+</ul>
+</li>
+<li><a href="http://flask.pocoo.org/snippets/119/">Custom Flask JSONEncoder | Flask (A Python Microframework)</a> 覆寫 <code>Flask.json_encoder</code> #ril</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.Flask.json_encoder">json_encoder - API — Flask 1.0.2 documentation</a> alias of <code>flask.json.JSONEncoder</code>，沒講覆寫它可以自訂??</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.json.jsonify">flask.json.jsonify() - API — Flask 1.0.2 documentation</a> #ril<ul>
+<li>This function wraps <code>dumps()</code> to add a few enhancements that make life easier. It turns the JSON output into a <code>Response</code> object with the <code>application/json</code> mimetype.</li>
+</ul>
+</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/api/#flask.json.dumps">flask.json.dumps() - API — Flask 1.0.2 documentation</a> #ril<ul>
+<li>Serialize <code>obj</code> to a JSON formatted <code>str</code> by using the application’s configured encoder (<code>json_encoder</code>) if there is an application on the stack. 看起來改寫 <code>Flask.json_encoder</code> 是可以自訂 JSON encoder 的。</li>
+</ul>
+</li>
+<li>為什麼 <code>flask.json.jsonify</code> 的範例都寫 <code>from flask import jsonify</code> ??</li>
+</ul>
+<h2 id="_1">其他<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="managepy">manage.py 的作用是什麼?<a class="headerlink" href="#managepy" title="Permanent link"> #</a></h3>
+<ul>
+<li>Flask-Script — Flask-Script 0.4.0 documentation <a href="https://flask-script.readthedocs.io/en/latest/">https://flask-script.readthedocs.io/en/latest/</a> 源自這個專案，但 Flask 0.11 後已經內建 CLI tool，應該可以取代? #ril</li>
+<li>Command Line Interface — Flask Documentation (0.12) <a href="http://flask.pocoo.org/docs/0.12/cli/">http://flask.pocoo.org/docs/0.12/cli/</a> #ril</li>
+</ul>
+<h3 id="db-schema-migration">如何實作 DB schema migration?<a class="headerlink" href="#db-schema-migration" title="Permanent link"> #</a></h3>
+<p>參考資料：</p>
+<ul>
+<li>miguelgrinberg/Flask-Migrate: SQLAlchemy database migrations for Flask applications using Alembic <a href="https://github.com/miguelgrinberg/Flask-Migrate">https://github.com/miguelgrinberg/Flask-Migrate</a> 背後用 Alembic #ril</li>
+<li>常用的指令有 <code>./manage.py db upgrade head</code> 昇級到最新版。</li>
+</ul>
+<h3 id="flask_1">如何測試 Flask 應用程式?<a class="headerlink" href="#flask_1" title="Permanent link"> #</a></h3>
+<ul>
+<li>Testing Flask Applications — Flask Documentation <a href="http://flask.pocoo.org/docs/latest/testing/">http://flask.pocoo.org/docs/latest/testing/</a> #ril</li>
+<li><code>test_request_context()</code> 似乎可以用實作 unit testing??</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>建議用 virtualenv 安裝 <code>Flask</code> 套件，安裝完成有 <code>flask</code> 指令可以用。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Welcome | Flask (A Python Microframework) <a href="http://flask.pocoo.org/">http://flask.pocoo.org/</a> <code>pip install Flask</code> 即可安裝。</li>
+<li><a href="http://flask.pocoo.org/docs/1.0/installation/">Installation — Flask 1.0.2 documentation</a><ul>
+<li>支援 Python 3.4+, Python 2.7 及 PyPy；建議採最新版的 Python 3</li>
+<li>會自動安裝 Werkzeug、Jinja、ItsDangerous 及 Clik，另外可以視需求安裝 Blinker、SimpleJSON、python-dotenv 及 Watchdog。</li>
+<li>Werkzeug 實作了 WSGI，做為 application 與 web server 間的標準 Python interface。</li>
+<li>Jinja 是一種 template language，用來畫 (render) web pages；Jinja 會帶出 MarkupSafe &ndash; 將 untrusted input 做 escape，避免 injection 攻擊。</li>
+<li>ItsDangerous 可以做數位簽章 (signing)，Flask 用它來確保 session cookie 沒有被動過手腳 (integrity)。</li>
+<li>Click 可以用來寫 CLI，它提供了 <code>flask</code> command，還可以自訂其他 management command</li>
+<li>Blinker 讓 Flask 支援 signal 的概念 ??</li>
+<li>SimpleJSON 相容於 Python 內建的 <code>json</code> module，但是更快；<a href="https://github.com/pallets/flask/blob/master/docs/api.rst#json-support">如果有安裝的話，Flask 會優先採用它</a></li>
+<li>python-dotenv 讓 <code>flask</code> command 支援 dotenv (<code>.env</code>)</li>
+<li>Watchdog 提供更好的 reloader 讓 development server 使用。</li>
+<li>在 dev/prod 都建議用 virtual environment 管理 dependencies；Python 3 內建 <code>venv</code> module，Python 2 則要加裝 <code>virtualenv</code> 套件。</li>
+</ul>
+</li>
+<li><a href="http://flask.pocoo.org/docs/0.12/installation/">Installation — Flask 0.12.4 documentation</a> 支援 Python 2.6+ 與 Python 3，最快的方法 (kick-ass method) 是用 virtualenv。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://flask.pocoo.org/">Flask</a></li>
+<li><a href="https://github.com/pallets/flask">pallets/flask - GitHub</a></li>
+<li><a href="https://pypi.org/project/Flask/">Flask - PyPI</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://www.packtpub.com/web-development/flask-blueprints">Flask Blueprints - PACKT</a> (2015-11)</li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../flask-template/">Template</a></li>
+<li><a href="../flask-error/">Error Handling</a></li>
+<li><a href="../flask-testing/">Testing</a></li>
+<li><a href="../flask-uploading/">Uploading/Downloading</a></li>
+<li><a href="../flask-arch/">Architecture</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li>
+<p><a href="http://flask.pocoo.org/docs/api/">Flask API</a></p>
+<ul>
+<li><a href="http://flask.pocoo.org/docs/api/#flask.Flask"><code>flask.Flask</code></a></li>
+<li><a href="http://flask.pocoo.org/docs/api/#flask.Request"><code>flask.Request</code></a></li>
+<li><a href="http://flask.pocoo.org/docs/api/#flask.Response"><code>flask.Response</code></a></li>
+<li><a href="http://flask.pocoo.org/docs/api/#flask.url_for"><code>flask.url_for()</code></a></li>
+<li><a href="http://flask.pocoo.org/docs/api/#flask.json.jsonify"><code>flask.jsonify()</code></a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://werkzeug.palletsprojects.com/en/0.15.x/wrappers/#werkzeug.wrappers.BaseRequest">class <code>werkzeug.wrappers.BaseRequest</code></a></p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

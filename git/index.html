@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/git/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Git - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/git.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#git">Git</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#revision-reachable">Revision, Reachable ??</a></li>
+                
+            <li class="second-level"><a href="#shallow-clone-clone-depth">Shallow Clone, Clone Depth ??</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="git">Git<a class="headerlink" href="#git" title="Permanent link"> #</a></h1>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">Git - About Version Control</a> #ril</li>
+<li><a href="https://marklodato.github.io/visual-git-guide/index-en.html#rebase">A Visual Git Reference</a> #ril</li>
+</ul>
+<h2 id="revision-reachable">Revision, Reachable ??<a class="headerlink" href="#revision-reachable" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection">Git - Revision Selection</a> #il</p>
+<ul>
+<li>
+<p>By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.</p>
+<p>Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.</p>
+</li>
+<li>
+<p>Revision Selection &ndash; Git allows you to refer to a SINGLE commit, SET of commits, or RANGE of commits in a number of ways. They aren’t necessarily obvious but are helpful to know.</p>
+</li>
+</ul>
+<p>Single Revisions</p>
+<ul>
+<li>You can obviously refer to any single commit by its FULL, 40-character SHA-1 hash, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to any commit.</li>
+</ul>
+<p>Single Revisions &gt; Short SHA-1</p>
+<ul>
+<li>
+<p>Git is smart enough to figure out what commit you’re referring to if you provide the FIRST FEW CHARACTERS of the SHA-1 hash, as long as that partial hash is AT LEAST FOUR CHARACTERS long and unambiguous; that is, no other object in the object database can have a hash that begins with the same prefix.</p>
+<p>For example, to examine a specific commit where you know you added certain functionality, you might first run the <code>git log</code> command to locate the commit:</p>
+<pre><code>$ git log
+...
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 14:58:32 2008 -0800
+
+    added some blame and merge stuff
+</code></pre>
+<p>In this case, say you’re interested in the commit whose hash begins with <code>1c002dd...</code>. You can inspect that commit with any of the following variations of <code>git show</code> (assuming the shorter versions are unambiguous):</p>
+<pre><code>$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+$ git show 1c002dd4b536e7479f
+$ git show 1c002d
+</code></pre>
+<p>Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass <code>--abbrev-commit</code> to the <code>git log</code> command, the output will use shorter values but keep them unique; it defaults to using SEVEN characters but makes them longer if necessary to keep the SHA-1 unambiguous:</p>
+<pre><code>$ git log --abbrev-commit --pretty=oneline
+ca82a6d changed the version number
+085bb3b removed unnecessary test code
+a11bef0 first commit
+</code></pre>
+</li>
+<li>
+<p>Generally, EIGHT TO TEN characters are more than enough to be unique within a project. For example, as of February 2019, the Linux kernel (which is a fairly sizable project) has over 875,000 commits and almost seven million objects in its object database, with no two objects whose SHA-1s are identical in the first 12 characters.</p>
+<p>就算是 Linux kernel 這麼大的專案，前 12 個字元就足以識別單一 commit，幾乎沒機會用到 40 個字元。</p>
+</li>
+</ul>
+<p>Single Revisions &gt; Branch References</p>
+<ul>
+<li>
+<p>One straightforward way to refer to a particular commit is if it’s the commit at the TIP OF A BRANCH; in that case, you can simply use the branch name in any Git command that expects a reference to a commit. For instance, if you want to examine the last commit object on a branch, the following commands are equivalent, assuming that the <code>topic1</code> branch points to commit <code>ca82a6d...</code>:</p>
+<pre><code>$ git show ca82a6dff817ec66f44342007202690a93763949
+$ git show topic1
+</code></pre>
+</li>
+<li>
+<p>If you want to see which specific SHA-1 a branch points to, or if you want to see what any of these examples BOILS DOWN TO in terms of SHA-1s, you can use a Git plumbing tool called <code>rev-parse</code>. You can see Git Internals for more information about plumbing tools; basically, <code>rev-parse</code> exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run <code>rev-parse</code> on your branch.</p>
+<pre><code>$ git rev-parse topic1
+ca82a6dff817ec66f44342007202690a93763949
+</code></pre>
+</li>
+</ul>
+<p>Single Revisions &gt; RefLog Shortnames</p>
+<ul>
+<li>
+<p>One of the things Git does in the background while you’re working away is keep a “reflog” — a log of where your HEAD and branch references have been FOR THE LAST FEW MONTHS.</p>
+<p>You can see your reflog by using <code>git reflog</code>:</p>
+<pre><code>$ git reflog
+734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+d921970 HEAD@{1}: merge phedders/rdocs: Merge made by the 'recursive' strategy.
+1c002dd HEAD@{2}: commit: added some blame and merge stuff
+1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+95df984 HEAD@{4}: commit: # This is a combination of two commits.
+1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
+</code></pre>
+<p>Every time your BRANCH TIP is updated for any reason, Git stores that information for you in this TEMPORARY HISTORY. You can use your reflog data to refer to older commits as well. For example, if you want to see the fifth prior value of the HEAD of your repository, you can use the <code>@{5}</code> reference that you see in the reflog output:</p>
+<pre><code>$ git show HEAD@{5}
+</code></pre>
+<p>發現 <code>git reflog</code> 在本地做 code review 時很方便，因為 <code>git pull --rebase</code> 造成的 HEAD 改變，都會初記錄下來，例如：</p>
+<pre><code>$ git reflog
+c5c0828 (HEAD -&gt; init, origin/init) HEAD@{0}: rebase finished: returning to refs/heads/init
+c5c0828 (HEAD -&gt; init, origin/init) HEAD@{1}: pull --rebase: checkout c5c082895d626c0f61c197f99b3eacff42c228ae
+5f9837a HEAD@{2}: rebase finished: returning to refs/heads/init
+5f9837a HEAD@{3}: pull --rebase: checkout 5f9837ae0acdc29eb0a36c48dc540af4969e8342
+
+$ git diff HEAD@{2}.. # 寫成 head@{2} 也可以
+</code></pre>
+<p>可以看出使用者從我們上次 pull (上次最新的 code) 到這次又改了什麼。</p>
+</li>
+<li>
+<p>You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your <code>master</code> branch was yesterday, you can type</p>
+<pre><code>$ git show master@{yesterday}
+</code></pre>
+</li>
+<li>
+<p>That would show you where tip of your <code>master</code> branch was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.</p>
+</li>
+<li>
+<p>To see reflog information formatted like the <code>git log</code> output, you can run <code>git log -g</code>:</p>
+<pre><code>$ git log -g master
+commit 734713bc047d87bf7eac9674765ae793478c50d3
+Reflog: master@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: commit: fixed refs handling, added gc auto, updated
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Fri Jan 2 18:32:33 2009 -0800
+
+    fixed refs handling, added gc auto, updated tests
+
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Reflog: master@{1} (Scott Chacon &lt;schacon@gmail.com&gt;)
+Reflog message: merge phedders/rdocs: Merge made by recursive.
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800
+
+    Merge commit 'phedders/rdocs'
+</code></pre>
+<p>雖然揭露了時間，但如果有用 <code>git commit --amend</code> 修改現有的 commit，該 commit 的時間點並不會變。</p>
+</li>
+<li>
+<p>It’s important to note that reflog information is STRICTLY LOCAL — it’s a log only of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; also, right after you INITIALLY CLONE a repository, you’ll have an EMPTY reflog, as no ACTIVITY has occurred yet in your repository.</p>
+<p>Running <code>git show HEAD@{2.months.ago}</code> will show you the matching commit only if you cloned the project at least two months ago — if you cloned it any more recently than that, you’ll see only your first local commit.</p>
+<p>要大家都一樣，要改用下面 ancestry reference 的表示法。</p>
+</li>
+<li>
+<p>Tip: Think of the reflog as Git’s version of shell history</p>
+<p>If you have a UNIX or Linux background, you can think of the reflog as GIT’S VERSION OF SHELL HISTORY, which emphasizes that what’s there is clearly relevant only for you AND YOUR “SESSION”, and has nothing to do with anyone else who might be working on the same machine.</p>
+</li>
+</ul>
+<p>Single Revisions &gt; Ancestry References</p>
+<ul>
+<li>
+<p>The other main way to specify a commit is via its ancestry. If you place a <code>^</code> (caret) at the end of a reference, Git resolves it to mean the PARENT OF THAT COMMIT. Suppose you look at the history of your project:</p>
+<pre><code>$ git log --pretty=format:'%h %s' --graph
+* 734713b fixed refs handling, added gc auto, updated tests
+*   d921970 Merge commit 'phedders/rdocs'
+|\
+| * 35cfb2b Some rdoc changes
+* | 1c002dd added some blame and merge stuff
+|/
+* 1c36188 ignore *.gem
+* 9b29157 add open3_detach to gemspec file list
+</code></pre>
+<p>Then, you can see the previous commit by specifying <code>HEAD^</code>, which means “the parent of HEAD”:</p>
+<pre><code>$ git show HEAD^
+commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+Merge: 1c002dd... 35cfb2b...
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 15:08:43 2008 -0800
+
+    Merge commit 'phedders/rdocs'
+</code></pre>
+</li>
+<li>
+<p>Note: Escaping the caret on Windows</p>
+<p>On Windows in <code>cmd.exe</code>, <code>^</code> is a special character and needs to be treated differently. You can either double it or put the commit reference in quotes:</p>
+<pre><code>$ git show HEAD^     # will NOT work on Windows
+$ git show HEAD^^    # OK
+$ git show "HEAD^"   # OK
+</code></pre>
+</li>
+<li>
+<p>You can also specify a number after the <code>^</code> to identify which parent you want; for example, <code>d921970^2</code> means “the second parent of d921970.” This syntax is useful only for MERGE COMMITS, which HAVE MORE THAN ONE PARENT — the first parent of a merge commit is from the branch you were on when you merged (frequently <code>master</code>), while the second parent of a merge commit is from the branch that was merged (say, topic):</p>
+<pre><code>$ git show d921970^
+commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+Author: Scott Chacon &lt;schacon@gmail.com&gt;
+Date:   Thu Dec 11 14:58:32 2008 -0800
+
+    added some blame and merge stuff
+
+$ git show d921970^2
+commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
+Author: Paul Hedderly &lt;paul+git@mjr.org&gt;
+Date:   Wed Dec 10 22:22:03 2008 +0000
+
+    Some rdoc changes
+</code></pre>
+<p>在 merge 之後，如何分辨誰是第一個 parent ??</p>
+</li>
+<li>
+<p>The other main ancestry specification is the <code>~</code> (tilde). This also refers to the FIRST PARENT, so <code>HEAD~</code> and <code>HEAD^</code> are equivalent. The difference becomes apparent when you specify a number. <code>HEAD~2</code> means “the first parent of the first parent,” or “the grandparent” — it traverses the first parents the number of times you specify. For example, in the history listed earlier, <code>HEAD~3</code> would be</p>
+<pre><code>$ git show HEAD~3
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
+
+    ignore *.gem
+</code></pre>
+<p>This can also be written <code>HEAD~~~</code>, which again is the first parent of the first parent of the first parent:</p>
+<pre><code>$ git show HEAD~~~
+commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+Author: Tom Preston-Werner &lt;tom@mojombo.com&gt;
+Date:   Fri Nov 7 13:47:59 2008 -0500
+
+    ignore *.gem
+</code></pre>
+<p>很明顯地，實務上 <code>~</code> 會比 <code>^</code> 來得常用。</p>
+</li>
+<li>
+<p>You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using <code>HEAD~3^2</code>, and so on.</p>
+<p>不過 <code>^</code> 後面接的數字最大也只是 2，應該不會有更多 parent ??</p>
+</li>
+</ul>
+<p>Commit Ranges</p>
+<ul>
+<li>
+<p>Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, “What work is on this branch that I HAVEN’T YET MERGED into my main branch?”</p>
+<p>這裡 haven&rsquo;t yet merged 暗示著，已經 cherry-pick 過的 change/commit 就會被濾除。</p>
+</li>
+</ul>
+<p>Commit Ranges &gt; Double Dot</p>
+<ul>
+<li>
+<p>The MOST COMMON range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are REACHABLE from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Example history for range selection..</p>
+<p><img alt="Figure 137. Example history for range selection." src="https://git-scm.com/book/en/v2/images/double-dot.png" /></p>
+<p>Say you want to see what is in your <code>experiment</code> branch that hasn’t yet been merged into your <code>master</code> branch. You can ask Git to show you a log of just those commits with <code>master..experiment</code> — that means “all commits reachable from experiment that aren’t reachable from master.” For the sake of brevity and clarity in these examples, the letters of the commit objects from the diagram are used in place of the actual log output in the order that they would display:</p>
+<pre><code>$ git log master..experiment
+D
+C
+</code></pre>
+</li>
+<li>
+<p>If, on the other hand, you want to see the opposite — all commits in master that aren’t in experiment — you can reverse the branch names. <code>experiment..master</code> shows you everything in <code>master</code> not reachable from <code>experiment</code>:</p>
+<pre><code>$ git log experiment..master
+F
+E
+</code></pre>
+<p>This is useful if you want to keep the <code>experiment</code> branch up to date and preview what you’re about to merge.</p>
+<p>用 <code>git log &lt;FROM&gt;..&lt;TO&gt;</code> 來看就會很直覺，預設採 <code>HEAD</code> (不含 <code>FROM</code> 本身)，常見的用法有：</p>
+<ul>
+<li>目前 topic branch 相較 master 多出什麼 &ndash; <code>git log master..</code></li>
+<li>目前 topic branch 相較 master 少了什麼，要 porting 過來 &ndash; <code>git log ..master</code></li>
+</ul>
+</li>
+<li>
+<p>Another frequent use of this syntax is to see what you’re about to push to a remote:</p>
+<pre><code>$ git log origin/master..HEAD
+</code></pre>
+<p>This command shows you any commits in your current branch that aren’t in the <code>master</code> branch on your origin remote. If you run a <code>git push</code> and your current branch is tracking <code>origin/master</code>, the commits listed by <code>git log origin/master..HEAD</code> are the commits that will be transferred to the server.</p>
+</li>
+<li>
+<p>You can also leave off one side of the syntax to have Git assume <code>HEAD</code>. For example, you can get the same results as in the previous example by typing <code>git log origin/master..</code> — Git substitutes <code>HEAD</code> if one side is missing.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://git-scm.com/docs/gitrevisions">Git - gitrevisions Documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="shallow-clone-clone-depth">Shallow Clone, Clone Depth ??<a class="headerlink" href="#shallow-clone-clone-depth" title="Permanent link"> #</a></h2>
+<ul>
+<li>Shallow clone 最明顯的特徵是 <code>git log</code> 只會看到一筆記錄。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/2144406/">How to make shallow git submodules? - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>Mauricio Scheffer: Is it possible to have shallow submodules? I have a superproject with several submodules, each with a long history, so it gets unnecessarily big dragging all that history.</p>
+</li>
+<li>
+<p>VonC: New in the upcoming git1.8.4 (July 2013):</p>
+<blockquote>
+<p>&ldquo;git submodule update&rdquo; can optionally clone the submodule repositories shallowly.</p>
+</blockquote>
+<p>See <a href="https://github.com/git/git/commit/275cd184d52b5b81cb89e4ec33e540fb2ae61c1f">commit 275cd184d52b5b81cb89e4ec33e540fb2ae61c1f</a>:</p>
+<blockquote>
+<p>Add the <code>--depth</code> option to the <code>add</code> and <code>update</code> commands of &ldquo;<code>git submodule</code>&rdquo;, which is then passed on to the <code>clone</code> command. This is useful when the submodule(s) are huge and you&rsquo;re not really interested in anything but the latest commit.</p>
+</blockquote>
+<p>因為參數是交給 <code>clone</code> 的關係，所以 <code>--depth</code> 只作用在個別的 <code>add</code>/<code>update</code>，並沒有記錄下來。</p>
+<p>With Git 2.10 (Q3 2016), you will be able to do</p>
+<pre><code>git config -f .gitmodules submodule.&lt;name&gt;.shallow true
+</code></pre>
+<p>其實就在 <code>.gitmodules</code> 裡為指定的 submodule 加上 <code>shallow = true</code> 的宣告。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/jonas/tig">jonas/tig: Text-mode interface for git</a> #ril</li>
+<li><a href="https://github.com/jesseduffield/lazygit">jesseduffield/lazygit: simple terminal UI for git commands</a> #ril</li>
+<li><a href="https://github.com/tj/git-extras">tj/git-extras: GIT utilities -- repo summary, repl, changelog population, author commit percentages and more</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/git/git">git/git - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/git-rebase">&lsquo;git-rebase&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../git-history/">Commit History</a></li>
+<li><a href="git-diff-pactch.md">Diff &amp; Patch</a></li>
+<li><a href="../git-message/">Commit Message</a></li>
+<li><a href="../git-rebase/">Rebasing</a></li>
+<li><a href="../git-hook/">Hook</a></li>
+<li><a href="../git-submodule/">Submodule</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://git-scm.com/docs">Git Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/click/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Click - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/click.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#click">Click</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#parameter-option-argument">Parameter, Option, Argument ??</a></li>
+                
+            <li class="second-level"><a href="#validation">Validation ??</a></li>
+                
+            <li class="second-level"><a href="#nesting-commands">Nesting Commands ??</a></li>
+                
+            <li class="second-level"><a href="#help-page">Help Page ??</a></li>
+                
+            <li class="second-level"><a href="#share-options">在 Parent/Sub Command 間共用 Option</a></li>
+                
+            <li class="second-level"><a href="#">用 Class 來實作 Subcommand ??</a></li>
+                
+            <li class="second-level"><a href="#testing">Testing ??</a></li>
+                
+            <li class="second-level"><a href="#slack-slash-command">Slack Slash Command ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="click">Click<a class="headerlink" href="#click" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/">Welcome to Click — Click Documentation (7.x)</a></p>
+<ul>
+<li>
+<p>Click is a Python package for creating beautiful command line interfaces in a COMPOSABLE way with as little code as necessary. It’s the “Command Line Interface Creation Kit”. It’s HIGHLY CONFIGURABLE but comes with SENSIBLE DEFAULTS out of the box.</p>
+<p>按 <a href="https://en.wikipedia.org/wiki/Composability">Composability - Wikipedia</a> 的說法 &ndash; &ldquo;A highly composable system provides components that can be selected and ASSEMBLED IN VARIOUS COMBINATIONS to satisfy specific user requirements.&rdquo;，就是可以任意組合的設計，猜想文件一直提到的 composable/composibility 指的就是 &ldquo;subcommand/option/argument 編輯的自由度&rdquo;?</p>
+<p>不過其中的 highly configurable，不包含 help message/page，下面會說明。</p>
+</li>
+<li>
+<p>It aims to make the process of writing command line tools quick and fun while also preventing any frustration caused by the INABILITY to implement an intended CLI API.</p>
+</li>
+<li>
+<p>Click in three points:</p>
+<ul>
+<li>arbitrary nesting of commands 也就是 subcommand</li>
+<li>automatic help page generation 下面 <code>$ python hello.py --help</code> 輸出還滿像樣的，沒有像 <a href="../python-fire/">Python Fire</a> help message 很鳥的問題。</li>
+<li>supports lazy loading of subcommands at runtime 如果 subcommand 的實作很大，但一般情況沒什麼差。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/why/">Why Click? — Click Documentation (7.x)</a></p>
+<ul>
+<li>
+<p>There are so many libraries out there for writing command line utilities; why does Click exist? This question is easy to answer: because there is not a single command line utility for Python out there which ticks the following boxes:</p>
+<ul>
+<li>is LAZILY COMPOSABLE without restrictions</li>
+<li>supports implementation of Unix/POSIX command line CONVENTIONS 符合使用慣例很重要，CLI 該有的樣子</li>
+<li>supports loading values from ENVIRONMENT VARIABLES out of the box 可惜環境變數不會出現在 help message 裡；可以自行補充嗎??</li>
+<li>supports for prompting of custom values 尤其需要輸入密碼時</li>
+<li>is fully nestable and composable</li>
+<li>works the same in Python 2 and 3</li>
+<li>supports file handling out of the box ??</li>
+<li>comes with useful common HELPERS (getting terminal dimensions, ANSI colors, fetching direct keyboard input, screen clearing, finding config paths, launching apps and editors, etc.) 省掉很多事</li>
+</ul>
+</li>
+<li>
+<p>There are many alternatives to Click and you can have a look at them if you enjoy them better. The obvious ones are <code>optparse</code> and <code>argparse</code> from the standard library. 雖然 Click 是基於 <code>optparse</code>，但根本不能比吧?</p>
+</li>
+<li>
+<p>Click actually implements ITS OWN PARSING of arguments and does not use <code>optparse</code> or <code>argparse</code> following the <code>optparse</code> parsing behavior. The reason it’s not based on <code>argparse</code> is that <code>argparse</code> does not allow proper NESTING OF COMMANDS by design and has some deficiencies when it comes to POSIX COMPLIANT ARGUMENT HANDLING.</p>
+<p>這跟下面 &ldquo;internally based on <code>optparse</code>&rdquo; 的說法衝突，不過 argument handling 不足的地方是指??</p>
+</li>
+<li>
+<p>Click is designed to be fun to work with and at the same time not stand in your way. It’s not OVERLY FLEXIBLE either. Currently, for instance, it does not allow you to customize the help pages too much. This is intentional because Click is designed to allow you to NEST command line utilities. The idea is that you can have a system that works together with another system by tacking two Click instances together and they will continue working as they should. 不懂為何 nest command (也就是 subcommand) 的支援跟 &ldquo;works together with another system&rdquo; 有關?? 又自訂 help page 跟 nesting 有什麼關係??</p>
+<p>Too much customizability would break this promise. 所幸 help page 看起來還不錯，不太需要自訂。</p>
+</li>
+<li>
+<p>Click was written to support the Flask microframework ecosystem because no tool could provide it with the functionality it needed.</p>
+<p>所以 <a href="http://flask.pocoo.org/docs/1.0/cli/">Flask CLI</a> 的那一塊是其他 library 不支援的??</p>
+</li>
+<li>
+<p>To get an understanding of what Click is all about, I strongly recommend looking at the Complex Applications chapter to see what it’s useful for. 複雜的應用才能看出 Click 的能耐</p>
+</li>
+</ul>
+<p>Why not Argparse?</p>
+<ul>
+<li>
+<p>Click is internally based on <code>optparse</code> instead of <code>argparse</code>. This however is an implementation detail that a user does not have to be concerned with. The reason however Click is not using <code>argparse</code> is that it has some problematic behaviors that make handling arbitrary command line interfaces hard:</p>
+<ul>
+<li><code>argparse</code> has built-in magic behavior to GUESS if something is an ARGUMENT or an OPTION. This becomes a problem when dealing with INCOMPLETE command lines as it’s not possible to know without having a full understanding of the command line how the parser is going to behave. This goes against Click’s ambitions of dispatching to SUBPARSERS. 若 subcommand 的用法不完整，也要能由 subcommand 指出錯誤的意思??</li>
+<li><code>argparse</code> currently does not support disabling of interspersed (散置的) arguments. Without this feature it’s not possible to safely implement Click’s NESTED PARSING nature.</li>
+</ul>
+</li>
+</ul>
+<p>Why not Docopt etc.?</p>
+<ul>
+<li>
+<p>Docopt and many tools like it are cool in how they work, but very few of these tools deal with nesting of commands and composability in a way like Click. To the best of the developer’s knowledge, Click is the first Python library that aims to create a level of COMPOSABILITY of applications that goes beyond what the system itself supports. 超越 OS 對 CLI 的支持??</p>
+</li>
+<li>
+<p>Docopt, for instance, acts by PARSING YOUR HELP PAGES and then parsing according to those rules. The side effect of this is that docopt is quite rigid (死板的) in how it handles the command line interface. The upside of docopt is that it gives you STRONG CONTROL OVER YOUR HELP PAGE; the downside is that due to this it cannot REWRAP your output for the current terminal width and it makes translations hard. On top of that docopt is restricted to basic parsing. It does not handle ARGUMENT DISPATCHING and callback invocation or TYPES. This means there is a lot of code that needs to be written in addition to the basic help page to handle the parsing results.</p>
+<p>為了美美的 help page 導致許多雜事都要自己來，好像不怎麼划算? 畢竟 CLI 的重點是 command line 的 UX。</p>
+</li>
+<li>
+<p>Most of all, however, it makes composability hard. While docopt does support dispatching to subcommands, it for instance does not directly support any kind of AUTOMATIC SUBCOMMAND ENUMERATION?? based on what’s available or it does not enforce subcommands to work in a consistent way.</p>
+</li>
+<li>
+<p>This is fine, but it’s different from how Click wants to work. Click aims to support fully composable command line user interfaces by doing the following:</p>
+<ul>
+<li>Click does not just parse, it also DISPATCHES to the appropriate code. 從首頁的範例就可以看出，直接對應到 function。</li>
+<li>Click has a strong concept of an INVOCATION CONTEXT?? that allows subcommands to respond to DATA FROM THE PARENT COMMAND. 什麼情況下需要拿 parent data??</li>
+<li>Click has strong information available for all parameters and commands so that it can generate UNIFIED help pages for the full CLI and to assist the user in converting the input data as necessary.</li>
+<li>Click has a strong understanding of what types are and can give the user CONSISTENT ERROR MESSAGES if something goes wrong. (也要符合慣例) A subcommand written by a different developer will not suddenly die with a different error message because it’s manually handled.</li>
+<li>Click has enough META INFORMATION available for its whole program that it can evolve over time to improve the user experience without forcing developers to adjust their programs. For instance, if Click decides to change how help pages are formatted, all Click programs will automatically benefit from this.</li>
+</ul>
+</li>
+<li>
+<p>The aim of Click is to make COMPOSABLE systems, whereas the aim of docopt is to build the most BEAUTIFUL and hand-crafted command line interfaces. (針對 help page，但重點還是 elegant UX) These two goals conflict with one another in subtle ways. Click actively prevents people from implementing certain patterns in order to achieve UNIFIED command line interfaces. You have very little input on reformatting your help pages for instance.</p>
+</li>
+</ul>
+<p>Why Hardcoded Behaviors?</p>
+<ul>
+<li>The other question is why Click goes away from <code>optparse</code> and hardcodes certain behaviors instead of staying configurable. There are multiple reasons for this. The biggest one is that too much configurability makes it hard to achieve a CONSISTENT COMMAND LINE EXPERIENCE.</li>
+<li>The best example for this is <code>optparse</code>’s callback functionality for accepting an arbitrary number of arguments. Due to syntactical ambiguities on the command line, there is no way to implement fully variadic?? arguments. There are always tradeoffs that need to be made and in case of <code>argparse</code> these tradeoffs have been critical enough, that a system like Click cannot even be implemented on top of it. 採用 <code>argparse</code> 會失去某些彈性?</li>
+<li>In this particular case, Click attempts to stay with A HANDFUL OF ACCEPTED PARADIGMS for building command line interfaces that can be well documented and tested.</li>
+</ul>
+<p>Why No Auto Correction?</p>
+<ul>
+<li>The question came up why Click does not auto correct parameters given that even <code>optparse</code> and <code>argparse</code> support automatic expansion?? of long arguments. The reason for this is that it’s a liability (不利條件) for backwards compatibility. If people start relying on automatically modified parameters and someone adds a new parameter in the future, the script might stop working. These kinds of problems are hard to find so Click does not attempt to be magical about this. 聽起來 &ldquo;auto correction&rdquo; 有點危險??</li>
+<li>This sort of behavior however can be implemented on a higher level to support things such as explicit ALIASES. For more information see Command Aliases. #ril</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/">Welcome to Click — Click Documentation (7.x)</a></p>
+<ul>
+<li>
+<p>What does it look like? Here is an example of a simple Click program:</p>
+<pre><code>import click
+
+@click.command() &lt;-- 大量的 decorator
+@click.option('--count', default=1, help='Number of greetings.')
+@click.option('--name', prompt='Your name',
+              help='The person to greet.')
+def hello(count, name): &lt;-- 把 function 直接當 command 用，這點跟 Python Fire 很像
+    """Simple program that greets NAME for a total of COUNT times."""
+    for x in range(count):
+        click.echo('Hello %s!' % name)
+
+if __name__ == '__main__':
+    hello() &lt;-- 雖然 hello() 要兩個參數，但呼叫的對像是 decorator 包裝過的版本
+</code></pre>
+<p>And what it looks like when run:</p>
+<pre><code>$ python hello.py --count=3
+Your name: John &lt;-- prompt 參數在作用
+Hello John!
+Hello John!
+Hello John!
+</code></pre>
+<p>It automatically generates nicely formatted help pages: 看起來滿像樣的!!</p>
+<pre><code>$ python hello.py --help
+Usage: hello.py [OPTIONS]
+
+  Simple program that greets NAME for a total of COUNT times.
+
+Options:
+  --count INTEGER  Number of greetings.
+  --name TEXT      The person to greet.
+  --help           Show this message and exit.
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/complex/">Complex Applications — Click Documentation (7.x)</a> #ril</p>
+</li>
+</ul>
+<h2 id="parameter-option-argument">Parameter, Option, Argument ??<a class="headerlink" href="#parameter-option-argument" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/#click.Parameter">Class <code>click.Parameter</code> - API — Click Documentation (7.x)</a> #ril</p>
+<pre><code>class click.Parameter(param_decls=None, type=None, required=False, default=None, callback=None, nargs=None, metavar=None, expose_value=True, is_eager=False, envvar=None, autocompletion=None)
+</code></pre>
+<ul>
+<li>
+<p>A parameter to a command comes in two versions: they are either <code>Option</code>s or <code>Argument</code>s. Other subclasses are currently not supported by design as some of the internals for parsing are intentionally NOT FINALIZED.</p>
+<p>Some settings are supported by both options and arguments.</p>
+<p>泛稱做 parameter，再進一步區分為前面通常是 optional 的 option，與後面通常是 required 的 argument；也因此 option 與 argument 有一些通用的特性。</p>
+</li>
+<li>
+<p>Changed in version 2.0: Changed signature for parameter <code>callback</code> to also be passed the parameter. In Click 2.0, the old callback format will still work, but it will raise a warning to give you change to migrate the code easier. ??</p>
+</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>param_decls</code></p>
+<p>the parameter declarations for this option or argument. This is a list of FLAGS or ARGUMENT NAMES.</p>
+<p>其中 &ldquo;flag&rdquo; 的說法是針對 option，因為是 <code>-x</code> 或 <code>--xxx</code> 的用法。</p>
+</li>
+<li>
+<p><code>type</code></p>
+<p>the type that should be used. Either a <code>ParamType</code> or a Python type. The later is converted into the former automatically if supported.</p>
+<p>似乎沒有現成的 <code>ParamType</code> 可用 ??</p>
+</li>
+<li>
+<p><code>required</code></p>
+<p>controls if this is optional or not.</p>
+<p>如果不是 required 又沒有 default，會拿到 <code>None</code> ??</p>
+</li>
+<li>
+<p><code>default</code></p>
+<p>the default value if omitted. This can also be a CALLABLE, in which case it’s invoked when the default is needed WITHOUT ANY ARGUMENTS.</p>
+<p>支持 callable 這一點還滿酷的，不用在 import time 就決定 default value。</p>
+</li>
+<li>
+<p><code>callback</code></p>
+<p>a callback that should be executed AFTER the parameter was MATCHED. This is called as <code>fn(ctx, param, value)</code> and needs to return the value. Before Click 2.0, the signature was <code>(ctx, value)</code>.</p>
+<p>看似有機會把傳進來的 <code>value</code> 加工過，不過 <code>value</code> 是經過 <code>type</code> 轉換的 ??</p>
+</li>
+<li>
+<p><code>nargs</code></p>
+<p>the number of arguments to match. If not <code>1</code> the return value is a TUPLE instead of single value. The default for <code>nargs</code> is 1 (except if the type is a tuple, then it’s the arity of the tuple).</p>
+</li>
+<li>
+<p><code>metavar</code></p>
+<p>how the value is REPRESENTED IN THE HELP PAGE.</p>
+</li>
+<li>
+<p><code>expose_value</code></p>
+<p>if this is <code>True</code> then the value is passed onwards to the COMMAND CALLBACK and stored on the context, otherwise it’s skipped. ??</p>
+</li>
+<li>
+<p><code>is_eager</code></p>
+<p>eager values are PROCESSED BEFORE NON EAGER ONES. This should not be set for arguments or it will inverse the order of processing.</p>
+<p>感覺跨多個 paramter 的驗證可以利用這個 ??</p>
+</li>
+<li>
+<p><code>envvar</code></p>
+<p>a string or LIST OF STRINGS that are environment variables that should be checked.</p>
+<p>對應多個環境變數是什麼概念?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/#click.Option">Class <code>click.Option</code> - API — Click Documentation (7.x)</a> #ril</p>
+<pre><code>class click.Option(param_decls=None, show_default=False, prompt=False, confirmation_prompt=False, hide_input=False, is_flag=None, flag_value=None, multiple=False, count=False, allow_from_autoenv=True, type=None, help=None, hidden=False, show_choices=True, show_envvar=False, **attrs)
+</code></pre>
+<ul>
+<li>
+<p>Options are USUALLY OPTIONAL values on the command line and have some extra features that arguments don’t have.</p>
+<p>All other parameters are passed onwards to the parameter constructor.</p>
+</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>show_default</code></p>
+<p>controls if the default value should be shown on the help page. Normally, defaults are NOT shown. If this value is a string, it shows the string INSTEAD OF THE VALUE. This is particularly useful for DYNAMIC OPTIONS. ??</p>
+</li>
+<li>
+<p><code>show_envvar</code></p>
+<p>controls if an environment variable should be shown on the help page. Normally, environment variables are NOT shown.</p>
+</li>
+<li>
+<p><code>prompt</code></p>
+<p>if set to <code>True</code> or a non empty string then the user will be prompted for input. If set to <code>True</code> the prompt will be the option name capitalized.</p>
+<p>主要是用來自訂提示文件，但設為 <code>True</code> 時會自動從 option name 轉換出提示文字。</p>
+<p><code>prompt</code> 在控制使用者沒有提供 option 時要不要提示輸入，跟有沒有預設值無關；搭配 <code>default</code> 使用時，只是會一併提示預設值而已，除非 <code>hide_input</code> 設為 <code>True</code>。</p>
+</li>
+<li>
+<p><code>confirmation_prompt</code></p>
+<p>if set then the value will need to be confirmed if it was prompted for.</p>
+</li>
+<li>
+<p><code>hide_input</code></p>
+<p>if this is <code>True</code> then the input on the PROMPT will be hidden from the user. This is useful for password input.</p>
+</li>
+<li>
+<p><code>is_flag</code></p>
+<p>forces this option to act as a flag. The default is auto detection.</p>
+<p>所以 option 不一定是 flag ?? flag 是 boolean ??</p>
+</li>
+<li>
+<p><code>flag_value</code></p>
+<p>which value should be used for this flag if it’s enabled. This is set to a boolean automatically if the option string contains a slash to mark two options. ??</p>
+</li>
+<li>
+<p><code>multiple</code></p>
+<p>if this is set to <code>True</code> then the argument is accepted multiple times and recorded. This is similar to <code>nargs</code> in how it works but supports arbitrary number of arguments. 這有什麼差別 ??</p>
+</li>
+<li>
+<p><code>count</code></p>
+<p>this flag makes an option INCREMENT AN INTEGER.</p>
+<p>用多次，數字就會疊加 ??</p>
+</li>
+<li>
+<p><code>allow_from_autoenv</code></p>
+<p>if this is enabled then the value of this parameter will be pulled from an environment variable in case a PREFIX is defined on the context. ??</p>
+</li>
+<li>
+<p><code>help</code></p>
+<p>the help string.</p>
+</li>
+<li>
+<p><code>hidden</code></p>
+<p>hide this option from help outputs.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="validation">Validation ??<a class="headerlink" href="#validation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pallets/click/tree/master/examples/validation">click/examples/validation at master · pallets/click</a> #ril</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/options/?highlight=validation#callbacks-for-validation">Callbacks for Validation - Options — Click Documentation (7.x)</a> #ril</p>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/changelog/?highlight=validation#version-2-0">Version 2.0 - Click Changelog — Click Documentation (7.x)</a> #ril</p>
+<ul>
+<li>introduced <code>BadParameter</code> which can be used to easily perform CUSTOM VALIDATION with the SAME ERROR MESSAGES as in the type system.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/?highlight=validation#click.BadParameter"><code>click.BadParameter</code> - API — Click Documentation (7.x)</a></p>
+<ul>
+<li>
+<p>An exception that formats out a STANDARDIZED ERROR MESSAGE for a bad parameter. This is useful when thrown from a callback or type as Click will attach CONTEXTUAL INFORMATION to it (for instance, which parameter it is).</p>
+<p>New in version 2.0.</p>
+</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li>
+<p><code>param</code> – the parameter object that caused this error. This CAN BE LEFT OUT, and Click will attach this info itself if possible.</p>
+</li>
+<li>
+<p><code>param_hint</code> – a string that shows up as PARAMETER NAME.</p>
+<p>This can be used as alternative to <code>param</code> in cases where custom validation should happen. If it is a string it’s used as such, if it’s a LIST then each item is quoted and separated.</p>
+<p>聽起來 callback 可以一次驗多個 param ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="nesting-commands">Nesting Commands ??<a class="headerlink" href="#nesting-commands" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/commands/">Commands and Groups — Click Documentation (7.x)</a> #ril</p>
+<ul>
+<li>The most important feature of Click is the concept of ARBITRARILY NESTING command line utilities. This is implemented through the <code>Command</code> and <code>Group</code> (actually <code>MultiCommand</code>).</li>
+</ul>
+<p>Callback Invocation</p>
+<ul>
+<li>
+<p>For a regular command, the callback is executed WHENEVER THE COMMAND RUNS. If the script is the only command, it will always fire (unless a parameter callback prevents it. This for instance happens if someone passes <code>--help</code> to the script).</p>
+<p>所謂 script 就是使用者在 command line 一長串最原始的輸入；不過都加 <code>--help</code> 了，為什麼要執行??</p>
+</li>
+<li>
+<p>For groups and multi commands, the situation looks different. In this case, the callback fires whenever a subcommand fires (unless this behavior is changed). What this means in practice is that AN OUTER COMMAND RUNS WHEN AN INNER COMMAND RUNS:</p>
+<pre><code>@click.group()
+@click.option('--debug/--no-debug', default=False)
+def cli(debug):
+    click.echo('Debug mode is %s' % ('on' if debug else 'off'))
+
+@cli.command()  # @cli, not @click!
+def sync():
+    click.echo('Syncing')
+</code></pre>
+<p>這個特性可以讓 parent command 將 option 先記錄下來。不過除了 <code>sync --help</code> 看不到 <code>--debug</code> 的說明之外，<code>sync</code> subcomand 如何拿到 <code>debug</code> 的值也是個問題？下面示範了透過 <code>Context.obj</code> 在 command/subommand 間交換資料的做法。</p>
+<p>其實更大的問題是 <code>--debug</code> 只能寫在 <code>sync</code> subcommand 前，否則會出現 <code>no such option: ...</code> 的錯誤，因為那個 option 是宣告在 parent command：</p>
+<pre><code>$ python sync.py --no-debug sync
+Debug mode is off
+Syncing
+
+$ python sync.py sync --no-debug
+Debug mode is off
+Usage: sync.py sync [OPTIONS]
+Try "sync.py sync --help" for help.
+
+Error: no such option: --no-debug
+</code></pre>
+</li>
+<li>
+<p>Here is what this looks like:</p>
+<pre><code>$ tool.py
+Usage: tool.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --debug / --no-debug
+  --help                Show this message and exit.
+
+Commands:
+  sync
+
+$ tool.py --debug sync
+Debug mode is on
+Syncing
+</code></pre>
+<p>這裡避開了 <code>sync</code> subcommand 如何拿到 <code>debug</code> 的問題 &hellip;</p>
+</li>
+</ul>
+<p>Nested Handling and Contexts</p>
+<ul>
+<li>
+<p>As you can see from the earlier example, the basic command group accepts a <code>debug</code> argument which is passed to its callback, but not to the <code>sync</code> command itself. The <code>sync</code> command only accepts its own arguments.</p>
+<pre><code>@click.group()
+@click.option('--debug/--no-debug', default=False)
+def cli(debug):
+    click.echo('Debug mode is %s' % ('on' if debug else 'off'))
+
+@cli.command()  # @cli, not @click!
+def sync():
+    click.echo('Syncing')
+</code></pre>
+</li>
+<li>
+<p>This allows tools to act COMPLETELY INDEPENDENT of each other, but how does one command talk to a nested one? The answer to this is the <code>Context</code>.</p>
+<p>Each time a command is invoked, a new context is created and linked with the PARENT CONTEXT. Normally, you can’t see these contexts, but they are there. Contexts are passed to parameter callbacks together with the value automatically. Commands can also ask for the context to be passed by marking themselves with the <code>pass_context()</code> decorator. In that case, the context is passed as FIRST ARGUMENT.</p>
+<p>Command/subcommand 之間可以透過 context 交換資料，但這裡卻完全沒提到 <code>Context.meta</code>?? 從 &ldquo;created and linked with the parent context&rdquo; 看來，每一層 command 都有自己的 context (透過 <code>context.parent</code> 取得 parent context)，雖然最後提到不一定要走 context，因為 Python 的 global/module 就可以當做媒介。</p>
+</li>
+<li>
+<p>The context can also carry a PROGRAM SPECIFIED OBJECT that can be used for the program’s purposes. What this means is that you can build a script like this:</p>
+<pre><code>@click.group()
+@click.option('--debug/--no-debug', default=False)
+@click.pass_context
+def cli(ctx, debug):
+    # ensure that ctx.obj exists and is a dict (in case `cli()` is called
+    # by means other than the `if` block below
+    ctx.ensure_object(dict)
+
+    ctx.obj['DEBUG'] = debug
+
+@cli.command()
+@click.pass_context &lt;-- 注意這裡又用回 @click 了
+def sync(ctx):
+    click.echo('Debug is %s' % (ctx.obj['DEBUG'] and 'on' or 'off'))
+
+if __name__ == '__main__':
+    cli(obj={})
+</code></pre>
+<p>If the object is provided, EACH CONTEXT will PASS the object onwards to its CHILDREN, but at any level a context’s object can be overridden. To reach to a parent, <code>context.parent</code> can be used.</p>
+<p>若將其初始化為 dict，用起來就跟 <code>Context.meta</code> 一樣了，似乎沒什麼意思?</p>
+<p>In addition to that, instead of passing an object down, nothing stops the application from modifying GLOBAL STATE. For instance, you could just flip a global <code>DEBUG</code> variable and be done with it.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/#click.Context.meta"><code>Context.meta</code> - API — Click Documentation (7.x)</a></p>
+<ul>
+<li>This is a dictionary which is SHARED with all the contexts that are nested. It exists so that CLICK UTILITIES can store some state here if they need to. It is however the responsibility of that code to manage this dictionary well.</li>
+<li>
+<p>The keys are supposed to be UNIQUE DOTTED STRINGS. For instance MODULE PATHS are a good choice for it. What is stored in there is irrelevant for the operation of click. However what is important is that code that places data here adheres to the general semantics of the system.</p>
+<pre><code>LANG_KEY = __name__ + '.lang'
+
+def set_language(value):
+    ctx = get_current_context()
+    ctx.meta[LANG_KEY] = value
+
+def get_language():
+    return get_current_context().meta.get(LANG_KEY, 'en_US')
+</code></pre>
+<p>意思是 Click 自己也會用，命名上採 module name 為 prefix 可以避免衝突? 難怪範例會用 <code>__name__</code> 做為 prefix。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/54896044/">python - Click group with options and commands at the same time - Stack Overflow</a> <code>@click.group(invoke_without_command=True)</code> 搭配 <code>@cmd.command(default_command=True)</code> 就可以省略 subcommand #ril</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/51847639/">Python Click - only execute subcommand if parent command executed successfully - Stack Overflow</a> 出現 <code>ctx.obj['xxx']</code> 的用法 #ril</li>
+<li><a href="https://stackoverflow.com/questions/47437472/">In Python Click how do I see --help for Subcommands whose parents have required arguments? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="help-page">Help Page ??<a class="headerlink" href="#help-page" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/documentation/">Documenting Scripts — Click Documentation (7.x)</a> #ril</p>
+<ul>
+<li>Click makes it very easy to document your command line tools. First of all, it automatically generates help pages for you. While these are currently NOT CUSTOMIZABLE IN TERMS OF THEIR LAYOUT, all of the text can be changed.</li>
+</ul>
+<p>Help Texts</p>
+<ul>
+<li>
+<p>Commands and options accept <code>help</code> arguments. In the case of commands, the DOCSTRING of the function is automatically used if provided.</p>
+<p>Simple example:</p>
+<pre><code>@click.command()
+@click.option('--count', default=1, help='number of greetings')
+@click.argument('name')
+def hello(count, name):
+    """This script prints hello NAME COUNT times."""
+    for x in range(count):
+        click.echo('Hello %s!' % name)
+</code></pre>
+<p>And what it looks like:</p>
+<pre><code>$ hello --help
+Usage: hello [OPTIONS] NAME
+
+  This script prints hello NAME COUNT times.
+
+Options:
+  --count INTEGER  number of greetings
+  --help           Show this message and exit.
+</code></pre>
+</li>
+<li>
+<p>Arguments cannot be documented this way. This is to follow the GENERAL CONVENTION of Unix tools of using arguments for only the most necessary things and to DOCUMENT THEM IN THE INTRODUCTION text by referring to them by name.</p>
+<p><a href="https://github.com/pallets/click/issues/587">add help to click argument · Issue #587 · pallets/click</a> davidism: (member) As the docs quoted earlier say, Click INTENTIONALLY does not implement this.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="share-options">在 Parent/Sub Command 間共用 Option<a class="headerlink" href="#share-options" title="Permanent link"> #</a></h2>
+<p>以 <code>docker</code> 的 <code>--debug</code> 為例，不能放在 subcommand 後面，而且 subcommand 的 help page 也看不到 <code>--debug</code> 的說明。</p>
+<pre><code>$ docker ps --debug
+unknown flag: --debug
+See 'docker ps --help'.
+</code></pre>
+<p>雖然有點違反直覺 (見仁見智?)，<code>cmd [OPTIONS] subcmd subsubcmd [OPTIONS]</code> 這樣的安排還可以，但中間再插個 <code>subcmd [OPTIONS]</code> 就太多了? 也就是說 option 可以初現在開頭或結尾，遇到這種狀況時，將通用的 option 在 subsubcmd 重新宣告一次即可，至於實作細節如何共用邏輯，在 <a href="https://github.com/pallets/click/issues/108#issuecomment-194465429">#108 Support for shared arguments?</a> 的討論裡，mikenerone 提出的做法很實用：</p>
+<pre><code>_global_test_options = [
+    click.option('--verbose', '-v', 'verbosity', flag_value=2, default=1, help='Verbose output'),
+    click.option('--quiet', '-q', 'verbosity', flag_value=0, help='Minimal output'),
+    click.option('--fail-fast', '--failfast', '-f', 'fail_fast', is_flag=True, default=False, help='Stop on failure'),
+]
+
+def global_test_options(func):
+    for option in reversed(_global_test_options):
+        func = option(func)
+    return func
+
+@click.command()
+@global_test_options
+@click.option('--start-directory', '-s', default='test', help='Directory (or module path) to start discovery ("test" default)')
+def test(verbosity, fail_fast, start_directory):
+    # Run tests here
+
+@click.command()
+@click.option(
+    '--format', '-f', type=click.Choice(['html', 'xml', 'text']), default='html', show_default=True,
+    help='Coverage report output format',
+)
+@global_test_options
+@click.pass_context
+def cover(ctx, format, verbosity, fail_fast):
+    # Setup coverage, ctx.invoke() the test command above, generate report
+</code></pre>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://github.com/pallets/click/issues/108">Support for shared arguments? · Issue #108 · pallets/click</a></p>
+<ul>
+<li>
+<p>mahmoudimus: A very simple and trivial example is the verbose example. Assume you have more than one subcommand in a CLI app. An ideal user experience on the CLI would be:</p>
+<pre><code>python script.py subcmd -vvv
+</code></pre>
+<p>However, this wouldn&rsquo;t be the case with click, SINCE <code>subcmd</code> DOESN&rsquo;T DEFINE A <code>verbose</code> OPTION. You&rsquo;d have to invoke it as follows:</p>
+<pre><code>python script.py -vvv subcmd
+</code></pre>
+<p>This example is very simple, but when there are many subcommands, sometimes a root support option would go a long way to make something simple and EASY TO USE. Let me know if you&rsquo;d like further clarification.</p>
+</li>
+<li>
+<p>mitsuhiko (member): This is already really simple to implement through decorators. As an example:</p>
+<pre><code>import click
+
+class State(object):
+
+    def __init__(self):
+        self.verbosity = 0
+        self.debug = False
+
+pass_state = click.make_pass_decorator(State, ensure=True) # 用 global 來存狀態
+
+def verbosity_option(f):
+    def callback(ctx, param, value):
+        state = ctx.ensure_object(State)
+        state.verbosity = value
+        return value
+    return click.option('-v', '--verbose', count=True,
+                        expose_value=False,
+                        help='Enables verbosity.',
+                        callback=callback)(f) # 用 parameter callback 存進 global state
+
+def debug_option(f):
+    def callback(ctx, param, value):
+        state = ctx.ensure_object(State)
+        state.debug = value
+        return value
+    return click.option('--debug/--no-debug',
+                        expose_value=False,
+                        help='Enables or disables debug mode.',
+                        callback=callback)(f)
+
+def common_options(f): # 通用的 options
+    f = verbosity_option(f)
+    f = debug_option(f)
+    return f
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+@common_options
+@pass_state
+def cmd1(state):
+    click.echo('Verbosity: %s' % state.verbosity)
+    click.echo('Debug: %s' % state.debug)
+</code></pre>
+</li>
+<li>
+<p>mahmoudimus: From your example, is the intention that users build their own common options and annotate all relevant commands? Maybe a better user experience is to register these COMMON OPTIONS to the group and have the group TRANSITIVELY PROPAGATE THEM TO ITS SUBCOMMANDS? I could see arguments for either or.</p>
+<p>mitsuhiko (member): If the option is available on all commands it really does not belong to the option but instead to the group that encloses it. It makes no sense that an option conceptually belongs to the group but is attached to an option in my mind. ??</p>
+</li>
+<li>
+<p>mahmoudimus: Right, and I&rsquo;m on board with your logic. However, this translates to position dependence for options which causes COGNITIVE LOAD on the user of the cli app, unless the approach above is used to get, what I would consider, the desirable and expected UX. 確實，是 UX 的問題!!</p>
+<p>That&rsquo;s why I&rsquo;m wondering if it makes sense to have a parameter on the group class which propagates options down to commands to get the desired behavior WITHOUT SURPRISING THE USER.</p>
+<p>If my use case is the outlier (門外漢) in terms of what is desired and expected, then I guess the option of using a similar idiom to what you&rsquo;ve demonstrated above is the right way to go.</p>
+</li>
+<li>
+<p>mitsuhiko: Doing this by magic will not happen, that stands against one of the core principles of Click which is to NEVER BREAK BACKWARDS COMPATIBILITY with scripts by adding new parameters/options later. The correct solution is to use a CUSTOM DECORATOR for this. :)</p>
+<p>untitaker (member): How about adding such a decorator to click or a <code>click-contrib</code> package? 團隊內部有不同的看法 &hellip;</p>
+</li>
+<li>
+<p>Stiivi: I&rsquo;m giving my vote for this feature, as it makes the CLI EXPERIENCE LESS COMPLEX. Even though technically <code>cmd -a subcmd -b subsubcmd -c</code> is correct, <code>cmd subcmd subsubcmd -a -b -c</code> is analogous to have <code>cmd_subcmd_subsubcmd -a -b -c</code>.</p>
+</li>
+<li>
+<p>mikenerone: I think this can be done even more trivially than the given example. Here&rsquo;s a snippet from a helper command I have for running unit tests and/or coverage. Note that several of the options are SHARED between the <code>test</code> and <code>cover</code> subcommands:</p>
+<pre><code>_global_test_options = [
+    click.option('--verbose', '-v', 'verbosity', flag_value=2, default=1, help='Verbose output'),
+    click.option('--quiet', '-q', 'verbosity', flag_value=0, help='Minimal output'),
+    click.option('--fail-fast', '--failfast', '-f', 'fail_fast', is_flag=True, default=False, help='Stop on failure'),
+]
+
+def global_test_options(func):
+    for option in reversed(_global_test_options):
+        func = option(func)
+    return func
+
+@click.command()
+@global_test_options
+@click.option('--start-directory', '-s', default='test', help='Directory (or module path) to start discovery ("test" default)')
+def test(verbosity, fail_fast, start_directory):
+    # Run tests here
+
+@click.command()
+@click.option(
+    '--format', '-f', type=click.Choice(['html', 'xml', 'text']), default='html', show_default=True,
+    help='Coverage report output format',
+)
+@global_test_options
+@click.pass_context
+def cover(ctx, format, verbosity, fail_fast):
+    # Setup coverage, ctx.invoke() the test command above, generate report
+</code></pre>
+<p>這用起來會更直覺，有趣的是 <code>--verbose</code> 跟 <code>--quiet</code> 共用一個參數 <code>verbosity</code>，跟 <code>fail_fast</code> 一起出現在參數裡，很直覺!!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/pallets/click/issues/1034">What is the most elegant way of accepting an option on both the group and subcommands? · Issue #1034 · pallets/click</a> #ril</p>
+</li>
+</ul>
+<h2 id="">用 Class 來實作 Subcommand ??<a class="headerlink" href="#" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/pallets/click/issues/601">use click.command in a class · Issue #601 · pallets/click</a> #ril<ul>
+<li>davidism (member): Closing as I don&rsquo;t think this is an INTENDED USE CASE. If you want to build a cli in a class, you should probably do that in <code>__init__</code> by calling <code>cli.add_command()</code> so that the methods are bound. 開發團隊沒有預期這種用法</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/55213253/">python - Using click.MultiCommand with classmethods - Stack Overflow</a> <code>class ConversionCLI(click.MultiCommand)</code> 實作了 <code>list_commands()</code> 與 <code>get_command()</code>，好像就可以用 class 來寫 subcommand 了? #ril</li>
+</ul>
+<h2 id="testing">Testing ??<a class="headerlink" href="#testing" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/testing/">Testing Click Applications — Click Documentation (7.x)</a> #ril</p>
+<ul>
+<li>For basic testing, Click provides the <code>click.testing</code> module which provides test functionality that helps you INVOKE command line applications and check their BEHAVIOR.</li>
+<li>These tools should really only be used for testing as they change the entire INTERPRETER STATE?? for simplicity and are NOT in any way thread-safe!</li>
+</ul>
+<p>Basic Testing</p>
+<ul>
+<li>The basic functionality for testing Click applications is the <code>CliRunner</code> which can invoke commands as command line scripts. The <code>CliRunner.invoke()</code> method runs the command line script IN ISOLATION and CAPTURES THE OUTPUT as both bytes and binary data. The return value is a <code>Result</code> object, which has the captured output data, exit code, and optional exception attached.<pre><code>import click
+from click.testing import CliRunner
+
+def test_hello_world():
+    @click.command()
+    @click.argument('name')
+    def hello(name):
+        click.echo('Hello %s!' % name)
+
+    runner = CliRunner()
+    result = runner.invoke(hello, ['Peter']) # 為什麼 invoke 的對象是 command，而非使用者在 command line 最原始的輸入??
+    assert result.exit_code == 0
+    assert result.output == 'Hello Peter!\n'
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/#testing">Testing - API — Click Documentation (7.x)</a> #ril</p>
+</li>
+</ul>
+<h2 id="slack-slash-command">Slack Slash Command ??<a class="headerlink" href="#slack-slash-command" title="Permanent link"> #</a></h2>
+<ul>
+<li>若想在同一個 (Python) process 裡做事 (不想調用外部 CLI)，可能會卡在 CLI framework 設計上的限制，例如要攔截 <code>SystemExit</code>、將 STDOUT/STDERR 轉向等。</li>
+<li>若調用外部 CLI，上面的問題就沒了，只要把 STDOUT/STDERR 包裝成 Slack message 回傳給使用者即可；多人同時執行也沒問題，只要把 working directory 拆開。</li>
+<li>讓 Slack Slash Command 做為 CLI 的 thin wrapper 有幾個好處 &ndash; 在本地端開發時也好測試，除了 Slash command，使用者也可以直接用 CLI，而且這方法也適用於非 Python-based 的 CLI。</li>
+<li>但 CLI 與 Slack Slash Command 的 UI (指 command line parsing) 也可能有些微的差異，例如 pipeline、本地檔案操作、密碼輸入提示等，或許應該拉出一層 facade 讓多種 UI 共用?</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/testing/">Testing Click Applications — Click Documentation (7.x)</a></p>
+<ul>
+<li>
+<p>These tools should really only be used for testing as they CHANGE THE ENTIRE INTERPRETER STATE for simplicity and are NOT in any way thread-safe!</p>
+<p>看起來很適合用來實作 Slack Slash Command，但上面又說不該用在 testing 以外的地方? 只要 worker 不走 thread 就沒有問題??</p>
+<p>若是把 Slash Command 視為 CLI 的另一層包裝? 也就是 CLI 可以在本地端使用，也可以透過 Slash Command 調用 CLI 外部程式，事情會單純一點?</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/pallets/click/blob/7.0/click/testing.py#L280"><code>CliRunnter.invoke()</code> - click/testing.py at master · pallets/click</a> #ril</p>
+<pre><code>def invoke(self, cli, args=None, input=None, env=None,
+           catch_exceptions=True, color=False, mix_stderr=False, **extra):
+
+    exc_info = None
+    with self.isolation(input=input, env=env, color=color) as outstreams: # (1)
+        exception = None
+        exit_code = 0
+
+        if isinstance(args, string_types):
+            args = shlex.split(args)
+
+        try:
+            prog_name = extra.pop("prog_name")
+        except KeyError:
+            prog_name = self.get_default_prog_name(cli)
+
+        try:
+            cli.main(args=args or (), prog_name=prog_name, **extra) # (2)
+        except SystemExit as e:
+            exc_info = sys.exc_info()
+            exit_code = e.code
+            if exit_code is None:
+                exit_code = 0
+
+            if exit_code != 0:
+                exception = e
+
+            if not isinstance(exit_code, int):
+                sys.stdout.write(str(exit_code))
+                sys.stdout.write('\n')
+                exit_code = 1
+
+        except Exception as e:
+            if not catch_exceptions:
+                raise
+            exception = e
+            exit_code = 1
+            exc_info = sys.exc_info()
+        finally:
+            sys.stdout.flush()
+            stdout = outstreams[0].getvalue()
+            stderr = outstreams[1] and outstreams[1].getvalue()
+
+    return Result(runner=self,
+                  stdout_bytes=stdout,
+                  stderr_bytes=stderr,
+                  exit_code=exit_code,
+                  exception=exception,
+                  exc_info=exc_info)
+
+    try:
+        cli.main(args=args or (), prog_name=prog_name, **extra)
+    except SystemExit as e:
+        exc_info = sys.exc_info()
+        exit_code = e.code
+</code></pre>
+<ol>
+<li>
+<p><a href="https://github.com/pallets/click/blob/7.0/click/testing.py#L163"><code>isolation()</code></a> 會暫時將 STDIN, STDOUT, STDERR 換掉。</p>
+<p>不過這會影響到同一個 process 的其他輸出入，例如 logging 在 STDERR 的輸出。</p>
+<p>或許更不具侵入性的做法是自訂 <code>echo()</code> 內部再轉呼叫 <code>click.echo()</code> ?? 在真正的 CLI 下就送 STDERR/STDOUT，在 Slash Command 下則改送 Slack message。</p>
+</li>
+<li>
+<p>只是呼叫 <code>BaseCommand.main()</code>? 從 <a href="https://github.com/pallets/click/blob/master/click/core.py#L658"><code>click.core.main()</code></a> 的原始碼看來，背後也是調用 <code>BaseCommand.invoke()</code>：</p>
+<pre><code>with self.make_context(prog_name, args, **extra) as ctx:
+    rv = self.invoke(ctx)
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/#click.BaseCommand.main"><code>BaseCommand.main()</code> - API — Click Documentation (7.x)</a> #ril</p>
+<ul>
+<li>
+<p><code>main(args=None, prog_name=None, complete_var=None, standalone_mode=True, **extra)</code></p>
+</li>
+<li>
+<p>This is the way to invoke a script with all the bells and whistles as a command line application. This will always terminate the application after a call. If this is not wanted, <code>SystemExit</code> needs to be caught.</p>
+<p>明確指出可以攔截 <code>SystemExit</code>，沒有問題。</p>
+</li>
+<li>
+<p>This method is also available by directly calling the instance of a <code>Command</code>.</p>
+</li>
+<li>New in version 3.0: Added the <code>standalone_mode</code> flag to control the standalone mode??.</li>
+</ul>
+<p>Parameters</p>
+<ul>
+<li><code>args</code> – the arguments that should be used for parsing. If not provided, <code>sys.argv[1:]</code> is used. (不含 program name 本身)</li>
+<li><code>prog_name</code> – the program name that should be used. By default the program name is constructed by taking the file name from <code>sys.argv[0]</code>.</li>
+<li><code>complete_var</code> – the environment variable that controls the bash completion support. The default is &ldquo;<code>_&lt;prog_name&gt;_COMPLETE</code>&rdquo; with <code>prog_name</code> in uppercase.</li>
+<li><code>standalone_mode</code> – the default behavior is to invoke the script in STANDALONE MODE. Click will then handle exceptions and convert them into error messages and the function will never return but SHUT DOWN the interpreter. (也就是會丟出 <code>SystemExit</code>) If this is set to <code>False</code> they will be propagated to the caller and the return value of this function is the return value of <code>invoke()</code>.</li>
+<li><code>extra</code> – extra keyword arguments are forwarded to the context constructor. See <code>Context</code> for more information.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://click.palletsprojects.com/en/7.x/api/#context">Context API — Click Documentation (7.x)</a> #ril</p>
+<p><code>invoke(**kwargs)</code></p>
+<ul>
+<li>Invokes a command callback in exactly the way it expects. There are two ways to invoke this method:<ul>
+<li>the first argument can be a CALLBACK and all other arguments and keyword arguments are forwarded directly to the function.</li>
+<li>the first argument is a click COMMAND OBJECT. In that case all arguments are forwarded as well but proper click parameters (options and click arguments) must be keyword arguments and Click will fill in defaults.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://click.palletsprojects.com/en/7.x/">Welcome to Click — Click Documentation (7.x)</a> You can get the library directly from PyPI: <code>pip install click</code></li>
+<li><a href="https://click.palletsprojects.com/en/7.x/quickstart/#virtualenv">virtualenv - Quickstart — Click Documentation (7.x)</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://click.palletsprojects.com/">Click</a></li>
+<li><a href="https://github.com/pallets/click/">pallets/click - GitHub</a></li>
+<li><a href="https://pypi.org/project/click/">click - PyPI</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/python-click">&lsquo;python-click&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://click.palletsprojects.com/en/7.x/api/">API Documentation</a></li>
+<li><a href="https://click.palletsprojects.com/en/7.x/api/#click.Parameter"><code>click.Parameter</code></a></li>
+<li><a href="https://click.palletsprojects.com/en/7.x/api/#click.Option"><code>click.Option</code></a></li>
+<li><a href="https://click.palletsprojects.com/en/7.x/api/#click.Argument"><code>click.Argument</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

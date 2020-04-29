@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/rollbar/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Rollbar - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/rollbar.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#rollbar">Rollbar</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#project">Project</a></li>
+                
+            <li class="second-level"><a href="#environment">Environment</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="rollbar">Rollbar<a class="headerlink" href="#rollbar" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://rollbar.com/">Rollbar - Error Tracking Software for Ruby, Python, JavaScript, and more</a></p>
+<ul>
+<li>
+<p>Deploy with confidence, MORE OFTEN</p>
+<p>Spend less time worrying and more time on improving code. With Rollbar, you can FEEL SAFE knowing every error is reported in real-time.</p>
+<p>Rollbar 切入的角度：測試當然重要，但儘早推到 production 驗證會更為踏實；就算發生錯誤，當下許多重要的細節也會被記錄下來，可以幫助快速定位問題。</p>
+</li>
+<li>
+<p>Dev Automation is Here</p>
+<p>Rollbar automates the grunt-work of development so software teams can deploy more often</p>
+<p>除了 error tracking 還有其他功能 ?? 否則為何稱 Dev Automation? (這段後來被拿掉了)</p>
+</li>
+<li>
+<p>Ops automation is 80% solved Dev automation is just beginning</p>
+<p>It’s pointless to deploy faster, if you don’t deploy often. We help companies increase their deployment frequency by 9x.</p>
+</li>
+<li>
+<p>Rollbar automates ERROR MONITORING and TRIAGING, so developers can fix errors that matter within minutes, and build software quickly and painlessly.</p>
+<p>Where is your software delivery process stuck?</p>
+</li>
+</ul>
+<p>Get tests from red to green faster</p>
+<ul>
+<li>
+<p>Diagnose and fix BROKEN TESTS faster</p>
+</li>
+<li>
+<p>Get real-time results and stack traces with LOCAL VARIABLES</p>
+<p>因為測試過程中噴錯，rollbar 就會蒐集重要資訊，可以加速修正問題。</p>
+</li>
+<li>
+<p>Fix broken tests before the build finishes</p>
+</li>
+</ul>
+<p>Get through QA faster</p>
+<ul>
+<li>Never wonder how to repro a bug again</li>
+<li>Reduce the back and forth between dev and QA</li>
+<li>Dedupe bug reports and prioritize bugs affecting many test cases</li>
+</ul>
+<p>Iterate in production faster</p>
+<ul>
+<li>
+<p>Monitor errors in real-time</p>
+</li>
+<li>
+<p>Only fix WHAT MATTERS</p>
+<p>應該是從量級來看，如果錯誤不常發生就不急。</p>
+</li>
+<li>
+<p>See exactly how and where the error occurred, and resolve within minutes</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.rollbar.com/docs">Overview</a></p>
+<p>Rollbar provides real-time exception reporting and CONTINUOUS DEPLOYMENT MONITORING for developers. These docs will help you get up and running with Rollbar quickly and discover how Rollbar can help your team throughout your development process.</p>
+<p>跟 CD 什麼關係 ??</p>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.rollbar.com/docs/rollbar-terminology">Rollbar Terminology</a> #ril</li>
+<li><a href="https://docs.rollbar.com/docs/users-teams-accounts">Users, Teams, and Accounts</a> #ril</li>
+</ul>
+<h2 id="project">Project<a class="headerlink" href="#project" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.rollbar.com/docs/projects">Projects - Tips for organizing your services and apps into Rollbar projects</a></p>
+<ul>
+<li>
+<p>Data in your Rollbar account is organized into projects. A project represents a single deployable / release-able service or app, and has its own settings for notifications, <a href="https://docs.rollbar.com/docs/custom-grouping">custom fingerprinting</a>, user access, and more. #ril</p>
+<p>注意 account 與 user 的差異，user 是登入的使用者，但 (organization) account 是多個 project 的集合。</p>
+</li>
+<li>
+<p>When first setting up a Rollbar account, a common question is &ldquo;How should I set up my Rollbar projects?&rdquo;. Here are some recommendations:</p>
+<p>Rules of thumb for creating Rollbar projects</p>
+<ul>
+<li>1 deployable/releasable app or SERVICE ~ 1 Rollbar project</li>
+<li>1 git repo ~ 1 Rollbar project</li>
+</ul>
+<p>Other considerations for Rollbar projects</p>
+<ul>
+<li>
+<p>One rollbar project can contain errors FROM MULTIPLE LANGUAGES AND FRAMEWORKS. This is useful if, for instance, you have a web app with Javascript on the front-end and Rails on the back-end. If the front-end and back end are DEPLOYED TOGETHER and/or live in the same repo, then you can track them in a single Rollbar project.</p>
+<p>這呼應了前面 &ldquo;1 deployable/releasable app or SERVICE&rdquo; 的說法，代表同一 service 的多個 component 可以放在同一個 Rollbar project 下；畢竟 service 是個整體，錯誤之間也會有些關聯，例如界面上可以看 Co-Occurring Items。</p>
+</li>
+<li>
+<p>Are you maintaining SHARED LIBRARIES that are used across multiple apps/services? If yes, and these libraries have their own git repositories, then you should set up a dedicated Rollbar project FOR EACH LIBRARY so that the MAINTAINERS will get notified when an error occurs in a dependent app/service.</p>
+<p>聽起來怪怪的? 執行期是跟著 application 一起，如何將 library 與 application 的錯誤分開回報??</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Create a Rollbar project</p>
+<ul>
+<li>
+<p>You must be a member of the OWNERS TEAM for an account to create projects within it.</p>
+</li>
+<li>
+<p>There are two ways that an owner can create a new project:</p>
+<ul>
+<li>Select + create new project from the dropdown list in the upper left of the Rollbar app.</li>
+<li>Go to Account Settings → Projects. The url here should be: <code>https://www.rollbar.com/settings/accounts/{account_name}/projects</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Control Access to a Project.</p>
+<ul>
+<li>
+<p>Access to Rollbar projects is managed through teams.</p>
+<p>To assign a team to a project, go to Account Settings → Teams → {Team Name} → Add to Project.</p>
+<p>user 被加進 team，而 team 可以存取 project。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="environment">Environment<a class="headerlink" href="#environment" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>假設一個 project 有多個 cron job 要跑，拆不同 Rollbar project 設定上有重工，但共用一個 rollbar project 下，如何區分錯誤是來自哪個 cron job，尤其錯誤是發生在共用的程式時：</p>
+<ul>
+<li>按照 &ldquo;1 deployable/releasable app or service ~ 1 Rollbar project&rdquo; 的說法，共用一個 Rollbar project 是比較好的，畢竟 service 是個整體。</li>
+<li>若從 <code>environment</code> 的 prefix/suffix 下手 (例如 <code>prod-job1</code>)，之後若要看某個 env 的錯誤，要選很多 enviroment；有點在惡搞 environment。</li>
+<li>若共用 Rollbar project，如何區分錯誤來自哪裡? 或許可以考慮從 <code>host</code> property 下手? 假設不同 cron job 都在不同的 host 執行，例如 <code>host:job1</code>?</li>
+<li>有沒有 custom data 可以帶?? 例如 <code>report_exc_info(..., extra_data=None)</code>，但會不會之後查詢很困難?</li>
+</ul>
+<p>後來有個全新的想法 &ndash; 為不同 (deployment) environment 建立不同的 Rollbar project，裡面的 (Rollbar) environment 用來區分 component。這麼做的好處有：</p>
+<ul>
+<li>將不同 environment 的數據完全隔開；但最上層的 Dashboard 下拉 Environment 時會看到所有專案全然不同的 component。</li>
+<li>不同 environment 下可以看個別 component 的問題，也可以一次看所有 component 的問題；但不同 component 的問題無法合併。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.rollbar.com/docs/environments">Environments</a></p>
+<ul>
+<li>How to use <code>environment</code> and <code>host</code> properties when you deploy to multiple environments</li>
+<li>
+<p>Rollbar requires the <code>environment</code> property on all errors to indicate where they occurred (production, staging , qa , etc.).</p>
+</li>
+<li>
+<p>The choice of which <code>environment</code> values to use is very important due to the following considerations:</p>
+<ul>
+<li>
+<p>Items cannot be MERGED if they are in different environments</p>
+</li>
+<li>
+<p>The Dashboard, Items, and Deploys views can only show information from a SINGLE environment or ALL environments.</p>
+<p>Single/All 二擇一，中間沒有模糊地帶!!</p>
+<p>這裡的限制專指畫面左上方有選定特定 project 時 (才會有 RQL 可以用)，否則 Dashboard 跟 Items 都可以自由選擇 project 與 environment 的搭配，並沒有這樣的限制。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Handling multiple production systems</p>
+<ul>
+<li>
+<p>Many of our customers deploy their apps to MULTIPLE PRODUCTION SYSTEMS, e.g. multiple zones in Amazon Web Services, Google Cloud Platform, Azure, etc.</p>
+<p>In this case, you might want to see all the items and deploys to any of your production environments at once, but also be able to track which system a particular error occurred in. You probably will want to merge items that occurred in different production environments if they have the same root cause.</p>
+</li>
+</ul>
+<p>Recommended usage</p>
+<ul>
+<li>
+<p>Use the <code>environment</code> value <code>production</code> for all errors from and deploys to any production environment, even if you have multiple production environments.</p>
+</li>
+<li>
+<p>Use the <code>host</code> property in your error payloads to include the &lsquo;FULL PATH&rsquo; of the server where an error occurred, including the name of the region/zone, e.g. <code>us-east-1-web02</code> for the server <code>web-02</code> that is hosted in the <code>us-east-1</code> region.</p>
+</li>
+<li>
+<p>If you follow this approach, you can then merge any items that occur in a production environment, regardless of which region/host it occured in.</p>
+<p>To find the items that are only occurring in a particular region, you can use the host advanced search option, which supports PREFIX SEARCH:</p>
+<pre><code>host:us-east-1
+</code></pre>
+<p>To find items that occurred on a specific server within the region, you can enter the fully-qualified host name:</p>
+<pre><code>host:us-east-1-web02
+</code></pre>
+</li>
+</ul>
+<p>Access tokens &amp; rate limits</p>
+<ul>
+<li>
+<p>It&rsquo;s likely that you care more about errors coming from your production environment than from non-production environments, and that you don&rsquo;t want a non-production error to consume too many Rollbar events.</p>
+</li>
+<li>
+<p>In order to ensure that you can use Rollbar in all your environments but limit event consumption in non-production environments, we recommend the following:</p>
+<ul>
+<li>
+<p>Create a set of access tokens for your non-production environments, and apply a rate limit that makes sense for you.</p>
+</li>
+<li>
+<p>Create a set of access tokens for your production environments, and DON&rsquo;T apply rate limits, unless you can accept losing some error data from production.</p>
+<p>這建議完全沒有參考價值!! 況且界面並沒有 &ldquo;no rate limit&rdquo; 的選項??</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://rollbar.com/">Rollbar</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.rollbar.com/">Rollbar Docs</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../pyrollbar/">Python SDK</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

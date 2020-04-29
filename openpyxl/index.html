@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/openpyxl/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>OpenPyXL - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/openpyxl.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#openpyxl">OpenPyXL</a></li>
+            <li class="second-level"><a href="#defined-name">Defined Name</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#properties">Properties, Custom Properties</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="openpyxl">OpenPyXL<a class="headerlink" href="#openpyxl" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://ericgazoni.wordpress.com/2010/04/10/openpyxl-python-xlsx/">openpyxl: my python xlsx library | Eric Gazoni&rsquo;s Blog</a> (2010-04-10) #ril</p>
+</li>
+<li>
+<p><a href="https://openpyxl.readthedocs.io/en/stable/">openpyxl - A Python library to read/write Excel 2010 xlsx/xlsm files — openpyxl 2.6.2 documentation</a> #ril</p>
+<p>雖然文件內都用 openpyxl，但左上方的 logo 明確寫著 OpenPyXL，揭露了正確的大小寫。</p>
+<p>Introduction</p>
+<ul>
+<li>
+<p>openpyxl is a Python library to read/write Excel 2010 xlsx/xlsm/xltx/xltm files.</p>
+<p>It was born from lack of existing library to read/write NATIVELY from Python the Office Open XML format.</p>
+<p>All kudos to the PHPExcel team as openpyxl was initially based on PHPExcel.</p>
+<p>竟然 PHP 比 Python 早有可以好好處理 Excel 的套件。</p>
+</li>
+</ul>
+<p>Security</p>
+<ul>
+<li>By default openpyxl does not guard against quadratic blowup or billion laughs xml attacks. ?? To guard against these attacks install <a href="https://github.com/tiran/defusedxml">defusedxml</a>. #ril</li>
+</ul>
+</li>
+</ul>
+<h2 id="defined-name">Defined Name<a class="headerlink" href="#defined-name" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://openpyxl.readthedocs.io/en/stable/defined_names.html">Defined Names — openpyxl 2.6.2 documentation</a></p>
+<ul>
+<li>
+<p>The specification has the following to say about defined names:</p>
+<p>“Defined names are descriptive text that is used to represents a cell, range of cells, formula, or constant value.”</p>
+</li>
+<li>
+<p>This means they are very LOOSELY DEFINED. They might contain a constant, a formula, a single cell reference, a range of cells or multiple ranges of cells across different worksheets. Or all of the above. They are defined GLOBALLY for a workbook and accessed from there <code>defined_names</code> attribue.</p>
+</li>
+</ul>
+<p>Sample use for ranges</p>
+<ul>
+<li>Accessing a range called “<code>my_range</code>”:<pre><code>my_range = wb.defined_names['my_range']
+# if this contains a range of cells then the destinations attribute is not None
+dests = my_range.destinations # returns a generator of (worksheet title, cell range) tuples
+
+cells = []
+for title, coord in dests:
+    ws = wb[title]
+    cells.append(ws[coord])
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://openpyxl.readthedocs.io/en/stable/tutorial.html">Tutorial — openpyxl 2.6.2 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/aubergine-solutions/working-with-excel-sheets-in-python-using-openpyxl-4f9fd32de87f">Working with Excel sheets in Python using openpyxl - Aubergine Solutions - Medium</a> (2018-05-30) #ril</p>
+</li>
+</ul>
+<h2 id="properties">Properties, Custom Properties<a class="headerlink" href="#properties" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/python-openxml/python-docx/issues/91">feature: add custom properties support · Issue #91 · python-openxml/python-docx</a> 尚不支援，未來可能從 <code>custom_properties</code> 拿到 #ril</li>
+<li><a href="https://stackoverflow.com/questions/53930645/">Extract xlsx workbook file metadata/properties in python 3.6 - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>安裝 <code>openpyxl</code> 套件即可，若需要寫出大檔，搭配 lxml 可以提昇效能。</li>
+<li>需要在檔案裡安插圖片，要再加裝 <code>pillow</code> 套件。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://openpyxl.readthedocs.io/en/stable/#installation">Installation - openpyxl - A Python library to read/write Excel 2010 xlsx/xlsm files — openpyxl 2.6.2 documentation</a></p>
+<ul>
+<li>
+<p>Install openpyxl using pip. It is advisable to do this in a Python virtualenv without system packages:</p>
+<pre><code>$ pip install openpyxl
+</code></pre>
+<p>Note: There is support for the popular lxml library which will be USED IF IT IS INSTALLED. This is particular useful when creating LARGE FILES.</p>
+<p><a href="https://www.pyxll.com/blog/tools-for-working-with-excel-and-python/#read-write">Reading and Writing Excel workbooks - Tools for Working with Excel and Python | PyXLL</a> 提到 OpenPyXL 寫出大檔案時會有偏慢的問題，看來可以搭配 lxml 解掉。</p>
+</li>
+<li>
+<p>Warning: To be able to include images (jpeg, png, bmp,…) into an openpyxl file, you will also need the “pillow” library that can be installed with:</p>
+<pre><code>$ pip install pillow
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://openpyxl.readthedocs.io/">OpenPyXL</a></li>
+<li><a href="https://bitbucket.org/openpyxl/openpyxl/src/default/">openpyxl/openpyxl - Bitbucket</a></li>
+<li><a href="https://pypi.org/project/openpyxl/">openpyxl -  PyPI</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/openpyxl">&lsquo;openpyxl&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://openpyxl.readthedocs.io/en/stable/api/openpyxl.html">API Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

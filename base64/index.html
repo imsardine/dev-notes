@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/base64/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Base64 - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/base64.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#base64">Base64</a></li>
+            <li class="second-level"><a href="#algorithm">演算法 ??</a></li>
+                
+            <li class="second-level"><a href="#env">透過環境變數傳遞檔案 ??</a></li>
+                
+            <li class="second-level"><a href="#incorrect-padding">Incorrect Padding</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="base64">Base64<a class="headerlink" href="#base64" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Base64">Base64 - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>In computer science Base64 is a group of BINARY-TO-TEXT ENCODING schemes that represent binary data in an ASCII string format by translating it into a radix-64 representation. The term Base64 originates from a specific MIME content transfer encoding.</p>
+</li>
+<li>
+<p>Each BASE64 DIGIT represents exactly 6 bits of data. THREE 8-bit bytes (i.e., a total of 24 bits) can therefore be represented by FOUR 6-bit Base64 digits.</p>
+<p>編碼後每個 ASCII 字元 (base64 digit) 都代表 6 bits 的資料，所以 3 bytes 可以用 4 個 base64 digit 來表現 &ndash; 8-bits x 3 / 6 = 4。</p>
+</li>
+<li>
+<p>Common to all binary-to-text encoding schemes, Base64 is designed to carry data stored in binary formats across channels that only RELIABLY support text content.</p>
+<p>Base64 is particularly prevalent on the World Wide Web where its uses include the ability to embed image files or other binary assets inside textual assets such as HTML and CSS files.</p>
+</li>
+</ul>
+<p>Design</p>
+<ul>
+<li>
+<p>The particular set of 64 characters chosen to represent the 64 place-values for the base VARIES BETWEEN IMPLEMENTATIONS. The general strategy is to choose 64 characters that are COMMON TO MOST ENCODINGS and that are also PRINTABLE.</p>
+<p>This combination leaves the data unlikely to be modified in transit through information systems, such as email, that were traditionally not 8-bit clean. For example, MIME&rsquo;s Base64 implementation uses A–Z, a–z, and 0–9 for the first 62 values. Other variations share this property but differ in the symbols chosen for the LAST TWO VALUES; an example is UTF-7.</p>
+<p>但下面 Base64 table 整理出的最後 2 個字元，似乎固定是 <code>+</code> 與 <code>/</code>? Variable summary table 進一步整理了不同實作的差異，62<sup>nd</sup> 與 63nd 多數跟 MIME 一樣採 <code>+</code> 與 <code>/</code>。</p>
+</li>
+<li>
+<p>The earliest instances of this type of encoding were created for dialup communication between systems running the same OS — e.g., uuencode for UNIX, BinHex for the TRS-80 (later adapted for the Macintosh) — and could therefore make more ASSUMPTIONS about what characters were safe to use. For instance, uuencode uses uppercase letters, digits, and many punctuation characters, but no lowercase. ??</p>
+</li>
+</ul>
+<p>Examples</p>
+<ul>
+<li>
+<p>In theory, the padding character is NOT NEEDED FOR DECODING, since the number of missing bytes can be calculated from the number of Base64 digits.</p>
+<p>In some implementations, the padding character is mandatory, while for others it is not used. One case in which padding characters are required is concatenating multiple Base64 encoded files.</p>
+<p>試過 macOS 的 <code>base64</code> 與 Python 的 <code>base64</code> 遇到 padding 被去掉時都會出狀況：</p>
+<pre><code>$ echo 'Hello, World!' | base64
+SGVsbG8sIFdvcmxkIQo=
+$ python -c 'import base64; print base64.b64decode("SGVsbG8sIFdvcmxkIQo=")'
+Hello, World!
+
+$ python -c 'import base64; print base64.b64decode("SGVsbG8sIFdvcmxkIQo")'
+Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/base64.py", line 76, in b64decode
+    raise TypeError(msg)
+TypeError: Incorrect padding
+
+$ echo -n SGVsbG8sIFdvcmxkIQo= | base64 --decode
+Hello, World!
+$ echo -n SGVsbG8sIFdvcmxkIQo | base64 --decode
+Hello, World$ &lt;-- 結尾的驚嘆號跟換行字元都不見了!!
+</code></pre>
+<p>在 <code>docker/compose:1.24.0</code> 下，更會出現 <code>truncated base64 input</code> 的錯誤。</p>
+<pre><code>/ # echo -n SGVsbG8sIFdvcmxkIQo= | base64 -d
+Hello, World!
+/ # echo -n SGVsbG8sIFdvcmxkIQo | base64 -d
+Hello, Worldbase64: truncated base64 input
+/ #
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="algorithm">演算法 ??<a class="headerlink" href="#algorithm" title="Permanent link"> #</a></h2>
+<p>Base64 encoding 主要應用在以純文字的型式保存或傳送 binary data 時，編/解碼的原則被規範 <a href="http://tools.ietf.org/html/rfc3548">RFC 3548</a> 裡 (之後被 <a href="http://tools.ietf.org/html/rfc4648">RFC 4648</a> 取代)。</p>
+<p>簡單地來說，Base64 就是將 3 個 8-bit 為一組的資料，拆成 4 個 6-bit 重新做編碼。以 <code>abc</code> 三個字元為例：</p>
+<ol>
+<li><code>abc</code> 三個字元的 ASCII 編碼分別是 <code>01100001</code>、<code>01100010</code> 跟 <code>01100011</code>。 (<a href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">對照表</a>)</li>
+<li>將 3 個 8-bit 的資料串接起來，再依 6-bit 為單位由左至右做切割的結果會是 <code>011000</code>(24)、<code>010110</code>(22)、<code>001001</code>(9) 跟 <code>100011</code>(35)。</li>
+<li>對照 <a href="http://en.wikipedia.org/wiki/Base64#Examples">Base64 Index Table</a> 的結果就是 &ldquo;YWJj&rdquo;。</li>
+</ol>
+<p>TIP: 以前很直覺地會認為 Base64 的編碼結果，結尾一定會有等號，但事實並非如此。</p>
+<p>上面的例子其實刻意選了 3 個字元來做編碼，因為 3 個 8-bit 剛好可以被 6-bit 完整地劃分 (8 跟 6 的最小公倍數是 24)。但如果情況不這樣，會先在資料右側補上幾個 bit 的 0 之後才做編碼，這個動作就叫做 padding。可以肯定的是，無論資料內容為何，編碼後的字元數一定是 4 的倍數。</p>
+<blockquote>
+<p>Base64 最後是以 64 個<a href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">可列印的字元</a>來表示編碼後的結果，而 64 這個數字就是從上面 6-bit 分割單位而來（2^6 = 64）。</p>
+<p>前 62 個字元中大小寫字母跟數字組成，對大部份的應用都不會是問題，但第 62 跟 63 個字元分別是 <code>+</code> 跟 <code>/</code>，可能不適合某些應用。因此後面這兩個字元，就會衍生出不同實作間的差異。</p>
+<p>關於編／解碼的細節，<a href="http://en.wikipedia.org/wiki/Base64">Wikipedia</a> 有很詳細的說明。</p>
+</blockquote>
+<p>下面先以少 8-bit 的 <code>ab</code> 為例：</p>
+<ol>
+<li>將 <code>ab</code> 二個字元 ASCII 編碼串接 <code>0110000101100010</code>，再依 6-bit 切割後的結果是 <code>011000</code>、<code>010110</code>、<code>0010</code>。</li>
+<li>很顯然，最後一個 6-bit 少了 2 bits，會在右邊補上 0 之後再做編碼。結果就是 <code>011000</code>(24)、<code>010110</code>(22)、<code>001000</code>(8) -&gt; &ldquo;YWI&rdquo;。</li>
+<li>由於 Base64 編碼結果的字元數一定是 4 的倍數，所以在後面補上一個 <code>=</code>，成為 <code>YWI=</code>。</li>
+</ol>
+<p>最後再看多 8-bit 的 <code>abca</code>：</p>
+<ol>
+<li>將 <code>abca</code> 二個字元 ASCII 編碼串接 <code>01100001011000100110001101100001</code>，再依 6-bit 切割後的結果是 <code>011000</code>、<code>010110</code>、<code>001001</code>、<code>100011</code>、<code>011000</code>、<code>01</code>。</li>
+<li>很顯然，最後一個 6-bit 少了 4 bits，會在右邊補上 0 之後再做編碼。結果就是 <code>011000</code>(24)、<code>010110</code>(22)、<code>001001</code>(9)、<code>100011</code>(35)、<code>011000</code>(24)、<code>010000</code>(16) -&gt; &ldquo;YWJjYQ&rdquo;。</li>
+<li>由於 Base64 編碼結果的字元數一定是 4 的倍數，所以在後面補上兩個 <code>=</code>，成為 <code>YWJjYQ==</code>。</li>
+</ol>
+<h2 id="env">透過環境變數傳遞檔案 ??<a class="headerlink" href="#env" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://support.circleci.com/hc/en-us/articles/360003540393-How-to-insert-files-as-environment-variables-with-Base64">How to insert files as environment variables with Base64 – CircleCI Support Center</a> (2018-04-26)</p>
+<ul>
+<li>
+<p>If you need to insert SENSITIVE TEXT-BASED DOCUMENTS or even SMALL BINARY FILES into your project in secret it is possible to insert them as an environment variable by leveraging base64 encoding.</p>
+</li>
+<li>
+<p>Base64 is an encoding scheme to translate binary data into text strings. These values can be inserted as an environment variable and decoded at runtime.</p>
+<p>You can encode a file via your command line terminal by feeding it directly to base64.</p>
+<pre><code>base64 [option] [file]
+</code></pre>
+<p>To then decode the base64 file from within your container you can run the decode option.</p>
+<pre><code>base64 --decode [file]
+</code></pre>
+</li>
+<li>
+<p>This article is derived from this documents page: <a href="https://circleci.com/docs/1.0/google-auth/">https://circleci.com/docs/1.0/google-auth/</a></p>
+<blockquote>
+<p>Remember to download the JSON-formatted key file. &hellip; Add the key file to CircleCI as a project environment variable. In this example, the variable is named <code>GCLOUD_SERVICE_KEY</code>.</p>
+<p>echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account &ndash;key-file=-</p>
+</blockquote>
+<p>概念上是把 JSON key file 塞進環境變數，但從用法上看不出需要做 Base64 編解碼? 後來 <a href="https://github.com/circleci/circleci-docs/issues/2862">update gcloud commands to --decode base64 · Issue #2862 · circleci/circleci-docs</a> 提到中間要加個 <code>base64 --decode</code>：</p>
+<pre><code>echo $GCLOUD_SERVICE_KEY | base64 --decode | sudo gcloud auth activate-service-account --key-file=-
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets - Kubernetes</a></p>
+<ul>
+<li>
+<p>Encoding Note: The serialized JSON and YAML values of secret data are encoded as base64 strings.</p>
+<p>Newlines are not valid within these strings and must be omitted. When using the <code>base64</code> utility on Darwin/macOS users should avoid using the <code>-b</code> option to split long lines. Conversely Linux users should add the option <code>-w 0</code> to <code>base64</code> commands or the pipeline <code>base64 | tr -d '\n'</code> if <code>-w</code> option is not available.</p>
+<p>會有這樣的差異是因為，在 macOS 上分行用 <code>-b</code> (預設 0)，但在 Linux 上則用 <code>-b</code> (預設 76)。上面示範的 <code>tr -d '\n'</code> 可以所有的換行字元移除。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/60790">Allow more special characters in masked variables (#60790) · Issues · GitLab.org / GitLab Community Edition · GitLab</a></p>
+<ul>
+<li>
+<p>Masked variables in their current state do not allow for the masking of many DIFFERENT TYPES OF CREDENTIALS due to restrictions on the types of special characters that can be masked.</p>
+<p>If more characters are allowed it will be easier to mask pre-generated credentials without having to regenerate access keys, passwords, etc multiple times. It looks like BitBucket currently supports the masking of many different types of characters as I had no problems masking a number of different AWS access keys without running into an error.</p>
+<p>這問題早該被揭露，否則連傳個 <code>AWS_SECRET_ACCESS_KEY</code> 都不能藏起來。</p>
+<p>這確實是個問題，但或許 credentials 明碼寫在環境變數裡也不太好。</p>
+</li>
+<li>
+<p>Kamil Trzciński: I think that AT LEAST we could extend to support for everything that is BASE64 to be masked. It should be always safe to allow them. So:</p>
+<pre><code>[A–Za–z0–9+/=]
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gitlab.kkinternal.com/help/ci/variables/README#variable-types">Variable types - Readme · Variables · Ci · Help · GitLab</a></p>
+<ul>
+<li>
+<p><code>file:</code> the runner will write the variable value to a TEMPORARY FILE and set the PATH TO THIS FILE as the value of an environment variable named same as the variable key.</p>
+<p>GitLab 11.11.1 試用發現 Type 選 File 後，也只能在小小的 Value 填上檔案內容，有空白/換行不能做 masked 的問題。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="incorrect-padding">Incorrect Padding<a class="headerlink" href="#incorrect-padding" title="Permanent link"> #</a></h2>
+<p>以 <a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/60790">GitLab CI 環境變數的值含有 <code>=</code> 時不能被 mask</a> 的問題為例，在 GitLab CI 上把結尾的 <code>=</code> 去掉，要能夠在 CI runtime 順利解碼：</p>
+<pre><code>$ export DATA=SGVsbG8sIFdvcmxkIQ       # 完整資料 SGVsbG8sIFdvcmxkIQ==
+$ echo -n &quot;${DATA}===&quot; | base64 --decode  # 固定加上 ===
+Hello, World!
+</code></pre>
+
+<p>後來才發現這做法可能不完全通用，在 macOS 及 Ubuntu 下都會有錯誤：</p>
+<pre><code>$ echo -n &quot;VG9kYXkgaXMgbXkgZGF5&quot; | base64 --decode
+Today is my day
+
+$ echo -n &quot;VG9kYXkgaXMgbXkgZGF5===&quot; | base64 --decode ; echo $?
+Invalid character in input stream.
+65
+
+$ docker run -it --rm ubuntu bash -c 'echo -n &quot;VG9kYXkgaXMgbXkgZGF5===&quot; | base64 -d ; echo $?'
+Today is my daybase64: invalid input
+1
+
+$ docker run -it --rm --entrypoint= docker/compose:1.24.0 sh -c 'apk add --no-cache make &amp;&amp; echo -n &quot;VG9kYXkgaXMgbXkgZGF5===&quot; | base64 -d ; echo $?'
+Today is my day0
+</code></pre>
+
+<p>顯然 <code>docker/compose:1.24.0</code> 下的 <code>base64</code> 相對友善。</p>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/2941995/">Python: Ignore &lsquo;Incorrect padding&rsquo; error when base64 decoding - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Henry Woody: I don&rsquo;t have the rep to comment, but a nice thing to note is that (at least in Python 3.x) <code>base64.b64decode</code> will TRUNCATE ANY EXTRA PADDING provided there is enough in the first place.</p>
+<p>So, something like: <code>b'abc='</code> works just as well as <code>b'abc=='</code>.</p>
+<p>What this means is that you can just add the MAXIMUM NUMBER OF PADDING CHARACTERS that you would ever need—which is three (<code>b'==='</code>)—and <code>base64</code> will truncate any unnecessary ones.</p>
+<p>Basically:</p>
+<pre><code>base64.b64decode(s + b'===')
+</code></pre>
+<p>is cleaner than</p>
+<pre><code>base64.b64decode(s + b'=' * (-len(s) % 4))
+</code></pre>
+<p>發現這個解法在 Python 2 跟 macOS <code>base64</code> 上都有效：</p>
+<pre><code>$ python -c 'import base64; print base64.b64decode("SGVsbG8sIFdvcmxkIQo====")'
+Hello, World!
+
+$ python3 -c 'import base64; print(base64.b64decode("SGVsbG8sIFdvcmxkIQo===="))'
+b'Hello, World!\n'
+$ echo -n SGVsbG8sIFdvcmxkIQo==== | base64 --decode
+Hello, World!
+$
+</code></pre>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

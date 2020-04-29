@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mkdocs/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MkDocs - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mkdocs.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mkdocs">MkDocs</a></li>
+            <li class="second-level"><a href="#powered-by">應用實例</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#file-layout">File Layout</a></li>
+                
+            <li class="second-level"><a href="#navigation">Navigation</a></li>
+                
+            <li class="second-level"><a href="#writing">Writing ??</a></li>
+                
+            <li class="second-level"><a href="#markdown">Markdown ??</a></li>
+                
+            <li class="second-level"><a href="#title">Title ??</a></li>
+                
+            <li class="second-level"><a href="#image">Image ??</a></li>
+                
+            <li class="second-level"><a href="#custom-css">Custom CSS ??</a></li>
+                
+            <li class="second-level"><a href="#theme">Theme ??</a></li>
+                
+            <li class="second-level"><a href="#toc">TOC ??</a></li>
+                
+            <li class="second-level"><a href="#meta-data-authors-date">Meta Data - Author(s), Date ??</a></li>
+                
+            <li class="second-level"><a href="#tagging">Tagging ??</a></li>
+                
+            <li class="second-level"><a href="#dev-server">Dev-Server ??</a></li>
+                
+            <li class="second-level"><a href="#configuration-mkdocsyml">Configuration (mkdocs.yml) ??</a></li>
+                
+            <li class="second-level"><a href="#mkdocs-cli">mkdocs CLI ??</a></li>
+                
+            <li class="second-level"><a href="#search">Search ??</a></li>
+                
+            <li class="second-level"><a href="#favicon">Favicon ??</a></li>
+                
+            <li class="second-level"><a href="#build">Build ??</a></li>
+                
+            <li class="second-level"><a href="#sitemap">Sitemap ??</a></li>
+                
+            <li class="second-level"><a href="#deployment">Deployment ??</a></li>
+                
+            <li class="second-level"><a href="#syntax-highlighting">Syntax Highlighting ??</a></li>
+                
+            <li class="second-level"><a href="#mathjax">MathJax</a></li>
+                
+            <li class="second-level"><a href="#plugin">Plugin ??</a></li>
+                
+            <li class="second-level"><a href="#read-the-docs">Read the Docs ??</a></li>
+                
+            <li class="second-level"><a href="#api-reference">API Reference ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mkdocs">MkDocs<a class="headerlink" href="#mkdocs" title="Permanent link"> #</a></h1>
+<ul>
+<li>跟 Hexo 不同，MkDocs 只能寫 pages，跟 Hexo 以 blog posts 為主 (pages 為輔) 的應用不同。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://www.dougalmatthews.com/2016/Sep/01/automate-publishing-to-pypi-with-pbr-and-travis/">Automate publishing to PyPI with pbr and Travis - Dougal Matthews</a> (2016-09-01) 提到 <code>retrace</code> 用 MkDocs 來產生文件 &ndash; 就是 <a href="http://d0ugal.github.io/retrace/">retrace 的官網</a>，採用 Materials theme (Google 風)。</li>
+<li><a href="https://www.mkdocs.org/">MkDocs</a> MkDocs is a fast, simple and downright gorgeous static site generator that&rsquo;s geared towards building PROJECT DOCUMENTATION. 專用於 project 網站，再適合不過 GitHub Pages 之類的應用。</li>
+<li><a href="https://youtu.be/pzoOQg6BNG4?t=25">Dougal Matthews - MkDocs: Documenting projects with Markdown - YouTube</a> 00:25 作者唸做 &ldquo;m-k-ducks&rdquo;</li>
+</ul>
+<h2 id="powered-by">應用實例<a class="headerlink" href="#powered-by" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/google/python-fire/blob/master/mkdocs.yml">python-fire/mkdocs.yml at master · google/python-fire</a> =&gt; <a href="https://google.github.io/python-fire/using-cli/">Using a CLI - Python Fire</a></li>
+<li><a href="https://github.com/pinax/pinax/blob/master/mkdocs.yml">pinax/mkdocs.yml at master · pinax/pinax</a> =&gt; <a href="http://blog.pinaxproject.com/2015/10/19/pinax-moves-sphinx-mkdocs/">Pinax Moves from Sphinx to MkDocs | The Pinax Project Blog</a> (2015-10-19) 從 Sphinx 遷移到 MkDocs，因為寫了許多年的 reStructuredText，還是很常需要查詢語法；<a href="http://pinaxproject.com/">Pinax</a> 在 Django 上發展出許多 starter projects。</li>
+<li><a href="https://github.com/Python-Markdown/markdown/blob/master/mkdocs.yml">markdown/mkdocs.yml at master · Python-Markdown/markdown</a></li>
+<li><a href="https://github.com/drivendata/cookiecutter-data-science/issues/7">Swap out Sphinx for mkdocs · Issue #7 · drivendata/cookiecutter-data-science</a> #ril</li>
+<li><a href="https://github.com/nodemcu/nodemcu-firmware/blob/master/mkdocs.yml">nodemcu-firmware/mkdocs.yml at master · nodemcu/nodemcu-firmware</a></li>
+<li><a href="https://github.com/search?q=filename%3Amkdocs.yml">Search · filename:mkdocs.yml</a> 更多 &hellip;</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<pre><code>$ mkdocs new helloworld
+INFO    -  Creating project directory: helloworld
+INFO    -  Writing config file: helloworld/mkdocs.yml
+INFO    -  Writing initial docs: helloworld/docs/index.md
+
+$ cd helloworld
+$ mkdocs serve
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+[I 180831 04:52:38 server:292] Serving on http://127.0.0.1:8000
+[I 180831 04:52:38 handlers:59] Start watching changes
+[I 180831 04:52:38 handlers:61] Start detecting changes
+
+$ open http://localhost:8000
+$ vi mkdocs.yml
+site_name: Hello, World!
+</code></pre>
+
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#getting-started">Getting Started - MkDocs</a><ul>
+<li><code>mkdocs new my-project</code> 會產生 <code>my-project/</code>，底下有 <code>mkdocs.yml</code> 及 <code>docs/index.md</code> &ndash; 其中 <code>mkdocs.yml</code> 是 configuration file，而 <code>docs/</code> 則是放置 documentation source files 的地方。</li>
+<li>內建 dev-server，在 <code>mkdocs.yml</code> 的目錄執行 <code>mkdocs serve</code> 即可，就可以從 <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> 看到內容</li>
+<li>從 <code>Start watching/detecting changes</code> 的訊息看來，預設就有 auto-reloading 的功能 &ndash; 當 configuration file (<code>mkdocs.yml</code>)、documentation directory (<code>docs/</code>) 或 theme directory 有異動時就會自動 rebuild，而且 browser 也會 auto-reload。</li>
+<li>透過 <code>pages:</code> 可以列舉 navigation header 的項目，例如 <code>- Home: index.md</code>、<code>Aboud: about.md</code>；雖然還是有效，但這在 configuration 的手冊裡已經找不到，原來在 <a href="https://www.mkdocs.org/about/release-notes/#version-10-2018-08-03">Version 1.0 (2018-08-03)</a> 被 <code>nav:</code> 取代。</li>
+</ul>
+</li>
+</ul>
+<h2 id="file-layout">File Layout<a class="headerlink" href="#file-layout" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#file-layout">File Layout - Writing Your Docs - MkDocs</a><ul>
+<li>Documentation source (Markdown files) 必須放在 documentation directory (<code>docs_dir</code>) 下，預設是 <code>docs/</code> (跟 <code>mkdocs.yml</code> 同一層)；實驗發現，試圖設定 <code>docs_dir: .</code> 會出錯，也就是 <code>mkdocs.yml</code> 跟 <code>.md</code> 不能在同一個目錄。</li>
+<li>Markdown source files 的副檔名是 <code>.md</code> (或 <code>.markdown</code>、<code>.mdown</code>、<code>.mkdn</code>、<code>.mkd</code>)，只要是在 <code>docs_dir</code> 下的 Markdown source file 都會被 render，不管設定為何；這間接說明了，文件不一定要列入 <code>nav</code> configuration。通常 project homepage 的主檔名是 <code>index</code> (也可以是 <code>README</code>)。</li>
+<li>The file layout you use determines the URLs that are used for the generated pages. You can also include your Markdown files in NESTED DIRECTORIES if that better suits your documentation layout. <code>docs/license.md</code> 對應 URL <code>/license/</code> (背後是 <code>site/license/index.html</code>)，而 <code>user-guide/getting-started.md</code> 則對應 URL <code>/user-guide/getting-started/</code> (背後是 <code>site/user-guide/getting-started/index.html</code>)；這一點很適合拿來做筆記，因為單篇 <code>xxx.md</code> 未來都可以往下展開細節。</li>
+</ul>
+</li>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#index-pages">Index pages - Writing Your Docs - MkDocs</a><ul>
+<li>When a directory is requested, by default, most web servers will return an index file (usually named <code>index.html</code>) contained within that directory if one exists. 因些上面的 homepage 才會取名 <code>index.md</code> &ndash; 產生 <code>index.html</code>；不過有些 repository hosting 會顯示 <code>README</code> file，所以 MkDocs 也接受 <code>README.md</code> 做為 homepage &ndash; 也會產生 <code>index.html</code>。</li>
+<li>如果同時存在 <code>index.md</code> 與 <code>README.md</code>，則 MkDocs 會優先採用 <code>index.md</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link"> #</a></h2>
+<p>原來 navigation 打破階層後，page 之間還是有順序的，使用者可以依序看，也可以跳著看，但都在安排好的脈絡上，這一點還滿特別的。以內建的兩個 theme 而言，套上 <code>mkdocs</code> 看起像個網站，但套上 <code>readthedocs</code> 後，看起來又像本書了。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#configure-pages-and-navigation">Configure Pages and Navigation - Writing Your Docs - MkDocs</a><ul>
+<li><code>nav</code> configuration 定義了哪些 page 會出現在 global site navigation menu 以及 menu 本身的結構；如果沒有設定 <code>nav</code>，預設會找出 <code>docs_dir</code> 下所有的 Markdown files，並按照檔名的字母順序排列 (當然 index file 會被排在第一個位置)，可想而知，這通常都不會是你想要的。</li>
+<li><code>nav</code> configuration 有兩種寫法 &ndash; <code>- 'index.md'</code> 或 <code>- Home: 'index.md'</code> (路徑總是相對於 <code>docs_dir</code>)，後者會採用 <code>Home</code> 做為 title，前者則會從檔案內容取得 title；不過若是後者的表示法自訂 title 後，檔案內容的 title 也會被覆寫，聽起來不太妙 XD</li>
+<li>Navigation sub-sections，可以將相關的 page 列在一個 section title 下，例如 <code>- User Guide:</code>，但本身不能指向 page &ndash; sections are only containers for child pages and sub-sections。雖然階層數沒有限制，但別讓使用者迷失了。</li>
+<li>Any pages not listed in your navigation configuration will still be rendered and included with the built site, however, they will not be linked from the global navigation and will not be included in the PREVIOUS AND NEXT LINKS. 這一點比 GitBook 好多了。</li>
+</ul>
+</li>
+<li>實驗發現沒列在 <code>nav:</code> 裡的 <code>.md</code> 也會被解析，在 dev-server 的 log 會看到類 <code>INFO    -  The following pages exist in the docs directory, but are not included in the "nav" configuration: ...</code> 的訊息，在 Search 裡也找得到。</li>
+</ul>
+<h2 id="writing">Writing ??<a class="headerlink" href="#writing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/">Writing Your Docs - MkDocs</a> #ril</li>
+</ul>
+<h2 id="markdown">Markdown ??<a class="headerlink" href="#markdown" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.mkdocs.org/user-guide/configuration/#markdown_extensions">markdown_extensions - Configuration - MkDocs</a> #ril</p>
+<ul>
+<li>MkDocs 是用 Python-Markdown 將 Markdown 轉成 HTML，而 Python-Markdown 支援許多 extension 用來自訂 &ldquo;how pages are formatted&rdquo;，<code>markdown_extensions</code> 就是用來啟用額外的 extension。MkDocs 預設會啟用 <code>meta</code>、<code>toc</code>、<code>tables</code>、<code>fenced_code</code>；根據 <a href="https://github.com/mkdocs/mkdocs/blob/1.0.4/mkdocs/config/defaults.py#L89">source code</a> 看來，預設並沒有 <code>meta</code>。</li>
+<li>
+<p>從範例 <code>- toc: permalink: True</code> 看來，<code>markdown_extension</code> 不只可以用來啟用其他 extension，也可以用來設定預設會被啟用的 extension。</p>
+<p>markdown_extensions:
+    - smarty
+    - toc:
+        permalink: True
+    - sane_lists</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/mkdocs/mkdocs/issues/545">Incorrect rendering of nested lists · Issue #545 · mkdocs/mkdocs</a> #ril</p>
+<ul>
+<li>d0uga: (member) 因為上遊 Python-Markdown 要求 2<sup>nd</sup> level list 要內縮 4 格，不認為這是個 bug。</li>
+<li>waylan: 建議 rufuspollock 應該把時間花在 making well-formed Markdown documents &hellip;</li>
+<li>rufuspollock: 手邊有很多文件都是內縮 2 格 (很多都是別人提供的)，<code>markdown.pl</code> 也沒這麼做，而且 CommonMark 看似也允許 2 個空格。</li>
+</ul>
+</li>
+<li><a href="https://github.com/Python-Markdown/markdown/issues/3">Nested lists require 4 spaces of indent · Issue #3 · Python-Markdown/markdown</a><ul>
+<li>結論是不修，但後來 radude 發表了一個 Python-Markdown extension；如何讓 MkDocs 套用? =&gt; 在 <code>markdown_extension</code> 加上 <code>mdx_truly_sane_lists</code> 即可。</li>
+</ul>
+</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/282">Indented code block not transformed · Issue #282 · mkdocs/mkdocs</a> #ril<ul>
+<li>jsaintro: MkDocs 的 backticks 只能用在 non-indented code block，但 1<sup>st</sup> level list 可以搭配內縮 8 格，2st level list 內縮 12 格，依此類推。</li>
+</ul>
+</li>
+</ul>
+<h2 id="title">Title ??<a class="headerlink" href="#title" title="Permanent link"> #</a></h2>
+<ul>
+<li>Meta data 裡可以定義 <code>title:</code>，否則就會抓取 heading 1。</li>
+</ul>
+<h2 id="image">Image ??<a class="headerlink" href="#image" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#linking-to-images-and-media">Linking to images and media - Writing Your Docs - MkDocs</a> #ril</li>
+</ul>
+<h2 id="custom-css">Custom CSS ??<a class="headerlink" href="#custom-css" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/styling-your-docs/#customizing-a-theme">Customizing a Theme - Styling Your Docs - MkDocs</a> #ril<ul>
+<li>MkDocs includes a couple built-in themes as well as various third party themes, all of which can easily be customized with extra CSS or JavaScript or overridden from the theme&rsquo;s <code>custom_dir</code>. 可以在 theme 上面再疊加一層自訂；不過還有比 <code>custom_dir</code> 更簡單的做法 &ndash; <code>extra_css</code>/<code>extra_docs</code> (搭配 <code>docs_dir</code> 使用)。</li>
+<li>If you would like to make a few tweaks to an existing theme, there is no need to create your own theme from scratch. For minor tweaks which only require some CSS and/or JavaScript, you can use the <code>docs_dir</code>. However, for more complex customizations, including overriding templates, you will need to use the theme <code>custom_dir</code> setting. 簡單的透過 <code>docs_dir</code>，複雜的再用 <code>custom_dir</code>。</li>
+</ul>
+</li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#build-directories">Build directories - Configuration - MkDocs</a> #ril</li>
+<li><a href="https://github.com/mkdocs/mkdocs/wiki/MkDocs-Recipes">MkDocs Recipes · mkdocs/mkdocs Wiki</a> 一些 recipes 跟 custom CSS 有關 #ril</li>
+</ul>
+<h2 id="theme">Theme ??<a class="headerlink" href="#theme" title="Permanent link"> #</a></h2>
+<ul>
+<li>文件內容的 HTML 是由 Python-Markdown (及啟用的 extensions) 產生，所以 theme 只是針對 Markdown 會產生的 HTML 先設計好 stylesheets 而已，並無法改變它的結構??</li>
+</ul>
+<p>推薦的 theme 有：</p>
+<ul>
+<li><a href="../mkdocs-cinder/">Cinder</a></li>
+<li><a href="../mkdocs-material/">Material</a></li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/1.0.4/mkdocs/commands/build.py#L274">mkdocs/build.py at 1.0.4 · mkdocs/mkdocs</a> <code>_populate_page(file.page, config, files, dirty)</code> 內部會呼叫 Python Markdown 產生本文的 HTML (<code>page.content</code>) 及 TOC (<code>page.toc</code>)，之後 <code>_build_page(file.page, config, files, nav, env, dirty)</code> 會寫出檔案。</li>
+<li><a href="https://www.mkdocs.org/">MkDocs</a> Great themes available: 除了內建的 <code>mkdocs</code> 與 <code>readthedocs</code>，還有許多 3<sup>rd</sup>-party themes，當然也可以自己做。</li>
+<li><a href="https://www.mkdocs.org/#theming-our-documentation">Theming our documentation - MkDocs</a> 在 <code>mkdocs.yml</code> 加上 <code>theme: readthedocs</code>，神奇的事發生了!! 不要重啟 server，整個變成 Read the Docs 風 ~</li>
+<li><a href="https://www.mkdocs.org/user-guide/styling-your-docs/">Styling Your Docs - MkDocs</a> #ril</li>
+<li><a href="https://www.mkdocs.org/user-guide/custom-themes/">Custom Themes - MkDocs</a> #ril</li>
+<li><a href="https://github.com/mkdocs/mkdocs/wiki/MkDocs-Themes">MkDocs Themes · mkdocs/mkdocs Wiki</a> #ril</li>
+<li><a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a> 很專業的感覺!! #ril</li>
+<li><a href="http://mkdocs.github.io/mkdocs-bootswatch/">MkDocs Bootswatch Themes</a> 文件的 TOC 在左側 (只到 L2?)，就沒有所有文件的導覽；適用數量很多的筆記。</li>
+<li><a href="https://gitlab.com/lramage94/mkdocs-bootstrap386">Lucas Ramage / mkdocs-bootstrap386 · GitLab</a> 模擬 console 的感覺，但 TOC 只到 L2。</li>
+<li><a href="https://pypi.org/search/?q=mkdocs+theme">Search results · PyPI</a> &hellip; 更多</li>
+</ul>
+<h2 id="toc">TOC ??<a class="headerlink" href="#toc" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#internal-links">Internal links - Writing Your Docs - MkDocs</a> 提到 <code>toc</code> extension #ril</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/744">Anchor Linking with Heading Sections · Issue #744 · mkdocs/mkdocs</a> 搭配 <code>attr_list</code> extension 可以自訂 ID；這對中文 header 尤其重要，例如 <code>## 新手上路 {: #getting-started }</code><ul>
+<li>waylan: (member) if you have the <code>permalink</code> option of the <code>toc</code> extension enabled, then every header will be assigned an <code>id</code>. For example, the following header: <code># A Header</code> Will produce the following HTML: <code>&lt;h1 id="a-header"&gt;A Header&lt;/h1&gt;</code>. Note that the <code>id</code> is assigned the SLUG: <code>a-header</code>.</li>
+<li>waylan: if you enable the <code>attr-list</code> extension, that will allow you to define custom ids for your headers. Those ids will then be used rather than the auto-generated ones. <a href="https://python-markdown.github.io/extensions/attr_list/">Attribute Lists — Python-Markdown 3.0.1 documentation</a> 提到 <code>### A hash style header ### {: #hash }</code> 會產生 <code>&lt;h3 id="hash"&gt;A hash style header&lt;/h3&gt;</code>，因為 A word which starts with a hash (<code>#</code>) will set the id of an element.</li>
+</ul>
+</li>
+<li>預設就會有 TOC，如何在特定頁面關閉??</li>
+</ul>
+<h2 id="meta-data-authors-date">Meta Data - Author(s), Date ??<a class="headerlink" href="#meta-data-authors-date" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#meta-data">Meta-Data - Writing Your Docs - MkDocs</a> #ril</li>
+<li><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#yaml-style-meta-data">YAML Style Meta-Data - Writing Your Docs - MkDocs</a> 範例提到 <code>author:</code> (list) 與 <code>date:</code>，但試過 <code>theme</code>、<code>readthedocs</code> 及 <code>material</code> 都不會顯示這兩項資訊??</li>
+</ul>
+<h2 id="tagging">Tagging ??<a class="headerlink" href="#tagging" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/1411">tag and category support? · Issue #1411 · mkdocs/mkdocs</a> 靠 meta data，但好像沒有 plugin? #ril</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/759">Tagging support · Issue #759 · mkdocs/mkdocs</a> 未來可以透過 plugin 提供。</li>
+</ul>
+<h2 id="dev-server">Dev-Server ??<a class="headerlink" href="#dev-server" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#preview-your-site-as-you-work">Preview your site as you work - MkDocs</a> 內建 dev-server 可以預覽文件，甚至存檔時 browser 會自動 reload!</li>
+</ul>
+<h2 id="configuration-mkdocsyml">Configuration (mkdocs.yml) ??<a class="headerlink" href="#configuration-mkdocsyml" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#getting-started">Getting Started - MkDocs</a> <code>mkdocs.yml</code> 是 configuration file，示範 <code>site_name</code> 可以改變網站的名稱。</li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#project-information">Project Information - Configuration - MkDocs</a> #ril<ul>
+<li>全部的組態都集中在 project directory 的 <code>mkdocs.yml</code>，裡面除了 <code>site_name</code> 之外，其他都是非必要的。</li>
+<li><code>site_name</code> - 做為 main title</li>
+<li><code>site_url</code> - 設定 canonical URL。This will add a LINK TAG with the canonical URL to the generated HTML header. 例如 <code>&lt;link rel="canonical" href="https://imsardine.github.io/dev-notes/markdown/"&gt;</code>。實驗確認可以帶 path，例如 <code>https://imsardine.github.io/dev-notes</code>，產生的文件其間都用相對路徑串聯，所以不會有問題。</li>
+<li><code>repo_url</code> - 提供 repository (GitHub、Bitbucket、GitLab 等) 的連結，例如 <code>https://github.com/example/repository/</code>；試過 Material theme，會根據 URL 顯示 GitHub、GitLab 不同的圖示。</li>
+</ul>
+</li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#documentation-layout">Documentation Layout - Configuration - MkDocs</a> #ril</li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#build-directories">Build Directories - Configuration - MkDocs</a> #ril</li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#preview-controls">Preview Controls - Configuration - MkDocs</a> #ril</li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#formatting-options">Formatting Options - Configuration - MkDocs</a> #ril</li>
+</ul>
+<h2 id="mkdocs-cli"><code>mkdocs</code> CLI ??<a class="headerlink" href="#mkdocs-cli" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#other-commands-and-options">Other Commands and Options - MkDocs</a> <code>mkdocs --help</code> 或 <code>mkdocs &lt;command&gt; --help</code>。</li>
+</ul>
+<h2 id="search">Search ??<a class="headerlink" href="#search" title="Permanent link"> #</a></h2>
+<h2 id="favicon">Favicon ??<a class="headerlink" href="#favicon" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#changing-the-favicon-icon">Changing the Favicon Icon - MkDocs</a> Markdown 預設採用同 MkDocs 官網的 favicon (黑色的筆記本)，將自訂的圖放在 <code>docs/img/favicon.ico</code>，MkDocs 就會自動偵測到並採用它。</li>
+</ul>
+<h2 id="build">Build ??<a class="headerlink" href="#build" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#building-the-site">Building the site - MkDocs</a> #ril<ul>
+<li><code>mkdocs build</code> 會在 <code>site/</code> 輸出 HTML；注意 <code>docs/index.md</code> 與 <code>docs/about.md</code> 會分別被輸出成 <code>site/index.html</code> 與 <code>site/about/index.html</code>，其他 media 也被複製進 <code>site/</code>。</li>
+<li>還有 <code>sitemap.xml</code>、<code>mkdocs/search_index.json</code>? MkDocs 1.0.3 實際的輸出是 <code>sitemap.xml</code> (外加 <code>sitemap.xml.gz</code>)、<code>search/search_index.json</code>，另外還有 <code>404.html</code></li>
+<li>加 <code>--clean</code> 才會清理 <code>site/</code> 多出來的東西? 不過為什麼不加 <code>--clean</code> 前，<code>mkdocs build</code> 就會看到 <code>INFO    -  Cleaning site directory</code> 的 log??</li>
+</ul>
+</li>
+<li><a href="https://www.mkdocs.org/about/release-notes/#version-10-2018-08-03">Version 1.0 (2018-08-03) - Release Notes - MkDocs</a> Support for hidden pages. All Markdown pages are now included in the build regardless of whether they are included in the navigation configuration (#699).</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/699">Building hidden pages · Issue #699 · mkdocs/mkdocs</a> (2015-07-27) #ril</li>
+<li><a href="https://github.com/JuliaDocs/Documenter.jl/issues/230">Build pages without adding them to sidebar? · Issue #230 · JuliaDocs/Documenter.jl</a> (2016-08-23)<ul>
+<li>tlnagy: 有沒有可能限制 content tree 的深度，會讓 sidebar 變得很長，但有些 page 又不那麼重要 (要列在 sidebar 裡)。</li>
+<li>MichaelHatherly: (member) 或許 navmenu 可以預設合起來? 又或者像 GitBook 一樣把 navmenu 安排在分開的 frame 裡。</li>
+<li>mortenpi: (member) We could introduce the system that all .md files get built, even if they&rsquo;re not in the navmenu 過去有個決定會略過不在 <code>pages</code> 裡的檔案，但這做法可以討論。</li>
+<li>tlnagy: 實務上會安排 &ldquo;link to all the pages&rdquo; 的頁面，猜想大部份的人不會在意多點一下，而且這樣會讓 navbar 不那麼雜亂。</li>
+<li>MichaelHatherly: (member) Yes, that approach looks good — just keep the &ldquo;MAIN&rdquo; TOPICS easily reachable from the navmenu and have the others reachable through IN-PAGE CONTENTS seems like a good compromise to me. 開發團隊接受了 tlnagy 的提議，而這正是 GitBook 的缺點。</li>
+<li>mortenpi: (member) what about pages that are completely disconnected (i.e. no links to them) &ndash; should we try to find them and warn the user?</li>
+<li>後續的討論都沒有看到 MkDocs 有上述的修改，這才發現這個 issue 屬於 JUliaDocs，看似受到 MkDocs 的影響很深，中間一度提到 &ldquo;decided to be consistent with MkDocs&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h2 id="sitemap">Sitemap ??<a class="headerlink" href="#sitemap" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/#project-information">Project Information - Configuration - MkDocs</a> 發現 <code>site_url</code> 也用在產生 <code>build/sitemap.xml</code>，否則裡面的 <code>&lt;loc&gt;</code> 的內容會是 <code>None</code> (1.0.4)；顯然 &ldquo;As a minimum this configuration file must contain the site_name setting.&rdquo; 這句話是有問題的，因為 sitemap 預設就會產生。</li>
+<li><a href="https://www.mkdocs.org/about/release-notes/">Release Notes - MkDocs</a><ul>
+<li>Version 1.0 (2018-08-03) - Compress sitemap.xml (#1130).</li>
+<li>Version 0.17.4 (2018-06-08) - Bugfix: Add multi-level nesting support to sitemap.xml (#1482).</li>
+<li>Version 0.13.0 (2015-05-26) - Generate sitemaps for documentation builds. (#436)</li>
+</ul>
+</li>
+<li>MkDocs 開始有 &ldquo;Support for hidden pages&rdquo;，但 sitemap 卻沒有考慮到 hidden pages (1.0.4) ??<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/master/mkdocs/commands/build.py#L123">mkdocs/build.py at master · mkdocs/mkdocs</a> <code>if template_name == 'sitemap.xml':</code> 看來是 <code>def _build_theme_template(template_name, env, files, config, nav):</code> 的 <code>files</code> 一開始就少了 hidden files?</li>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/1.0.4/mkdocs/templates/sitemap.xml">mkdocs/sitemap.xml at 1.0.4 · mkdocs/mkdocs</a> 原來 <code>templates/sitemap.xml</code> 就只會遶 <code>nav</code> 而非 <code>files</code>，可能是為了要與 navigation menu 階層對應的關係?</li>
+</ul>
+</li>
+<li>Sitemap 裡的 <code>&lt;lastmod&gt;</code> 是如何決定的 =&gt; 1.0.4 採用 <code>SOURCE_DATE_EPOCH</code> 或系統時間<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/1.0.4/mkdocs/templates/sitemap.xml#L9">mkdocs/sitemap.xml at 1.0.4 · mkdocs/mkdocs</a> <code>{% if item.update_date %}&lt;lastmod&gt;{{item.update_date}}&lt;/lastmod&gt;{% endif %}</code></li>
+<li><a href="https://github.com/mkdocs/mkdocs/blob/1.0.4/mkdocs/structure/pages.py#L39">mkdocs/pages.py at 1.0.4 · mkdocs/mkdocs</a> 由 <code>SOURCE_DATE_EPOCH</code> 決定，或是取當下系統時間；也就是重新產生就更新，或許可以把最後一個 commit 的時間寫進 <code>SOURCE_DATE_EPOCH</code>，就能達成 reproducible build 的效果?<pre><code># Support SOURCE_DATE_EPOCH environment variable for "reproducible" builds.
+# See https://reproducible-builds.org/specs/source-date-epoch/
+if 'SOURCE_DATE_EPOCH' in os.environ:
+    self.update_date = datetime.datetime.utcfromtimestamp(
+        int(os.environ['SOURCE_DATE_EPOCH'])
+    ).strftime("%Y-%m-%d")
+else:
+    self.update_date = datetime.datetime.now().strftime("%Y-%m-%d")
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="deployment">Deployment ??<a class="headerlink" href="#deployment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#deploying">MkDocs</a> 把 <code>site/</code> 的內容上傳，這裡提到 GitHub project pages、Amazon S3。</li>
+</ul>
+<h2 id="syntax-highlighting">Syntax Highlighting ??<a class="headerlink" href="#syntax-highlighting" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>拿 <code>mkdocs new .</code> 產生的 <code>docs/index.md</code> 來測試，先改寫裡面只有 code block，再觀察搭配不同設定所產生的 HTML。</p>
+<pre><code># Welcome to MkDocs
+
+    from __future__ import print_function
+    print("Hello, World!") # Python 2-3 compatible code
+</code></pre>
+<p>在沒有自訂其他 extension 的情況下，產生的 HTML source 為：</p>
+<pre><code>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;
+
+&lt;pre&gt;&lt;code&gt;from __future__ import print_function
+print("Hello, World!") # Python 2-3 compatible code
+&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>DOM 會被加工成：(針對 <code>&lt;code&gt;</code>)</p>
+<pre><code>&lt;pre&gt;&lt;code class="hljs coffeescript"&gt;&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; __future__ &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; print_function
+&lt;span class="hljs-built_in"&gt;print&lt;/span&gt;(&lt;span class="hljs-string"&gt;"Hello, World!"&lt;/span&gt;) &lt;span class="hljs-comment"&gt;# Python 2-3 compatible code&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>由 <code>class="hljs coffeescript"</code> 看來，highlight.js 判斷失準。改寫成 fenced code block 並提示 language：</p>
+<pre><code>```python
+from __future__ import print_function
+print("Hello, World!") # Python 2-3 compatible code
+```
+</code></pre>
+<p>HTML source 帶有 <code>python</code> 的提示：</p>
+<pre><code>&lt;pre&gt;&lt;code class="python"&gt;from __future__ import print_function
+print(&amp;quot;Hello, World!&amp;quot;) # Python 2-3 compatible code
+&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>DOM 會被加工成：</p>
+<pre><code>&lt;pre&gt;&lt;code class="python hljs"&gt;&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; __future__ &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; print_function
+print(&lt;span class="hljs-string"&gt;"Hello, World!"&lt;/span&gt;) &lt;span class="hljs-comment"&gt;# Python 2-3 compatible code&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>但 indented code block 如何提示 langage??</p>
+</li>
+<li>
+<p>重複上面的實驗 (回到 indented code block)，試試加入 <code>codehilite</code> markdown extension 後，會起什麼變化? HTML source 變成：</p>
+<pre><code>&lt;pre class="codehilite"&gt;&lt;code&gt;from __future__ import print_function
+print(&amp;quot;Hello, World!&amp;quot;) # Python 2-3 compatible code&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>從 <code>&lt;pre class="codehilite"&gt;</code> 看到 <code>codehilite</code> extension 開始作用。由於這時候 highlight.js 的程式都還在，所以 DOM 還是會被加工：</p>
+<pre><code>&lt;pre class="codehilite"&gt;&lt;code class="hljs coffeescript"&gt;&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; __future__ &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; print_function
+&lt;span class="hljs-built_in"&gt;print&lt;/span&gt;(&lt;span class="hljs-string"&gt;"Hello, World!"&lt;/span&gt;) &lt;span class="hljs-comment"&gt;# Python 2-3 compatible code&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+<p>事實上，因為還沒裝 Pygments 套件的關係，所以 <code>codehilite</code> extension 等同沒有效果 (<code>use_pygments: false</code>)。安裝 Pygments 套件後，HTML source 變成：</p>
+<pre><code>&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;__future__&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;print_function&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Hello, World!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Python 2-3 compatible code&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</code></pre>
+<p>很明顯地 <code>&lt;pre class="codehilite"&gt;</code> 變成 <code>&lt;div class="codehilite"&gt;</code>，而且 <code>&lt;pre&gt;</code> 底下沒有 <code>&lt;code&gt;</code> 了，也之所以雖然 highlight.js 的程式都還在，但 DOM 不會被加工，但為何 <code>class="kn"</code>、<code>class="nn"</code> 等都沒有效果？</p>
+<p>但因為沒有 Pygments CSS 的關係，不會有 highlighting 的效果。按照 <a href="https://python-markdown.github.io/extensions/code_hilite/#step-2-add-css-classes">CodeHilite — Python-Markdown 3.0.1 documentation</a> 的說法：</p>
+<blockquote>
+<p>You will need to define the appropriate CSS classes with appropriate rules. The CSS rules either need to be defined in or linked from the header of your HTML templates. Pygments can generate CSS rules for you. Just run the following command from the command line:</p>
+<p><code>pygmentize -S default -f html -a .codehilite &gt; styles.css</code></p>
+</blockquote>
+<p>也就是 Pygments 的 CSS 要自己安排：</p>
+<pre><code>pygmentize -S default -f html -a .codehilite &gt; docs/pygments.css
+</code></pre>
+<p>然後在 <code>mkdocs.yml</code> 增加 <code>extra_css: ["pygments.css"]</code>，就可以看到 highlighting 的效果：</p>
+<pre><code>&lt;link href="pygments.css" rel="stylesheet"&gt;
+
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;__future__&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;print_function&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Hello, World!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="c1"&gt;# Python 2-3 compatible code&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</code></pre>
+</li>
+<li>
+<p><a href="https://www.mkdocs.org/user-guide/writing-your-docs/#fenced-code-blocks">Fenced code blocks - Writing Your Docs - MkDocs</a> 提到 syntax highlighter #ril</p>
+</li>
+<li><a href="https://squidfunk.github.io/mkdocs-material/extensions/codehilite/">CodeHilite - Material for MkDocs</a> Syntax highlighting 是 theme 的功能? #ril</li>
+</ul>
+<h2 id="mathjax">MathJax<a class="headerlink" href="#mathjax" title="Permanent link"> #</a></h2>
+<p>由於 MathJax 是在前端做轉換，所以只要在 <code>mkdocs.yml</code> 加上：</p>
+<pre><code>extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML
+</code></pre>
+
+<p>就可以讓 MathJax 作用在產生的頁面上，而 Markdown 原始文件只要注意 MathJax 的表示法不被 MkDocs 解析，可以正確地傳到前端即可。例如：</p>
+<pre><code>`x = (-b +- sqrt(b^2-4ac))/(2a)`
+</code></pre>
+<p>要寫成：</p>
+<pre><code>\`x = (-b +- sqrt(b^2-4ac))/(2a)\`
+</code></pre>
+<p>這樣 backtick 才能被送到前端：</p>
+<p>`x = (-b +- sqrt(b^2-4ac))/(2a)`</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/27882261/">python - MkDocs and MathJax - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Waylan: This is actually easier than I expected. First I installed the <a href="https://github.com/mitya57/python-markdown-math">Python-Markdown-Math Extension</a>:</p>
+<pre><code>pip install https://github.com/mitya57/python-markdown-math/archive/master.zip
+</code></pre>
+<p>Next I edited the <code>test_math/docs/index.md</code> file to be as follows (sample borrowed from the MathJax documentation):</p>
+<pre><code># MathJax Test Page
+
+When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+</code></pre>
+<p>Finally, I edited the <code>test_math/config.yaml</code> file to be as follows:</p>
+<pre><code>site_name: Test Math
+
+extra_javascript:
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+markdown_extensions:
+    - mdx_math
+</code></pre>
+<p>即便用了 extension，還是得引用 MathJax 的 JS library，那 extension 的作用是什麼 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://facelessuser.github.io/pymdown-extensions/extensions/arithmatex/">Arithmatex - PyMdown Extensions Documentation</a> #ril</p>
+<ul>
+<li>
+<p>Arithmatex is an extension that PRESERVES LaTeX math equations during the Markdown conversion process so that they can be used with libraries like MathJax. If you prefer to use something other than MathJax, Arithmatex can output a more generic format suitable for other libraries like KaTeX.</p>
+</li>
+<li>
+<p>Arithmatex searches for the patterns <code>$...$</code> and <code>\(...\)</code> for INLINE MATH, and <code>$$...$$</code>, <code>\[...\]</code>, and <code>\begin{}...\end{}</code> for BLOCK MATH. By default, all formats are enabled, but each format can individually be disabled if desired.</p>
+<p>難怪之前 <code>[... \( ... \)](http://....)</code> 這類連結在 client 端會被誤認為是 Mathjax 的 equation markup，因為 <code>pymdownx.arithmatex</code> 這個 extension 讓 Markdown conversion 的過程中保留了 <code>\(...\)</code> 的部份，而這正是 in-line mathematics 的寫法。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="plugin">Plugin ??<a class="headerlink" href="#plugin" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/user-guide/plugins/">Plugins - MkDocs</a> #ril</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/206">Plugin API. · Issue #206 · mkdocs/mkdocs</a> #ril</li>
+<li><a href="https://github.com/mkdocs/mkdocs/wiki/MkDocs-Plugins">MkDocs Plugins · mkdocs/mkdocs Wiki</a> 條列外部開發的 plugin #ril</li>
+</ul>
+<h2 id="read-the-docs">Read the Docs ??<a class="headerlink" href="#read-the-docs" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/">MkDocs</a> 內建 <code>readthedocs</code> theme，效果跟 Read the Docs 上的文件很像。</li>
+<li><a href="https://www.mkdocs.org/user-guide/deploying-your-docs/#read-the-docs">Read the Docs - Deploying Your Docs - MkDocs</a> #ril</li>
+</ul>
+<h2 id="api-reference">API Reference ??<a class="headerlink" href="#api-reference" title="Permanent link"> #</a></h2>
+<ul>
+<li>最糟是轉向 Sphinx 產生的文件，若能將 Sphinx 產生的文件整進來也是個方式 &hellip;</li>
+<li>或許 MkDocs 內建 <code>readthedocs</code> theme 的關係，讓我們混淆了 MkDocs 的定位；目前看來 Sphinx 還是寫 Read the Docs 這類文件的最佳方案，而 MkDocs 則較適合用在建立 project site？</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/641">How to build API reference docs · Issue #641 · mkdocs/mkdocs</a><ul>
+<li>twiecki: Along with documentation, sphinx can auto-generate references by walking through the files and looking at the doc-strings. Is this possible or are there any plans to add this? 聽起來 Sphinx 是 MkDocs 的父集合，只是它不支援 Markdown</li>
+<li>d0ugal (Member): This isn&rsquo;t currently possible and we have no plans to add it to MkDocs itself. I would like to see this happen via the extension API when we add one. See #206. 但隨後補上 FWIW, API docs (and a general plugin API) is something that I really want in some cases. So it is bubbling up in priority for me but I have a few critical things I need to take care of first. So I have no idea when I would have time to take it on. &hellip; 開發團隊慢慢理解到這樣的需求。</li>
+<li>waylan (Member) 引用了 <a href="http://ericholscher.com/blog/2014/feb/27/how-i-judge-documentation-quality/#prose">How I Judge the Quality of Documentation in 30 Seconds — Eric Holscher - Surfing in Kansas</a> 的說法 &ndash; If your documentation is generated from source code, I am immediately skeptical. You should use words to communicate with your users, and those words shouldn’t live in your source code. If you included all of the things needed to document a project in source, your code would be unreadable. So please, use a tool that allows you to write prose documentation outside of your source code. Your users will thank you. &hellip; 是有些道理，但 API 文件不同啊?</li>
+<li>d0ugal: Yeah, I almost totally agree. They are not a replacement to well written docs. So if all your docs are generated from code, then I think you are doing it wrong :) However, I do like them as an additional resource to prose documentation. Personally, for example, I find them particularly useful when I know a project well but I just want to look up something I&rsquo;ve not used in a while.</li>
+<li>kernc: User&rsquo;s manual is one thing, and API reference (docstrings) is another. A minimally usable documentation tool should be able to produce a HTML of the latter. 確實是如此</li>
+<li>d0ugal: MkDocs has proven that automatically creating an API reference isn&rsquo;t required to be minimally usable given that we have many users. 認為這不是 MkDocs 最低限度要支援的功能，最後還是導向 plugin API #206 的討論。</li>
+</ul>
+</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/20">generate or link to API docs · Issue #20 · mkdocs/mkdocs</a><ul>
+<li>tomchristie (Contributor): Autogenerated docs isn&rsquo;t something I&rsquo;m particular interested in pulling into mkdocs. The best documentation sites that I&rsquo;ve seen DON&rsquo;T TEND TO INCLUDE AUTOGENERATED DOCS. 不過 &ldquo;I&rsquo;m planning for you to be able to add regular HTML pages as well as MD pages.&rdquo; 的選項似乎出現了一線希望 &hellip; tomchristie 隨後將這個 issue 關閉，轉向 #28 討論。</li>
+<li>rossant: 自己寫了個<a href="https://github.com/kwikteam/phy/blob/master/tools/api.py">工具</a>，可以根據 docstrings 產生 <code>api.md</code>，然後就可以交給 MkDocs 使用。</li>
+<li>d0ugal (Member): 如果在產生 Markdown 為什麼不直接用 Markdown 寫文件? &hellip; 沒進入狀況 XD 隨後 AbdealiJK 與 isms 引用其他專案想用 MkDocs 取代 Sphinx 的 issue。</li>
+<li>raghakot: 也寫了個 <a href="https://github.com/raghakot/markdown-apidocs">https://github.com/raghakot/markdown-apidocs</a>。</li>
+</ul>
+</li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues/206">Plugin API. · Issue #206 · mkdocs/mkdocs</a> #ril<ul>
+<li>erichulser: One of the requirements I have for documentation is auto-module/class docs as a means to augment the prose style. 看起來 prose 指的是非 docstrings 那種硬梆梆的寫法 &hellip; . I would propose simply adding a plugin architecture to mkdocs (similar to django/pyramid) that would allow a developer to run additional addons so as to not pollute the core of the project. 原來 plugin 的想法是從這裡開始的。</li>
+<li>d0ugal: We absolutely don&rsquo;t want to include auto-generated docs for MkDocs. Doing so would be a promise to support a Python API.</li>
+<li>erichulser: 做了個 <a href="https://github.com/erichulser/mkdocs_autodoc">erichulser/mkdocs_autodoc</a> extension</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/mkdocs/mkdocs/issues/28">Allow HTML pages. · Issue #28 · mkdocs/mkdocs</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/NiklasRosenstein/pydoc-markdown">NiklasRosenstein/pydoc-markdown: Create Python API documentation in Markdown format.</a></p>
+</li>
+<li><a href="https://pinax-stripe.readthedocs.io/en/latest/reference/actions/">Actions - Pinax Stripe</a> 怎麼把 API reference 拼進 MkDocs 的?<ul>
+<li><a href="https://github.com/pinax/pinax-stripe/commits/master/docs/reference/actions.md">History for docs/reference/actions.md - pinax/pinax-stripe</a> 看起來不是從 source code 自動產生的?</li>
+<li><a href="https://github.com/pinax/pinax-stripe/blob/master/pinax/stripe/actions/charges.py">pinax-stripe/charges.py at master · pinax/pinax-stripe</a> 不過 <code>docs/reference/*.md</code> 的內容與 source code 裡的 docstrings 是一致的。</li>
+<li><a href="https://github.com/pinax/pinax-stripe/commit/274abcf9d6fb25a29e6531a468d75333f05b6ed3#diff-85aca1129704024a07435fb565b3f92f">add_event: get stripe_account from message · pinax/pinax-stripe@274abcf</a> 從 <code>reference/actions.md</code> 反推 history，每個 commit 都會跟 source code 裡的 docstrings 一起修改，感覺有用什麼工具?</li>
+<li><a href="https://github.com/pinax/pinax-stripe/commit/86bed63f316040f7ff435fbbeadd3ff715d43a40#diff-85aca1129704024a07435fb565b3f92f">Sync subscription data immediately · pinax/pinax-stripe@86bed63</a> 從這個 commit 看來是手動同步的；在 docstrings 寫 &ldquo;Returns: the data representing the subscription object that was created&rdquo;，但到 <code>reference/actions.md</code> 就改成 &ldquo;Returns: the <code>pinax.stripe.models.Subscription</code> object that was created&rdquo; 了。</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/#installation">Installation - MkDocs</a> 可以用 OS package manager 裝，但如果版本不夠新，還是建議用 pip 安裝 <code>mkdocs</code> 套件，就會有 <code>mkdocs</code> 指令可用。</li>
+</ul>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://hub.docker.com/r/squidfunk/mkdocs-material/">squidfunk/mkdocs-material - Docker Hub</a> #ril</li>
+<li><a href="https://hub.docker.com/search/?isAutomated=0&amp;isOfficial=0&amp;page=1&amp;pullCount=0&amp;q=mkdocs&amp;starCount=0">Search - Docker Hub</a> 感覺自己可以弄個預裝很多 theme 及 Python-Markdown extenion 者，調整組態就能套用 ??</li>
+<li><a href="https://medium.com/@edsonalcalamx/running-nethereum-docs-with-docker-5b8a4c25d42f">Running mkdocs with Docker – Edson Alcala – Medium</a> (2018-03-09) 重點是 <code>mkdocs.yml</code> 裡要加 <code>dev_addr: 0.0.0.0:8080</code> 才能搭配 <code>docker run --publish 8080:8080</code> 使用。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mkdocs.org/">MkDocs</a></li>
+<li><a href="https://github.com/mkdocs/mkdocs">mkdocs/mkdocs - GitHub</a></li>
+<li><a href="https://pypi.org/project/mkdocs/">mkdocs - PyPI</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://groups.google.com/forum/#!forum/mkdocs">MkDocs - Google Groups</a></li>
+<li><a href="https://github.com/mkdocs/mkdocs/issues">Issues · mkdocs/mkdocs - GitHub</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://github.com/mkdocs/mkdocs/wiki">mkdocs/mkdocs Wiki</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="python.markdown.md">Python-Markdown</a> - MkDocs 背後用 Python-Markdown 將 Markdown 轉換成 HTML</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.mkdocs.org/about/release-notes/">Release Notes</a></li>
+<li><a href="https://www.mkdocs.org/user-guide/configuration/">Configuration - MkDocs</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

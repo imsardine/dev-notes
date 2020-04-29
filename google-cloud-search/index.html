@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/google-cloud-search/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Cloud Search - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/google-cloud-search.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-cloud-search">Google Cloud Search</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#third-party-non-g-suite-content">Third-party / Non-G Suite Content ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-cloud-search">Google Cloud Search<a class="headerlink" href="#google-cloud-search" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://gsuite.google.com/products/cloud-search/">Google Cloud Search – Search Gmail, Calendar, Drive and more.</a></p>
+<p>The information you need, right when you need it</p>
+<ul>
+<li>Use the power of Google to search across your COMPANY’S CONTENT. From Gmail and Drive to Docs, Sheets, Slides, Calendar, and more, Google Cloud Search answers your questions and delivers relevant suggestions to help you throughout the day.</li>
+</ul>
+<p>The best of Google Search for your business</p>
+<ul>
+<li>
+<p>Powered by machine learning, Cloud Search brings you NATURAL LANGUAGE UNDERSTANDING, instant QUERY PREDICTIONS, CONTEXTUAL RESULTS ??, and more. Get the speed, performance and reliability that only Google can provide — all in over 100 different languages. Cloud Search will also be available as a <a href="https://cloud.google.com/products/search/">STANDALONE OFFERING</a>.</p>
+<p>其中 standalone offering 指的是獨立於 G Suite 之外；兩者有什麼差別嗎 ??</p>
+</li>
+</ul>
+<p>Privacy and security that meets your needs</p>
+<ul>
+<li>
+<p>Search results reflect the SECURITY MODELS of your organization as it changes over time. Cloud Search supports NEAR-INSTANT updates to group access — so users ONLY SEE SEARCH RESULTS FOR CONTENT THEY HAVE ACCESS TO.</p>
+<p>不會找到不能看的。</p>
+</li>
+</ul>
+<p>Seamlessly integrated with G Suite</p>
+<ul>
+<li>Cloud Search is seamlessly integrated with other G Suite apps. Search across Gmail, Docs, Drive, Calendar, and more.</li>
+</ul>
+<p>Rapid deployment</p>
+<ul>
+<li>With powerful web and mobile apps, teams can start using Cloud Search in no time.</li>
+</ul>
+<p>Find people faster</p>
+<ul>
+<li>Search your company directory. See colleagues’ contact details, plus events and files you have in common.</li>
+</ul>
+<p>Available in G Suite Business and Enterprise editions</p>
+<ul>
+<li>
+<p>Cloud Search is available for customers using G Suite Business and Enterprise editions.</p>
+<p>只有 Basic Edition 沒這項功能。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cloud.google.com/products/search/">Cloud Search  |  Google Cloud</a></p>
+<ul>
+<li>The best of Google Search for your company.</li>
+</ul>
+<p>Find what you need — quickly and securely</p>
+<ul>
+<li>With Cloud Search, we’re bringing the best of Google Search to your business. Whether integrated with G Suite or THIRD-PARTY APPLICATIONS, Cloud Search helps your employees quickly, easily, and SECURELY find information ACROSS THE BUSINESS.</li>
+</ul>
+<p>Powered by machine learning</p>
+<ul>
+<li>
+<p>Searching THROUGH YOUR COMPANY’S DATA should be easy. Cloud Search utilizes MACHINE LEARNING to bring instant QUERY SUGGESTIONS and surface the most relevant results across different CONTENT SYSTEMS — in over 100 different languages. What Google does for web, Cloud Search does for your business.</p>
+<p>可以自行調整權重嗎?? 從其他 source 取得的資料，如何搭配才能做到 granular access-level controls ??</p>
+</li>
+</ul>
+<p>Privacy and security models that meet your needs</p>
+<ul>
+<li>Your search results reflect the security models of your organization. Granular access-level controls — including INDIVIDUAL-LEVEL, GROUP-LEVEL, and CONTENT-BASED HIERARCHIES ?? — help ensure that USERS ONLY SEE THE SEARCH RESULTS THEY SHOULD. And because updates are quickly reflected, these permissions change as your organization evolves.</li>
+</ul>
+<p>Built on a trusted, proven platform</p>
+<ul>
+<li>Cloud Search runs on the same trusted infrastructure that supports multiple billion user products including Google web search. With Cloud Search, you get the speed, performance, and reliability that only Google can provide.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gsuite.google.com/pricing.html">Pricing Plans | G Suite</a></p>
+<ul>
+<li>
+<p>Smart search across G Suite with Cloud Search</p>
+<p>Search across your company’s content in G Suite, from Gmail and Drive to Docs, Sheets, Slides, Calendar, and more. Cloud Search answers your questions and delivers relevant suggestions to help you throughout the day.</p>
+<p>從 Business Edition 開始有 Cloud Search，從 &ldquo;across G Suite&rdquo; 看來，是否在暗示只能搜 G Suite 的資料，無法餵其他資料進去 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/cloud-search/docs/guides/">Introduction to Google Cloud Search  |  Cloud Search  |  Google Developers</a></p>
+<ul>
+<li>Google Cloud Search allows employees of a company to search and retrieve information, such as internal documents, database fields, and CRM data, from the company&rsquo;s INTERNAL DATA REPOSITORIES.</li>
+</ul>
+<p>Architectural overview</p>
+<ul>
+<li>
+<p>Figure 1 (Key components of Google Cloud Search) shows all the key components of a Google Cloud Search implementation:</p>
+<p><img alt="" src="https://developers.google.com/cloud-search/images/architecture-overview.png" /></p>
+<p>分為 repository、data source 與 search interface 三塊，其中 content connector 把 data 透過 Indexing API 餵進 data source，而 search interface 則透過 Query API 查詢 data sources 裡的資料。</p>
+</li>
+<li>
+<p>Here are the definitions of the most important terms from Figure 1:</p>
+<p>Repository</p>
+<ul>
+<li>Software used by an enterprise to store its data, such as database used to store employee information.</li>
+</ul>
+<p>Data source</p>
+<ul>
+<li>
+<p>Data from a repository that HAS BEEN INDEXED and stored in Google Cloud Search.</p>
+<p>注意這裡的視角已經是 search interface，所以將面對的 index 稱做 data source，而資料的源頭才改稱 repository。</p>
+</li>
+<li>
+<p>Search interface &ndash; The user interface used by employees to search a data source. A search interface CAN BE DEVELOPED for use on any device, from a mobile phone to a desktop computer.</p>
+</li>
+<li>The GOOGLE-PROVIDED SEARCH WIDGET can also be deployed to enable search within your internal web sites. The SEARCH APPLICATION ID ?? is included with every search to ensure that the CONTEXT of that search, such as within a customer service tool, is known. The site cloudsearch.google.com contains a search interface.</li>
+</ul>
+<p>Search application</p>
+<ul>
+<li>A GROUP OF SETTINGS that, when associated with a search interface, provide CONTEXTUAL INFORMATION about searches.</li>
+<li>Contextual information includes the DATA SOURCES and SEARCH RANKINGS that should be used for a search using that interface. Search applications also include mechanisms for filtering results and enable REPORTING ?? on data sources, such as number of queries made over a given time period.</li>
+</ul>
+<p>Schema</p>
+<ul>
+<li>A DATA STRUCTURE outlining how the data in a enterprise’s repository should be represented for Google Cloud Search. A schema defines the employee Google Cloud Search experience, such as how things are FILTERED ?? and displayed.</li>
+</ul>
+<p>Content connector</p>
+<ul>
+<li>A software program used to TRAVERSE the data in an enterprise&rsquo;s repository and POPULATE a data source.</li>
+</ul>
+<p>Identity connector</p>
+<ul>
+<li>
+<p>A software program used to SYNC ENTERPRISE IDENTITIES (users and groups) to the identities required by Google Cloud Search.</p>
+<p>跟 &ldquo;users only see the search results they should&rdquo; 有關。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Google Cloud Search use cases</p>
+<ul>
+<li>
+<p>Here are some use cases that might be solved by Google Cloud Search:</p>
+<ul>
+<li>Employees need a way to find corporate policies, documents, and content authored by other employees.</li>
+<li>Customer service team members need to find relevant troubleshooting documents to send to customers.</li>
+<li>Employees need to find internal information about company projects.</li>
+<li>A sales representative wants to view the status of all support issues for a particular customer.</li>
+<li>Employees want a definition for a COMPANY-SPECIFIC TERM.</li>
+</ul>
+</li>
+<li>
+<p>The first step in implementing Google Cloud Search is to identify the use cases solved by Google Cloud Search.</p>
+</li>
+</ul>
+<p>Implement Google Cloud Search</p>
+<ul>
+<li>
+<p>By default, Google Cloud Search indexes G Suite data, such as Google documents and spreadsheets. You DO NOT need to implement Google Cloud search for G Suite data. However, you need to implement Google Cloud Search for NON-G SUITE DATA, such as data stored in a third-party database, file systems like Windows Fileshare, OneDrive or intranet portals like Sharepoint.</p>
+</li>
+<li>
+<p>The following steps are required to implement Google Cloud Search for your enterprise.</p>
+<ol>
+<li>Determine a USE CASE that Google Cloud Search helps to solve.</li>
+<li>Identify the REPOSITORIES holding data relevant to the use case.</li>
+<li>Identify the IDENTITY SYSTEMS used by your company to MANAGE ACCESS to data in each repository.</li>
+<li>Configure access to the Google Cloud Search REST API.</li>
+<li>Add a DATA SOURCE to Google Cloud Search.</li>
+<li>
+<p>Create and register a SCHEMA FOR EACH DATA SOURCE.</p>
+</li>
+<li>
+<p>Determine if there is a CONTENT CONNECTOR available for your repository. For a list of pre-built connectors, refer to the <a href="https://developers.google.com/cloud-search/docs/connector-directory/">Cloud Search connector directory</a>. If a content connector is available, skip to step 9.</p>
+<p>可惜除了最上面 7 個 connector/plugin 由 Google 提供之外，下面一大串都是 Partner developed connectors，也就是要收費的部份。</p>
+</li>
+<li>
+<p>Create a content connector to access data in each repository and index it into a Cloud Search data source.</p>
+</li>
+<li>
+<p>Determine if you need an IDENTITY CONNECTOR. If you don&rsquo;t need an identity connector, skip to step 11.</p>
+<p>什麼情況下需要 identity connector ??</p>
+</li>
+<li>
+<p>Create an identity connector to map your repository or enterprise identities to Google identities.</p>
+</li>
+<li>Set up search applications.</li>
+<li>Create a search interface to perform search queries.</li>
+<li>Deploy your connectors and search interfaces. If you used a pre-built connector, follow the instructions for the connector to obtain and deploy the connector. Available connectors are listed in the Google Cloud Search Connector Directory</li>
+</ol>
+</li>
+</ul>
+<p>Next steps</p>
+<ul>
+<li>Try the Google Cloud Search getting started tutorial.</li>
+<li>Determine use case(s) for which you&rsquo;ll use Google Cloud Search.</li>
+<li>Identify the repositories relevant to these use cases.</li>
+<li>Identify any identity systems used by your repositories.</li>
+<li>Continue to Configure access to the Google Cloud Search API.</li>
+</ul>
+</li>
+</ul>
+<h2 id="third-party-non-g-suite-content">Third-party / Non-G Suite Content ??<a class="headerlink" href="#third-party-non-g-suite-content" title="Permanent link"> #</a></h2>
+<p>從 <a href="https://gsuite.google.com/products/cloud-search/">G Suite 介紹</a> 及 <a href="https://support.google.com/a/answer/7056471">G Suite Admin Help</a> 的說法看來，G Suite 的 Cloud Search 應該也要可以索引非 G Suite 的資料才對，不過 Enterprise Edition 是基本條件：</p>
+<blockquote>
+<p>We are expanding Cloud Search to support third-party content repositories with a FIRST WAVE OF CUSTOMERS.</p>
+<p>This feature is available with Cloud Search Platform or the G Suite Enterprise edition.</p>
+<p>Important: if you are a G Suite Enterprise customer, and you don&rsquo;t see the Third-party data sources card, your account has not yet been enabled for the Cloud Search for third-party repositories service. This service requires SUBSTANTIAL EFFORT and EXPERTISE to deploy, including in-house system integration expertise, and is rolling out gradually to customers as well as evolving to reduce the required effort for deployment.</p>
+<p>If you are a G Suite Enterprise customer and want your access to this service expedited, please contact G Suite Support.</p>
+</blockquote>
+<p>就算有 G Suite Enterprise Edition，也可能要找 partner 才行。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://gsuite.google.com/products/cloud-search/">Google Cloud Search – Search Gmail, Calendar, Drive and more.</a></p>
+<p>Does Cloud Search support third-party data?</p>
+<ul>
+<li>
+<p>We are expanding Cloud Search to support third-party content repositories with a FIRST WAVE OF CUSTOMERS.</p>
+<p>感覺這是很新的東西，一定要透過 partner 才搞得起來的感覺?? 有 1000 以上才能用??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://cloud.google.com/products/search/">Cloud Search  |  Google Cloud</a></p>
+<ul>
+<li>Featured partners 提到有廠商可以協助 connect the dots across DISPARATE DATA SILOS 也就是不在 Google 生產力工具裡的資料。</li>
+</ul>
+<p>Anything and everything at your fingertips</p>
+<ul>
+<li>
+<p>Cloud Search makes available ROBUST SDKs and READY-TO-USE APIs that help you scalably INDEX VAST AMOUNTS OF DATA FROM ANY SOURCE.</p>
+<p>With 80+ connectors, you can index your third-party content from 60+ enterprise sources. This includes storage solutions like Amazon S3, Box, and Microsoft OneDrive; databases like Oracle, MySQL, and PostgreSQL; collaboration solutions like Atlassian Confluence, Jira, and Microsoft Sharepoint; documentation, ERP, sales, and support systems like Salesforce, SAP, and ServiceNow — just to name a few.</p>
+<p>So whether your data is ON-PREMISES or in another cloud, you can stay on top of all the things you care about.</p>
+<p>如何自行開發 connector ??</p>
+</li>
+<li>
+<p>Cloud Search will also make available out-of-the-box connectors for indexing third-party databases like Oracle and MySQL, file systems like Windows file systems, intranet solutions like Microsoft SharePoint, and plugins for popular web crawlers like Nutch and Norconex.</p>
+<p>這是早期的說法，多了 crawlers 的部份，那 Scrapy 呢??</p>
+</li>
+</ul>
+<p>Global partners</p>
+<ul>
+<li>
+<p>Looking to bring Cloud Search to your organization? Our global network of partners — including system integrators and independent software vendors — can help you connect the dots across DISPARATE DATA SILOS.</p>
+</li>
+<li>
+<p>最下面 Get started &gt; Sign up today 提到 Cloud Search is currently available to our FIRST WAVE OF CUSTOMERS. Sign up below to express interest and tell us about your use case. 按下 Sing Up 要留資料 &ndash; We’re beginning to roll out Cloud Search to customers. 就算是 system integrator 也可以。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://support.google.com/a/answer/9161406?hl=en">Cloud Search Platform - G Suite Admin Help</a></p>
+<ul>
+<li>
+<p>Google Cloud Search Platform gives your organization the power to search across your third-party repositories, such as databases and file systems. Integrate Cloud Search Platform with your G Suite edition or use it in a standalone solution.</p>
+<p>這裡沒講明 G Suite 哪個版本才能整合 third-party 資料。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://support.google.com/a/answer/7056471">Add a data source to search - G Suite Admin Help</a></p>
+<ul>
+<li>
+<p>This feature is available with Cloud Search Platform or the G Suite Enterprise edition.</p>
+</li>
+<li>
+<p>Important: if you are a G Suite Enterprise customer, and you don&rsquo;t see the Third-party data sources card, your account has not yet been enabled for the Cloud Search for third-party repositories service. This service requires SUBSTANTIAL EFFORT and EXPERTISE to deploy, including in-house system integration expertise, and is rolling out gradually to customers as well as evolving to reduce the required effort for deployment.</p>
+<p>If you are a G Suite Enterprise customer and want your access to this service expedited, please contact G Suite Support.</p>
+<p>看來 G Suite Enterprise 的用戶也不是直接能用，還是得找 partner ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.fishbowlsolutions.com/2018/11/the-wait-is-over-google-cloud-search-with-third-party-connectivity-is-now-available-heres-what-you-need-to-know/">Who can use Cloud Search - Fishbowl Solutions - The wait is over! Google Cloud Search with third-party connectivity is now available. Here&rsquo;s what you need to know.</a> (2018-11-05)</p>
+<ul>
+<li>
+<p>Any enterprise can purchase Cloud Search as a STANDALONE PLATFORM EDITION regardless of whether you use other Google products such as G Suite or Google Cloud Platform.</p>
+</li>
+<li>
+<p>If users in your domain already have G Suite ENTERPRISE licenses, they will now be able to access results from third-party data via the Cloud Search application provided as part of the G Suite. You will be allotted a FIXED QUOTA OF THIRD-PARTY DATA that you can index, based on the NUMBER OF ENTERPRISE LICENSES.</p>
+<p>G Suite customers can also purchase the standalone platform edition if additional quota or search applications are required.</p>
+<p>就算是 Enterprise Edition 還是會受限於授權的數量，未來也可能要增購 Cloud Search Standalone Edition，雖然這聽起來有點怪，但顯然是個坑。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://youtu.be/5vXyg0J6wro?t=531">Google Cloud Search: A Fully Managed Secure Enterprise Search Platform from Google (Cloud Next &lsquo;18) - YouTube</a> (2018-07-26)</p>
+<ul>
+<li>
+<p>08:51 Available in two editions:</p>
+<ul>
+<li>Bundled with G Suite Enterprise for customer with &gt;5000 licenses</li>
+<li>Standalone offering for any customer</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developers.google.com/cloud-search/docs/tutorials/end-to-end/">Cloud Search getting started tutorial  |  Cloud Search  |  Google Developers</a> #ril</p>
+</li>
+<li><a href="https://developers.google.com/cloud-search/docs/guides/project-setup">Configure access to the Google Cloud Search REST API  |  Cloud Search  |  Google Developers</a> #ril</li>
+<li><a href="https://developers.google.com/cloud-search/docs/guides/schema-guide">Create and register a schema  |  Cloud Search  |  Google Developers</a> #ril</li>
+<li><a href="https://developers.google.com/cloud-search/docs/guides/content-connector">Create a content connector  |  Cloud Search  |  Google Developers</a> #ril</li>
+<li><a href="https://support.google.com/a/answer/9043922">Create a custom search experience - G Suite Admin Help</a> #ril</li>
+<li><a href="https://developers.google.com/cloud-search/docs/guides/search-interface">The search interface  |  Cloud Search  |  Google Developers</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://cloudsearch.google.com/">Cloud Search</a> (入口)</li>
+<li><a href="https://gsuite.google.com/products/cloud-search/">Google Cloud Search (G Suite)</a></li>
+<li><a href="https://cloud.google.com/products/search/">Cloud Search (Standalone Offering)</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://developers.google.com/cloud-search/docs/guides/">Introduction to Google Cloud Search | Cloud Search | Google Developers</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../google-cloud-search-api/">API</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://developers.google.com/cloud-search/docs/connector-directory/">Google Cloud Search Connector Directory</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

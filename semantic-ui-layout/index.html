@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/semantic-ui-layout/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Semantic UI / Layout - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/semantic-ui-layout.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#semantic-ui-layout">Semantic UI / Layout</a></li>
+            <li class="second-level"><a href="#divider-segment">Divider, Segment ??</a></li>
+                
+            <li class="second-level"><a href="#tab">Tab ??</a></li>
+                
+            <li class="second-level"><a href="#grid">Grid ??</a></li>
+                
+            <li class="second-level"><a href="#sticky-footer">Sticky Footer ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="semantic-ui-layout"><a href="../semantic-ui/">Semantic UI</a> / Layout<a class="headerlink" href="#semantic-ui-layout" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://semantic-ui.com/usage/layout.html">Layouts | Semantic UI</a> 下面 Pages 示範 Homepage、Sticky Menus、Fixed Menu、Login Form 等，用來自訂 Static Site Generator (SSG) 的樣板一定很有質感!! #ril</li>
+</ul>
+<h2 id="divider-segment">Divider, Segment ??<a class="headerlink" href="#divider-segment" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/elements/divider.html">Divider | Semantic UI</a> #ril</p>
+<ul>
+<li>
+<p>A divider visually segments content into groups</p>
+<p>不一定要搭配 segment 使用，但通常會用來劃分某塊區域，而這個區域通常是 segment。</p>
+</li>
+</ul>
+<p>Divider</p>
+<ul>
+<li>
+<p>A standard divider</p>
+<pre><code>&lt;div class="html ui top attached segment"&gt;
+  &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+  &lt;div class="ui divider"&gt;&lt;/div&gt;
+  &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+  &lt;div class="ui top attached label"&gt;Example &lt;i data-content="Copy code" class="copy link icon"&gt;&lt;/i&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>
+<p><code>&lt;div class="ui divider"&gt;&lt;/div&gt;</code> 的表現方式就是個細長的 <code>&lt;div&gt;</code> (高度為 0，但兩側有 <code>1px</code> 的 border，及一些 margin)；幾乎取代了 <code>&lt;hr&gt;</code>；跟下面的 horizontal divider 好像沒有不同?</p>
+</li>
+<li>To add a divider between parts of a grid use a <code>divided grid</code> variation. ??</li>
+</ul>
+<p>Vertical Divider</p>
+<ul>
+<li>
+<p>A divider can segment content vertically</p>
+<pre><code>&lt;div class="ui segment"&gt;
+  &lt;div class="ui two column very relaxed grid"&gt;
+    &lt;div class="column"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+    &lt;/div&gt;
+    &lt;div class="column"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+      &lt;img class="ui wireframe image" src="/images/wireframe/short-paragraph.png"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui vertical divider"&gt;
+    and
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>HTML source 跟 UI 上呈現的順序沒有對應關係，跟上面 &ldquo;To add a divider between parts of a grid use a <code>divided grid</code> variation.&rdquo; 可能有關? 結果上是 segment &gt; grid &gt; columns，然後 segment 再加上 vertical divider。幾個範例觀察下來，divider 只會直接加在 segment 底下，不會是在 grid 裡面。</p>
+</li>
+<li>
+<p>Vertical dividers requires <code>position: relative</code> on the element that you would like to contain the divider 但上面並沒有看到??</p>
+<p>Due to a change in W3C implementation of <a href="https://github.com/w3c/csswg-drafts/issues/401">absolutely positioned elements in flex containers</a> vertical dividers now currently only support 50/50 splits automatically, and only if not positioned as direct children of FLEX?? containers (like grid).</p>
+</li>
+<li>
+<p>A vertical divider will automatically swap to a horizontal divider at mobile resolutions when used inside a STACKABLE grid 很貼心的設計</p>
+<pre><code>&lt;div class="ui placeholder segment"&gt;
+  &lt;div class="ui two column very relaxed stackable grid"&gt;
+    &lt;div class="column"&gt;
+      &lt;div class="ui form"&gt;
+        &lt;div class="field"&gt;
+          &lt;label&gt;Username&lt;/label&gt;
+          &lt;div class="ui left icon input"&gt;
+            &lt;input type="text" placeholder="Username"&gt;
+            &lt;i class="user icon"&gt;&lt;/i&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="field"&gt;
+          &lt;label&gt;Password&lt;/label&gt;
+          &lt;div class="ui left icon input"&gt;
+            &lt;input type="password"&gt;
+            &lt;i class="lock icon"&gt;&lt;/i&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="ui blue submit button"&gt;Login&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="middle aligned column"&gt;
+      &lt;div class="ui big button"&gt;
+        &lt;i class="signup icon"&gt;&lt;/i&gt;
+        Sign Up
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui vertical divider"&gt;
+    Or
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+</ul>
+<p>Horizontal Divider</p>
+<ul>
+<li>
+<p>A divider can segment content horizontally</p>
+<pre><code>&lt;div class="ui center aligned basic segment"&gt;
+  &lt;div class="ui left icon action input"&gt;
+    &lt;i class="search icon"&gt;&lt;/i&gt;
+    &lt;input type="text" placeholder="Order #"&gt;
+    &lt;div class="ui blue submit button"&gt;Search&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui horizontal divider"&gt;
+    Or
+  &lt;/div&gt;
+  &lt;div class="ui teal labeled icon button"&gt;
+    Create New Order
+    &lt;i class="add icon"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>
+<p>Horizontal dividers can also be used in combination with HEADERS and icons to create different styles of dividers.</p>
+<pre><code>&lt;div class="another example"&gt;
+  &lt;i class="fitted icon code"&gt;&lt;/i&gt;&lt;h4 class="ui horizontal divider header"&gt;
+    &lt;i class="tag icon"&gt;&lt;/i&gt;
+    Description
+  &lt;/h4&gt;&lt;a class="anchor" id=""&gt;&lt;/a&gt;
+  &lt;p&gt;Doggie treats are good for all times of the year. Proven to be eaten by 99.9% of all dogs worldwide.&lt;/p&gt;
+  &lt;h4 class="ui horizontal divider header"&gt;
+    &lt;i class="bar chart icon"&gt;&lt;/i&gt;
+    Specifications
+  &lt;/h4&gt;
+  &lt;table class="ui definition table"&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class="two wide column"&gt;Size&lt;/td&gt;
+        &lt;td&gt;1" x 2"&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Weight&lt;/td&gt;
+        &lt;td&gt;6 ounces&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Color&lt;/td&gt;
+        &lt;td&gt;Yellowish&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Odor&lt;/td&gt;
+        &lt;td&gt;Not Much Usually&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+</code></pre>
+<p>直接用 <code>&lt;h1&gt;</code> ~ <code>&lt;h6&gt;</code> 來當分隔線的內容，剛好要安排文件結構 (不單單只是視覺上的效果時) 時可以這麼做。</p>
+</li>
+<li>
+<p>Dividers will automatically vary the size of their dividing rules to match the length of your text</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://semantic-ui.com/elements/segment.html">Segment | Semantic UI</a> #ril</p>
+</li>
+</ul>
+<h2 id="tab">Tab ??<a class="headerlink" href="#tab" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/modules/tab.html">Definition - Tab | Semantic UI</a> #ril</p>
+<ul>
+<li>
+<p>A tab is a HIDDEN SECTION of content activated by a MENU. 這直接反應在實作細節上 &ndash; <code>ui menu</code> + <code>ui tab segment</code>。</p>
+<pre><code>&lt;div class="ui top attached tabular menu"&gt;
+  &lt;div class="item"&gt;Tab&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="ui bottom attached tab segment"&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<p>這意謂著 tab 的細節可以看 menu，可以做出更多變化；所謂 tab 就是 menu + segment 組合的概念而已。</p>
+</li>
+<li>
+<p>A tab is hidden by default, and will only become visible when given the class name <code>active</code> or when activated with Javascript.</p>
+<pre><code>&lt;div class="ui top attached tabular menu"&gt;
+  &lt;div class="active item"&gt;Tab&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="ui bottom attached active tab segment"&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<p><code>ui menu</code> 跟 <code>ui tab segment</code> 兩邊要搭配好 &ndash; item 配某個 tab 的內容</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="grid">Grid ??<a class="headerlink" href="#grid" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/collections/grid.html">Grid | Semantic UI</a> 雖然是 collection，但比較像是 layout；事實上 Layouts 文件裡也提到了 Grid #ril</li>
+</ul>
+<h2 id="sticky-footer">Sticky Footer ??<a class="headerlink" href="#sticky-footer" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.sitepoint.com/community/t/how-to-keep-footer-on-window-bottom-when-low-content/290286">How to keep footer on window bottom when low content - HTML &amp; CSS - The SitePoint Forums</a> (2018-03-01) #ril</p>
+<ul>
+<li>fumeeptc: If content is large i need it to be at bottom of page but when content is not big footer need to be at window end!</li>
+<li>
+<p>PaulOB: What you are looking for is called a STICKY FOOTER and you need to do it like this:</p>
+<p>一開始<a href="https://codepen.io/paulobrien/pen/FKAxH">示範了 sticky footer</a>) 的用法，但跟 Semantic UI 無關，後來又改了一份：</p>
+<pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;style&gt;
+html,body{margin:0;padding:0}
+.sticky-wrap{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh
+}
+.sticky-footer{margin-top:auto}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div class="sticky-wrap"&gt;
+  &lt;div class="sticky-content"&gt;
+    &lt;h1&gt;Original content goes here&lt;/h1&gt;
+  &lt;/div&gt;
+  &lt;div class="sticky-footer"&gt;
+    &lt;div class="ui inverted vertical footer segment form-page" style="background-color: #00aaff;"&gt;
+      &lt;div class="ui container"&gt;
+        Footer stuff
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>That means you just need to stick the footer code inside the <code>sticky-footer</code> div and the rest of the layout inside the <code>sticky-content</code> div. It may be that you could massage your existing structure if it was similar but its best to use the structure I have shown.</li>
+<li>Any other method (apart from the <code>display:table</code> method I have shown) is going to be too rigid (死板) for a responsive design as you cannot set a footer to 20px height and then allow the text to wrap or be zoomed or spread vertically in smaller viewports etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/Semantic-Org/Semantic-UI/issues/3726">How to Make footer stick to bottom · Issue #3726 · Semantic-Org/Semantic-UI</a> (2016-02-21) #ril</p>
+<ul>
+<li>Aniel: take a look at this <a href="http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/">http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/</a> works for me like a charm. 連結提供的 demo (Sticky Footer) 有個 Toggle Contents 的按鈕，可以觀察到內容少的時候 footer 在 window 下方，內容多的時候則要捲到最下方。</li>
+<li>IonutBajescu (Member): Flexbox is the way to go.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/">Sticky Footer — Solved by Flexbox — Cleaner, hack-free CSS</a></p>
+<ul>
+<li>Getting the footer to stick to the bottom of pages with SPARSE CONTENT is something just about every Web developer has tried to tackle at some point in his or her career. And, for the most part, it’s a SOLVED problem. Yet all the existing solutions have one significant shortcoming — they don’t work if the HEIGHT OF YOUR FOOTER IS UNKNOWN.</li>
+<li>Flexbox is a perfect fit for this type of problem. While mostly known for laying out content in the horizontal direction, Flexbox actually works just as well for vertical layout problems. All you have to do is wrap the VERTICAL SECTIONS in a FLEX CONTAINER and choose which ones you want to EXPAND. They’ll automatically take up all the available space in their container.</li>
+<li>
+<p>In the example below, the container is set to the HEIGHT OF THE WINDOW (<code>100vh</code>), and the content area is told to EXPAND AS NEEDED. (Note: in the vertical direction you need to specify a height for the container. This is different from the horizontal direction, which automatically expands to fit.)</p>
+<p>HTML</p>
+<pre><code>&lt;body class="Site"&gt; &lt;-- 採垂直走向的 flexbox
+  &lt;header&gt;…&lt;/header&gt;
+  &lt;main class="Site-content"&gt;…&lt;/main&gt; &lt;-- 儘量佔有剩餘的空間
+  &lt;footer&gt;…&lt;/footer&gt;
+&lt;/body&gt;
+</code></pre>
+<p>CSS</p>
+<pre><code>.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

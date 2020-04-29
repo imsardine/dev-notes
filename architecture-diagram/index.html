@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/architecture-diagram/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Architecture Diagram (系統架構圖) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/architecture-diagram.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#architecture-diagram">Architecture Diagram (系統架構圖)</a></li>
+            <li class="second-level"><a href="#uml">UML</a></li>
+                
+            <li class="second-level"><a href="#_1">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="architecture-diagram">Architecture Diagram (系統架構圖)<a class="headerlink" href="#architecture-diagram" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.predic8.com/software-architecture.htm">What is Software Architecture</a></p>
+<ul>
+<li>
+<p>This article explains software architecture by analysing REAL architecture diagrams. The diagrams are from a google images search.</p>
+<p>Google is a good place to start exploring a subject. So I did a search on the topic Software Architecture . Because I didn&rsquo;t want to read to much definitions I switched to the image search. You can see the result of the search in figure 1 .</p>
+<p>Please do the search yourself and browse trough several pages. You will see lots of diagrams showing boxes and lines. So a software architect is somebody who draws BOXES and LINES. Looks like Visio or PowerPoint are the tools for a software architect.</p>
+<p>事實上，也很難找到明確的定義，妙的是 image search 的結果五花八門；通則是 box 跟 line 組成。</p>
+</li>
+</ul>
+<p>The Boxes</p>
+<ul>
+<li>
+<p>The boxes and the lines are symbols for the building blocks in software architecture. A system can be divided into several SUBSYSTEMS that are represented by boxes.</p>
+</li>
+<li>
+<p>There are many names for subsystems. Depending on the fad of the day it is important for an architect to use the proper name to distinguish his system from prior technologies.</p>
+<ul>
+<li>Module, subroutine - Basic</li>
+<li>Component - Component models e.g. EJB</li>
+<li>Class, package - Object orientation</li>
+<li>Service - Service oriented architecture</li>
+</ul>
+<p>這跟 diagram 想要表現的粒度、或是立場的高度而有不同。</p>
+</li>
+</ul>
+<p>The Lines</p>
+<ul>
+<li>
+<p>Two boxes can COMMUNICATE with each other if they are connected by a line. A double sided arrow is not directed and the communication can be therefore INITIATED from both ends. If it is not a SIMPLE LINE but an arrow the communication can only be initiated in one direction towards the arrowhead. An arrow also documents a DEPENDENCY the component from &hellip;</p>
+<p>In figure 3 you can see a UML diagram with different types of lines and arrows.</p>
+<p><img alt="Figure 3" src="http://softwareprocessengineering.com/_blogs/SPE/pcarchfreeformoverview.jpg" /></p>
+<p>Source: <a href="http://realworldsa.blogspot.com/2009/06/prism-composite-wpf-and-silverlight.html">http://realworldsa.blogspot.com/2009/06/prism-composite-wpf-and-silverlight.html</a> 這算是 component diagram ??</p>
+</li>
+<li>
+<p>There are also different names for the lines:</p>
+<ul>
+<li>Connector, Adaptor - EAI, Middleware</li>
+<li>Interface - OO, SOA</li>
+</ul>
+</li>
+<li>
+<p>The lines are missing in some diagrams as shown in figure 4. Components in those diagrams can communicate with NEIGHBORING components or with the next component further down.</p>
+<p><img alt="Figure 4" src="http://de.academic.ru/pictures/dewiki/85/UA_Architecture_1024.png" /></p>
+<p>Source: <a href="http://de.academic.ru/dic.nsf/dewiki/1036788">http://de.academic.ru/dic.nsf/dewiki/1036788</a> 什麼工具可以畫這種圖??</p>
+</li>
+</ul>
+<p>Layers of Abstractions</p>
+<ul>
+<li>
+<p>There are more architectural elements than boxes and lines. In figure 5 the diagram is structured into three layers by dotted lines. Each layer is an ABSTRACTION OF FUNCTIONALITY. The layer on the bottom offers data management functionality to the services layer. And the services layer offers functionality to several clients on the Internet. Each layer is build onto the functionality of the next layer down the stack.</p>
+<p><img alt="Figure 5: Multi-Tier Architecture" src="http://geoinfo.sdsu.edu/reason/images/arcims_architect.gif" /></p>
+<p>Source: <a href="http://geoinfo.sdsu.edu/reason/task.htm">http://geoinfo.sdsu.edu/reason/task.htm</a></p>
+</li>
+</ul>
+<p>Infrastructure Components and Services</p>
+<ul>
+<li>
+<p>Figure 6 displays a multi-tier architecture like the ones we have already seen. But to the left and to the right we have vertically aligned boxes that EXTEND OVER ALL LAYERS. These vertical boxes are represent CROSS CUTTING CONCERNS like infrastructure services that can be used in every component of the system.</p>
+<p><img alt="Figure 6: Infrastructure Components" src="http://www.rgoarchitects.com/blog/content/binary/blockdiag.JPG" /></p>
+<p>Source: <a href="http://www.rgoarchitects.com/nblog/CategoryView,category,SPAMMED%2BProcess.aspx">http://www.rgoarchitects.com/nblog/CategoryView,category,SPAMMED%2BProcess.aspx</a></p>
+</li>
+</ul>
+<p>Pipelines</p>
+<ul>
+<li>
+<p>In some architecture diagrams you can see a series of boxes connected with each other like a ONE WAY STREET.</p>
+<p><img alt="Figure 7" src="https://www.xml.com/pub/a/2003/11/12/graphics/AirAvail.png" /></p>
+<p>Source: <a href="http://www.xml.com/pub/a/2003/11/12/cocoon-eai.html">http://www.xml.com/pub/a/2003/11/12/cocoon-eai.html</a></p>
+</li>
+</ul>
+<p>Onion Diagrams</p>
+<ul>
+<li>
+<p>In figure 9 you can see an onion diagram. It is an other variation of a multi layered architecture. The layers are placed like onion rings around a core. The core is really tiny compared to the outer rings. This diagram is used if the core or kernel of a system is much smaller than the layers on top of it.</p>
+<p><img alt="Figure 9: Architecture as Onion Rings" src="http://www.yolinux.com/TUTORIALS/images/productization.gif" /></p>
+<p>Source: <a href="http://www.yolinux.com/TUTORIALS/SoftwareArchitecture-Productization.html">http://www.yolinux.com/TUTORIALS/SoftwareArchitecture-Productization.html</a></p>
+</li>
+</ul>
+<p>Standards for Architecture Diagrams</p>
+<ul>
+<li>
+<p>There are a lot of initiatives that have standardized a language for the description of software architecture. The table below lists some ARCHITECTURE DESCRIPTION LANGUAGES.</p>
+<ul>
+<li>ACME - Carnegie Mellon University</li>
+<li>AADL - Society of Automotive Engineers</li>
+<li>Darwin - Imperial College London</li>
+</ul>
+<p><img alt="Figure 10" src="http://www.isr.uci.edu/projects/xarchuci/images/guide/subarch-noint.png" /></p>
+<p>Source: <a href="http://www.isr.uci.edu/projects/xarchuci/guide.html">http://www.isr.uci.edu/projects/xarchuci/guide.html</a></p>
+<p>感覺很古老，後來並沒有被廣為採用?</p>
+</li>
+</ul>
+<p>UML Diagrams</p>
+<ul>
+<li>
+<p>A lot of architecture diagrams are drawn in FREE STYLE. But you can also use an UML PACKAGE DIAGRAMS to describe an architecture visually as shown in figure 11.</p>
+<p><img alt="" src="http://assets.devx.com/articlefigs/13110.jpg" /></p>
+<p>Source: <a href="http://www.devx.com/enterprise/article/28296/1954">http://www.devx.com/enterprise/article/28296/1954</a></p>
+<p>用 package diagram 來表現似乎太細了? 用 component diagram 比較合適?</p>
+</li>
+</ul>
+<p>Summary</p>
+<ul>
+<li>Software architecture diagrams are showing boxes and lines. And they have architectural elements like abstraction layers in common. But there is NO UNIFIED NOTATION for architectural diagrams. You can find diagrams in all styles from a hand written sketch to a glossy diagram for a marketing brochure.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.quora.com/What-are-the-best-ways-to-diagram-software-architecture">What are the best ways to diagram software architecture? - Quora</a></p>
+<p>Thomas Owens</p>
+<ul>
+<li>
+<p>The high level approach that I generally take when documenting architectures (or even more detailed, lower level designs) is:</p>
+<ol>
+<li>
+<p>Identify the DESIGN STAKEHOLDERS. The engineering / development team is one stakeholders. Your testing / quality assurance team, IT infrastructure team, project management, and maybe support staff may also be stakeholders of the system and interested in VARIOUS ASPECTS of the design.</p>
+</li>
+<li>
+<p>Identify the AREAS OF CONCERN in your system. If your system has a database, one viewpoint is the database structure. If you have a distributed system, then the system administrators or customer service staff may be interested in where components are installed. If you have a public interface, then external developers are interested in what that interface is - file formats, data formats, etc. If you have many complex algorithms, then the algorithm designers/maintainers are interested in the workflows and algorithm steps.</p>
+<p>Each VIEWPOINT that you identify is a specific set of concerns.</p>
+</li>
+<li>
+<p>For each viewpoint that you have, choose an appropriate REPRESENTATION. For your database viewpoint, perhaps ENTITY-RELATIONSHIP DIAGRAMS and a data dictionary may be useful. For public interfaces, XML Schema Documents or API documentation can be included as part of your documentation. For complex algorithms, consider UML activity or interaction overview diagrams.</p>
+<p>When you choose a notation, I prefer well-known and well-defined notations so that I don&rsquo;t need to explain my notation to someone else and can simply point them to existing reference material if they don&rsquo;t know the symbols used.</p>
+</li>
+<li>
+<p>Add textual descriptions and rational around the diagrams. Explain not only what the architectural decisions that you made were, but what drove you to make those DECISIONS.</p>
+<p>額外補充 &ldquo;為什麼要這樣設計&rdquo;，這是圖形本身無法表現的。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Architectural frameworks, such as the Zachman Framework, The Open Group Architectural Framework, the Department of Defense Architectural Framework, and other architectural frameworks help by defining essential viewpoints and views that are generally applicable. ??</p>
+</li>
+<li>
+<p>Ultimately, &ldquo;the best&rdquo; documentation is that which meets the needs of the stakeholders. Identifying who needs the information and what exactly they need is the first step.</p>
+<p>說得真好!! 先找出 stakeholder、不同的觀點 (viewpoint) 想知道什麼? (areas of concern)、用什麼方式表現最合適? (representaiton) 補充說明為什麼要這樣設計；這滿符合 UML 的想法，不同 diagram 間是互補的。</p>
+</li>
+</ul>
+<p>Camilo Sanchez</p>
+<ul>
+<li>
+<p>I usually find myself using the C3 plus approach to architecture diagramming (<a href="http://static.codingthearchitecture.com/c4.pdf">Page on codingthearchitecture.com</a>) #ril</p>
+<p>PDF 裡講的是 &ldquo;C4 Model&rdquo;，猜想 C3 plus 指的是 C3 (System Context, Container, Component) + Code (optional)。</p>
+<p>其中 Code 可以用不同的 UML diagram 表現。</p>
+</li>
+<li>
+<p>It gives you enough information to start discussing with the bussiness / non-tech people (Context), then move to the infrastructure / non-coding people (Container) and finally show to the technical / programming people the desired approach (Component) . This just with the 3 Cs .</p>
+</li>
+<li>
+<p>After this you can extend the PLUS PART to whatever fits you based on your personal prefferences or in the technical needs.</p>
+<ul>
+<li>Do you need to model an entity which constantly changes states and guides the flow on your application? Do a state machine diagram.</li>
+<li>Do you need to show the interaction between your brand new created classes than nobody else nows? Draw a sequence diagram.</li>
+<li>Do you want to show how you imagine the user view of the web application? Draw it in a napking, whiteboard, paper (And the digitalize it so you dont loose it).</li>
+</ul>
+</li>
+<li>
+<p>Summarizing dont let the &ldquo;I must do this diagram&rdquo; cages you. The diagrams are there to help you EXPLAIN HOW DO YOU THINK the architecture should be. Any diagram that helps you make thins ckear to any of the involved actors is a good diagram, even if it is just a hand drawed super duper new approach.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://slidemodel.com/templates/software-diagrams-powerpoint/">Software Diagrams for PowerPoint - SlideModel</a> 感覺 PowerPoint 這類 Slides 編輯軟體就很夠用?</p>
+</li>
+<li>
+<p><a href="https://www.infoq.com/articles/why-architectural-diagrams/">Why Do We Need Architectural Diagrams?</a> (2019-01-19)</p>
+<ul>
+<li>
+<p>We try to create architectural diagrams (as part of the technical documentation) aiming to reflect the INTERNAL STATE of the application, but most of the time we do not do it properly. The resulting diagrams can range from very comprehensive to extremely vague. Sometimes, the diagrams are simply IRRELEVANT. I previously wrote a few tips on how to <a href="https://www.infoq.com/articles/crafting-architectural-diagrams/">create useful architectural diagrams</a>.</p>
+</li>
+<li>
+<p>Even when relevant diagrams are created, we RARELY KEEP such documentation UPDATED with the feature which is being developed as part of an integrated continuous development process. In reality, the documentation is updated only from time to time, probably during some sprints (when there is time for such activity), or for a specific release.</p>
+<p>On the other hand, most of the developers I interacted with (colleagues or students attending my Software Architecture course) are not in favor of creating and maintaining technical documentation; they consider it tedious, time-consuming, and less valuable than other work, or even unnecessary when SOURCE CODE IS ENOUGH. While there will always be exceptions, I am pretty sure when it comes to architectural diagrams things are pretty much the same in most of the projects.</p>
+<p>雖然 &ldquo;source code is enough&rdquo; 的說法沒錯，但要從 code 反推出整個 overview 其實不容易。</p>
+</li>
+</ul>
+<p>What we do wrong and how we can improve</p>
+<ul>
+<li>
+<p>First of all, it is important to understand who are the real beneficiaries of architectural diagrams and technical documentation. The quantity and quality of the documentation should reflect the STAKEHOLDERS&rsquo; NEEDS, since only this way we can create accurate and JUST ENOUGH documentation.</p>
+<p>與 <a href="https://www.quora.com/What-are-the-best-ways-to-diagram-software-architecture">What are the best ways to diagram software architecture? - Quora</a> 中 Thomas Owens 的想法一致，先找出 stakeholder 想知道什麼。</p>
+</li>
+<li>
+<p>The main beneficiary should be the team (developers, test engineers, business analysts, DEVOPS, etc.) who have DIRECT INVOLVEMENT in the project. In my experience, outside of the team, there are VERY FEW stakeholders who really care about documentation. In the best case, they might be interested in one or two HIGH-LEVEL diagrams (e.g. context diagram ??, application or software component diagram) which roughly describe the structure of the system and give a high-level understanding of it.</p>
+<p>在開發 team 之外，很少人想看文件，所以也沒必要寫；但在開發 team 之內，必要的文件還是得維護。</p>
+</li>
+<li>
+<p>However, most of the time we fail in identifying the real beneficiaries and their real needs and try to create TOO MUCH documentation. This quickly becomes a burden to maintain and is quite soon outdated. In other cases, we just simply omit to create any kind of diagram because there is no time, no specific interest, or nobody wants to take on this responsibility.</p>
+<p>Besides this, the AGILE MANIFESTO prescribes that teams should value working software over comprehensive documentation, which discourages cumbersome documentation processes.</p>
+<p>兩個極端 &ndash; 不是寫太多沒人看，就是什麼都不寫；但這中間應該取得平衡。</p>
+</li>
+<li>
+<p>In order to find the appropriate BALANCE of the right DOCUMENTATION LEVEL, try this exercise in your team: go to ask each of your colleagues what they really need out of the technical documentation and what types of diagrams it should include. Collect their input, then brainstorm and AGREE TOGETHER on what is REALLY NECESSARY FOR THE TEAM.</p>
+<p>There might be one or two influential stakeholders outside of the team with extra requests, and it is the responsibility of the architect to take their needs into account, as well.</p>
+<p>Based on that, create the appropriate quantity and level of technical documentation which fulfills the stakeholders’ needs. If developers understand the real value of the documentation and have as interest in its remaining valuable, they will be encouraged to contribute and properly maintain it. In the end, everybody becomes happy. However, if they do not understand the necessity or they do not care, you can almost forget about it, since documentation becomes very difficult to maintain by a just SINGLE PERSON (THE ARCHITECT) when this must be a SHARED RESPONSIBILITY among the team members.</p>
+</li>
+<li>
+<p>In the past, on waterfall projects, we created too much documentation derived from comprehensive enterprise architecture methodologies (I intentionally do not name any of them) or requested by some IVORY TOWER ARCHITECTS. When agile methodologies were embraced at large scale in software projects, one common, big MISUNDERSTANDING was people thinking they did not need any documentation, because working software is more important than creating comprehensive documentation.</p>
+<p>These are the two extreme cases, of course. There is no precise methodology or scientific process to explicitly address the appropriate amount of documentation for a project. All current software architecture methodologies are pure recommendations or guidelines. Those comprehensive architectural processes followed in the past are nowadays substantially simplified to non-existence in the projects. It doesn’t mean we should create less documentation or no documentation at all, but rather be focused on creating documentation that PROVIDES REAL VALUE and at the same time does not hinder the team’s progress.</p>
+<p>Besides that, not all documentation provides value. But that isn&rsquo;t the same as &ldquo;all documentation provides no value.&rdquo; Additionally, what makes sense for one project might be less relevant for another due to a different context (e.g. economic, political, etc.), business goals, stakeholders, etc.</p>
+</li>
+<li>
+<p>Under these circumstances, it is very difficult to get the right answer to the question: what is the appropriate amount of technical documentation (i.e. architectural diagrams)? In the end, it relates to each project and to the architect experience, and could be summarized as &ldquo;IT DEPENDS.&rdquo; The right amount of documentation to provide value depends on what your team has decided they need.</p>
+<p>My advice is to DECIDE TOGETHER with the team and to create just enough technical documentation, whatever that means for your team. If no documentation makes sense for your project (why not!?), that might be acceptable. Document the rationale behind this TEAMING AGREEMENT and make it transparent for all stakeholders. If there are two or three diagrams of real interest, then make sure they are updated, consistent and always reflect the state of the system. Do not focus on anything else which might not bring any value.</p>
+</li>
+</ul>
+<p>But … what do we need architectural diagrams for?</p>
+<ul>
+<li>
+<p>The architectural diagrams in particular and the documentation, in general, should be primarily used for collaboration, communication, vision and guidance inside the team and across teams. It must also include the significant DESIGN DECISIONS in the project (taken at a certain moment of time), but nothing more.</p>
+</li>
+<li>
+<p>Architectural diagrams should help everybody to see the BIG PICTURE and to understand the SURROUNDINGS. In my opinion, this should be the fundamental reason behind creating and maintaining the architectural diagrams.</p>
+<p>For example, CONTEXT DIAGRAMS perfectly fulfill such a need and provide a great level of detail about SYSTEM BOUNDARIES, seeing the big picture. It helps the team to have a common understanding and ease communication across different stakeholders. I attended many meetings when such a context diagram, presented on the big screen, saved a lot of questions and removed the uncertainties about the high-level system architecture.</p>
+</li>
+<li>
+<p>However, we often we try to create comprehensive documentation to reflect the internal state of the system. This can take the form of state diagrams, activity diagrams, class diagrams, entity diagrams, concurrency diagrams, etc. But these quickly become out of date, unless they are AUTOMATICALLY GENERATED out of the source code by some “magic” tools.</p>
+<p>需要討論細節時才產生圖形，這類工具並非毫無用處。</p>
+</li>
+<li>
+<p>What would be the purpose of creating such detailed diagrams if people do not need, read or maybe understand them? Abstract diagrams for business stakeholders are more than enough. For developers, in most of the cases, the source code (i.e. SINGLE SOURCE OF TRUTH) is what they really need in order to understand the application.</p>
+<p>So, please stop creating diagrams for things that are SELF-EXPLANATORY in the code, too detailed, or when there is NO REAL AUDIENCE.</p>
+<p>如果 source code 本身不是 self-explanatory，那又是另一個問題了。</p>
+</li>
+<li>
+<p>Create meaningful, but minimal, architectural diagrams and incorporate them in the technical documentation. For the majority of applications, there are probably TWO OR THREE TYPES of such significant diagrams needed. The most common are context diagrams, application/software component diagrams, system diagrams, or deployment diagrams.</p>
+<p>其中 component diagram 跟 deployment diagram 都可以理解，但什麼是 context diagram 跟 system diagram ??</p>
+</li>
+</ul>
+<p>My practical example</p>
+<ul>
+<li>
+<p>In my project I use mainly two types of diagrams:</p>
+<p>Context diagrams</p>
+<p><img alt="" src="https://res.infoq.com/articles/why-architectural-diagrams/en/resources/1why-architectural-diagrams-1-1547639072090.jpg" /></p>
+<p>Application or software component diagrams</p>
+<p><img alt="" src="https://res.infoq.com/articles/why-architectural-diagrams/en/resources/1why-architectural-diagrams-2-1547639071547.jpg" /></p>
+</li>
+<li>
+<p>Please treat these diagrams as simple examples, showing some guidance about a REASONABLE LEVEL OF INFORMATION each diagram should provide. Information on one diagram should be RELEVANT TO THE CORRESPONDING ABSTRACTION LEVEL, but also must fulfill stakeholders needs.</p>
+<p>In practice, it might be tempting to add more and more details to a diagram, but if they are not really useful to the beneficiaries, it leads to extra NOISE, increased maintenance and the risk of being out of date. Specific to these diagrams, including details like protocols and data format might be very handy for technical stakeholders, since they are a necessary implementation detail.</p>
+<p>However, as also stated in the article, there is no precise methodology to explicitly describe the appropriate amount of details a diagram should include. It really depends from project to project, nevertheless, the architect must identify what is really useful for the stakeholders and create and maintain the diagrams to properly reflect that.</p>
+</li>
+<li>
+<p>For any extra detail besides these diagrams, I could either find it in the source code or get it automatically generated by some tools (e.g. runtime view diagrams, development view diagrams, system or infrastructure view diagrams, etc).</p>
+<p>Deployment diagram 要如何自動產生?</p>
+</li>
+<li>
+<p>I also painted the software architecture diagram (including all application components) in our meeting room. During our stand-ups and other meetings, people talk about their tasks, statuses, and impediments while pointing to this diagram on the wall. This way, every team member, from product owner to developer, understands and sees the big picture and foresees the overall impediments and other integration challenges.</p>
+<p>Besides that, it offers a more accurate progress status during the Sprint for the entire team, especially when the architecture is distributed and there are DEPENDENCIES BETWEEN PEOPLE.</p>
+</li>
+<li>
+<p>I advise you to do the same for your team. Keep on increasing collaboration, communication, vision, and guidance by using just enough architectural diagrams, and stop creating them for any other reasons, especially if the team does not use them.</p>
+<p>Manually creating and maintaining diagrams to reflect the code behavior is, in most of the cases, a waste of time. In doing so, you might be tempted to add more and more such diagrams as source code evolves, which is a dangerous trap. Rather than creating an exhausting number of diagrams, stick to TWO OR THREE which describe the system from different levels of abstractions and are really necessary for the team. Always keep them updated; this task is made easier when it does not contain too many details and it is part of the TEAM CULTURE.</p>
+</li>
+<li>
+<p>Also, keep in mind the team should be the main beneficiary of architectural diagrams. If they do not manifest any interest, then you should probably stop creating them; it might be waste of time. We should not create architectural diagrams just “for the sake of having them,” to follow some comprehensive methodologies, or to justify our role as Architects.</p>
+<p>最後一句 &ldquo;justify our role as architects&rdquo; 很酸，彷佛 architect 要能畫漂亮的架構圖才能證明它的存在 &hellip;</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.infoq.com/articles/crafting-architectural-diagrams/">The Art of Crafting Architectural Diagrams</a> (2017-08-04) #ril</p>
+</li>
+</ul>
+<h2 id="uml">UML<a class="headerlink" href="#uml" title="Permanent link"> #</a></h2>
+<ul>
+<li>主要是 Component Diagram 與 Deployment Diagram，其中 component 可大可小，依圖形想要呈現的粒度而定 &ndash; 可以是 subsystem、service、module。</li>
+<li>根據 C4 Model &ldquo;由宏觀到細節&rdquo; 的概念 &ndash; Context (外部看整個系統)、Container (內部分不同 application) 到 Component，其中 Context 可以用 Use Case Diagram 表現，帶出 external entity (user/system)，而 Container、Component 則可以用 Component Diagram 表現。</li>
+</ul>
+<h2 id="_1">參考資料<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../uml/">UML</a></li>
+<li><a href="../c4/">C4 Model</a></li>
+<li><a href="../context-diagram/">Context Diagram</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

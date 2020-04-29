@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/html-javascript/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>HTML / JavaScript - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/html-javascript.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#html-javascript">HTML / JavaScript</a></li>
+            <li class="second-level"><a href="#ltscriptgt">&lt;script&gt; ??</a></li>
+                
+            <li class="second-level"><a href="#framework">Framework</a></li>
+                
+            <li class="second-level"><a href="#source-map">Source Map ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="html-javascript"><a href="../html/">HTML</a> / <a href="../javascript/">JavaScript</a><a class="headerlink" href="#html-javascript" title="Permanent link"> #</a></h1>
+<h2 id="ltscriptgt"><code>&lt;script&gt;</code> ??<a class="headerlink" href="#ltscriptgt" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics#A_hello_world_example">A &ldquo;hello world&rdquo; example - JavaScript basics | MDN</a></p>
+<ul>
+<li>Next, in your <code>index.html</code> file enter the following element on a new line just before the closing <code>&lt;/body&gt;</code> tag: <code>&lt;script src="scripts/main.js"&gt;&lt;/script&gt;</code></li>
+<li>Note: The reason we&rsquo;ve put the <code>&lt;script&gt;</code> element NEAR THE BOTTOM OF THE HTML FILE is that HTML is loaded by the browser in the order it appears in the file. If the JavaScript is loaded first and it is supposed to affect the HTML below it, it might not work, as the JavaScript would be loaded before the HTML it is supposed to work on. Therefore, putting JavaScript near the bottom of the HTML page is OFTEN THE BEST STRATEGY. 如果載入的 JavaScript 會操作到 HTML，沒有放 <code>&lt;/body&gt;</code> 結束前，就會出錯。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://learn.jquery.com/about-jquery/how-jquery-works/#launching-code-on-document-ready">Launching Code on Document Ready - How jQuery Works | jQuery Learning Center</a> 一樣要考量 &ldquo;code runs after the browser finishes loading the document&rdquo;，不過 jQuery 提供有 <code>ready</code> event，確保程式在 document ready 後才會執行，就不會出錯；這種情況下，<code>&lt;script&gt;</code> 就不一定要擺 <code>&lt;/body&gt;</code> 前。</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script"><code>&lt;script&gt;</code>: The Script element | MDN</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.w3.org/TR/html4/interact/scripts.html">Scripts in HTML documents</a></p>
+</li>
+<li>
+<p><a href="http://www.namasteui.com/why-self-closing-script-tags-doesnt-work/">Why self-closing script tags doesn&rsquo;t work?</a> (2016-12-22)</p>
+<ul>
+<li>一開始就講 &ldquo;Self-closing script tag are not supported by all browsers as this may contain inline code and HTML is not smart enough to turn that feature on or off.&rdquo; 而 not smart enough 指的是 &ldquo;based on the presence of an attribute&rdquo; &ndash; 動態根據是否給 <code>src</code> attribute 來決定 end tag 是否可以省略。</li>
+<li>Basically, the concept of self-closing tags is an XML concept. You can use them in XHTML if the document is served with an XML content-type but not if it is served as text/html. 若視為 XML，寫成 <code>&lt;script /&gt;</code> 倒是沒問題，但 HTML (<code>text/html</code>) 就不行。</li>
+</ul>
+</li>
+<li><a href="http://blogs.perl.org/users/mike_friedman/2009/12/that-annoying-non-self-closing-script-tag.html">That annoying non-self-closing <code>&lt;script&gt;</code> tag | Mike Friedman [blogs.perl.org]</a> (2009-12-11) 提到 <code>&lt;link&gt;</code>，但又說 No browser supports loading Javascript via a <code>&lt;link&gt;</code> tag?</li>
+<li><a href="https://stackoverflow.com/questions/69913/">javascript - Why don&rsquo;t self-closing script tags work? - Stack Overflow</a> #ril<ul>
+<li>為什麼寫成 <code>&lt;script src="path/to/js" /&gt;</code> 不行，要寫成 <code>&lt;script src="path/to/js"&gt;&lt;script&gt;</code> 才行?</li>
+<li>Adam Ness: 早期 self-closing script tag 在 Chrome 可以作用，但近期開始出問題 (2010-10-24)</li>
+<li>DOM: 不只是 script tag，也不認為 self-closing div 可以作用。</li>
+<li>squadette: 引用 XHTML 1 spec 的 С.3. Element Minimization and Empty Element Content 提到 &ldquo;Given an empty instance of an element whose content model is not EMPTY (for example, an empty title or paragraph) do not use the minimized form (e.g. use <code>&lt;p&gt; &lt;/p&gt;</code> and not <code>&lt;p /&gt;</code>).&rdquo;，但下面不少人反駁 &ldquo;do not&rdquo; 不等同於 &ldquo;must not&rdquo;，不過 4.3. For non-empty elements, end tags are required 似乎給了答案? 除非 DTD 裡宣為 EMPTY，否則 end tag 不能省略。</li>
+<li>Sheepy: 說得很詳細，但看不懂 XD</li>
+<li>defau1t: HTML 已經有 <code>&lt;link&gt;</code> 可以引用 resource，而且它可以 self-closing，例如 <code>&lt;link type="text/javascript" rel ="script" href="/path/tp/javascript" /&gt;</code>，但 <code>&lt;script&gt;</code> 不能 self-closing。但 Dave Lawrence: 因為有個 predefined <code>&lt;script&gt;</code> 可以用來載 script，為什麼要用其他方式?</li>
+</ul>
+</li>
+</ul>
+<h2 id="framework">Framework<a class="headerlink" href="#framework" title="Permanent link"> #</a></h2>
+<ul>
+<li>Front-end JavaScript Framework 的說法會比 &ldquo;JavaScript Framework&rdquo; 精確，在 <a href="https://www.codeinwp.com/blog/angular-vs-vue-vs-react/">Angular vs React vs Vue: Which Framework to Choose in 2020</a> 大量出現這種說法。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.codeinwp.com/blog/angular-vs-vue-vs-react/">Angular vs React vs Vue: Which Framework to Choose in 2020</a> (2020-02-18)</p>
+<ul>
+<li>
+<p>Just a couple of years ago, developers were mainly debating on whether they should be using Angular vs React for their projects. But over the course of 2018 and 2019, we saw a growth of interest in a third player called Vue.js. Looking forward into 2020, this post is a comprehensive guide on which is perhaps the right solution for you: Angular vs React vs Vue.</p>
+</li>
+<li>
+<p>If you are a developer starting out on a project and cannot decide on which JavaScript framework to use, this guide should help you make a decision.</p>
+<p>We cover various aspects of Angular, Vue, and React to see how they suit your needs. This post is not just a guide on Angular vs React vs Vue but aims to provide a STRUCTURE to help judge FRONT-END JavaScript frameworks in general. In case a new framework arrives next year, you will know exactly what PARAMETERS to look at!</p>
+</li>
+</ul>
+<p>Part 1: A brief history of Vue vs React vs Angular</p>
+<ul>
+<li>Before we get into the technical details, let’s first talk about the history behind these frameworks – just to better appreciate their philosophy and their evolution over time.</li>
+</ul>
+<p>Part 1 &gt; How it all started</p>
+<ul>
+<li>
+<p>Angular, developed by Google, was first released in 2010, making it the oldest of the lot. It is a TYPESCRIPT-BASED JavaScript framework.</p>
+<p>A substantial shift occurred in 2016 on the release of Angular 2 (and the dropping of the “JS” from the original name – AngularJS). Angular 2+ is known as just Angular. Although AngularJS (version 1) still gets updates, we will focus the discussion on Angular. The latest stable version is Angular 9, which was released in February 2020.</p>
+</li>
+<li>
+<p>Vue, also known as Vue.js, is the youngest member of the group. It was developed by ex-Google employee Evan You in 2014. Over the last three years, Vue has seen a substantial shift in popularity, even though it doesn’t have the backing of a large company.</p>
+<p>The current stable version is 2.6, released in February 2019 (with some small incremental releases since then). Vue’s contributors are supported by Patreon.</p>
+<p>Vue 3, currently in the alpha phase, is planning to MOVE TO TYPESCRIPT.</p>
+</li>
+<li>
+<p>React, developed by Facebook, was initially released in 2013. Facebook uses React extensively in their products (Facebook, Instagram, and WhatsApp). The current stable version is 16.X, released in November 2018 (with smaller incremental updates since then).</p>
+</li>
+<li>
+<p>Here’s a short summary of Angular vs React vs Vue, in terms of their status and history:</p>
+<p>以 size 來講 Vue (80 KB) &lt; React (100 KB) &lt; Angular (500 KB)。</p>
+<p>代表用戶 Angular 除 Google 外有 Wix，React 除 Facebook 外有 Uber，而 Vue 的代表用戶有 Alibaba 及 GitLab。</p>
+</li>
+</ul>
+<p>Part 1 &gt; License</p>
+<ul>
+<li>
+<p>Before you use an open source framework, make sure you go through its license. Interestingly, all three frameworks use the MIT license, which provides limited restrictions on reuse, even in proprietary software. Make sure you know the implications of the license before using any framework or software.</p>
+<p>Here is <a href="https://tldrlegal.com/license/mit-license">a quick summary of the MIT license</a> in plain English terms. #ril</p>
+<p>MIT 不是相對寬鬆嗎??</p>
+</li>
+</ul>
+<p>Part 1 &gt; Popularity</p>
+<ul>
+<li>
+<p>As “angular” and “react” are common words, it is difficult to grasp their popularity from Google Trends. Though, a good proxy for their popularity is the number of stars that their GitHub repositories get.</p>
+<p>A sudden shift in the number of stars of Vue occurred in mid-2016 and, recently, Vue has been up there with React among the most popular frameworks.</p>
+<p><img alt="" src="https://iotvnaw69daj.i.optimole.com/6LNb4w-R5StNuCI/w:692/h:452/q:90/dpr:2.0/https://mk0codeinwp10tp0961a.kinstacdn.com/wp-content/uploads/2019/01/star-history.png" /></p>
+<p>Angular 比 React 早出現，但卻起飛得比 React 晚。</p>
+</li>
+</ul>
+<p>Part 1 &gt; Job market for Angular vs React vs Vue</p>
+<ul>
+<li>
+<p>The best <a href="https://medium.com/zerotomastery/tech-trends-showdown-react-vs-angular-vs-vue-61ffaf1d8706">sources of data</a> that indicate the trends on the job market are the various job boards. #ril</p>
+<p>As seen from the trends of late 2018, the number of jobs that require a skill set of Angular or React is roughly the same, whereas that of Vue was still only a fraction of this number (about 20%). This list is definitely not exhaustive but gives a good picture of the overall tech industry.</p>
+<p>If you are looking strictly from the point of view of the current job market, your best bet is to learn Angular or React. However, given that Vue has gained popularity over the last three years, it may TAKE SOME TIME for projects to use Vue, or new projects that adopt Vue to reach a maturity level that commands a higher number of developers.</p>
+</li>
+</ul>
+<p>Part 2: Community and development</p>
+<ul>
+<li>
+<p>Now that you are familiar with the history and trends of each of these frameworks, we will look at the community to assess the development of these frameworks. We have already seen that for all of the frameworks, incremental releases have been shipped regularly over the past year, which indicates that development is going on in FULL SWING.</p>
+<p>Let us look at Angular vs React vs Vue with respect to statistics on their GitHub repositories:</p>
+</li>
+<li>
+<p>Vue has a huge number of watchers, stars and forks. This shows its popularity among users and its value when comparing Vue vs React. However, the number of contributors for Vue are lower than Angular and React.</p>
+<p>各項指標都很高，就唯獨 contributor 只有 &frac14; ~ &#8531;。</p>
+<p>One possible explanation is that Vue is driven entirely by the open source community, whereas Angular and React have a significant share of Google and Facebook employees contributing to the repositories.</p>
+</li>
+<li>
+<p>From the statistics, all three projects show significant development activity, and this is surely going to continue in the future — just these statistics cannot be the basis of not deciding to use either of them.</p>
+</li>
+</ul>
+<p>Part 3: Migrations</p>
+<ul>
+<li>
+<p>As you’re working with your framework of choice, you don’t want to have to worry about a framework update coming along and messing up your code. Though in most cases you won’t encounter many issues from one version to another, it’s important to keep your finger on the pulse because some updates can be more significant and require tweaks to keep things compatible.</p>
+</li>
+<li>
+<p>Angular plans major updates every six months. There is also a period of another six months before any major APIs are deprecated, which gives you the time of TWO RELEASE CYCLES (one year) to make necessary changes if any.</p>
+</li>
+<li>
+<p>When it comes to Angular vs React, Facebook has stated that stability is of utmost importance to them, as huge companies like Twitter and Airbnb use React. Upgrades through versions are generally the easiest in React, with scripts such as <a href="https://github.com/reactjs/react-codemod">react-codemod</a> helping you to migrate.</p>
+</li>
+<li>
+<p>In the Migration section of the FAQ, Vue mentions that 90% of the API is the same if you are migrating from 1.x to 2. There is a <a href="https://github.com/vuejs/vue-migration-helper">migration helper tool</a> that works on the console to assess the status of your app.</p>
+<p>跟 React 的 <code>react-codemod</code> 一樣，看來這才是主流的做法。</p>
+</li>
+</ul>
+<p>Part 4: Working with Vue vs Angular vs React</p>
+<ul>
+<li>There are a handful of important characteristics to look at here, chief of them being overall size and load times, the components available, and learning curve.</li>
+</ul>
+<p>Part 4 &gt; Size and load times</p>
+<ul>
+<li>
+<p>The sizes of the libraries are as follows:</p>
+<ul>
+<li>Angular 4+: Depends on the bundle size produced</li>
+<li>React: 116 KB</li>
+<li>Vue: 91 KB</li>
+</ul>
+<p>Although there is a significant difference between the sizes of the frameworks, they are still small as compared to the average webpage size (2+ MB in 2018). Additionally, if you use a popular CDN to load these libraries, it is highly probable that a user has the library already loaded in their local system.</p>
+</li>
+</ul>
+<p>Part 4 &gt; Components</p>
+<ul>
+<li>
+<p>Components are integral parts of all three frameworks, no matter if we’re talking Vue, React, or Angular. A component generally gets an input, and changes behavior based on it. This behavior change generally manifests as a change in the UI of some part of the page. The use of components makes it easy to reuse code. A component may be a cart on an e-commerce site or a login box on a social network.</p>
+</li>
+<li>
+<p>In Angular, components are referred to as directives. Directives are just MARKERS on DOM elements, which Angular can track and attach specific behavior too. Therefore, Angular SEPARATES the UI part of components as attributes of HTML tags, and their behaviors in the form of JavaScript code. This is what sets it apart when looking at Angular vs React.</p>
+</li>
+<li>
+<p>React, interestingly, COMBINES the UI and behavior of components. For instance, here is <a href="https://gist.githubusercontent.com/derickbailey/4a7a6c4a899279d9c80b/raw/1821326777044958507c02dc54b2cab814738d90/react-1.js">the code to create a hello world component in React</a>. In React, the same part of the code is responsible for creating a UI element and dictating its behavior.</p>
+</li>
+<li>
+<p>In Vue, UI and behavior are also a part of components, which makes things more intuitive when looking at Vue vs React. Also, Vue is highly customizable, which allows you to combine the UI and behavior of components from within a script.</p>
+<p>Further, you can also use pre-processors in Vue rather than CSS, which is a great functionality. Vue is great when it comes to integration with other libraries, like Bootstrap.</p>
+<p>呼應 Vue 宣稱的 progressive，但為什麼 Angular 跟 React 不能跟其他 library 混用??</p>
+</li>
+<li>
+<p>To compare how the same app looks with different libraries, here is a great post on <a href="https://medium.com/javascript-in-plain-english/i-created-the-exact-same-app-in-react-and-vue-here-are-the-differences-e9a1ae8077fd">creating the same to do list app on React and Vue</a> and contrasting the differences of the two frameworks.</p>
+</li>
+</ul>
+<p>Part 4 &gt; Learning curve</p>
+<ul>
+<li>
+<p>Angular has a STEEP learning curve, considering it is a COMPLETE SOLUTION, and mastering Angular requires you to learn associated concepts like TypeScript and MVC.</p>
+<p>Even though it takes time to learn Angular, the investment pays dividends in terms of understanding how the front end works. ??</p>
+</li>
+<li>
+<p>React offers a Getting Started guide that should help one set up React in about an hour. The documentation is thorough and complete, with solutions to common issues already present on Stack Overflow.</p>
+<p>React is NOT A COMPLETE FRAMEWORK ?? and advanced features require the use of third-party libraries. This makes the learning curve of the core framework not so steep but depends on the path you take with additional functionality. However, learning to use React does not necessarily mean that you are using the best practices.</p>
+</li>
+<li>
+<p>Vue provides HIGHER CUSTOMIZABILITY and hence is easier to learn than Angular or React. Further, Vue has an overlap with Angular and React with respect to their functionality like the use of components. Hence, the transition to Vue from either of the two is an easy option.</p>
+<p>However, simplicity and flexibility of Vue is a double-edged sword — it allows poor code, making it difficult to debug and test.</p>
+</li>
+<li>
+<p>Although Angular, React and Vue have a significant learning curve, their uses upon mastery are limitless. For instance, you can integrate Angular and React with WordPress and WooCommerce to create progressive web apps.</p>
+<p>跟 Vue 宣稱的 progressive 不同??</p>
+</li>
+</ul>
+<p>Angular vs React vs Vue: Who wins?</p>
+<ul>
+<li>
+<p>Angular is the most mature of the frameworks, has good backing in terms of contributors and is a complete package.</p>
+<p>However, the learning curve is steep and concepts of development in Angular may PUT OFF new developers.</p>
+<p>Angular is a good choice for companies with large teams and developers who ALREADY USE TYPESCRIPT.</p>
+<p>Extra: Here are some <a href="https://www.codeinwp.com/blog/best-angular-admin-dashboard-templates/">Angular admin dashboard templates</a> that you might be interested in. #ril</p>
+</li>
+<li>
+<p>React is just old enough to be mature and has a huge number of contributions from the community. It has gained widespread acceptance. The job market for React is really good, and the future for this framework looks bright.</p>
+<p>React looks like a good choice for someone getting started with front-end JavaScript frameworks, startups and developers who like some flexibility. The ability to integrate with other frameworks seamlessly gives it a great advantage for those who would like some flexibility in their code.</p>
+</li>
+<li>
+<p>Vue is newest to the arena, without the backing of a major company.</p>
+<p>However, it has done really well in the last few years to come out as a strong competitor for Angular and React. This is perhaps playing a role with a lot of Chinese giants like Alibaba and Baidu picking Vue as their primary front-end JavaScript framework.</p>
+<p>However, it remains to be seen how it does in the future and one is justified to be cautious with it. Vue should be your choice if you prefer simplicity, but also like flexibility.</p>
+<p>Extra: Here are some <a href="https://www.codeinwp.com/blog/best-vuejs-admin-templates-built-with-bootstrap/">Vue admin templates built with Bootstrap</a> that you might be interested in. #ril</p>
+<p>為什麼跟 Angular 一樣，都要舉 admin template 當例子??</p>
+</li>
+<li>
+<p>The answer to the debate of Angular vs React vs Vue is that there’s NO ABSOLUTE RIGHT CHOICE, which you’ve probably expected.</p>
+<p>Each of these libraries has their own benefits and drawbacks. Based on the project you’re working on, and your individual requirements, one of them is going to be more suitable than the others. It’s always key to DO YOUR OWN RESEARCH BEFORE DECIDING, especially if you’re going to be working on a business venture and not on a personal project.</p>
+<p>自己都要用過才能比較。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://medium.com/javascript-in-plain-english/i-created-the-exact-same-app-in-react-and-vue-here-are-the-differences-e9a1ae8077fd">I created the exact same app in React and Vue. Here are the differences.</a> (2018-07-25) #ril</p>
+</li>
+</ul>
+<h2 id="source-map">Source Map ??<a class="headerlink" href="#source-map" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map">Use a source map | MDN</a> #ril</li>
+<li><a href="https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">Introduction to JavaScript Source Maps - HTML5 Rocks</a> (2012-03-21) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>Framework:</p>
+<ul>
+<li><a href="../angular/">Angular</a></li>
+<li><a href="../react/">React</a></li>
+<li><a href="../vue/">Vue</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script"><script>: The Script element | MDN</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

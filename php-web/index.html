@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/php-web/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>PHP / Web Development - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/php-web.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#php-web-development">PHP / Web Development</a></li>
+            <li class="second-level"><a href="#development-server">Development Server</a></li>
+                
+            <li class="second-level"><a href="#config">Configuration</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#debian">Debian</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="php-web-development"><a href="../php/">PHP</a> / Web Development<a class="headerlink" href="#php-web-development" title="Permanent link"> #</a></h1>
+<h2 id="development-server">Development Server<a class="headerlink" href="#development-server" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/features.commandline.webserver.php">PHP: Built-in web server - Manual</a> #ril</li>
+</ul>
+<h2 id="config">Configuration<a class="headerlink" href="#config" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/configuration.file.php">PHP: The configuration file - Manual</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/install.unix.php">PHP: Installation on Unix systems - Manual</a> #ril</li>
+<li><a href="https://www.php.net/manual/en/install.unix.apache2.php">PHP: Apache 2.x on Unix systems - Manual</a> #ril</li>
+<li><a href="https://www.php.net/manual/en/install.unix.nginx.php">PHP: Nginx 1.4.x on Unix systems - Manual</a> #ril</li>
+</ul>
+<h3 id="debian">Debian<a class="headerlink" href="#debian" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/en/install.unix.debian.php">PHP: Debian GNU/Linux installation notes - Manual</a> #ril</p>
+<ul>
+<li>
+<p>This section contains notes and hints specific to installing PHP on » Debian GNU/Linux.</p>
+<p>Warning: Unofficial builds from third-parties are not supported here. Any bugs should be reported to the Debian team unless they can be reproduced using the latest builds from our » download area.</p>
+</li>
+<li>
+<p>While the instructions for building PHP on Unix apply to Debian as well, this manual page contains specific information for other options, such as using either the <code>apt-get</code> or <code>aptitude</code> commands. This manual page uses these two commands interchangeably.</p>
+</li>
+</ul>
+<p>Using APT</p>
+<ul>
+<li>
+<p>First, note that other related packages may be desired like <code>libapache2-mod-php5</code> to integrate with Apache 2, and <code>php-pear</code> for PEAR. ??</p>
+<p>Second, before installing a package, it&rsquo;s wise to ensure the package list is up to date. Typically, this is done by running the command <code>apt-get update</code>.</p>
+</li>
+<li>
+<p>Example #1 Debian Install Example with Apache 2</p>
+<pre><code># apt-get install php5-common libapache2-mod-php5 php5-cli
+</code></pre>
+<p>APT will automatically install the PHP 5 module for Apache 2 and all of its dependencies, and then activate it. Apache should be restarted in order for the changes take place. For example:</p>
+</li>
+<li>
+<p>Example #2 Stopping and starting Apache once PHP is installed</p>
+<pre><code># /etc/init.d/apache2 stop
+# /etc/init.d/apache2 start
+</code></pre>
+</li>
+</ul>
+<p>Better control of configuration</p>
+<ul>
+<li>
+<p>In the last section, PHP was installed with only CORE MODULES. It&rsquo;s very likely that additional modules will be desired, such as MySQL, cURL, GD, etc. These may also be installed via the <code>apt-get</code> command.</p>
+</li>
+<li>
+<p>Example #3 Methods for listing additional PHP 5 packages</p>
+<pre><code># apt-cache search php5
+# aptitude search php5
+# aptitude search php5 |grep -i mysql
+</code></pre>
+<p>The examples will show a lot of packages including several PHP specific ones like <code>php5-cgi</code>, <code>php5-cli</code> and <code>php5-dev</code>. Determine which are needed and install them like any other with either <code>apt-get</code> or <code>aptitude</code>.</p>
+<p>And because Debian performs dependency checks, it&rsquo;ll prompt for those so for example to install MySQL and cURL:</p>
+</li>
+<li>
+<p>Example #4 Install PHP with MySQL, cURL</p>
+<pre><code># apt-get install php5-mysql php5-curl
+</code></pre>
+<p>APT will automatically add the appropriate lines to the different <code>php.ini</code> related files like <code>/etc/php5/apache2/php.ini</code>, <code>/etc/php5/conf.d/pdo.ini</code>, etc. and depending on the extension will add entries similar to <code>extension=foo.so</code>. However, restarting the web server (like Apache) is required before these changes take affect.</p>
+<p>看起來不同 PHP 版本的設定會拆開??</p>
+</li>
+</ul>
+<p>Common Problems</p>
+<ul>
+<li>
+<p>If the PHP scripts are not parsing via the web server, then it&rsquo;s likely that PHP was not added to the web server&rsquo;s configuration file, which on Debian may be <code>/etc/apache2/apache2.conf</code> or similar. See the Debian manual for further details.</p>
+</li>
+<li>
+<p>If an extension was seemingly installed yet the functions are undefined, be sure that the appropriate ini file is being loaded and/or the web server was restarted after installation.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../laravel/">Laravel</a></li>
+<li><a href="../symfony/">Symfony</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

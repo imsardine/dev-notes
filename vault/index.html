@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/vault/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Vault - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/vault.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#vault">Vault</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="vault">Vault<a class="headerlink" href="#vault" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.vaultproject.io/">Vault by HashiCorp</a> #ril</p>
+<ul>
+<li>
+<p>Manage Secrets and Protect Sensitive Data</p>
+<p>Secure, store and tightly control access to tokens, passwords, certificates, encryption keys for protecting secrets and other sensitive data using a UI, CLI, or HTTP API.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://learn.hashicorp.com/vault/#getting-started">Getting Started - Vault Curriculum - HashiCorp Learn</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.vaultproject.io/downloads.html">Download Vault - Vault by HashiCorp</a></p>
+<p>These are the available downloads for the latest version of Vault (1.1.3). Please download the proper package for your operating system and architecture.</p>
+<p>分 Mac OS X、Windows、Linux 等不同平台的下載，但檔案都是 <code>vault_*.zip</code>。</p>
+</li>
+<li>
+<p><a href="https://learn.hashicorp.com/vault/getting-started/install">Install Vault | Vault - HashiCorp Learn</a></p>
+<ul>
+<li>Vault must first be installed on your machine. Vault is distributed as a binary package for all supported platforms and architectures.</li>
+</ul>
+<p>Installing Vault</p>
+<ul>
+<li>
+<p>To install Vault, find the appropriate package for your system and download it. Vault is packaged as a zip archive.</p>
+<p>After downloading Vault, unzip the package. Vault runs as a SINGLE BINARY named <code>vault</code>. Any other files in the package can be safely removed and Vault will still function.</p>
+</li>
+<li>
+<p>The final step is to make sure that the <code>vault</code> binary is available on the <code>PATH</code>.</p>
+</li>
+</ul>
+<p>Verifying the Installation</p>
+<ul>
+<li>After installing Vault, verify the installation worked by opening a new terminal session and checking that the <code>vault</code> binary is available. By executing <code>vault</code>, you should see help output similar to the following:</li>
+</ul>
+<p>Command Completion</p>
+<ul>
+<li>
+<p>Vault also includes command-line completion for subcommands, flags, and path arguments where supported. To install command-line completion, you must be using Bash, ZSH or Fish. Unfortunately other shells are not supported at this time.</p>
+</li>
+<li>
+<p>To install completions, run:</p>
+<pre><code>$ vault -autocomplete-install
+</code></pre>
+<p>This will automatically install the helpers in your <code>~/.bashrc</code> or <code>~/.zshrc</code>, or to <code>~/.config/fish/completions/vault.fish</code> for Fish users. Then restart your terminal or reload your shell:</p>
+<pre><code>$ exec $SHELL
+</code></pre>
+<p>Now when you type <code>vault &lt;tab&gt;</code>, Vault will suggest options. This is very helpful for beginners and advanced Vault users.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://learn.hashicorp.com/vault/getting-started/dev-server">Starting the Server | Vault - HashiCorp Learn</a> #ril</p>
+<ul>
+<li>
+<p>With Vault installed, the next step is to start a Vault server.</p>
+<p>Vault operates as a client/server application. The Vault server is the only piece of the Vault architecture that interacts with the data storage and backends. All operations done via the Vault CLI interact with the server over a TLS connection.</p>
+<p>In this page, we&rsquo;ll start and interact with the Vault server to understand how the server is started.</p>
+</li>
+</ul>
+<p>Starting the Dev Server</p>
+<ul>
+<li>
+<p>First, we&rsquo;re going to start a Vault DEV SERVER. The dev server is a built-in, pre-configured server that is NOT VERY SECURE but useful for playing with Vault locally. Later in this guide we&rsquo;ll configure and start a REAL SERVER.</p>
+<p>To start the Vault dev server, run:</p>
+<pre><code>$ vault server -dev
+
+==&gt; Vault server configuration:
+
+             Api Address: http://127.0.0.1:8200
+                     Cgo: disabled
+         Cluster Address: https://127.0.0.1:8201
+              Listener 1: tcp (addr: "127.0.0.1:8200", cluster address: "127.0.0.1:8201", max_request_duration: "1m30s", max_request_size: "33554432", tls: "disabled")
+               Log Level: (not set)
+                   Mlock: supported: false, enabled: false
+                 Storage: inmem
+                 Version: Vault v1.0.2
+             Version Sha: 37a1dc9c477c1c68c022d2084550f25bf20cac33
+
+WARNING! dev mode is enabled! In this mode, Vault runs entirely in-memory
+and starts unsealed with a single unseal key. The root token is already
+authenticated to the CLI, so you can immediately begin using Vault.
+
+You may need to set the following environment variable:
+
+    $ export VAULT_ADDR='http://127.0.0.1:8200'
+
+The unseal key and root token are displayed below in case you want to
+seal/unseal the Vault or re-authenticate.
+
+Unseal Key: 1+yv+v5mz+aSCK67X6slL3ECxb4UDL8ujWZU/ONBpn0=
+Root Token: s.XmpNPoi9sRhYtdKHaQhkHP6x
+
+Development mode should NOT be used in production installations!
+
+==&gt; Vault server started! Log data will stream in below:
+
+# ...
+</code></pre>
+<p>You should see output similar to that above. Vault does not fork, so it will continue to run in the foreground. Open another shell or terminal tab to run the remaining commands.</p>
+</li>
+<li>
+<p>The dev server stores all its data IN-MEMORY (but still encrypted), listens on localhost without TLS, and automatically UNSEALS ?? and shows you the UNSEAL KEY and ROOT ACCESS KEY.</p>
+<p>Warning: Do not run a dev server in production!</p>
+</li>
+<li>
+<p>With the dev server running, do the following three things before anything else:</p>
+<ul>
+<li>Launch a new terminal session.</li>
+<li>Copy and run the export <code>VAULT_ADDR ...</code> command from the terminal output. This will configure the Vault client to talk to our dev server.</li>
+<li>Save the unseal key somewhere. Don&rsquo;t worry about how to save this securely. For now, just save it anywhere.</li>
+<li>
+<p>Copy the generated Root Token value and set is as <code>VAULT_DEV_ROOT_TOKEN_ID</code> environment variable:</p>
+<p>$ export VAULT_DEV_ROOT_TOKEN_ID=&rdquo;s.XmpNPoi9sRhYtdKHaQhkHP6x&rdquo;</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Verify the Server is Running</p>
+<ul>
+<li>
+<p>As instructed, copy and execute export <code>VAULT_ADDR='http://127.0.0.1:8200'</code>.</p>
+</li>
+<li>
+<p>Verify the server is running by running the <code>vault status</code> command. This should succeed and exit with exit code 0.</p>
+<p>If it ran successfully, the output should look like the following:</p>
+<pre><code>$ vault status
+
+Key             Value
+---             -----
+Seal Type       shamir
+Initialized     true
+Sealed          false
+Total Shares    1
+Threshold       1
+Version         1.0.2
+Cluster Name    vault-cluster-3cdf26fe
+Cluster ID      08082f3a-b58d-1abf-a770-fbb8d87359ee
+HA Enabled      false
+</code></pre>
+<p>If the output looks different, especially if the numbers are different or the Vault is sealed, then restart the dev server and try again. The only reason these would ever be different is if you&rsquo;re running a dev server from going through this guide previously.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vaultproject.io/">Vault by HashiCorp</a></li>
+<li><a href="https://github.com/hashicorp/vault">hashicorp/vault - GitHub</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

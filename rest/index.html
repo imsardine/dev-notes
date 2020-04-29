@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/rest/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>REST (REpresentational State Transfer) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/rest.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#rest-representational-state-transfer">REST (REpresentational State Transfer)</a></li>
+            <li class="second-level"><a href="#restful-api-user-friendly-url">RESTful API 跟 user-friendly URL 的關係?</a></li>
+                
+            <li class="second-level"><a href="#restful-apis">可供測試的 RESTful APIs ??</a></li>
+                
+            <li class="second-level"><a href="#restful-api-url">如何規劃 RESTful API 的 URL?</a></li>
+                
+            <li class="second-level"><a href="#resource">Resource ??</a></li>
+                
+            <li class="second-level"><a href="#relationship">Relationship ??</a></li>
+                
+            <li class="second-level"><a href="#singular-plural">Singular / Plural ??</a></li>
+                
+            <li class="second-level"><a href="#crud-searchactivatestarunstar">CRUD 以外的操作，例如 Search、Activate、Star/Unstar ??</a></li>
+                
+            <li class="second-level"><a href="#filteringsearching-sorting-pagination">Filtering/Searching, Sorting, Pagination ??</a></li>
+                
+            <li class="second-level"><a href="#response-format-status-code">Response -- Format, Status Code ??</a></li>
+                
+            <li class="second-level"><a href="#partial-response">Partial Response ??</a></li>
+                
+            <li class="second-level"><a href="#throttling">Throttling ??</a></li>
+                
+            <li class="second-level"><a href="#caching">Caching ??</a></li>
+                
+            <li class="second-level"><a href="#documentation">Documentation ??</a></li>
+                
+            <li class="second-level"><a href="#errors">Errors ??</a></li>
+                
+            <li class="second-level"><a href="#versioning">Versioning??</a></li>
+                
+            <li class="second-level"><a href="#tools">Tools</a></li>
+                
+            <li class="second-level"><a href="#rerference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="rest-representational-state-transfer">REST (REpresentational State Transfer)<a class="headerlink" href="#rest-representational-state-transfer" title="Permanent link"> #</a></h1>
+<ul>
+<li>REST = REpresentational State Transfer。</li>
+<li>REST 的命名是為了喚起 well-behaved web application 應有的樣子 - web application 是一個由 a network of web resources 組成的 virtual state-machine，對某個 resource 的存取/操作 (內部發生 state transition)，會導致把 next state 的 representation 移轉 (transfer) 給使用者。</li>
+<li>REST 是一種 architectural style 而非 standard，提出了 6 點架構上的要求 (architectural constraints) - client-server architecture、statelessness、cacheability、layered system、code on demand (optional) 與 uniform interface，設計上符合 REST architecture constraints 的 web service API 就稱做 RESTful API，而 HTTP-based RESTful API 只是其種一種實現方式。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>Representational state transfer - Wikipedia <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">https://en.wikipedia.org/wiki/Representational_state_transfer</a></li>
+<li>
+<p>APIs &amp; Reference  |  Translation API  |  Google Cloud Platform <a href="https://cloud.google.com/translate/docs/apis">https://cloud.google.com/translate/docs/apis</a> 出現 &ldquo;REST API Reference&rdquo; 的說法，為何不用 RESTful API?</p>
+</li>
+<li>
+<p>http - What exactly is RESTful programming? - Stack Overflow <a href="https://stackoverflow.com/questions/671118/">https://stackoverflow.com/questions/671118/</a> #ril</p>
+</li>
+<li>
+<p><a href="https://dzone.com/refcardz/rest-api-security-1?chapter=1">REST API Security - DZone - Refcardz</a></p>
+<ul>
+<li>REST (or REpresentational State Transfer) is an ARCHITECTURAL STYLE that evolved as <a href="https://en.wikipedia.org/wiki/Roy_Fielding">Fielding</a> wrote the HTTP/1.1 and URI specs and has proven to be well-suited for developing DISTRIBUTED hypermedia applications. While REST is more widely applicable, it is most commonly used within the context of communicating with services via HTTP.</li>
+</ul>
+</li>
+</ul>
+<h2 id="restful-api-user-friendly-url">RESTful API 跟 user-friendly URL 的關係?<a class="headerlink" href="#restful-api-user-friendly-url" title="Permanent link"> #</a></h2>
+<ul>
+<li>Representational state transfer - Wikipedia <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">https://en.wikipedia.org/wiki/Representational_state_transfer</a> Relationship between URL and HTTP methods 提到 &ldquo;REST is an architectural style&rdquo;，而 Uniform interface 這個 constraint 也沒有提到 URL 要怎麼規劃。</li>
+<li>http - What exactly is RESTful programming? - Stack Overflow <a href="https://stackoverflow.com/questions/671118/">https://stackoverflow.com/questions/671118/</a> Shirgill Farhan Ansari: REST architecture does not require these “pretty URLs”</li>
+</ul>
+<h2 id="restful-apis">可供測試的 RESTful APIs ??<a class="headerlink" href="#restful-apis" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.postman-echo.com/">Postman Echo</a> #ril</li>
+<li><a href="https://github.com/toddmotto/public-apis">toddmotto/public-apis: A collective list of public JSON APIs for use in web development.</a> #ril</li>
+<li><a href="https://httpbin.org/">httpbin(1): HTTP Client Testing Service</a> #ril</li>
+<li><a href="https://lornajane.net/posts/2013/endpoints-for-http-testing">Endpoints for HTTP Testing | LornaJane</a> #ril</li>
+<li><a href="http://mockbin.org/">Mockbin by Mashape</a> #ril</li>
+</ul>
+<h2 id="restful-api-url">如何規劃 RESTful API 的 URL?<a class="headerlink" href="#restful-api-url" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</p>
+<ul>
+<li>當背後的 data model 已經趨於穩定，想要透過 public API 公開，但 API 一旦公佈之後就很難改動，希望在釋出前就儘量做對。</li>
+<li>網路上不乏許多意見，但沒有真正的標準，問題在於選擇太多 &hellip; 如何做 authentication? 要不要做 versioning &hellip; My goal with this post is to describe best practices for a pragmatic API designed for today&rsquo;s web applications. I make no attempt to satisfy a standard if it doesn&rsquo;t FEEL RIGHT. 跟著直覺走，其中以 &ldquo;It should be friendly to the developer and be explorable via a browser address bar&rdquo; 的考量最重要 =&gt; An API is a developer&rsquo;s UI - just like any UI, it&rsquo;s important to ensure the user&rsquo;s experience is thought out carefully! 關於 browser explorability，在 JSON only responses 一節有句話 &ldquo;To ensure browser explorability, it should be in the URL.&rdquo; 這說法簡單易懂。</li>
+<li>The key principles of REST involve separating your API into LOGICAL RESOURCES. These resources are manipulated using HTTP requests where the method (GET, POST, PUT, PATCH, DELETE) has specific meaning.</li>
+<li>要如何定義 resource? these should be NOUNS (not verbs!) that make sense from the perspective of the API consumer. Although your internal models may map neatly to resources, it isn&rsquo;t necessarily a ONE-TO-ONE MAPPING. The key here is to not LEAK irrelevant implementation details out to your API! 名詞，從 API consumer 的角度來看，且不一定要跟後端的 data model 有 one-to-one 的對應關係，注意不要洩漏了後端的實作細節。</li>
+<li>找出 resource 後，接下來要找出有哪些 action 可以作用在該 resource、如何對應到 API 的操作。RESTful principles 提供了 CRUD action 與 HTTP methods 的對應 (以 ticket 為例)：<code>GET /tickets</code> (取得 list of tickets)、<code>GET /tickets/12</code> (取得特定 ticket)、<code>POST /tickets</code> (建立一個 ticket，注意仍有 <code>s</code>)、<code>PUT /tickets/12</code> (更新 ticket)、<code>PATCH /tickets/12</code> (局部更新 ticket)、<code>DELETE /tickets/12</code> (刪除 ticket) &ndash; 利用現有的 HTTP methods，將重要的功能集中在 <code>/tickets</code> 同一個 endpoint 下。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://nordicapis.com/7-api-design-lessons-world-tour-roundup/">API Design – 7 Important Lessons When Designing an API</a> (2017-11-02) #ril</p>
+</li>
+<li><a href="https://nordicapis.com/envisioning-the-entire-api-lifecycle/">The Entire API Lifecycle | Nordic APIs</a> (2015-10-13) #ril</li>
+<li><a href="https://coderwall.com/p/gbxelq/simple-rules-for-a-sane-restful-api-design">Simple rules for a sane RESTful API design (Example)</a> (2017-03-30) #ril</li>
+<li><a href="https://hackernoon.com/restful-api-designing-guidelines-the-best-practices-60e1d954e7c9">RESTful API Designing guidelines — The best practices</a> (2017-02-03) #ril</li>
+<li><a href="https://www.artima.com/weblogs/viewpost.jsp?thread=153170">RESTful and User-Friendly URLs</a> #ril</li>
+<li><a href="https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/">10 Best Practices for Better RESTful API | Thinking Mobile</a> (2014-06-05) #ril</li>
+<li><a href="http://apiux.com/2013/04/03/url-design-restful-web-services/">URL Design for RESTful Web Services | API UX</a> 在講 API 的 UX #ril</li>
+<li>Semantic URL - Wikipedia <a href="https://en.wikipedia.org/wiki/Semantic_URL">https://en.wikipedia.org/wiki/Semantic_URL</a> #ril</li>
+</ul>
+<p>之前 Wonder 提到 GCP 的 translation restful API，發現也是有人不用 namespace 的，且 hostname 也是看用途的命名 <a href="https://cloud.google.com/translate/docs/reference/translate">https://cloud.google.com/translate/docs/reference/translate</a>
+- translation.googleapis.com/language/translate/v2
+- translation.googleapis.com/language/translate/v2/detect
+- translation.googleapis.com/language/translate/v2/languages</p>
+<h2 id="resource">Resource ??<a class="headerlink" href="#resource" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://restful-api-design.readthedocs.io/en/latest/resources.html">Resources</a> #ril</li>
+</ul>
+<h2 id="relationship">Relationship ??<a class="headerlink" href="#relationship" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">But how do you deal with relations? - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>如果有從屬關係 (a relation can only exist within another resource)，就把它放 parent 的 endpoint 下，例如 ticket 下有許多 message，可以規劃成 <code>GET /tickets/12/messages</code>、<code>GET /tickets/12/messages/5</code>。</li>
+<li>但如果可以獨立存在 (exist independently of the resource)，就可以在另一個 resource 的 output representation 裡輸出另一個 (independent) resource 的 identifier，也就是 API consumer 需要再打 (hit) 另一個 resource 的 endpoint，若是這樣的 relation 很常用，也可以考慮直接內嵌 (embed) 另一個 resource 的 representation，這樣就可以免除 second hit to the API。</li>
+</ul>
+</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#autoloading">Auto loading related resource representations - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+<li><a href="https://medium.com/@factoryhr/how-to-build-a-good-api-relationships-and-endpoints-8b07aa37097c">How to build a good API: Relationships and endpoints</a> (2017-01-13) #ril</li>
+<li><a href="http://restful-api-design.readthedocs.io/en/latest/relationships.html">Relationships</a> #ril</li>
+</ul>
+<h2 id="singular-plural">Singular / Plural ??<a class="headerlink" href="#singular-plural" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>Should the endpoint name be singular or plural? 儘管文法上會認為 &ldquo;it&rsquo;s wrong to describe a single instance of a resource using a plural&rdquo;，但實務上建議一致採用 plural，不過 &ldquo;Not having to deal with odd pluralization (person/people, goose/geese) makes the life of the API consumer better&rdquo; 是不要管特殊的變化型嗎??</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/6845772/">REST URI convention - Singular or plural name of resource while creating it - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="crud-searchactivatestarunstar">CRUD 以外的操作，例如 Search、Activate、Star/Unstar ??<a class="headerlink" href="#crud-searchactivatestarunstar" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">What about actions that don&rsquo;t fit into the world of CRUD operations? - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> 做法有很多種<ul>
+<li>Restructure the action to appear like a field of a resource. 尤其 action 不帶其他參數時，例如 activate 的動作，可以對應 <code>activated</code> 欄位，透過 <code>PATCH</code> method 做 partial update。</li>
+<li>Treat it like a sub-resource with RESTful principles. 像 GitHub 的 <a href="http://developer.github.com/v3/gists/#star-a-gist">star/unstar</a> 分別用 <code>PUT /gists/:id/star</code> 與 <code>DELETE /gists/:id/star</code> 表現。</li>
+<li>Sometimes you really have no way to map the action to a sensible RESTful structure. For example, a multi-resource search doesn&rsquo;t really make sense to be applied to a SPECIFIC resource&rsquo;s endpoint. 這種狀況下就用 <code>/search</code> 也沒關係，即便它不是個 resource &ndash; 重點還是 &ldquo;right from the perspective of the API consumer&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h2 id="filteringsearching-sorting-pagination">Filtering/Searching, Sorting, Pagination ??<a class="headerlink" href="#filteringsearching-sorting-pagination" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#advanced-queries">Result filtering, sorting &amp; searching - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>It&rsquo;s best to keep the base resource URLs as lean as possible. 其他像是 result filtering、sorting、searching 等，建議在 base URL 的基礎上用 query parameters 來實作。</li>
+<li>Use a unique query parameter for each field that implements filtering. 例如 <code>GET /tickets?state=open</code> 可以針對 <code>state</code> 過濾。</li>
+<li>Similar to filtering, a generic parameter <code>sort</code> can be used to describe sorting rules. 例如 <code>GET /tickets?sort=-priority</code> (用 <code>-</code> 來表示 descending)，複雜的排序則可以用逗號隔開多個欄位，例如 <code>GET /tickets?sort=-priority,created_at</code>。</li>
+<li>Sometimes basic filters aren&rsquo;t enough and you need the power of FULL TEXT SEARCH. 也就是說 filtering 也是一種 search，可以用 <code>q</code> query parameter 來表示，例如 <code>GET /tickets?q=return&amp;state=open&amp;sort=-priority,created_at</code>。</li>
+<li>To make the API experience more pleasant for the average consumer, consider packaging up sets of conditions into easily accessible RESTful paths. 這個考量還滿特別的 (alias 的概念)，例如 <code>GET /tickets/recently_closed</code>。</li>
+</ul>
+</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#pagination">Pagination - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+</ul>
+<h2 id="response-format-status-code">Response &ndash; Format, Status Code ??<a class="headerlink" href="#response-format-status-code" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#useful-post-responses">Updates &amp; creation should return a resource representation - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>PUT、POST、PATCH 等會對 underlying resource 造成除了 modification to fileds 外的異動 (例如 <code>create_at</code> 或 <code>updated_at</code> timestamp)，為了避免 API consumer 必須再呼叫一次 API 以取得 updated representation，API 的 response 應該帶有 updated/created representation。</li>
+<li>依照 <a href="https://www.ietf.org/rfc/rfc2616.txt">RFC 2616</a> Hypertext Transfer Protocol &ndash; HTTP/1.1 的說法 &ndash; If a resource has been created on the origin server, the response SHOULD be 201 (Created) and contain an entity which describes the status of the request and refers to the new resource, and a Location header，所以 response 要帶 created representation 嗎?</li>
+</ul>
+</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#hateoas">Should you HATEOAS? - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril<ul>
+<li>這裡討論 links (指 URL to resources?) 該由 API consumer 自己串接，還是該由 API 提供? </li>
+</ul>
+</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#snake-vs-camel">snake_case vs camelCase for field names - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#pretty-print-gzip">Pretty print by default &amp; ensure gzip is supported - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#envelope">Don&rsquo;t use an envelope by default, but make it possible when needed - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#json-requests">JSON encoded POST, PUT &amp; PATCH bodies - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+</ul>
+<h2 id="partial-response">Partial Response ??<a class="headerlink" href="#partial-response" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#limiting-fields">Limiting which fields are returned by the API - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>API consumer 不一定總是需要 resource 的 FULL representation，能夠讓 consumer 選定要傳回哪些 fields，可以簡少 network traffic，同時也加速 response。</li>
+<li>用 <code>fields</code> query paramter 羅列要傳回哪些 fields，例如 <code>GET /tickets?fields=id,subject,customer_name,updated_at&amp;state=open&amp;sort=-updated_at</code>。</li>
+</ul>
+</li>
+<li><a href="https://apigee.com/about/blog/technology/restful-api-design-can-your-api-give-developers-just-information-they-need">RESTful API Design: can your API give developers just the information they need? | Apigee</a> (2011-12-23) #ril</li>
+<li><a href="http://yaoganglian.com/2013/07/01/partial-response/">Partial Response in RESTful API Design | Yaogang Lian</a> (2013-07-01) #ril</li>
+<li><a href="https://developers.google.com/drive/api/v3/performance#partial">Working with partial resources - Performance Tips  |  Drive REST API  |  Google Developers</a> #ril</li>
+<li><a href="https://github.com/gregwhitaker/catnap">gregwhitaker/catnap: Partial JSON response framework for RESTful web services</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/32855356/">json - REST - Partial Resources - Stack Overflow</a> #ril</li>
+<li><a href="https://dev.targetprocess.com/docs/partial-response-includes-and-excludes">Partial response (includes and excludes)</a> #ril</li>
+<li><a href="https://zapier.com/engineering/flexible-api-responses/">3 Ways to Make Your API Responses Flexible - The Zapier Engineering Blog | Zapier</a> (2017-01-05) 最後提到 GraphQL #ril</li>
+</ul>
+<h2 id="throttling">Throttling ??<a class="headerlink" href="#throttling" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#rate-limiting">Rate limiting - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+<li><a href="https://nordicapis.com/everything-you-need-to-know-about-api-rate-limiting/">Everything You Need To Know About API Rate Limiting | Nordic APIs |</a> (2019-04-18) #ril</li>
+</ul>
+<h2 id="caching">Caching ??<a class="headerlink" href="#caching" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#caching">Caching - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a> #ril</li>
+</ul>
+<h2 id="documentation">Documentation ??<a class="headerlink" href="#documentation" title="Permanent link"> #</a></h2>
+<ul>
+<li>常用的工具有 <a href="https://apiblueprint.org/">API Blueprint</a>、<a href="https://swagger.io/">Swagger</a>、<a href="https://raml.org/">RAML</a>。</li>
+<li>API Blueprint 支持 Markdown 似乎不錯?</li>
+<li>從 code 來產生 API 文件，在實務上會有什麼問題嗎?</li>
+<li>是否該考量 OpenAPI 的標準?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#docs">Documentation - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>An API is only as good as its documentation. 這說法簡潔有力! 重點是容易存取 &ndash; 不要用 PDF、不需要登入 (sign in)</li>
+<li>提供具備 complete request/response cycles 的文件，最好是 pastable &ndash; 可以貼到網址列的 URL 或是 curl 指令，這方面 GitHub 跟 Stripe 做得很好。</li>
+<li>Once you release a public API, you&rsquo;ve committed to not breaking things without notice. 提到 &ldquo;deprecation schedules&rdquo; 的概念，有異動應透過 blog 跟 mailing list 通知。</li>
+</ul>
+</li>
+<li>OpenAPI-Specification/README.md at master · OAI/OpenAPI-Specification <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/README.md">https://github.com/OAI/OpenAPI-Specification/blob/master/README.md</a> #ril</li>
+</ul>
+<h2 id="errors">Errors ??<a class="headerlink" href="#errors" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#errors">Errors - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a></p>
+<ul>
+<li>
+<p>Just like an HTML error page shows a useful error message to a visitor, an API should provide a USEFUL error message in a KNOWN CONSUMABLE FORMAT. The representation of an error should be NO DIFFERENT than the representation of any resource, just with ITS OWN SET of fields.</p>
+<p>這跟 API 的 UX 有關。</p>
+</li>
+<li>
+<p>The API should always return sensible HTTP status codes. API errors typically break down into 2 types: 400 series status codes for client issues &amp; 500 series status codes for server issues.</p>
+<p>At a minimum, the API should standardize that all 400 series errors come with consumable JSON error representation. If possible (i.e. if load balancers &amp; reverse proxies can create custom error bodies), this should EXTEND to 500 series status codes.</p>
+</li>
+<li>
+<p>A JSON error body should provide a few things for the developer - a useful error message, a unique error code (that can be looked up for more details IN THE DOCS) and possibly a detailed description. JSON output representation for something like this would look like:</p>
+<pre><code>{
+  "code" : 1234,
+  "message" : "Something bad happened :(",
+  "description" : "More details about the error here"
+}
+</code></pre>
+</li>
+<li>
+<p>Validation errors for <code>PUT</code>, <code>PATCH</code> and <code>POST</code> requests will need a FIELD BREAKDOWN. This is best modeled by using a fixed top-level error code for validation failures and providing the detailed errors in an additional <code>errors</code> field, like so:</p>
+<pre><code>{
+  "code" : 1024,
+  "message" : "Validation Failed",
+  "errors" : [
+    {
+      "code" : 5432,
+      "field" : "first_name",
+      "message" : "First name cannot have fancy characters"
+    },
+    {
+       "code" : 5622,
+       "field" : "password",
+       "message" : "Password cannot be blank"
+    }
+  ]
+}
+</code></pre>
+<p>這又更進一步，要一次提示多個欄位的問題；也跟 API UX 有關。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://blog.restcase.com/rest-api-error-codes-101/">REST API Error Handling Best Practices</a> (2015-12-10) 不要過度濫用 status code，用 200、400、500 應該就夠了。FB  #ril</p>
+</li>
+<li><a href="http://idratherbewriting.com/learnapidoc/docapis_doc_status_codes.html">Documenting status and error codes | Document REST APIs</a> #ril</li>
+</ul>
+<h2 id="versioning">Versioning??<a class="headerlink" href="#versioning" title="Permanent link"> #</a></h2>
+<ul>
+<li>採 <code>/&lt;version&gt;/&lt;endpoint&gt;</code> 或 <code>/&lt;endpoint&gt;/&lt;version&gt;</code>，應該是前著，因為一個 version 下會怎麼拆分不同的 endpoints 會依 version 不同。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#versioning">Versioning - Best Practices for Designing a Pragmatic RESTful API | Vinay Sahni</a><ul>
+<li>Always version your API. Versioning helps you ITERATE FASTER and prevents invalid requests from hitting updated endpoints. 避免卡到自己。</li>
+<li>An API is never going to be completely stable. Change is inevitable. What&rsquo;s important is how that change is MANAGED.</li>
+<li>但 version 應該放 header 還是 URL? 學術上認為要放 header，但基於 &ldquo;be explorable via a browser address bar&rdquo; 的考量，選擇放 URL。</li>
+<li>作者很喜歡 <a href="https://stripe.com/docs/api#versioning">Stripe 在 API versioning 這方面的做法</a> &ndash; URL 只有 major version (例如 <code>/v1/</code>)，但發生 backwards-incompatible changes 時，會釋出 dated version (例如 <code>2018-07-27</code>)，平常 request 會採用 API settings 裡指定的 dated version，但也可以透過 <code>Stripe-Version</code> header 指定。</li>
+</ul>
+</li>
+<li><a href="http://www.baeldung.com/rest-versioning">Versioning a REST API | Baeldung</a> #ril</li>
+</ul>
+<h2 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/mozilla/agithub">mozilla/agithub: Agnostic Github client API -- An EDSL for connecting to REST servers</a> 可以做 rapid prototyping #ril</li>
+</ul>
+<h2 id="rerference">參考資料<a class="headerlink" href="#rerference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://blog.restcase.com/">REST API and Beyond</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/rest">&lsquo;rest&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../rest-security/">Security</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

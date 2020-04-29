@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/freezegun/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>FreezeGun - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/freezegun.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#freezegun">FreezeGun</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#ticking">Ticking ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="freezegun">FreezeGun<a class="headerlink" href="#freezegun" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://github.com/spulec/freezegun">spulec/freezegun: Let your Python tests travel through time</a></p>
+<ul>
+<li>
+<p>FreezeGun is a library that allows your Python tests to travel through time by mocking the <code>datetime</code> module.</p>
+<p>Once the decorator or context manager have been invoked, all calls to <code>datetime.datetime.now()</code>, <code>datetime.datetime.utcnow()</code>, <code>datetime.date.today()</code>, <code>time.time()</code>, <code>time.localtime()</code>, <code>time.gmtime()</code>, and <code>time.strftime()</code> will return the time that has been frozen.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/spulec/freezegun">spulec/freezegun: Let your Python tests travel through time</a> #ril</p>
+<ul>
+<li>
+<p>Decorator</p>
+<pre><code>from freezegun import freeze_time
+import datetime
+import unittest
+
+@freeze_time("2012-01-14")
+def test():
+    assert datetime.datetime.now() == datetime.datetime(2012, 1, 14)
+
+# Or a unittest TestCase - freezes for every test, from the start of setUpClass to the end of tearDownClass
+
+@freeze_time("1955-11-12")
+class MyTests(unittest.TestCase):
+    def test_the_class(self):
+        assert datetime.datetime.now() == datetime.datetime(1955, 11, 12)
+
+# Or any other class - freezes around each callable (may not work in every case)
+
+@freeze_time("2012-01-14")
+class Tester(object):
+    def test_the_class(self):
+        assert datetime.datetime.now() == datetime.datetime(2012, 1, 14)
+</code></pre>
+<p>日期的表示法還滿直覺的 <code>"2012-01-14"</code>，原來背後用 <code>dateutil</code> 在解析。</p>
+</li>
+<li>
+<p>Context manager</p>
+<pre><code>from freezegun import freeze_time
+
+def test():
+    assert datetime.datetime.now() != datetime.datetime(2012, 1, 14)
+    with freeze_time("2012-01-14"):
+        assert datetime.datetime.now() == datetime.datetime(2012, 1, 14)
+    assert datetime.datetime.now() != datetime.datetime(2012, 1, 14)
+</code></pre>
+<p>用法跟 decorator 滿像的，都是進入時鎖住時間，離開時回復正常值。</p>
+</li>
+<li>
+<p>Nice inputs</p>
+<p>FreezeGun uses <code>dateutil</code> behind the scenes so you can have nice-looking datetimes.</p>
+<pre><code>@freeze_time("Jan 14th, 2012")
+def test_nice_datetime():
+    assert datetime.datetime.now() == datetime.datetime(2012, 1, 14)
+</code></pre>
+</li>
+<li>
+<p>Function and generator objects</p>
+<p>FreezeGun is able to handle function and generator objects.</p>
+<pre><code>def test_lambda():
+    with freeze_time(lambda: datetime.datetime(2012, 1, 14)):
+        assert datetime.datetime.now() == datetime.datetime(2012, 1, 14)
+
+def test_generator():
+    datetimes = (datetime.datetime(year, 1, 1) for year in range(2010, 2012))
+
+    with freeze_time(datetimes):
+        assert datetime.datetime.now() == datetime.datetime(2010, 1, 1)
+
+    with freeze_time(datetimes):
+        assert datetime.datetime.now() == datetime.datetime(2011, 1, 1)
+
+    # The next call to freeze_time(datetimes) would raise a StopIteration exception.
+</code></pre>
+<p>看似很酷，但實用性似乎不高? 因為你不一定清楚受測的程式，在過程中拿了幾次時間 &hellip; 另外值得注意的是，callable 跟 generator 回傳的是 <code>datetime</code> object 而非之前的字串。</p>
+</li>
+</ul>
+<p>Default arguments</p>
+<ul>
+<li>
+<p>Note that FreezeGun will not modify DEFAULT ARGUMENTS. The following code will print the current date. See <a href="http://docs.python-guide.org/en/latest/writing/gotchas/#mutable-default-arguments">here</a> for why.</p>
+<pre><code>from freezegun import freeze_time
+import datetime as dt
+
+def test(default=dt.date.today()):
+    print(default)
+
+with freeze_time('2000-1-1'):
+    test()
+</code></pre>
+<p>事實上也改不了，因為 <code>default=dt.date.today()</code> 在 import time 就已評估。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ticking">Ticking ??<a class="headerlink" href="#ticking" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/spulec/freezegun">spulec/freezegun: Let your Python tests travel through time</a></p>
+<p><code>tick</code> argument</p>
+<ul>
+<li>
+<p>FreezeGun has an additional <code>tick</code> argument which will RESTART TIME AT THE GIVEN VALUE, but then time will keep ticking. This is alternative to the default parameters which will KEEP TIME STOPPED.</p>
+<pre><code>@freeze_time("Jan 14th, 2020", tick=True)
+def test_nice_datetime():
+    assert datetime.datetime.now() &gt; datetime.datetime(2020, 1, 14)
+</code></pre>
+<p>把時間撥回特定時間點，而非凍結。</p>
+</li>
+</ul>
+<p><code>auto_tick_seconds</code> argument</p>
+<ul>
+<li>
+<p>FreezeGun has an additional <code>auto_tick_seconds</code> argument which will autoincrement the value EVERY TIME by the given amount from the start value. This is alternative to the default parameters which will keep time stopped. Note that given <code>auto_tick_seconds</code> the <code>tick</code> parameter will be ignored.</p>
+<pre><code>@freeze_time("Jan 14th, 2020", auto_tick_seconds=15)
+def test_nice_datetime():
+    first_time = datetime.datetime.now()
+    auto_incremented_time = datetime.datetime.now()
+    assert first_time + datetime.timedelta(seconds=15) == auto_incremented_time
+</code></pre>
+<p>每次取用時間都會跳 <code>auto_tick_seconds</code> 指定的秒數，跟 <code>tick=True</code> 讓時間自然往下走不同。</p>
+</li>
+</ul>
+<p>Manual ticks</p>
+<ul>
+<li>
+<p>FreezeGun allows for the time to be MANUALLY FORWARDED as well.</p>
+<pre><code>def test_manual_increment():
+    initial_datetime = datetime.datetime(year=1, month=7, day=12,
+                                        hour=15, minute=6, second=3)
+    with freeze_time(initial_datetime) as frozen_datetime:
+        assert frozen_datetime() == initial_datetime # (1)
+
+        frozen_datetime.tick() # (2)
+        initial_datetime += datetime.timedelta(seconds=1)
+        assert frozen_datetime() == initial_datetime
+
+        frozen_datetime.tick(delta=datetime.timedelta(seconds=10)) # (2)
+        initial_datetime += datetime.timedelta(seconds=10)
+        assert frozen_datetime() == initial_datetime
+</code></pre>
+<ol>
+<li>呼叫 context manager 的 target 會拿到下次的時間。</li>
+<li><code>tick(delta)</code> 讓時間轉動，預設前進 1 秒。</li>
+</ol>
+</li>
+</ul>
+<p>Moving time to specify datetime</p>
+<ul>
+<li>
+<p>FreezeGun allows moving time to specific dates.</p>
+<pre><code>def test_move_to():
+    initial_datetime = datetime.datetime(year=1, month=7, day=12,
+                                        hour=15, minute=6, second=3)
+
+    other_datetime = datetime.datetime(year=2, month=8, day=13,
+                                        hour=14, minute=5, second=0)
+    with freeze_time(initial_datetime) as frozen_datetime:
+        assert frozen_datetime() == initial_datetime
+
+        frozen_datetime.move_to(other_datetime) # (1)
+        assert frozen_datetime() == other_datetime
+
+        frozen_datetime.move_to(initial_datetime)
+        assert frozen_datetime() == initial_datetime
+
+@freeze_time("2012-01-14", as_arg=True) # (2)
+def test(frozen_time):
+    assert datetime.datetime.now() == datetime.datetime(2012, 1, 14)
+    frozen_time.move_to("2014-02-12")
+    assert datetime.datetime.now() == datetime.datetime(2014, 2, 12)
+</code></pre>
+<ol>
+<li>Context manager 的 target 還有 <code>move_to()</code> 的功能。</li>
+<li>做為 decorator 時，加上 <code>as_arg</code> 可以拿到類 context manager 的 target，可以調用它的 <code>tick()</code>、<code>move_to()</code> 等。</li>
+</ol>
+<p>Parameter for <code>move_to</code> can be any valid <code>freeze_time</code> date (STRING, date, datetime).</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/spulec/freezegun#installation">Installation - spulec/freezegun: Let your Python tests travel through time</a></p>
+<p>To install FreezeGun, simply:</p>
+<pre><code>$ pip install freezegun
+</code></pre>
+<p>On Debian (Testing and Unstable) systems:</p>
+<pre><code>$ sudo apt-get install python-freezegun
+</code></pre>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/spulec/freezegun">spulec/freezegun - GitHub</a></li>
+<li><a href="https://pypi.org/project/freezegun/">freezegun - PyPI</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>背後用 <a href="../python-dateutil/"><code>dateutil</code></a> 在解讀日期/時間。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

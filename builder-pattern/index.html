@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/builder-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Builder Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/builder-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#builder-pattern">Builder Pattern</a></li>
+            <li class="second-level"><a href="#testing">Testing ??</a></li>
+                
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="builder-pattern">Builder Pattern<a class="headerlink" href="#builder-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Builder_pattern">Builder pattern - Wikipedia</a> #ril</li>
+<li><a href="https://dzone.com/articles/too-many-parameters-java-1">Too Many Parameters in Java Methods, Part 3: Builder Pattern - DZone Java</a> (2013-10-18) #ril</li>
+</ul>
+<h2 id="testing">Testing ??<a class="headerlink" href="#testing" title="Permanent link"> #</a></h2>
+<ul>
+<li>為了避免使用者相依 builder 裡的預設值，或許在 build 的當下，沒給值的部份以亂數產生，可以有效揭露這類不當的假設?</li>
+<li>Modification method 的命名跟型態可以跟目標 type 脫勾，只要考慮 building expression 的可讀性即可，例如 <code>XXXBuilder().ver(...).at(...).build()</code> 對應到 <code>version</code>、<code>time</code> 等。</li>
+<li>Builder 也可以提高 test fixture 的可讀性 (甚至比在 production code 中更為常用) - 更為 expressive、clearer intent，可以清楚表達哪些 data 跟特定測試有關。</li>
+<li>專為 test code 寫的 builder 放 test project，一開始放在 test class 裡，有共用的話可以擺在最相關的 test class，其他 test class 直接引用沒關係，露在外面反而難管理；例如為 <code>MyObject</code> 寫了 <code>MyObjectBuilder</code>，就擺在 <code>MyObjectTest.MyObjectBuilder</code>，或許本來就有個 <code>MyObject.Builder</code> 但不符合測試的需求，剛好可以區分開來。</li>
+<li>Too Many Parameters in Java Methods, Part 3: Builder Pattern | JavaWorld <a href="http://www.javaworld.com/article/2074938/core-java/too-many-parameters-in-java-methods-part-3-builder-pattern.html">http://www.javaworld.com/article/2074938/core-java/too-many-parameters-in-java-methods-part-3-builder-pattern.html</a> 提到必要的參數設計成 builder 的 constructor parameter 的做法，並不適用於 testing，因為再怎麼樣 private field 都有辦法生出預設值 (只要處理沒有指定時會造成 exception 的部份) 這就是 builder 用在 test code 上的特性，而且無論預設值是不是測試要的，只要會影響到就要明確寫出來，如此說來就算 production code 有提供 builder，很有可能因為不符合測試需求而要在 test project 另外寫一個。</li>
+<li>Test code 用的 builder 其 constructor 都是沒有參數的，若沒有再呼叫其他 modification method，就像是 dummy object，就是型態符合而已；就像 <a href="http://www.javaworld.com/article/2074508/core-java/mocks-and-stubs---understanding-test-doubles-with-mockito.html">http://www.javaworld.com/article/2074508/core-java/mocks-and-stubs---understanding-test-doubles-with-mockito.html</a> 這裡說的一樣，並不在乎它的內容，因為不在乎內容，所以 test code 不用呼叫任何 modification method；會不會提供一個 <code>public static XXX newInstance()</code> 比較方便? =&gt; 後來發展出了 <code>instance()</code>、<code>instances()</code>、<code>instancesWithId()</code> 很實用</li>
+<li>發現 <code>XXXBuilder</code> 額外提供 3 個 static method 很實用 - <code>instance()</code>、<code>instances(int count)</code> 與 <code>instancesWithId(String... ids)</code>，前面 2 個快速產生多個 dummy instance，後者則帶有 ID，回傳值的型態建議用 <code>XXX[]</code> (array)，方便與 varargs 搭配使用，而且 <code>instances[0]</code> (array) 也比 <code>instances.get(0)</code> (list) 來得簡潔。</li>
+<li>How to write good tests · mockito/mockito Wiki <a href="https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-value-objects">https://github.com/mockito/mockito/wiki/How-to-write-good-tests#dont-mock-value-objects</a> Don&rsquo;t mock value objects 提到 &ldquo;Because instantiating the object is too painful !?&rdquo; 不是理由，方法之一就是為 value object 建立 builder。</li>
+<li>Flexible and expressive unit tests with the builder pattern (2013-07-15) <a href="https://www.kenneth-truyers.net/2013/07/15/flexible-and-expressive-unit-tests-with-the-builder-pattern/">https://www.kenneth-truyers.net/2013/07/15/flexible-and-expressive-unit-tests-with-the-builder-pattern/</a> Unit test 同時也是 document，但 expressive 會是重點，基本上 production code 要求 encapsulation，與 test code 要求 expose unit 使能夠 test it in isolation 是有點衝突，所以用 builder pattern 使 test code 能以 expressive/flexible 的方式接上 test code (builder 放 test project)；越是 flexible (主要是跟 constructor 脫勾)，test code 修改的機會越少，當 unit test 指出一個錯誤時，錯在  production code 的機會也越高。(C#)</li>
+<li>Builder Pattern: Good for code, great for tests (2013-06-06) <a href="https://www.javacodegeeks.com/2013/06/builder-pattern-good-for-code-great-for-tests.html">https://www.javacodegeeks.com/2013/06/builder-pattern-good-for-code-great-for-tests.html</a> 作者發現在 test code 裡 builder patter 更為實用，強調了 builder 之於 immutable class 的好處，另外澄清了 default value 只是為了避免 exception (一開始都設為 <code>null</code>?)，強調 &ldquo;Only specify values that are actually relevant to your test&rdquo;，即便 default value 剛好是 test code 需要的，也要明確寫出來。(Java)</li>
+<li>&lsquo;Enclosed&rsquo; test runner example · junit-team/junit4 Wiki <a href="https://github.com/junit-team/junit4/wiki/%27Enclosed%27-test-runner-example">https://github.com/junit-team/junit4/wiki/%27Enclosed%27-test-runner-example</a> 剛好有 (Java) build pattern 同時用在 production code 及 test code 的例子。</li>
+<li>Mistaeks I Hav Made: Test Data Builders: an alternative to the Object Mother pattern (2007-08-27) <a href="http://www.natpryce.com/articles/000714.html">http://www.natpryce.com/articles/000714.html</a> #ril</li>
+<li>Friendly Tester: An Introduction To The Data Builder Pattern (2015-06) <a href="http://www.thefriendlytester.co.uk/2015/06/an-introduction-to-data-builder-pattern.html">http://www.thefriendlytester.co.uk/2015/06/an-introduction-to-data-builder-pattern.html</a> 竟有 &ldquo;Test Data Builder Pattern&rdquo; 這種說法? #ril</li>
+<li>
+<p>Consider a Builder for Test Data | Effective Java Testing (2008-12-15) <a href="https://effectivejavatesting.wordpress.com/2008/12/15/consider-a-builder-for-test-data/">https://effectivejavatesting.wordpress.com/2008/12/15/consider-a-builder-for-test-data/</a> #ril</p>
+</li>
+<li>
+<p>Shaun Abram » Code Camp: Building Better Tests in Java <a href="http://www.shaunabram.com/code-camp-building-better-tests-in-java/">http://www.shaunabram.com/code-camp-building-better-tests-in-java/</a> <a href="https://www.javacodegeeks.com/2013/06/builder-pattern-good-for-code-great-for-tests.html">Builder Pattern: Good for code, great for tests</a> 的作者就是受到這個 talk 的啟發 #ril</p>
+</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/11977279/">Builder pattern equivalent in Python - Stack Overflow</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

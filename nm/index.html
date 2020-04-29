@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/nm/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>nm - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/nm.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#nm">nm</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="nm">nm<a class="headerlink" href="#nm" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Nm_(Unix)">nm (Unix) - Wikipedia</a></p>
+<ul>
+<li>The <code>nm</code> command ships with a number of later versions of Unix and similar operating systems.</li>
+<li><code>nm</code> is used to EXAMINE BINARY FILES (including libraries, compiled object modules, shared-object files, and standalone executables) and to DISPLAY THE CONTENTS of those files, or META INFORMATION stored in them, specifically the SYMBOL TABLE.</li>
+<li>The output from <code>nm</code> distinguishes between various SYMBOL TYPES. For example, it differentiates between a function that is supplied by an object module and a function that is required by it. <code>nm</code> is used as an AID FOR DEBUGGING, to help resolve problems arising from name conflicts and C++ NAME MANGLING, and to validate other parts of the toolchain.</li>
+<li>The GNU Project ships an implementation of <code>nm</code> as part of the <a href="https://www.gnu.org/software/binutils/">GNU Binutils</a> package.</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Nm_(Unix)#nm_output_sample">nm output sample - nm (Unix) - Wikipedia</a></p>
+<ul>
+<li>
+<p>分別用 <code>gcc -c test.c</code> 與 <code>g++ -c test.cpp</code> 產生 <code>test.o</code>，只是 C 跟 C++ compiler 的結果會不太一樣，C++ 版本的 symbol table 名字很亂，因為 C+ compiler 會做 name mangling (為了達到 unique names) 的關係。</p>
+</li>
+<li>
+<p>If the previous code is compiled with the gcc C compiler, the output of the nm command is the following:</p>
+<pre><code># nm test.o
+0000000a T global_function
+00000025 T global_function2
+00000004 C global_var
+00000000 D global_var_init
+00000004 b local_static_var.1255
+00000008 d local_static_var_init.1256
+0000003b T main
+00000036 T non_mangled_function
+00000000 t static_function
+00000000 b static_var
+00000004 d static_var_init
+</code></pre>
+<p>無法顯示變數的初始值 ??</p>
+</li>
+<li>
+<p>When the C++ compiler is used, the output differs:</p>
+<pre><code># nm test.o
+0000000a T _Z15global_functioni
+00000025 T _Z16global_function2v
+00000004 b _ZL10static_var
+00000000 t _ZL15static_functionv
+00000004 d _ZL15static_var_init
+00000008 b _ZZ15global_functioniE16local_static_var
+00000008 d _ZZ15global_functioniE21local_static_var_init
+         U __gxx_personality_v0
+00000000 B global_var
+00000000 D global_var_init
+0000003b T main
+00000036 T non_mangled_function
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.manpagez.com/man/1/nm/osx-10.12.6.php">man page nm section 1 - Mac OS X 10.12.6</a> #ril</p>
+<ul>
+<li>在 macOS High Sierra (10.13.6) 執行 <code>man nm</code>，發現 man page 跟 FreeBSD 也不一樣，執行 <code>nm --reverse</code> 吐 <code>nm: Unknown command line argument '--reverse'.  Try: '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm -help'</code> 的錯誤，才發現它跟 Xcode 綁得很緊。</li>
+<li>As of Xcode 8.0 the default <code>nm</code>(1) tool is <code>llvm-nm</code>(1). They for the most part have the same options except for <code>-f</code> and <code>-s</code> which the differences are noted below. More help on options for <code>llvm-nm</code>(1) is provided when running it with the <code>--help</code> option. 原來是 <code>llvm-nm</code>，但跟 <a href="https://llvm.org/docs/CommandGuide/llvm-nm.html">LLVM 官方文件</a> 也差好多。</li>
+<li>列出 object file (<code>x.o</code>) 或 archive (<code>libx.a</code>) 裡每個 object file 的 name list (symbol table)；甚至寫成 <code>libx.a(x.o)</code> 則只會看 archive 裡的特定 object file。如果沒有給定 file，則會看 <code>a.out</code>。</li>
+<li>每一行都是一個 symbol，依序印出 value、type 跟 name，其中 type 若是 undefined 則 value 會是留白，而 type 若沒有使用 <code>-m</code> 則會用一個字母來表示 &ndash; U (undefined)、A (absolute)、T (text section symbol)、D (data section symbol)、B (bss section symbol)、C (common symbol)、- (debugger symbol)、S (在上述 section 之外) 及 I (indirect symbol)；Symbol type 的字母有大小寫之分，大寫表示 external，小寫表示 local (non-external)。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs-2.31/binutils/nm.html">nm (GNU Binary Utilities)</a> #ril</p>
+<ul>
+<li>GNU <code>nm</code> lists the symbols from object files <code>objfile…</code>. If no object files are listed as arguments, <code>nm</code> assumes the file <code>a.out</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://manpages.debian.org/stretch/binutils/nm.1.en.html"><code>nm</code>(1) - Debian Manpages</a></li>
+<li><a href="https://www.freebsd.org/cgi/man.cgi?query=nm"><code>nm</code> - FreeBSD Manual Pages</a></li>
+<li><a href="http://www.manpagez.com/man/1/nm/osx-10.12.6.php"><code>nm</code>(1) - Mac OS X 10.12.6</a></li>
+<li><a href="https://sourceware.org/binutils/docs-2.31/binutils/nm.html#nm"><code>nm</code> - GNU Binary Utilities</a></li>
+<li><a href="https://llvm.org/docs/CommandGuide/llvm-nm.html"><code>llvm-nm</code> - LLVM 8 Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

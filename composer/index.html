@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/composer/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Composer - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/composer.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#composer">Composer</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="composer">Composer<a class="headerlink" href="#composer" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://getcomposer.org/doc/00-intro.md">Introduction - Composer</a></p>
+<ul>
+<li>Composer is a tool for dependency management in PHP. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.</li>
+</ul>
+<p>Dependency management</p>
+<ul>
+<li>
+<p>Composer is NOT a package manager in the same sense as Yum or Apt are. Yes, it deals with &ldquo;packages&rdquo; or libraries, but it manages them on a PER-PROJECT BASIS, installing them in a directory (e.g. <code>vendor</code>) inside your project. By default it does not install anything globally. Thus, it is a DEPENDENCY MANAGER.</p>
+<p>It does however support a &ldquo;global&rdquo; project for convenience via the <code>global</code> command.</p>
+</li>
+<li>
+<p>This idea is not new and Composer is strongly inspired by node&rsquo;s npm and ruby&rsquo;s bundler.</p>
+<p>Suppose:</p>
+<ul>
+<li>You have a project that depends on a number of libraries.</li>
+<li>Some of those libraries depend on other libraries.</li>
+</ul>
+<p>Composer:</p>
+<ul>
+<li>Enables you to declare the libraries you depend on.</li>
+<li>Finds out which versions of which packages can and need to be installed, and installs them (meaning it downloads them into your project).</li>
+<li>See the Basic usage chapter for more details on declaring dependencies.</li>
+</ul>
+</li>
+</ul>
+<p>System Requirements</p>
+<ul>
+<li>Composer requires PHP 5.3.2+ to run. A few sensitive php settings and COMPILE FLAGS are also required, but when using the installer you will be warned about any incompatibilities.</li>
+<li>To install packages from sources instead of simple ZIP ARCHIVES, you will need git, svn, fossil or hg depending on how the package is version-controlled.</li>
+<li>Composer is multi-platform and we strive to make it run equally well on Windows, Linux and macOS.</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://getcomposer.org/doc/01-basic-usage.md">Basic usage - Composer</a> #ril</p>
+<ul>
+<li>
+<p>For our basic usage introduction, we will be installing <code>monolog/monolog</code>, a logging library. If you have not yet installed Composer, refer to the Intro chapter.</p>
+<p>PHP 沒有內建 logging 嗎 ??</p>
+<p>Note: for the sake of simplicity, this introduction will assume you have performed a local install of Composer.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<pre><code>$ php -r &quot;copy('https://getcomposer.org/installer', 'composer-setup.php');&quot;
+$ php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos">Installation - Linux / Unix / macOS - Introduction - Composer</a></p>
+<ul>
+<li>
+<p>Composer offers a convenient installer that you can execute directly from the command line. Feel free to download this file or review it on GitHub if you wish to know more about the inner workings of the installer. The source is plain PHP.</p>
+<p><a href="https://github.com/composer/getcomposer.org/blob/master/web/installer"><code>installer</code></a> 是個 PHP script。</p>
+<p>There are in short, two ways to install Composer. Locally as part of your project, or globally as a system wide executable.</p>
+</li>
+</ul>
+<p>Locally</p>
+<ul>
+<li>
+<p>To install Composer locally, run the installer in your project directory. See the Download page for instructions.</p>
+<pre><code>php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+</code></pre>
+<p>完全不用 shell command 來做事，大概是基於跨平台的考量。</p>
+<pre><code>$ php composer-setup.php
+All settings correct for using Composer
+Downloading...
+
+Composer (version 1.9.0) successfully installed to: //composer.phar
+Use it: php composer.phar
+</code></pre>
+<p>The installer will check a few PHP settings and then download <code>composer.phar</code> to your working directory. This file is the Composer BINARY. It is a PHAR (PHP archive), which is an archive format for PHP which CAN BE RUN ON THE COMMAND LINE, amongst other things.</p>
+<p>Now run <code>php composer.phar</code> in order to run Composer.</p>
+</li>
+<li>
+<p>You can install Composer to a specific directory by using the <code>--install-dir</code> option and additionally (re)name it as well using the <code>--filename</code> option. When running the installer when following the Download page instructions add the following parameters:</p>
+<pre><code>php composer-setup.php --install-dir=bin --filename=composer
+</code></pre>
+<p>注意是 <code>php composer-setup.php</code> 而非 <code>php composer.phar</code>!!</p>
+<pre><code># php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+All settings correct for using Composer
+Downloading...
+
+Composer (version 1.9.0) successfully installed to: /usr/local/bin/composer
+Use it: php /usr/local/bin/composer
+
+# composer --version
+Do not run Composer as root/super user! See https://getcomposer.org/root for details
+Composer version 1.9.0 2019-08-02 20:55:32
+</code></pre>
+<p>&ldquo;Do not run Composer as root/super user!&rdquo; 這點還滿煩的，就算在 Docker 裡也是一直出現這樣的警告，建立另一個身份??</p>
+<p>Now run <code>php bin/composer</code> in order to run Composer.</p>
+</li>
+</ul>
+<p>Globally</p>
+<ul>
+<li>
+<p>You can place the Composer PHAR anywhere you wish. If you put it in a directory that is part of your <code>PATH</code>, you can access it globally. On Unix systems you can even make it executable and invoke it without directly using the <code>php</code> interpreter.</p>
+</li>
+<li>
+<p>After running the installer following the Download page instructions you can run this to move <code>composer.phar</code> to a directory that is in your path:</p>
+<pre><code>mv composer.phar /usr/local/bin/composer
+</code></pre>
+<p>放 <code>/usr/local/bin</code> 可以，但執行時不要用 root 的身份即可。</p>
+<p>If you like to install it only for your user and avoid requiring root permissions, you can use <code>~/.local/bin</code> instead which is available by default on some Linux distributions.</p>
+</li>
+<li>
+<p>Note: If the above fails due to permissions, you may need to run it again with <code>sudo</code>.</p>
+<p>Note: On some versions of macOS the <code>/usr</code> directory does not exist by default. If you receive the error <code>"/usr/local/bin/composer: No such file or directory"</code> then you must create the directory manually before proceeding: <code>mkdir -p /usr/local/bin</code>.</p>
+<p>Note: For information on changing your <code>PATH</code>, please read the Wikipedia article and/or use Google.</p>
+<p>Now run <code>composer</code> in order to run Composer instead of <code>php composer.phar</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://getcomposer.org/doc/faqs/how-to-install-untrusted-packages-safely.md">How do I install untrusted packages safely? Is it safe to run Composer as superuser or root? - Composer</a></p>
+<ul>
+<li>
+<p>Certain Composer commands, including <code>exec</code>, <code>install</code>, and <code>update</code> allow third party code to execute on your system. This is from its &ldquo;plugins&rdquo; and &ldquo;scripts&rdquo; features. Plugins and scripts have full access to the user account which runs Composer. For this reason, it is strongly advised to avoid running Composer as super-user/root.</p>
+<p>這麼說來，像 Python 把 Pip 裝到系統也有累似的問題?</p>
+</li>
+<li>
+<p>You can disable plugins and scripts during package installation or updates with the following syntax so only Composer&rsquo;s code, and no third party code, will execute:</p>
+<pre><code>composer install --no-plugins --no-scripts ...
+composer update --no-plugins --no-scripts ...
+</code></pre>
+<p>每次都要加 <code>--no-plugins --no-scripts</code> 有點麻煩? 若擔心 plugin/script 有問題，就算是用一般的身份執行也不太好吧?</p>
+<p>The <code>exec</code> command will ALWAYS run third party code as the user which runs composer.</p>
+</li>
+<li>
+<p>In some cases, like in CI systems or such where you want to install UNTRUSTED DEPENDENCIES, the safest way to do it is to run the above command.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://getcomposer.org/download/">Composer</a> #ril</p>
+</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/_/composer">composer - Docker Hub</a> #ril</p>
+<p>PHP version &amp; extensions</p>
+<ul>
+<li>
+<p>Our image is aimed at quickly running Composer without the need for having a PHP runtime installed on your host. You SHOULD NOT rely on the PHP version in our container. We do not provide a Composer image for each supported PHP version because we do not want to encourage using Composer as a base image or a production image.</p>
+</li>
+<li>
+<p>We try to deliver an image that is as lean as possible, built for running Composer ONLY. Sometimes dependencies or Composer scripts require the availability of certain PHP extensions.</p>
+<p>Suggestions:</p>
+<ul>
+<li>
+<p>(optimal) create your own build image and install Composer inside it.</p>
+<p>Note: Docker 17.05 introduced multi-stage builds, simplifying this enormously:</p>
+<pre><code>COPY --from=composer /usr/bin/composer /usr/bin/composer
+</code></pre>
+<p>這想法不錯；雖然 <code>composer</code> 只是個 PHAR，不用擔心 link 的問題，不過 PHP 環境要保持一致，畢竟 installer 一開始會檢查一些 PHP 設定。</p>
+</li>
+<li>
+<p>(alternatively) specify the target platform / extension(s) in your <code>composer.json</code>:</p>
+<pre><code>{
+ "config": {
+   "platform": {
+     "php": "MAJOR.MINOR.PATCH",
+     "ext-something": "1"
+   }
+ }
+}
+</code></pre>
+<p>這好像不能解決問題? 不過 <code>composer install</code> 時 (不加 <code>--ignore-platform-reqs</code>) 就會擋下來。</p>
+</li>
+<li>
+<p>(discouraged) pass the <code>--ignore-platform-reqs</code> and / or <code>--no-scripts</code> flags to install or update:</p>
+<pre><code>$ docker run --rm --interactive --tty \
+ --volume $PWD:/app \
+ composer install --ignore-platform-reqs --no-scripts
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://getcomposer.org/">Composer</a></li>
+<li><a href="https://github.com/composer/composer">composer/composer - GitHub</a></li>
+<li><a href="https://packagist.org/">Packagist - The PHP Package Repository</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://getcomposer.org/doc/">Composer Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://getcomposer.org/doc/03-cli.md">Command-line Interface</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

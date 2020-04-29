@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mitmproxy-addon/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>mitmproxy / Addon - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mitmproxy-addon.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mitmproxy-addon">mitmproxy / Addon</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#content-view-view-mode">Content View, View Mode ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mitmproxy-addon"><a href="../mitmproxy/">mitmproxy</a> / Addon<a class="headerlink" href="#mitmproxy-addon" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://docs.mitmproxy.org/stable/addons-overview/">Addons</a><ul>
+<li>Addon 機制由一組 API 構成，addon 以 &ldquo;回應不同 event&rdquo; 的方式跟 mitmproxy 互動，可以讓 addon 接進 (hook into) 或改變 mitmproxy 的行為。</li>
+<li>Addon 可以透過 option 機制組態，也可以揭露 command 給使用者直接調用，也可能透過 interactive tool 裡的 key binding 間接調用。</li>
+<li>許多 mitmproxy 自己的功能也是來自 built-in addons，呼應 <a href="https://docs.mitmproxy.org/stable/overview-features/">Mitmproxy Core Features</a> 裡所條列的功能</li>
+</ul>
+</li>
+<li><a href="https://mitmproxy.org/#mitmdump">Python API - mitmproxy - an interactive HTTPS proxy</a> #ril<ul>
+<li>Write powerful addons and script <code>mitmproxy</code> with <code>mitmdump</code>. 為什麼 scripting 跟 <code>mitmdump</code> 有關??</li>
+<li>The scripting API offers full control over <code>mitmproxy</code> and makes it possible to automatically modify messages, redirect traffic, VISUALIZE MESSAGES, or implement CUSTOM COMMANDS. 感覺很適合為特定應用程式打造專用的 debugging 工具。</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.mitmproxy.org/stable/addons-overview/">Addons</a></p>
+<ul>
+<li>The built-in addons make for INSTRUCTIVE (有啟發性的) READING, and you will quickly see that quite complex functionality can often boil down to a very small, completely self-contained modules. 符合 mitmproxy 一貫的作風，要學 addon 怎麼寫，就看 built-in addons 的原始碼，因為調用的 API 是同一組。</li>
+<li>這份文件在講如何用 event、option 及 command 打造自己的 addon，若要看 API reference 還是要從 source code (canonical reference)，可以用 <code>pydoc</code> 查看，例如 <code>pydoc mitmproxy.http</code>；話說回來，從 GitHub 看 source 也可以，只是 <code>pydoc</code> 會把 inheritance 也考量進來。</li>
+<li>
+<p>一個 addon 大概長這樣子，用來計算 flow (也就是 HTTP request) 的數量：</p>
+<pre><code>from mitmproxy import ctx
+
+class Counter:
+    def __init__(self):
+        self.num = 0
+
+    def request(self, flow):
+        self.num = self.num + 1
+        ctx.log.info("We've seen %d flows" % self.num)
+
+addons = [
+    Counter()
+]
+</code></pre>
+<ul>
+<li>用內部的 logging 機制 (<code>ctx.log</code>) 記錄下來 &ndash; 訊息可以在 mitmdump 的 console，或是 interactive tool 的 event log 看到；例如 mitmproxy 由有提供 View event log 的功能。</li>
+<li>這裡的 <code>request(self, flow)</code> 就是一種 event &ndash; method name + arguments，只要實作想要回應的 event 即可；其中 <code>flow</code> 型態是 <code>mitmproxy.http.HTTPFlow</code> (用 <code>pydoc mitmproxy.http.HTTPFlow</code> 查看)，這項資訊可以在 <a href="https://docs.mitmproxy.org/stable/addons-events/#supported-events">Supported Events</a> 找到。</li>
+<li><code>mitmproxy.ctx</code> 是個 HOLDALL module，揭露了寫 addon 時常用的 API；設計上當然可以將 ctx 做為 event method 的參數傳進去，但開發團隊覺得以 global 的方式提供比較優 (neat)，所以用 <code>ctx.log.xxx()</code> 就可以做 logging。</li>
+</ul>
+</li>
+<li>
+<p>用 <code>-s</code> 把 addon 掛進 mitmproxy tool，例如 <code>mitmdump -s ./anatomy.py</code>，列在 <code>addons</code> 裡的 addon (instance) 就會被載入；用 <code>http_proxy=http://localhost:8080 curl -I http://www.google.com</code> 就可以在 console 看到 <code>We've seen NN flows</code> 之類的訊息。</p>
+</li>
+<li>按照 <a href="https://manpages.debian.org/stretch/mitmproxy/mitmproxy.1.en.html">mitmproxy(1) — mitmproxy — Debian stretch — Debian Manpages</a> 的說法，<code>-s, --script</code> 後面接的是 script，而且這個 option 可以使用多次。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.mitmproxy.org/stable/addons-events/">Events</a></p>
+<ul>
+<li>
+<p>Event 在 addon 裡以 well-known methods 體現，多數 event 都會接受 <code>mitmproxy.flow.Flow</code> 的參數；變更這個 flow，就可以動態改變傳輸的內容 (change traffic on the fly)。以 <a href="https://github.com/mitmproxy/mitmproxy/blob/master/examples/addons/addheader.py"><code>AddHeader</code></a> 為例：</p>
+<pre><code>class AddHeader:
+    def __init__(self):
+        self.num = 0
+
+    def response(self, flow):
+        self.num = self.num + 1
+        flow.response.headers["count"] = str(self.num) # 在 response 加上 count header
+
+addons = [
+    AddHeader()
+]
+</code></pre>
+</li>
+<li>
+<p>Supported Events 帶出 <a href="https://github.com/mitmproxy/mitmproxy/blob/master/examples/addons/events.py"><code>Events</code></a> &ndash; 為所有 event 提供了 stub，提供所有 event 名稱是一回事，重點是每個 method 的說明。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.mitmproxy.org/stable/addons-scripting/">Scripting</a></p>
+<ul>
+<li>A shorthand that allows A MODULE AS A WHOLE to be treated as an addon object. 還是在寫 addon，只是不用另外寫 class；一樣是寫 event handler，但 <code>addons = [ ... ]</code> 也就免了，這似乎比較直覺? 例如：<pre><code>def request(flow):
+    flow.request.headers["myheader"] = "value"
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/mitmproxy/mitmproxy/blob/v1.0/setup.py">mitmproxy/setup.py at v1.0 · mitmproxy/mitmproxy</a> 原來 mitmproxy 1.0 開始 (2016-12-18) 就只支援 Python 3 &ndash; <code>classifiers=[..., "Programming Language :: Python :: 3 :: Only", ...]</code></p>
+</li>
+</ul>
+<h2 id="content-view-view-mode">Content View, View Mode ??<a class="headerlink" href="#content-view-view-mode" title="Permanent link"> #</a></h2>
+<ul>
+<li>自訂的 content view，在 mitmweb 下也可以使用!!</li>
+<li>切換 view mode 後，不論該 flow 的轉譯成功或失敗，結果都會被記往，也就是切去其他 view mode 再切回來時，並不會再轉譯一次。 (4.0.4)</li>
+<li>實驗發現，如果在 <code>View.__call__()</code> 裡有任何語法上的錯誤，在 event log 裡不會看到任何錯誤，只會被提示 <code>Couldn't parse: falling back to Raw</code> 而已。 (4.0.4)</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>當 request/response 無法檢視時，mitmproxy 會有類似 <code>[decoded gzip] Couldn't parse: falling back to Raw</code> 的訊息，右側還有個 <code>[m:auto]</code>？<ul>
+<li>在 Flow Details 下按 m (Set flow view mode)，會看到 Mode 選項 1) auto 2) raw 3) &hellip; d) protocol buffer，這正是 <a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/mitmproxy/contentviews/__init__.py#L117"><code>mitmproxy.contentviews</code></a> 內建的 13 個 view。</li>
+<li><a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/mitmproxy/contentviews/auto.py">mitmproxy/auto.py at v4.0.4 · mitmproxy/mitmproxy</a> auto mode 只會根據 content type 採用 <code>contentviews.content_types_map</code> 註冊該 content type 的第一個 view；若解譯資料的過程中遇到問題，並不會再嘗試其他 view。</li>
+</ul>
+</li>
+<li><a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/mitmproxy/contentviews/__init__.py#L117">mitmproxy/__init__.py at v4.0.4 · mitmproxy/mitmproxy</a> <code>get_content_view(viewmode: View, data: bytes, **metadata)</code> 正是 <code>Couldn't parse: falling back to Raw</code> 這段訊息丟出來的地方，裡面有行註解 <code>Third-party viewers can fail in unexpected ways...</code>，看起來是可以自訂 viewer 的。</li>
+<li>
+<p><a href="https://github.com/mitmproxy/mitmproxy/issues/130">Third-party viewers · Issue #130 · mitmproxy/mitmproxy</a></p>
+<ul>
+<li>kballenegger: 試著寫 third-party viewer，希望可以直接看出 base-64 encoded 的 JSON body。也是看到 <code># Third-party viewers can fail in unexpected ways...</code> 這行註解暗示可以自訂 viewer，想知道自訂 viewer 是否適用這情況 (沒有想要改變 request/response，只是方便檢視)、如何寫 custom viewer、解開 base-64 後能否呼叫原來的 JSON viewer?</li>
+<li>mhils: (member) <a href="https://github.com/jasonanovak/mitmproxy/blob/bfb3828f37842c8b99c539910f18fa87fb29a637/doc-src/scripting/addingviews.html">mitmproxy/addingviews.html at bfb3828f37842c8b99c539910f18fa87fb29a637 · jasonanovak/mitmproxy</a> (2013-05-24) #ril</li>
+<li>kballenegger: 可以不用修改 mitmproxy 嗎?</li>
+<li>cortesi: (member) 現在還不支援 pluggable view，所以必須要動 mitmproxy 的原始碼；是應該要有 pluggable view 的機制。</li>
+<li>mhils: (member) 因為 <a href="https://github.com/mitmproxy/mitmproxy/pull/833">!833</a> 的關係，可以在 inline script 裡加上 content view 了 (2015-11-15)；主角是 <code>examples/custom_contentviews.py</code>：<pre><code>import libmproxy.contentviews as cv
+
+class ViewPigLatin(cv.View):
+    name = "pig_latin_HTML"
+    prompt = ("pig latin HTML", "l")
+    content_types = ["text/html"]
+
+    def __call__(self, data, **metadata):
+        # ...
+        return "HTML", cv.format_text(s)
+
+pig_view = ViewPigLatin()
+
+def start(context, argv):
+    context.add_contentview(pig_view)
+
+def stop(context):
+    context.remove_contentview(pig_view)
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/examples/simple/custom_contentview.py">mitmproxy/custom_contentview.py at v4.0.4 · mitmproxy/mitmproxy</a> <code>custom_contentview.py</code> 還在，只不過寫法變了：(這裡 scripting 的寫法並非必要)</p>
+<pre><code>from mitmproxy import contentviews
+
+class ViewSwapCase(contentviews.View):
+    name = "swapcase"
+    content_types = ["text/plain"]
+
+    def __call__(self, data, **metadata) -&gt; contentviews.TViewResult:
+        return "case-swapped text", contentviews.format_text(data.swapcase())
+
+view = ViewSwapCase()
+
+def load(l):
+    contentviews.add(view)
+
+def done():
+    contentviews.remove(view)
+</code></pre>
+</li>
+<li>
+<p><a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/mitmproxy/contentviews/base.py#L13">Class <code>mitmproxy.contentviews.View</code></a></p>
+<ul>
+<li>Transform RAW DATA into HUMAN-READABLE output.</li>
+<li>唯一要實作的方法是 <code>__call__(self, data: bytes, **metadata) -&gt; TViewResult</code>，其中 <code>TViewResult</code> 就是 <code>typing.Tuple[str, typing.Iterator[TViewLine]]</code></li>
+<li><code>data</code>: the data to decode/format. 實驗發現 <code>data</code> 就如同畫面上 <code>[decoded gzip]</code> 提示的，已經是 gzip 解碼後的結果；也因此 <a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/mitmproxy/contentviews/raw.py"><code>mitmproxy.contentviews.raw</code></a> 也沒有在處理 gzip decoding。</li>
+<li>Returns: A <code>(description, content generator)</code> tuple. The content generator yields lists of (style, text) tuples, where each list represents a SINGLE LINE. 可能要檢視的資料很大所以設計成 generator，這也解釋了為何上面 <code>custom_contentview.py</code> 要回傳 <code>contentviews.format_text(...)</code>，因為 <code>format_text()</code> 可以將 <code>TTextType</code> (<code>typing.Union[str, bytes]</code>) 轉成 <code>typing.Iterator[TViewLine]</code>。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.mitmproxy.org/stable/concepts-options/">Options</a> 提供有 2 個 option 跟 content view 有關 &ndash; <code>console_default_contentview</code>、<code>dumper_default_contentview</code>，預設值都是 <code>auto</code>；但改用 custom content view 好像會有問題??</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/mitmproxy/mitmproxy/tree/master/examples">mitmproxy/examples - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/mitmproxy/mitmproxy/tree/master/mitmproxy/addons">Built-in Addons</a></li>
+<li><a href="https://docs.mitmproxy.org/stable/addons-events/#supported-events">Supported Events</a> (同 <a href="https://github.com/mitmproxy/mitmproxy/blob/master/examples/addons/events.py"><code>/examples/addons/events.py</code></a> 的內容)</li>
+<li><a href="https://github.com/mitmproxy/mitmproxy/blob/master/mitmproxy/ctx.py">Module <code>mitmproxy.ctx</code></a></li>
+<li><a href="https://github.com/mitmproxy/mitmproxy/blob/master/mitmproxy/http.py">Module <code>mitmproxy.http</code></a></li>
+<li><a href="https://github.com/mitmproxy/mitmproxy/blob/master/mitmproxy/flow.py">Class <code>mitmproxy.flow.Flow</code></a></li>
+<li><a href="https://github.com/mitmproxy/mitmproxy/blob/v4.0.4/mitmproxy/contentviews/base.py#L13">Class <code>mitmproxy.contentviews.View</code></a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

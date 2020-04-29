@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gitlab-ci-yaml/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GitLab CI / .gitlab-ci.yml - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gitlab-ci-yaml.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gitlab-ci-gitlab-ciyml">GitLab CI / .gitlab-ci.yml</a></li>
+            <li class="second-level"><a href="#gitlab-ciyml">.gitlab-ci.yml ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gitlab-ci-gitlab-ciyml"><a href="../gitlab-ci/">GitLab CI</a> / .gitlab-ci.yml<a class="headerlink" href="#gitlab-ci-gitlab-ciyml" title="Permanent link"> #</a></h1>
+<h2 id="gitlab-ciyml"><code>.gitlab-ci.yml</code> ??<a class="headerlink" href="#gitlab-ciyml" title="Permanent link"> #</a></h2>
+<p>手刻 <code>.gitlab-ci.yml</code> 的方式，一開始先把 <code>stages</code> 列出來，然後逐 job 寫出來，job 一開始宣告 <code>stage</code> (什麼時候跑)、<code>only</code>/<code>except</code> (針對哪些 change)，然後 <code>tags</code> (跑在哪裡)、<code>image</code>、<code>script</code> (要做什麼)，最後才是 <code>artifacts</code> 蒐集產出物。例如：</p>
+<pre><code>image: docker:stable
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - apk add --no-cache make
+    - make build
+  artifacts:
+    paths:
+      - dist/
+
+deploy:
+  stage: deploy
+  tags:
+    - docker
+  only:
+    - master
+  script:
+    - apk add --no-cache make
+    - make deploy
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.gitlab.com/ee/ci/yaml/README.html">Introduction - Configuration of your jobs with .gitlab-ci.yml - GitLab Documentation</a></p>
+<ul>
+<li>
+<p>GitLab CI/CD pipelines are configured using a YAML file called <code>.gitlab-ci.yml</code> within each project.</p>
+<p>The <code>.gitlab-ci.yml</code> file defines the structure and order of the PIPELINES and determines:</p>
+<ul>
+<li>What to execute using GitLab Runner.</li>
+<li>What decisions to make when specific CONDITIONS are encountered. For example, when a process succeeds or fails.</li>
+</ul>
+</li>
+<li>
+<p>This topic covers CI/CD pipeline configuration. For other CI/CD configuration information, see:</p>
+<ul>
+<li>GitLab CI/CD Variables, for configuring the environment the pipelines run in.</li>
+<li>GitLab Runner advanced configuration, for configuring GitLab Runner.</li>
+</ul>
+</li>
+<li>
+<p>We have complete examples of configuring pipelines:</p>
+<ul>
+<li>For a quick introduction to GitLab CI, follow our <a href="https://docs.gitlab.com/ee/ci/quick_start/README.html">quick start guide</a>. #ril</li>
+<li>
+<p>For a collection of examples, see <a href="https://docs.gitlab.com/ee/ci/examples/README.html">GitLab CI/CD Examples</a>. #ril</p>
+</li>
+<li>
+<p>To see a large .gitlab-ci.yml file used in an enterprise, see the <a href="https://gitlab.com/gitlab-org/gitlab/blob/master/.gitlab-ci.yml"><code>.gitlab-ci.yml</code> file for gitlab</a>.</p>
+<p>把 <code>.gitlab-ci.yml</code> 搞這麼大，有什麼好自豪的?</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Note: If you have a mirrored repository where GitLab pulls from, you may need to enable pipeline triggering in your project’s Settings &gt; Repository &gt; Pull from a remote repository &gt; Trigger pipelines for mirror updates.</p>
+<p>有機會做到程式碼在其他地方，但額外自訂 <code>.gitlab-ci.yml</code> 嗎 ??</p>
+</li>
+</ul>
+<p>Introduction</p>
+<ul>
+<li>
+<p>Pipeline configuration begins with JOBS. Jobs are the most fundamental element of a <code>.gitlab-ci.yml</code> file.</p>
+<p>Jobs are:</p>
+<ul>
+<li>
+<p>Defined with CONSTRAINTS stating under what CONDITIONS they should be executed.</p>
+</li>
+<li>
+<p>Top-level elements with an arbitrary name and must contain at least the <code>script</code> clause.</p>
+<p>這裡 arbitrary name 的說法言過其實，下面 Unavailable names for jobs 馬上列出一堆不能用的名字。</p>
+</li>
+<li>
+<p>Not limited in how many can be defined.</p>
+</li>
+</ul>
+<p>For example:</p>
+<pre><code>job1:
+  script: "execute-script-for-job1"
+
+job2:
+  script: "execute-script-for-job2"
+</code></pre>
+</li>
+<li>
+<p>The above example is the simplest possible CI/CD configuration with two separate jobs, where each of the jobs executes a different command. Of course a command can execute code directly (<code>./configure;make;make install</code>) or run a script (<code>test.sh</code>) in the repository.</p>
+</li>
+<li>
+<p>Jobs are PICKED UP BY RUNNERS and executed within the environment of the Runner. What is important, is that each job is RUN INDEPENDENTLY FROM EACH OTHER.</p>
+</li>
+</ul>
+<p>Validate the <code>.gitlab-ci.yml</code></p>
+<ul>
+<li>
+<p>Each instance of GitLab CI has an embedded debug tool called Lint, which validates the content of your <code>.gitlab-ci.yml</code> files. You can find the Lint under the page <code>ci/lint</code> of your PROJECT NAMESPACE. For example, <code>https://gitlab.example.com/gitlab-org/project-123/-/ci/lint</code>.</p>
+<p>這太難記了 <code>-/ci/lint</code>，在 Project &gt; CI/CD 右上角可以看到 CI Lint 的按鈕。</p>
+</li>
+</ul>
+<p>Unavailable names for jobs</p>
+<ul>
+<li>
+<p>Each job must have a unique name, but there are a few RESERVED KEYWORDS that cannot be used as job names:</p>
+<ul>
+<li><code>image</code></li>
+<li><code>services</code></li>
+<li><code>stages</code></li>
+<li><code>types</code></li>
+<li><code>before_script</code></li>
+<li><code>after_script</code></li>
+<li><code>variables</code></li>
+<li><code>cache</code></li>
+<li><code>include</code></li>
+</ul>
+<p>少列了 <code>default</code> ?</p>
+</li>
+</ul>
+<p>Using reserved keywords</p>
+<ul>
+<li>
+<p>If you get validation error when using specific values (for example, <code>true</code> or <code>false</code>), try to:</p>
+<ul>
+<li>Quote them.</li>
+<li>Change them to a different form. For example, <code>/bin/true</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Configuration parameters</p>
+<ul>
+<li>
+<p>A job is defined as a LIST OF PARAMETERS that define the job’s BEHAVIOR.</p>
+<p>The following table lists available parameters for jobs:</p>
+<p>所謂 &ldquo;for jobs&rdquo; 並非這些 parameter 都會出現在 job 下，而是都跟 job 的行為有關，所以才會看到 <code>stages</code>、<code>services</code> 等 top-level element 的說明。</p>
+<ul>
+<li>
+<p><code>script</code></p>
+<p>Shell script which is executed by Runner.</p>
+</li>
+<li>
+<p><code>image</code></p>
+<p>Use docker images. Also available: <code>image:name</code> and <code>image:entrypoint</code>.</p>
+</li>
+<li>
+<p><code>services</code></p>
+<p>Use docker services images. Also available: <code>services:name</code>, <code>services:alias</code>, <code>services:entrypoint</code>, and <code>services:command</code>.</p>
+</li>
+<li>
+<p><code>before_script</code></p>
+<p>Override a set of commands that are executed before job.</p>
+</li>
+<li>
+<p><code>after_script</code></p>
+<p>Override a set of commands that are executed after job.</p>
+</li>
+<li>
+<p><code>stages</code></p>
+<p>Define stages in a pipeline.</p>
+</li>
+<li>
+<p><code>stage</code></p>
+<p>Defines a job stage (default: <code>test</code>).</p>
+</li>
+<li>
+<p><code>only</code></p>
+<p>Limit when jobs are CREATED. Also available: <code>only:refs</code>, <code>only:kubernetes</code>, <code>only:variables</code>, and <code>only:changes</code>.</p>
+<p>對照下面 <code>when</code> (when to run job)，這裡的 create 指的是什麼 ??</p>
+</li>
+<li>
+<p><code>except</code></p>
+<p>Limit when jobs are not created. Also available: <code>except:refs</code>, <code>except:kubernetes</code>, <code>except:variables</code>, and <code>except:changes</code>.</p>
+</li>
+<li>
+<p><code>rules</code></p>
+<p>List of conditions to evaluate and determine SELECTED ATTRIBUTES of a job, and whether or not it is created. May not be used alongside <code>only</code>/<code>except</code>. ??</p>
+</li>
+<li>
+<p><code>tags</code></p>
+<p>List of tags which are used to SELECT RUNNER.</p>
+</li>
+<li>
+<p><code>allow_failure</code></p>
+<p>Allow job to fail. Failed job doesn’t CONTRIBUTE TO COMMIT STATUS. ??</p>
+</li>
+<li>
+<p><code>when</code></p>
+<p>When to run job. Also available: <code>when:manual</code> and <code>when:delayed</code>.</p>
+</li>
+<li>
+<p><code>environment</code></p>
+<p>Name of an environment to which the job DEPLOYS. Also available: <code>environment:name</code>, <code>environment:url</code>, <code>environment:on_stop</code>, and <code>environment:action</code>.</p>
+</li>
+<li>
+<p><code>cache</code></p>
+<p>List of files that should be cached BETWEEN SUBSEQUENT RUNS. Also available: <code>cache:paths</code>, <code>cache:key</code>, <code>cache:untracked</code>, and <code>cache:policy</code>.</p>
+</li>
+<li>
+<p><code>artifacts</code></p>
+<p>List of files and directories to ATTACH TO A JOB ON SUCCESS. Also available: <code>artifacts:paths</code>, <code>artifacts:expose_as</code>, <code>artifacts:name</code>, <code>artifacts:untracked</code>, <code>artifacts:when</code>, <code>artifacts:expire_in</code>, <code>artifacts:reports</code>, and <code>artifacts:reports:junit</code>.</p>
+<p>In GitLab Enterprise Edition, these are available: <code>artifacts:reports:codequality</code>, <code>artifacts:reports:sast</code>, <code>artifacts:reports:dependency_scanning</code>, <code>artifacts:reports:container_scanning</code>, <code>artifacts:reports:dast</code>, <code>artifacts:reports:license_management</code>, <code>artifacts:reports:performance</code> and <code>artifacts:reports:metrics</code>.</p>
+<p>原來 GitLab 支援這麼多 report，只是要 EE 才有。</p>
+</li>
+<li>
+<p><code>dependencies</code></p>
+<p>RESTRICT which artifacts are passed to a specific job by providing a list of jobs to fetch artifacts from.</p>
+</li>
+<li>
+<p><code>coverage</code></p>
+<p>Code coverage settings for a given job. ??</p>
+</li>
+<li>
+<p><code>retry</code></p>
+<p>When and how many times a job can be auto-retried in case of a failure.</p>
+</li>
+<li>
+<p><code>timeout</code></p>
+<p>Define a custom JOB-LEVEL timeout that takes precedence over the project-wide setting.</p>
+</li>
+<li>
+<p><code>parallel</code></p>
+<p>How many instances of a job should be run in parallel. 跟測試有關 ??</p>
+</li>
+<li>
+<p><code>trigger</code></p>
+<p>Defines a downstream pipeline trigger. ??</p>
+</li>
+<li>
+<p><code>include</code></p>
+<p>Allows this job to include external YAML files. Also available: <code>include:local</code>, <code>include:file,</code> <code>include:template</code>, and <code>include:remote</code>.</p>
+</li>
+<li>
+<p><code>extends</code></p>
+<p>Configuration entries that this job is going to inherit from.</p>
+</li>
+<li>
+<p><code>pages</code></p>
+<p>Upload the result of a job to use with GitLab Pages.</p>
+</li>
+<li>
+<p><code>variables</code></p>
+<p>Define job variables on a job level.</p>
+</li>
+<li>
+<p><code>interruptible</code></p>
+<p>Defines if a job can be canceled when made redundant by a newer run. ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Setting default parameters</p>
+<ul>
+<li>
+<p>Some parameters can be set globally as the default for all jobs using the <code>default:</code> keyword. Default parameters can then be overridden by job-specific configuration.</p>
+<p>The following job parameters can be defined inside a <code>default:</code> block:</p>
+<ul>
+<li><code>image</code></li>
+<li><code>services</code></li>
+<li><code>before_script</code></li>
+<li><code>after_script</code></li>
+<li><code>tags</code></li>
+<li><code>cache</code></li>
+<li><code>artifacts</code></li>
+<li><code>retry</code></li>
+<li><code>timeout</code></li>
+<li><code>interruptible</code></li>
+</ul>
+</li>
+<li>
+<p>In the following example, the <code>ruby:2.5</code> image is set as the default for all jobs except the <code>rspec 2.6</code> job, which uses the <code>ruby:2.6</code> image:</p>
+<pre><code>default:
+  image: ruby:2.5
+
+rspec:
+  script: bundle exec rspec
+
+rspec 2.6:
+  image: ruby:2.6
+  script: bundle exec rspec
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#parameter-details">Parameter details - GitLab CI/CD Pipeline Configuration Reference | GitLab</a> #ril</p>
+<ul>
+<li>GitLab 7.12 開始以 <code>.gitlab-ci.yml</code> 做為 project configuration，放在 repository 的 root，描述 &ldquo;how to build&rdquo; &ndash; 一堆 jobs 及何時該執行的 constraints。Job 會被 runner 拿出來執行，而且每個 job 都是獨立執行的。</li>
+<li>所謂 job 是指 top-element，包含至少一個 <code>script</code> clause。但有些保留字不能做為 job name，包括 <code>image</code>、<code>servies</code>、<code>stages</code>、<code>before_script</code>、<code>after_script</code>、<code>variables</code> 及 <code>cache</code>；其中 <code>image</code> 跟 <code>services</code> 跟 Docker 有關。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#dependencies">dependencies - Configuration of your jobs with .gitlab-ci.yml - GitLab Documentation</a> 這裡 <code>build:osx:</code> 之類的 job name 好特別，而且 script 轉到對應的 make target，例如 <code>make build:osx</code> #ril</p>
+</li>
+<li><a href="https://docs.gitlab.com/ee/api/lint.html">Validate the .gitlab-ci.yml (API) | GitLab</a> 透過 API 有機會在本地端驗證 <code>.gitlab-ci.yml</code> 是否有語法上的錯誤 #ril</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/37338">Where is the gitlab-ci.yml lint tool? (#37338) · Issues · GitLab.org / GitLab Community Edition · GitLab</a> 說 lint tool 在 CI/CD Pipelines/Jobs 的右上方；實驗發現 Pipelines 右上方的 CI Lint 要有跑過 pipeline 才會出現，但 Jobs 右上方的則是專案一開始就會有。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/yaml/README.html">GitLab CI/CD Pipeline Configuration Reference</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/connexion/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Connexion - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/connexion.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#connexion">Connexion</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="connexion">Connexion<a class="headerlink" href="#connexion" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://connexion.readthedocs.io/en/latest/">Welcome to Connexion’s documentation! — Connexion 2.0 documentation</a></p>
+<ul>
+<li>
+<p>Connexion is a framework on top of Flask that automagically handles HTTP requests defined using OpenAPI (formerly known as Swagger), supporting both v2.0 and v3.0 of the specification.</p>
+</li>
+<li>
+<p>Connexion allows you to WRITE THESE SPECIFICATIONS, then MAPS THE ENDPOINTS TO YOUR PYTHON FUNCTIONS.</p>
+<p>This is what makes it unique from other tools that GENERATE THE SPECIFICATION BASED ON YOUR PYTHON CODE. You are free to describe your REST API with as much detail as you want and then Connexion guarantees that it will work as you specified. We built Connexion this way in order to:</p>
+<ul>
+<li>Simplify the development process</li>
+<li>Reduce misinterpretation about what an API is going to look like</li>
+</ul>
+<p>Flask-RESTPlus 正是那種從 Python code 產生 specification 的做法，但這種 self-documenting 的做法有什麼問題? 不過先寫 spec 似乎能讓我們更專注在 interface 而非實作，code review 時很清楚哪些屬於 interface，那些是實作 #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/swagger-api/swagger-codegen/wiki/Server-stub-generator-HOWTO#user-content-python-flask-connexion">Server stub generator HOWTO · swagger-api/swagger-codegen Wiki</a> 第一次知道 Connexion，是 Swagger Codegen 的範例。</p>
+</li>
+<li>
+<p><a href="https://github.com/zalando/connexion">zalando/connexion: Swagger/OpenAPI First framework for Python on top of Flask with automatic endpoint validation &amp; OAuth2 support</a> #ril</p>
+<p>Connexion Features:</p>
+<ul>
+<li>Validates requests and endpoint parameters automatically, based on your specification</li>
+<li>Provides a Web Swagger Console UI so that the users of your API can have live documentation and even call your API&rsquo;s endpoints through it</li>
+<li>Handles OAuth 2 token-based authentication #ril</li>
+<li>Supports API versioning</li>
+<li>Supports automatic serialization of payloads. If your specification defines that an endpoint returns JSON, Connexion will automatically serialize the return value for you and set the right content type in the HTTP header.</li>
+</ul>
+<p>Why Connexion</p>
+<ul>
+<li>
+<p>With Connexion, you WRITE THE SPEC FIRST. Connexion then calls your Python code, handling the mapping from the specification to the code. This incentivizes you to write the specification so that all of your developers can understand what your API does, even before you write a single line of code.</p>
+<p>呼應了抬頭 &ldquo;OpenAPI First&rdquo; 的說法。</p>
+</li>
+<li>
+<p>If multiple teams depend on your APIs, you can use Connexion to easily send them the documentation of your API. This guarantees that your API will follow the specification that you wrote.</p>
+<p>This is a different process from that offered by frameworks such as <a href="https://github.com/hugapi/hug">Hug</a>, which generates a specification after you&rsquo;ve written the code. Some disadvantages of generating specifications based on code is that they often end up LACKING DETAILS or MIX YOUR DOCUMENTATION WITH THE CODE LOGIC of your application.</p>
+<p>以 Flask-RESTPlus 而言，程式確實會混雜很多 decorator；不過透過模組化應該可以緩解?</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://connexion.readthedocs.io/en/latest/quickstart.html">Quickstart — Connexion 2.0 documentation</a> #ril</li>
+<li><a href="https://medium.com/@hmajid2301/implementing-a-simple-rest-api-using-openapi-flask-connexions-1bdd01ca916">Implementing a Simple REST API using OpenAPI, Flask &amp; Connexions</a> (2019-08-16) #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/zalando/connexion">zalando/connexion - GitHub</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://connexion.readthedocs.io/">Connexion’s Documentation - Read the Docs</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>強調先寫 <a href="../swagger/">OpenAPI/Swagger</a> specification 與其他先寫 Python code (例如 <a href="../flask-restplus/">Flask-RESTPlus</a>) 的做法不同。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

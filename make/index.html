@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/make/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Make - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/make.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#make">Make</a></li>
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#makefile">Makefile ??</a></li>
+                
+            <li class="second-level"><a href="#rule-target-recipe">Rule, Target, Recipe ??</a></li>
+                
+            <li class="second-level"><a href="#phony-target">Phony Target</a></li>
+                
+            <li class="second-level"><a href="#make_1">make 指令基本用法 ??</a></li>
+                
+            <li class="second-level"><a href="#recipe-tab">Recipe 要以 Tab 開頭?</a></li>
+                
+            <li class="second-level"><a href="#comment">Comment</a></li>
+                
+            <li class="second-level"><a href="#variable">Variable</a></li>
+                
+            <li class="second-level"><a href="#exporting-variables">Exporting Variables ??</a></li>
+                
+            <li class="second-level"><a href="#target-specific-variable">Target-specific Variable ??</a></li>
+                
+            <li class="second-level"><a href="#conditionals">Conditionals ??</a></li>
+                
+            <li class="second-level"><a href="#sub-make">Sub-make ??</a></li>
+                
+            <li class="second-level"><a href="#function">Function ??</a></li>
+                
+            <li class="second-level"><a href="#environment-variable">Environment Variable ??</a></li>
+                
+            <li class="second-level"><a href="#include">Include</a></li>
+                
+            <li class="second-level"><a href="#check-file-existance">Check file existance ??</a></li>
+                
+            <li class="second-level"><a href="#self-documented-makefile-make-help">Self-documented Makefile (make help) ??</a></li>
+                
+            <li class="second-level"><a href="#recipe">如何在 Recipe 裡設定變數?</a></li>
+                
+            <li class="second-level"><a href="#expansion">Expansion ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="make">Make<a class="headerlink" href="#make" title="Permanent link"> #</a></h1>
+<ul>
+<li>根據 makefile，控制如何從 source files 產生 non-source files。</li>
+<li>可以描述 dependency，除了會影響執行順序之外，也會自動檢查哪些檔案因為 source 或 dependency 有變動而需要重新產生 (不用全部重新產生)。</li>
+<li>任何想自動化的事情都可以 (anything else you want to do often enough to make it worth while writing down how to do it)，不限定程序語言或特定用途，只要能用 shell commands 描述要做什麼。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/make/">Make - GNU Project - Free Software Foundation</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Make_(software)">Make (software) - Wikipedia</a> #ril</li>
+<li><a href="https://linux.die.net/man/1/make">make(1) - Linux man page</a> #ril<ul>
+<li>make 會自動決定一個 large program 裡有哪些需要 recompile。這裡用 C 說明，但任何支援 shell 用法的 compiler 都可以用 make。</li>
+<li>事實上，make 不只可以用在程式 &ndash; any task where some files must be updated automatically from others whenever the others change，概念上就是 &ldquo;自動&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p><code>Makefile</code>:</p>
+<pre><code># Environment variable `WHO` for customization
+TO = $(or $(WHO), 'World')
+
+hello: time
+    echo Hello, $(TO)'!' # Inline comments passed to shell
+
+time:
+    @echo `date`
+</code></pre>
+
+<p>執行起來像是：</p>
+<pre><code>$ make
+Tue Dec 19 08:05:14 CST 2017
+echo Hello, 'World''!' # Inline comments passed to shell
+Hello, World!
+$
+$ WHO=Jeremy make
+Tue Dec 19 08:05:26 CST 2017
+echo Hello, Jeremy'!' # Inline comments passed to shell
+Hello, Jeremy!
+</code></pre>
+
+<p>從中可以觀察出：</p>
+<ul>
+<li><code>make</code> 會自動找當前目錄下的 <code>Makefile</code>。</li>
+<li><code>make [target]...</code> 預設會執行第 1 個 target。</li>
+<li>註解用 <code>#</code> 表示，但接在指令後的註解會傳給 shell，由 shell 決定如何處理。</li>
+<li><code>$(or $(WHO), 'World')</code> 的用法是 function - <code>$(function arguments)</code>。</li>
+<li>變數跟環境變數都用 <code>$(name)</code> 的方式引用。</li>
+<li><code>hello: time</code> 描述了相依性 <code>time</code>，所以 <code>hello</code> 前會先執行 <code>time</code>。</li>
+<li>指令要以 tab 內縮開頭，以 <code>@</code> 開頭的指令不會被印出來 (echoing)。</li>
+</ul>
+<h2 id="makefile">Makefile ??<a class="headerlink" href="#makefile" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#A-Simple-Makefile">2.2 A Simple Makefile - GNU make</a> #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Complex-Makefile">Appendix C Complex Makefile Example - GNU make</a> #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/Makefile">Makefile - Wikipedia</a> #ril</li>
+<li><a href="https://codingcoda.com/2017/09/05/its-time-for-makefiles-to-make-a-comeback/">It’s time for makefiles to make a comeback – Coding Coda</a> (2017-09-05) #ril</li>
+<li><a href="https://medium.com/@CQD/%E8%A9%B2%E6%8A%8A-makefile-%E8%AB%8B%E5%9B%9E%E4%BE%86%E4%BA%86-a092f9d2a36f">該把 makefile 請回來了 – CQD – Medium</a> (2017-09-16) #ril</li>
+</ul>
+<h2 id="rule-target-recipe">Rule, Target, Recipe ??<a class="headerlink" href="#rule-target-recipe" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/">Make Rules and Targets - Make - GNU Project - Free Software Foundation</a> Rule = <code>target:   dependencies ...</code> + <code>commands...</code>，也就是如何 build 出 target，為什麼有 &ldquo;target file&rdquo; 的說法?? #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Recipe-Echoing">Recipe Echoing - GNU make</a> 預設會將 recipe 印出來 (echoing)，可以用開頭的 <code>@</code> 抑制這個行為，例如 <code>@echo bla bla</code>。另外 <code>-n, --just-print, --dry-run, --recon</code> 會印出所有的 recipe (包括以 <code>@</code> 開頭者)，但不會真的執行 (就是 dry-run)。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Rule-Syntax-1">4.2 Rule Syntax - GNU make</a> <code>targets : prerequisites</code> 其中 <code>targets</code> 跟 <code>prerequisites</code> 都是 separated by whitespace #ril</li>
+<li><a href="https://stackoverflow.com/questions/2057689/">makefile - How does &ldquo;make&rdquo; app know default target to build if no target is specified? - Stack Overflow</a> anon: 執行第一個不是以 <code>.</code> 開頭的 target #ril</li>
+</ul>
+<h2 id="phony-target">Phony Target<a class="headerlink" href="#phony-target" title="Permanent link"> #</a></h2>
+<ul>
+<li>實務上不需要將所有的 target 列在 <code>.PHONY: ...</code> 後面，只要在可能發生衝突的 target 前加上 <code>.PHONY: &lt;target&gt;</code> 即可。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html">GNU make: Phony Targets</a><ul>
+<li>A phony target is one that is not really the name of a file; rather it is just a name for a recipe to be executed when you make an explicit request. 識別某個 target 就是個要做事情的 target，跟檔名無關 (phony 是口語上的 &ldquo;假的&rdquo;)；除了避免跟檔名衝突之外，另一點是提昇效能。</li>
+<li>以 <code>clean: rm *.o temp</code> 為例，由於 <code>clean</code> (target) 不會建立 <code>clean</code> (file)，所以這個 target 每次都會執行 &hellip; 這沒什麼問題，但如果一個名叫 <code>clean</code> 的檔案/目錄出現時，由於它沒有 prerequisites，所以 <code>clean</code> 總被視為 up-to-date，結果就是 <code>clean</code> target 不會被執行。為了避免這種問題，可以將它列為 <code>.PHONY</code> (special target) 的 prerequisites，這樣 <code>clean</code> target 不管 <code>clean</code> file/dir 是否存在，都會執行。</li>
+<li>這裡把 <code>.PHONY: clean</code> 寫在 <code>clean:</code> 前面好像不錯?</li>
+</ul>
+</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Complex-Makefile-Example">Appendix C Complex Makefile Example - GNU make</a> 用到許多 <code>.PHONY</code>，包括 <code>install</code>、<code>clean</code>、<code>dist</code> 等，都是以動詞命名。</li>
+<li><a href="https://github.com/search?q=filename%3Amakefile+.phony&amp;type=Code">Search · filename:makefile .phony</a> <code>.PHONY</code> 被使用很多次，甚至寫在 target 之後。</li>
+</ul>
+<h2 id="make_1">make 指令基本用法 ??<a class="headerlink" href="#make_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://linux.die.net/man/1/make">make(1) - Linux man page</a> #ril<ul>
+<li><code>make [ -f makefile ] [ options ] ... [ targets ] ...</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="recipe-tab">Recipe 要以 Tab 開頭?<a class="headerlink" href="#recipe-tab" title="Permanent link"> #</a></h2>
+<ul>
+<li>因為早期 backward compatibility 的考量，每一個 recipe 都要以 tab 開頭沒錯 - TAB indented command lines。</li>
+<li>Make 3.82 後加入了 <code>.RECIPEPREFIX</code> 這個 special variable，不過目前 macOS 10.13.1 (High Sierra) 只內建 Make 3.81。</li>
+<li>用 Vim 編輯 <code>Makefile</code> 時，按 Enter 換行預設會用 tab 內縮，雖然有設定 <code>set expandtab</code>，大概是 syntax highlighting 在作用? 不過</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Makefile#Rules">Rules - Makefile - Wikipedia</a> 提到 &ldquo;Note the use of meaningful indentation in specifying commands; also note that the indentation must consist of a single <tab> character.&rdquo;，至少要有一個 tab 這要求還真特別! (事實上是以 tab 開頭)</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Errors-Generated-by-Make">Appendix B Errors Generated by Make - GNU make</a> &ldquo;missing separator. Stop.&rdquo; 這樣的錯誤，通常是因為 recipe 用 space 內縮而非 tab，但 make 預會要求 &ldquo;every line in the recipe must begin with a tab character&rdquo;，除非用 <code>.RECIPEPREFIX</code> 自訂。</li>
+<li><a href="https://en.wikipedia.org/wiki/Make_(software)#Rules">Rules - Make (software) - Wikipedia</a> TAB indented command lines 的設計惹來許多批評 (跟一連串的 space 沒有 visual difference)，作者 Stuart Feldman 說明那是基於 backward compatibility 的考量，雖然早期並沒有多少使用者，很抱歉那就是 history。在 v3.82 後加入了 <code>.RECIPEPREFIX</code> 這個 special variable 可以自訂 recipe prefix。</li>
+<li><a href="http://vim.wikia.com/wiki/See_the_tabs_in_your_file">See the tabs in your file | Vim Tips Wiki | FANDOM powered by Wikia</a> 可以搭配 <code>:set list</code> 與 <code>:set listchars=tab:\|\</code> 營造出效果。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#index-_002eRECIPEPREFIX-_0028change-the-recipe-prefix-character_0029">.RECIPEPREFIX - GNU make</a> <code>.RECIPEPREFIX</code>  #ril</li>
+</ul>
+<h2 id="comment">Comment<a class="headerlink" href="#comment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#What-Makefiles-Contain">What Makefiles Contain - GNU make</a> 以 <code>#</code> 開始的整行 (前面可能有些空白) 會被視為註解，也可以用在行內，不過解讀方式不同，例如 recipe 裡的註解會整個傳給 shell，就看 shell 如何處理 #ril</li>
+</ul>
+<h2 id="variable">Variable<a class="headerlink" href="#variable" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Using-Variables">6 How to Use Variables - GNU make</a> #ril<ul>
+<li>Variable 用一個 name 來代表一個 value &ndash; a string of text，可以在 makefile 的其他地方用 name 引用 variable，代換成背後的 value。</li>
+<li>Variable 跟 function 一樣，在讀入 makefile 時就會展開，除非在 recipe 裡、variable definition (<code>=</code>) 的右側、<code>define</code> 的 body??</li>
+<li>Variable name 可以由 <code>:#=</code> 或 whitespace 以外的字元組成 (區分大小寫)，但建議只用英數字及底線就好。另外以 <code>.</code> 及大寫字母開頭的變數可能會跟 make 自己 special varialbes 衝突，應該避免使用。</li>
+<li>建議內部用的變數只用小寫字母，將大寫字母保留給 (外部的) parameters 使用；這可能跟環境變數習慣用大寫有關? 但那常數怎麼辦? 或許是指 function 裡的變數吧??</li>
+</ul>
+</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#The-Two-Flavors-of-Variables">6.2 The Two Flavors of Variables - GNU make</a> 說明 <code>=</code> 與 <code>?=</code> 的差別，後者是 conditional variable assignment，未定義時才會 assign #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Automatic-Variables-1">10.5.3 Automatic Variables - GNU make</a> #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Defining-Multi_002dLine-Variables">6.8 Defining Multi-Line Variables - GNU make</a> #ril<ul>
+<li>另一種變數給值的方式是透過 <code>define</code> directive，由於允許 value 裡出現 newline (但 <code>endef</code> 前的 newline 不會被視為 value 的一部份)，可以用來定義 canned recipes。</li>
+<li><code>define</code> 後面除了變數名稱，只能有 assignment operator (預設是 <code>=</code>)，其餘都要寫在下一行，並以單獨一行的 <code>endef</code> 結束，例如 <code>define variable ... endef</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="exporting-variables">Exporting Variables ??<a class="headerlink" href="#exporting-variables" title="Permanent link"> #</a></h2>
+<p>當 <code>Makefile</code> 會動態 export 一些 environment variables 給 subprocess 時，想遶過 <code>Makefile</code> 直接在 shell 裡操作會不太方便。這個問題可以在 <code>Makefile</code> 裡安排個 <code>env</code> target，印出一堆 <code>export VARIABLE=VALUE</code>，這樣透過 <code>eval $(make env)</code> 就可以把 shell 營造成 <code>Makefile</code> 呼叫 subprocess 時的樣子。例如：</p>
+<pre><code>$ cat Makefile
+...
+env:
+    @echo export DEBUG=$(DEBUG)
+    @echo export COMPOSE_PROJECT_NAME=$(COMPOSE_PROJECT_NAME)
+...
+
+$ eval $(make env)
+$ docker-compose ...
+</code></pre>
+
+<p>這種做法類似於 <a href="https://docs.docker.com/machine/reference/env/"><code>docker-machine env</code></a>，例如：</p>
+<pre><code>$ eval $(docker-machien evn managed-host)
+$ docker ... # 接下來 docker 指令會作用在 managed-host 上
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.gnu.org/software/make/manual/make.html#Communicating-Variables-to-a-Sub_002dmake">5.7.2 Communicating Variables to a Sub-make - GNU make</a></p>
+<ul>
+<li>
+<p>Variable values of the top-level <code>make</code> can be passed to the sub-<code>make</code> through the environment by EXPLICIT REQUEST. These variables are defined in the sub-<code>make</code> as defaults, but they do not override variables defined in the makefile used by the sub-<code>make</code> unless you use the ‘<code>-e</code>’ switch (see Summary of Options).</p>
+<p>所謂 explicit request 指的是使用 <code>export</code> directive；雖然標題是 &ldquo;to a sub-make&rdquo;，但廣義地來說是 &ldquo;to a sub-process&rdquo;，也就是每一行 recipe。</p>
+</li>
+<li>
+<p>To PASS DOWN, or EXPORT, a variable, <code>make</code> ADDS THE VARIABLE AND ITS VALUE TO THE ENVIRONMENT for running each line of the recipe. The sub-<code>make</code>, in turn, uses the environment to initialize its table of variable values. See Variables from the Environment.</p>
+<p>注意這裡 variable 與 environment 的差別，往 subprocess 傳的方法就是透過 environment variables。</p>
+</li>
+<li>
+<p>Except by explicit request, <code>make</code> exports a variable only if it is either DEFINED IN THE ENVIRONMENT INITIALLY or set on the command line, and if its name consists only of letters, numbers, and underscores. Some shells cannot cope with environment variable names consisting of characters other than letters, numbers, and underscores.</p>
+<p>來自 invoking environemnt 的 environment variables 本來就會往下傳。</p>
+</li>
+<li>
+<p>The value of the <code>make</code> variable <code>SHELL</code> is not exported. Instead, the value of the <code>SHELL</code> variable from the INVOKING ENVIRONMENT is passed to the sub-<code>make</code>. You can force <code>make</code> to export its value for <code>SHELL</code> by using the <code>export</code> directive, described below. See Choosing the Shell.</p>
+<p>注意 &ldquo;<code>make</code> variable&rdquo; 的說法，透過 <code>export make</code> 才會進到 environment。</p>
+</li>
+<li>
+<p>The special variable <code>MAKEFLAGS</code> is always exported (unless you UNEXPORT it). <code>MAKEFILES</code> is exported if you set it to anything.</p>
+<p>可以由 top-level <code>make</code> 一開始就決定了。</p>
+<p><code>make</code> automatically passes down variable values that were defined on the command line, by putting them in the <code>MAKEFLAGS</code> variable. See Options/Recursion.</p>
+</li>
+<li>
+<p>Variables are not normally passed down if they were created by default by <code>make</code> (see Variables Used by Implicit Rules). The sub-<code>make</code> will define these for itself.</p>
+</li>
+<li>
+<p>If you want to export SPECIFIC variables to a sub-<code>make</code>, use the <code>export</code> directive, like this:</p>
+<pre><code>export variable …
+</code></pre>
+<p>會有 specific 的說法，是因為 <code>export</code> 不指定 variable 時會將所有 variable 都 export。</p>
+</li>
+<li>
+<p>If you want to prevent a variable from being exported, use the <code>unexport</code> directive, like this:</p>
+<pre><code>unexport variable …
+</code></pre>
+<p>In both of these forms, the arguments to <code>export</code> and <code>unexport</code> are expanded, and so could be variables or functions which expand to a (list of) variable names to be (un)exported.</p>
+</li>
+<li>
+<p>As a convenience, you can define a variable and export it at the same time by doing:</p>
+<pre><code>export variable = value
+</code></pre>
+<p>has the same result as:</p>
+<pre><code>variable = value
+export variable
+</code></pre>
+<p>You may notice that the <code>export</code> and <code>unexport</code> directives work in <code>make</code> in the same way they work in the shell, <code>sh</code>.</p>
+<p>不過在 shell 裡 <code>=</code> 兩側不可以有空白。</p>
+</li>
+<li>
+<p>If you want all variables to be exported by default, you can use <code>export</code> by itself:</p>
+<pre><code>export
+</code></pre>
+<p>This tells <code>make</code> that variables which are NOT EXPLICITLY MENTIONED in an <code>export</code> or <code>unexport</code> directive should be exported. Any variable given in an <code>unexport</code> directive will still not be exported. If you use <code>export</code> by itself to export variables by default, variables whose names contain characters other than alphanumerics and underscores will not be exported unless specifically mentioned in an <code>export</code> directive.</p>
+</li>
+<li>
+<p>The behavior elicited by an <code>export</code> directive by itself was the default in older versions of GNU <code>make</code>. If your makefiles depend on this behavior and you want to be compatible with old versions of <code>make</code>, you can write a rule for the special target <code>.EXPORT_ALL_VARIABLES</code> instead of using the <code>export</code> directive. This will be ignored by old makes, while the <code>export</code> directive will cause a syntax error.</p>
+<p>要相容於舊版的 make 才會用 <code>.EXPORT_ALL_VARIABLES</code>? 如果只想針對特定 target 才 export 要怎麼做??</p>
+<p>Likewise, you can use <code>unexport</code> by itself to tell make not to export variables by default. Since this is THE DEFAULT BEHAVIOR, you would only need to do this if <code>export</code> had been used by itself earlier (in an included makefile, perhaps). You cannot use <code>export</code> and <code>unexport</code> by themselves to have variables exported for some recipes and not for others. The last <code>export</code> or <code>unexport</code> directive that appears by itself determines the behavior for the ENTIRE RUN of <code>make</code>.</p>
+<p>看來要 export 哪些 varible 並不是在 <code>export</code> 該行決定的，<code>export</code>/<code>unexport</code> 只是調整模式，在呼叫 subprocess 的當下，才會決定哪些 variable 要以 environment variables 的型式傳進去。</p>
+</li>
+<li>
+<p>As a special feature, the variable <code>MAKELEVEL</code> is changed when it is passed down from level to level. This variable’s value is a string which is the depth of the level as a decimal number. The value is ‘<code>0</code>’ for the top-level <code>make</code>; ‘<code>1</code>’ for a sub-<code>make</code>, ‘<code>2</code>’ for a sub-sub-<code>make</code>, and so on. The incrementation happens when <code>make</code> sets up the environment for a recipe.</p>
+<p>The main use of <code>MAKELEVEL</code> is to test it in a conditional directive (see Conditional Parts of Makefiles); this way you can write a makefile that behaves one way if RUN RECURSIVELY and another way if run directly by you.</p>
+<p>實務上有什麼應用 ??</p>
+</li>
+<li>
+<p>You can use the variable <code>MAKEFILES</code> to cause all sub-<code>make</code> commands to USE ADDITIONAL MAKEFILES. The value of <code>MAKEFILES</code> is a whitespace-separated list of file names. This variable, if defined in the outer-level makefile, is passed down through the environment; then it serves as a list of extra makefiles for the sub-<code>make</code> to read before the usual or specified ones. See The Variable <code>MAKEFILES</code>.</p>
+<p>在 <code>Makefile</code> 外要再 include 哪些檔案 ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="target-specific-variable">Target-specific Variable ??<a class="headerlink" href="#target-specific-variable" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Target_002dspecific-Variable-Values">6.11 Target-specific Variable Values - GNU make</a><ul>
+<li>Variable 通常都是 global 的 &ndash; 一旦過了 evaluation 就不會變 (除 automatic variables)，但 target-specific variable value 可以依 target 改變 variable 的值 &ndash; 只在 target 內有效用。</li>
+<li>用法 <code>target ...: variable-assignment</code> (可以作用在多個 target?)，其中 variable assignment 可以是 <code>=</code>/<code>:=</code>/<code>::=</code>/<code>+=</code>/<code>?=</code> 各種型式，前面也可以加 <code>export</code>/<code>override</code>/<code>private</code> 等 keyword。由於 target-specific variable 的 priority 跟其他 variable 一樣低於 command line 給的值，除非有加 <code>override</code> keyword。</li>
+<li>Target-specific variable 會作用在 prerequisites (及其 prerequisites)，例如 <code>prog: CFLAGS = -g</code> 與 <code>prog : prog.o foo.o bar.o</code>，<code>CFLAGS = -g</code> 也會作用在 <code>prog.o</code>/<code>foo.o</code>/<code>bar.o</code> 等 target，除非那些 target 又用自己的 target-specific variable (assignment) 覆寫。</li>
+</ul>
+</li>
+<li>若單純要 export 某個變數呢? <code>target: export MYVAR</code> 行不通，但 <code>target: export MYVAR ?=</code> 用 variable-assignment 的語法就可以。</li>
+</ul>
+<h2 id="conditionals">Conditionals ??<a class="headerlink" href="#conditionals" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Recipe-Syntax-1">5.1 Recipe Syntax - GNU make</a> 最後提到 conditional expression (<code>ifdef</code>、<code>ifeq</code> 等)，在 rule context 裡若是以 tab 做為開頭的話，會被視為 recipe 交給 shell；暗示著，rule 裡是可以用 <code>ifdef</code> 的。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Conditionals">7 Conditional Parts of Makefiles - GNU make</a> #ril<ul>
+<li>Conditional directive 可以根據 variable 的值 (跟常數或另一個 variable 比較)，決定要採納/忽略 makefile 的某個部份。</li>
+<li>看到 &ldquo;a conditional&rdquo; 才知道 conditional 也可以當名詞用，意思是 &ldquo;條件句&rdquo;，相對於 conditional，外面的稱做 unconditional。</li>
+<li>&hellip; conditionals work at the TEXTUAL LEVEL: the lines of the conditional are treated as part of the makefile, or ignored, according to the condition. This is why the larger syntactic units of the makefile, such as rules, may cross the beginning or the end of the conditional. 呼應了一開始 Conditionals control what make actually “SEES” in the makefile, so they cannot be used to control recipes at the time of execution. 的說法，也難怪在 Index of Concept 裡出現 &ldquo;ifdef, expansion&rdquo; 之類的說法。</li>
+<li>不能動態改變 recipe，但可以控制 rule context 下有哪些 recipes。下面的例子會判斷 <code>CC</code> 的值是否為 <code>gcc</code>，以決定 C compiler 的參數。</li>
+</ul>
+</li>
+</ul>
+<pre><code>libs_for_gcc = -lgnu
+normal_libs =
+
+foo: $(objects)
+ifeq ($(CC),gcc)
+        $(CC) -o foo $(objects) $(libs_for_gcc)
+else
+        $(CC) -o foo $(objects) $(normal_libs)
+endif
+</code></pre>
+
+<pre><code>  - 一個 conditional 以 `ifeq` 做為開始、中間有 `else` (選用)、最後以 `endif` 結束。其中 `ifeq` directive 會比較放在括號裡的兩個參數 `(arg1,arg2)`，若兩者相等，就會採用 `ifeq` 跟 `else` 中間的部份，否則就採用 `else` 與 `endif` 中間的部份。
+  - 完整的語法如下：其中 `else` 跟 `else conditional-directive` 可以有多個，但並非必要。共有 4 種 conditional directive -- `ifeq`/`ifneq`、`ifdef`/`ifndef`
+</code></pre>
+<pre><code>conditional-directive-one
+text-if-one-is-true
+else conditional-directive-two
+text-if-two-is-true
+else
+text-if-one-and-two-are-false
+endif
+</code></pre>
+
+<h2 id="sub-make">Sub-make ??<a class="headerlink" href="#sub-make" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.gnu.org/software/make/manual/make.html#Overriding-Part-of-Another-Makefile">3.6 Overriding Part of Another Makefile - GNU make</a> 用 <code>%:</code> 來表示 any target，內部的 recipe 再用 <code>$(MAKE) -f Makefile $@</code> 轉向另一個 makefile；其中 <code>$@</code> 是一種 automatic variable，代表 The file name of the target。</p>
+</li>
+<li>
+<p><a href="https://www.gnu.org/software/make/manual/make.html#Recursive-Use-of-make">5.7 Recursive Use of make - GNU make</a> #ril</p>
+<ul>
+<li>
+<p>所謂 &ldquo;recursive use of <code>make</code>&rdquo; 是指在 makefile 調用 <code>make</code> 指令，可以應用在 subsystem 有各自的 makefile 時。出現 sub-make 與 top-level make 的說法。</p>
+<pre><code>subsystem:
+        cd subdir &amp;&amp; $(MAKE)
+</code></pre>
+<p>或</p>
+<pre><code>subsystem:
+        $(MAKE) -C subdir
+</code></pre>
+<p>在 Make 3.81 上發現，<code>-C subdir</code> 確實會讀取 <code>subdir/Makefile</code>，但 CWD 似乎沒有變動??</p>
+</li>
+<li>
+<p>5.7.1 How the MAKE Variable Works 開頭強調 recursive make 不應該明確調用 <code>make</code> 而要透過 <code>$(MAKE)</code>。<code>$(MAKE)</code> 記錄著 top-level make 的位置 (例如 <code>/bin/make</code>)，這樣做可以確保 recursive make invocation 都用同一個 <code>make</code> binary。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/5377297/how-to-manually-call-another-target-from-a-make-target/5378242">How to manually call another target from a make target? - Stack Overflow</a> mklement0: 呼叫另一個 target 用 <code>$(MAKE) -f $(THIS_FILE) other-target</code>，其中 <code>$(MAKE)</code> 確保同一個 <code>make</code> binary 被呼叫 #ril</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/17896751/">Makefile: use multiple makefiles - Stack Overflow</a> 出現 <code>-f somename.mk</code> 的手法 #ril</li>
+<li><a href="https://en.wikipedia.org/wiki/List_of_filename_extensions_(M%E2%80%93R)#MK">MK - List of filename extensions (M–R) - Wikipedia</a> 跟 Makefile 相關的副檔名有 <code>.mk</code>、<code>.mke</code>、<code>.mkg</code>、<code>.mak</code>。</li>
+</ul>
+<h2 id="function">Function ??<a class="headerlink" href="#function" title="Permanent link"> #</a></h2>
+<ul>
+<li>踩了幾次變數打錯名稱 (例如 <code>$(do_something_importan)</code>，但 runtime 也不會提醒 (<code>$(call do_something_importan)</code> 也一樣)。建議編寫 <code>Makefile</code> 時，搭配 <code>--warn-undefined-variables</code> 檢查，就會提醒 <code>Makefile:NN: warning: undefined variable 'do_something_importan'</code>，透過 <code>MAKEFLAGS=--warn-undefined-variables</code> 直接寫在 <code>Makefile</code> 裡當然更方便，避免未來犯蠢。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Functions">Functions for Transforming Text - GNU make</a> 只講 function 怎麼用，沒有提到如何自訂 #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/Canned-Recipes.html">GNU make: Canned Recipes</a> 用 canned sequence (of commands) 來定義一個 variable，搭配 <code>$(variable)</code> 將它展開；裡面可以用 <code>$^</code> 與 <code>$@</code> 分別取得 target 與 dependencies #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/Call-Function.html">8.7 The call Function - GNU make: Call Function</a> TOC 裡出現 &ldquo;expand a user-defined function&rdquo; 的說法 #ril<ul>
+<li>雖說是 parameterized function，但實際上是把內含 complex expression 的 varialbe 展開 (use call to expand it)；難怪用 <code>define varialbe ... endef</code> 宣告，也難怪 Call Function 會被歸在 Functions for Transforming Text 底下</li>
+<li><code>$(call variable, param, param, ...)</code> 會將 <code>param</code> 依序指定給 temporary variable <code>$(1)</code>、<code>$(2)</code> 等，而 <code>$(0)</code> 則對應到 <code>variable</code>；雖然不一定要傳 param，但用 <code>$(call)</code> 不傳 param 沒有意義 &ndash; 用 canned recipe 直接展開變數就好。</li>
+<li><code>reverse = $(2) $(1)</code> 搭配 <code>foo = $(call reverse, a, b)</code> 可以調換位置，所以 <code>foo</code> 的內容會是 <code>b, a</code></li>
+<li>最後提到 It’s generally safest to remove all extraneous whitespace when providing parameters to call 發現用 <code>,</code> 拆分 params 且會保留空白，所以就別管 <code>$(call)</code> 好不好看了，把空白拿掉</li>
+</ul>
+</li>
+<li><a href="https://coderwall.com/p/cezf6g/define-your-own-function-in-a-makefile">Define your own function in a Makefile (Example)</a> 用 <code>define ... endef</code> 宣告 custom function，搭配 <code>$call(function, )</code> #ril</li>
+<li>實驗發現 (v3.81) 把 variable 宣告在 targets 下面也是可以的，這樣 <code>Makefile</code> 的可讀性會較高，尤其 <code>make</code> 預設會執行第一個 target。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Function-Call-Syntax">8.1 Function Call Syntax - GNU make</a> 不用 `$(call &hellip;)? #ril</li>
+<li><a href="https://stackoverflow.com/questions/14391650/">makefile - Can make warn me, when I use unset variables? - Stack Overflow</a> sirgeorge: Make 3.81 增加了 <code>--warn-undefined-variables</code>，另外也可以宣告在 Makefile 裡的 <code>MAKEFLAGS=...</code>，避免未來犯蠢。</li>
+</ul>
+<h2 id="environment-variable">Environment Variable ??<a class="headerlink" href="#environment-variable" title="Permanent link"> #</a></h2>
+<ul>
+<li>將 <code>command</code> 改成 <code>VAR=$(VAR) command</code> 可以</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Variables-from-the-Environment">Variables from the Environment - GNU make</a> 環境變數一開始都會成為 make 的變數 (同名)，但如果 makefile 裡有明確指定的話就會被覆寫 #ril</li>
+<li><a href="https://stackoverflow.com/questions/23843106/">shell - How to set environment variable in Makefile - Stack Overflow</a> 用 export? #ril</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Communicating-Variables-to-a-Sub_002dmake">5.7.2 Communicating Variables to a Sub-make - GNU make</a> 提到 <code>export variable = value</code> 的用法，雖然在講 sub-make，但適用所有 external command 的呼叫 #ril</li>
+</ul>
+<h2 id="include">Include<a class="headerlink" href="#include" title="Permanent link"> #</a></h2>
+<ul>
+<li>檔名叫 <code>Makefile.settings</code> 好像不錯，暗示被引入的檔案其語法同 <code>Makefile</code>；範例叫 <code>Makefile.settings.sample</code>，可以準備多組 settings，再用 symbolic link 指向，例如 <code>ln -s Makefile.settings.dev Makefile.settings</code>。</li>
+<li><code>-include Makefile.settings</code> 用法，同時適用開發及 CI；開發時的設定來自 <code>Makefile.settings</code>，跑 CI 時的設定來自於環境變數，就 GitLab CI 而言，環境變數可以來自 <code>.gitlab-ci.yaml</code>，也可以是 CI/CD Settings &gt; Secret variables。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Including-Other-Makefiles">Including Other Makefiles - GNU make</a><ul>
+<li><code>include [FILENAME]...</code> 可以將其他 makefile 插入現在的位置，可以用 shell file name pattern，裡面的 variable/function reference 也會展開，後面可以加 comment。</li>
+<li>通常用於多個 makefile 要共用 variable definitions 時。</li>
+<li>若 current directory 找不到檔案，會先從 <code>-I</code>/<code>--include-dir</code> 指定的目錄找，然後再找 <code>prefix/include</code> (通常是 <code>/usr/local/include</code>)、<code>/usr/gnu/include</code>、<code>/usr/local/include</code>、<code>/usr/include</code></li>
+<li>若要引入的檔案可有可無，可以改用 <code>-include</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="check-file-existance">Check file existance ??<a class="headerlink" href="#check-file-existance" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://stackoverflow.com/questions/5553352/">How do I check if file exists in Makefile so I can delete it? - Stack Overflow</a> #ril</p>
+<ul>
+<li>
+<p>kenorb: Then you can use a <code>test</code> command to test if the file does exist, e.g.:</p>
+<pre><code>test -f myApp &amp;&amp; echo File does exist
+</code></pre>
+<ul>
+<li><code>-f file</code> True if file exists and is a regular file.</li>
+<li><code>-s file</code> True if file exists and has a size greater than zero.</li>
+</ul>
+<p>or does not:</p>
+<ul>
+<li><code>test -f myApp || echo File does not exist</code></li>
+<li><code>test ! -f myApp &amp;&amp; echo File does not exist</code></li>
+</ul>
+<p>The <code>test</code> is equivalent to <code>[</code> command.</p>
+<pre><code>[ -f myApp ] &amp;&amp; rm myApp   # remove myApp if it exists
+</code></pre>
+<p>and it would work as in your original example. See: <code>help [</code> or <code>help test</code> for further syntax.</p>
+</li>
+<li>
+<p>holms: It&rsquo;s strange to see so many people using shell scripting for this. I was looking for a way to use NATIVE MAKEFILE SYNTAX, because I&rsquo;m writing this outside of any target. You can use the <code>wildcard</code> function to check if file exists:</p>
+<pre><code>ifeq ($(UNAME),Darwin)
+    SHELL := /opt/local/bin/bash
+    OS_X  := true
+else ifneq (,$(wildcard /etc/redhat-release))
+    OS_RHEL := true
+else
+    OS_DEB  := true
+    SHELL := /bin/bash
+endif
+</code></pre>
+<p>Update:</p>
+<p>I found a way which is really working for me:</p>
+<pre><code>ifneq ("$(wildcard $(PATH_TO_FILE))","")
+    FILE_EXISTS = 1
+else
+    FILE_EXISTS = 0
+endif
+</code></pre>
+<p>不用 shell scripting 的話，才不會踩到跨平台的問題；不過 <code>test</code>/<code>[</code> 可以做更細部的判斷。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.humbug.in/2012/makefile-check-if-a-file-exists-using-wildcard-function/">Makefile - Check if a file exists using wildcard function - Humbug</a> #ril</p>
+</li>
+</ul>
+<h2 id="self-documented-makefile-make-help">Self-documented Makefile (<code>make help</code>) ??<a class="headerlink" href="#self-documented-makefile-make-help" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html">Self-Documented Makefile</a> (2016-02-29) #ril</p>
+<ul>
+<li>在 target 後面用 <code>##</code> 寫說明，還能避開 internal target。增加一個 <code>help</code> target 並將它設為 default，就可以用 <code>make [help]</code> 看說明<pre><code>.PHONY: help
+.DEFAULT_GOAL := help
+
+help:
+    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://www.sphinx-doc.org/en/master/usage/quickstart.html#running-the-build">Running the build - Getting Started — Sphinx 3.0.0+/f7bf66012 documentation</a></p>
+<ul>
+<li>
+<p>Execute make without an argument to SEE WHICH TARGETS ARE AVAILABLE.</p>
+</li>
+<li>
+<p><code>sphinx-quickstart</code> 產生的 <code>Makefile</code> 像這樣：</p>
+<pre><code># You can set these variables from the command line.
+SPHINXOPTS    =
+SPHINXBUILD   = sphinx-build
+SOURCEDIR     = .
+BUILDDIR      = _build
+
+# Put it first so that "make" without argument is like "make help".
+help:
+    @$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+.PHONY: help Makefile
+
+# Catch-all target: route all unknown targets to Sphinx using the new
+# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+%: Makefile
+    @$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+</code></pre>
+<p>將 <code>help</code> 安排成第一個 target 的想法很不錯，跟 <code>make help</code> 的效果一樣。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://swcarpentry.github.io/make-novice/08-self-doc/">Automation and Make: Self-Documenting Makefiles</a> #ril</p>
+</li>
+<li><a href="https://nedbatchelder.com/blog/201804/makefile_help_target.html">Ned Batchelder: Makefile help target</a> (2018-04-04) #ril</li>
+<li><a href="https://blog.sneawo.com/blog/2017/06/13/makefile-help-target/">Makefile help target - Andrey Zhukov&rsquo;s Tech Blog</a> (2017-06-13) 還加了 usage #ril</li>
+<li><a href="https://gist.github.com/prwhite/8168133">Add a help target to a Makefile that will allow all targets to be self documenting</a> #ril</li>
+<li><a href="https://gist.github.com/rcmachado/af3db315e31383502660">Add a help target to a Makefile that will allow all targets to be self documenting</a> #ril</li>
+</ul>
+<h2 id="recipe">如何在 Recipe 裡設定變數?<a class="headerlink" href="#recipe" title="Permanent link"> #</a></h2>
+<pre><code>$ cat Makefile
+hello:
+    WHO=World
+    echo 'Hello, $(WHO)!'
+
+$ make
+WHO=World
+echo 'Hello, !'
+Hello, !
+</code></pre>
+
+<p>顯然 <code>WHO=World</code> 沒有作用。改寫成 <code>$(eval WHO = World)</code> 就可以，這時候已經是 Make 的變數，而非 shell 的變數。</p>
+<pre><code>$ cat Makefile
+hello:
+    $(eval WHO=World)
+    echo 'Hello, $(WHO)!'
+
+$ make
+echo 'Hello, World!'
+Hello, World!
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6519234/">makefile - Can&rsquo;t assign variable inside recipe - Stack Overflow</a> 用 $(eval &hellip;)<code>function，例如</code>$(eval who = World)`。</li>
+<li><a href="https://superuser.com/questions/790560/">Variables in GNU Make recipes, is that possible? - Super User</a> grawity: 每一個 recipe line 起一個 shell process 執行，所以 shell 結束就消失了；另外提到 <code>.ONESHELL:</code> 可以要求 <code>make</code> 用一個 shell 來執行所有 recipe。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Execution">5.3 Recipe Execution - GNU make</a> 每一行 recipe 都會用 sub-shell 來執行，除非有 <code>.ONESHELL</code> 這個特殊的 target 存在；特別舉例設定 shell variable 或 <code>cd</code> 切換目錄，下一個 recipe 都不受影響。</li>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Eval-Function">8.9 The eval Function - GNU make</a> <code>eval</code> 的結果固定是空字串 #ril</li>
+</ul>
+<h2 id="expansion">Expansion ??<a class="headerlink" href="#expansion" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.gnu.org/software/make/manual/make.html#The-shell-Function">8.13 The shell Function - GNU make</a></p>
+<p>The commands run by calls to the <code>shell</code> function are run WHEN THE FUNCTION CALLS ARE EXPANDED (see How make Reads a Makefile).</p>
+<p>之前踩到 <code>$(shell)</code> 的執行時機跟預期不符的問題：</p>
+<pre><code>define exit
+    exit $(shell cat $(exit_file))
+endef
+
+test: _test-run
+    $(call exit)
+</code></pre>
+<p>假設 <code>_test-run</code> 會更新 <code>exit_file</code> 的內容，原以為 <code>$(shell cat $(exit_file))</code> 會發生在 <code>_test-run</code> 之後，但似乎在那之前就發生了，所以無法反應最新的內容。</p>
+<p>可能跟 <a href="https://www.gnu.org/software/make/manual/make.html#Function-Call-Syntax">Function Call Syntax - GNU make</a> 的一段話有關：</p>
+<blockquote>
+<p>A function call resembles a variable reference. It can appear anywhere a variable reference can appear, and it is expanded using the SAME RULES AS VARIABLE REFERENCES.</p>
+</blockquote>
+<p>以及 <a href="https://www.gnu.org/software/make/manual/make.html#Using-Variables-in-Recipes">Using Variables in Recipes - GNU make</a>：</p>
+<blockquote>
+<p>The other way in which <code>make</code> processes recipes is by expanding any variable references in them (see Basics of Variable References). This occurs AFTER <code>make</code> HAS FINISHED READING ALL THE MAKEFILES AND THE TARGET IS DETERMINED TO BE OUT OF DATE; so, the recipes for targets which are not rebuilt are never expanded.</p>
+</blockquote>
+<p>似乎是說 target 在執行前，裡面的 variable reference (包含 function call) 就已經展開。</p>
+</li>
+<li>
+<p><a href="https://www.gnu.org/software/make/manual/make.html#How-make-Reads-a-Makefile">3.7 How make Reads a Makefile - GNU make</a></p>
+<ul>
+<li>
+<p>GNU <code>make</code> does its work in TWO DISTINCT PHASES. During the first phase it reads all the makefiles, included makefiles, etc. and INTERNALIZES ?? all the variables and their values, implicit and explicit rules, and constructs a DEPENDENCY GRAPH of all the targets and their prerequisites. During the second phase, make uses these internal structures to determine what targets will need to be REBUILT and to invoke the rules necessary to do so.</p>
+</li>
+<li>
+<p>It’s important to understand this two-phase approach because it has a direct impact on HOW VARIABLE AND FUNCTION EXPANSION HAPPENS; this is often a source of some CONFUSION when writing makefiles. Here we will present a summary of the phases in which expansion happens for different constructs within the makefile.</p>
+<p>We say that expansion is IMMEDIATE if it happens during the FIRST PHASE: in this case <code>make</code> will EXPAND any variables or functions in that section of a construct as the makefile is PARSED. We say that expansion is DEFERRED if expansion is not performed immediately. Expansion of a deferred construct is not performed until either the construct appears later in an IMMEDIATE CONTEXT ??, or until the second phase.</p>
+<p>You may not be familiar with some of these constructs yet. You can reference this section as you become familiar with them, in later chapters.</p>
+</li>
+</ul>
+<p>Variable Assignment</p>
+<ul>
+<li>
+<p>Variable definitions are parsed as follows:</p>
+<pre><code>immediate = deferred
+immediate ?= deferred
+immediate := immediate
+immediate ::= immediate
+immediate += deferred or immediate
+immediate != immediate
+
+define immediate
+  deferred
+endef
+
+define immediate =
+  deferred
+endef
+
+define immediate ?=
+  deferred
+endef
+
+define immediate :=
+  immediate
+endef
+
+define immediate ::=
+  immediate
+endef
+
+define immediate +=
+  deferred or immediate
+endef
+
+define immediate !=
+  immediate
+endef
+</code></pre>
+</li>
+<li>
+<p>For the append operator, <code>+=</code>, the right-hand side is considered immediate if the variable was previously set as a simple variable (<code>:=</code> or <code>::=</code>), and deferred otherwise.</p>
+</li>
+<li>
+<p>For the SHELL ASSIGNMENT operator, <code>!=</code>, the right-hand side is evaluated immediately and HANDED TO THE SHELL. The result is stored in the variable named on the left, and that variable becomes a SIMPLE VARIABLE (and will thus be RE-EVALUATED ON EACH REFERENCE ??).</p>
+<p>為什麼 simple variable 反而每次存取時都要 re-evaluate ??</p>
+</li>
+</ul>
+<p>Conditional Directives</p>
+<ul>
+<li>Conditional directives are parsed immediately. This means, for example, that automatic variables cannot be used in conditional directives, as automatic variables are not set until the recipe for that rule is invoked. If you need to use automatic variables in a conditional directive you must move the condition into the recipe and use SHELL CONDITIONAL SYNTAX instead. ??</li>
+</ul>
+<p>Rule Definition</p>
+<ul>
+<li>
+<p>A rule is always expanded the same way, regardless of the form:</p>
+<pre><code>immediate : immediate ; deferred
+        deferred
+</code></pre>
+<p>That is, the target and prerequisite sections are expanded immediately, and the recipe used to construct the target is always deferred. This general rule is true for explicit rules, pattern rules, suffix rules, static pattern rules, and simple prerequisite definitions.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.gnu.org/software/make/">Make - GNU Project - Free Software Foundation</a></li>
+<li><a href="https://cmake.org/">CMake</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/makefile">&lsquo;makefile&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/index.html">GNU make</a>
+   (<a href="https://www.gnu.org/software/make/manual/make.html">single page</a>)</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.gnu.org/software/make/manual/make.html#Index-of-Functions_002c-Variables_002c-_0026-Directives">Index of Functions, Variables, &amp; Directives - GNU make</a></li>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/Options-Summary.html">GNU make: Options Summary</a></li>
+<li><a href="http://manpages.ubuntu.com/manpages/xenial/man1/make.1.html">Ubuntu Manpage: make</a></li>
+<li><a href="https://www.freebsd.org/cgi/man.cgi?make(1)">make(1) - FreeBSD</a></li>
+<li><a href="https://linux.die.net/man/1/make">make(1) - die.net</a></li>
+<li><a href="https://www.gnu.org/software/make/manual/html_node/Reading-Makefiles.html">Expansion of Immediate/Deferred Constructs</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

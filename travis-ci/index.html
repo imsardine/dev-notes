@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/travis-ci/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Travis CI - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/travis-ci.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#travis-ci">Travis CI</a></li>
+            <li class="second-level"><a href="#hello-world">Hello, World!</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#phase-job-build-stage">Phase, Job, Build, Stage ??</a></li>
+                
+            <li class="second-level"><a href="#travisyml">.travis.yml ??</a></li>
+                
+            <li class="second-level"><a href="#environment-variable">Environment Variable ??</a></li>
+                
+            <li class="second-level"><a href="#build-environment">Build Environment ??</a></li>
+                
+            <li class="second-level"><a href="#docker">Docker ??</a></li>
+                
+            <li class="second-level"><a href="#deployment">Deployment ??</a></li>
+                
+            <li class="second-level"><a href="#github-pages">GitHub Pages</a></li>
+                
+            <li class="second-level"><a href="#notification">Notification ??</a></li>
+                
+            <li class="second-level"><a href="#ios">iOS ??</a></li>
+                
+            <li class="second-level"><a href="#cli">CLI ??</a></li>
+                
+            <li class="second-level"><a href="#troubleshooting">疑難排解</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="travis-ci">Travis CI<a class="headerlink" href="#travis-ci" title="Permanent link"> #</a></h1>
+<ul>
+<li>定位成 the home of open source testing (針對 GitHub)，對 open source project 是免費的，但 private project 的計費也只根據 concurrent job，不限 repo 數量。</li>
+<li>測試是核心，除了 branch build flow，也支援 pull request build flow 在 PR 的 merge 發生前就先行測試 (test your pull requests)。</li>
+<li>測試通過後，也可以自動佈署到 S3 或 Heroku。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://travis-ci.org/">Travis CI - Test and Deploy Your Code with Confidence</a><ul>
+<li>Test and Deploy with Confidence - Easily sync your GitHub projects with Travis CI and you’ll be testing your code in minutes! 專注在 GitHub + Test + Deploy</li>
+<li>Testing your open source projects will always be FREE!</li>
+<li>TEST YOUR PULL REQUESTS - Make sure every Pull Request to your project is tested before it&rsquo;s merged.</li>
+<li>DEPLOY ANYWHERE - Updating staging or production as soon as your tests pass has never been easier! 內建支援不同的 deployment provider，包括 GitHub Pages。</li>
+<li>支援兩種流程：Branch build flow (通過測試後直接 deploy) 與 Pull request build flow (PR 通過測試後，通知可以 merge)。</li>
+</ul>
+</li>
+<li><a href="https://travis-ci.org/account/repositories">Profile - Travis CI</a> 在 profile 頁看到 &ldquo;We&rsquo;re only showing your public repositories. You can find your private projects on travis-ci.com.&rdquo; 原來 travis-ci.org 跟 travis-ci.com 是根據 public/private repo 區分的。</li>
+<li><a href="https://en.wikipedia.org/wiki/Travis_CI">Travis CI - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="hello-world">Hello, World!<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<p>這裡用 GitHub project pages site 來示範。</p>
+<p>在 GitHub 新建 <code>hello-travis</code> repo、在 Travis CI 啟用 (Activate repository) 並設定 <code>GITHUB_TOKEN</code> 環境變數，然後推送第一個 commit：</p>
+<p><code>.travis.yml</code>:</p>
+<pre><code>script:
+- mkdir site
+- echo &quot;Hello, World! `date`&quot; &gt; site/index.html
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  skip-cleanup: true
+  local-dir: site
+</code></pre>
+
+<p>就可在 https://<username>.github.io/hello-travis 看到內容。</p>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/for-beginners/">Core Concepts for Beginners - Travis CI</a><ul>
+<li>Continuous Integration is the practice of merging in SMALL CODE CHANGES FREQUENTLY - rather than merging in a large change at the end of a development cycle. The goal is to build healthier software by developing and testing in SMALLER INCREMENTS.</li>
+<li>When you run a build, Travis CI clones your GitHub repository into a brand new VIRTUAL ENVIRONMENT, and carries out a series of TASKS to build and test your code. 如果這中間有個環節出狀況，我們說這個 build 是 broken，否則就是 passed，接著就可以考慮進 deploy。</li>
+<li>上面的 broken 依據出狀況的時間點，又區分為 errored、failed、canceled：</li>
+<li>errored - 在 <code>before_install</code>、<code>install</code> 或 <code>before_script</code> phase 裡的 command 傳回 non-zero exit code 時，視為 errored (正事都還沒開始做)，該 job 會立即停止。</li>
+<li>failed - 在 <code>script</code> phase 的 command 傳回 non-zero exit code 時，視為 failed，但 job 為什麼還要執行完??</li>
+<li>canceled - 使用者在 job 執行完之前取消。</li>
+</ul>
+</li>
+<li><a href="https://travis-ci.org/getting_started">Travis CI - Test and Deploy Your Code with Confidence</a> Sign in with GitHub 會看到這份文件<ul>
+<li>Activate your GitHub repositories - 到 profile page，可以對 organization 啟用 GitHub App integration；沒看到 Activate GitHub Apps integration 的按鈕 ??</li>
+<li>Add a .travis.yml file to your repository - 必須在每個 repo 的根目錄下放置 <code>.travis.yml</code>，可以參考 Language-specific Guides 的寫法。</li>
+<li>Trigger your first build - 接著推一個新的 commit 到 GitHub，就會觸發 CI build。</li>
+</ul>
+</li>
+<li><a href="https://docs.travis-ci.com/user/tutorial/">Travis CI Tutorial - Travis CI</a> #ril</li>
+</ul>
+<h2 id="phase-job-build-stage">Phase, Job, Build, Stage ??<a class="headerlink" href="#phase-job-build-stage" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/for-beginners/#builds-jobs-stages-and-phases">Builds, Jobs, Stages and Phases - Core Concepts for Beginners - Travis CI</a> 常見的用詞有 job、phase、build、stage；很明顯 build &gt; job &gt; phase，但 build 跟 stage 的關係是什麼??<ul>
+<li>job - an automated process that clones your repository into a virtual environment and then carries out a series of PHASES such as compiling your code, running tests, etc. A job fails if the RETURN CODE of the <code>script</code> PHASE is non zero. 一個 job 一連串的 phase 組成，依序執行；注意一個 phase 不一定由多個 commands 組成，<code>install</code> 跟 <code>script</code> 是一連串的 commands，但 <code>deploy</code> 通常就是設定 deployment provider，而非自訂 commands。</li>
+<li>phase - the SEQUENTIAL steps of a job. For example, the <code>install</code> phase, comes before the <code>script</code> phase, which comes before the OPTIONAL <code>deploy</code> phase. 也就是 install &rarr; script &rarr; (deploy)，其中 <code>install</code> phase 用來準備測試環境??</li>
+<li>build - a GROUP OF JOBS. For example, a build might have two jobs, each of which tests a project with a different version of a programming language. A build finishes when all of its jobs are finished. 分不同的 configuration/matrix ??</li>
+<li>stage - a group of jobs that run in PARALLEL as part of sequential build process composed of multiple stages.</li>
+</ul>
+</li>
+<li><a href="https://docs.travis-ci.com/user/job-lifecycle/">Job Lifecycle - Travis CI</a> #ril</li>
+<li><a href="https://docs.travis-ci.com/user/build-matrix/">Build Matrix - Travis CI</a> #ril</li>
+<li><a href="https://docs.travis-ci.com/user/build-stages/">Build Stages - Travis CI</a> #ril</li>
+<li><a href="https://docs.travis-ci.com/user/conditional-builds-stages-jobs/">Conditional Builds, Stages, and Jobs - Travis CI</a> #ril</li>
+</ul>
+<h2 id="travisyml">.travis.yml ??<a class="headerlink" href="#travisyml" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/customizing-the-build/">Customizing the Build - Travis CI</a> #ril</li>
+<li><a href="https://docs.travis-ci.com/user/language-specific/">Language-specific Guides - Travis CI</a> #ril</li>
+<li><a href="https://docs.travis-ci.com/user/languages/community-supported-languages/">Community-Supported Languages - Travis CI</a> #ril</li>
+</ul>
+<h2 id="environment-variable">Environment Variable ??<a class="headerlink" href="#environment-variable" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/environment-variables">Environment Variables - Travis CI</a> #ril<ul>
+<li>環境變數是自訂 build process 常見的方式，只是該宣告在哪裡，會依資料本身的性質不同 &ndash; 敏感? or 每個 branch 不同?</li>
+<li>如果不含敏感資訊，且每個 branch 可能有不同的值，直接宣告在 <code>.travis.yml</code> 即可。</li>
+<li>如果含有敏感資訊，最好是由環境變數提供 (Repository Settings)，但如果每個 branch 有不同的值，就只能加進 <code>.travis.yml</code> 裡，但必須要加密過；沒有被解密的風險??</li>
+</ul>
+</li>
+<li><a href="https://docs.travis-ci.com/user/environment-variables#defining-encrypted-variables-in-travisyml">Defining encrypted variables in .travis.yml - Environment Variables - Travis CI</a> #ril</li>
+</ul>
+<h2 id="build-environment">Build Environment ??<a class="headerlink" href="#build-environment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/for-beginners/#infrastructure-and-environment-notes">Infrastructure and environment notes - Core Concepts for Beginners - Travis CI</a> 提供了一些 infrastructure environment 供選擇，大致分為 container-based、sudo-enabled 及 OS X：<ul>
+<li>Container-based (預設) - a Linux Ubuntu environment running in a container，啟動比 sudo-enable 還快，但可用的 resource 較少，也沒有 <code>sudo</code>、<code>setuid</code> 或 <code>setgid</code> 可用 ??</li>
+<li>Sudo-enabled - Linux Ubuntu environment runs on full virtual machine. 完整的 VM</li>
+<li>OS X - 提供不同版本的 OS X，適用於建構 OS X 的軟體；跟 iOS 無關??</li>
+</ul>
+</li>
+<li><a href="https://docs.travis-ci.com/user/reference/overview/">Build Environment Overview - Travis CI</a> 其實也有 Windows #ril</li>
+</ul>
+<h2 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.travis-ci.com/user/for-beginners/#infrastructure-and-environment-notes">Infrastructure and environment notes - Core Concepts for Beginners - Travis CI</a> 預設是 container-based。</p>
+</li>
+<li>
+<p><a href="https://docs.travis-ci.com/user/docker/">Using Docker in Builds - Travis CI</a></p>
+<ul>
+<li>
+<p>Travis CI builds can run and build Docker images, and can also push images to Docker repositories or other remote storage. To use Docker add the following settings to your <code>.travis.yml</code>: 這一點跟 GitLab CI 要加 <code>services: - docker:dind</code> 很像。</p>
+<pre><code>services:
+  - docker
+</code></pre>
+</li>
+<li>
+<p>以 <a href="https://github.com/travis-ci/docker-sinatra/blob/master/.travis.yml">example repository</a> 為例：</p>
+<pre><code>language: ruby
+
+services:
+  - docker
+
+before_install:
+- docker pull carlad/sinatra
+- docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
+- docker ps -a
+- docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
+
+script:
+- bundle exec rake test &lt;-- 執行在 container 外? 應該只是為了 demo，但實在沒什麼意思 XD
+</code></pre>
+<p>After specifying in the <code>.travis.yml</code> to use Docker (with <code>services: - docker</code>) and Ruby (with <code>language: ruby</code>) , the <code>before_install</code> build step pulls a Docker image from <code>carlad/sinatra</code> then runs <code>cd /root/sinatra; bundle exec foreman start;</code> 用 Docker 後，<code>language:</code> 是什麼並不重要；可以想成類 GitLab CI 的 <code>image:</code>，提供 build script 的執行環境</p>
+<p>This example repository runs two Docker containers built from the same image: 1) a Sinatra application 2) the Sinatra application test suite 看來是把 test code 也放進 image 了；不用對應的 <code>docker rm</code> 嗎??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.travis-ci.com/user/docker/#pushing-a-docker-image-to-a-registry">Pushing a Docker Image to a Registry - Using Docker in Builds - Travis CI</a> #ril</p>
+<ul>
+<li>To push an image to a Docker registry, one must first authenticate via <code>docker login</code>. The email, username, and password used for login should be stored in the repository settings environment variables</li>
+<li>Within your <code>.travis.yml</code> prior to attempting a <code>docker push</code> or perhaps before <code>docker pull</code> of a private image, e.g.: <code>echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin</code></li>
+<li>To push a particular branch of your repository to a remote registry, use the custom deploy section of your <code>.travis.yml</code>:<pre><code>deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="deployment">Deployment ??<a class="headerlink" href="#deployment" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://docs.travis-ci.com/user/deployment/">Deployment - Travis CI</a> 內建支援許多不同 service 的 (deployment) provider #ril</p>
+<ul>
+<li>
+<p>Uploading Files and <code>skip_cleanup</code> - When deploying files to a provider, prevent Travis CI from resetting your working directory and deleting all changes made during the build (<code>git stash --all</code>) by adding <code>skip_cleanup</code> to your <code>.travis.yml</code>: 用 <code>git stash --all</code> 來清 working directory 而非 <code>git clean</code></p>
+<pre><code>deploy:
+  skip_cleanup: true
+</code></pre>
+<p>曾遇過 Docker 產生的檔案刪不掉的問題 (<code>git stash --all</code> 會失敗)，使用 bind mount 時加上 <code>--user $(id -u)</code> 就可以避開這個問題。</p>
+</li>
+<li>
+<p>Deploying to Multiple Providers - Deploying to multiple providers is possible by adding the different providers to the <code>deploy</code> section AS A LIST. For example, if you want to deploy to both cloudControl and Heroku, your <code>deploy</code> section would look something like this:</p>
+<pre><code>deploy:
+  - provider: cloudcontrol
+    email: "YOUR CLOUDCONTROL EMAIL"
+    password: "YOUR CLOUDCONTROL PASSWORD"
+    deployment: "APP_NAME/DEP_NAME"
+  - provider: heroku
+    api_key: "YOUR HEROKU API KEY"
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.travis-ci.com/user/deployment/script/">Script deployment - Travis CI</a> 還是可以透過 script 自訂 #ril</p>
+</li>
+<li><a href="https://docs.travis-ci.com/user/uploading-artifacts/">Uploading Artifacts on Travis CI - Travis CI</a> 單純上傳 build artifact 到 S3 #ril</li>
+</ul>
+<h2 id="github-pages">GitHub Pages<a class="headerlink" href="#github-pages" title="Permanent link"> #</a></h2>
+<p>官方的範例完全沒提到 source 在哪? 是如何產生 website 的? 雖然 generator 各有不同，但整個 workflow 還是有些共通點，以 Hexo 產生 user/organization site 為例：</p>
+<p>(reop 專用於 website，且內容來自 <code>master</code> branch，假設 website source 放在 <code>source</code> branch)</p>
+<pre><code>language: node_js
+node_js: stable
+branches:
+  only:
+  - source                  # website source 所在的 branch
+cache:
+  directories:
+  - node_modules
+before_install:             # 安裝 generator
+- npm install -g hexo-cli
+install:
+- npm install
+script:                     # 產生 website
+- hexo generate
+deploy:                     # 上傳 website
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  skip-cleanup: true        # 保留上階段產生的 website
+  local-dir: public         # website 所在的目錄
+  target-branch: master     # 上傳到哪個 branch (同一 repo)
+  on:
+    branch: source          # website source 所在的 branch
+</code></pre>
+
+<p>若改用 MkDocs 產生 project site：</p>
+<p>(repo 混雜了 code 跟 website，內容來自 <code>gh-pages</code> branch，假設 website source 放在 <code>master</code> branch 的 <code>/docs</code> 下)</p>
+<pre><code>language: python
+branches:
+  only:
+  - master                  # website source 在 docs/ (master branch)
+before_install:
+- pip install mkdocs
+script:
+- mkdocs build
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+  skip-cleanup: true
+  local-dir: site           # MkDocs 的產出在 site/
+  target-branch: gh-pages   # project site 內容來自 gh-pages branch
+  on:
+    branch: master
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.travis-ci.com/user/deployment/pages/">GitHub Pages Deployment - Travis CI</a></p>
+<ul>
+<li>
+<p>provider <code>pages</code> 可以將 static files 推送到 GitHub Pages，需要提供 personal access token。例如：</p>
+<pre><code>deploy:
+  provider: pages
+  skip-cleanup: true           # 否則 script phrase 產生的檔案會被清掉
+  github-token: $GITHUB_TOKEN  # 由 Travis CI 的環境變數提供
+  keep-history: true           # 預設是 false，不會保留 target branch 的 history
+  on:
+    branch: master # 只有 master branch 才會觸發 deployment
+</code></pre>
+</li>
+<li>
+<p>Deploying to GitHub Pages uses <code>git push --force</code> to overwrite the history on the target branch (跟 <code>keep-history</code> 預設是 <code>false</code> 有關), so make sure you only deploy to a branch used for that specific purpose, such as <code>gh-pages</code>. 由於這個動作有危險性，要確保 <code>target-branch</code> (預設是 <code>gh-pages</code>) 真的是用來存放產出的結果。</p>
+</li>
+<li>Make sure you have <code>skip-cleanup</code> set to <code>true</code>, otherwise Travis CI will DELETE ALL THE FILES CREATED DURING THE BUILD, which will probably delete what you are trying to upload. 不太懂為什麼在 <code>deploy</code> phase 預設要重置 working directory?</li>
+<li><code>local-dir</code> &rarr; <code>repo</code> + <code>target-branch</code> (<code>keep-history</code>, <code>fqdn</code>)，這幾個 option 的關係可以讀做 &ldquo;將 <code>local-dir</code> 的內容上傳到 <code>repo</code> 的 <code>target-branch</code>&ldquo;。<ul>
+<li><code>local-dir</code> 預設是當前的目錄，可以用 absoulte/relative 表示；這會依 generator 不同，例如 MkDocs 慣用 <code>site</code>，而 Hexo 則慣用 <code>public</code>。</li>
+<li><code>repo</code> 預設是當前的 repo，通常不需要調整，因為不論是 user/organization 或 project site 都可以把 source 跟 generated HTML 存在同一個 repo 的不同 branch。</li>
+<li><code>target-branch</code> 預設是 <code>gh-pages</code>，這只適用於 project page，若是 user/organization site 的話，則要改用 <code>master</code>。</li>
+<li>另外可以用 <code>keep-history</code> 來控制要不要保留 <code>target-branch</code> 的 history，而 <code>fqdn</code> 大概是決定要不要在 <code>local-dir</code> 多放一支 <code>CNAME</code> 的檔案??</li>
+</ul>
+</li>
+<li><code>name</code> 跟 <code>email</code> 用來識別 commiter，預設分別是 <code>Deployment Bot</code> 與 <code>deploy@travis-ci.org</code>；若 <code>committer-from-gh</code> 設為 <code>true</code>，就會採用 personal access token 的 owner。</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/travis-ci/docs-travis-ci-com/issues/1091">What&rsquo;s the meaning of on: branch of GitHub Pages Deployment ? · Issue #1091 · travis-ci/docs-travis-ci-com</a></p>
+<ul>
+<li>danielo515: 範例提到 <code>deploy: on: branch: master</code> 的用法，但完全沒有解釋? 跟 target branch 無關 (因為下面有 <code>target-branch</code>)，但它跟 <code>branches: only:</code> 又是什麼關係?</li>
+<li>plaindocs: (contributor) <code>on:</code> 指的是 &ldquo;conditional deployment FROM the specific branch&rdquo;，在官方的文件有說明 (雖然沒有連結)，之後會修文件。</li>
+<li>plaindocs: When the build succeeds ON master, deployment happens. 這說法還滿容易懂的。</li>
+<li>markuszoeller: Skipping a deployment with the pages provider because this branch is not permitted: xxx</li>
+</ul>
+</li>
+<li><a href="https://github.com/travis-ci/travis-ci/issues/8289">Skipping deployment because this branch is not permitted · Issue #8289 · travis-ci/travis-ci</a> #ril</li>
+<li><a href="https://medium.com/angularmedellin/deploying-your-angular-app-to-github-pages-using-travis-ci-baca2e1c30e7">Deploying your Angular app to Github Pages using Travis-CI</a> (2018-06-05) #ril</li>
+</ul>
+<h2 id="notification">Notification ??<a class="headerlink" href="#notification" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/notifications/">Configuring Build Notifications - Travis CI</a> #ril</li>
+</ul>
+<h2 id="ios">iOS ??<a class="headerlink" href="#ios" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.objc.io/issues/6-build-tools/travis-ci/">Travis CI for iOS · objc.io</a> (2013-11) #ril</li>
+</ul>
+<h2 id="cli">CLI ??<a class="headerlink" href="#cli" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/travis-ci/travis.rb#readme">travis-ci/travis.rb: Travis CI Client (CLI and Ruby library)</a> #ril</li>
+</ul>
+<h2 id="troubleshooting">疑難排解<a class="headerlink" href="#troubleshooting" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.travis-ci.com/user/common-build-problems/">Common Build Problems - Travis CI</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://travis-ci.org/">Travis CI</a></li>
+<li><a href="https://blog.travis-ci.com/">Travis CI Blog</a></li>
+<li><a href="https://github.com/travis-ci">Travis CI - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://twitter.com/travisci">Travis CI (@travisci) | Twitter</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/travis-ci">&lsquo;travis-ci&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.travis-ci.com/">Travis CI User Documentation</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://changelog.travis-ci.com/">Travis CI Changelog</a></li>
+<li><a href="https://docs.travis-ci.com/user/languages/">Languages - Travis CI</a></li>
+<li><a href="https://docs.travis-ci.com/user/environment-variables#default-environment-variables">Default Environment Variables</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

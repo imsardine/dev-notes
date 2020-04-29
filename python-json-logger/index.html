@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-json-logger/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>python-json-logger - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-json-logger.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-json-logger">python-json-logger</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-json-logger">python-json-logger<a class="headerlink" href="#python-json-logger" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://github.com/madzak/python-json-logger">madzak/python-json-logger: Json Formatter for the standard python logger</a><ul>
+<li>This library is provided to allow standard python logging to output log data as json objects. With JSON we can make our logs more READABLE BY MACHINES and we can stop writing CUSTOM PARSERS for syslog type records.</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/madzak/python-json-logger/blob/v0.1.10/src/pythonjsonlogger/jsonlogger.py#L178">python-json-logger/jsonlogger.py at v0.1.10 · madzak/python-json-logger</a> 文件有點難懂，先爬過 <code>JsonFormatter.format()</code> 的原始碼會有幫助：</p>
+<pre><code>def __init__(self, *args, **kwargs):
+    ...
+    self._required_fields = self.parse()
+
+def format(self, record):
+    message_dict = {}
+    if isinstance(record.msg, dict): # (1)
+        message_dict = record.msg
+        record.message = None
+    else:
+        record.message = record.getMessage()
+    # only format time if needed
+    if "asctime" in self._required_fields: # (2)
+        record.asctime = self.formatTime(record, self.datefmt)
+
+    # Display formatted exception, but allow overriding it in the
+    # user-supplied dict.
+    if record.exc_info and not message_dict.get('exc_info'):
+        message_dict['exc_info'] = self.formatException(record.exc_info) # (3)
+    if not message_dict.get('exc_info') and record.exc_text:
+        message_dict['exc_info'] = record.exc_text
+
+    try:
+        log_record = OrderedDict()
+    except NameError:
+        log_record = {}
+
+    self.add_fields(log_record, record, message_dict)
+    log_record = self.process_log_record(log_record)
+
+    return "%s%s" % (self.prefix, self.jsonify_log_record(log_record))
+
+def add_fields(self, log_record, record, message_dict):
+    for field in self._required_fields:
+        log_record[field] = record.__dict__.get(field)
+    log_record.update(message_dict)
+    merge_record_extra(record, log_record, reserved=self._skip_fields)
+
+    if self.timestamp:
+        key = self.timestamp if type(self.timestamp) == str else 'timestamp'
+        log_record[key] = datetime.utcnow()
+</code></pre>
+<ol>
+<li>這代表 <code>debug(msg, *args)</code> 中的 <code>msg</code> 就用 <code>dict</code>，這用法很怪!? 如果同時間有其他 handler 就炸了。</li>
+<li><code>_required_fields</code> 從使用者提供的 format string 拆出來，例如 <code>'(asctime) (message)'</code> 會拆出 <code>['asctime', 'message']</code></li>
+<li>只呼叫 <code>formatException()</code>，沒有 Python 3 才有的 <code>formatStack()</code>，在 Python 3 下使用會有問題? 不過 <code>stack_info</code> 好像一直都沒東西??</li>
+</ol>
+</li>
+<li>
+<p><a href="https://github.com/madzak/python-json-logger#usage">Usage - madzak/python-json-logger: Json Formatter for the standard python logger</a> #ril</p>
+<p>Integrating with Python&rsquo;s logging framework</p>
+<ul>
+<li>
+<p>Json outputs are provided by the <code>JsonFormatter</code> logging formatter. You can add the custom formatter like below:</p>
+<p>Please note: version 0.1.0 has changed the import structure, please update to the following example for proper importing</p>
+<pre><code>import logging
+from pythonjsonlogger import jsonlogger
+
+logger = logging.getLogger() # 取得 root logger 自己安排 handler + formatter
+
+logHandler = logging.StreamHandler()
+formatter = jsonlogger.JsonFormatter()
+logHandler.setFormatter(formatter)
+logger.addHandler(logHandler)
+</code></pre>
+</li>
+</ul>
+<p>Customizing fields</p>
+<ul>
+<li>
+<p>The FMT PARSER can also be overidden if you want to have required fields that differ from the default of just message. These two invocations are equivalent:</p>
+<pre><code>class CustomJsonFormatter(jsonlogger.JsonFormatter):
+    def parse(self):
+        return self._fmt.split(';')
+
+formatter = CustomJsonFormatter('one;two')
+
+# is equivalent to:
+
+formatter = jsonlogger.JsonFormatter('(one) (two)')
+</code></pre>
+<p><a href="https://github.com/madzak/python-json-logger/blob/v0.1.10/src/pythonjsonlogger/jsonlogger.py#L77"><code>JsonFormatter</code> 也是繼承自 <code>logging.Formatter</code></a>，把 format string 參數拿來表示 &ldquo;要輸出哪些欄位&rdquo; (自訂語法)，所以才會有 &ldquo;fmt parser&rdquo; 這概念出現。</p>
+<p>話說回來，如果 <code>JsonFormatter('(one) (two)')</code> 就可以指定欄位，為何還有自訂 <code>JsonFormatter.parse()</code> 的需求?</p>
+</li>
+<li>
+<p>You can also add extra fields to your json output by specifying a dict IN PLACE OF MESSAGE??, as well as by specifying an <code>extra={}</code> argument.</p>
+<p>Contents of these dictionaries will be added at the ROOT LEVEL OF THE ENTRY?? and may override basic fields.</p>
+<p>看不懂，要先爬過 <code>JsonFormatter</code> 的原始碼??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/madzak/python-json-logger#installing">Installing - madzak/python-json-logger: Json Formatter for the standard python logger</a> #ril<ul>
+<li><code>pip install python-json-logger</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/madzak/python-json-logger">madzak/python-json-logger</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../python-logging/">Python Logging</a></li>
+<li><a href="../jsonlines/">JSON Lines</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

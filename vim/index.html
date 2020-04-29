@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/vim/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Vim (Vi IMproved) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/vim.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#vim-vi-improved">Vim (Vi IMproved)</a></li>
+            <li class="second-level"><a href="#distributions">發行版</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#editing">Editing</a></li>
+                
+            <li class="second-level"><a href="#buffer">Buffer</a></li>
+                
+            <li class="second-level"><a href="#window">Window</a></li>
+                
+            <li class="second-level"><a href="#tab-page">Tab Page</a></li>
+                
+            <li class="second-level"><a href="#bookmark-mark">Bookmark, Mark</a></li>
+                
+            <li class="second-level"><a href="#key-mapping">Key Mapping ??</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration ??</a></li>
+                
+            <li class="second-level"><a href="#line-wrapping">Line Wrapping</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="vim-vi-improved">Vim (Vi IMproved)<a class="headerlink" href="#vim-vi-improved" title="Permanent link"> #</a></h1>
+<h2 id="distributions">發行版<a class="headerlink" href="#distributions" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../neovim/">Neovim</a> - 威脅到 Vim 使其在 10 年後推出 Vim 8</li>
+<li><a href="https://spacevim.org/">SpaceVim</a></li>
+<li><a href="../spf13-vim/">spf13-vim</a> - 最後一個 commit (<code>1ce5f23</code>) 在 2016-02-14</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://hackernoon.com/modern-day-vim-ab4d3aa0cf6b">Modern Day Vim – Hacker Noon</a> (2018-09-09) History 提到為什麼 Neovim 會在 2014 冒出來，又為何會促使 Vim 在 10 年後推出 Vim 8 與 Neovim 應戰。</li>
+<li><a href="https://laravel-news.com/vim-8-0-is-released">Vim 8.0 is released - Laravel News</a> (2016-09-19) Vim 8 在 10 年後才出現 #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.vim.org/docs.php">Vim documentation : vim online</a></p>
+<ul>
+<li>
+<p>The most useful software is sometimes rendered useless by poor or altogether missing documentation. Vim refuses to succumb to death by underdocumentation. With a BOOK to extensive help files to a tips collection, all audiences should be pleased.</p>
+<p>按 <a href="https://iccf-holland.org/vim_books.html">the book &gt;&gt; 的連結</a>，市場上 Vim 相關書籍的數量不算少。</p>
+</li>
+</ul>
+<p>Help Files</p>
+<ul>
+<li>
+<p>Vim&rsquo;s online documentation system, accessible via the <code>:help</code> command, is an extensive CROSS-REFERENCED and hyperlinked reference. It&rsquo;s kept up-to-date with the software and can answer almost any question about Vim&rsquo;s functionality.</p>
+<p>An up-to-date version of the help, with hyperlinks, can be found on <a href="https://vimhelp.org/">vimhelp.org</a>. This is maintained by Carlo Teubner.</p>
+<p>下面 Vim FAQ 的連結指向 vimhelp.org，左側選單 the FAQ &gt;&gt; 的連結卻又指向 vimhelp.appspot.com，不過兩者的內容是一樣的；以前的文件確實有提到 appspot，應該是後來拿到 vimhelp.org 這個 domain 了。</p>
+</li>
+</ul>
+<p>Learning Vim playfully</p>
+<ul>
+<li>
+<p>Especially useful for absolute beginners who fear being bored by learning the basic commands: <a href="http://vim-adventures.com/">Vim Adventure</a> (用遊戲帶指令). Starts with teaching you h, j, k and l movement commands and practice them in an adventure style interactive play.</p>
+</li>
+<li>
+<p>Less playfull, but a bit faster to go through is the Vim tutor. See <code>:help tutor</code> inside Vim. (執行 <code>vimtutor</code> 直接在文件內操作)</p>
+</li>
+</ul>
+<p>The FAQ</p>
+<ul>
+<li>A manual is great for reference, but voluminous reference materials aren&rsquo;t always the easiest way to locate answers to your questions. We&rsquo;ve compiled a list of frequently asked questions, along with good answers. You can find the FAQ <a href="https://vimhelp.org/vim_faq.txt.html">here</a>. It comes from this <a href="https://github.com/chrisbra/vim_faq/">github project</a>. #ril</li>
+</ul>
+<p>Tips</p>
+<ul>
+<li>Finding an answer is even harder IF YOU DON&rsquo;T KNOW THAT YOU HAVE A QUESTION. The <a href="http://vim.wikia.com/wiki/Vim_Tips_Wiki">Vim tips collection</a> contains a seemingly endless supply of hints on making your vim use a more pleasant experience. The tips collection is also a great way to find quick hacks to perform common tasks.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/">Vim: help.txt</a></p>
+<p><code>:help</code> 會看到的畫面，直接說明一些基本的操作</p>
+<ul>
+<li>Move around: Use the cursor keys, or &ldquo;<code>h</code>&rdquo; to go left, &ldquo;<code>j</code>&rdquo; to go down, &ldquo;<code>k</code>&rdquo; to go up, &ldquo;<code>l</code>&rdquo; to go right.</li>
+<li>Close this window: Use &ldquo;<code>:q&lt;Enter&gt;</code>&rdquo;.</li>
+<li>
+<p>Get out of Vim: Use &ldquo;<code>:qa!&lt;Enter&gt;</code>&rdquo; (careful, all changes are lost!).</p>
+</li>
+<li>
+<p>Jump to a subject: Position the cursor on a TAG (e.g. bars) and hit <code>CTRL-]</code>.</p>
+<p>With the mouse: &ldquo;<code>:set mouse=a</code>&rdquo; to enable the mouse (in xterm or GUI). Double-click the left mouse button on a tag, e.g. bars.</p>
+<p>Jump back: Type <code>CTRL-O</code>. Repeat to go further back.</p>
+<p>為什麼回去不是按 <code>CTRL-[</code> 比較直覺？ 按 <code>CTRL-O</code> 的說，<code>O</code> 應該是 OLDER cursor position，比較容易記。</p>
+</li>
+<li>
+<p>Get specific help: It is possible to go directly to whatever you want help on, by giving an argument to the <code>:help</code> command. Prepend something to specify the context: <code>help-context</code></p>
+<ul>
+<li><code>:help x</code> - Normal mode command</li>
+<li><code>:help v_u</code> - Visual mode command (<code>v_</code>)</li>
+<li><code>:help i_&lt;Esc&gt;</code> - Insert mode command (<code>i_</code>)</li>
+<li><code>:help :quit</code> - Command-line command (<code>:</code>)</li>
+<li><code>:help c_&lt;Del&gt;</code> - Command-line editing (<code>c_</code>)</li>
+<li><code>:help -r</code> - Vim command argument (<code>-</code>)</li>
+<li><code>:help 'textwidth'</code> - Option</li>
+<li><code>:help /[</code> - regular expression</li>
+</ul>
+<p>See <code>help-summary</code> for more contexts and an explanation.</p>
+<p>例如在文件裡看到 <code>:r !ls</code> 不知道這是什麼用法，就可以用 <code>:help :r</code> 查詢。</p>
+<p>上面 <code>help-context</code> 以粉紅色表現，作用像是 HTML anchor，可以解讀為 <code>#help-context</code>，對應的連結則以綠色表現；平常可以用 <code>help help-text</code> 跳到那個地方。以這裡的 <code>help-summary</code> 為例，在它上面按 <code>CTRL-[</code> 效果跟 <code>:hlep help-summary</code> 一樣 (輸入 <code>help-summary</code> 的過程中，可以用 Tab 幫助完成)</p>
+</li>
+<li>
+<p>Search for help: Type &ldquo;<code>:help word</code>&rdquo;, then hit <code>CTRL-D</code> to see matching HELP ENTRIES for &ldquo;word&rdquo;.</p>
+<p>用 <code>CTRL-D</code> 會提示一些項目 (help entry)，按 Enter 會切換到第一個項目。例如 <code>:help map</code> 按 CTRL-D 會出現一長串的選項 (<code>:map</code>、<code>map()</code>, <code>'noaltkeymap'</code>, &hellip;) ，此時按 Enter 會切到第一項 <code>:map</code> 的文件，效果跟 <code>:help :map&lt;Enter&gt;</code> 的結果是一樣的。</p>
+<p>後來實驗發現，在 <code>:help map</code> 連續按 Tab，會依序提示不同的 help entry，跟 <code>CTRL-D</code> 清單的順序一樣。</p>
+<p>Or use &ldquo;<code>:helpgrep word</code>&rdquo;.</p>
+<p>符合一般對 grep 的期待，<code>:helpgrep</code> 找的不是 help entry，而是 help files 的內文；不知道如何切換到下一個搜尋結果 ??</p>
+</li>
+<li>
+<p>Getting started: Do the Vim tutor, a 20 minute interactive training for the basic commands, see <code>vimtutor</code>.</p>
+<p>Read the USER MANUAL from start to end: <code>usr_01.txt</code></p>
+</li>
+<li>
+<p>Vim stands for Vi IMproved. Most of Vim was made by Bram Moolenaar, but only through the help of many others.</p>
+</li>
+</ul>
+<p>Bars example</p>
+<ul>
+<li>
+<p>Now that you&rsquo;ve jumped here with <code>CTRL-]</code> or a double mouse click, you can use <code>CTRL-T</code>, <code>CTRL-O</code>, <code>g&lt;RightMouse&gt;</code>, or <code>&lt;C-RightMouse&gt;</code> to go back to where you were.</p>
+<p><code>&lt;RightMouse&gt;</code> 前的 <code>g</code> 跟 <code>C-</code> 要怎麼輸入 ??</p>
+</li>
+<li>
+<p>Note that tags are within <code>|</code> characters, but when highlighting is enabled these characters are hidden. That makes it easier to read a command.</p>
+<p>Anyway, you can use <code>CTRL-]</code> on any word, also when it is not within <code>|</code>, and Vim will try to find help for it. Especially for options in single quotes, e.g. <code>'compatible'</code>.</p>
+<p>像是自動把游標下的字做為 <code>:help</code> 的參數。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/usr_01.txt.html">About the manuals - Vim: usr_01.txt</a> #ril</p>
+</li>
+<li><a href="https://vimhelp.org/usr_02.txt.html">The first steps in Vim - Vim: usr_02.txt</a> #ril</li>
+</ul>
+<h2 id="editing">Editing<a class="headerlink" href="#editing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://vimhelp.org/usr_03.txt.html">Moving around - Vim: usr_03.txt</a> #ril</li>
+<li><a href="https://vimhelp.org/usr_04.txt.html">Making small changes - Vim: usr_04.txt</a> #ril</li>
+<li><a href="https://vimhelp.org/usr_10.txt.html">Making big changes - Vim: usr_10.txt</a> #ril</li>
+</ul>
+<h2 id="buffer">Buffer<a class="headerlink" href="#buffer" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://vimhelp.org/windows.txt.html">Editing with multiple windows and buffers. - Vim: windows.txt</a> #ril</p>
+</li>
+<li>
+<p><a href="http://www.miriamtocino.com/articles/vim-buffers-tabs-windows-and-modes">Miriam Tocino | Vim: Buffers, Tabs, Windows &amp; Modes</a> (2016-08-02) #ril</p>
+</li>
+</ul>
+<h2 id="window">Window<a class="headerlink" href="#window" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>split [&lt;FILENAME&gt;]</code> 或 <code>vsplit [&lt;FILENAME]</code> - 可以水平或垂直劃分；指分割線的走向，所以 <code>vsplit</code> 是左右分，<code>split</code> 是上下分。</li>
+<li><code>Ctrl-w Ctrl-w</code> - 循環切換</li>
+<li><code>Ctrl-w _</code> - 最大化目前的視窗</li>
+<li><code>Ctrl-w =</code> - 平均分配空間</li>
+<li><code>Ctrl-w &lt;ARROW&gt;</code> - 往特定方向切換視窗</li>
+<li><code>Ctrl-w r</code> - 轉動/調換視窗的位置</li>
+<li>調整視窗大小用 <code>:resize &lt;SIZE&gt;</code> 或 <code>:vertical resize &lt;SIZE&gt;</code>，其中 <code>SIZE</code></li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html">Splitting windows - Vim: usr_08.txt</a> #ril</p>
+<ul>
+<li>Display two different files above each other. Or view two locations in the file at the same time. See the difference between two files by putting them side by side. All this is possible with SPLIT WINDOWS.</li>
+</ul>
+<p>Split a window</p>
+<ul>
+<li>
+<p>The easiest way to open a new window is to use the following command:</p>
+<pre><code>:split
+</code></pre>
+</li>
+<li>
+<p>This command splits the screen into two windows and leaves the cursor in the TOP ONE:</p>
+<pre><code>+----------------------------------+
+|/* file one.c */                  |
+|~                                 |
+|~                                 |
+one.c=============================
+|/* file one.c */                  |
+|~                                 |
+one.c=============================
+|                                  |
++----------------------------------+
+</code></pre>
+<p>What you see here is two windows on the same file. The line with &ldquo;====&rdquo; is the STATUS LINE. It displays information about the window ABOVE IT. (In practice the status line will be in reverse video.)</p>
+<p>The two windows allow you to view two parts of the same file. For example, you could make the top window show the variable declarations of a program, and the bottom one the code that uses these variables.</p>
+</li>
+<li>
+<p>The <code>CTRL-W w</code> command can be used to jump between the windows. If you are in the top window, <code>CTRL-W w</code> jumps to the window below it. If you are in the bottom window it will jump to the first window. (<code>CTRL-W CTRL-W</code> does the same thing, in case you let go of the CTRL key a bit later.)</p>
+<p><code>CTRL-W w</code> 等同 <code>CTRL-W CTRL-W</code> 是特例 ??</p>
+</li>
+</ul>
+<p>Split a window &gt; CLOSE THE WINDOW</p>
+<ul>
+<li>
+<p>To close a window, use the command:</p>
+<pre><code>:close
+</code></pre>
+</li>
+<li>
+<p>Actually, any command that quits editing a file works, like &ldquo;<code>:quit</code>&rdquo; and &ldquo;<code>ZZ</code>&rdquo;. But &ldquo;<code>:close</code>&rdquo; prevents you from accidentally exiting Vim when you close the last window.</p>
+</li>
+</ul>
+<p>Split a window &gt; CLOSING ALL OTHER WINDOWS</p>
+<ul>
+<li>
+<p>If you have opened a whole bunch of windows, but now want to concentrate on ONE OF THEM, this command will be useful:</p>
+<pre><code>:only
+</code></pre>
+<p>This closes all windows, EXCEPT FOR THE CURRENT ONE. If any of the other windows has changes, you will get an error message and that window won&rsquo;t be closed.</p>
+</li>
+</ul>
+<p>Split a window on another file</p>
+<ul>
+<li>
+<p>The following command opens a second window and starts editing the given file:</p>
+<p>:split two.c</p>
+</li>
+<li>
+<p>If you were editing <code>one.c</code>, then the result looks like this:</p>
+<pre><code>+----------------------------------+
+|/* file two.c */                  |
+|~                                 |
+|~                                 |
+two.c=============================
+|/* file one.c */                  |
+|~                                 |
+one.c=============================
+|                                  |
++----------------------------------+
+</code></pre>
+</li>
+<li>
+<p>To open a window on a new, empty file, use this:</p>
+<pre><code>:new
+</code></pre>
+</li>
+<li>
+<p>You can repeat the &ldquo;:split&rdquo; and &ldquo;:new&rdquo; commands to create as many windows as you like.</p>
+<p>實驗發現 <code>new</code> 跟 <code>:split FILE</code> 的用法，window 都會開在上面；可見 <code>:split</code> (切割自己) 的行為並非特例，因為另一個視窗也是開在上面，只是 cursor 總會移到新 window，會產生 window 開在下面的錯覺。</p>
+<p>下面 Vertical splits 有明確提到 &ldquo;the new window above the current one&rdquo;，事實這跟 <code>'splitbelow'</code> option (預設 off)，啟用後就會開在下面。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.3">Window size - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>The &ldquo;<code>:split</code>&rdquo; command can take a number argument. If specified, this will be the HEIGHT OF THE NEW WINDOW. For example, the following opens a new window three lines high and starts editing the file alpha.c:</p>
+<pre><code>:3split alpha.c
+</code></pre>
+<p>注意這個 argument 是放在前面。</p>
+</li>
+<li>
+<p>For existing windows you can change the size in several ways. When you have a working mouse, it is easy: Move the mouse pointer to the status line that separates two windows, and drag it up or down.</p>
+<p>儘量少用這種方法，習慣 mouseless 比較好；但就調整視窗這件事而言，mouse 好像比較快?</p>
+</li>
+<li>
+<p>To increase the size of a window: <code>CTRL-W +</code></p>
+<p>To decrease it: <code>CTRL-W -</code></p>
+<p>Both of these commands take a count and increase or decrease the window size by that many lines. Thus &ldquo;4 CTRL-W +&rdquo; make the window four lines higher.</p>
+<p>一樣數字放前面，但數字是增/減多少行數。</p>
+</li>
+<li>
+<p>To set the window height to a specified number of lines: <code>{height}CTRL-W _</code></p>
+<p>兩位數也沒問題，例如 <code>25CTRL-W _</code> 可以將高度調成 25 行。</p>
+</li>
+<li>
+<p>To make a window as high as it can be, use the <code>CTRL-W _</code> command without a count.</p>
+<p>其他 window 只會佔 2 行 &ndash; 內容 + status line。</p>
+</li>
+</ul>
+<p>USING THE MOUSE</p>
+<ul>
+<li>
+<p>In Vim you can do many things very quickly from the keyboard. Unfortunately, the window resizing commands require quite a bit of typing. In this case, using the mouse is FASTER.</p>
+<p>Position the mouse pointer on a status line. Now press the left mouse button and drag. The status line will move, thus making the window on one side higher and the other smaller.</p>
+</li>
+</ul>
+<p>OPTIONS</p>
+<ul>
+<li>
+<p>The <code>'winheight'</code> option can be set to a minimal DESIRED height of a window and <code>'winminheight'</code> to a HARD minimum height.</p>
+<p>什麼時候會用到 desired/hard height ??</p>
+</li>
+<li>
+<p>Likewise, there is <code>'winwidth'</code> for the minimal desired width and <code>'winminwidth'</code> for the hard minimum width.</p>
+</li>
+<li>
+<p>The <code>'equalalways'</code> option, when set, makes Vim equalize the windows sizes when a window is closed or opened.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.4">Vertical splits - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>The &ldquo;<code>:split</code>&rdquo; command creates the new window ABOVE the current one. To make the window appear at the left side, use:</p>
+<pre><code>:vsplit
+</code></pre>
+<p>or:</p>
+<pre><code>:vsplit two.c
+</code></pre>
+<p>The result looks something like this:</p>
+<pre><code>+--------------------------------------+
+|/* file two.c */   |/* file one.c */  |
+|~                  |~                 |
+|~                  |~                 |
+|~                  |~                 |
+two.c===============one.c=============
+|                                      |
++--------------------------------------+
+</code></pre>
+<p>Actually, the <code>|</code> lines in the middle will be in reverse video. This is called the VERTICAL SEPARATOR. It separates the two windows left and right of it.</p>
+</li>
+<li>
+<p>There is also the &ldquo;<code>:vnew</code>&rdquo; command, to open a vertically split window on a new, empty file. Another way to do this:</p>
+<pre><code>:vertical new
+</code></pre>
+<p>The &ldquo;<code>:vertical</code>&rdquo; command can be inserted before another command that splits a window. This will cause that command to split the window vertically instead of horizontally. (If the command doesn&rsquo;t split a window, it works UNMODIFIED.)</p>
+<p>這跟下面 Various 提到的 <code>:leftabove</code>、<code>rightbelow</code> &hellip; 等控制新視窗要開在哪個位置的 modifier command 很像。</p>
+</li>
+</ul>
+<p>MOVING BETWEEN WINDOWS</p>
+<ul>
+<li>
+<p>Since you can split windows horizontally and vertically as much as you like, you can create almost any layout of windows. Then you can use these commands to move between them:</p>
+<ul>
+<li>
+<p>`CTRL-W h/j/k/l - move to the window on the left/below/above/right</p>
+<p>發現 <code>CTRL-W</code> 加方向鍵也可以，不過 <code>hjkl</code> 不用大幅移動手指會比較快。</p>
+</li>
+<li>
+<p><code>CTRL-W t</code> - move to the TOP window</p>
+</li>
+<li><code>CTRL-W b</code> - move to the BOTTOM window</li>
+</ul>
+<p>You will notice the same letters as used for moving the cursor. And the cursor keys can also be used, if you like.</p>
+<p>事實上，<code>CTRL-W</code> 後面還有許多變化，例如 <code>CTRL-W f</code> 會開窗編輯 cursor 下的檔案。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.5">Moving windows - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>You have split a few windows, but now they are in the wrong place. Then you need a command to move the window somewhere else. For example, you have three windows like this:</p>
+<pre><code>+----------------------------------+
+|/* file two.c */                  |
+|~                                 |
+|~                                 |
+two.c=============================
+|/* file three.c */                |
+|~                                 |
+|~                                 |
+three.c===========================
+|/* file one.c */                  |
+|~                                 |
+one.c=============================
+|                                  |
++----------------------------------+
+</code></pre>
+<p>Clearly the last one should be at the top. Go to that window (using <code>CTRL-W w</code>) and the type this command:</p>
+<pre><code>CTRL-W K
+</code></pre>
+<p>This uses the uppercase letter <code>K</code>. What happens is that the window is moved to the VERY TOP. You will notice that <code>K</code> is again used for moving upwards.</p>
+<p>注意是大寫的 <code>K</code>，因為 <code>CTRL-W k</code> 移動的是 cursor 而非 window 本身。</p>
+</li>
+<li>
+<p>When you have vertical splits, <code>CTRL-W K</code> will move the current window to the top and make it occupy the FULL WIDTH of the Vim window. If this is your layout:</p>
+<pre><code>+-------------------------------------------+
+|/* two.c */  |/* three.c */  |/* one.c */  |
+|~            |~              |~            |
+|~            |~              |~            |
+|~            |~              |~            |
+|~            |~              |~            |
+|~            |~              |~            |
+two.c=========three.c=========one.c========
+|                                           |
++-------------------------------------------+
+</code></pre>
+<p>Then using <code>CTRL-W K</code> in the middle window (<code>three.c</code>) will result in:</p>
+<pre><code>+-------------------------------------------+
+|/* three.c */                              |
+|~                                          |
+|~                                          |
+three.c====================================
+|/* two.c */           |/* one.c */         |
+|~                     |~                   |
+two.c==================one.c===============
+|                                           |
++-------------------------------------------+
+</code></pre>
+<p>這才符合上面 very top 的說法，所以下面的 <code>CTRL-W H</code> 也是移到 very left!!</p>
+</li>
+<li>
+<p>The other three similar commands (you can probably guess these now):</p>
+<ul>
+<li><code>CTRL-W H</code> - move window to the far left</li>
+<li><code>CTRL-W J</code> - move window to the bottom</li>
+<li><code>CTRL-W L</code> - move window to the far right</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.6">Commands for all windows - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>When you have several windows open and you want to quit Vim, you can close each window separately. A quicker way is using this command:</p>
+<pre><code>:qall
+</code></pre>
+<p>This stands for &ldquo;quit all&rdquo;. If any of the windows contain changes, Vim will not exit. The cursor will automatically be positioned in a window with changes. You can then either use &ldquo;<code>:write</code>&rdquo; to save the changes, or &ldquo;<code>:quit!</code>&rdquo; to throw them away.</p>
+</li>
+<li>
+<p>If you know there are windows with changes, and you want to save all these changes, use this command:</p>
+<pre><code>:wall
+</code></pre>
+<p>This stands for &ldquo;write all&rdquo;. But actually, it ONLY WRITES FILES WITH CHANGES. Vim knows it doesn&rsquo;t make sense to write files that were not changed.</p>
+</li>
+<li>
+<p>And then there is the combination of &ldquo;<code>:qall</code>&rdquo; and &ldquo;<code>:wall</code>&rdquo;: the &ldquo;write and quit all&rdquo; command:</p>
+<pre><code>:wqall
+</code></pre>
+<p>This writes all modified files and quits Vim.</p>
+</li>
+<li>
+<p>Finally, there is a command that quits Vim and throws away all changes:</p>
+<pre><code>:qall!
+</code></pre>
+<p>Be careful, there is no way to undo this command!</p>
+</li>
+</ul>
+<p>OPENING A WINDOW FOR ALL ARGUMENTS</p>
+<ul>
+<li>
+<p>To make Vim open a window for each file, start it with the &ldquo;<code>-o</code>&rdquo; argument:</p>
+<pre><code>vim -o one.txt two.txt three.txt
+</code></pre>
+<p>This results in:</p>
+<pre><code>+-------------------------------+
+|file one.txt                   |
+|~                              |
+one.txt========================
+|file two.txt                   |
+|~                              |
+two.txt========================
+|file three.txt                 |
+|~                              |
+three.txt======================
+|                               |
++-------------------------------+
+</code></pre>
+<p>The &ldquo;<code>-O</code>&rdquo; argument is used to get VERTICALLY split windows.</p>
+</li>
+<li>
+<p>When Vim is already running, the &ldquo;<code>:all</code>&rdquo; command opens a window for each file in the argument list. &ldquo;<code>:vertical all</code>&rdquo; does it with vertical splits.</p>
+<p>這要從 <code>vim one.txt two.txt three.txt</code> (沒有加 <code>-o</code> 或 <code>-O</code>) 的用法說起，一開始只會看到 <code>one.txt</code>，透過 <code>:next</code> 才能編輯其他檔案；如果一開始忘了加 <code>-o</code>/<code>-O</code>，或是中間關閉了一些檔案，都可以用 <code>:all</code> 或 <code>:vertical all</code> 全部叫回來。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.8">Various - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>The <code>'laststatus'</code> option can be used to specify when the last window has a statusline:</p>
+<ul>
+<li><code>0</code> - never</li>
+<li><code>1</code> - only when there are split windows (the default)</li>
+<li><code>2</code> -always</li>
+</ul>
+<p>為什麼針對 last window? 因為中間的 status line 同時要做為分隔線? 最下面的 window 沒有 status line 看起來很怪。</p>
+</li>
+<li>
+<p>Many commands that edit another file have a variant that splits the window.</p>
+<p>For Command-line commands this is done by prepending an &ldquo;<code>s</code>&rdquo;. For example: &ldquo;<code>:tag</code>&rdquo; jumps to a tag, &ldquo;<code>:stag</code>&rdquo; splits the window and jumps to a tag.</p>
+<p>For Normal mode commands a <code>CTRL-W</code> is prepended. <code>CTRL-^</code> jumps to the alternate file, <code>CTRL-W CTRL-^</code> splits the window and edits the alternate file.</p>
+<p>按 <code>CTRL-^</code> 的文件，alternate file 指的是 &ldquo;previously edited file&rdquo;；實驗發現，按 <code>CTRL-6</code> 同 <code>CTRL-^</code>，是特例 ??</p>
+</li>
+<li>
+<p>The &lsquo;splitbelow&rsquo; option can be set to make a new window appear below the current window. The &lsquo;splitright&rsquo; option can be set to make a vertically split window appear right of the current window.</p>
+<p>When splitting a window you can prepend a modifier command to tell where the window is to appear:</p>
+<ul>
+<li><code>:leftabove {cmd}</code> - left or above the current window</li>
+<li><code>:aboveleft {cmd}</code> - idem</li>
+<li><code>:rightbelow {cmd}</code> - right or below the current window</li>
+<li><code>:belowright {cmd}</code> - idem</li>
+<li>
+<p><code>:topleft {cmd}</code> - at the top or left of the Vim window</p>
+</li>
+<li>
+<p><code>:botright {cmd}</code> - at the bottom or right of the Vim window</p>
+<p>突然用了 bottom 的縮寫 bot。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="tab-page">Tab Page<a class="headerlink" href="#tab-page" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>CTRL-W T</code> 可以將目前的 window 轉成 tab page。</li>
+<li>如何調換 tab 的位置? =&gt; <a href="http://stackoverflow.com/questions/11295248/">http://stackoverflow.com/questions/11295248/</a> 用 <code>:tabmove [INDEX]</code>，其中 <code>INDEX</code> 是指要安插的位置，0 表示最前面，不給 <code>INDEX</code> 表示最後面。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://vimhelp.org/usr_08.txt.html#08.9">Tab pages - Vim: usr_08.txt</a></p>
+<ul>
+<li>
+<p>You will have noticed that windows never overlap. That means you quickly RUN OUT OF SCREEN SPACE. The solution for this is called TAB PAGES.</p>
+</li>
+<li>
+<p>Assume you are editing &ldquo;<code>thisfile</code>&rdquo;. To create a new tab page use this command:</p>
+<pre><code>:tabedit thatfile
+</code></pre>
+<p>This will edit the file &ldquo;<code>thatfile</code>&rdquo; in a window that occupies the whole Vim window. And you will notice a BAR AT THE TOP with the two file names:</p>
+<pre><code>+----------------------------------+
+| thisfile | /thatfile/ __________X|    (thatfile is bold)
+|/* thatfile */                    |
+|that                              |
+|that                              |
+|~                                 |
+|~                                 |
+|~                                 |
+|                                  |
++----------------------------------+
+</code></pre>
+<p>You now have two tab pages. The first one has a window for &ldquo;<code>thisfile</code>&rdquo; and the second one a window for &ldquo;<code>thatfile</code>&rdquo;. It&rsquo;s like TWO PAGES THAT ARE ON TOP OF EACH OTHER, with a tab sticking out of each page showing the file name.</p>
+</li>
+<li>
+<p>Now use the mouse to click on &ldquo;<code>thisfile</code>&rdquo; in the top line. The result is</p>
+<pre><code>+----------------------------------+
+| /thisfile/ | thatfile __________X|    (thisfile is bold)
+|/* thisfile */                    |
+|this                              |
+|this                              |
+|~                                 |
+|~                                 |
+|~                                 |
+|                                  |
++----------------------------------+
+</code></pre>
+<p>Thus you can switch between tab pages by clicking on the label in the top line. If you don&rsquo;t have a mouse or don&rsquo;t want to use it, you can use the &ldquo;<code>gt</code>&rdquo; command. Mnemonic: Goto Tab.</p>
+</li>
+<li>
+<p>Now let&rsquo;s create another tab page with the command:</p>
+<p>:tab split</p>
+<p>This makes a new tab page with one window that is editing the same buffer as the window we were in:</p>
+<pre><code>+-------------------------------------+
+| thisfile | /thisfile/ | thatfile __X|   (thisfile is bold)
+|/* thisfile */                       |
+|this                                 |
+|this                                 |
+|~                                    |
+|~                                    |
+|~                                    |
+|                                     |
++-------------------------------------+
+</code></pre>
+<p>You can put &ldquo;<code>:tab</code>&rdquo; before any Ex command that opens a window. The window will be opened in a new tab page. Another example:</p>
+<pre><code>:tab help gt
+</code></pre>
+<p>Will show the help text for &ldquo;<code>gt</code>&rdquo; in a new tab page.</p>
+<p>要如何分辨 Ex command ??</p>
+</li>
+<li>
+<p>A few more things you can do with tab pages:</p>
+<ul>
+<li>
+<p>click with the mouse in the space after the last label. The next tab page will be selected, like with &ldquo;<code>gt</code>&rdquo;.</p>
+</li>
+<li>
+<p>click with the mouse on the &ldquo;X&rdquo; in the top right corner. The current tab page will be closed. Unless there are unsaved changes in the current tab page.</p>
+</li>
+<li>
+<p>double click with the mouse in the top line. A new tab page will be created.</p>
+</li>
+<li>
+<p>the &ldquo;<code>tabonly</code>&rdquo; command. Closes all tab pages except the current one. Unless there are unsaved changes in other tab pages.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>For more information about tab pages see <code>tab-page</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/1758301/">vim - How do I move an existing window to a new tab? - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Is there a way to take an existing window (split) and put it into a new tab?</p>
+<p>DrAl: As well as the previously suggested <code>:tabedit</code> approach, a quicker way of doing it is (in normal mode) to hit <code>Ctrl-W Shift-T</code>. <code>Ctrl-W</code> is the general prefix for a wide variety of window manipulation commands.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/tabpage.txt.html">Vim: tabpage.txt</a> #ril</p>
+</li>
+</ul>
+<h2 id="bookmark-mark">Bookmark, Mark<a class="headerlink" href="#bookmark-mark" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://vimhelp.org/usr_03.txt.html#03.10">Using marks - Vim: usr_03.txt</a> #ril</li>
+</ul>
+<h2 id="key-mapping">Key Mapping ??<a class="headerlink" href="#key-mapping" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/03.html">Basic Mapping / Learn Vimscript the Hard Way</a> #ril</li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/04.html">Modal Mapping / Learn Vimscript the Hard Way</a> #ril</li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/05.html">Strict Mapping / Learn Vimscript the Hard Way</a> #ril</li>
+</ul>
+<h2 id="configuration">Configuration ??<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://vim-bootstrap.com/">Vim Bootstrap</a> 產生 <code>.vimrc</code> #ril</li>
+<li><a href="https://github.com/amix/vimrc">amix/vimrc: The ultimate Vim configuration: vimrc</a> #ril</li>
+<li><a href="https://github.com/square/maximum-awesome">square/maximum-awesome: Config files for vim and tmux.</a> #ril</li>
+</ul>
+<h2 id="line-wrapping">Line Wrapping<a class="headerlink" href="#line-wrapping" title="Permanent link"> #</a></h2>
+<p>若撰寫 Markdown 時有依循 <a href="https://github.github.com/gfm/#motivation">four-space rule</a>，搭配下面的組態，會讓你的 Markdown 維持可讀性，編輯被折行的內容也很方便：</p>
+<pre><code>set linebreak
+set breakindent
+set breakindentopt=shift:2
+nmap &lt;up&gt; gk
+nmap &lt;down&gt; gj
+</code></pre>
+
+<p>用起來像這個樣子：</p>
+<pre><code>⎵⎵⎵⎵
+  - Line 1 ...      &lt;-- 內文內縮 4 格 (不含項目符號)
+    Line 1 (cont.)  &lt;-- 折行進一步內縮與內文對齊；用方向鍵上下移動
+⎵⎵⎵⎵⎵⎵⎵⎵
+        Indented code block  &lt;-- 程式碼區塊再內縮 4 格
+        ...
+⎵⎵⎵⎵
+    With multiple paragraphs &lt;-- 清單的內文與項目的內文對齊
+</code></pre>
+
+<p>不過有點兩難的是，加了 <code>linebreak</code> 會讓連續的中文字找不到斷點，但不加 <code>linebreak</code> 又會讓一個英文單字被斷在中間 ??</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="http://vimhelp.appspot.com/options.txt.html#%27linebreak%27">linebreak - Vim: options.txt</a></p>
+<ul>
+<li>
+<p><code>linebreak</code> <code>lbr</code> - boolean (default off), local to window.</p>
+</li>
+<li>
+<p>If on, Vim will wrap long lines at a character in <code>breakat</code> rather than at the last character that fits on the screen.</p>
+<p>Unlike <code>wrapmargin</code> and <code>textwidth</code>, this does not insert <code>&lt;EOL&gt;</code>s in the file, it only affects the WAY THE FILE IS DISPLAYED, not its contents.</p>
+<p>If <code>breakindent</code> is set, line is VISUALLY INDENTED. Then, the value of <code>showbreak</code> is used to put in front of wrapped lines. This option is not used when the <code>wrap</code> option is off.</p>
+<p>在視窗邊界處折行，搭配 <code>breakindent</code> 可以讓拆行跟行首對齊。雖然 <code>showbreak</code> 可以在拆行前安插一些字元，但 <code>breakindentopt</code> 可以進一步讓折行內縮，效果會更好。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://vimhelp.org/options.txt.html#%27breakat%27">breakat - Vim: options.txt</a></p>
+<ul>
+<li>
+<p><code>breakat</code> <code>brk</code> - string  (default <code>" ^I!@*-+;:,./?"</code>), global, not available when compiled without the <code>+linebreak</code> feature</p>
+</li>
+<li>
+<p>This option lets you choose which characters might cause a line break if <code>linebreak</code> is on. Only works for ASCII and also for 8-bit characters when &lsquo;encoding&rsquo; is an 8-bit encoding.</p>
+<p>難怪中文字不會斷；上面 &ldquo;only works for ASCII &hellip;&rdquo; 的說法似乎只針對 8-bit encoding ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/9713967/">how can i intuitively move cursor in vim?(not by line) - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Greg Hewgill: In Vim, the gj and gk commands move by line on the screen rather than by line in the file. 可以考慮重新對應 <code>j</code>、<code>k</code>:</p>
+<pre><code>:map j gj
+:map k gk
+</code></pre>
+</li>
+<li>
+<p>Rook: Normally, <code>k</code> and <code>j</code> move you up and down. If you want to navigate wrapped lines use <code>gk</code> or <code>gj</code>, or just as some like it, map it to for example, the cursor keys. 若平常就習慣用方向鍵，這個設定更直覺了!!</p>
+<pre><code>nmap &lt;up&gt; gk
+nmap &lt;down&gt; gj
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/neovim/neovim/pull/7850">[RFC] vim-patch:8.0.0380,8.0.0381,8.0.0385,8.0.0389,8.0.0391,8.0.0406 by ckelsel · Pull Request #7850 · neovim/neovim</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.vim.org/">vim.org</a></li>
+<li><a href="https://github.com/vim/vim">vim/vim - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://vi.stackexchange.com/">Vi and Vim Stack Exchange</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://vimhelp.org/">Vim Help</a> - 同 <code>:help</code> 的內容</li>
+<li><a href="https://vimhelp.org/usr_toc.txt.html">User Manual</a></li>
+<li><a href="https://vimhelp.org/vim_faq.txt.html">FAQ</a></li>
+</ul>
+<p>書籍：</p>
+<ul>
+<li><a href="https://pragprog.com/book/modvim/modern-vim">Modern Vim: Craft Your Development Environment with Vim 8 and Neovim - The Pragmatic</a> (2018-05)</li>
+<li><a href="https://pragprog.com/book/dnvim2/practical-vim-second-edition">Practical Vim, Second Edition: Edit Text at the Speed of Thought - The Pragmatic</a> (2015-10)</li>
+<li><a href="https://www.apress.com/gp/book/9781484202517">Pro Vim - Apress</a> (2014-12)</li>
+<li><a href="https://www.packtpub.com/application-development/hacking-vim-72">Hacking Vim 7.2 - Packt</a> (2010-04)</li>
+<li><a href="http://shop.oreilly.com/product/9780596529833.do">Learning the vi and Vim Editors, 7<sup>th</sup> Edition - O&rsquo;Reilly</a> (2009-06)</li>
+</ul>
+<p>學習資源：</p>
+<ul>
+<li><a href="http://vim.wikia.com/wiki/Vim_Tips_Wiki">Vim Tips Wiki</a></li>
+<li><a href="https://vim-adventures.com/">VIM Adventures</a> - 遊戲中學習</li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../vim-visual/">Visual Mode</a></li>
+<li><a href="../vim-diff/">Diff</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://vimhelp.org/quickref.txt.html">Vim: quickref.txt</a></li>
+<li><a href="http://vimhelp.org/map.txt.html">Vim: map.txt</a> - Key mapping</li>
+<li><a href="http://vimhelp.org/options.txt.html">Vim: options.txt</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

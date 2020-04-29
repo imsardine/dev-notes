@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/di/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dependency Injection (DI) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/di.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dependency-injection-di">Dependency Injection (DI)</a></li>
+            <li class="second-level"><a href="#di-ioc">DI 與 IoC 的差別??</a></li>
+                
+            <li class="second-level"><a href="#setter-injection">Setter injection 有什麼不好??</a></li>
+                
+            <li class="second-level"><a href="#user-injection">代表目前使用者的 User 適合用 injection 注入嗎??</a></li>
+                
+            <li class="second-level"><a href="#assisted-injection">Assisted Injection</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dependency-injection-di">Dependency Injection (DI)<a class="headerlink" href="#dependency-injection-di" title="Permanent link"> #</a></h1>
+<ul>
+<li>To “new” or not to “new”… (2008-09-30) <a href="http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/">http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/</a> 區分 injectable 跟 newable，遵守 injectable 不透過 constructor 要求 newable，或是 newable 不透過 constructor 要求 injectable，就可以讓程式好測試</li>
+<li>When to inject: the distinction between newables and injectables - Invisible to the eye (2009-07-29) <a href="http://www.giorgiosironi.com/2009/07/when-to-inject-distinction-between.html">http://www.giorgiosironi.com/2009/07/when-to-inject-distinction-between.html</a> 有看過 <code>Mail</code> 會自己送信的嗎? 就算透過 factory 成功將 <code>MailService</code> 注入，還是會有一些問題，其中 serialization/deserialization 的觀點尤其特別；因為 entity 因為 stateful 所以是 newable，而 service 因為 stateless 所以是 injectable，掌握 &ldquo;service 可以相依 entity，但反過來不行&rdquo; 的原則，從 <code>$mail = new Mail($this._service, $title, $text); $mail-&gt;send();</code> 演變成 <code>$mail = new Mail($title, $text); $this-&gt;_service-&gt;send($mail);</code></li>
+<li>Never write the same code twice: Dependency Injection - Invisible to the eye (2009-07-28) <a href="http://www.giorgiosironi.com/2009/07/never-write-same-code-twice-dependency.html">http://www.giorgiosironi.com/2009/07/never-write-same-code-twice-dependency.html</a> #ril</li>
+<li>Domain-Driven Design and Spring <a href="http://static.olivergierke.de/lectures/ddd-and-spring/#ddd.spring">http://static.olivergierke.de/lectures/ddd-and-spring/#ddd.spring</a> 提到 entity 跟 value object 都是 newable。</li>
+<li>Breaking the Law of Demeter is Like Looking for a Needle in the Haystack (2008-07-18) <a href="http://misko.hevery.com/2008/07/18/breaking-the-law-of-demeter-is-like-looking-for-a-needle-in-the-haystack/">http://misko.hevery.com/2008/07/18/breaking-the-law-of-demeter-is-like-looking-for-a-needle-in-the-haystack/</a> 注入 A，再從 A 取得 B 是不好的 #ril</li>
+<li>Inversion of Control Containers and the Dependency Injection pattern <a href="https://www.martinfowler.com/articles/injection.html">https://www.martinfowler.com/articles/injection.html</a> DI 的 Class Diagram #ril</li>
+<li>Dependency Injection Myth: Reference Passing (2008-10-21) <a href="http://misko.hevery.com/2008/10/21/dependency-injection-myth-reference-passing/">http://misko.hevery.com/2008/10/21/dependency-injection-myth-reference-passing/</a> 只要求自己會用到的 dependency，若是要求 A 再拿到 B，應該要直接要求 B；但 injectable factory 是個例外嗎?? #ril</li>
+<li>Application Wiring on Auto-Pilot (2008-09-24) <a href="http://misko.hevery.com/2008/09/24/application-wiring-on-auto-pilot/">http://misko.hevery.com/2008/09/24/application-wiring-on-auto-pilot/</a> #ril</li>
+<li>
+<p>Dagger ‡ A fast dependency injector for Android and Java. <a href="https://google.github.io/dagger/android.html">https://google.github.io/dagger/android.html</a> 提到 &ldquo;a class shouldn’t know anything about how it isinjected&rdquo; 的原則?? #ril</p>
+</li>
+<li>
+<p>Dependency injection - Wikipedia <a href="https://en.wikipedia.org/wiki/Dependency_injection">https://en.wikipedia.org/wiki/Dependency_injection</a> #ril</p>
+</li>
+<li>
+<p>Understanding Dependencies <a href="http://tutorials.jenkov.com/ood/understanding-dependencies.html">http://tutorials.jenkov.com/ood/understanding-dependencies.html</a> #ril</p>
+</li>
+<li>
+<p>Circular Dependency in constructors and Dependency Injection <a href="http://misko.hevery.com/2008/08/01/circular-dependency-in-constructors-and-dependency-injection/">http://misko.hevery.com/2008/08/01/circular-dependency-in-constructors-and-dependency-injection/</a> #ril</p>
+</li>
+</ul>
+<h2 id="di-ioc">DI 與 IoC 的差別??<a class="headerlink" href="#di-ioc" title="Permanent link"> #</a></h2>
+<ul>
+<li>Dependency Injection (DI) vs. Inversion of Control (IOC) - CodeProject <a href="https://www.codeproject.com/Articles/592372/Dependency-Injection-DI-vs-Inversion-of-Control-IO">https://www.codeproject.com/Articles/592372/Dependency-Injection-DI-vs-Inversion-of-Control-IO</a> 提到 DI 是 IoC 的子集 (subtype) #ril</li>
+</ul>
+<h2 id="setter-injection">Setter injection 有什麼不好??<a class="headerlink" href="#setter-injection" title="Permanent link"> #</a></h2>
+<ul>
+<li>Constructor Injection vs. Setter Injection (2009-02-19) <a href="http://misko.hevery.com/2009/02/19/constructor-injection-vs-setter-injection/">http://misko.hevery.com/2009/02/19/constructor-injection-vs-setter-injection/</a> 一開始可能會覺得 setter injection 比較好，尤其測試期間可以透過 setter 換成 test doubles。但 constructor injection 可以要求 initialization 的順序 (做為別人的 collaborator，自己要先完成 initialization)、可以避免 circular dependencies、可以將 collaborator field 設為 <code>final</code> 幫助理解它在 (object) lifetime 都不會變。反過來說，這就是 setter injection 的問題；setter injection 容易忘記呼叫 setter，什麼時候 wiring 才算完成也不清楚 (最後一個 setter call?)</li>
+<li>Repeat After Me: Setter Injection is a Symptom of Design Problems - DZone Java (2012-06-15) <a href="https://dzone.com/articles/repeat-after-me-setter">https://dzone.com/articles/repeat-after-me-setter</a> 如果發現 constructor injection 用起來不順手，通常反應了 design 上的問題；若真的遇到無法使用 constructor injection 的情境 (不是 design problem)，可以把 setter injection 當做是個 workaround。</li>
+<li>java - Why use constructor over setter injection in CDI? - Stack Overflow <a href="http://stackoverflow.com/questions/19381846/">http://stackoverflow.com/questions/19381846/</a> #ril</li>
+</ul>
+<h2 id="user-injection">代表目前使用者的 <code>User</code> 適合用 injection 注入嗎??<a class="headerlink" href="#user-injection" title="Permanent link"> #</a></h2>
+<ul>
+<li>總覺得 current user 與 database 裡的那個 user entity 是不同的?? 在 Android 上似乎不用規劃出一個 request scope，因為只有一個 user。</li>
+<li>To “new” or not to “new”… <a href="http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/">http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/</a> 提到 newable (也就是 value object) 不適合由 injection framework 提供，但 user 算是 value object 嗎?? 或更精確地說是 &ldquo;current user&rdquo;</li>
+<li>Dependency injection with Dagger 2 - Custom scopes – froger_mcs dev blog – Coding with love <a href="http://frogermcs.github.io/dependency-injection-with-dagger-2-custom-scopes/">http://frogermcs.github.io/dependency-injection-with-dagger-2-custom-scopes/</a> 提到 <code>@UserScope</code>，從系統架構來看，可以更方便取得 <code>User</code> instance 而不用透過 intent 傳遞，需要用到 user data 的人也可以直接從 constructor 要求 <code>User</code>。</li>
+<li>User object 似乎是個很特別的應用，像是個 configuration??<ul>
+<li>Java dependency injection: Injecting domain objects instead of infrastructure components (2014-11-10) <a href="http://www.mscharhag.com/java/dependency-injection-domain-objects">http://www.mscharhag.com/java/dependency-injection-domain-objects</a> 利用 scope 將 <code>User</code> domain object 直接注入；這和 Law of Demeter 多少有點關係 #ril</li>
+<li>The Future of Dependency Injection with Dagger 2 - YouTube (2016-01-04) <a href="https://www.youtube.com/watch?v=plK0zyRLIP8">https://www.youtube.com/watch?v=plK0zyRLIP8</a> 13:00 <code>TwitterModule</code> 的例子很有趣，因為需要一個 user name，所以要有一個明確的 constructor，這是把 (external) state 注入 graph 的方式。30:50 也提到定位在 <code>@User</code> scope 的 <code>TwitterComponent</code>，可以在使用者登出時整個丟棄 (GC)，待下一個使用者登入時建立另一個 <code>TwitterComponent</code>。</li>
+<li>Dependency injection with Dagger 2 - Custom scopes – froger_mcs dev blog – Coding with love (2015-07-01) <a href="http://frogermcs.github.io/dependency-injection-with-dagger-2-custom-scopes/">http://frogermcs.github.io/dependency-injection-with-dagger-2-custom-scopes/</a> 在 application scope (<code>@Singleton</code>) 與 activity scope (<code>@ActivityScope</code>) 中間增加一層 user scope (<code>@UserScope</code>)，方便直接從 constructor 注入 <code>User</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="assisted-injection">Assisted Injection<a class="headerlink" href="#assisted-injection" title="Permanent link"> #</a></h2>
+<ul>
+<li>To “new” or not to “new”… (2008-09-30) <a href="http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/">http://misko.hevery.com/2008/09/30/to-new-or-not-to-new/</a> 提到 injectable 不透過 constructor 要求 newable，因為 DI framework 不知道要怎麼注入 (這跟好不好測無關)；但為什麼不是想辦法提供?? 因為這樣的需求確實存在</li>
+<li><a href="http://stackoverflow.com/questions/37516736/">http://stackoverflow.com/questions/37516736/</a> (2016-05-30) 討論到 &ldquo;injectable factory&rdquo; 及 &ldquo;assisted injection&rdquo;</li>
+<li>AssistedInject · google/guice Wiki <a href="https://github.com/google/guice/wiki/AssistedInject">https://github.com/google/guice/wiki/AssistedInject</a> #ril</li>
+<li>Design for Testability and “Domain-Driven Design” <a href="http://misko.hevery.com/2009/03/16/design-for-testability-and-domain-driven-design/">http://misko.hevery.com/2009/03/16/design-for-testability-and-domain-driven-design/</a> 很明顯你不能說 <code>injector.getInstance(CreditCard.class)</code>，這是分辨 newable 與 injectable 的好方法，雖然 <code>injector.getInstance(HibernateSession.class).get(CreditCard.class, 123)</code> 這麼說也行，但中間透過 factory 又不算是 &ldquo;fully injectable&rdquo;。</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

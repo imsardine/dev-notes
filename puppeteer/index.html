@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/puppeteer/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Puppeteer - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/puppeteer.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#puppeteer">Puppeteer</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#architecture">Architecture ??</a></li>
+                
+            <li class="second-level"><a href="#wait-for">Wait For ??</a></li>
+                
+            <li class="second-level"><a href="#console-log">Console Log ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#error-while-loading-shared-libraries-libx11-xcbso1-debian">error while loading shared libraries: libX11-xcb.so.1 (Debian) ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="puppeteer">Puppeteer<a class="headerlink" href="#puppeteer" title="Permanent link"> #</a></h1>
+<ul>
+<li>Puppeteer 是唸做 [puppet-&lsquo;teer]，意思是 &ldquo;操縱木偶的人&rdquo;。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://developers.google.com/web/tools/puppeteer/">Puppeteer  |  Tools for Web Developers  |  Google Developers</a><ul>
+<li>Puppeteer 是個 Node library 提供 high-level API 控制 Chrome/Chromium &ndash; 中間透過 DevTools protocol，主要是用來操作 headless Chrome/Chromium。</li>
+<li>大部份手動在 browser 裡做的事情都能透過 Puppeteer 來做，例如 screenshot、轉 PDF、UI testing、自動填表單、測試 Chrome extension 等。</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=lhZOFUY1weo">The power of Headless Chrome and browser automation (Google I/O &lsquo;18) - YouTube</a> (2018-05-09) #ril</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://developers.google.com/web/tools/puppeteer/get-started">Quick start  |  Tools for Web Developers  |  Google Developers</a> #ril</p>
+<pre><code>const puppeteer = require('puppeteer');
+
+(async () =&gt; { // 為什麼把 async/await 拿掉就不能跑??
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('https://example.com');
+  await page.screenshot({path: 'example.png'});
+
+  await browser.close();
+})();
+</code></pre>
+</li>
+<li>
+<p><a href="https://developers.google.com/web/tools/puppeteer/examples">Examples  |  Tools for Web Developers  |  Google Developers</a> #ril</p>
+</li>
+<li><a href="https://medium.com/@e_mad_ehsan/getting-started-with-puppeteer-and-chrome-headless-for-web-scrapping-6bf5979dee3e">Getting started with Puppeteer and Chrome Headless for Web Scraping</a> (2017-08-25) #ril</li>
+</ul>
+<h2 id="architecture">Architecture ??<a class="headerlink" href="#architecture" title="Permanent link"> #</a></h2>
+<p><a href="https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#overview">Overview - puppeteer/api.md at master · GoogleChrome/puppeteer</a> #ril
+  - <a href="https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteer-vs-puppeteer-core">puppeteer vs puppeteer-core - puppeteer/api.md at master · GoogleChrome/puppeteer</a> <code>puppeteer</code> -&gt; <code>puppeteer-core</code> -&gt; Chromium，而 <code>puppeteer-core</code> 則直接面對 DevTools protocol，跟 Chromium 沒有直接關係 #ril</p>
+<h2 id="wait-for">Wait For ??<a class="headerlink" href="#wait-for" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/GoogleChrome/puppeteer/issues/91">Generalize page.waitFor, make waitForSelector a utility on top of it. · Issue #91 · GoogleChrome/puppeteer</a> #ril</li>
+<li><a href="https://github.com/GoogleChrome/puppeteer/issues/651">Wait for a specified time before closing the browser · Issue #651 · GoogleChrome/puppeteer</a> #ril</li>
+</ul>
+<h2 id="console-log">Console Log ??<a class="headerlink" href="#console-log" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions">puppeteer.launch([options]) - puppeteer/api.md at master · GoogleChrome/puppeteer</a> <code>dumpio &lt;boolean&gt;</code> - 是否將 browser 的 stdout/stderr 串接到 <code>process.stdout</code> 與 <code>process.stderr</code>? 例如 <code>puppeteer.launch({dumpio: true})</code>，會因此看到 <code>console.log()</code> 的內容 &ldquo;混雜&rdquo; 在 output messsage 裡。</li>
+<li>
+<p><a href="https://blog.kowalczyk.info/article/ea07db1b9bff415ab180b0525f3898f6/advanced-web-spidering-with-puppeteer.html">See console.log from inside the browser - Advanced web spidering with Puppeteer</a> (2018-07-18)</p>
+<ul>
+<li>node script 裡的 <code>console.log()</code> 是輸出到 shell，但 <code>Page.evaluate()</code> 裡的 <code>console.log()</code> 則是執行在 brower context，只會出現在 browser console，在 shell 看不到。</li>
+<li>透過 <code>page.on</code> 可以安排個 hook，讓 browser 裡的 <code>console.log()</code> 也轉印 (re-log) 到 shell。<pre><code>page.on("console", msg =&gt; {
+  console.log("The whole message:", msg.text());
+  console.log("\nEach argument:");
+  for (let arg of msg.args()) {
+    // arg is a Promise returning value of type JSHandle
+    // https://pptr.dev/#?product=Puppeteer&amp;show=api-class-jshandle
+    arg.jsonValue().then(v =&gt; {
+      console.log(v);
+    });
+  }
+});
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://pptr.dev/#?product=Puppeteer&amp;version=v1.8.0&amp;show=api-event-console">page.console</a></p>
+<ul>
+<li>Emitted when JavaScript within the page calls one of console API methods, e.g. <code>console.log</code> or <code>console.dir</code>. Also emitted if the page THROWS AN ERROR OR A WARNING. 會攔載到 <code>console.xxx()</code> 及錯誤 (實驗確認) =&gt; 如果訊息這麼多樣，或許可以考慮寫到 JSON，供其他平台讀取&hellip;</li>
+<li>The arguments passed into <code>console.log</code> appear as ARGUMENTS on the event handler.</li>
+<li><a href="https://pptr.dev/#?product=Puppeteer&amp;version=v1.8.0&amp;show=api-class-consolemessage">ConsoleMessage</a> #ril</li>
+<li><a href="https://pptr.dev/#?product=Puppeteer&amp;version=v1.8.0&amp;show=api-class-jshandle">JSHandle</a> <code>ConsoleMessage.args()</code> 的型態是 <code>Array&lt;JSHandle&gt;</code>，從 &ldquo;handle&rdquo; 看起來，似乎可以間接操作 browser 裡的物件??</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/47539043/">How to get all console messages with puppeteer? including errors, CSP violations, failed resources, etc - Stack Overflow</a> 要註冊多個 event listener 才能拿到所有的輸出 #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.google.com/web/tools/puppeteer/get-started">Installation - Quick start  |  Tools for Web Developers  |  Google Developers</a><ul>
+<li>用 npm/yarm 安裝 puppeteer 套件，過程中會下自動下載最新版的 Chromium；可以用 <code>PUPPETEER_SKIP_CHROMIUM_DOWNLOAD</code> 環境變數跳過這個步驟，但 <a href="https://github.com/GoogleChrome/puppeteer/blob/v1.8.0/docs/api.md#environment-variables">Puppeteer 文件</a> 又多次強調 &ldquo;Puppeteer is only guaranteed to work with the bundled Chromium, use at your own risk&rdquo;。</li>
+<li>從 Puppeteer 1.7 開始，發行了另一個輕量版 <code>puppeteer-core</code> 套件，預設不會下載 Chromium，使用時會調用已經安裝的 browser，或是連接到遠端。</li>
+<li>Puppeteer requires at least Node v6.4.0, but the examples below use async/await which is only supported in Node v7.6.0 or greater.</li>
+</ul>
+</li>
+</ul>
+<h3 id="error-while-loading-shared-libraries-libx11-xcbso1-debian">error while loading shared libraries: libX11-xcb.so.1 (Debian) ??<a class="headerlink" href="#error-while-loading-shared-libraries-libx11-xcbso1-debian" title="Permanent link"> #</a></h3>
+<pre><code>(node:6) UnhandledPromiseRejectionWarning: Error: Failed to launch chrome!
+/workspace/node_modules/puppeteer/.local-chromium/linux-588429/chrome-linux/chrome: error while loading shared libraries: libX11-xcb.so.1: cannot open shared object file: No such file or directory
+</code></pre>
+
+<ul>
+<li>
+<p><a href="https://github.com/Googlechrome/puppeteer/issues/290">Chrome Headless doesn&rsquo;t launch on Debian · Issue #290 · GoogleChrome/puppeteer</a> 補足漏掉的套件即可 #ril</p>
+<ul>
+<li>aslushnikov: 用 <code>puppeteer.launch({dumpio: true})</code> 看 stderr 有什麼</li>
+<li>fortes: 也遇到 <code>error while loading shared libraries: libX11-xcb.so.1</code> 的問題，執行 <code>chrome --help</code> 就會。</li>
+<li>Garbee (contributor): I think in the case of Debian systems you still need <a href="https://packages.debian.org/sid/libx11-xcb1">https://packages.debian.org/sid/libx11-xcb1</a> to run headless. That way the system has some of the API calls it needs to to do the rendering calculations. 合理</li>
+<li>Garbee: The action to resolve this (which I&rsquo;m working on now) is getting a list of all the required dependencies to run Chromium. &hellip; 列出來的 dependencies 也太多。</li>
+<li>aslushnikov (contributor): <code>puppeteer.launch({args: ['--no-sandbox']})</code> 可以。</li>
+<li>paulirish (member): 是不是考慮在 Linux 上將 <code>-no-sandbox</code> 及 <code>--disable-setuid-sandbox</code> 視為預設的 flags? 在 chrome-launcher/lighthouse 已經加了 <code>--disable-setuid-sandbox</code>，基於這一點也計劃將 <code>--no-sandbox</code> 加進去。</li>
+<li>Garbee: 建議不要將 sandbox 關閉。</li>
+<li>Garbee: 如果執行身份是 root，確實 Chromium 需要把 sandbox 停用。</li>
+<li>jeff3dx: Ubuntu 16.04 還要再裝一些套件&hellip;</li>
+</ul>
+</li>
+<li>
+<p>直接拿 <code>node:8.12.0</code> 來安裝 <code>puppeteer@1.8.0</code> 套件，在下載 Chronium 的階段會發生下面的錯誤；後來確認跟 docker image 無關，因為 <code>npm install -g moment</code> 是沒有問題的。</p>
+<pre><code># npm install -g puppeteer@1.8.0
+
+&gt; puppeteer@1.8.0 install /usr/local/lib/node_modules/puppeteer
+&gt; node install.js
+
+ERROR: Failed to download Chromium r588429! Set "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" env variable to skip download.
+{ Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/puppeteer/.local-chromium'
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/usr/local/lib/node_modules/puppeteer/.local-chromium' }
+npm ERR! code ELIFECYCLE
+npm ERR! errno 1
+npm ERR! puppeteer@1.8.0 install: `node install.js`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the puppeteer@1.8.0 install script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+</code></pre>
+</li>
+<li>
+<p><a href="https://developers.google.com/web/updates/2017/04/headless-chrome#faq">Getting Started with Headless Chrome  |  Web  |  Google Developers</a> How do I create a Docker container that runs Headless Chrome? 提到 <code>--no-sandbox</code> is NOT needed if you properly setup a user in the container. #ril</p>
+</li>
+<li><a href="https://github.com/GoogleChrome/puppeteer/issues/1925">Lost UI Shared Context · Issue #1925 · GoogleChrome/puppeteer</a> 後來發現是 <code>file://index.html</code> relative path 的表示法造成 #ril</li>
+<li><a href="https://github.com/GoogleChrome/puppeteer/issues/1828">Pages not loading, screenshots empty. DumpIO Error: Lost UI shared context · Issue #1828 · GoogleChrome/puppeteer</a> #ril</li>
+<li><a href="https://serverfault.com/questions/577942/">Install only dependencies of a given package in Debian or Ubuntu (apt) - Server Fault</a> 可以只裝 dependencies #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://pptr.dev/">Puppeteer</a></li>
+<li><a href="https://github.com/GoogleChrome/puppeteer">GoogleChrome/puppeteer - GitHub</a></li>
+<li><a href="https://try-puppeteer.appspot.com/">Try Puppeteer</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/puppeteer">&lsquo;puppeteer&rsquo; Questions - Stack Overflow</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md">Puppeteer API</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/virtualbox/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>VirtualBox - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/virtualbox.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#virtualbox">VirtualBox</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#macos-retina">macOS, Retina ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="virtualbox">VirtualBox<a class="headerlink" href="#virtualbox" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://www.virtualbox.org/">Oracle VM VirtualBox</a></p>
+<ul>
+<li>VirtualBox is a powerful x86 and AMD64/Intel64 virtualization product for ENTERPRISE as well as HOME USE.</li>
+<li>Not only is VirtualBox an extremely feature rich, high performance product for enterprise customers, it is also the only professional solution that is freely available as Open Source Software under the terms of the GNU General Public License (GPL) version 2. See &ldquo;About VirtualBox&rdquo; for an introduction.</li>
+<li>Presently, VirtualBox runs on Windows, Linux, Macintosh, and Solaris hosts and supports a large number of guest operating systems including but not limited to Windows (NT 4.0, 2000, XP, Server 2003, Vista, Windows 7, Windows 8, Windows 10), DOS/Windows 3.x, Linux (2.4, 2.6, 3.x and 4.x), Solaris and OpenSolaris, OS/2, and OpenBSD.</li>
+<li>VirtualBox is being actively developed with frequent releases and has an ever growing list of features, supported GUEST OPERATING SYSTEMS and PLATFORMS IT RUNS ON. VirtualBox is a community effort backed by a dedicated company: everyone is encouraged to contribute while Oracle ensures the product always meets professional quality criteria.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.virtualbox.org/wiki/VirtualBox">VirtualBox – Oracle VM VirtualBox</a></p>
+<ul>
+<li>
+<p>VirtualBox is a GENERAL-PURPOSE FULL VIRTUALIZER for x86 hardware, targeted at server, desktop and EMBEDDED use.</p>
+<p>不過 <a href="https://www.virtualbox.org/manual/ch03.html#guestossupport">3.1. Supported Guest Operating Systems - Chapter 3. Configuring Virtual Machines</a> 也沒提到任何 embedded 相關的 OS??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">Downloads – Oracle VM VirtualBox</a> #ril</li>
+</ul>
+<h3 id="macos-retina">macOS, Retina ??<a class="headerlink" href="#macos-retina" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p>Guest 在 Mac Retina 上會變成高解析度 (字很小)，將 VirtualBox &gt; Preferences &gt; Display &gt; Scale Factor &gt; Monitor 1 調成 200%，其餘非 Retina 的螢幕採預設的 100%，這樣在不同的實體螢幕上都能正常顯示。</p>
+<p>如果有點亂，發現從 View &gt; Virtual Screen 1 下直接選 Scale to xx% 最快。</p>
+</li>
+<li>
+<p>如果 geust 用 GNOME 桌面，會需要用到 Super Key，建議將 Preference &gt; Input &gt; Host Key Combination 從原來的 Left ⌘  換成右邊。</p>
+</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://forums.virtualbox.org/viewtopic.php?f=8&amp;t=90904">virtualbox.org • View topic - VirtualBox 6 - Display Resolution</a> (2018-12-21) #ril</p>
+<ul>
+<li>
+<p>granada29: The display resolution is set to &lsquo;Default&rsquo; in System Preferences. This gives an effective display size of 2560x1440.</p>
+<p>VirtualBox 6 seems to be ignoring this setting and displaying the VM window as tho the display was set to its maximum resolution, i.e. 3200x1800, yielding very small windows and content (for my eyes anyway).</p>
+<p>&hellip; and I have since figured out that I need to set the DISPLAY SCALE-FACTOR to 200% to restore the pre-6.0.0 behaviour. Should have read the manual - sigh.</p>
+</li>
+<li>
+<p>socratis: Or you can go to the VirtualBox Preferences and adjust the &ldquo;GLOBAL&rdquo; scale factor under Display, and avoid doing that on a per VM basis. 下面提到，一旦動過 VM 的這一塊設定，就不會管 global 的值，所以才建議不要動個別 VM 的設定。</p>
+<p>granada29: Nice idea in in theory. In practice, it does not work. The global setting seems to be ignored</p>
+<p>socratis: That&rsquo;s because you&rsquo;ve already edited/changed the per VM option:</p>
+<p>The way I do it is to close all VirtualBox processes and search my VM folder recursively for all &ldquo;<code>ScaleFactor</code>&rdquo; instances, for all <code>.vbox</code> files, with a text editor that can actually do such a thing (TextWrangler on OSX). I then remove all instances of the &ldquo;<code>ScaleFactor</code>&rdquo; from the vbox files, thus &ldquo;resetting&rdquo; the per-VM settings to its global setting.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://superuser.com/questions/391207/">macos - How to enable the super key when running linux in a virtual machine in OSX - Super User</a></p>
+<ul>
+<li>tony_sid: I&rsquo;m running Linux inside VMware in OSX. I want to use gnome-do. The shortcut key to call it is super+space. But that doesn&rsquo;t work when running inside VMware on OSX. How can I enable to super key to function normally inside this virtual machine?</li>
+<li>slhck: How do you currently map your ⌘ key? The Super key should be mapped to the Win key from Linux. So basically ⌘ → Win should suffice.</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.virtualbox.org/">VirtualBox</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://www.virtualbox.org/manual/">User Manual</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../virtualbox-networking/">Networking</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.virtualbox.org/wiki/Guest_OSes">Status: Guest OSes</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

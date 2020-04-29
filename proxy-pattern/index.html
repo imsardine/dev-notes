@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/proxy-pattern/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Proxy Pattern - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/proxy-pattern.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#proxy-pattern">Proxy Pattern</a></li>
+            <li class="second-level"><a href="#python">Python</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="proxy-pattern">Proxy Pattern<a class="headerlink" href="#proxy-pattern" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Proxy_pattern">Proxy pattern - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>In computer programming, the proxy pattern is a software design pattern. A proxy, in its most general form, is a class functioning AS AN INTERFACE TO SOMETHING ELSE. The proxy could interface TO ANYTHING: a network connection, a large object in memory, a file, or some other resource that is expensive or IMPOSSIBLE TO DUPLICATE.</p>
+<p>最後 &ldquo;impossible to duplicate&rdquo; 似乎在暗示 single?</p>
+</li>
+<li>
+<p>In short, a proxy is a WRAPPER or AGENT object that is being called by the client to access the REAL SERVING OBJECT behind the scenes. Use of the proxy can SIMPLY BE FORWARDING to the real object, or can provide ADDITIONAL LOGIC.</p>
+<p>In the proxy, extra functionality can be provided, for example CACHING when operations on the real object are resource intensive, or CHECKING PRECONDITIONS before operations on the real object are invoked. For the client, usage of a PROXY OBJECT Is similar to using the real object, because both implement the SAME INTERFACE.</p>
+<p>這裡首次提到 &ldquo;proxy object&rdquo;</p>
+</li>
+</ul>
+<p>Overview</p>
+<ul>
+<li>
+<p>The Proxy design pattern is one of the twenty-three well-known GoF design patterns that describe how to solve recurring design problems to design flexible and reusable object-oriented software, that is, objects that are easier to implement, change, test, and reuse.</p>
+</li>
+<li>
+<p>What problems can the Proxy design pattern solve?</p>
+<ul>
+<li>The access to an object should BE CONTROLLED.</li>
+<li>ADDITIONAL FUNCTIONALITY should be provided when accessing an object.</li>
+<li>When accessing sensitive objects, for example, it should be possible to check that clients have the needed ACCESS RIGHTS.</li>
+</ul>
+</li>
+<li>
+<p>What solution does the Proxy design pattern describe?</p>
+<p>Define a separate Proxy object that</p>
+<ul>
+<li>can be used as substitute for another object (<code>Subject</code>) and</li>
+<li>implements additional functionality to control the access to this subject.</li>
+</ul>
+<p>This enables to work through a Proxy object to perform additional functionality when accessing a subject. For example, to check the access rights of clients accessing a sensitive object.</p>
+<p>To act as substitute for a subject, a proxy must implement the <code>Subject</code> interface. Clients CAN&rsquo;T TELL whether they work with a subject or its proxy.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link"> #</a></h2>
+<p>利用 <code>object.__getattr__(self, name)</code> 在走過 default attribute access 但找不到特定 attribute 時就會被呼叫的特性，搭配 <code>getattr(target, attr)</code> 就可以營造出 (lazy) proxy object：</p>
+<pre><code>from __future__ import print_function
+
+class LazyProxy(object):
+
+    def __init__(self, factory):
+        self._factory = factory
+        self._target = None
+
+    def __getattr__(self, attr):
+        print('__getattr__(self, %r)', attr)
+        if not self._target:
+            print('retrieve the target object lazily.')
+            self._target = self._factory()
+
+        return getattr(self._target, attr)
+</code></pre>
+
+<p>用起來像這樣：</p>
+<pre><code>&gt;&gt;&gt; d = {'k1': 'v1', 'k2': 'v2'}
+&gt;&gt;&gt; p = LazyProxy(lambda: d)
+&gt;&gt;&gt; p.get('k1')
+__getattr__(self, %r) get
+retrieve the target object lazily.
+'v1'
+</code></pre>
+
+<p>不過還是有些限制：</p>
+<pre><code>&gt;&gt;&gt; p['k1']
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: 'LazyProxy' object has no attribute '__getitem__'
+&gt;&gt;&gt; p
+&lt;__main__.LazyProxy object at 0x1007ba050&gt;
+&gt;&gt;&gt; isinstance(d, dict), isinstance(p, dict)
+(True, False)
+</code></pre>
+
+<p>雖然 magic method 不會走 <code>__getattr__()</code>，不過這對於 <a href="../python-di/">dependency injection</a> 的應用已經足夠。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Proxy_pattern#Python">Python - Proxy pattern - Wikipedia</a></p>
+<pre><code>"""
+Proxy pattern example.
+"""
+from abc import ABCMeta, abstractmethod
+
+NOT_IMPLEMENTED = "You should implement this."
+
+class AbstractCar:
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def drive(self):
+        raise NotImplementedError(NOT_IMPLEMENTED)
+
+class Car(AbstractCar):
+    def drive(self):
+        print("Car has been driven!")
+
+class Driver(object):
+    def __init__(self, age):
+        self.age = age
+
+class ProxyCar(AbstractCar):
+    def __init__(self, driver):
+        self.car = Car() # (1)
+        self.driver = driver
+
+    def drive(self):
+        if self.driver.age &lt;= 16: # (2)
+            print("Sorry, the driver is too young to drive.")
+        else:
+            self.car.drive()
+
+driver = Driver(16)
+car = ProxyCar(driver)
+car.drive()
+
+driver = Driver(25)
+car = ProxyCar(driver)
+car.drive()
+</code></pre>
+<ol>
+<li>其中 <code>Car</code> 不是從 constructor 傳入比較奇怪。</li>
+<li>不過這裡想示範的是 proxy object 可以安插 additional logic。</li>
+</ol>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/26091833/">Proxy object in Python - Stack Overflow</a></p>
+<ul>
+<li>
+<p>orange: I&rsquo;m looking for way to pass method calls through from an object (WRAPPER) to a member variable of an object (WRAPPEE). There are potentially many methods that need to be externalised, so a way to do this without changing the interface of the wrapper when adding a method to the wrappee would be helpful.</p>
+<p>It would be great if this call redirection is &ldquo;FAST&rdquo; (relative to a direct call, i.e. not adding too much overhead).</p>
+</li>
+<li>
+<p>Rafael Barros: A somewhat elegant solution is by creating an &ldquo;ATTRIBUTE PROXY&rdquo; on the wrapper class:</p>
+<pre><code>class Wrapper(object):
+    def __init__(self, wrappee):
+        self.wrappee = wrappee
+
+    def foo(self):
+        print 'foo'
+
+    def __getattr__(self, attr):
+        return getattr(self.wrappee, attr)
+
+class Wrappee(object):
+    def bar(self):
+        print 'bar'
+
+o2 = Wrappee()
+o1 = Wrapper(o2)
+
+o1.foo()
+o1.bar()
+</code></pre>
+<p>all the magic happens on the <code>__getattr__</code> method of the <code>Wrapper</code> class, which will try to access the method or attribute on the <code>Wrapper</code> instance, and if it doesn&rsquo;t exist, it will try on the wrapped one.</p>
+<p>if you try to access an attribute that doesn&rsquo;t exist on either classes, you will get this:</p>
+<pre><code>o2.not_valid
+Traceback (most recent call last):
+  File "so.py", line 26, in &lt;module&gt;
+    o2.not_valid
+  File "so.py", line 15, in __getattr__
+    raise e
+AttributeError: 'Wrappee' object has no attribute 'not_valid'
+</code></pre>
+</li>
+<li>
+<p>abarnert: If you really need this to be fast, the fastest option is to MONKEYPATCH yourself AT INITIALIZATION:</p>
+<pre><code>def __init__(self, wrappee):
+    for name, value in inspect.getmembers(wrappee, callable):
+        if not hasattr(self, name):
+            setattr(self, name, value)
+</code></pre>
+<p>This will give your <code>Wrapper</code> instances normal data attributes whose values are bound methods of the <code>Wrappee</code>. That should be blazingly fast. Is it?</p>
+<pre><code>class WrapperA(object):
+    def __init__(self, wrappee):
+        self.wrappee = wrappee
+        for name, value in inspect.getmembers(wrappee, callable):
+            if not hasattr(self, name):
+                setattr(self, name, value)
+
+class WrapperB(object):
+    def __init__(self, wrappee):
+        self.wrappee = wrappee
+    def __getattr__(self, name):
+        return getattr(self.wrappee, name)
+
+In [1]: %run wrapper
+In [2]: o2 = Wrappee()
+In [3]: o1a = WrapperA(o2)
+In [4]: o1b = WrapperB(o2)
+In [5]: %timeit o2.bar()    # 直接呼叫
+10000000 loops, best of 3: 154 ns per loop
+In [6]: %timeit o1a.bar()   # 透過 monkeypatch
+10000000 loops, best of 3: 159 ns per loop
+In [7]: %timeit o1b.bar()   # 透過 __getattr__ 轉
+1000000 loops, best of 3: 879 ns per loop
+In [8]: %timeit o1b.wrapper.bar() # 應該是 o1b.wrappee.bar() ??
+1000000 loops, best of 3: 220 ns per loop
+</code></pre>
+<p>So, copying bound methods has a 3% cost (not sure why it even has that much…). Anything MORE DYNAMIC THAN THIS would have to pull attributes from <code>self.wrapper</code>, which has a MINIMUM 66% OVERHEAD. The usual <code>__getattr__</code> solution has 471% overhead (and adding unnecessary extra stuff to it can only make it slower).</p>
+<p>So, that sounds like an open and shut win for the bound-methods hack, right? Not necessarily. That 471% overhead is still only 700 nanoseconds. Is that really going to make a difference in your code? Probably not unless it&rsquo;s being used inside a TIGHT LOOP—in which case you&rsquo;re almost certainly going to want to COPY THE METHOD TO A LOCAL VARIABLE ANYWAY.</p>
+<p>確實，如果不是用在 tight loop 裡，471% overheadd 只有 700 ns，用這麼少的時間來換取彈性是沒問題的；如果真成為效能的瓶頸，除了這裡提到 client code 可以把 <code>wrapper.some_attribute</code> 先存成 local variable 之外，也可以在 wrapper 內做一層快取，減少 <code>getattr(wrappee, name)</code> 的次數，大概就是慢在這裡。</p>
+<p>And there are a lot of DOWNSIDES of this HACK. It&rsquo;s not the &ldquo;one obvious way to do it&rdquo;. It WON&rsquo;T WORK FOR SPECIAL METHODS that aren&rsquo;t looked up on the instance dict. It&rsquo;s STATICALLY pulling the attributes off <code>o2</code>, so if you create any new ones later, <code>o1</code> won&rsquo;t be proxying to them (try building a dynamic chain of proxies this way…). It wastes a lot of memory if you have a lot of proxies. It&rsquo;s slightly different between Python 2.x and 3.x (and even within the 2.x and 3.x series, if you rely on <code>inspect</code>), while <code>__getattr__</code> has very carefully been kept the same from 2.3 up to the present (and in alternate Python implementations, too). And so on.</p>
+<p>If you really need the speed, you may want to consider a hybrid: a <code>__getattr__</code> method that CACHES PROXIED METHODS. You can even do it in two stages: something that&rsquo;s called once, you CACHE THE UNBOUND METHOD IN A CLASS ATTRIBUTE AND BIND IT ON THE FLY; if it&rsquo;s then called repeatedly, you cache the bound method in an instance attribute.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/reference/datamodel.html#customizing-attribute-access">Customizing attribute access - 3. Data model — Python 3.7.3 documentation</a></p>
+<p><code>object.__getattr__(self, name)</code></p>
+<ul>
+<li>
+<p>Called when the DEFAULT ATTRIBUTE ACCESS fails with an <code>AttributeError</code> (either <code>__getattribute__()</code> raises an <code>AttributeError</code> because name is not an instance attribute or an attribute in the CLASS TREE for <code>self</code>; or <code>__get__()</code> of a name property raises <code>AttributeError</code>). This method should either return the (COMPUTED) ATTRIBUTE VALUE or raise an <code>AttributeError</code> exception.</p>
+</li>
+<li>
+<p>Note that if the attribute is found through the normal mechanism, <code>__getattr__()</code> is NOT CALLED. (This is an INTENTIONAL ASYMMETRY between <code>__getattr__()</code> and <code>__setattr__()</code>.)</p>
+<p>This is done both for EFFICIENCY REASONS and because otherwise <code>__getattr__()</code> would have no way to access other attributes of the instance. Note that at least for instance variables, you can FAKE TOTAL CONTROL by not inserting any values in the instance attribute dictionary (but instead inserting them in another object). See the <code>__getattribute__()</code> method below for a way to actually get TOTAL CONTROL OVER ATTRIBUTE ACCESS.</p>
+</li>
+</ul>
+<p><code>object.__getattribute__(self, name)</code></p>
+<ul>
+<li>
+<p>Called UNCONDITIONALLY to implement attribute accesses for instances of the class. If the class also defines <code>__getattr__()</code>, the latter will NOT BE CALLED unless <code>__getattribute__()</code> either calls it explicitly or raises an <code>AttributeError</code>.</p>
+<p>跟 <code>__getattr__</code> 的差別就在 called unconditionally，做為 proxy object 遶過 default attribute access 及 class tree 會更有效率。</p>
+</li>
+<li>
+<p>This method should return the (computed) attribute value or raise an <code>AttributeError</code> exception. In order to avoid infinite recursion in this method, its implementation SHOULD ALWAYS CALL THE BASE CLASS METHOD with the same name to access any attributes it needs, for example, <code>object.__getattribute__(self, name)</code>.</p>
+<p>若 <code>__getattribute__()</code> 裡又有用到 <code>self.xxx</code> 的話，又會呼叫 <code>__getattribute__()</code> 自己，結果就會引發 <code>RecursionError: maximum recursion depth exceeded in comparison</code>；多數情況下覆寫 <code>__getattr__()</code> 就已足夠。</p>
+</li>
+<li>
+<p>Note This method may still be BYPASSED WHEN LOOKING UP SPECIAL METHODS as the result of implicit invocation via language syntax or built-in functions. See Special method lookup.</p>
+<p>會不會只有 C extension 才能全面控制 attribute access ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/reference/datamodel.html#customizing-attribute-access">Customizing attribute access - 3. Data model — Python 2.7.16 documentation</a></p>
+<p><code>object.__getattr__(self, name)</code></p>
+<ul>
+<li>
+<p>Called when an attribute lookup has not found the attribute in the USUAL PLACES (i.e. it is not an instance attribute nor is it found in the class tree for <code>self</code>). <code>name</code> is the attribute name. This method should return the (computed) attribute value or raise an <code>AttributeError</code> exception.</p>
+</li>
+<li>
+<p>Note that if the attribute is found through the normal mechanism, <code>__getattr__()</code> is not called. (This is an intentional asymmetry between <code>__getattr__()</code> and <code>__setattr__()</code>.) This is done both for efficiency reasons and because otherwise <code>__getattr__()</code> would have no way to access other attributes of the instance. Note that at least for instance variables, you can fake total control by not inserting any values in the instance attribute dictionary (but instead inserting them in another object). See the <code>__getattribute__()</code> method below for a way to actually get total control IN NEW-STYLE CLASSES.</p>
+<p>Python 2 也有 <code>__getattribute__()</code>，但只有 new-style class 才支援。</p>
+</li>
+</ul>
+<p>More attribute access for new-style classes &ndash; <code>object.__getattribute__(self, name)</code></p>
+<ul>
+<li>Called unconditionally to implement attribute accesses for instances of the class. If the class also defines <code>__getattr__()</code>, the latter will not be called unless <code>__getattribute__()</code> either calls it explicitly or raises an <code>AttributeError</code>. This method should return the (computed) attribute value or raise an <code>AttributeError</code> exception. In order to avoid infinite recursion in this method, its implementation should always call the base class method with the same name to access any attributes it needs, for example, <code>object.__getattribute__(self, name)</code>.</li>
+<li>Note This method may still be bypassed when looking up special methods as the result of implicit invocation via language syntax or built-in functions. See Special method lookup for new-style classes.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://blog.ionelmc.ro/2015/01/12/proxying-objects-in-python/">Proxying objects in Python | ionel&rsquo;s codelog</a> (2015-01-12)</p>
+<ul>
+<li>
+<p>A LAZY object proxy is an object that wraps a CALLABLE but defers the call until the object is actually required, and caches the result of said call.</p>
+<p>這個 callable 就是 factory。</p>
+</li>
+<li>
+<p>These kinds of objects are useful in resolving various dependency issues, few examples:</p>
+<ul>
+<li>
+<p>Objects that need to held CIRCULAR REFERENCES at each other, but AT DIFFERENT STAGES. To instantiate object <code>Foo</code> you need an instance of <code>Bar</code>. Instance of <code>Bar</code> needs an instance of <code>Foo</code> in some of it methods (but NOT AT CONSTRUCTION). CIRCULAR IMPORTS sound familiar?</p>
+<p>這裡的 no at construction 指的是 no at import-time。</p>
+</li>
+<li>
+<p>Performance sensitive code. You don&rsquo;t know ahead of time what you&rsquo;re going to use but you don&rsquo;t want to pay for allocating all the resources at the start as you usually need just few of them.</p>
+</li>
+</ul>
+<p>There are other examples, I&rsquo;ve just made up a couple for context.</p>
+</li>
+<li>
+<p>If you&rsquo;ve used Django you may be familiar with <a href="https://github.com/django/django/blob/stable/1.7.x/django/utils/functional.py#L337"><code>SimpleLazyObject</code></a>. For simple use-cases it&rsquo;s fine, and if you&rsquo;re already using Django the choice is obvious. Unfortunately it&rsquo;s MISSING MANY MAGIC METHODS, most glaring omissions: <code>__iter__</code>, <code>__getslice__</code>, <code>__call__</code> etc. It&rsquo;s not too bad, you can just subclass and add them yourself.</p>
+<p>But what if you need to have <code>__getattr__</code>? The horrors of the infinite recursive call beckon.</p>
+<p>但如果做為 dependency，需要支援到這麼細嗎? 通常我們只會調用 service 的 methods，倒是很少把它當做 data structure 或 callable 使用 &ndash; <code>for item in service</code>? <code>service[-1]</code>? <code>service()</code>?</p>
+</li>
+<li>
+<p>Meanwhile I&rsquo;ve noticed that <a href="https://github.com/GrahamDumpleton/wrapt">wrapt</a> has a quite complete <a href="http://wrapt.readthedocs.org/en/latest/wrappers.html#object-proxy">object proxy</a>. Unfortunately it&rsquo;s not really amendable to adding a LAZY BEHAVIOR in a subclass due to the C extension (I wouldn&rsquo;t make bets on sub-classing the pure-python proxy implementation either without some UNWANTED OVERHEAD :-).</p>
+<p>Thus I forked the code and changed everything to have the lazy behavior. You can see the results here: <a href="https://github.com/ionelmc/python-lazy-object-proxy">https://github.com/ionelmc/python-lazy-object-proxy</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/pallets/werkzeug/blob/0.15.4/src/werkzeug/local.py#L255">werkzeug/local.py at 0.15.4 · pallets/werkzeug</a> Flask 常用的 local proxy object，實作了大部份的 magic methods #ril</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/2/library/xmlrpclib.html#xmlrpclib.ServerProxy">class <code>xmlrpclib.ServerProxy</code> - 20.23. xmlrpclib — XML-RPC client access — Python 2.7.16 documentation</a> 提到 &ldquo;returned proxy instance&rdquo; 及 &ldquo;The returned instance is a proxy object&rdquo; #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

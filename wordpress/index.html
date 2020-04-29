@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/wordpress/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>WordPress - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/wordpress.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#wordpress">WordPress</a></li>
+            <li class="second-level"><a href="#theme">Theme</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker ??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="wordpress">WordPress<a class="headerlink" href="#wordpress" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/WordPress">WordPress - Wikipedia</a> #ril</li>
+</ul>
+<h2 id="theme">Theme<a class="headerlink" href="#theme" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://wordpress.org/themes/">Theme Directory - Featured | WordPress.org</a> #ril</li>
+<li><a href="https://colorlib.com/wp/free-wordpress-themes/">50+ Best Free Responsive WordPress Themes 2019 - Colorlib</a> (2019-01-11) 感覺質感還不錯 #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://wordpress.org/download/">Download | WordPress.org</a> #ril</li>
+<li><a href="https://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Installation">Installing WordPress « WordPress Codex</a> #ril</li>
+</ul>
+<h3 id="docker">Docker ??<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/_/wordpress/">wordpress - Docker Hub</a> #ril</p>
+<pre><code>$ docker run --name some-wordpress --link some-mysql:mysql -d wordpress
+</code></pre>
+<p>If you&rsquo;d like to be able to access the instance from the host without the container&rsquo;s IP, standard port mappings can be used:</p>
+<pre><code>$ docker run --name some-wordpress --link some-mysql:mysql -p 8080:80 -d wordpress
+</code></pre>
+<p>Then, access it via <a href="http://localhost:8080">http://localhost:8080</a> or http://host-ip:8080 in a browser.</p>
+<ul>
+<li>
+<p>The following environment variables are also honored for configuring your WordPress instance:</p>
+<ul>
+<li><code>-e WORDPRESS_DB_HOST=...</code> (defaults to the IP and port of the linked <code>mysql</code> container)</li>
+<li><code>-e WORDPRESS_DB_USER=...</code> (defaults to &ldquo;<code>root</code>&rdquo;)</li>
+<li>
+<p><code>-e WORDPRESS_DB_PASSWORD=...</code> (defaults to the value of the <code>MYSQL_ROOT_PASSWORD</code> environment variable from the linked <code>mysql</code> container)</p>
+<p>這是 container link 特有的效果 &ndash; recipient container (WordPress) 會收到 source container (MySQL) 的環境變數。</p>
+</li>
+<li>
+<p><code>-e WORDPRESS_DB_NAME=...</code> (defaults to &ldquo;<code>wordpress</code>&rdquo;)</p>
+</li>
+<li><code>-e WORDPRESS_TABLE_PREFIX=...</code> (defaults to <code>""</code>, only set this when you need to override the default table prefix in <code>wp-config.php</code>)</li>
+<li><code>-e WORDPRESS_AUTH_KEY=...</code>, <code>-e WORDPRESS_SECURE_AUTH_KEY=...</code>, <code>-e WORDPRESS_LOGGED_IN_KEY=...</code>, <code>-e WORDPRESS_NONCE_KEY=...</code>, <code>-e WORDPRESS_AUTH_SALT=...</code>, <code>-e WORDPRESS_SECURE_AUTH_SALT=...</code>, <code>-e WORDPRESS_LOGGED_IN_SALT=...</code>, <code>-e WORDPRESS_NONCE_SALT=...</code> (default to unique random SHA1s) 這是做什麼的??</li>
+<li><code>-e WORDPRESS_DEBUG=1</code> (defaults to disabled, non-empty value will enable <code>WP_DEBUG</code> in <code>wp-config.php</code>)</li>
+<li><code>-e WORDPRESS_CONFIG_EXTRA=...</code> (defaults to nothing, non-empty value will be embedded verbatim inside <code>wp-config.php</code> &ndash; especially useful for applying extra configuration values this image does not provide by default such as <code>WP_ALLOW_MULTISITE</code>; see <a href="https://github.com/docker-library/wordpress/pull/142">docker-library/wordpress#142</a> for more details)</li>
+</ul>
+</li>
+<li>
+<p>If the <code>WORDPRESS_DB_NAME</code> specified does not already exist on the given MySQL server, it will be created automatically upon startup of the wordpress container, provided that the <code>WORDPRESS_DB_USER</code> specified has the necessary permissions to create it.</p>
+</li>
+<li>
+<p>If you&rsquo;d like to use an external database instead of a linked <code>mysql</code> container, specify the hostname and port with <code>WORDPRESS_DB_HOST</code> along with the password in <code>WORDPRESS_DB_PASSWORD</code> and the username in <code>WORDPRESS_DB_USER</code> (if it is something other than <code>root</code>):</p>
+<pre><code>$ docker run --name some-wordpress -e WORDPRESS_DB_HOST=10.1.2.3:3306 \
+    -e WORDPRESS_DB_USER=... -e WORDPRESS_DB_PASSWORD=... -d wordpress
+</code></pre>
+</li>
+<li>
+<p>When running WordPress with TLS behind a reverse proxy such as NGINX which is responsible for doing <a href="https://en.wikipedia.org/wiki/TLS_termination_proxy">TLS termination</a>, be sure to set <code>X-Forwarded-Proto</code> appropriately (see <a href="https://codex.wordpress.org/Administration_Over_SSL#Using_a_Reverse_Proxy">&ldquo;Using a Reverse Proxy&rdquo; in &ldquo;Administration Over SSL&rdquo; in upstream&rsquo;s documentation</a>). No additional environment variables or configuration should be necessary (this image automatically adds the noted <code>HTTP_X_FORWARDED_PROTO</code> code to <code>wp-config.php</code> if any of the above-noted environment variables are specified).</p>
+<p>就 client &rarr; https:// &rarr; reverse proxy &rarr; http:// &rarr; WordPress 的關係及 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto">X-Forwarded-Proto - HTTP | MDN</a> 看來，reverse proxy 要在 <code>X-Forwarded-Proto</code> 記錄 client &rarr; revere proxy 這一段真正的 protocol，因為 reverse proxy &rarr; WordPress 這一段固定走 HTTP，若想知道 client 走的 protocol，就必須要取用 <code>X-Forwarded-Proto</code> header &ndash; 猜想是用來產生 URL。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.docker.com/compose/wordpress/">Quickstart: Compose and WordPress | Docker Documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/wordpress/#docker-secrets">Docer Secrets - wordpress - Docker Hub</a> 透過不同 <code>_FILE</code> 的環境變數傳 #ril</p>
+</li>
+<li>
+<p><a href="https://buddy.works/guides/wordpress-docker-kubernetes-part-1">WordPress in Docker. Part 1: Dockerization - Buddy</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://wordpress.org/">WordPress</a></li>
+<li><a href="https://wordpress.org/themes/">Theme Directory</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

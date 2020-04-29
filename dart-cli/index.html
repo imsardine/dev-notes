@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/dart-cli/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dart / CLI - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/dart-cli.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#dart-cli">Dart / CLI</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#mac">Mac</a></li>
+                <li class="third-level"><a href="#linux">Linux</a></li>
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="dart-cli"><a href="../dart/">Dart</a> / CLI<a class="headerlink" href="#dart-cli" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://dart.dev/tutorials/server/cmdline#running-an-app-with-the-standalone-dart-vm">Running an app with the standalone Dart VM - Write command-line apps | Dart</a></p>
+<ul>
+<li>
+<p>To run a command-line app, you need the Dart VM (<code>dart</code>), which comes when you install the Dart SDK.</p>
+<p>Important: The location of the SDK installation directory (we’ll call it <code>&lt;sdk-install-dir&gt;</code>) depends on your platform and how you installed the SDK. You can find <code>dart</code> in <code>&lt;sdk-install-dir&gt;/bin</code>. By putting this directory in your <code>PATH</code> you can refer to the <code>dart</code> command and other commands, such as <code>dartanalyzer</code>, by name.</p>
+</li>
+<li>
+<p>Let’s run a small program.</p>
+<p>Create a file called <code>helloworld.dart</code> that contains this code:</p>
+<pre><code>void main() {
+  print('Hello, World!');
+}
+</code></pre>
+<p>In the directory that contains the file you just created, run the program:</p>
+<pre><code>$ dart helloworld.dart
+Hello, World!
+</code></pre>
+<p>The Dart VM supports many options. Use <code>dart --help</code> to see COMMONLY USED options. Use <code>dart --verbose</code> to see ALL options.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dart.dev/server">Command-line &amp; server apps | Dart</a> #ril</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.dartlang.org/install">Install Dart | Dart</a><ul>
+<li>
+<p>Although DartPad is a great way to learn how to write a simple app, once you’re ready to develop REAL apps, you need an SDK. Install the SDK for your platform.</p>
+<p>To develop xxx apps, get the Dart SDK. 唯獨 mobile 比較特別稱做 Flutter SDK，其他 web/command-line/server-side apps 都稱做 Dart SDK，雖然 web 與 command-line/server-side 的 SDK 並不相同。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="mac">Mac<a class="headerlink" href="#mac" title="Permanent link"> #</a></h3>
+<p>用 Homebrew 從 <a href="https://github.com/dart-lang/homebrew-dart"><code>dart-lang/dart</code></a> 安裝 <code>dart</code> 套件：</p>
+<pre><code>$ brew tap dart-lang/dart
+$ brew install dart
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.dartlang.org/tools/sdk#tab-sdk-install-mac">Mac - Dart SDK | Dart</a></p>
+<ul>
+<li>
+<p>Install homebrew, and then run:</p>
+<pre><code>$ brew tap dart-lang/dart
+$ brew install dart
+</code></pre>
+<p><code>dart</code> 套件的內容：</p>
+<pre><code>$ brew info dart
+dart-lang/dart/dart: stable 2.1.0, devel 2.1.1-dev.3.2
+The Dart SDK
+https://www.dartlang.org/
+Not installed
+From: https://github.com/dart-lang/homebrew-dart/blob/master/dart.rb
+==&gt; Options
+--devel
+    Install development version 2.1.1-dev.3.2
+==&gt; Caveats
+Please note the path to the Dart SDK:
+  /usr/local/opt/dart/libexec
+</code></pre>
+</li>
+<li>
+<p>To upgrade when a new release of Dart is available run:</p>
+<pre><code>$ brew upgrade dart
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="linux">Linux<a class="headerlink" href="#linux" title="Permanent link"> #</a></h3>
+<pre><code>$ vagrant init ubuntu/bionic64
+$ vagrant up
+$ vagrant ssh
+
+vagrant$ curl -O https://storage.googleapis.com/dart-archive/channels/stable/release/latest/linux_packages/dart_2.1.0-1_amd64.deb
+vagrant$ sudo dpkg -i dart_2.1.0-1_amd64.deb
+Selecting previously unselected package dart.
+(Reading database ... 59746 files and directories currently installed.)
+Preparing to unpack dart_2.1.0-1_amd64.deb ...
+Unpacking dart (2.1.0-1) ...
+Setting up dart (2.1.0-1) ...
+
+vagrant$ which dart
+/usr/bin/dart
+
+vagrant$ which pub # not found?
+vagrant$ ls -l /usr/bin | grep dart
+lrwxrwxrwx 1 root   root          20 Nov 13 18:25 dart -&gt; ../lib/dart/bin/dart
+
+vagrant$ export PATH=$PATH:/usr/lib/dart/bin
+vagrant$ which pub
+/usr/lib/dart/bin/pub
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.dartlang.org/tools/sdk#tab-sdk-install-mac">Linux - Dart SDK | Dart</a></p>
+<ul>
+<li>If you’re using Debian/Ubuntu on AMD64 (64-bit Intel), you can choose one of the following options, both of which can update the SDK automatically when new versions are released.</li>
+</ul>
+<p>Install a Debian package</p>
+<ul>
+<li>Alternatively, download Dart SDK as Debian package in the <code>.deb</code> package format.</li>
+<li>
+<p>After installing the SDK, add its <code>bin</code> directory to your <code>PATH</code>. For example, use the following command to change <code>PATH</code> in your active terminal session: <code>$ export PATH="$PATH:/usr/lib/dart/bin"</code></p>
+<p>因為 <code>/usr/bin</code> 下只有 <code>dart</code>，連常用的 <code>pub</code> 都沒有。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>$ docker run --rm -it google/dart:2.1.0 dart --version
+Dart VM version: 2.1.0 (Unknown timestamp) on &quot;linux_x64&quot;
+</code></pre>
+
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/r/google/dart/">google/dart - Docker Hub</a></p>
+<ul>
+<li>
+<p><code>google/dart</code> is a docker base image that bundles the latest version of the Dart SDK installed from dartlang.org. It serves as a base for the <a href="https://hub.docker.com/r/google/dart-runtime"><code>google/dart-runtime</code></a> image.</p>
+</li>
+<li>
+<p>If you have an APPLICATION DIRECTORY with a <code>pubspec.yaml</code> file and the main aplication entry point in <code>main.dart</code> you can create a <code>Dockerfile</code> in the application directory with the following content:</p>
+<pre><code>FROM google/dart
+
+WORKDIR /app
+
+ADD pubspec.* /app/
+RUN pub get
+ADD . /app
+RUN pub get --offline
+
+CMD []
+ENTRYPOINT ["/usr/bin/dart", "main.dart"]
+</code></pre>
+</li>
+<li>
+<p>However, if you application directory has a layout like this and potentially is exposing a server at port 8080 you should consider using the base image <code>google/dart-runtime</code> instead. 即 server-side Dart 的應用。</p>
+<p>呼應 <code>google/dart-runtime</code> 的說法 &ndash; <code>google/dart-runtime</code> is a docker base image that makes it easy to DOCKERIZE A STANDARD DART APPLICATION.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>google/dart</code> 沒有設定 <code>ENTRYPOINT</code>，只有 <code>CMD</code>：</p>
+<pre><code>$ docker inspect google/dart:2.1.0 | jq '.[0]["Config"]["Entryoint"]'
+null
+
+$ docker inspect google/dart:2.1.0 | jq '.[0]["Config"]["Cmd"]'
+[
+  "/bin/sh",
+  "-c",
+  "/bin/bash"
+]
+</code></pre>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../dart-vm/">VM</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

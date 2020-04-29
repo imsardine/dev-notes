@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gitlab-plugin/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GitLab / Plugin - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gitlab-plugin.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gitlab-plugin">GitLab / Plugin</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gitlab-plugin"><a href="../gitlab/">GitLab</a> / Plugin<a class="headerlink" href="#gitlab-plugin" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.gitlab.com/ee/system_hooks/system_hooks.html">System hooks | GitLab</a> #ril</p>
+<p>系統發生一些 event 時，可以對外送出 HTTP POST；類 web hook 的機制。</p>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/administration/#configuring-gitlab">Administrator Docs | GitLab</a></p>
+<ul>
+<li>System hooks: Notifications when users, projects and keys are changed.</li>
+<li>Plugins: With custom plugins, GitLab administrators can introduce custom integrations without modifying GitLab’s source code.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://gitlab.com/gitlab-org/gitlab-foss/blob/master/CHANGELOG.md">CHANGELOG.md · master · GitLab.org / GitLab FOSS · GitLab</a></p>
+<p>12.7.0</p>
+<ul>
+<li>RENAME GitLab Plugins feature to GitLab File Hooks. !22979</li>
+</ul>
+<p>10.6.0 (2018-03-22)</p>
+<ul>
+<li>Add ability to use external plugins as an ALTERNATIVE to system hooks. !17003</li>
+<li>Add plugins list to the system hooks page. !17518</li>
+</ul>
+<p>若 plugin 只是 system hook 的替代方案，改名為 File Hook 就可以理解，因為 plugin 可以做的事要更多才對；目前兩者都可以回應 event，只是 system hook 在 remote，而 plugin 在 GitLab local 而已。</p>
+</li>
+<li>
+<p><a href="https://gitlab.com/gitlab-org/gitlab-foss/-/issues/40812">Plugins (#40812) · Issues · GitLab.org / GitLab FOSS · GitLab</a></p>
+<ul>
+<li>
+<p>This issue evolved, latest state is in <a href="https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/17003">https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/17003</a> #ril</p>
+</li>
+<li>
+<p>Sid Sijbrandij (Owner): Companies want to add their own features to GitLab without sharing the code with others by contributing it to the main repository (for security reasons, to iterate quickly, to have something specific to them, or to do something that doesn&rsquo;t meet our definition of done). Right now they have to RUN ON A FORK, that makes GitLab hard to keep up to date and we see that they tend not to upgrade.</p>
+<p>The proposal is to:</p>
+<ul>
+<li>Rename PROJECT SERVICES to plugins (to make it clear that we have plugins and because project services never was a good name)</li>
+<li>Allow LOCAL plugins by loading them automatically if they are in a directory that is not under version control in <code>/var/opt/gitlab/gitlab-rails/plugins</code></li>
+</ul>
+<p>不過今天 (2020-03-21) gitlab.com 上 Settings &gt; Integrations 的表格欄位還是 Service, Description &ndash; 留有 &ldquo;project service&rdquo; 這說法的痕跡。</p>
+</li>
+<li>
+<p>Mark Pundsack (Developer):</p>
+<ol>
+<li>Isn&rsquo;t this the same thing we bash against Jenkins for? 好像是 XD!</li>
+<li>Can all integrations be relegated to single files? I would imagine that would limit the kinds of things that can be done with this plugin architecture. e.g. modifying code diff displays to show inline static analysis results. Maybe we don&rsquo;t have any plugins like that today, but people will want them.</li>
+<li>There&rsquo;s value in third-party contributions. There&rsquo;s value in curating them and protecting users from the downside of UNMANAGED THIRD-PARTY CONTRIBUTIONS. Yet there&rsquo;s also value in allowing companies do have private integrations. Perhaps we could make it such that local plugins are only used for private company-specific integrations while public third-party integrations use a different (curated) mechanism.</li>
+</ol>
+</li>
+<li>
+<p>Marin Jankovski (Owner): For security reasons we can&rsquo;t have the plugins inside of <code>/etc/gitlab</code> directory. This directory contains secrets, individual files and directory permissions are security tightened. We could find a better place, maybe <code>/var/opt/gitlab/gitlab-rails/plugins</code>. The holding directory is already accessible to unicorn and has the necessary permissions.</p>
+<p>I wonder whether we can avoid doing it this way tough. If we depend on user adding the file, bunch of things can go wrong (think of permissions, ownership, syntax errors and so on) and we have no way of verifying that those things are correct. It is even possible that the app could crash (in some cases).</p>
+<p>Is it possible if we can add a PLUGIN UPLOADER from within the application itself? This way we can ensure the correctness of the file and inform the user. We also remove the dependency on the FILESYSTEM MANUAL EDIT and with move with gitaly, this is becoming more important.</p>
+</li>
+<li>
+<p>Sid Sijbrandij (Owner): These will execute as GitLab and can cause performance degradations. But this is the only way to CHANGE THINGS LIKE THE UI I think. We already have webhooks and custom git hooks <a href="https://docs.gitlab.com/ee/administration/custom_hooks.html">https://docs.gitlab.com/ee/administration/custom_hooks.html</a> (現在名為 server hook)</p>
+<p>最初希望 plugin 連 UI 都可以自訂，但後來 12.7.0 更名為 File Hook，是否宣告著 plugin 沒有這方面的規劃??</p>
+</li>
+<li>
+<p>James Ramsay (Developer): am I correct to think this would require the plugin to be enabled for each project in the GitLab instance?</p>
+<p>A customer for which this is an important feature, wants plugins to be able to respond to system hooks like projects being created to check they already exist in an external system, and create a corresponding project in the external system if not. Additionally it would be preferable if instance pre-recieve hooks could also be managed from within the plugin. This would allow the customer to manage their various hooks in a single location, removing the need to have multiple individual scripts and a separate application listening for system hooks.</p>
+<p>Dmytro Zaporozhets: yes it will behave exactly like project service (project settings -&gt; integrations page). But I still think about it. There is an alternative approach I currently consider which is having plugins STATELESS and execute for every project (or event like system hook) WITHOUT a possibility to configure anything in the UI.</p>
+</li>
+<li>
+<p>Dmytro Zaporozhets (Owner): I made a different POC <a href="https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/17003">https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/17003</a> as alternative to <a href="https://gitlab.com/gitlab-org/gitlab-ee/merge_requests/3687">https://gitlab.com/gitlab-org/gitlab-ee/merge_requests/3687</a>.</p>
+<p>The new POC executes plugins same as SYSTEM HOOKS. So everything you can do with system hook you can do with a plugin. The implementation advantage is it does not affect GitLab database so plugins can be added and removed with fewer efforts.</p>
+<p>所以 plugin 是比 system hook 更好的選擇?</p>
+</li>
+<li>
+<p>Dmytro Zaporozhets (Owner): I thought about plugins few times during the weekend and decided on next things:</p>
+<ul>
+<li>Plugins should not depend on GitLab source code. That means plugin class should not inherit from existing PROJECT SERVICE.</li>
+<li>In the first iteration, plugins should be STATELESS. No DB records on plugins. This way plugins can be managed simply by adding or removing files</li>
+<li>Plugins should be triggered by same events as SYSTEM HOOKS as it allows different use cases like <a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/40812#note_58074487">https://gitlab.com/gitlab-org/gitlab-ce/issues/40812#note_58074487</a> #ril</li>
+<li>Plugins should be represented on PROJECT INTEGRATIONS PAGE and somewhere in admin area.</li>
+</ul>
+</li>
+<li>
+<p>Dmytro Zaporozhets (Owner): ping @JobV to decide on the feature being CE or EE</p>
+<p>Job van der Voort: I think it&rsquo;s reasonable if this is CE, it will stimulate the use of it and it&rsquo;s something that will be used by opinionated teams, INDEPENDENT OF THEIR SIZE.</p>
+<p>Dmytro Zaporozhets: thanks. I completely agree with you.</p>
+</li>
+<li>
+<p>Dmytro Zaporozhets (Owner): <a href="https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/17003">https://gitlab.com/gitlab-org/gitlab-ce/merge_requests/17003</a> is merged which means we have external plugin support as part of 10.6.</p>
+<p>TODO: Decide if we want any UI representation of the feature. For example, render read-only list of plugins at Admin -&gt; System Hooks and Project -&gt; Integrations pages.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/administration/file_hooks.html">File hooks | GitLab</a> #ril</p>
+<ul>
+<li>
+<p>With custom file hooks, GitLab administrators can introduce custom integrations without modifying GitLab’s source code.</p>
+<p>Introduced in GitLab 10.6. Until 12.8 the feature name was Plugins.</p>
+<p>若更名為 File Hook，跟 System Hook 就更難區分了?</p>
+</li>
+<li>
+<p>Note: File hooks must be configured on the FILESYSTEM of the GitLab server. Only GitLab server administrators will be able to complete these tasks. Explore system hooks or webhooks as an option if you do not have filesystem access.</p>
+<p>反而 system hook 是不需要碰到 filesystem 的??</p>
+</li>
+<li>
+<p>A file hook will run on each event so it’s up to you to filter events or projects within a file hook code. You can have as many file hooks as you want. Each file hook will be triggered by GitLab asynchronously in case of an event.</p>
+<p>For a list of events see the system hooks documentation.</p>
+<p>雖然與 system hook 不同，但能回應的事件是一樣的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.gitlab.com/ee/administration/server_hooks.html">Server hooks | GitLab</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>文件：</p>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/administration/file_hooks.html">File hooks | GitLab</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

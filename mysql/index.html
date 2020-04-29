@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mysql/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MySQL - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mysql.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mysql">MySQL</a></li>
+            <li class="second-level"><a href="#mysqld">mysqld</a></li>
+                
+            <li class="second-level"><a href="#system-variable">System Variable ??</a></li>
+                
+            <li class="second-level"><a href="#storage-engine">Storage Engine ??</a></li>
+                
+            <li class="second-level"><a href="#connection-pool">Connection, Pool ??</a></li>
+                
+            <li class="second-level"><a href="#on-delete-cascade">ON DELETE CASCADE ??</a></li>
+                
+            <li class="second-level"><a href="#_1">日期時間??</a></li>
+                
+            <li class="second-level"><a href="#_2">權限管理??</a></li>
+                
+            <li class="second-level"><a href="#mysqldump">mysqldump</a></li>
+                
+            <li class="second-level"><a href="#backup">Backup</a></li>
+                
+            <li class="second-level"><a href="#information_schema">information_schema</a></li>
+                
+            <li class="second-level"><a href="#auto-increment">Auto Increment</a></li>
+                
+                <li class="third-level"><a href="#_3">如何匯出/匯入資料??</a></li>
+            <li class="second-level"><a href="#table">如何刪除所有 Table ??</a></li>
+                
+            <li class="second-level"><a href="#duplicate-entry-2147483647-for-key-primary">Duplicate entry '2147483647' for key 'PRIMARY'</a></li>
+                
+            <li class="second-level"><a href="#implicit-default-value">Implicit Default Value</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mysql">MySQL<a class="headerlink" href="#mysql" title="Permanent link"> #</a></h1>
+<h2 id="mysqld">mysqld<a class="headerlink" href="#mysqld" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqld.html">MySQL :: MySQL 8.0 Reference Manual :: 4.3.1 mysqld — The MySQL Server</a><ul>
+<li><code>mysqld</code> (MySQL Server) 是 MySQL 的主程式，它管理著 data directory (含有 database 及 table) 的存取，預設其他 log &amp; status file 也在 data directory 裡。</li>
+<li>MySQL Server 有許多 system variable 可以影響它的行為，有些甚至可以在 runtime 改變，另外也有許多 status variables 可以用來監看 runtime performance characteristics。</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/11091414/">mysql - How to stop mysqld - Stack Overflow</a> 如何停止 <code>mysqld</code>? #ril<ul>
+<li>自己的狀況；手動啟動 <code>mysqld</code> 時，按 Ctrl-C 確實沒用，用另一個 session 執行 <code>mysqld stop</code> 一樣卡住。</li>
+<li>squiter: 用 <code>mysqladmin -u root shutdown</code> &hellip; 真的有效!</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-options.html">MySQL :: MySQL 8.0 Reference Manual :: 5.1.6 Server Command Options</a> #ril<ul>
+<li><code>mysqld</code> 會讀取 option file 裡的 <code>[mysqld]</code> 與 <code>[server]</code>，但也接受 command options。</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqld-server.html">MySQL :: MySQL 8.0 Reference Manual :: 5.1 The MySQL Server</a> 說明許多 configuration、system/status variables #ril</li>
+</ul>
+<h2 id="system-variable">System Variable ??<a class="headerlink" href="#system-variable" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html">MySQL :: MySQL 8.0 Reference Manual :: 5.1.8 Server System Variables</a> #ril</p>
+<ul>
+<li>
+<p>The MySQL server maintains many system variables that configure its operation. Each system variable has a default value. System variables can be set at server startup using options on the command line or in an option file.</p>
+</li>
+<li>
+<p>Most of them can be changed dynamically at runtime using the <code>SET</code> statement, which enables you to modify operation of the server without having to stop and restart it. You can also use system variable values in expressions.</p>
+<p>例如 <code>SET GLOBAL variable = value;</code> 或 <code>SET SESSION variable = value</code>。</p>
+<p>At runtime, setting a global system variable value normally requires the <code>SYSTEM_VARIABLES_ADMIN</code> or <code>SUPER</code> privilege. Setting a session system variable value normally requires no special privileges and can be done by any user, although there are exceptions. For more information, see Section 5.1.9.1, “System Variable Privileges”</p>
+</li>
+<li>
+<p>Some of the following variable descriptions refer to “enabling” or “disabling” a variable. These variables can be enabled with the <code>SET</code> statement by setting them to <code>ON</code> or <code>1</code>, or disabled by setting them to <code>OFF</code> or <code>0</code>. Boolean variables can be set at startup to the values <code>ON</code>, <code>TRUE</code>, <code>OFF</code>, and <code>FALSE</code> (not case sensitive), as well as <code>1</code> and <code>0</code>. See Section 4.2.6, “Program Option Modifiers”.</p>
+<p>在 command line option 裡 boolean 的字面表示比較多樣，在 <code>SET</code> 裡就只能用 <code>ON</code>/<code>1</code> 跟 <code>OFF</code>/<code>0</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/system-variable-privileges.html">MySQL :: MySQL 8.0 Reference Manual :: 5.1.9.1 System Variable Privileges</a> #ril</p>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html">MySQL :: MySQL 5.7 Reference Manual :: 5.1.5 Server System Variables</a></p>
+<ul>
+<li>MySQL server 用許多 system variables 來記錄組態。每個 system variable 都有個預設值，可以透過 command-line option 或 option file 設定，大部份也可以在 runtime 透過 <code>SET</code> 修改 (通常需要 SUPER privilege，但不用重啟 server)，在 expression 裡也可以引用 system variable。</li>
+<li>用 <code>SHOW VARIABLES</code> 可以看執行期 system variable 的值。</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/show-variables.html">MySQL :: MySQL 5.7 Reference Manual :: 13.7.5.39 SHOW VARIABLES Syntax</a><ul>
+<li><code>SHOW VARIABLES</code> 會列出 system variables 的值，不需要特別的 privilege，只要可以建立連線即可。</li>
+<li><code>SHOW [GLOBAL | SESSION] VARIABLES [LIKE 'pattern' | WHERE expr]</code>，可以用 <code>LIKE</code> 來過濾 variable name，例如 `LIKE &lsquo;%connection%&rsquo;。</li>
+<li>其中 <code>GLOBAL</code>/<code>SESSION</code> 稱做 variable scope modifier，預設會用 <code>SESSION</code>。所謂 global value 是指新 connection 用來初始化 session value 的預設值，而 session/local value 則是指 current connection。</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/using-system-variables.html">MySQL :: MySQL 5.7 Reference Manual :: 5.1.6 Using System Variables</a> #ril</li>
+</ul>
+<h2 id="storage-engine">Storage Engine ??<a class="headerlink" href="#storage-engine" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/storage-engines.html">MySQL :: MySQL 8.0 Reference Manual :: 16 Alternative Storage Engines</a><ul>
+<li>Storage engine 是 MySQL 用來處理 SQL operation 的元件，預設是 InnoDB；架構上設計成 pluggable，可以動態 load/unload storage engine。</li>
+<li><code>SHOW ENGINES</code> 可以看支援哪些 storage engine，Support 欄位要是 YES/DEFAULT 才能使用。</li>
+<li>只有 InnoDB 與 NDB 支援 transaction 與 foreign key；這代表測試期間，拿 Memory storage engine 來做測試是有落差的。</li>
+<li>InnoDB: Transaction-safe (ACID compliant)，支援 row-level locking 及 Oracle-style consistent nonlocking reads?? (提昇 multi-user concurrency)。把資料存在 clustered indexes，所以基於 primary key 的 query 可以減少 I/O?? 也支援 <code>FOREIGN KEY</code> referential-integrity constraints。</li>
+<li>Memory: 把所有的資料存在 RAM，用於 quick lookups of non-critical data，不過它的用途越來越少。</li>
+<li>CSV: 資料存放在 CSV 文字檔，主要用於 import/export 資料。</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/faqs-storage-engines.html">MySQL :: MySQL 8.0 Reference Manual :: A.2 MySQL 8.0 FAQ: Storage Engines</a> #ril</li>
+</ul>
+<h2 id="connection-pool">Connection, Pool ??<a class="headerlink" href="#connection-pool" title="Permanent link"> #</a></h2>
+<ul>
+<li>最大同時連線數，可以用 <code>SHOW VARIABLES LIKE 'max_connections'</code> 查詢，預設是 100 或 150 (依 MySQL 版本不同)。</li>
+<li><code>SHOW PROCESSLIST</code> 可以查看目前的連線數，從 Command (Sleep) 跟 Time 可以看出連線已經閒置多久，至於閒置多久會被中斷，則要看 <code>wait_timeout</code> (non-interactive) 與 <code>interactive_timeout</code> 的設定 &ndash; <code>SHOW VARIABLES LIKE '%_timeout'</code>，預設是 8hr (28800 sec)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-usagenotes-j2ee-concepts-connection-pooling.html">MySQL :: MySQL Connector/J 5.1 Developer Guide :: 7 Connection Pooling with Connector/J</a> #ril<ul>
+<li>Connection pooling 可以管理 a pool of connections 供任何需要 thread 取用，可以提昇 application 的效能，也減少 application 整理資源的使用量。</li>
+<li>處理 transaction 時才會用到 connection，其他時候 connection 處於 idle，而 connection pooling 可以讓 idle connection 讓其他有需要的 thread 使用；實務上 application 會跟 pool 拿 connection，用完後再放回 pool (未中斷連線)，所以 application 可能拿到已經存在的 connection，也可能是新建立的 connection。</li>
+<li>使用 connection pooling 的好處有 1. 減少建立連線的時間 (networking、driver overhead) 2. 避免 heavy load 時建立太多 connection 而導致不可預期的結果。</li>
+<li>每個 connection 在 client &amp; server 兩端都有 overhead，因此 connection pool 需要調校。</li>
+<li>Connection pool 的大小跟預期的負載、平均 DB 交易時間有關，實務上最佳的 connection pool 可能會小於你認為的，以 Oracle&rsquo;s Java Petstore blueprint 為例，15-20 個 connection 就足以應付 600 個 concurrent user。</li>
+<li>要找到適合的大小，可以透過 JMeter、Grinder 這些 load test 工具找出來。一開始可以不設定上限 (unbounded)，透過 load test 找出最高的同時連線數，以該數字為起點慢慢往回調，找到可以兼顧 best performance 及 response time 的 connection pool 大小。</li>
+<li>驗證 connection pool 裡 connection 的有效性，可以避免拿到 stale/die connection，檢查的時機可能是 pool 把 connection 交給 application 前、application 歸還 connection 給 pool 時，或是定期檢查 idle connections。</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/too-many-connections.html">MySQL :: MySQL 5.7 Reference Manual :: B.5.2.6 Too many connections</a><ul>
+<li>當連線數超過 <code>max_connections</code> system variable 的設定時，client 會收到 &ldquo;Too many connections&rdquo; 的錯誤，預設值是 150 (之前是 100)。</li>
+<li>事實上 <code>mysqld</code> 可以接受 <code>max_connections</code> + 1 個連線，多出來的那個 connection 是保留給具有 <code>SUPER</code> privilege 的 user (administrator)，讓他在出現 Too many connections 問題時，還可以連線進去用 <code>SHOW PROCESSLIST</code> 查看問題 (需要有 <code>PROCESS</code> privilege)。</li>
+<li>最大同時連線數跟特定 platform 上的 thread library、RAM 的數量、每個 connection 的 workload 及預期的 response time 有關。</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/show-processlist.html">MySQL :: MySQL 5.7 Reference Manual :: 13.7.5.29 SHOW PROCESSLIST Syntax</a><ul>
+<li><code>SHOW [FULL] PROCESSLIST</code> 顯示有哪些 thread 正在執行 (也就是未中斷的連線)，其中 <code>FULL</code> 是指 <code>Info</code> 欄位裡的 SQL statement 要完全顯示出來，不只是前 100 個字元。</li>
+<li><code>SHOW PROCESSLIST</code> 預設只會顯示自己的 thread (同一個 account)，如果有 <code>PROCESS</code> privilege 的話，才能看到所有的 thread；這裡 process、thread、connection 似乎是可以互通的?</li>
+<li>提到 thread 可以用 <code>KILL</code> 刪除，可以用來模擬意外斷線的狀況??</li>
+<li>Id: Connection identifier 或 processlist ID</li>
+<li>Command: 該 thread 目前在執行的 command type，Sleep 是指??</li>
+<li>State: 該 thread 目前在做什麼? 跟 Command 有什麼差別??</li>
+<li>Time: 目前的 state 已經持續多久 (秒)</li>
+</ul>
+</li>
+<li><a href="https://stackoverflow.com/questions/12194241/">SHOW PROCESSLIST in MySQL command: sleep - Stack Overflow</a> Drew: Sleep 跟 connection pool 或 client-side DB admin tool 有關 #ril</li>
+<li><a href="https://serverfault.com/questions/375136/">mysql - Difference between wait_timeout and interactive_timeout - Server Fault</a> #ril</li>
+</ul>
+<h2 id="on-delete-cascade">ON DELETE CASCADE ??<a class="headerlink" href="#on-delete-cascade" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.mysqltutorial.org/mysql-on-delete-cascade/">MySQL ON DELETE CASCADE: Deleting Data From Multiple Tables</a> #ril<ul>
+<li>allows you to delete data from child tables automatically when you delete the data from the parent table 刪除 parent table 某個 item 時，會自動刪除 child tables 裡關聯的 items。</li>
+</ul>
+</li>
+</ul>
+<h2 id="_1">日期時間??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/datetime.html">MySQL :: MySQL 8.0 Reference Manual :: 11.3.1 The DATE, DATETIME, and TIMESTAMP Types</a> #ril<ul>
+<li>MySQL converts TIMESTAMP values from the current time zone to UTC for storage, and back from UTC to the current time zone for retrieval. (This does not occur for other types such as DATETIME.) 原來 <code>DATETIME</code> 不受時區影響?</li>
+</ul>
+</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-literals.html">MySQL :: MySQL 8.0 Reference Manual :: 9.1.3 Date and Time Literals</a> #ril</li>
+</ul>
+<h2 id="_2">權限管理??<a class="headerlink" href="#_2" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.databasejournal.com/features/mysql/article.php/3311731/An-introduction-to-MySQL-permissions.htm">An introduction to MySQL permissions — DatabaseJournal.com</a> (2004-02-17) #ril</li>
+<li><a href="https://chartio.com/resources/tutorials/how-to-grant-all-privileges-on-a-database-in-mysql/">How to Grant All Privileges on a Database in MySQL</a> #ril</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql">How To Create a New User and Grant Permissions in MySQL | DigitalOcean</a> (2012-06-12) #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html">MySQL :: MySQL 5.7 Reference Manual :: 6.2.1 Privileges Provided by MySQL</a> #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/grant.html">MySQL :: MySQL 5.7 Reference Manual :: 13.7.1.4 GRANT Syntax</a> #ril</li>
+</ul>
+<h2 id="mysqldump">mysqldump<a class="headerlink" href="#mysqldump" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html">MySQL :: MySQL 5.7 Reference Manual :: 4.5.4 mysqldump — A Database Backup Program</a> 用來做 logical backup，產生一組 SQL statements 用以重建 database definition 與 table data &ndash; 目的可能是 backup 或轉移資料，所以輸出格式也可以是 CSV 或 XML。</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html#mysqldump-syntax">Invocation Syntax - MySQL :: MySQL 5.7 Reference Manual :: 4.5.4 mysqldump — A Database Backup Program</a> 常見的用法是 <code>mysqldump [OPTIONS] DB_NAME</code>，例如 <code>mysqldump [--host HOST] --user USER --password [--no-data] DB_NAME</code></li>
+</ul>
+<h2 id="backup">Backup<a class="headerlink" href="#backup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/mysql-enterprise-backup/4.1/en/mysqlbackup.incremental.html">MySQL :: MySQL Enterprise Backup 4.1 User&rsquo;s Guide :: 4.3.3 Making a Differential or Incremental Backup</a> #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/backup-methods.html">MySQL :: MySQL 8.0 Reference Manual :: 7.2 Database Backup Methods</a> #ril</li>
+</ul>
+<h2 id="information_schema">information_schema<a class="headerlink" href="#information_schema" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/information-schema.html">MySQL :: MySQL 8.0 Reference Manual :: 24 INFORMATION_SCHEMA Tables</a> #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/information-schema.html">MySQL :: MySQL 5.7 Reference Manual :: 24 INFORMATION_SCHEMA Tables</a> #ril</li>
+</ul>
+<h2 id="auto-increment">Auto Increment<a class="headerlink" href="#auto-increment" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://viralpatel.net/blogs/reseting-mysql-autoincrement-column/">How To Reset MySQL Autoincrement Column. Autoincrement Number Reseting</a> #ril</li>
+</ul>
+<h3 id="_3">如何匯出/匯入資料??<a class="headerlink" href="#_3" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/select-into.html">MySQL :: MySQL 5.7 Reference Manual :: 13.2.9.1 SELECT ... INTO Syntax</a> 示範了 <code>SELECT ... INTO OUTFILE ... FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' FROM ...</code> 可以寫出 CSV 檔 #ril</li>
+<li><a href="https://stackoverflow.com/questions/6091427/">MYSQL into outfile &ldquo;access denied&rdquo; - but my user has &ldquo;ALL&rdquo; access.. and the folder is CHMOD 777 - Stack Overflow</a> <code>GRANT ALL</code> 不含 <code>GRANT FILE</code>，有可能是因為檔案要寫在 server 端的關係? #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/load-data.html">MySQL :: MySQL 5.7 Reference Manual :: 13.2.6 LOAD DATA INFILE Syntax</a> <code>mysqldump -T</code> 或 <code>SELECT ... INTO OUTFILE</code> 可以寫出 CSV，相對地 <code>mysqlimport</code> 或 <code>LOAD DATA INFILE</code> 可以匯入 CSV #ril</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/mysqlimport.html">MySQL :: MySQL 5.7 Reference Manual :: 4.5.5 mysqlimport — A Data Import Program</a> <code>mysqlimport</code> 做為 <code>LOAD DATA INFILE</code> 的 CLI，所以大部份 option 都直接對應到 <code>LOAD DATA INFILE</code> 的語法 #ril</li>
+</ul>
+<h2 id="table">如何刪除所有 Table ??<a class="headerlink" href="#table" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/3476765/">MySQL DROP all tables, ignoring foreign keys - Stack Overflow</a> #ril<ul>
+<li>StuartLC: 為什麼不 <code>DROP DATABASE</code>，bcmcfc: 為了保留權限。</li>
+<li>Dion Truter: <code>SELECT table_name FROM information_schema.tables WHERE table_schema='xxx'</code> 可以找到 tables。</li>
+</ul>
+</li>
+<li><a href="https://www.cyberciti.biz/faq/how-do-i-empty-mysql-database/">MySQL Empty Database / Delete or Drop All Tables - nixCraft</a> #ril</li>
+</ul>
+<h2 id="duplicate-entry-2147483647-for-key-primary">Duplicate entry &lsquo;2147483647&rsquo; for key &lsquo;PRIMARY&rsquo;<a class="headerlink" href="#duplicate-entry-2147483647-for-key-primary" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/numeric-type-overview.html">MySQL :: MySQL 5.7 Reference Manual :: 11.1.1 Numeric Type Overview</a> <code>INT</code> 的值域是 -2147483648 ~ 2147483647。</li>
+<li><a href="https://stackoverflow.com/questions/20442140/">mysql - ERROR 1062 (23000): Duplicate entry &lsquo;2147483647&rsquo; for key &lsquo;PRIMARY&rsquo; - Stack Overflow</a> John Conde: 因為 <code>INT</code> (signed) 的最大值是 2147483647，任何超過這個數字的值會被 truncate；或許採用 <code>VARCHAR</code> 是更好的選擇?</li>
+</ul>
+<h2 id="implicit-default-value">Implicit Default Value<a class="headerlink" href="#implicit-default-value" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.codediesel.com/mysql/avoiding-implicit-default-column-values-in-mysql/">Avoiding implicit default column values in MySQL - codediesel</a> (2013-07-02) 只是為了避免之後開 strict mode 所揭露的錯誤? #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<pre><code>$ docker volume create mysql-data
+$ MYSQL_VERSION=5 # 8
+$ docker run --rm --name mysql -d \
+    -v mysql-data:/var/lib/mysql \
+    --env MYSQL_DATABASE=mydb \
+    --env MYSQL_USER=appuser \
+    --env MYSQL_PASSWORD=secret \
+    --env MYSQL_ROOT_PASSWORD=admin \
+    mysql:$MYSQL_VERSION
+$ until docker logs mysql 2&gt;&amp;1 | grep 'mysqld: ready for connections.'; do continue; done
+
+$ docker exec -it mysql mysql -u appuser -p
+</code></pre>
+
+<p><code>Makefile</code> + Docker Compose 可以這麼用：</p>
+<pre><code>up:
+    docker-compose up --detach
+    until docker-compose logs mysql 2&gt;&amp;1 | grep 'mysqld: ready for connections'; do continue; done
+
+down restart:
+    docker-compose $(docker_compose_opts) $@
+</code></pre>
+
+<p>用 container 裡的 MySQL client 連到 Docker host 或其他 host 的 MySQL daemon：</p>
+<pre><code>$ alias mysql=&quot;docker run -it --rm mysql mysql -h host.docker.internal --default-character-set=utf8&quot;
+$ mysql -u xxx -p
+$ mysql -h another-host -u xxx -p
+</code></pre>
+
+<p>其中 <code>host.docker.internal</code> 可以動態對應到 Docker host 的 IP，即便 host 沒有任何網路。</p>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://hub.docker.com/_/mysql/">library/mysql - Docker Hub</a></p>
+<p>Start a mysql server instance</p>
+<ul>
+<li>
+<p>Starting a MySQL instance is simple:</p>
+<pre><code>$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+</code></pre>
+<p>&hellip; where <code>some-mysql</code> is the name you want to assign to your container, <code>my-secret-pw</code> is the password to be set for the MySQL ROOT USER and <code>tag</code> is the tag specifying the MySQL version you want. See the list above for relevant tags.</p>
+<p>其中 <code>MYSQL_ROOT_PASSWORD</code> 沒給的話，container 會起不來直接死掉。</p>
+<pre><code>$ docker run --name mysql mysql:5.7
+error: database is uninitialized and password option is not specified
+  You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD
+</code></pre>
+</li>
+</ul>
+<p>Connect to MySQL from the MySQL command line client</p>
+<ul>
+<li>
+<p>The following command starts another mysql container instance and runs the mysql command line client against your original mysql container, allowing you to execute SQL statements against your database instance:</p>
+<pre><code>$ docker run -it --network some-network --rm mysql mysql -hsome-mysql -uexample-user -p
+</code></pre>
+<p>&hellip; where <code>some-mysql</code> is the name of your original mysql container (connected to the <code>some-network</code> Docker network).</p>
+</li>
+<li>
+<p>This image can also be used as a client for non-Docker or remote instances:</p>
+<pre><code>$ docker run -it --rm mysql mysql -hsome.mysql.host -usome-mysql-user -p
+</code></pre>
+</li>
+</ul>
+<p>&hellip; via docker stack deploy or docker-compose</p>
+<ul>
+<li>
+<p>Example <code>stack.yml</code> for mysql:</p>
+<pre><code># Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+</code></pre>
+</li>
+<li>
+<p>Run <code>docker stack deploy -c stack.yml mysql</code> (or <code>docker-compose -f stack.yml up</code>), WAIT FOR IT TO INITIALIZE COMPLETELY, and visit <code>http://swarm-ip:8080</code>, <code>http://localhost:8080</code>, or <code>http://host-ip:8080</code> (as appropriate).</p>
+</li>
+</ul>
+<p>Container shell access and viewing MySQL logs</p>
+<ul>
+<li>
+<p>The <code>docker exec</code> command allows you to run commands inside a Docker container. The following command line will give you a bash shell inside your mysql container:</p>
+<pre><code>$ docker exec -it some-mysql bash
+</code></pre>
+</li>
+<li>
+<p>The log is available through Docker&rsquo;s container log:</p>
+<pre><code>$ docker logs some-mysql
+</code></pre>
+</li>
+</ul>
+<p>No connections until MySQL init completes</p>
+<ul>
+<li>
+<p>If there is no database initialized when the container starts, then a default database will be created.</p>
+<p>While this is the expected behavior, this means that it will not accept incoming connections UNTIL SUCH INITIALIZATION COMPLETES. This may cause issues when using automation tools, such as <code>docker-compose</code>, which start several containers simultaneously.</p>
+<p>原來時間差是因為要初始化資料庫產生的。</p>
+</li>
+<li>
+<p>If the application you&rsquo;re trying to connect to MySQL does not handle MySQL downtime or waiting for MySQL to start gracefully, then a putting a CONNECT-RETRY LOOP before the service starts might be necessary. For an example of such an implementation in the official images, see WordPress or Bonita.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/mysql/#environment-variables">Environment Variables - mysql - Docker Hub</a></p>
+<ul>
+<li>
+<p>When you start the <code>mysql</code> image, you can adjust the configuration of the MySQL instance by passing one or more environment variables on the <code>docker run</code> command line. Do note that none of the variables below will have any effect if you start the container with a DATA DIRECTORY that already contains a database: any PRE-EXISTING DATABASE will always be left UNTOUCHED on container startup.</p>
+<p>也就是這些環境變數是專用於初始化資料庫；不過其他 MySQL 本來就會參考的環境變數，應該也會影響現有的 database 才對。</p>
+</li>
+<li>
+<p>See also <a href="https://dev.mysql.com/doc/refman/5.7/en/environment-variables.html">https://dev.mysql.com/doc/refman/5.7/en/environment-variables.html</a> for documentation of environment variables which MySQL itself respects (especially variables like <code>MYSQL_HOST</code>, which is known to cause issues when used with this image).</p>
+</li>
+</ul>
+<p><code>MYSQL_ROOT_PASSWORD</code></p>
+<ul>
+<li>
+<p>This variable is MANDATORY and specifies the password that will be set for the MySQL root superuser account. In the above example, it was set to <code>my-secret-pw</code>.</p>
+<p>用 <code>MYSQL_USER</code>/<code>MYSQL_PASSWORD</code> 建立另一個使用者時，可以用 <code>MYSQL_RANDOM_ROOT_PASSWORD</code> 給一個隨機的密碼，這時候沒給 <code>MYSQL_ROOT_PASSWORD</code> 就不會出錯，這樣用也滿合理的。</p>
+</li>
+</ul>
+<p><code>MYSQL_DATABASE</code></p>
+<ul>
+<li>
+<p>This variable is optional and allows you to specify the name of a database to be created on image startup. If a user/password was supplied (see below) then that user will be GRANTED SUPERUSER ACCESS (corresponding to <code>GRANT ALL</code>) to this database.</p>
+<p>沒給 <code>MYSQL_DATABASE</code> 的話就不會自動建 database。</p>
+</li>
+</ul>
+<p><code>MYSQL_USER</code>, <code>MYSQL_PASSWORD</code></p>
+<ul>
+<li>
+<p>These variables are optional, used in conjunction to create a new user and to set that user&rsquo;s password. This user will be granted superuser permissions (see above) for the database specified by the <code>MYSQL_DATABASE</code> variable. Both variables are required for a user to be created.</p>
+</li>
+<li>
+<p>Do note that there is no need to use this mechanism to create the root superuser, that user gets created by default with the password specified by the <code>MYSQL_ROOT_PASSWORD</code> variable.</p>
+<p><code>root</code> 這個使用者本來就會有，<code>MYSQL_USER</code>/<code>MYSQL_PASSWORD</code> 只是要求建立另一個使用者。</p>
+</li>
+</ul>
+<p><code>MYSQL_ALLOW_EMPTY_PASSWORD</code></p>
+<ul>
+<li>
+<p>This is an optional variable. Set to <code>yes</code> to allow the container to be started with a blank password FOR THE ROOT USER.</p>
+<p>NOTE: Setting this variable to <code>yes</code> is not recommended unless you really know what you are doing, since this will leave your MySQL instance completely unprotected, allowing anyone to gain complete superuser access.</p>
+</li>
+</ul>
+<p><code>MYSQL_RANDOM_ROOT_PASSWORD</code></p>
+<ul>
+<li>This is an optional variable. Set to <code>yes</code> to generate a random initial password for the root user (using <code>pwgen</code>). The generated root password will be printed to stdout (<code>GENERATED ROOT PASSWORD: .....</code>).</li>
+</ul>
+<p><code>MYSQL_ONETIME_PASSWORD</code></p>
+<ul>
+<li>
+<p>Sets root (not the user specified in <code>MYSQL_USER</code>!) user as EXPIRED ONCE INIT IS COMPLETE, FORCING A PASSWORD CHANGE ON FIRST LOGIN.</p>
+<p>NOTE: This feature is supported on MySQL 5.6+ only. Using this option on MySQL 5.5 will throw an appropriate error during initialization.</p>
+<p>看似 <code>MYSQL_RANDOM_ROOT_PASSWORD</code> 的另一種選擇。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/mysql/">Initializing a fresh instance - library/mysql - Docker Hub</a></p>
+<ul>
+<li>
+<p>When a container is started FOR THE FIRST TIME, a new database with the specified name will be created and initialized with the provided configuration variables.</p>
+<p>有提供 <code>MYSQL_USER</code> 的話，該使用者對該 database 會取得 <code>GRANT ALL</code> 的權限 (Host 採 <code>%</code> 在開發時很方便)。</p>
+</li>
+<li>
+<p>Furthermore, it will execute files with extensions <code>.sh</code>, <code>.sql</code> and <code>.sql.gz</code> that are found in <code>/docker-entrypoint-initdb.d</code>.</p>
+<p>Files will be executed IN ALPHABETICAL ORDER. You can easily POPULATE your <code>mysql</code> services by mounting a SQL dump into that directory and provide custom images with contributed data.</p>
+<p>SQL files will be imported by default to the database specified by the <code>MYSQL_DATABASE</code> variable.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/_/mysql/">Where to Store Data - library/mysql - Docker Hub</a> #ril</p>
+</li>
+<li><a href="https://hub.docker.com/_/mysql/">Using a custom MySQL configuration file - library/mysql - Docker Hub</a> #ril</li>
+<li><a href="https://hub.docker.com/r/mysql/mysql-server/">mysql/mysql-server - Docker Hub</a> 由 <a href="https://github.com/mysql/mysql-docker">mysql/mysql-docker</a> 產生，但其實是源自 <code>docker-library/mysql</code>，該用哪個??</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/docker-mysql-getting-started.html">MySQL :: MySQL 5.7 Reference Manual :: 2.5.7.1 Basic Steps for MySQL Server Deployment with Docker</a> 就 MySQL Community Server 而言，這裡用 <code>mysql/mysql-server</code> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.mysql.com/">MySQL</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../mysql-type/">Data Type</a></li>
+<li><a href="../mysql-collation/">Collation</a></li>
+<li><a href="../mysql-innodb/">InnoDB Storage Engine</a></li>
+<li><a href="../mysql-perf/">Performance</a></li>
+<li><a href="../mysql-json/">JSON</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/keywords.html">Keywords and Reserved Words - MySQL</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html">Server System Variables</a> (<a href="https://dev.mysql.com/doc/refman/8.0/en/dynamic-system-variables.html">Dynamic</a>)</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

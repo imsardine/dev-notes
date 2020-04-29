@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/google-colab/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Google Colab - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/google-colab.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#google-colab">Google Colab</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="google-colab">Google Colab<a class="headerlink" href="#google-colab" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Project_Jupyter#Colaboratory">Colaboratory - Project Jupyter - Wikipedia</a></p>
+<ul>
+<li>
+<p>Colaboratory (also known as Colab) is a free Jupyter notebook ENVIRONMENT that runs in the cloud and stores its notebooks on Google Drive.</p>
+<p>Colaboratory started as a part of Project Jupyter, but the development was eventually taken over by Google. As of September 2018, Colaboratory only supports the Python 2 and Python 3 kernels and DOES NOT support the other Jupyter kernels Julia and R.</p>
+<p>感覺 Colaboratory 是一種特化的 JupyterLab (執行在 Google Cloud 上)，多了 Google Drive 及其他工具的整合，但也少了其他語言的支持。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://colab.research.google.com/notebooks/welcome.ipynb">Welcome To Colaboratory - Colaboratory</a></p>
+<ul>
+<li>
+<p>Colaboratory is a free Jupyter notebook environment that requires no setup and runs entirely in the cloud.</p>
+</li>
+<li>
+<p>With Colaboratory you can write and execute code, save and share your analyses, and access powerful computing resources, all for FREE from your browser.</p>
+<p>妙的是，程式執行在 Google Cloud 上，卻不用付費。</p>
+</li>
+</ul>
+<p>Introducing Colaboratory</p>
+<ul>
+<li>
+<p>This 3-minute video gives an overview of the key features of Colaboratory:</p>
+<p><a href="https://www.youtube.com/watch?v=inN8seMm7UI">Get started with Google Colaboratory (Coding TensorFlow) - YouTube</a></p>
+</li>
+</ul>
+<p>Getting Started</p>
+<ul>
+<li>
+<p>The document you are reading is a Jupyter notebook, hosted in Colaboratory. It is not a static page, but an INTERACTIVE ENVIRONMENT that lets you write and execute code in Python and other languages.</p>
+<p>事實上，目前僅支援 Python 2 跟 Python 3。</p>
+</li>
+<li>
+<p>For example, here is a code cell with a short Python script that computes a value, stores it in a variable, and prints the result:</p>
+<pre><code>seconds_in_a_day = 24 * 60 * 60
+seconds_in_a_day
+</code></pre>
+<p>To execute the code in the above cell, select it with a click and then either press the ▷ button to the left of the code, or use the keyboard shortcut &ldquo;⌘/Ctrl+Enter&rdquo;.</p>
+</li>
+<li>
+<p>All cells modify the SAME GLOBAL STATE, so variables that you define by executing a cell can be used in other cells:</p>
+<pre><code>seconds_in_a_week = 7 * seconds_in_a_day
+seconds_in_a_week
+</code></pre>
+</li>
+<li>
+<p>For more information about working with Colaboratory notebooks, see <a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb">Overview of Colaboratory</a>.</p>
+</li>
+</ul>
+<p>More Resources</p>
+<ul>
+<li>
+<p>Learn how to make the most of Python, Jupyter, Colaboratory, and related tools with these resources:</p>
+<p>Working with Notebooks in Colaboratory</p>
+<ul>
+<li><a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb">Overview of Colaboratory</a></li>
+<li><a href="https://colab.research.google.com/notebooks/markdown_guide.ipynb">Guide to Markdown</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/snippets/importing_libraries.ipynb">Importing libraries and installing dependencies</a> #ril</li>
+<li><a href="https://colab.research.google.com/github/googlecolab/colabtools/blob/master/notebooks/colab-github-demo.ipynb">Saving and loading notebooks in GitHub</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/forms.ipynb">Interactive forms</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/widgets.ipynb">Interactive widgets</a> #ril</li>
+</ul>
+<p>Working with Data</p>
+<ul>
+<li><a href="https://colab.research.google.com/notebooks/io.ipynb">Loading data: Drive, Sheets, and Google Cloud Storage</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/charts.ipynb">Charts: visualizing data</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/bigquery.ipynb">Getting started with BigQuery</a> #ril</li>
+</ul>
+<p>Machine Learning Crash Course</p>
+<ul>
+<li>
+<p>These are a few of the notebooks from Google&rsquo;s online Machine Learning course. See the full course website for more.</p>
+</li>
+<li>
+<p><a href="https://colab.research.google.com/notebooks/mlcc/intro_to_pandas.ipynb">Intro to Pandas</a> #ril</p>
+</li>
+<li><a href="https://colab.research.google.com/notebooks/mlcc/tensorflow_programming_concepts.ipynb">Tensorflow concepts</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/mlcc/first_steps_with_tensor_flow.ipynb">First steps with TensorFlow</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/mlcc/intro_to_neural_nets.ipynb">Intro to neural nets</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/mlcc/intro_to_sparse_data_and_embeddings.ipynb">Intro to sparse data and embeddings</a> #ril</li>
+</ul>
+<p>Using Accelerated Hardware</p>
+<ul>
+<li><a href="https://colab.research.google.com/notebooks/gpu.ipynb">TensorFlow with GPUs</a> #ril</li>
+<li><a href="https://colab.research.google.com/notebooks/tpu.ipynb">TensorFlow with TPUs</a> #ril</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=inN8seMm7UI">Get started with Google Colaboratory (Coding TensorFlow) - YouTube</a> (2019-01-30)</p>
+<ul>
+<li>
+<p>00:14 Google Colab is an executable document that lets you write, run, and share code within Google Drive. If you&rsquo;re familiar with the popular Jupyter project, you can think of Colab as a JUPYTER NOTEBOOK STORED IN GOOGLE DRIVE.</p>
+</li>
+<li>
+<p>00:27 A notebook document is composed of CELLS, each of which can contain code, text, images, and more.</p>
+</li>
+<li>
+<p>00:34 Colab connects your notebook to a CLOUD-BASED RUNTIME, meaning you can execute Python code without any required setup on your own machine.</p>
+<p>執行 <code>print('Hello, World!')</code> 後，右上角會出現 RAM/Disk 的資訊，提示著 Connected to &ldquo;Python 3 Google Compute Engine backend&rdquo; RAM: 0.62 GB/12.72 GB Disk: 20.89 GB/48.97 GB，資源很充足，重點是免費的!!</p>
+<p>下拉預設是 Connect to hosted runtime，另一個選項 Connect to local runtime&hellip; 要裝哪些套件才會跟 Colab 提供的環境一樣 ??</p>
+</li>
+<li>
+<p>00:42 Additional CODE CELLS are executed using that same runtime, resulting in a rich, interactive coding experience in which you can use any of the functionality that Python offers.</p>
+<p>For example, here we define a variable containing a range of 10 numbers.  In the next cell, we loop through this range, printing the square of each number.</p>
+<p>For convenience, we use the Shift-Enter shortcut rather than the Play button to execute the cell.</p>
+<p>也就是多個 code cell 間是共用一個 runtime，因此可以分段執行。</p>
+</li>
+<li>
+<p>01:07 Cell outputs are not limited to simple text, however. They can contain any number of DYNAMIC, rich outputs. For example, we can search Colab&rsquo;s built-in library of CODE SNIPPETS and insert code to create an INTERACTIVE DATA VISUALIZATION.</p>
+<p>這裡搜尋 visualization 選 Visualization: Linked Brushing in Altair，插入成為 code cell 就可執行：</p>
+<pre><code># load an example dataset
+from vega_datasets import data # https://pypi.org/project/vega_datasets/
+cars = data.cars()
+
+import altair as alt # https://pypi.org/project/altair/
+
+interval = alt.selection_interval()
+
+base = alt.Chart(cars).mark_point().encode(
+  y='Miles_per_Gallon',
+  color=alt.condition(interval, 'Origin', alt.value('lightgray'))
+).properties(
+  selection=interval
+)
+
+base.encode(x='Acceleration') | base.encode(x='Horsepower')
+</code></pre>
+<p>This particular visualization is created with Altair, one of several third-party visualization libraries that Colab supports.</p>
+</li>
+<li>
+<p>01:28 Colab notebooks can be shared like a Google Doc, and for this purpose it&rsquo;s useful to use TEXT CELLS to provide a NARRATIVE AROUND THE CODE you&rsquo;ve executed.</p>
+<p>Text cells are formatted using Markdown, a plain text document format that&rsquo;s rendered on the page. Markdown format is simple and powerful, allowing you to add headings, paragraphs, lists and even MATHEMATICAL FORMULAE.</p>
+<p>可以寫數學方程式很重要，因為 machine learning 就是在建立數學模型。</p>
+</li>
+<li>
+<p>01:51 If you would like to share your notebooks with others, you can do so via Google Drive sharing or even by EXPORTING your notebook to GitHub.</p>
+<p>The notebook is stored in the standard Jupyter Notebook format, and so the notebooks you create can be viewed and executed in Jupyter Notebook, JupyterLab, and other compatible frameworks.</p>
+<p>要先安裝哪些套件也可以寫在 notebook 裡，方便直接執行安裝步驟 (shell script) ??</p>
+</li>
+<li>
+<p>02:10 The convenience of sharing notebooks means that you can find and explore many interesting notebooks around the web. One useful collection is the Seedbank project at research.google.com/seedbank.</p>
+<p><a href="https://research.google.com/seedbank/">Seedbank</a> 提供有 Run seed in Colab 直接在 Colab 開啟 notebook。</p>
+<p>For example, the <a href="https://research.google.com/seedbank/seed/neural_style_transfer_with_tfkeras">Neural Style Transfer</a> seed shows how to use deep learning to transfer styles between images and includes a link to a Colab notebook where you can run and modify the code.</p>
+</li>
+<li>
+<p>02:34 To learn more about Colab, visit colab.research.google.com and find the Welcome notebook, where you will find links to tutorials and other info about Jupyter and Colab notebooks.</p>
+<p>You can also find the remaining videos in this series, which will explore Colab in more depth. In the next video, my colleague Lawrence will explore how to INSTALL TENSORFLOW using Colab and how to use DIFFERENT RUNTIMES to access things like the GPU. See you there.</p>
+<p>在 Colab 上為什麼還要安裝 TensorFlow，不是本來就有 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb">Overview of Colaboratory Features - Colaboratory</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://colab.research.google.com/">Google Colab</a></li>
+<li><a href="https://research.google.com/seedbank/">Seedbank - Collection of Interactive Machine Learning Examples</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>是一個特化過、執行在 Google Compute Engine 上的 <a href="../jupyter/">Jupyter Notebook</a>。</li>
+<li>做為 <a href="../tensorflow/">TensorFlow</a> 的學習環境，不用安裝設定。</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

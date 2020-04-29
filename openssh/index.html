@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/openssh/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>OpenSSH - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/openssh.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#openssh">OpenSSH</a></li>
+            <li class="second-level"><a href="#key-generation-certificate">Key Generation, Certificate ??</a></li>
+                
+            <li class="second-level"><a href="#host-identity-file">為不同 Host 指定不同的 Identity File ??</a></li>
+                
+            <li class="second-level"><a href="#ssh-key">如何設定 SSH key 認證?</a></li>
+                
+            <li class="second-level"><a href="#remote-control-session-scp">如何在 remote control session 期間用 scp 交換檔案?</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="openssh">OpenSSH<a class="headerlink" href="#openssh" title="Permanent link"> #</a></h1>
+<ul>
+<li>OpenSSH 實現了 Secure Shell (SSH) protocol，可以在網路串連的電腦之間 (networked computers) 進行 remote controlling 與交換檔案 (transferring files)，以取代不安全的 telnet、rcp 等。</li>
+</ul>
+<h2 id="key-generation-certificate">Key Generation, Certificate ??<a class="headerlink" href="#key-generation-certificate" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>ssh-keygen -t rsa -b 4096 -C COMMENT -f KEY_NAME</code> 用 RSA 演算法產生 SSH key pair，例如 <code>ssh-keygen -t rsa -b 4096 -C "GitLab deploy key (personal)" -f id_rsa_gitlab</code> 會在當前的目錄產生 <code>id_rsa_gitlab</code> 與 <code>id_rsa_gitlab.pub</code>。</li>
+<li>通常需要把 public key 的內容貼到其他地方，用 <code>pbcopy &lt; KEY_FILE</code> (Mac) 可以複製到剪貼簿。 =&gt; 用 <code>ssh-copy-id</code> 才對。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#generating-a-new-ssh-key">Generating a new SSH key - Generating a new SSH key and adding it to the ssh-agent - User Documentation</a> #ril</li>
+<li><a href="https://man.openbsd.org/ssh-keygen">ssh-keygen(1) - OpenBSD manual pages</a> #ril<ul>
+<li><code>ssh-keygen</code> generates, manages and converts AUTHENTICATION KEYS for <code>ssh</code>(1). <code>ssh-keygen</code> can create keys for use by SSH protocol version 2. 支援不同 key format (指 file format，不同於 key type)，但要管理什麼??</li>
+<li>產生的 key type 由 <code>-t</code> option 決定，支援 <code>dsa</code>/<code>ecdsa</code>/<code>ed25519</code>/<code>rsa</code>，預設是 RSA。</li>
+<li>一般的使用者只會為了 public key authentication 執行一次 <code>ssh-keygen 在</code>~/.ssh/id_<KEYTYPE><code>產生 authentication key (private)，例如</code>~/.ssh/id_rsa`。而 system admin 可能用來產生 host keys。</li>
+<li>伴隨著 private key 產生的是對應的 public key (形成所謂的 key pair)，檔名是在 private key 的檔名後面串上 <code>.pub</code>，例如 <code>~/.ssh/id_rsa.pub</code>。</li>
+<li><code>ssh-keygen</code> 產生 key pair 的過程中也會詢問 passphrase，可以留白 (host key 不能有 passphrase)。passphrase 類似於 password，但它可以是任意長度，之後可以用 <code>-p</code> 修改，但如果忘了 passphrase 就只能重新產生 key pair。</li>
+<li>新的 key format 增加 comment 欄位幫助識別不同的 key (用途不同)，預設是 <code>user@host</code>，可以透過 <code>-C</code> 自訂，事後也可以用 <code>-c</code> 修改；似乎 comment 只會出現在 public key file??</li>
+<li><code>-b bits</code> - the number of bits in the key to create，就 RSA key 而言，最少要 1024 bits，但預設是 2048 bits。文件說 2048 bits 通常是夠的，但為什麼 GitHub 的文件都示範用 4096 ??</li>
+<li><code>-f filename</code> - 指定 key file 的檔名跟位置；試出來是相對於 CWD，但沒有指定的話，會是 <code>~/.ssh/id_xxx</code>。</li>
+</ul>
+</li>
+<li><a href="https://man.openbsd.org/ssh-keygen#CERTIFICATES">Certificates - ssh-keygen(1) - OpenBSD manual pages</a> #ril</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>OpenSSH Server <a href="https://help.ubuntu.com/lts/serverguide/openssh-server.html#openssh-keys">https://help.ubuntu.com/lts/serverguide/openssh-server.html#openssh-keys</a> <code>ssh-keygen -t rsa</code> 用 RSA algorithm 產生 private key (<code>~/.ssh/id_rsa</code>) 與 public key (<code>~/.ssh/id_rsa.pub</code>)。</li>
+<li>SSH - GitLab Documentation <a href="https://docs.gitlab.com/ce/ssh/README.html#generating-a-new-ssh-key-pair">https://docs.gitlab.com/ce/ssh/README.html#generating-a-new-ssh-key-pair</a> 用 <code>ssh-keygen -t rsa -C "your.email@example.com" -b 4096</code> 產生 (其中 <code>-C</code> 就是個 comment，會附加在 public key 後面)</li>
+</ul>
+<h2 id="host-identity-file">為不同 Host 指定不同的 Identity File ??<a class="headerlink" href="#host-identity-file" title="Permanent link"> #</a></h2>
+<pre><code>Host &lt;NICKNAME&gt; [&lt;NICKNAME&gt;] ...
+  HostName &lt;REAL_HOSTNAME_OR_IP&gt;
+  User &lt;LOGIN_USER&gt;
+  IdentityFile ~/.ssh/id_rsa.xxx.pub
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://man.openbsd.org/ssh#ENVIRONMENT">ssh(1) - OpenBSD manual pages</a></p>
+<ul>
+<li>沒有指定 identity file 的 environment variable</li>
+<li><code>-i identity_file</code> 可以指定 identity file (private key)，預設會用 <code>~/.ssh/id_dsa</code>、<code>~/.ssh/id_ecdsa</code>、<code>~/.ssh/id_ed25519</code> 或 <code>~/.ssh/id_rsa</code>，提到 &ldquo;Identity files may also be specified on a PER-HOST BASIS in the configuration file.&rdquo;，但 It is possible to have multiple <code>-i</code> options 是怎麼回事?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://man.openbsd.org/ssh_config.5">ssh_config(5) - OpenBSD manual pages</a></p>
+<ul>
+<li>依序從 command-line options -&gt; user&rsquo;s configuration file (<code>~/.ssh/config</code>) -&gt; system-wide configuration file (<code>/etc/ssh/ssh_config</code>) 讀取 configuration，以先讀取到的值為主 For each parameter, the first obtained value will be used. 也就是前者會覆寫後者；在同一個 configuration file 裡也是一樣，越上面的設定會優先採用 (如果符合 pattern 的話)。</li>
+<li>整個檔案以 <code>Host</code> specification 劃分，接下來的設定 &ndash; 每一行都是 keyword-argument pair (但 <code>#</code> 開頭或空白行會被忽略) &ndash; 只會套用在符合 pattern 的 host(s) 上 (直到下一個 <code>Host</code> 或 <code>Match</code> 出現)。<code>Host</code> 後面可以接多個用空白隔開的 pattern，單一個 <code>*</code> 則用來為所有 host 提供 global defaults (要擺在最後面)</li>
+<li>上面的 keyword-argument pair，<code>keyword</code> 與 <code>argument</code> 間可以用空白或 <code>=</code> 隔開，若 <code>argument</code> 內含空白，則可以用雙引號括起來；前者在 config 裡常用，後者則是方便在 command line 指定 options，例如 <code>PasswordAuthentication no</code> (config) 與 <code>ssh -o PasswordAuthentication=no</code>。</li>
+<li><code>IdentityFile</code> 指定 authentication identity，可以使用 <code>~</code> (tilde) 表示 home director，例如 <code>IdentityFile ~/.ssh/id_rsa</code>。</li>
+<li><code>User</code> 用來指定 log in 的身份，當使用者跟本機不同時很方便，不用記哪一台機器要用什麼使用者。</li>
+<li><code>HostName</code> 可以用來指定 log in 真正的 host name，預設是用 command line 給的名字；不太懂 &ldquo;This can be used to specify nicknames or abbreviations for hosts.&rdquo; 的意思，所謂 nickname 應該在 <code>Host</code> 後面羅列出來吧??</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.saltycrane.com/blog/2008/11/creating-remote-server-nicknames-sshconfig/">Creating remote server nicknames with .ssh/config - SaltyCrane Blog</a> (2008-11-20) 從範例看來，nickname 是指 <code>Host</code> 後面的 pattern，而真正的 host name 則由 <code>HostName</code> 來指定。</p>
+</li>
+<li><a href="https://www.cyberciti.biz/faq/create-ssh-config-file-on-linux-unix/">OpenSSH Config File Examples - nixCraft</a> (2018-05-15) 習慣上 <code>Host ...</code> 以外的設定都會內縮一層。</li>
+<li>實驗發現，用 <code>Host</code> 指定某些 hosts 的設定之後，並不需要額外用 <code>Host *</code> 指定 identity file 要用 <code>~/.ssh/id_rsa</code>，好像自然會 fallback。</li>
+</ul>
+<h2 id="ssh-key">如何設定 SSH key 認證?<a class="headerlink" href="#ssh-key" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>ssh-keygen -t rsa</code> 用 RSA algorithm 產生 private key (<code>~/.ssh/id_rsa</code>) 與 public key (<code>~/.ssh/id_rsa.pub</code>)。</li>
+<li>用 <code>ssh-copy-id username@remotehost</code> 可以將 public key 複製到遠端的 <code>~/.ssh/authorized_keys</code> (權限應該要是 <code>600</code>)；過程中先用密碼登入?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>OpenSSH Server <a href="https://help.ubuntu.com/lts/serverguide/openssh-server.html#openssh-keys">https://help.ubuntu.com/lts/serverguide/openssh-server.html#openssh-keys</a> SSH Keys 說明如何建立 key pair、如何把 public key 傳到另一台電腦。</li>
+</ul>
+<h2 id="remote-control-session-scp">如何在 remote control session 期間用 scp 交換檔案?<a class="headerlink" href="#remote-control-session-scp" title="Permanent link"> #</a></h2>
+<ul>
+<li>許多討論都提到 <code>ControlMaster</code>?</li>
+<li>Download a file over an active SSH session - Ask Ubuntu <a href="https://askubuntu.com/questions/13382/">https://askubuntu.com/questions/13382/</a> #ril</li>
+<li>SCP to the client via the current SSH session? - Ars Technica OpenForum <a href="https://arstechnica.com/civis/viewtopic.php?f=16&amp;t=1126363">https://arstechnica.com/civis/viewtopic.php?f=16&amp;t=1126363</a> #ril</li>
+<li>SSH easily copy file to local system - Unix &amp; Linux Stack Exchange <a href="https://unix.stackexchange.com/questions/2857/">https://unix.stackexchange.com/questions/2857/</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.openssh.com/">OpenSSH</a></li>
+</ul>
+<p>更多：</p>
+<ul>
+<li><a href="../openssh-tunneling/">SSH Tunneling</a></li>
+<li><a href="../openssh-server/">OpenSSH Server</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://www.openssh.com/manual.html">OpenSSH: Manual Pages</a><ul>
+<li><a href="https://man.openbsd.org/ssh"><code>ssh</code>(1) - OpenBSD manual pages</a></li>
+<li><a href="https://man.openbsd.org/ssh-keygen"><code>ssh-keygen</code>(1) - OpenBSD manual pages</a></li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

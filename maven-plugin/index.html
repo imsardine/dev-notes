@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/maven-plugin/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Maven / Plugin - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/maven-plugin.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#maven-plugin">Maven / Plugin</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="maven-plugin"><a href="../maven/">Maven</a> / Plugin<a class="headerlink" href="#maven-plugin" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://maven.apache.org/plugins/index.html">Maven – Available Plugins</a> #ril</p>
+<ul>
+<li>
+<p>Maven is - at its heart - a PLUGIN EXECUTION FRAMEWORK; all work is done by plugins. Looking for a specific goal to execute? This page lists the CORE plugins and others. There are the BUILD and the REPORTING plugins:</p>
+<ul>
+<li>
+<p>Build plugins will be executed during the BUILD and they should be configured in the <code>&lt;build/&gt;</code> element from the POM.</p>
+</li>
+<li>
+<p>Reporting plugins will be executed during the SITE GENERATION and they should be configured in the <code>&lt;reporting/&gt;</code> element from the POM.</p>
+<p>Because the result of a Reporting plugin is part of the generated site, Reporting plugins should be both internationalized and localized. You can read more about the localization of our plugins and how you can help.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Supported By The Maven Project</p>
+<ul>
+<li>
+<p>To see the most up-to-date list browse the Maven repository, specifically the <code>org/apache/maven/plugins</code> subfolder. (Plugins are organized according to a directory structure that resembles the standard Java package naming convention)</p>
+</li>
+<li>
+<p>Core Plugins</p>
+<p>Plugins corresponding to DEFAULT CORE PHASES (ie. <code>clean</code>, <code>compile</code>). They may have multiple goals as well.</p>
+<ul>
+<li><code>clean</code> - Clean up after the build.</li>
+<li><code>compiler</code> - Compiles Java sources.</li>
+<li><code>deploy</code> - Deploy the built artifact to the REMOTE REPOSITORY.</li>
+<li><code>failsafe</code> - Run the JUnit INTEGRATION TESTS in an isolated classloader.</li>
+<li><code>install</code> - Install the built artifact into the LOCAL REPOSITORY.</li>
+<li><code>resources</code> - Copy the resources to the output directory for including in the JAR.</li>
+<li><code>site</code> - Generate a site for the current project.</li>
+<li><code>surefire</code> - Run the JUnit UNIT TESTS in an isolated classloader. 注意跟 <code>failsafe</code> 的不同。</li>
+<li><code>verifier</code> - Useful for INTEGRATION TESTS - verifies the existence of certain conditions. ??</li>
+</ul>
+</li>
+<li>
+<p>Packaging types/tools</p>
+<p>These plugins relate to packaging RESPECTIVE ARTIFACT TYPES.</p>
+<ul>
+<li><code>ear</code> - Generate an EAR from the current project.</li>
+<li><code>ejb</code> - Build an EJB (and optional client) from the current project.</li>
+<li><code>jar</code> - Build a JAR from the current project.</li>
+<li><code>rar</code> - Build a RAR from the current project. ??</li>
+<li><code>war</code> - Build a WAR from the current project.</li>
+<li><code>app-client/acr</code> - Build a JavaEE application client from the current project.</li>
+<li><code>shade</code> - Build an UBER-JAR from the current project, including dependencies.</li>
+<li><code>source</code> - Build a source-JAR from the current project.</li>
+<li><code>jlink</code> - Build Java Run Time Image. ??</li>
+<li><code>jmod</code> - Build Java JMod files. ??</li>
+</ul>
+</li>
+<li>
+<p>Reporting plugins</p>
+<p>Plugins which generate reports, are configured as reports in the POM and run under the site generation lifecycle.</p>
+<ul>
+<li><code>changelog</code> - Generate a list of recent changes from your SCM.</li>
+<li><code>changes</code> - Generate a report from an issue tracker or a change document. ??</li>
+<li><code>checkstyle</code> - Generate a Checkstyle report.</li>
+<li><code>doap</code> - Generate a Description of a Project (DOAP) file from a POM. ??</li>
+<li><code>docck</code> - Documentation checker plugin. ??</li>
+<li><code>javadoc</code> - Generate Javadoc for the project.</li>
+<li><code>jdeps</code> - Run JDK&rsquo;s JDeps tool on the project.</li>
+<li><code>jxr</code> - Generate a source cross reference.</li>
+<li><code>linkcheck</code> - Generate a Linkcheck report of your project&rsquo;s documentation.</li>
+<li><code>pmd</code> - Generate a PMD report.</li>
+<li><code>project-info-report</code> - Generate standard project reports.</li>
+<li><code>surefire-report</code> - Generate a report based on the results of unit tests.</li>
+</ul>
+</li>
+<li>
+<p>Tools</p>
+<p>These are miscellaneous tools available through Maven by default.</p>
+<ul>
+<li><code>antrun</code> - Run a set of ant tasks from a phase of the build.</li>
+<li><code>archetype</code> - Generate a skeleton project structure from an archetype.</li>
+<li><code>assembly</code> - Build an assembly (distribution) of sources and/or binaries.</li>
+<li><code>dependency</code> - Dependency manipulation (copy, unpack) and ANALYSIS.</li>
+<li><code>enforcer</code> - Environmental constraint checking (Maven Version, JDK etc), User Custom Rule Execution.</li>
+<li><code>gpg</code> - Create signatures for the artifacts and poms.</li>
+<li><code>help</code> - Get information about the working environment for the project.</li>
+<li><code>invoker</code> - Run a set of Maven projects and verify the output.</li>
+<li><code>jarsigner</code> - Signs or verifies project artifacts.</li>
+<li><code>jdeprscan</code> - Run JDK&rsquo;s JDeprScan tool on the project.</li>
+<li><code>patch</code> - Use the gnu patch tool to apply patch files to source code.</li>
+<li><code>pdf</code> - Generate a PDF version of your project&rsquo;s documentation.</li>
+<li><code>plugin</code> - Create a Maven plugin descriptor for any MOJOS found in the source tree, to include in the JAR.</li>
+<li><code>release</code> - Release the current project - updating the POM and tagging in the SCM. 有點像是 bump version? #ril</li>
+<li><code>remote-resources</code> - Copy remote resources to the output directory for inclusion in the artifact.</li>
+<li><code>scm</code> - Execute SCM commands for the current project.</li>
+<li><code>scm-publish</code> - Publish your Maven website to a scm location.</li>
+<li><code>stage</code> - Assists with release staging and promotion. ??</li>
+<li><code>toolchains</code> - Allows to share configuration across plugins.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://maven.apache.org/plugin-developers/index.html">Maven – Plugin Developers Centre</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://maven.apache.org/plugin-developers/index.html">Plugin Developers Centre - Maven</a> #ril</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://maven.apache.org/plugins/index.html">Maven Plugins</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

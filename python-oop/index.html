@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-oop/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Python / Object-oriented Programming - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-oop.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-object-oriented-programming">Python / Object-oriented Programming</a></li>
+            <li class="second-level"><a href="#class">Class ??</a></li>
+                
+            <li class="second-level"><a href="#new-style-class">New-style Class ??</a></li>
+                
+            <li class="second-level"><a href="#super">super()</a></li>
+                
+            <li class="second-level"><a href="#class-method">Class Method ??</a></li>
+                
+            <li class="second-level"><a href="#static-method">Static Method</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-object-oriented-programming"><a href="../python/">Python</a> / Object-oriented Programming<a class="headerlink" href="#python-object-oriented-programming" title="Permanent link"> #</a></h1>
+<h2 id="class">Class ??<a class="headerlink" href="#class" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/3/tutorial/classes.html">9. Classes — Python 3.7.3 documentation</a> #ril</li>
+</ul>
+<h2 id="new-style-class">New-style Class ??<a class="headerlink" href="#new-style-class" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.python.org/2/glossary.html#term-new-style-class">new-style class - Glossary — Python 2.7.16 documentation</a> #ril</li>
+<li><a href="https://www.python.org/doc/newstyle/">New-style Classes | Python.org</a> #ril</li>
+</ul>
+<h2 id="super"><code>super()</code><a class="headerlink" href="#super" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><code>super()</code> 的用法在 Python 3 起了一些變化：</p>
+<ul>
+<li>Python 2: <code>super(type[, object-or-type])</code></li>
+<li>Python 3: <code>super([type[, object-or-type]])</code></li>
+</ul>
+<p>最大的差別在於第一個參數 <code>type</code> 可以不給。</p>
+</li>
+<li>
+<p>以呼叫 parent class 的 constructor 為例，在 Python 3 可以寫成：</p>
+<pre><code>class C(B):
+
+    def __init__(self):
+        super().__init__() # 同 super(C, self)
+</code></pre>
+<p>但在 Python 2 一定要寫成：</p>
+<pre><code>class C(B):
+
+    def __init__(self):
+        super(C, self).__init__()
+</code></pre>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/2/library/functions.html#super"><code>super(type[, object-or-type])</code> - 2. Built-in Functions — Python 2.7.16 documentation</a></p>
+<ul>
+<li>
+<p>Return a PROXY OBJECT that delegates method calls to a parent or SIBLING ?? class of <code>type</code>. This is useful for accessing inherited methods that have been overridden in a class.</p>
+</li>
+<li>
+<p>The SEARCH ORDER is same as that used by <code>getattr()</code> except that THE <code>type</code> ITSELF IS SKIPPED.</p>
+<p>The <code>__mro__</code> attribute of the <code>type</code> lists the METHOD RESOLUTION SEARCH ORDER used by both <code>getattr()</code> and <code>super()</code>. The attribute is dynamic and can change whenever the inheritance hierarchy is updated.</p>
+</li>
+<li>
+<p>If the second argument is omitted, the SUPER OBJECT returned is UNBOUND. If the second argument is an object, <code>isinstance(obj, type)</code> must be true. If the second argument is a type, <code>issubclass(type2, type)</code> must be true (this is useful for classmethods).</p>
+<p>如果 search order 都看 <code>type.__mro__</code>，為什麼還要有 <code>isinstance(obj, type)</code> 或 <code>issubclass(type2, type)</code> 這一層檢查 ??</p>
+</li>
+<li>
+<p>Note <code>super()</code> only works for NEW-STYLE CLASSES.</p>
+</li>
+<li>
+<p>There are two typical use cases for <code>super</code>. In a class hierarchy with SINGLE INHERITANCE, <code>super</code> can be used to refer to parent classes WITHOUT NAMING THEM EXPLICITLY, thus making the code more MAINTAINABLE. This use closely parallels the use of <code>super</code> in other programming languages.</p>
+<p>其中 &ldquo;without naming them explicit&rdquo; 似乎指 <code>type</code> 參數不用給，但語法上第一個參數是不能省的，這說法似乎只適用 Python 3 ??</p>
+</li>
+<li>
+<p>The second use case is to support COOPERATIVE MULTIPLE INHERITANCE in a dynamic execution environment. This use case is UNIQUE TO PYTHON and is not found in statically compiled languages or languages that only support single inheritance.</p>
+<p>This makes it possible to implement “DIAMOND DIAGRAMS” where multiple base classes implement the same method. Good design DICTATES that this method have the SAME CALLING SIGNATURE in every case (because the order of calls is determined at runtime, because that order adapts to changes in the class hierarchy, and because that order can include sibling classes that are unknown prior to runtime). ??</p>
+</li>
+<li>
+<p>For both use cases, a typical superclass call looks like this:</p>
+<pre><code>class C(B):
+    def method(self, arg):
+        super(C, self).method(arg) # 這就是麻煩的地方，在 `class C` 裡還要寫 `super(C)`
+</code></pre>
+</li>
+<li>
+<p>Note that <code>super()</code> is implemented as part of the BINDING PROCESS for explicit dotted attribute lookups such as <code>super().__getitem__(name)</code>. It does so by implementing its own <code>__getattribute__()</code> method for searching classes in a PREDICTABLE ORDER that supports cooperative multiple inheritance. Accordingly, <code>super()</code> is undefined for IMPLICIT LOOKUPS using statements or operators such as <code>super()[name]</code>. ??</p>
+<p>Also note that <code>super()</code> is not limited to use INSIDE METHODS. The two argument form specifies the arguments exactly and makes the appropriate references. ??</p>
+<p>For practical suggestions on how to design cooperative classes using <code>super()</code>, see <a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/">guide to using <code>super()</code></a>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/functions.html#super"><code>super([type[, object-or-type]])</code> - Built-in Functions — Python 3.7.3 documentation</a> 大部份的說法都同 Python 2，但很明顯第一個參數在 Python 3 也可以省略了!</p>
+<ul>
+<li>
+<p>For both use cases, a typical superclass call looks like this:</p>
+<pre><code>class C(B):
+    def method(self, arg):
+        super().method(arg)    # This does the same thing as:
+                               # super(C, self).method(arg)
+</code></pre>
+<p>省略所有參數的做法，竟然藏在範例裡。</p>
+</li>
+<li>
+<p>Also note that, aside from the ZERO ARGUMENT FORM, <code>super()</code> is not limited to use INSIDE METHODS. ??</p>
+<p>The two argument form specifies the arguments exactly and makes the appropriate references.</p>
+</li>
+<li>
+<p>The zero argument form only works inside a class definition, as the COMPILER fills in the necessary details to correctly retrieve the class being defined, as well as accessing the current instance for ordinary methods.</p>
+<p>語法上的甜頭，因為 compiler 幫忙做掉了一些事。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://realpython.com/python-super/">Supercharge Your Classes With Python super() – Real Python</a> (2019-02-12) #ril</p>
+</li>
+</ul>
+<h2 id="class-method">Class Method ??<a class="headerlink" href="#class-method" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>Class method 可以用來實現 alternate constructor，提供除 <code>__init__()</code> 之外更彈性的建構方式，例如：</p>
+<pre><code>class Date:
+
+    def __init__(self, year, month, day):
+        self.year, self.month, self.day = year, month, day
+
+    @classmethod
+    def from_str(cls, date_str):
+        year, month, day = map(int, date_str.split('-'))
+        return cls(year, month, day)
+</code></pre>
+<p>用起來像這樣：</p>
+<pre><code>&gt;&gt;&gt; date = Date.from_str('2019-05-03')
+&gt;&gt;&gt; date.year, date.month, date.day
+(2019, 5, 3)
+</code></pre>
+</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://realpython.com/instance-class-and-static-methods-demystified/">Python&rsquo;s Instance, Class, and Static Methods Demystified – Real Python</a> (2017-03-29) #ril</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/functions.html#staticmethod"><code>@staticmethod</code> - Built-in Functions — Python 3.7.3 documentation</a></p>
+<ul>
+<li>Also see <code>classmethod()</code> for a variant that is useful for creating ALTERNATE CLASS CONSTRUCTORS.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.python.org/3/library/functions.html#classmethod"><code>@classmethod</code> - Built-in Functions — Python 3.7.3 documentation</a> #ril</p>
+</li>
+<li>
+<p><a href="https://www.erol.si/2016/01/python-and-multiple-constructors/">Python and multiple constructors | Erol.si</a> (2016-01-17) #ril</p>
+</li>
+<li><a href="https://code-maven.com/slides/python-programming/class-methods-alternative-constructor">Python: Class methods - alternative constructor</a> 用 <code>from_str()</code> 做說明 #ril</li>
+<li><a href="https://stackoverflow.com/questions/682504/">What is a clean, pythonic way to have multiple constructors in Python? - Stack Overflow</a> #ril</li>
+</ul>
+<h2 id="static-method">Static Method<a class="headerlink" href="#static-method" title="Permanent link"> #</a></h2>
+<ul>
+<li>Static method 的使用時機是為 helper method 提供一個 namespace，可以是 utility class 的一個 method，也可以是 class 內部的 helper。</li>
+<li>因為 static method 不會拿到 <code>cls</code>/<code>self</code>，所以無法取用/變更 state；這個特性也成為一個 hint &ndash; 設計為 static method 就是希望它都不要碰到 state。</li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://docs.python.org/3/library/functions.html#staticmethod"><code>@staticmethod</code> - Built-in Functions — Python 3.7.3 documentation</a></p>
+<ul>
+<li>
+<p>Transform a method into a static method.</p>
+</li>
+<li>
+<p>A static method does not receive an IMPLICIT FIRST ARGUMENT. To declare a static method, use this idiom:</p>
+<pre><code>class C:
+    @staticmethod
+    def f(arg1, arg2, ...): ...
+</code></pre>
+<p>The <code>@staticmethod</code> form is a function decorator – see Function definitions for details.</p>
+</li>
+<li>
+<p>A static method can be called either on the class (such as <code>C.f()</code>) or on an instance (such as <code>C().f()</code>).</p>
+<p>不過 Java 的 static method 不能透過 instance 呼叫。</p>
+</li>
+<li>
+<p>Static methods in Python are similar to those found in Java or C++. Also see <code>classmethod()</code> for a variant that is useful for creating ALTERNATE CLASS CONSTRUCTORS.</p>
+</li>
+<li>
+<p>Like all decorators, it is also possible to call <code>staticmethod</code> as a regular function and do something with its result. This is needed in some cases where you need a reference to a function from a class body and you want to avoid the AUTOMATIC TRANSFORMATION TO INSTANCE METHOD ??. For these cases, use this idiom:</p>
+<pre><code>class C:
+    builtin_open = staticmethod(open)
+</code></pre>
+</li>
+<li>
+<p>For more information on static methods, see The <a href="https://docs.python.org/3/reference/datamodel.html#types">standard type hierarchy</a>. #ril</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://realpython.com/instance-class-and-static-methods-demystified/">Python&rsquo;s Instance, Class, and Static Methods Demystified – Real Python</a> (2017-03-29)</p>
+<pre><code>class MyClass:
+    def method(self):
+        return 'instance method called', self
+
+    @classmethod
+    def classmethod(cls):
+        return 'class method called', cls
+
+    @staticmethod
+    def staticmethod():
+        return 'static method called'
+</code></pre>
+<p>Static Methods</p>
+<ul>
+<li>
+<p>The third method, <code>MyClass.staticmethod</code> was marked with a <code>@staticmethod</code> decorator to flag it as a static method. This type of method takes neither a <code>self</code> nor a <code>cls</code> parameter (but of course it’s free to accept an arbitrary number of other parameters).</p>
+</li>
+<li>
+<p>Therefore a static method can NEITHER MODIFY OBJECT STATE NOR CLASS STATE. Static methods are restricted in what data they can access - and they’re primarily a way to NAMESPACE YOUR METHODS.</p>
+<p>指放在某個 class 底下。由於不能存取 object/class state 的關係，運算需要用到的資料都來自參數。</p>
+</li>
+</ul>
+<p>Let’s See Them In Action!</p>
+<ul>
+<li>
+<p>Time to call the static method now:</p>
+<pre><code>&gt;&gt;&gt; obj = MyClass()
+&gt;&gt;&gt; obj.staticmethod()
+'static method called'
+</code></pre>
+</li>
+<li>
+<p>Did you see how we called <code>staticmethod()</code> on the OBJECT and were able to do so successfully? Some developers are SURPRISED when they learn that it’s possible to call a static method on an object instance. 確實有點意外!!</p>
+<p>Behind the scenes Python simply enforces the access restrictions by NOT PASSING IN the <code>self</code> or the <code>cls</code> argument when a static method gets called using the dot syntax.</p>
+</li>
+<li>
+<p>This confirms that static methods can neither access the object instance state nor the class state. They work like regular functions BUT BELONG TO THE CLASS’S (AND EVERY INSTANCE’S) NAMESPACE.</p>
+</li>
+<li>
+<p>Now, let’s take a look at what happens when we attempt to call these methods on the class itself - without creating an object instance beforehand:</p>
+<pre><code>&gt;&gt;&gt; MyClass.classmethod()
+('class method called', &lt;class MyClass at 0x101a2f4c8&gt;)
+
+&gt;&gt;&gt; MyClass.staticmethod()
+'static method called'
+</code></pre>
+<p>We were able to call <code>classmethod()</code> and <code>staticmethod()</code> just fine, but attempting to call the instance method <code>method()</code> failed with a <code>TypeError</code>.</p>
+</li>
+</ul>
+<p>When To Use Static Methods</p>
+<ul>
+<li>
+<p>It’s a little more difficult to come up with a good example here. But tell you what, I’ll just keep stretching the pizza analogy thinner and thinner… (yum!) Here’s what I came up with:</p>
+<pre><code>import math
+
+class Pizza:
+    def __init__(self, radius, ingredients):
+        self.radius = radius
+        self.ingredients = ingredients
+
+    def __repr__(self):
+        return (f'Pizza({self.radius!r}, '
+                f'{self.ingredients!r})')
+
+    def area(self):
+        return self.circle_area(self.radius)
+
+    @staticmethod
+    def circle_area(r):
+        return r ** 2 * math.pi
+</code></pre>
+</li>
+<li>
+<p>Now what did I change here? First, I modified the constructor and <code>__repr__</code> to accept an extra <code>radius</code> argument.</p>
+<p>I also added an <code>area()</code> instance method that calculates and returns the pizza’s area (this would also be a good candidate for an <code>@property</code> — but hey, this is just a toy example).</p>
+<p>Instead of calculating the area directly within <code>area()</code>, using the well-known circle area formula, I FACTORED THAT OUT to a separate <code>circle_area()</code> static method. 感覺很適合用在內部實作??</p>
+<pre><code>&gt;&gt;&gt; p = Pizza(4, ['mozzarella', 'tomatoes'])
+&gt;&gt;&gt; p
+Pizza(4, ['mozzarella', 'tomatoes'])
+&gt;&gt;&gt; p.area()
+50.26548245743669
+&gt;&gt;&gt; Pizza.circle_area(4)
+50.26548245743669
+</code></pre>
+</li>
+<li>
+<p>As we’ve learned, static methods can’t access class or instance state because they don’t take a <code>cls</code> or <code>self</code> argument. That’s a BIG LIMITATION — but it’s also a great SIGNAL to show that a particular method is INDEPENDENT FROM EVERYTHING ELSE AROUND IT. 重點是 &ldquo;語意&rdquo;</p>
+<p>In the above example, it’s clear that <code>circle_area()</code> can’t modify the class or the class instance in any way. (Sure, you could always work around that with a global variable but that’s not the point here.)</p>
+</li>
+<li>
+<p>Now, why is that useful? Flagging a method as a static method is not just a HINT that a method won’t modify class or instance state — this restriction is also enforced by the Python runtime.</p>
+<p>Techniques like that allow you to communicate clearly about parts of your class architecture so that new development work is naturally guided to happen within these set boundaries. Of course, it would be easy enough to defy these restrictions. But in practice they often help AVOID ACCIDENTAL MODIFICATIONS going against the original design.</p>
+</li>
+<li>
+<p>Put differently, using static methods and class methods are ways to COMMUNICATE DEVELOPER INTENT while enforcing that intent enough to avoid most slip of the mind mistakes and bugs that would break the design.</p>
+<p>Applied SPARINGLY and when it makes sense, writing some of your methods that way can provide maintenance benefits and make it less likely that other developers use your classes incorrectly.</p>
+<p>很適合用在只有 class 內部會用到的 helper method，不用擔心它會動到 state。</p>
+</li>
+<li>
+<p>Static methods also have benefits when it comes to writing test code. Because the <code>circle_area()</code> method is completely independent from the rest of the class it’s much easier to test.</p>
+<p>We don’t have to worry about setting up a complete class instance before we can test the method in a unit test. We can just fire away like we would testing a regular function. Again, this makes future maintenance easier.</p>
+<p>不過話說回來，這不應該透過 public instance method 來測嗎?</p>
+</li>
+</ul>
+<p>Key Takeaways</p>
+<ul>
+<li>Static methods don’t have access to <code>cls</code> or <code>self</code>. They work like regular functions but belong to the class’s namespace.</li>
+<li>Static and class methods communicate and (to a certain degree) enforce developer intent about CLASS DESIGN. This can have maintenance benefits.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/893015/">Overriding a static method in python - Stack Overflow</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

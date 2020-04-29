@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/hangouts-chat/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Hangouts / Chat - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/hangouts-chat.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#hangouts-chat">Hangouts / Chat</a></li>
+            <li class="second-level"><a href="#incoming-webhook">Incoming Webhook</a></li>
+                
+            <li class="second-level"><a href="#bot">Bot</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="hangouts-chat"><a href="../hangouts/">Hangouts</a> / Chat<a class="headerlink" href="#hangouts-chat" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://gsuite.google.com/products/chat/">Google Hangouts Chat: Secure Team Messaging | G Suite</a></p>
+<p>A messaging platform built for teams</p>
+<ul>
+<li>Hangouts Chat makes it easy for teams to be able to get their work done in one place. From direct messages to group conversations, Chat helps teams collaborate easily and efficiently. With dedicated, virtual rooms to house projects over time — plus THREADED CONVERSATIONS — Chat makes it simple to track progress and follow up tasks. Chat currently supports 28 languages and each room can support up to 8,000 members.</li>
+</ul>
+<p>Deeply integrated with G Suite</p>
+<ul>
+<li>
+<p>Hangouts Chat is offered to G Suite customers at NO ADDITIONAL COST. Upload items from Drive, collaborate on Docs, Sheets, or Slides, join online meetings with Hangouts Meet, or use Google’s powerful search to look up room members, past conversations, and shared files.</p>
+<p><a href="https://gsuite.google.com/compare-editions/?feature=chat">Compare G Suite products and features such as Gmail, Docs and Sheets</a> &ndash; Basic Edition 只是少了 Vault data retention，而 Business Edition 與 Enterprise Edition 是一樣的。</p>
+</li>
+<li>
+<p>DRIVE BOT lets you know when files are shared with you, comments are made, or when people request access to your docs. And MEET BOT integrates directly with Calendar to schedule meetings for you.</p>
+<p>各種 bot!</p>
+</li>
+</ul>
+<p>Embedded security with peace of mind</p>
+<ul>
+<li>
+<p>Chat builds on G Suite’s security-first ecosystem and offers an enterprise-grade solution that’s reliable and compliant. With integrated support for <a href="https://support.google.com/a/answer/2462365">Vault</a>, admins can archive, preserve, search, and export Chat-specific data. #ril</p>
+</li>
+<li>
+<p>It&rsquo;s also built with leading enterprise-grade security including mobile device management, single sign-on, two-factor authentication, admin settings, compliance, and Vault retention, holds, search, and export.</p>
+</li>
+</ul>
+<p>Search with the power of Google</p>
+<ul>
+<li>Powerful, filterable search across Hangouts Chat threads makes it easy to find what you need, when you need it. Search acts as a COLLECTIVE TEAM MEMORY, allowing you to review past discussions and decisions.</li>
+</ul>
+<p>Chime in from anywhere</p>
+<ul>
+<li>Seamlessly use Hangouts Chat across your computer, phone, and tablet via a web browser or native apps, so you can connect to your team from wherever you are.</li>
+</ul>
+<p>Smarter chat with bots</p>
+<ul>
+<li>Make conversations more efficient by interacting directly with deeply integrated Google bots and 3<sup>rd</sup> party apps.</li>
+</ul>
+<p>Top questions about Hangouts Chat</p>
+<ul>
+<li>
+<p>How will this interact with the older version of Hangouts, the one that lives in my Gmail?</p>
+<p>To help make your Chat experience seamless, classic Hangouts will still be available and is compatible with Hangouts Chat.</p>
+<p>原來 Gmail 裡的是舊 Hangouts，但跟 Hangouts Chat 是相通的。</p>
+</li>
+<li>
+<p>How can I use Chat right away?</p>
+<p>If you’re a current G Suite customer, Chat is free. Click here to get started right away.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="incoming-webhook">Incoming Webhook<a class="headerlink" href="#incoming-webhook" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.google.com/hangouts/chat/how-tos/webhooks">Using incoming webhooks  |  Hangouts Chat API  |  Google Developers</a> #ril</li>
+</ul>
+<h2 id="bot">Bot<a class="headerlink" href="#bot" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://developers.google.com/hangouts/chat/">Hangouts Chat API  |  Google Developers</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://chat.google.com/download/">Google Hangouts Download</a> &ndash; Desktop 只支援 macOS? #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://chat.google.com/">Hangouts Chat</a></li>
+<li><a href="https://support.google.com/hangoutschat">Hangouts Chat Help</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/tagged/hangouts-chat">&lsquo;hangouts-chat&rsquo; Questions - Stack Overflow</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/prog-func/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Programming / Function - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/prog-func.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#programming-function">Programming / Function</a></li>
+            <li class="second-level"><a href="#-1-null">不要回傳特殊值 (-1, null) ??</a></li>
+                
+            <li class="second-level"><a href="#argument-checking-guard-design-by-contract">Argument Checking, Guard, Design by Contract ??</a></li>
+                
+            <li class="second-level"><a href="#return">只應有一個 return ??</a></li>
+                
+            <li class="second-level"><a href="#return-early">Return Early</a></li>
+                
+            <li class="second-level"><a href="#argument">內部不該修改傳入的 Argument ??</a></li>
+                
+            <li class="second-level"><a href="#_1">參數太多 ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="programming-function"><a href="../prog/">Programming</a> / Function<a class="headerlink" href="#programming-function" title="Permanent link"> #</a></h1>
+<h2 id="-1-null">不要回傳特殊值 (-1, null) ??<a class="headerlink" href="#-1-null" title="Permanent link"> #</a></h2>
+<ul>
+<li>如果沒有結果是合理的，可以用 null object 取代 <code>null</code> 讓 client code 不用做 <code>null</code> 的判斷；但如果是異常，就該丟出 exception，而不是傳回 <code>null</code> 做為特殊值，要 client code 去判斷。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://www.martinfowler.com/apsupp/appfacades.pdf">Application Facades - Martin Fowler</a> 回傳 <code>null</code> 時，可以用 null object 取代</p>
+<ul>
+<li>HANDING BACK NULL IS ACTUALLY RATHER AWKWARD. &hellip; And I have to do this everywhere I use <code>Patient.phenomenonOf()</code> &hellip; but also because it tends to be very error prone. Fortunately there is a savior — the Null Object pattern 這樣 <code>gender()</code> 就可以直接寫成 <code>return _subject.phenomenonOf("gender").name();</code>，即便 <code>phenomenonOf()</code> 得到 <code>null</code> (其實是 <code>NullPhenomenon</code>)，結果也是 <code>""</code>。</li>
+<li>The nice thing about this is that no client of <code>Patient.phenomenonOf()</code> is even aware that a null phenomenon class exists. THE CLASS IS NOT DECLARED PUBLIC AND IS INVISIBLE TO THE CLIENT PROGRAMS. There are cases when we might need to see if we have a null phenomenon, we can do this by adding a <code>isNull()</code> method to phenomenon. 有需要時再增加 <code>isNull()</code> 的判斷；關鍵在 client code 不知道 null object 的存在!!</li>
+<li>Using null objects can do a lot to SIMPLIFY CODE, use it whenever you are <a href="https://kknews.cc/education/b435n3j.html">standing on your head (輕而易舉)</a> with your arms crossed trying to deal with null responses to questions.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://refactoring.guru/replace-error-code-with-exception">Replace Error Code with Exception</a></p>
+<p>Why Refactor</p>
+<ul>
+<li>Returning error codes is an OBSOLETE HOLDOVER from PROCEDURAL PROGRAMMING. In modern programming, error handling is performed by special classes, which are named exceptions. If a problem occurs, you “throw” an error, which is then “caught” by one of the exception handlers. Special error-handling code, which is ignored in normal conditions, is activated to respond.</li>
+</ul>
+<p>Benefits</p>
+<ul>
+<li>Frees code from a large number of CONDITIONALS for checking various error codes. Exception handlers are a much more SUCCINCT way to differentiate normal execution paths from abnormal ones.</li>
+<li>Exception classes can implement their own methods, thus containing part of the error handling functionality (such as for sending error messages).</li>
+<li>Unlike exceptions, error codes can’t be used in a constructor, since a constructor must return only a new object. ??</li>
+</ul>
+<p>Drawbacks</p>
+<ul>
+<li>
+<p>An exception handler can turn into a goto-like crutch. Avoid this! Don’t use exceptions to manage code execution. Exceptions should be thrown only to inform of an error or critical situation.</p>
+<p>這是誤用，也不是 exception 的缺點。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://web.mit.edu/6.005/www/fa15/classes/06-specifications/exceptions/">Exceptions for special results - Reading 6, Part 2: Exceptions</a></p>
+<ul>
+<li>
+<p>Exceptions are not just for signaling bugs. They can be used to improve the structure of code that involves PROCEDURES WITH SPECIAL RESULTS.</p>
+<p>An UNFORTUNATELY COMMON way to handle special results is to return special values. Lookup operations in the Java library are often designed like this: you get an index of <code>-1</code> when expecting a positive integer, or a <code>null</code> reference when expecting an object. This approach is OK if used SPARINGLY, but it has two problems. First, it’s TEDIOUS TO CHECK the return value. Second, it’s EASY TO FORGET to do it. (We’ll see that by using exceptions you can get help from the compiler in this.)</p>
+</li>
+<li>
+<p>Also, it’s not always easy to find a ‘special value’. Suppose we have a <code>BirthdayBook</code> class with a lookup method. Here’s one possible method signature:</p>
+<pre><code>class BirthdayBook {
+    LocalDate lookup(String name) { ... }
+}
+</code></pre>
+<p>(<code>LocalDate</code> is part of the Java API.)</p>
+<p>What should the method do if the birthday book doesn’t have an entry for the person whose name is given? Well, we could return some special date that is not going to be used as a real date. BAD PROGRAMMERS have been doing this for decades; they would return <code>9/9/99</code>, for example, since it was obvious that no program written in 1960 would still be running at the end of the century. (They were wrong, by the way.)</p>
+</li>
+<li>
+<p>Here’s a better approach. The method throws an exception:</p>
+<pre><code>LocalDate lookup(String name) throws NotFoundException {
+    ...
+    if ( ...not found... )
+        throw new NotFoundException();
+    ...
+</code></pre>
+<p>and the caller handles the exception with a <code>catch</code> clause. For example:</p>
+<pre><code>BirthdayBook birthdays = ...
+try {
+    LocalDate birthdate = birthdays.lookup("Alyssa");
+    // we know Alyssa's birthday
+} catch (NotFoundException nfe) {
+    // her birthday was not in the birthday book
+}
+</code></pre>
+<p>Now there’s no need for any special value, nor the checking associated with it.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="argument-checking-guard-design-by-contract">Argument Checking, Guard, Design by Contract ??<a class="headerlink" href="#argument-checking-guard-design-by-contract" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://wiki.c2.com/?WhenDoYouCheckForBadArguments">When Do You Check For Bad Arguments</a> #ril</li>
+<li><a href="http://www.javapractices.com/topic/TopicAction.do?Id=5">Java Practices-&gt;Validate method arguments</a><ul>
+<li>The first lines of a method are usually devoted to checking the validity of method arguments. The idea is to FAIL AS QUICKLY AS POSSIBLE in the event of an error. This is particularly important for constructors. 第 1 行通常是在檢查 arguments 是否合法，背後的考量正是 fail fast；這對 constructor 尤其重要，因為成為 object 的 state 後，之後出錯就很難追到根源。</li>
+<li>只要 javadoc 有要求到的部份就要做檢查, 不論內部是用 exception 還是 assertion. (用 assertion 來做 argument checking 時, context 的部份不用刻意輸出 argument name, 內部開發人員只要透過 statck trace 就可以找到問題點, 多輸出那個 argument name 只是增加 class 檔的大小, 後續維護起來也麻煩&hellip;) 基本上 <code>assert</code> 的使用是 &ldquo;有會更好&rdquo;, 而 <code>IllegalArgumentException</code> 的使用則是 &ldquo;非要不可&rdquo;. 上述 &ldquo;The idea is to fail as quickly as possible in the event of an error&rdquo; 的說法, 其中的 &ldquo;as possible&rdquo; 意謂著 &ldquo;先檢查再做&rdquo; 是比較好的 (至少它可以將檢查參數的程式碼與真正的運算拆成前後兩段, 提高了程式碼的可讀性), 但絕非必要. 因為有些時候, 若檢查的成本很高 (通常是取得受測資料的動作), 就應該退而採用 &ldquo;邊做邊檢查&rdquo; 的策略, 尤其是在沒有發生錯誤的狀況下, 將付出兩倍的運算成本&hellip;</li>
+<li>It&rsquo;s a reasonable policy for a class to skip validating arguments of private methods. The reason is that private methods can only be called from the class itself. Thus, a class AUTHOR SHOULD BE ABLE TO CONFIRM THAT ALL CALLS OF A PRIVATE METHOD ARE VALID. If desired, the assert keyword can be used to verify private method arguments, to check the internal consistency of the class. 只有內部才會用到的 method 可以不做 checking，但如果要做可以用 assertion。反之，public method 的 checking 不建議用 assert，因為 assertion 可能被停用；期間也提到 design by contract。</li>
+<li>檢查到不合法的 argument 時，通常會丟出 unchecked exception &ndash; <code>IllegalArgumentException</code>、<code>NullPointerException</code> 或 <code>IllegalStateException</code>。</li>
+<li>Checked exceptions can also be thrown, as shown in the Model Object validation topic. &hellip; 不太懂，說是 &ldquo;//<a href="http://www.refactoring.com/catalog/replaceNestedConditionalWithGuardClauses.html">www.refactoring.com/catalog/replaceNestedConditionalWithGuardClauses.html</a>&ldquo;，但呼叫的人自然會避開這個問題不是?</li>
+<li>Providing a class for such validations can often be useful. 這裡提出 <code>Args</code>，提供 <code>checkForContent()</code>、<code>checkForRange()</code>、<code>checkForPositive()</code>、<code>checkForMatch()</code> 等。</li>
+</ul>
+</li>
+<li><a href="https://www.martinfowler.com/apsupp/appfacades.pdf">Application Facades - Martin Fowler</a> Updating through the facade 提到 We throw a runtime exception here, rather than a matched exception, because we DON’T REALLY EXPECT AN ILLEGAL UPDATE VALUE. Any window using this interface should really restrict the choices to the four legal values we give. In Design By Contract [Meyer] terms the fact that <code>newValue</code> is one of the four is really part of the PRE-CONDITION of <code>levelOfConsciousness(String)</code>, and thus it is NOT THE RESPONSIBILITY OF <code>levelOfConsciousness</code> TO DO ANY CHECKING. Thus callers of <code>levelOfConsciousness</code> should not expect any checking. 本來就應該傳對，不過這個例子還是檢查並丟出 <code>IllegalArgumentException</code>，可能跟 The reality is that I’m still undecided about how to handle pre-conditions in Java. 有關，但當時的 Java 沒有 assertion 可以做這件事嗎?</li>
+<li><a href="http://www.javapractices.com/topic/TopicAction.do?Id=100">Java Practices-&gt;Assert is for private arguments only</a> #ril</li>
+<li><a href="https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/Validate.html">Validate (Apache Commons Lang 3.8 API)</a> #ril</li>
+<li><a href="https://www.safaribooksonline.com/library/view/jakarta-commons-cookbook/059600706X/ch01s19.html">1.18. Validation of Method Parameters - Jakarta Commons Cookbook [Book]</a> #ril</li>
+<li><a href="https://www.smartics.eu/confluence/display/BLOG/2013/03/03/Fail-Fast+with+Argument+Checks">Fail-Fast with Argument Checks - Blog - Wiki</a> (2013-03-03) #ril</li>
+<li><a href="https://github.com/google/guava/wiki/PreconditionsExplained">PreconditionsExplained · google/guava Wiki</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/26184322/">java - What&rsquo;s the point of Guava checkNotNull - Stack Overflow</a> 有人提到 fail fast #ril</li>
+</ul>
+<h2 id="return">只應有一個 return ??<a class="headerlink" href="#return" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://blog.codefx.org/techniques/multiple-return-statements/">Multiple Return Statements - blog@CodeFX</a> (2014-12-03) #ril</li>
+<li><a href="https://stackoverflow.com/questions/36707/">language agnostic - Should a function have only one return statement? - Stack Overflow</a> guard clauses 是個例外? #ril</li>
+<li>
+<p><a href="https://www.refactoring.com/catalog/replaceNestedConditionalWithGuardClauses.html">Replace Nested Conditional with Guard Clauses</a> (1999-10-09) #ril</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Return_statement#Multiple_return_statements">Multiple return statements - Return statement - Wikipedia</a> #ril</p>
+<ul>
+<li>
+<p>Languages with an explicit return statement create the possibility of multiple return statements in the same function. Whether or not that is a good thing is controversial.</p>
+</li>
+<li>
+<p>Strong adherents of STRUCTURED PROGRAMMING make sure each function has a single entry and a SINGLE EXIT (SESE). It has thus been argued that one should eschew the use of the explicit return statement except at the textual end of a subroutine, considering that, when it is used to &ldquo;return early&rdquo;, it may suffer from the same sort of problems that arise for the GOTO statement.</p>
+<p>Conversely, it can be argued that using the return statement is worthwhile when the alternative is more convoluted code, such as deeper nesting, harming readability.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="return-early">Return Early<a class="headerlink" href="#return-early" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://szymonkrajewski.pl/why-should-you-return-early/">Why should you return early? - Szymon Krajewski</a> (2017-11-20) #ril</p>
+</li>
+<li>
+<p><a href="http://www.itamarweiss.com/personal/2018/02/28/return-early-pattern.html">The &ldquo;return early&rdquo; pattern</a> (2018-02-28) #ril</p>
+</li>
+<li>
+<p><a href="https://medium.com/@pypmannetjies/return-early-return-often-f46f2f940c3d">Return Early, Return Often - Christina Burger - Medium</a> (2018-06-03) #ril</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Return_statement#Multiple_return_statements">Multiple return statements - Return statement - Wikipedia</a> #ril</p>
+<p>Others, including Kent Beck and Martin Fowler argue that one or more GUARD CLAUSES &ndash; conditional &ldquo;early exit&rdquo; return statements near the beginning of a function &ndash; often make a function easier to read than the alternative.</p>
+</li>
+</ul>
+<h2 id="argument">內部不該修改傳入的 Argument ??<a class="headerlink" href="#argument" title="Permanent link"> #</a></h2>
+<ul>
+<li>Output paramter 本身沒有問題，問題在於若是從外面傳進來，可不可以改？如果改了，就是有 side effect (不是絕對的不好)。</li>
+<li>通常是這樣的沒錯，但如果 naming 有指出會變動 arguments，情況會好一點。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://softwareengineering.stackexchange.com/questions/245767/">java - Is modifying an incoming parameter an antipattern? - Software Engineering Stack Exchange</a> CsBalazsHungary: 修改 incoming parameter &ndash; <code>MyObject2OtherObject(MyObject mo, OtherObject oo)</code> 是個 anti-pattern 嗎?<ul>
+<li>Blrfl: 這跟語言有關，若是 pass-by-value，改了也沒用。</li>
+<li>Keen: 看似是過早的優化 (premature optimization)，大部份時候都建議第一種方式，除非是為了解 performance bottleneck (加註解說明)。</li>
+<li>Tulains Córdova：這不是 anti-pattern，而是 bad practice &ndash; vestigial or pre-OOP times。引用了 Uncle Bob&rsquo;s Clean Code 的說法 &ldquo;In the days before object oriented programming it was sometimes necessary to have output arguments. However, much of the need for output arguments disappears in OO languages&rdquo;。 =&gt; 話說回來，好像不是 output argument 的問題，因為 C# 支持 <code>ref</code>/<code>out</code> parameters，問題還是別人傳進來的可不可以改。</li>
+<li>user470365: 第 2 種做法比較快，在 game programming 可能會用到。不過 CsBalazsHungary 認為 bottleneck 通常是演算法沒有效率，跟 object 的 clone/creation 無關。</li>
+<li>claasz: 引用 Clean Code 的說法 &ldquo;Output arguments should be avoided Functions should have a small numbers of arguments&rdquo;。不過 CsBalazsHungary 懷疑這只是 strong suggestion 而非 strict law。Daenyth 更直接說不管 Clean Code 的說法多正確，這裡都應該要說明為什麼要避免 (reasoning)。</li>
+<li>Euphoric: 兩種寫法各有其用途 Code smell would be preferring one over another 這說法很有意思。</li>
+</ul>
+</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/208828/">code smell - Passing an object into a method which changes the object, is it a common (anti-) pattern? - Software Engineering Stack Exchange</a> #ril<ul>
+<li>Michiel van Oosterhout: 如果 method naming 沒取好，必須要看實作細節才知道 object state 會不會被變更 &ndash; It makes code comprehension more complex, since I need to track multiple levels of the call-stack.</li>
+<li>Dave Hillier: 這是一種 side effect。</li>
+<li>Telastyn: it makes it hard to reason about what is going on, the object is not responsible for its own state/implementation (breaking encapsulation). I would also add that all of those state changes are implicit contracts of the method, making that method fragile in the face of changing requirements.</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">Side effect (computer science) - Wikipedia</a> 有 side effect 是指 function/expression 會變更 local environment 以外的 state，這也包括 &ldquo;modifying an argument passed by reference&rdquo;，它的問題在於 &ldquo;a program&rsquo;s behaviour may depend on history; that is, the order of evaluation matters.&rdquo;</li>
+</ul>
+<h2 id="_1">參數太多 ??<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/5899185/">python - Class with too many parameters: better design strategy? - Stack Overflow</a> 好像都推薦用 dict + <code>**kwargs</code> #ril</li>
+<li><a href="https://stackoverflow.com/questions/2244860/">language agnostic - When a method has too many parameters? - Stack Overflow</a> #ril</li>
+<li><a href="https://www.reddit.com/r/learnpython/comments/1oknkx/what_is_the_best_practice_for_init_with_many/">What is the best practice for __init__ with many arguments? : learnpython</a> #ril</li>
+<li><a href="https://softwareengineering.stackexchange.com/questions/145055/">Are there guidelines on how many parameters a function should accept? - Software Engineering Stack Exchange</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

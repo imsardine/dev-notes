@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/aws-cli/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>AWS CLI - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/aws-cli.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#aws-cli">AWS CLI</a></li>
+            <li class="second-level"><a href="#aws-management-console">可以取代 AWS Management Console??</a></li>
+                
+            <li class="second-level"><a href="#aws-sdk">學習 AWS SDK??</a></li>
+                
+            <li class="second-level"><a href="#aws-shell">aws-shell??</a></li>
+                
+            <li class="second-level"><a href="#_1">基礎</a></li>
+                
+                <li class="third-level"><a href="#hello-world">Hello, World! ??</a></li>
+                <li class="third-level"><a href="#_2">新手上路 ??</a></li>
+                <li class="third-level"><a href="#_3">基本用法??</a></li>
+                <li class="third-level"><a href="#named-profile-iam-user">多個 Named Profile，對應不同的 IAM user?</a></li>
+            <li class="second-level"><a href="#s3">S3</a></li>
+                
+                <li class="third-level"><a href="#s3-sync">s3 sync</a></li>
+            <li class="second-level"><a href="#_4">安裝設定</a></li>
+                
+                <li class="third-level"><a href="#unix-like-aws-cli">在 Unix-like 上安裝 AWS CLI</a></li>
+                <li class="third-level"><a href="#docker-aws-cli">用 Docker 執行 AWS CLI??</a></li>
+                <li class="third-level"><a href="#aws-account">與 AWS account 連結</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="aws-cli">AWS CLI<a class="headerlink" href="#aws-cli" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://docs.aws.amazon.com/cli/">AWS Command Line Interface Documentation</a> #ril</p>
+<p>The AWS Command Line Interface (AWS CLI) is a unified tool that provides a consistent interface for interacting with all parts of AWS. AWS CLI commands for different services are covered in the accompanying user guide, including descriptions, syntax, and usage examples.</p>
+</li>
+<li>
+<p><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html">What Is the AWS Command Line Interface? - AWS Command Line Interface</a> 基於 AWS SDK for Python (Boto) 建構出來的 CLI。除了 low level, API equivalent commands 外，也為複雜的 API 提供了一些 high level commands (customization)，例如 high-level <code>aws s3</code> 之於 low-level <code>aws s3api</code>，其中 low level commands (直接對應 public API)，可以用來學習 API 的用法，之後可以應用在 AWS SDK 上。</p>
+</li>
+</ul>
+<h3 id="aws-management-console">可以取代 AWS Management Console??<a class="headerlink" href="#aws-management-console" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html">What Is the AWS Command Line Interface? - AWS Command Line Interface</a> 提到 &ldquo;all of the functionality provided by the AWS Management Console&rdquo;</li>
+</ul>
+<h3 id="aws-sdk">學習 AWS SDK??<a class="headerlink" href="#aws-sdk" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html">What Is the AWS Command Line Interface? - AWS Command Line Interface</a> 提到 &ldquo;take what you&rsquo;ve learned to develop programs in other languages with the AWS SDK&rdquo;</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/generate-cli-skeleton.html">Generate CLI Skeleton and CLI Input JSON Parameters - AWS Command Line Interface</a> 似乎可以產生寫程式會用到的 JSON 設定?? #ril</li>
+</ul>
+<h3 id="aws-shell">aws-shell??<a class="headerlink" href="#aws-shell" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://aws.amazon.com/cli/#aws-shell_(Developer_Preview)">aws-shell (Developer Preview) - AWS Command Line Interface</a> #ril</li>
+<li><a href="https://aws.amazon.com/blogs/developer/super-charge-your-aws-command-line-experience-with-aws-shell/">Super-Charge Your AWS Command-Line Experience with aws-shell | AWS Developer Blog</a> (2015-12-15) #ril</li>
+</ul>
+<h2 id="_1">基礎<a class="headerlink" href="#_1" title="Permanent link"> #</a></h2>
+<h3 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h3>
+<ul>
+<li>用 AWS Lambda 來試? 但 S3 可能更為簡單&hellip;</li>
+</ul>
+<h3 id="_2">新手上路 ??<a class="headerlink" href="#_2" title="Permanent link"> #</a></h3>
+<ul>
+<li>安裝 AWS CLI，並完成組態 (<code>aws configure</code>)。</li>
+<li>知道 <code>aws</code> 基本用法 (<code>aws [OPTIONS] COMMAND SUBCOMMAND [PARAMETERS]</code>) 及如何查詢某個 (sub)command 的用法 (<code>aws COMMAND [SUBCOMMAND] help</code>)。</li>
+<li>知道什麼是 named profile，如何組態、指定。</li>
+<li>知道 low/high-level commands 的差別 (例如 <code>aws s3api</code> 與 <code>aws s3</code>)。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html">User Guide - AWS Command Line Interface</a> 說明 low/high-level commands 的差別。</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-using.html">Using the AWS Command Line Interface - AWS Command Line Interface</a> 感覺開始用 CLI 後，這裡的技巧會很有幫助 #ril</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/chap-working-with-services.html">Working with Amazon Web Services - AWS Command Line Interface</a> 幾個 AWS service 的操作範例 #ril</li>
+</ul>
+<h3 id="_3">基本用法??<a class="headerlink" href="#_3" title="Permanent link"> #</a></h3>
+<pre><code>aws COMMAND [SUBCOMMAND] help
+aws [OPTIONS] COMMAND SUBCOMMAND [PARAMETERS]
+</code></pre>
+
+<p>例如：</p>
+<pre><code>$ aws s3 help
+$ aws s3 cp help
+...
+
+$ aws --profile s3-backup cp myfolder s3://mybucket/myfolder --recursive
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://aws.amazon.com/cli/#Usage">Usage - AWS Command Line Interface</a> #ril</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/reference/">aws — AWS CLI 1.14.14 Command Reference</a> #ril</li>
+</ul>
+<h3 id="named-profile-iam-user">多個 Named Profile，對應不同的 IAM user?<a class="headerlink" href="#named-profile-iam-user" title="Permanent link"> #</a></h3>
+<ul>
+<li>組態時用 <code>aws configure --profile PROFILE</code>，使用時用 <code>--profile PROFILE</code> 或 <code>AWS_PROFILE</code> 環境變數指定。</li>
+<li>目前好像只能用 <code>grep '\[profile' ~/.aws/config</code> 找出所有 profile?</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">Configuring the AWS CLI - AWS Command Line Interface</a> 鼓勵用 IAM user 來控制可以存取哪些 service 與 resource。</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html">Named Profiles - AWS Command Line Interface</a> 除了 <code>--profile</code>，也可以用 <code>AWS_PROFILE</code> 環境變數指定 #ril</li>
+<li><code>aws configure list help</code> 得知 <code>list</code> subcommand 不是列出所有的 named profile，而是列出特定 profile 的 configuration data。</li>
+</ul>
+<h2 id="s3">S3<a class="headerlink" href="#s3" title="Permanent link"> #</a></h2>
+<h3 id="s3-sync">s3 sync<a class="headerlink" href="#s3-sync" title="Permanent link"> #</a></h3>
+<pre><code>aws s3 sync SRC DEST --dryrun [OPTION]...
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html">sync — AWS CLI 1.16.20 Command Reference</a> #ril</li>
+</ul>
+<h2 id="_4">安裝設定<a class="headerlink" href="#_4" title="Permanent link"> #</a></h2>
+<h3 id="unix-like-aws-cli">在 Unix-like 上安裝 AWS CLI<a class="headerlink" href="#unix-like-aws-cli" title="Permanent link"> #</a></h3>
+<ul>
+<li>用 <code>virtualenv awscli</code> 建立一個虛擬環境，然後在環境內安裝 <code>awcli</code> 套件，再用 symbolic link 將環境內 <code>bin/aws</code> 引出來即可。</li>
+<li>之後昇級只要進到該 virtualenv 執行 <code>pip install -U awscli</code> 即可。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://aws.amazon.com/cli/">AWS Command Line Interface</a> Python 2.6.5+ 上用 <code>pip</code> 安裝 <code>awscli</code> 套件即可。</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html">Installing the AWS Command Line Interface - AWS Command Line Interface</a> Linux、Windows、macOS 全平台都用 <code>pip</code> 安裝，支持 Python 2.6.5+ / 3.3+，用 <code>pip install awscli --upgrade --user</code> 安裝 (其中 <code>--user</code> 會安裝到家目錄底下)，最後用 <code>asw --version</code> 確認。</li>
+</ul>
+<h3 id="docker-aws-cli">用 Docker 執行 AWS CLI??<a class="headerlink" href="#docker-aws-cli" title="Permanent link"> #</a></h3>
+<pre><code>docker run --rm python bash
+
+</code></pre>
+
+<ul>
+<li><a href="https://about.gitlab.com/2016/08/26/ci-deployment-and-environments/">GitLab CI: Deployment &amp; Environments | GitLab</a> 利用 <code>python:latest</code> + <code>pip install awscli</code> 安裝。</li>
+</ul>
+<h3 id="aws-account">與 AWS account 連結<a class="headerlink" href="#aws-account" title="Permanent link"> #</a></h3>
+<pre><code>aws configure [--profile PROFILE]
+</code></pre>
+
+<p>設定 <em>PROFILE</em> 的 IAM user (access key ID + secret access key)，預設是 <code>default</code> profile。例如：</p>
+<pre><code>$ aws configure --profile s3-backup
+AWS Access Key ID [None]: YOURKEYID
+AWS Secret Access Key [None]: YOURSECRET
+Default region name [None]:
+Default output format [None]: json
+</code></pre>
+
+<p>其中 default region 預設是距離最新的，而 output format 預設是 <code>json</code>，也可以是 <code>text</code> 或 <code>table</code>。這些資訊會分別存在 <code>~/.aws/</code> 下的 <code>credentials</code> 與 <code>config</code> (權限是 600)。</p>
+<pre><code>$ ls -l ~/.aws/
+total 16
+-rw-------  1 jeremykao  staff   41 Dec 21 23:52 config
+-rw-------  1 jeremykao  staff  125 Dec 21 23:52 credentials
+
+$ cat ~/.aws/credentials
+[s3-backup]
+aws_access_key_id = YOURKEYID
+aws_secret_access_key = YOURSECRET
+
+$ cat ~/.aws/config
+[profile s3-backup]
+output = json
+</code></pre>
+
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">Configuring the AWS CLI - AWS Command Line Interface</a> <code>aws configure</code> 設定某個 IAM user (access key ID + secret access key)、default region 及 default output format。可以用 <code>--profile</code> 設定不同的 IAM user (沒有指定，就視為 default profile)。</li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#config-settings-and-precedence">Configuration Settings and Precedence - Configuring the AWS CLI - AWS Command Line Interface</a> CLI 會優先採用 command line options、環境變數 (<code>AWS_ACCESS_KEY_ID</code>、<code>AWS_SECRET_ACCESS_KEY</code>)，然後才是 <code>~/.aws/credentials</code> 與 <code>~/.aws/config</code> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://aws.amazon.com/cli/">AWS Command Line Interface</a></li>
+<li><a href="https://github.com/aws/aws-cli">aws/aws-cli - GitHub</a></li>
+<li><a href="https://github.com/awslabs/aws-shell">awslabs/aws-shell - GitHub</a></li>
+</ul>
+<p>社群：</p>
+<ul>
+<li><a href="https://forums.aws.amazon.com/forum.jspa?forumID=150">AWS Developer Forums: AWS Command Line Interface</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html">User Guide - AWS Command Line Interface</a></li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/reference/">AWS CLI Command Reference</a></li>
+<li><a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html">Environment Variables - AWS Command Line Interface</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

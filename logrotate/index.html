@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/logrotate/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>logrotate - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/logrotate.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#logrotate">logrotate</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#configuration">Configuration</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="logrotate">logrotate<a class="headerlink" href="#logrotate" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://github.com/logrotate/logrotate">logrotate/logrotate: The logrotate utility is designed to simplify the administration of log files on a system which generates a lot of log files.</a></p>
+<ul>
+<li>The logrotate utility is designed to simplify the administration of log files on a system which generates a lot of log files. Logrotate allows for the automatic ROTATION COMPRESSION, removal and MAILING of log files. Logrotate can be set to handle a log file hourly, daily, weekly, monthly or when the log file gets to a certain size.</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/Logrotate">Logrotate - ArchWiki</a> #ril</p>
+<ul>
+<li>
+<p>By default, logrotate&rsquo;s rotation consists of RENAMING existing log files with a NUMERICAL SUFFIX, then RECREATING the original EMPTY log file.</p>
+<p>For example, <code>/var/log/syslog.log</code> is renamed <code>/var/log/syslog.log.1</code>. If <code>/var/log/syslog.log.1</code> already exists from a previous rotation, it is first renamed <code>/var/log/syslog.log.2</code>. (The number of BACKLOGS to keep can be configured.)</p>
+<p>所以數字越小，內容越新。</p>
+</li>
+</ul>
+<p>Usage</p>
+<ul>
+<li>
+<p>logrotate is usually run through Cron jobs. To run logrotate manually:</p>
+<pre><code>logrotate /etc/logrotate.conf
+</code></pre>
+</li>
+<li>
+<p>To rotate a single log file:</p>
+<pre><code>logrotate /etc/logrotate.d/mylog
+</code></pre>
+<p>如果條件符合才會 rotate，跟下面的 <code>-f, --force</code> 可以用來測試特定 log file 的設定。</p>
+</li>
+<li>
+<p>To simulate running your configuration file (dry run):</p>
+<pre><code>logrotate -d /etc/logrotate.d/mylog
+</code></pre>
+</li>
+<li>
+<p>To force running rotations EVEN WHEN CONDITIONS ARE NOT MET, run</p>
+<pre><code>logrotate -vf /etc/logrotate.d/mylog
+</code></pre>
+<p>其中 <code>-v</code> 只是 <code>--verbose</code>，而 <code>-f</code> 才是 <code>--force</code> 跟強制 rotate 有關。</p>
+</li>
+<li>
+<p>See logrotate(8) for more details.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-manage-logfiles-with-logrotate-on-ubuntu-16-04">How To Manage Logfiles with Logrotate on Ubuntu 16.04 | DigitalOcean</a> (2017-11-09) #ril</p>
+</li>
+</ul>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/Logrotate#Configuration">Configuration - Logrotate - ArchWiki</a></p>
+<ul>
+<li>
+<p>The PRIMARY configuration file for logrotate which sets default parameters is <code>/etc/logrotate.conf</code>; additional APPLICATION-SPECIFIC configuration files are included from the <code>/etc/logrotate.d</code> directory.</p>
+<p>Values set in application-specific configuration files override those same parameters in the primary configuration file. See <code>logrotate.conf(5)</code> for configuration examples and a reference of available` directives.</p>
+<p>以 Utuntu 下的 APT 為例：</p>
+<pre><code>$ cat /etc/logrotate.d/apt
+/var/log/apt/term.log { &lt;-- 要 rorate 的檔案，下面描述何時、如何 rotate
+  rotate 12
+  monthly
+  compress
+  missingok
+  notifempty
+}
+
+/var/log/apt/history.log {
+  rotate 12
+  monthly
+  compress
+  missingok
+  notifempty
+}
+</code></pre>
+</li>
+<li>
+<p>To VERIFY if logrotate works correctly run the following command which will produce debug output:</p>
+<pre><code>logrotate -d # dry run
+</code></pre>
+<p>在 Ubuntu 上執行沒有實質作用，要給 config file 才行：</p>
+<pre><code>$ sudo logrotate -d
+logrotate 3.8.7 - Copyright (C) 1995-2001 Red Hat, Inc.
+This may be freely redistributed under the terms of the GNU Public License
+
+Usage: logrotate [-dfv?] [-d|--debug] [-f|--force] [-m|--mail=command] [-s|--state=statefile] [-v|--verbose] [--version] [-?|--help] [--usage]
+        [OPTION...] &lt;configfile&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://wiki.archlinux.org/index.php/Logrotate#Installation">Installation - Logrotate - ArchWiki</a></p>
+<ul>
+<li>
+<p>Logrotate can be installed with the <code>logrotate</code> package. It is INSTALLED BY DEFAULT as it is member of the <code>base</code> group.</p>
+</li>
+<li>
+<p>By default, logrotate runs DAILY using a systemd timer: <code>logrotate.timer</code>.</p>
+<p>但為什麼下面又說 &ldquo;logrotate is usually run through Cron jobs.&rdquo; ??</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/logrotate/logrotate">logrotate/logrotate - GitHub</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/logrotate.8"><code>logrotate(8)</code> — Arch manual pages</a></li>
+<li><a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/logrotate.conf.5"><code>logrotate.conf(5)</code> — Arch manual pages</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mattermost-setup/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Mattermost / Setup - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mattermost-setup.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mattermost-setup">Mattermost / Setup</a></li>
+            <li class="second-level"><a href="#user-provisioning">User Provisioning</a></li>
+                
+            <li class="second-level"><a href="#installation">安裝</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mattermost-setup"><a href="../mattermost/">Mattermost</a> / Setup<a class="headerlink" href="#mattermost-setup" title="Permanent link"> #</a></h1>
+<h2 id="user-provisioning">User Provisioning<a class="headerlink" href="#user-provisioning" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.mattermost.com/administration/user-provisioning.html">Provisioning Workflows — Mattermost 5.22 documentation</a> #ril</li>
+</ul>
+<h2 id="installation">安裝<a class="headerlink" href="#installation" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://mattermost.com/download/">Download - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a> #ril</p>
+<ul>
+<li>Download and install FOR FREE on any of the following platforms: Ubuntu, Debian, RedHat, Docker, Kubernetes, DigitalOcean, Bitnami</li>
+</ul>
+<p>Open Source Edition</p>
+<ul>
+<li>
+<p>The Open Source Mattermost Team Edition is FUNCTIONALLY IDENTICAL to the Mattermost Enterprise Edition running WITHOUT A LICENSE KEY, but there is no ability to unlock ENTERPRISE FEATURES.</p>
+<p>To enable the unlocking of enterprise features, you will be required to replace the Mattermost Team Edition binary with a Mattermost Enterprise Edition binary via an UPGRADE PROCEDURE.</p>
+<p>意謂著這個頁面下載、佈署的都是 Team Edition；其中 functionally identical 也意謂著 code base 是一樣的，不必太擔心 security 的問題。</p>
+</li>
+<li>
+<p>Upon submission, you will be redirected to the docs for the installation process. Please note that the latest version of the Open Source Mattermost Team Edition is available at <a href="https://releases.mattermost.com/5.21.0/mattermost-team-5.21.0-linux-amd64.tar.gz">https://releases.mattermost.com/5.21.0/mattermost-team-5.21.0-linux-amd64.tar.gz</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://mattermost.com/download/">Docker Installation - Download - Mattermost - Open Source, On-Prem or Private Cloud Messaging</a></p>
+<ul>
+<li>
+<p>Use Docker to install Mattermost either on your local machine in PREVIEW MODE or with a MULTI-NODE configuration using Docker Compose.</p>
+<p>Team Edition 也可以用多台機器來撐用量?</p>
+<p>Enterprise Edition features can be unlocked with a trial or by purchasing a subscription license key.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://docs.mattermost.com/install/prod-docker.html">Deploy Mattermost on Docker — Mattermost 5.21 documentation</a> #ril</p>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.mattermost.com/guides/administrator.html">Administrator’s Guide</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/arduino-hardware/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Arduino / Hardware - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/arduino-hardware.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#arduino-hardware">Arduino / Hardware</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#core">Core ??</a></li>
+                
+            <li class="second-level"><a href="#standalone">Standalone ??</a></li>
+                
+            <li class="second-level"><a href="#bootloader">Bootloader ??</a></li>
+                
+            <li class="second-level"><a href="#hardware-programmer">Hardware Programmer ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="arduino-hardware"><a href="../arduino/">Arduino</a> / Hardware<a class="headerlink" href="#arduino-hardware" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://www.arduino.cc/en/Hacking/HomePage">Hardware - Arduino - Hacking</a> #ril</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment#boards">Boards - Arduino - Environment</a> #ril</li>
+<li><a href="http://yehnan.blogspot.com/2013/01/arduinoterms.html">葉難: Arduino與AVR微控制器相關詞彙</a> (2013-01-21) #ril</li>
+</ul>
+<h2 id="core">Core ??<a class="headerlink" href="#core" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment#thirdpartyhardware">Third-Party Hardware - Arduino - Environment</a> #ril<ul>
+<li>Support for third-party hardware can be added to the <code>hardware</code> directory of your sketchbook directory. PLATFORMS installed there may include board definitions (which appear in the board menu), CORE LIBRARIES, bootloaders, and programmer definitions. 把 core 想成是在某個 hardware platform 上增加對 Arduino enviroment 的支援。</li>
+<li>To install, create the <code>hardware</code> directory, then unzip the third-party platform into its own sub-directory. (Don&rsquo;t use <code>"arduino"</code> as the sub-directory name or you&rsquo;ll override the built-in Arduino platform.)</li>
+<li>Boards - Arduino Software (IDE) includes the built in support for the boards in the following list, all based on the AVR CORE. The Boards Manager included in the standard installation allows to add support for the growing number of new boards based on different cores like Arduino Due, Arduino Zero, Edison, Galileo and so on. 不是基於 AVR core 的板子，是不是整個 toolchain 都會不同??</li>
+</ul>
+</li>
+<li><a href="https://www.arduino.cc/en/Guide/Cores">Arduino - Cores</a> #ril</li>
+<li><a href="https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5-3rd-party-Hardware-specification">Arduino IDE 1.5 3<sup>rd</sup> party Hardware specification · arduino/Arduino Wiki</a> #ril</li>
+</ul>
+<h2 id="standalone">Standalone ??<a class="headerlink" href="#standalone" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.arduino.cc/en/Tutorial/ArduinoToBreadboard">From Arduino to a Microcontroller on a Breadboard - Arduino - ArduinoToBreadboard</a> #ril</p>
+<ul>
+<li>This tutorial explains how to MIGRATE from an Arduino board to a STANDALONE microcontroller on a breadboard. 不是把開發板上的 ATmega328 拆下來，而是燒錄至另一個 MCU，因為可能是體積更小的 ATtiny85。</li>
+<li>Unless you choose to use the minimal configuration described at the end of this tutorial, you&rsquo;ll need four components (besides the Arduino, ATmega328, and breadboard): a 16 MHz crystal, a 10k resistor, and two 18 to 22 picofarad (ceramic) capacitors. 主要的差別在於 clock source 由 ATmega328 內部或外部提供。</li>
+</ul>
+<p>Burning the Bootloader &ndash; If you have a new ATmega328 (or ATmega168), you&rsquo;ll need to burn the BOOTLOADER onto it. You can do this using an Arduino board as an in-system program (ISP). 上傳程式是另一個步驟</p>
+<ol>
+<li>
+<p>Upload the ArduinoISP sketch onto your Arduino board. (You&rsquo;ll need to select the board and serial port from the Tools menu that correspond to your board.) 先把 Arduino 變成燒錄器。</p>
+</li>
+<li>
+<p>Wire up the Arduino board and microcontroller as shown in the diagram to the right.</p>
+<p><img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/BreadboardAVR.png" /></p>
+</li>
+<li>
+<p>Select &ldquo;Arduino Duemilanove or Nano w/ ATmega328&rdquo; from the Tools &gt; Board menu. (Or &ldquo;ATmega328 on a breadboard (8 MHz internal clock)&rdquo; if using the minimal configuration described below.) 原 Arduino board 變成燒錄器，最終要操作的板子則是 breadboard 上的 MCU。在 Arduino IDE 1.8.8 上選 Tools &gt; Board &gt; Duemilanove or Diecimila，下次打開選單就會多了 Tools &gt; Processor 可選 &ndash; ATmega328P 或 ATmega168，但沒看到 &ldquo;8 MHz internal clock&rdquo; 的選項。</p>
+</li>
+<li>
+<p>Select &ldquo;Arduino as ISP&rdquo; from Tools &gt; Programmer 選單裡也有 ArduinoISP，兩者有什麼不同??</p>
+</li>
+<li>
+<p>Run Tools &gt; Burn Bootloader - You should only need to burn the bootloader ONCE. After you&rsquo;ve done so, you can remove the jumper wires connected to pins 10, 11, 12, and 13 of the Arduino board. 要重複拆裝是有點麻煩，可以平常就準備好幾個針對不同 MCU 配置好的麵包板 (洞洞板更好)，直接就可以拿來用。</p>
+</li>
+</ol>
+<p>Uploading Using an Arduino Board</p>
+<ul>
+<li>Once your ATmega328p has the Arduino bootloader on it, you can upload programs to it using the USB-to-serial convertor (FTDI chip) on an Arduino board. To do, you remove the microcontroller from the Arduino board so the FTDI chip can talk to the microcontroller on the breadboard instead. 原來的 Arduino board 就只剩 USB-TTL 的功能；若自己提供 USB-TTL，那麼 Arduino IDE 可以直接跟 breadboard 上的 MCU 對話嗎??</li>
+<li>
+<p>The diagram at right shows how to connect the RX and TX lines from the Arduino board to the ATmega on the breadboard. To program the microcontroller, select &ldquo;Arduino Duemilanove or Nano w/ ATmega328&rdquo; from the the Tools &gt; Board menu (or &ldquo;ATmega328 on a breadboard (8 MHz internal clock)&rdquo; if you&rsquo;re using the minimal configuration described below). Then upload as usual.</p>
+<p><img alt="" src="https://www.arduino.cc/en/uploads/Tutorial/ArduinoUSBSerial.png" /></p>
+</li>
+<li>
+<p>If you don&rsquo;t have the extra 16 MHz crystal and 18-22 picofarad capacitors used in the above examples, you can configure the ATmega328 to use its INTERNAL 8 MHz RC oscillator as a clock source instead. 要有 clock source 才會動。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=sNIMCdVOHOM">1-Day Project: Build Your Own Arduino Uno for $5 - YouTube</a> (2014-12-14) #ril</p>
+<ul>
+<li>04:10 <a href="https://www.arduino.cc/en/Hacking/PinMapping168">Arduino - PinMapping168</a> ping 9, 10 要接 crystal</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=N1rLq-AB9yg">Eliminating The Arduino Prototyping Board | ATmega Standalone - YouTube</a> #ril<ul>
+<li>把 ATmega328 從 Arduino UNO 上拔下來裝到 breadboard 上，搭配 16 MHz clock crystal 及兩個 22 pF 的電容</li>
+</ul>
+</li>
+<li><a href="https://create.arduino.cc/projecthub/arjun/programming-attiny85-with-arduino-uno-afb829">Programming ATtiny85 with Arduino Uno - Arduino Project Hub</a> #ril<ul>
+<li>Uploading program to ATtiny85 提到 Tools -&gt; Clock -&gt; 8 MHz (internal)，這個動作很關鍵</li>
+</ul>
+</li>
+<li><a href="https://www.youtube.com/watch?v=2nKEA6AUCZM">【Arduino教學】實作15- arduino最小化(燒錄至attiny85) - YouTube</a> (2018-07-18) #ril<ul>
+<li>在開發板上將想法實現後，要縮小有幾種選擇 - Arduino Nano、Arduino Mini (沒有 USB，要接 USB-TTL 才能灌程式)、ATtiny85 (最小)；若程式用到的腳位不多，ATtiny85 會是最好的選擇。</li>
+<li>很快地用 Fritzing 及 Arduino IDE 帶過三色蛋的電路配置及程式碼，接著用 Arduino 將程式燒錄到 ATtiny85。</li>
+</ul>
+</li>
+<li><a href="https://swf.com.tw/?p=264">用麵包板組裝Arduino微電腦實驗板 - 網昱多媒體</a> (2011-07-19) #ril</li>
+<li><a href="https://www.youtube.com/watch?v=npc3uzEVvc0">Arduino Uno (ATMEGA328P) on a breadboard Tutorial DIY project. Easy guide. - YouTube</a> #ril</li>
+<li><a href="https://www.arduino.cc/en/Main/Standalone">Arduino - Setting up an Arduino on a breadboard</a> #ril</li>
+<li><a href="https://electronics.stackexchange.com/questions/14146/">How do I go from arduino breadboard to creating a real device - Electrical Engineering Stack Exchange</a> #ril 提到 &ldquo;without USB&rdquo;</li>
+<li><a href="https://www.arduino.cc/en/Main/Standalone">Arduino - Setting up an Arduino on a breadboard</a> 自製 Arduino 開發板 #ril</li>
+</ul>
+<h2 id="bootloader">Bootloader ??<a class="headerlink" href="#bootloader" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment">Arduino - Environment</a> #ril<ul>
+<li>Tools &gt; Burn Bootloader - The items in this menu allow you to burn a bootloader onto the microcontroller on an Arduino board. 透過 Arduino 燒錄上面插著的 microcontroller。</li>
+<li>This is not required for normal use of an Arduino or Genuino board but is useful if you purchase a new ATmega microcontroller (which normally come without a bootloader). 新採購的 ATmega microcontroller 裡沒有 bootloader，要先燒錄 bootloader 才能跟 Arduino Software 溝通。</li>
+<li>Ensure that you&rsquo;ve selected the correct board from the Boards menu before burning the bootloader on the target board. This command also set the right fuses. 不同板子燒錄 bootloader 的方式腳位不同?</li>
+<li>Uploading - When you upload a sketch, you&rsquo;re using the Arduino bootloader, a small program that has been loaded on to the microcontroller on your board. It allows you to UPLOAD CODE WITHOUT USING ANY ADDITIONAL HARDWARE. The bootloader is active for a few seconds when the board resets; then it starts whichever sketch was most recently uploaded to the microcontroller. The bootloader will blink the on-board (pin 13) LED when it starts (i.e. when the board resets). 所謂 bootloader 是用來載入 uploaded code，否則燒錄 bootware 需要動用到其他硬體；就像 BIOS 的啟動程式一樣，用來載入磁碟上的程式。</li>
+</ul>
+</li>
+<li><a href="https://www.arduino.cc/en/Hacking/Bootloader">Arduino - Bootloader</a> #ril<ul>
+<li>Microcontrollers are usually programmed through a programmer unless you have a piece of FIRMWARE in your microcontroller that allows installing NEW FIRMWARE without the need of an external programmer. This is called a bootloader. 有點繞口? 先用 programmer 燒錄 firmware/bootloader，就可以透過它安裝其他 firmware 而不用透過 programmer</li>
+<li>燒錄 bootloader 需將 programmer (AVR-ISP 或 USBtinyISP 等) 接到 2 x 3 的 ICSP 腳位；Tool &gt; Burn Bootloader 的過程約 15 秒。</li>
+</ul>
+</li>
+</ul>
+<h2 id="hardware-programmer">Hardware Programmer ??<a class="headerlink" href="#hardware-programmer" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://www.arduino.cc/en/Guide/Environment">Arduino - Environment</a><ul>
+<li>If you are using an external programmer with your board, you can hold down the &ldquo;shift&rdquo; key on your computer when using this icon. The text will change to &ldquo;Upload using Programmer&rdquo; 指 toolbar 上的 upload icon，搭配 Shift 會變成 Upload Using Programmer。</li>
+<li>Sketch &gt; Upload Using Programmer - This will overwrite the BOOTLOADER on the board; you will need to use Tools &gt; Burn Bootloader to restore it and be able to Upload to USB serial port again. However, it allows you to use the FULL CAPACITY OF THE FLASH MEMORY for your sketch. Please note that this command will NOT burn the fuses (保險絲). To do so a Tools -&gt; Burn Bootloader command must be executed. 看似開發板的 bootloader 可以跟 Arduino Software 搭配，一旦被覆寫就只能用 Tools &gt; Burn Bootloader 救回來。</li>
+<li>Tools &gt; Programmer - For selecting a HARWARE PROGRAMMER when programming a board or CHIP and not using the ONBOARD USB-SERIAL CONNECTION. Normally you won&rsquo;t need this, but if you&rsquo;re burning a bootloader to a new microcontroller, you will use this. 猜想 Tools &gt; Burn Bootloader 背後也是用這裡選定的 programmer。</li>
+</ul>
+</li>
+<li><a href="https://www.arduino.cc/en/Hacking/Programmer">Arduino - Programmer</a> #ril</li>
+<li><a href="https://www.arduino.cc/en/Tutorial/ArduinoISP">Arduino - ArduinoISP</a> 把 Arduino 當做 ISP，搭配另一個 Arduino 做燒錄 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>相關：</p>
+<ul>
+<li><a href="../arduino-uno/">Arduino UNO</a></li>
+<li><a href="../avr/">AVR Microcontroller</a> - 多數 Arduino 板子都採用 ATmega 系列 microcontroller</li>
+<li><a href="../arduino-esp8266/">ESP8266 Arduino Core</a></li>
+<li><a href="../arduino-esp32/">ESP32 Arduino Core</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

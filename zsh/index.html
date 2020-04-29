@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/zsh/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Zsh (Z shell) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/zsh.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#zsh-z-shell">Zsh (Z shell)</a></li>
+            <li class="second-level"><a href="#getting-started">新手上路 ??</a></li>
+                
+            <li class="second-level"><a href="#theme">Theme ??</a></li>
+                
+            <li class="second-level"><a href="#startup-file">Startup File ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#tools">工具</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="zsh-z-shell">Zsh (Z shell)<a class="headerlink" href="#zsh-z-shell" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://zsh.sourceforge.net/">ZSH - THE Z SHELL</a></p>
+<ul>
+<li>
+<p>Zsh is a shell designed for interactive use, although it is also a powerful SCRIPTING LANGUAGE.</p>
+<p>Many of the useful features of bash, ksh, and tcsh were incorporated into zsh; many original features were added.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Z_shell">Z shell - Wikipedia</a> #ril</p>
+<ul>
+<li>Zsh is an extended Bourne shell with a large number of improvements, including some features of Bash, ksh, and tcsh. 集各家大成</li>
+<li>Programmable command-line completion that can help the user type both options and arguments for most used commands, with out-of-the-box support for several hundred commands</li>
+<li>Sharing of command history among all running shells 這問題在 Bash 確實滿惱人的</li>
+<li>Various compatibility modes, e.g. Zsh can pretend to be a Bourne shell when run as <code>/bin/sh</code> 若相容性夠高，讓 <code>/bin/sh</code> 指向 Zsh 不是問題</li>
+<li>Themeable prompts, including the ability to put prompt information on the right side of the screen and have it auto-hide when typing a long command 類 Powerline 在做的事；若擔心被 Zsh 綁住，只是利用 Zsh + Oh My Zsh 來加強 shell 的 UI，好像也是一種使用 Zsh 的理由?</li>
+<li>Named directories. This allows the user to set up shortcuts such as <code>~mydir</code>, which then behave the way <code>~</code> and <code>~user</code> do. 快速切換 dir 很方便</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路 ??<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://zsh.sourceforge.net/">ZSH - THE Z SHELL</a> 比較了 introductory document、manual 與 user guide 的差別，其中 introductory document 假設已經會一種 Unix shell，因此只強調 Zsh 特別的地方，而 manual 最冗長 (很細，但少有例子)，最後 user guide 則用文字詳細解說各項功能；學習路徑可以是 introductory document &rarr; user guide &rarr; manual。</li>
+<li><a href="http://zsh.sourceforge.net/Intro/intro_toc.html">An Introduction to the Z Shell - Table of Contents</a> #ril</li>
+<li><a href="http://davidokwii.com/bash-zsh-and-fish-the-awesomeness-of-linux-shells/#zsh">Bash, Zsh and Fish: The awesomeness of Linux Shells</a> #ril</li>
+</ul>
+<h2 id="theme">Theme ??<a class="headerlink" href="#theme" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../powerlevel9k/">Powerlevel9k</a></li>
+</ul>
+<hr />
+<p>參考資料：</p>
+<ul>
+<li><a href="https://github.com/robbyrussell/oh-my-zsh/wiki/Themes">Themes · robbyrussell/oh-my-zsh Wiki</a> #ril</li>
+<li><a href="https://www.slant.co/topics/7553/~theme-for-oh-my-zsh">What&rsquo;s the best theme for Oh My Zsh? - Slant</a> 這些 theme 都不在官方 wiki 裡? #ril</li>
+<li><a href="https://github.com/denysdovhan/spaceship-prompt">denysdovhan/spaceship-prompt: A Zsh prompt for Astronauts</a> #ril</li>
+</ul>
+<h2 id="startup-file">Startup File ??<a class="headerlink" href="#startup-file" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="http://zsh.sourceforge.net/Intro/intro_3.html">An Introduction to the Z Shell - Startup Files</a> #ril</p>
+</li>
+<li>
+<p><a href="https://github.com/robbyrussell/oh-my-zsh/issues/3807">.bash_profile needs to be sourced after oh-my-zsh updates · Issue #3807 · robbyrussell/oh-my-zsh</a></p>
+<ul>
+<li>mcornella (collaborator): That&rsquo;s not how you should solve it. <code>.bash_profile</code> is a file read only by bash, which is not compatible with zsh. If we start sourcing <code>.bash_profile</code> BAD THINGS will start to happen. Instead, you should copy those <code>ENV</code> vars to the <code>.zshrc</code> file, preferably at the end of it.</li>
+<li>teledirgido: Just added &ldquo;<code>source ~/.bash_profile</code>&rdquo; to my <code>.zshrc</code> and everything is working fine now even when I open new tabs.</li>
+<li>preslavrachev: Perhaps, it is a only short-term solution. Eventually, I think that I will extract the HARMLESS variable and alias statements into a third <code>.sh</code> file, which will then be sourced by <code>.bash_profile</code> and <code>.zshrc</code> respectively. 問題是，哪些 variable/alias 是有害的?</li>
+<li>dedalozzo: The best way is source <code>~/.bash_profile</code> at the end of your <code>.zshrc</code> file. Nothing bad will happen. Copying all the content of <code>.bash_profile</code> is not smart, because you have to maintain two file in synch in case you want remove zsh in the future. 確實要維護兩支檔案很麻煩，尤其 Zsh 又強調相容於 Bash?</li>
+</ul>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://superuser.com/questions/253786/">zsh - How can I make tmux use my default shell? - Super User</a><ul>
+<li>Alex Hammel: tmux 要加 <code>set-option -g default-shell /bin/zsh</code> 的設定，可能要用 <code>killall tmux; tmux</code> 重啟 tmux。</li>
+<li>DebugXYZ: <code>set-option -g default-shell $SHELL</code> 這寫法不會綁定 Zsh，不過之前要先用 <code>chsh -s $(</code>which zsh<code>) $USER</code> 修改 default shell。</li>
+</ul>
+</li>
+</ul>
+<h2 id="tools">工具<a class="headerlink" href="#tools" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="../oh-my-zsh/">Oh My Zsh</a></li>
+<li><a href="https://github.com/zsh-users/zsh-autosuggestions">zsh-users/zsh-autosuggestions: Fish-like autosuggestions for zsh</a> 仿 Fish 自動提示的效果 #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://www.zsh.org/">Zsh</a> - 做為 Zsh 的 index，但好像只有 USA 網站的連結是有作用的?</li>
+<li><a href="http://zsh.sourceforge.net/">ZSH - THE Z SHELL</a> - USA Master Site</li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="http://zsh.sourceforge.net/Guide/zshguide.html">A User&rsquo;s Guide to the Z-Shell</a></li>
+<li><a href="http://zsh.sourceforge.net/Intro/intro_toc.html">An Introduction to the Z Shell</a></li>
+<li><a href="http://zsh.sourceforge.net/Doc/Release/zsh_toc.html">The Z Shell Manual</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li><a href="../oh-my-zsh/">Oh My Zsh</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="http://zsh.sourceforge.net/releases.html">Release Notes</a> (<a href="http://zsh.sourceforge.net/News/">history</a>)</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

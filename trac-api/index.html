@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/trac-api/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Trac / Remote API - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/trac-api.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#trac-remote-api">Trac / Remote API</a></li>
+            <li class="second-level"><a href="#xml-rpc">XML-RPC ??</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#authentication">Authentication ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="trac-remote-api"><a href="../trac/">Trac</a> / Remote API<a class="headerlink" href="#trac-remote-api" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://trac.edgewall.org/wiki/TracDev/ApiDocs">TracDev/ApiDocs – The Trac Project</a> 這裡是 Trac 自身開發會用到的 API，跟 Remote API 無關。</li>
+<li><a href="https://stackoverflow.com/questions/2304670/">Does trac have remote API? - Stack Overflow</a> Jens A. Koch: Trac 對外沒有提供 API，可以安裝 Trac XML-RPC Plugin，提供 XML-RPC 與 JSON-RPC 兩種 access。</li>
+<li><a href="https://superuser.com/questions/459964/">REST API for Trac.Wiki - Super User</a> David Roussel: XmlRpcPlugin 提供 RPC interface，但不是 REST。</li>
+<li><a href="https://trac.edgewall.org/ticket/217">#217 (XML-RPC/SOAP/etc. interface) – The Trac Project</a> (2004-04-01) #ril</li>
+</ul>
+<h2 id="xml-rpc">XML-RPC ??<a class="headerlink" href="#xml-rpc" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://trac-hacks.org/wiki/XmlRpcPlugin">XmlRpcPlugin – Trac Hacks - Plugins Macros etc.</a></p>
+<ul>
+<li>
+<p>This plugin allows Trac plugins to export SELECT PARTS of their interface via XML-RPC and JSON-RPC (if <code>json</code> or <code>simplejson</code> is available). Latest trunk version includes a pluggable API for EXTENDING PROTOCOLS, and see for instance TracRpcProtocolsPlugin for more protocols.</p>
+<p>所謂 &ldquo;extending protocols&rdquo; 指的是像 JSON-RPC 這類不同的 RPC 管道。</p>
+</li>
+<li>
+<p>The BROWSABLE XML-RPC URI suffix is <code>/rpc</code>, but most XML-RPC clients should use the authenticated URL suffix <code>/login/rpc</code> as this will provide AUTHENTICATED REQUESTS through Trac.</p>
+<p>The <code>XML_RPC</code> permission is used to grant users access to using the RPC interface. If you do want to use <code>/rpc</code> and UNAUTHENTICATED ACCESS, you must grant the <code>XML_RPC</code> permission to the <code>anonymous</code> user.</p>
+<p><code>$TRAC_HOST/rpc</code> 可以看 RPC API 文件，如果沒有權限，存取 <code>/rpc</code> 會看到 &ldquo;XML_RPC privileges are required to perform this operation. You don&rsquo;t have the required permissions.&rdquo; 的提示。</p>
+<p><code>/login/rpc</code> 才是給程式走的，API 文件裡會標示每個 function 的權限要求 (permission required)，有 <code>XML_RPC</code>、<code>TICKET_VIEW</code>、<code>TICKET_CREATE</code>、By resource 等。</p>
+<p>為什麼下面 Python End-User Usage 的範例都用 <code>/xmlrpc</code> 而非 <code>/login/rpc</code> ? 按照 <a href="https://trac-hacks.org/rpc">Remote Procedure Call (RPC) – Trac Hacks</a> 的說法，<code>/rpc</code>/<code>/login/rpc</code> 走 JSON-RPC，而 <code>/xmlrpc</code>/<code>/login/xmlrpc</code> 則是 XML-RPC，其中 <code>/login/...</code> 都是 authenticated access。</p>
+</li>
+<li>
+<p>Method status:</p>
+<ul>
+<li>Ticket API is also complete, with the following types exported: component, version, milestone, type, status, resolution, priority and severity.</li>
+<li>The WikiRPC API ?? is complete, mostly thanks to mgood.</li>
+</ul>
+</li>
+<li>
+<p>Protocol and method documentation for the latest version of the plugin can be found <a href="https://trac-hacks.org/rpc">here</a>. 註冊帳號後就能存取</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://trac-hacks.org/rpc">Remote Procedure Call (RPC) – Trac Hacks - Plugins Macros etc.</a> #ril</li>
+<li><a href="https://trac-hacks.org/wiki/XmlRpcPlugin#PythonEnd-UserUsage">Python End-User Usage - XmlRpcPlugin – Trac Hacks - Plugins Macros etc.</a> #ril</li>
+<li><a href="https://kpetrovi.ch/django/python/2012/05/31/django-access-trac-from-your-webapp.html">Django: Access Trac from Your Webapp Using XML-RPC</a> (2012-05-31) #ril</li>
+</ul>
+<h2 id="authentication">Authentication ??<a class="headerlink" href="#authentication" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://www.edgewall.org/docs/branches-1.2-stable/html/api/trac_web_auth.html">trac.web.auth – Trac Authentication — Trac branches-1.2-stable-r16563 documentation</a> #ril</p>
+<ul>
+<li>只支援 HTTP Basic 與 Digest；這好像是供 server-side 實作參考的?</li>
+</ul>
+</li>
+<li>
+<p><a href="https://trac-hacks.org/wiki/XmlRpcPlugin#UsingDigestAuthenticationinPython">Using Digest Authentication in Python - XmlRpcPlugin – Trac Hacks - Plugins Macros etc.</a> #ril</p>
+</li>
+<li><a href="https://trac-hacks.org/wiki/XmlRpcPlugin#ProblemswithDigestHTTPauthentication">Problems with Digest HTTP authentication - XmlRpcPlugin – Trac Hacks - Plugins Macros etc.</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://trac-hacks.org/wiki/XmlRpcPlugin">XmlRpcPlugin – Trac Hacks</a></li>
+<li><a href="https://pypi.org/project/TracXMLRPC/">TracXMLRPC - PyPI</a></li>
+</ul>
+<p>相關：</p>
+<ul>
+<li>Trac 的 API 透過 <a href="../xml-rpc/">XML-RPC</a> 或 <a href="../json-rpc/">JSON-RPC</a> 公開</li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://trac-hacks.org/rpc">Remote Procedure Call (RPC) – Trac Hacks</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

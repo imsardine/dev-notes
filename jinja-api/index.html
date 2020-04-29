@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/jinja-api/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Jinja / API - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/jinja-api.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#jinja-api">Jinja / API</a></li>
+            <li class="second-level"><a href="#autoescaping">Autoescaping ??</a></li>
+                
+            <li class="second-level"><a href="#loader">Loader ??</a></li>
+                
+            <li class="second-level"><a href="#template-compilation">Template Compilation ??</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="jinja-api"><a href="../jinja/">Jinja</a> / API<a class="headerlink" href="#jinja-api" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="http://jinja.pocoo.org/docs/2.10/api/">API — Jinja2 Documentation (2.10)</a> #ril</p>
+<ul>
+<li>
+<p>This document describes the API to Jinja2 and NOT THE TEMPLATE LANGUAGE. It will be most useful as reference to those implementing the TEMPLATE INTERFACE to the application and not those who are creating Jinja2 templates.</p>
+<p>這裡 template interface 的說法很棒!</p>
+</li>
+</ul>
+<p>Basics</p>
+<ul>
+<li>
+<p>Jinja2 uses a central object called the template <code>Environment</code>. Instances of this class are used to store the CONFIGURATION and GLOBAL OBJECTS, and are used to LOAD TEMPLATES from the file system or other locations. Even if you are creating templates from strings by using the constructor of <code>Template</code> class, an environment is created automatically for you, albeit a shared one.</p>
+<p>把 environment 視為 context 似乎比較好理解，不過 context 在 Jinja 是提供資料的 dict，跟比較底層的 configuration 無關。</p>
+</li>
+<li>
+<p>Most applications will create one <code>Environment</code> object on application initialization and use that to load templates. In some cases however, it’s useful to have multiple environments side by side, if different configurations are in use.</p>
+</li>
+<li>
+<p>The simplest way to configure Jinja2 to load templates for your application looks roughly like this:</p>
+<pre><code>from jinja2 import Environment, PackageLoader, select_autoescape
+env = Environment(
+    loader=PackageLoader('yourapplication', 'templates'),
+    autoescape=select_autoescape(['html', 'xml'])
+)
+</code></pre>
+<p>This will create a template environment with the default settings and a loader that looks up the templates in the <code>templates</code> folder inside the <code>yourapplication</code> PYTHON PACKAGE. Different loaders are available and you can also write your own if you want to load templates from a database or other resources.</p>
+<p>This also enables autoescaping for HTML and XML files. 對 HTML/XML 特殊字完做 escaping，跟 template 的內容或副檔名無關。</p>
+</li>
+<li>
+<p>To load a template FROM THIS ENVIRONMENT you just have to call the <code>get_template()</code> method which then returns the loaded <code>Template</code>:</p>
+<pre><code>template = env.get_template('mytemplate.html')
+</code></pre>
+<p>To render it with some variables, just call the <code>render()</code> method:</p>
+<pre><code>print template.render(the='variables', go='here')
+</code></pre>
+</li>
+<li>
+<p>Using a TEMPLATE LOADER rather than passing strings to <code>Template</code> or <code>Environment.from_string()</code> has multiple advantages. Besides being a lot easier to use it also enables TEMPLATE INHERITANCE.</p>
+<p>這裡 <code>Environment.from_string()</code> 是相對於 <code>Environment.get_template()</code> 的用法。</p>
+</li>
+</ul>
+<p>Notes on Autoescaping</p>
+<ul>
+<li>In future versions of Jinja2 we might ENABLE AUTOESCAPING BY DEFAULT for security reasons. As such you are encouraged to explicitly configure autoescaping now instead of relying on the default.</li>
+</ul>
+</li>
+</ul>
+<h2 id="autoescaping">Autoescaping ??<a class="headerlink" href="#autoescaping" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://jinja.pocoo.org/#wide-range-of-features">Wide Range of Features - Welcome | Jinja2 (The Python Template Engine)</a> 提到 powerful automatic HTML escaping system for cross site scripting prevention. 這跟 cross site scripting (XSS) 有什麼關係??</li>
+<li><a href="http://jinja.pocoo.org/docs/2.10/faq/#why-is-autoescaping-not-the-default">Why is Autoescaping not the Default? - Frequently Asked Questions — Jinja2 Documentation (2.10)</a> #ril</li>
+<li><a href="http://jinja.pocoo.org/docs/2.10/api/#autoescaping">Autoescaping - API — Jinja2 Documentation (2.10)</a> #ril</li>
+</ul>
+<h2 id="loader">Loader ??<a class="headerlink" href="#loader" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://jinja.pocoo.org/docs/2.10/api/#loaders">Loaders - API — Jinja2 Documentation (2.10)</a> #ril</li>
+</ul>
+<h2 id="template-compilation">Template Compilation ??<a class="headerlink" href="#template-compilation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="http://jinja.pocoo.org/#wide-range-of-features">Wide Range of Features - Welcome | Jinja2 (The Python Template Engine)</a> 提到 &ldquo;just in time compilation to Python bytecode&rdquo;，會把 template 轉譯成 Pyhton bytecode 以提昇效能 (也支援 ahead-of-time compilation)，或許因為這樣才需要有 sandbox 吧?</li>
+<li><a href="http://jinja.pocoo.org/docs/2.10/api/#bytecode-cache">Bytecode Cache - API — Jinja2 Documentation (2.10)</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li>
+<p><a href="http://jinja.pocoo.org/docs/2.10/api/">Jinja2 API Documentation</a></p>
+<ul>
+<li><a href="http://jinja.pocoo.org/docs/2.10/api/#jinja2.Template">Class <code>jinja2.Template</code></a></li>
+<li><a href="http://jinja.pocoo.org/docs/2.10/api/#jinja2.Environment">Class <code>jinja2.Environment</code> (Options)</a></li>
+</ul>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

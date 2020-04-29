@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/python-dateutil/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>python-dateutil - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/python-dateutil.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#python-dateutil">python-dateutil</a></li>
+            <li class="second-level"><a href="#pytz">跟 pytz 的關係?</a></li>
+                
+            <li class="second-level"><a href="#getting-started">新手上路</a></li>
+                
+            <li class="second-level"><a href="#parsing">Parsing ??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="python-dateutil">python-dateutil<a class="headerlink" href="#python-dateutil" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://dateutil.readthedocs.io/en/stable/">dateutil - powerful extensions to datetime — dateutil 2.8.0 documentation</a></p>
+<ul>
+<li>The <code>dateutil</code> module provides powerful extensions to the standard <code>datetime</code> module, available in Python.</li>
+</ul>
+<p>Features</p>
+<ul>
+<li>Computing of relative deltas (next month, next year, next monday, last week of month, etc);</li>
+<li>Computing of relative deltas between two given <code>date</code> and/or <code>datetime</code> objects;</li>
+<li>Computing of dates based on very flexible recurrence rules, using a superset of the iCalendar specification. Parsing of RFC strings is supported as well.</li>
+<li>GENERIC PARSING of dates in almost any string format;</li>
+<li>Timezone (<code>tzinfo</code>) implementations for <code>tzfile(5)</code> format files (<code>/etc/localtime</code>, <code>/usr/share/zoneinfo</code>, etc), <code>TZ</code> environment string (in all known formats), iCalendar format files, given ranges (with help from relative deltas), local machine timezone, fixed offset timezone, UTC timezone, and Windows registry-based time zones.</li>
+<li>Internal UP-TO-DATE world timezone information based on Olson’s database.</li>
+<li>Computing of Easter Sunday dates for any given year, using Western, Orthodox or Julian algorithms;</li>
+<li>A comprehensive test suite.</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dateutil.readthedocs.io/en/stable/">dateutil - powerful extensions to datetime — dateutil 2.6.1 documentation</a> 抬頭寫著 &ldquo;powerful extensions to datetime&rdquo;，又 &ldquo;Generic parsing of dates in almost any string format&rdquo; 似乎是它的強項，另外也提供了 <code>tzinfo</code> 的實作。</p>
+</li>
+<li><a href="https://stackoverflow.com/questions/127803/">python - How to parse an ISO 8601-formatted date? - Stack Overflow</a> 由於 <code>datetime.strptime()</code> 不好用，許多人推薦用 <code>python-dateutil</code> 來解析字串。</li>
+</ul>
+<h2 id="pytz">跟 pytz 的關係?<a class="headerlink" href="#pytz" title="Permanent link"> #</a></h2>
+<p>dateutil 主要是用它的工具 (尤其是 parsing)，需要用到 timezone 時，習慣上還是會用 pytz。但 Python 3.6 之後似乎建議用 <code>dateutil.tz</code>?</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://opensource.com/article/17/5/understanding-datetime-python-primer">Differences when working with pytz - Understanding datetime in Python: A primer | Opensource.com</a> (2017-05-12) 為什麼會有 &ldquo;Since Python 3.6, the recommended library to get the Olson database is dateutil.tz, but it used to be pytz.&rdquo; 這樣的說法? #ril</li>
+<li><a href="https://dateutil.readthedocs.io/en/stable/">dateutil - powerful extensions to datetime — dateutil 2.6.1 documentation</a> 提到 &ldquo;Timezone (tzinfo) implementations for&hellip;&rdquo; 及 &ldquo;Internal up-to-date world timezone information based on Olson’s database.&rdquo; 看來就不需要 pytz 了?</li>
+<li><a href="http://www.assert.cc/2014/05/25/which-python-time-zone-library.html">The Case for pytz over dateutil — Блог Дейла</a> (2014-05-25) dateutil 看似是 pytz 的 superset，除了 timezone info 外，還有一些好用的工具 #ril</li>
+<li><a href="https://www.djangosnippets.org/snippets/995/">djangosnippets: Converting PDT to UTC using pytz and dateutil</a> (2008-08-21) 並用 pytz 與 dateutil，用 pytz 的 timezone 搭配 dateutil 的 parsing。</li>
+<li><a href="https://coderwall.com/p/7t3qdq/datetimes-and-timezones-and-dst-oh-my">Datetimes and Timezones and DST, oh my! (Example)</a> (2016-02-25) 一樣並用 pytz 與 dateutil。</li>
+</ul>
+<h2 id="getting-started">新手上路<a class="headerlink" href="#getting-started" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://dateutil.readthedocs.io/en/stable/#quick-example">dateutil - powerful extensions to datetime — dateutil 2.8.0 documentation</a></p>
+<ul>
+<li>
+<p>Suppose you want to know HOW MUCH TIME IS LEFT, in years/months/days/etc, before the next easter happening on a year with a Friday 13<sup>th</sup> in August, and you want to get today’s date out of the “date” unix system command. Here is the code:</p>
+<pre><code>&gt;&gt;&gt; from dateutil.relativedelta import *
+&gt;&gt;&gt; from dateutil.easter import *
+&gt;&gt;&gt; from dateutil.rrule import *
+&gt;&gt;&gt; from dateutil.parser import *
+&gt;&gt;&gt; from datetime import *
+&gt;&gt;&gt; now = parse("Sat Oct 11 17:13:46 UTC 2003")
+&gt;&gt;&gt; today = now.date()
+&gt;&gt;&gt; year = rrule(YEARLY,dtstart=now,bymonth=8,bymonthday=13,byweekday=FR)[0].year
+&gt;&gt;&gt; rdelta = relativedelta(easter(year), today)
+&gt;&gt;&gt; print("Today is: %s" % today)
+Today is: 2003-10-11
+&gt;&gt;&gt; print("Year with next Aug 13th on a Friday is: %s" % year)
+Year with next Aug 13th on a Friday is: 2004
+&gt;&gt;&gt; print("How far is the Easter of that year: %s" % rdelta)
+How far is the Easter of that year: relativedelta(months=+6)
+&gt;&gt;&gt; print("And the Easter of that year is: %s" % (today+rdelta))
+And the Easter of that year is: 2004-04-11
+</code></pre>
+<p>範例有點難懂 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dateutil.readthedocs.io/en/stable/examples.html">dateutil examples — dateutil 2.8.0 documentation</a> #ril</p>
+</li>
+<li><a href="https://dateutil.readthedocs.io/en/stable/exercises/index.html">Exercises — dateutil 2.8.0 documentation</a> #ril</li>
+</ul>
+<h2 id="parsing">Parsing ??<a class="headerlink" href="#parsing" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://dateutil.readthedocs.io/en/stable/parser.html">parser — dateutil 2.8.0 documentation</a> #ril</p>
+<ul>
+<li>
+<p>This module offers a GENERIC date/time string parser which is able to parse MOST KNOWN FORMATS to represent a date and/or time.</p>
+</li>
+<li>
+<p>This module attempts to be FORGIVING with regards to unlikely input formats, returning a <code>datetime</code> object even for dates which are ambiguous. If an element of a date/time stamp is omitted, the following rules are applied:</p>
+<ul>
+<li>
+<p>If AM or PM is left unspecified, a 24-hour clock is assumed, however, an hour on a 12-hour clock (<code>0 &lt;= hour &lt;= 12</code>) must be specified if AM or PM is specified.</p>
+</li>
+<li>
+<p>If a time zone is omitted, a timezone-NAIVE <code>datetime</code> is returned.</p>
+</li>
+<li>
+<p>If any other elements are missing, they are taken from the <code>datetime.datetime</code> object passed to the parameter <code>default</code>.</p>
+<p>但為何 <code>parser.parse('May 3')</code> 會得到 <code>datetime.datetime(2019, 5, 3, 0, 0)</code>? 原來 <a href="https://github.com/dateutil/dateutil/blob/2.8.0/dateutil/parser/_parser.py#L642"><code>dateutil.parser.parse</code> 的實作</a> 會拿當天的零時零分做為預設值：</p>
+<pre><code>default = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+</code></pre>
+<p>If this results in a day number exceeding the valid number of days per month, the value FALLS BACK TO THE END OF THE MONTH.</p>
+<p>但為何 <code>parser.parse('Feb. 30')</code> 會丟 <code>ValueError: day is out of range for month</code> 的錯誤 ??</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Additional resources about date/time string formats can be found below:</p>
+<ul>
+<li><a href="http://www.cl.cam.ac.uk/~mgk25/iso-time.html">A summary of the international standard date and time notation</a></li>
+<li><a href="http://www.w3.org/TR/NOTE-datetime">W3C Date and Time Formats</a></li>
+<li><a href="https://pds-rings.seti.org/tools/time_formats.html">Time Formats (Planetary Rings Node)</a></li>
+<li><a href="http://search.cpan.org/~muir/Time-modules-2013.0912/lib/Time/ParseDate.pm">CPAN ParseDate module</a></li>
+<li><a href="https://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html">Java SimpleDateFormat Class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="http://dateutil.readthedocs.io/en/stable/parser.html">parser — dateutil 2.6.1 documentation</a> &ldquo;This module offers a generic date/time string parser which is able to parse most known formats to represent a date and/or time.&rdquo;</p>
+</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<p>用 <code>pip</code> 安裝 <code>python-dateutil</code> 套件即可：(注意不是 <code>dateutil</code>)</p>
+<pre><code>pip install python-dateutil
+</code></pre>
+
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://dateutil.readthedocs.io/en/stable/">dateutil</a></li>
+<li><a href="https://github.com/dateutil/dateutil/">dateutil/dateutil - GitHub</a></li>
+<li><a href="https://pypi.python.org/pypi/python-dateutil">python-dateutil - PyPI</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://dateutil.readthedocs.io/en/stable/changelog.html">Changelog</a></li>
+<li><a href="https://dateutil.readthedocs.io/en/stable/">dateutil Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

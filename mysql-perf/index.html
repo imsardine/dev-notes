@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/mysql-perf/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>MySQL / Performance - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/mysql-perf.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#mysql-performance">MySQL / Performance</a></li>
+            <li class="second-level"><a href="#slow-query-log">Slow Query Log ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="mysql-performance"><a href="../mysql/">MySQL</a> / Performance<a class="headerlink" href="#mysql-performance" title="Permanent link"> #</a></h1>
+<h2 id="slow-query-log">Slow Query Log ??<a class="headerlink" href="#slow-query-log" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p>透過記錄 slow query 可以幫忙點出效能有待改善的 SQL query；所謂 slow query 是指 query time 大於 <code>long_query_time</code> (預設 10 秒) 且涉及的資料筆數大於 <code>min_examined_row_limit</code> (預設 0) 者，不論過程中有沒有受惠於 index。</p>
+<pre><code>&gt; SHOW GLOBAL VARIABLES WHERE Variable_name LIKE '%slow%' OR Variable_name IN ('long_query_time', 'min_examined_row_limit', 'log_queries_not_using_indexes');
++-------------------------------+--------------------------------------------------------------------------------------------------------------+
+| Variable_name                 | Value                                                                                                        |
++-------------------------------+--------------------------------------------------------------------------------------------------------------+
+| log_queries_not_using_indexes | OFF                                                                                                          |
+| log_slow_filter               | admin,filesort,filesort_on_disk,full_join,full_scan,query_cache,query_cache_miss,tmp_table,tmp_table_on_disk |
+| log_slow_rate_limit           | 1                                                                                                            |
+| log_slow_verbosity            | query_plan                                                                                                   |
+| long_query_time               | 10.000000                                                                                                    |
+| min_examined_row_limit        | 0                                                                                                            |
+| slow_launch_time              | 2                                                                                                            |
+| slow_query_log                | OFF                                                                                                          |
+| slow_query_log_file           | /var/log/mysql/mariadb-slow.log                                                                              |
++-------------------------------+--------------------------------------------------------------------------------------------------------------+
+9 rows in set (0.00 sec)
+</code></pre>
+</li>
+<li>
+<p>預設不會啟用，執行期可以透過 <code>SET GLOBAL slow_query_log = ON;</code> 啟用 (需要有 <code>SUPER</code> 權限)。</p>
+</li>
+<li>記錄 slow query 是第一步，找到源頭 &ndash; 哪一段程式送出這個 query &ndash; 才是最花時間的，由於 slow query log 會揭露 <code>User@Host: ...</code>，如果每個應用程式都有用不同的身份連線，可以加快釐清問題的速度。</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/slow-query-log.html">MySQL :: MySQL 8.0 Reference Manual :: 5.4.5 The Slow Query Log</a> #ril</p>
+<ul>
+<li>
+<p>The slow query log consists of SQL statements that take more than <code>long_query_time</code> seconds to execute and require at least <code>min_examined_row_limit</code> rows to be examined. The slow query log can be used to find queries that take a long time to execute and are therefore CANDIDATES FOR OPTIMIZATION. However, examining a long slow query log can be a TIME-CONSUMING TASK. To make this easier, you can use the <code>mysqldumpslow</code> command to process a slow query log file and summarize its contents. See Section 4.6.9, “mysqldumpslow — Summarize Slow Query Log Files”.</p>
+</li>
+<li>
+<p>The time to acquire the INITIAL LOCKS is not counted as execution time. mysqld writes a statement to the slow query log after it has been executed and after all locks have been released, so LOG ORDER might differ from EXECUTION ORDER.</p>
+<p>但為什麼下面 Slow Query Log Contents 提到 Lock_time: duration &ndash; The time to acquire locks in seconds. ??</p>
+</li>
+</ul>
+<p>Slow Query Log Parameters</p>
+<ul>
+<li>
+<p>The minimum and default values of <code>long_query_time</code> are 0 and 10, respectively. The value can be specified to a resolution of microseconds.</p>
+</li>
+<li>
+<p>By default, administrative statements are not logged, nor are queries that DO NOT USE INDEXES for lookups. This behavior can be changed using <code>log_slow_admin_statements</code> and <code>log_queries_not_using_indexes</code>, as described later.</p>
+<p>&ldquo;NOR are queries that do not use indexes&rdquo; 這說法可能會造成誤會，因為就算沒用 index，只要 query time 超過 <code>long_query_time</code> 就會被記錄。所謂 <code>log_queries_not_using_indexes</code> 是指要不要 &ldquo;額外&rdquo; 記錄沒有用 index 的 query，不管時間是否超過 <code>long_query_time</code>。</p>
+</li>
+<li>
+<p>By default, the slow query log is disabled. To specify the initial slow query log state explicitly, use <code>--slow_query_log[={0|1}]</code>. With no argument or an argument of <code>1</code>, <code>--slow_query_log</code> enables the log. With an argument of <code>0</code>, this option disables the log. To specify a log file name, use <code>--slow_query_log_file=file_name</code>. To specify the log destination, use the <code>log_output</code> system variable (as described in Section 5.4.1, “Selecting General Query Log and Slow Query Log Output Destinations”).</p>
+<p>要在 runtime 啟用 slow query log，可以用 <code>SET GLOBAL slow_query_log = ON;</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://stackoverflow.com/questions/10755151">profiling - Mysql: What is the difference between &ldquo;slow_query_log&rdquo; vs &ldquo;log_slow_queries&rdquo; - Stack Overflow</a></p>
+<ul>
+<li>
+<p>Sean: <code>log_slow_queries</code> was deprecated in MySQL 5.1.29 by <code>slow-query-log</code>. The MySQL 5.1 Reference Manual has more details.</p>
+</li>
+<li>
+<p>Rahul: <a href="https://dev.mysql.com/doc/refman/5.5/en/server-options.html#option_mysqld_log-slow-queries">MySQL :: MySQL 5.5 Reference Manual :: 5.1.6 Server Command Options</a>:</p>
+<blockquote>
+<p>The <code>--log-slow-queries</code> option is deprecated and is removed (along with the <code>log_slow_queries</code> system variable) in MySQL 5.6. Instead, use the <code>--slow_query_log</code> option to enable the slow query log and the <code>--slow_query_log_file=file_name</code> option to set the slow query log file name.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dba.stackexchange.com/questions/29582">mysql - Enabling &ldquo;log_queries_not_using_indexes&rdquo; disables &ldquo;long_query_time&rdquo;? - Database Administrators Stack Exchange</a></p>
+<ul>
+<li>
+<p>coolcfan: is there a way to log all the queries which take longer time than long_query_time, REGARDLESS of whether they are using indexes?</p>
+</li>
+<li>
+<p>drogart: That is expected behavior. Refer to the docs online, but in summary:</p>
+<ul>
+<li><code>long_query_time</code> is the threshold for query execution time beyond which it is logged. Any queries taking longer than the threshold are logged, REGARDLESS OF WHETHER THEY USE AN INDEX OR NOT.</li>
+<li><code>log_queries_not_using_indexes</code> tells MySQL to ADDITIONALLY log all queries that do not use an index to limit the number of rows scanned. Logging on this condition happens REGARDLESS OF EXECUTION TIME.</li>
+</ul>
+<p>Hope that helps explain what you are seeing. It seems like you probably just want <code>long_query_time</code> and not <code>log_queries_not_using_indexes</code> if your goal is to only capture queries that take longer than a particular threshold.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqldumpslow.html">MySQL :: MySQL 8.0 Reference Manual :: 4.6.9 mysqldumpslow — Summarize Slow Query Log Files</a> #ril</p>
+</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/semantic-ui-form/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Semantic UI / Form - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/semantic-ui-form.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#semantic-ui-form">Semantic UI / Form</a></li>
+            <li class="second-level"><a href="#validation">Validation ??</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="semantic-ui-form"><a href="../semantic-ui/">Semantic UI</a> / Form<a class="headerlink" href="#semantic-ui-form" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://semantic-ui.com/collections/form.html">Form | Semantic UI</a> #ril</p>
+<ul>
+<li>
+<p>A form displays a set of related user input fields in a STRUCTURED WAY 要排好這些 form elements 確實不容易，上下左右都要對齊，很累人!!</p>
+<pre><code>&lt;form class="ui form"&gt;
+  &lt;div class="field"&gt;
+    &lt;label&gt;First Name&lt;/label&gt;
+    &lt;input type="text" name="first-name" placeholder="First Name"&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label&gt;Last Name&lt;/label&gt;
+    &lt;input type="text" name="last-name" placeholder="Last Name"&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;div class="ui checkbox"&gt;
+      &lt;input type="checkbox" tabindex="0" class="hidden"&gt;
+      &lt;label&gt;I agree to the Terms and Conditions&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class="ui button" type="submit"&gt;Submit&lt;/button&gt; &lt;-- 不用 &lt;input type="submit"&gt; ??
+&lt;/form&gt;
+</code></pre>
+<p>結構上是 form (<code>&lt;form class="ui form"&gt;</code>) 下面有許多 field (<code>&lt;div class="field"&gt;</code>)，每個 field 除了 form element 外 (並沒有特別，就是 <code>&lt;input ...&gt;</code> 的寫法，這一點跟動態產生 form element 的 framework 很搭)，都可以有個 label (<code>&lt;label&gt;</code>)。</p>
+<p>事實上，在 field 下的 label 是針對整個 field，如果 field 裡有多個 form element，則各自會有自己的 label，例如：</p>
+<pre><code>&lt;div class="field"&gt;
+  &lt;label&gt;Aggrements&lt;/label&gt; &lt;-- 給 field
+  &lt;div class="ui checkbox"&gt;
+    &lt;input type="checkbox" tabindex="0" class="hidden"&gt;
+    &lt;label&gt;I agree to the Terms and Conditions&lt;/label&gt; &lt;-- 給單一個 checkbox
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</li>
+<li>
+<p>下面 Shipping Information 示範了更複雜的排版</p>
+<pre><code>&lt;form class="ui form"&gt;
+  &lt;h4 class="ui dividing header"&gt;Shipping Information&lt;/h4&gt; &lt;-- 跟 divider header 不同
+  &lt;div class="field"&gt; &lt;-- 第一層 field 是 row
+    &lt;label&gt;Name&lt;/label&gt;
+    &lt;div class="two fields"&gt;
+      &lt;div class="field"&gt; &lt;-- Field 下還可以有 fields，第二層 field 分 columns
+        &lt;input type="text" name="shipping[first-name]" placeholder="First Name"&gt; &lt;-- name 的表示法好特別??
+      &lt;/div&gt;
+      &lt;div class="field"&gt;
+        &lt;input type="text" name="shipping[last-name]" placeholder="Last Name"&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label&gt;Billing Address&lt;/label&gt;
+    &lt;div class="fields"&gt; &lt;-- 只寫 fields，比例下一層 field 再指定
+      &lt;div class="twelve wide field"&gt; &lt;-- twelve v. four，是 3:1 的意思
+        &lt;input type="text" name="shipping[address]" placeholder="Street Address"&gt;
+      &lt;/div&gt;
+      &lt;div class="four wide field"&gt;
+        &lt;input type="text" name="shipping[address-2]" placeholder="Apt #"&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="two fields"&gt;
+    &lt;div class="field"&gt;
+      &lt;label&gt;State&lt;/label&gt;
+      &lt;div class="ui fluid dropdown selection" tabindex="0"&gt;&lt;select&gt;
+        &lt;option value=""&gt;State&lt;/option&gt;
+    &lt;option value="AL"&gt;Alabama&lt;/option&gt;
+    ...
+    &lt;option value="WY"&gt;Wyoming&lt;/option&gt;
+      &lt;/select&gt;&lt;i class="dropdown icon"&gt;&lt;/i&gt;&lt;div class="default text"&gt;State&lt;/div&gt;&lt;div class="menu" tabindex="-1"&gt;&lt;div class="item" data-value="AL"&gt;Alabama&lt;/div&gt;...&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="field"&gt;
+      &lt;label&gt;Country&lt;/label&gt;
+      &lt;div class="ui fluid search selection dropdown"&gt;
+        &lt;input type="hidden" name="country"&gt;
+        &lt;i class="dropdown icon"&gt;&lt;/i&gt;
+        &lt;input class="search" autocomplete="off" tabindex="0"&gt;&lt;div class="default text"&gt;Select Country&lt;/div&gt;
+        &lt;div class="menu" tabindex="-1"&gt;
+    &lt;div class="item" data-value="af"&gt;&lt;i class="af flag"&gt;&lt;/i&gt;Afghanistan&lt;/div&gt;
+    ...
+    &lt;div class="item" data-value="zw"&gt;&lt;i class="zw flag"&gt;&lt;/i&gt;Zimbabwe&lt;/div&gt;
+  &lt;/div&gt;
+
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;h4 class="ui dividing header"&gt;Billing Information&lt;/h4&gt;
+  &lt;div class="field"&gt;
+    &lt;label&gt;Card Type&lt;/label&gt;
+    &lt;div class="ui selection dropdown" tabindex="0"&gt;
+      &lt;input type="hidden" name="card[type]"&gt;
+      &lt;div class="default text"&gt;Type&lt;/div&gt;
+      &lt;i class="dropdown icon"&gt;&lt;/i&gt;
+      &lt;div class="menu" tabindex="-1"&gt;
+        &lt;div class="item" data-value="visa"&gt;
+          &lt;i class="visa icon"&gt;&lt;/i&gt;
+          Visa
+        &lt;/div&gt;
+        &lt;div class="item" data-value="amex"&gt;
+          &lt;i class="amex icon"&gt;&lt;/i&gt;
+          American Express
+        &lt;/div&gt;
+        &lt;div class="item" data-value="discover"&gt;
+          &lt;i class="discover icon"&gt;&lt;/i&gt;
+          Discover
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="fields"&gt;
+    &lt;div class="seven wide field"&gt;
+      &lt;label&gt;Card Number&lt;/label&gt;
+      &lt;input type="text" name="card[number]" maxlength="16" placeholder="Card #"&gt;
+    &lt;/div&gt;
+    &lt;div class="three wide field"&gt;
+      &lt;label&gt;CVC&lt;/label&gt;
+      &lt;input type="text" name="card[cvc]" maxlength="3" placeholder="CVC"&gt;
+    &lt;/div&gt;
+    &lt;div class="six wide field"&gt;
+      &lt;label&gt;Expiration&lt;/label&gt;
+      &lt;div class="two fields"&gt;
+        &lt;div class="field"&gt;
+          &lt;div class="ui fluid search dropdown selection"&gt;&lt;select name="card[expire-month]"&gt;
+            &lt;option value=""&gt;Month&lt;/option&gt;
+            &lt;option value="1"&gt;January&lt;/option&gt;
+            ...
+            &lt;option value="12"&gt;December&lt;/option&gt;
+          &lt;/select&gt;&lt;i class="dropdown icon"&gt;&lt;/i&gt;&lt;input class="search" autocomplete="off" tabindex="0"&gt;&lt;div class="default text"&gt;Month&lt;/div&gt;&lt;div class="menu" tabindex="-1"&gt;&lt;div class="item" data-value="1"&gt;January&lt;/div&gt;...&lt;/div&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="field"&gt;
+          &lt;input type="text" name="card[expire-year]" maxlength="4" placeholder="Year"&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;h4 class="ui dividing header"&gt;Receipt&lt;/h4&gt;
+
+  &lt;div class="field"&gt;
+    &lt;label&gt;Send Receipt To:&lt;/label&gt;
+    &lt;div class="ui fluid multiple search selection dropdown"&gt;
+      &lt;input type="hidden" name="receipt"&gt;
+      &lt;i class="dropdown icon"&gt;&lt;/i&gt;
+      &lt;input class="search" autocomplete="off" tabindex="0"&gt;&lt;span class="sizer"&gt;&lt;/span&gt;&lt;div class="default text"&gt;Saved Contacts&lt;/div&gt;
+      &lt;div class="menu" tabindex="-1"&gt;
+        &lt;div class="item" data-value="jenny" data-text="Jenny"&gt;
+          &lt;img class="ui mini avatar image" src="/images/avatar/small/jenny.jpg"&gt;
+          Jenny Hess
+        &lt;/div&gt;
+        ...
+        &lt;div class="item" data-value="justen" data-text="Justen"&gt;
+          &lt;img class="ui mini avatar image" src="/images/avatar/small/justen.jpg"&gt;
+          Justen Kitsune
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="ui segment"&gt; &lt;-- 為可突然用上 segment??
+    &lt;div class="field"&gt;
+      &lt;div class="ui toggle checkbox"&gt;
+        &lt;input type="checkbox" name="gift" tabindex="0" class="hidden"&gt;
+        &lt;label&gt;Do not include a receipt in the package&lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ui button" tabindex="0"&gt;Submit Order&lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+</li>
+<li>
+<p>Form 的 state 有 <code>loading</code>、<code>success</code>、<code>error</code> 跟 <code>warning</code>；<code>loading</code> 會有個 loader 覆蓋在 form 上面 (半透明)，<code>success</code>/<code>error</code>/<code>warning</code> 主要是顯示 success/error/warning message；也就是輸出 HTML 不用控制要不要輸出對應的 block，從 form 的 class 就可以操控要顯示哪個 message box。</p>
+</li>
+<li>Form 的 <code>error</code> state，可以搭配 field 的 <code>error</code> state 一起使用，例如 <code>&lt;div class="field error"&gt;</code>，會跟著 error message box 一起呈現紅色。</li>
+</ul>
+</li>
+</ul>
+<h2 id="validation">Validation ??<a class="headerlink" href="#validation" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://semantic-ui.com/behaviors/form.html">Form Validation | Semantic UI</a> #ril</li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

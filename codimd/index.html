@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/codimd/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>CodiMD - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/codimd.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#codimd">CodiMD</a></li>
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#docker">Docker</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="codimd">CodiMD<a class="headerlink" href="#codimd" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://github.com/hackmdio/codimd">hackmdio/codimd: CodiMD - Realtime collaborative markdown notes on all platforms.</a></p>
+<ul>
+<li>CodiMD lets you collaborate in real-time with markdown. Built on HackMD source code, CodiMD lets you HOST and control your team&rsquo;s content with speed and ease.</li>
+</ul>
+<p>CodiMD - The Open Source HackMD</p>
+<ul>
+<li>
+<p>HackMD helps developers write better documents and build active communities with open collaboration. HackMD is built with one promise - You own and control all your content:</p>
+<ul>
+<li>You should be able to easily download all your online content at once.</li>
+<li>Your content formatting should be portable as well. (That&rsquo;s why we choose markdown.)</li>
+<li>You should be able to control your content&rsquo;s presentation with HTML, slide mode, or BOOK MODE.</li>
+</ul>
+</li>
+<li>
+<p>With the same promise of you owning your content, CodiMD is the free software version of HackMD, developed and opened source by the HackMD team with REDUCED FEATURES, so you can use CodiMD for your community and own your data. (See the origin of the name CodiMD.)</p>
+<p>少了哪些功能沒有說明 <a href="https://github.com/hackmdio/codimd/issues/1145">Provide a feature matrix CodiMD vs HackMD · Issue #1145 · hackmdio/codimd</a> #ril</p>
+</li>
+<li>
+<p>CodiMD is perfect for open communities, while HackMD emphasizes on permission and access controls for COMMERCIAL USE CASES.</p>
+<p>HackMD team is committed to keep CodiMD open source. All contributions are welcome!</p>
+<p>從 <a href="https://github.com/hackmdio/codimd/blob/develop/LICENSE"><code>codimd/LICENSE</code></a> 有提到 &ldquo;Commercial use&rdquo;，是可以商用的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/codimd/server">codimd/server: CodiMD - Realtime collaborative markdown notes on all platforms.</a> #ril</p>
+<ul>
+<li>
+<p>CodiMD lets you create real-time collaborative markdown notes. You can test-drive it by visiting our <a href="https://demo.codimd.org/">CodiMD demo server</a>.</p>
+</li>
+<li>
+<p>It is inspired by Hackpad, Etherpad and similar collaborative editors. This project originated with the team at HackMD and NOW FORKED INTO ITS OWN ORGANISATION. A longer writeup can be read in the history doc.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/codimd/server/blob/master/docs/history.md">server/history.md at master · codimd/server</a></p>
+<p>It started with HackMD</p>
+<ul>
+<li>
+<p>HackMD is the origin of this project, which was mostly developed by Max Wu and Yukai Huang. Originally, this was open source under MIT license, but was relicensed in October 2017 to be AGPLv3. At the same time, hackmd.io was founded to offer a commercial version of HackMD.</p>
+</li>
+<li>
+<p>The AGPLv3-version was developed and released by the community, this was for a while referred to as &ldquo;HackMD community edition&rdquo;.</p>
+<p>For more on the splitting of the projects, please refer to <a href="2017-10-11">A note to our community</a>(<a href="https://hackmd.io/c/community-news/https%3A%2F%2Fhackmd.io%2Fs%2Fr1_4j9_hZ">https://hackmd.io/c/community-news/https%3A%2F%2Fhackmd.io%2Fs%2Fr1_4j9_hZ</a>).</p>
+<p>說明授權為何從 MIT 改為 AGPL 3.0，也就是 HackMD Community Edition (CE)，順勢也將推出 HackMD Enterprise Edition (EE)。</p>
+</li>
+</ul>
+<p>HackMD CE became CodiMD</p>
+<ul>
+<li>
+<p>In June 2018, CodiMD was renamed from its former name &ldquo;HackMD&rdquo; and continued to be developed under AGPLv3 by the community. We decided to change the name to break the CONFUSION between HackMD (enterprise offering) and CodiMD (community project), as people mistook it for an OPEN CORE development model.</p>
+<p>不像 GitLab CE 與 EE 的關係。</p>
+<p>For the whole renaming story, see the <a href="https://github.com/hackmdio/hackmd/issues/720">issue where the renaming was discussed</a>.</p>
+</li>
+</ul>
+<p>CodiMD went independent</p>
+<ul>
+<li>
+<p>In March 2019, a discussion over licensing, governance and the future of CodiMD lead to the formation of a distinct GitHub organization. Up to that point, the community project resided in the organization of hackmdio but was for the MOST PART SELF-ORGANIZED.</p>
+</li>
+<li>
+<p>During that DEBATE, we did not reach an agreement that would have allowed us to MOVE THE REPOSITORY, so we simply forked it. We still welcome the HackMD team as part of our community, especially since a large portion of this code base originated with them.</p>
+<p>For the debate that lead to this step, please refer to the <a href="https://github.com/hackmdio/hackmd/issues/1170">governance debate</a> and the <a href="https://github.com/codimd/server/issues/10">announcement of the new repository</a>. #ril</p>
+<p>未達成協議只是 fork 出來事小，問題是 CodiMD 搜尋的結果會跑出不少 demo.codimd.org 的資料，讓人搞不清楚要用哪一個。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/hackmdio/codimd/issues/579">HackMD Community Announcement · Issue #579 · hackmdio/codimd</a> #ril</p>
+</li>
+<li><a href="https://github.com/hackmdio/codimd/issues/720">Rename the project · Issue #720 · hackmdio/codimd</a> #ril</li>
+<li><a href="https://github.com/hackmdio/codimd/pull/850">Rebrand HackMD CE to CodiMD by SISheogorath · Pull Request #850 · hackmdio/codimd</a> #ril</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<ul>
+<li>
+<p><a href="https://github.com/hackmdio/codimd#deployment">Deployment - hackmdio/codimd: CodiMD - Realtime collaborative markdown notes on all platforms.</a></p>
+<p>If you want to spin up an instance and start using immediately, see Docker deployment. If you want to contribute to the project, start with manual deployment.</p>
+</li>
+<li>
+<p><a href="https://github.com/codimd/server#installation--upgrading">Installation / Upgrading - codimd/server: CodiMD - Realtime collaborative markdown notes on all platforms.</a> #ril</p>
+</li>
+</ul>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link"> #</a></h3>
+<ul>
+<li>
+<p><a href="https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-docker-deployment">Docker Deployment - HackMD</a></p>
+<p>The easiest way to setup CodiMD using docker are using the following three commands:</p>
+<pre><code>git clone https://github.com/hackmdio/docker-hackmd.git
+cd docker-hackmd
+docker-compose up
+</code></pre>
+<p>Read more about it in the container repository.</p>
+<p>不是 Docker Hub 上沒有已包裝好的 image，而是 CodiMD 執行期要搭配 database，所以透過 Docker Compose 來執行。</p>
+</li>
+<li>
+<p><a href="https://github.com/hackmdio/docker-hackmd">hackmdio/docker-hackmd: docker hackmd image</a></p>
+<ul>
+<li>
+<p>This repository has been archived by the owner. It is now read-only. &hellip;</p>
+<p>XD 這什麼狀況 (2019-08-16)，文件說用 <a href="https://github.com/hackmdio/docker-hackmd">https://github.com/hackmdio/docker-hackmd</a>，這已經 archive，也沒說替代方案是什麼。</p>
+</li>
+<li>
+<p><a href="https://github.com/hackmdio/docker-hackmd/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a> 裡面用的 image 還是 <code>hackmdio/hackmd:1.2.0</code></p>
+</li>
+<li><a href="https://hub.docker.com/r/hackmdio/hackmd/">hackmdio/hackmd - Docker Hub</a> 但 Docker Hub 上的抬頭已經是 CodiMD</li>
+</ul>
+</li>
+<li>
+<p><a href="https://hub.docker.com/r/hackmdio/hackmd/">hackmdio/hackmd - Docker Hub</a> #ril</p>
+<ul>
+<li>
+<p>If you used the <code>docker-hackmd</code> repository before, migrating to <a href="https://github.com/hackmdio/codimd-container"><code>codimd-container</code></a> is easy.</p>
+<p><a href="https://github.com/hackmdio/codimd-container">https://github.com/hackmdio/codimd-container</a> 竟然轉向 <a href="https://github.com/codimd/container">https://github.com/codimd/container</a> !! 然後 <a href="https://github.com/codimd/container/blob/master/docker-compose.yml"><code>docker-compose.yml</code></a> 裡面的 image 改用 <code>quay.io/codimd/server:1.5.0</code></p>
+<p>雖然 Source Repository 還是指向 hackmdio/docker-hackmd</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/codimd/container">codimd/container: CodiMD container image ressources</a> #ril</p>
+<ul>
+<li>
+<p>Debian based version: Main docker image based on Debian and used by default in the <code>docker-compose.yml</code>. Recommended for test and PRODUCTION DEPLOYMENTS.</p>
+</li>
+<li>
+<p>Alpine based version: Minimal docker image based on Alpine can be used for EXPERT SETUPS. In order to prevent crashes due to dependency problems, this version comes WITHOUT PDF EXPORT.</p>
+</li>
+</ul>
+<p>Get started</p>
+<ul>
+<li>Install docker and docker-compose, &ldquo;Docker for Windows&rdquo; or &ldquo;Docker for Mac&rdquo;</li>
+<li>Run <code>git clone https://github.com/codimd/container.git codimd-container</code></li>
+<li>Change to the directory <code>codimd-container</code> directory</li>
+<li>Run <code>docker-compose up</code> in your terminal</li>
+<li>Wait until see the log <code>HTTP Server listening at port 3000</code>, it will take few minutes based on your internet connection.</li>
+<li>Open <a href="http://127.0.0.1:3000">http://127.0.0.1:3000</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://github.com/hackmdio/codimd">hackmdio/codimd - GitHub</a></li>
+<li><a href="https://github.com/codimd/server">codimd/server - GitHub</a></li>
+</ul>
+<p>文件：</p>
+<ul>
+<li><a href="https://hackmd.io/c/codimd-documentation/">CodiMD Documentation - HackMD</a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-configuration">CodiMD Configuration</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

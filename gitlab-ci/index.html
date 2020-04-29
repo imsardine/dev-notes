@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/gitlab-ci/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>GitLab / CI/CD - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/gitlab-ci.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#gitlab-cicd">GitLab / CI/CD</a></li>
+            <li class="second-level"><a href="#ci-cd">CI 跟 CD 有什麼不同??</a></li>
+                
+            <li class="second-level"><a href="#hello-world">Hello, World! ??</a></li>
+                
+            <li class="second-level"><a href="#gitlab-cicd_1">如何入門 GitLab CI/CD??</a></li>
+                
+            <li class="second-level"><a href="#pipelinestagejob">Pipeline、Stage、Job ??</a></li>
+                
+            <li class="second-level"><a href="#scheduled-pipeline">Scheduled Pipeline ??</a></li>
+                
+            <li class="second-level"><a href="#artifact-artifact-passing">Artifact, Artifact Passing ??</a></li>
+                
+            <li class="second-level"><a href="#cicd-variables">CI/CD Variables ??</a></li>
+                
+            <li class="second-level"><a href="#merge-request">Merge Request ??</a></li>
+                
+            <li class="second-level"><a href="#makefile">Makefile</a></li>
+                
+            <li class="second-level"><a href="#aws">AWS</a></li>
+                
+            <li class="second-level"><a href="#container-registry">Container Registry ??</a></li>
+                
+            <li class="second-level"><a href="#runnerexecutor">Runner、Executor ??</a></li>
+                
+            <li class="second-level"><a href="#group-runners">Group Runners ??</a></li>
+                
+            <li class="second-level"><a href="#gitlab-runner">gitlab-runner 的用法??</a></li>
+                
+            <li class="second-level"><a href="#variable">什麼是 Variable??</a></li>
+                
+            <li class="second-level"><a href="#cd-testingstagingproduction">CD 支援 testing、staging、production 逐步上線??</a></li>
+                
+            <li class="second-level"><a href="#review-app">什麼是 Review App??</a></li>
+                
+            <li class="second-level"><a href="#build">如何揭露 build 的狀態??</a></li>
+                
+            <li class="second-level"><a href="#shared-runner">如何使用 Shared Runner??</a></li>
+                
+            <li class="second-level"><a href="#setup">安裝設置</a></li>
+                
+                <li class="third-level"><a href="#runner">安裝 &amp; 註冊 Runner ??</a></li>
+                <li class="third-level"><a href="#gitlab-runner-linux">安裝 GitLab Runner (Linux) ??</a></li>
+                <li class="third-level"><a href="#mac-runner">在 Mac 上安裝 &amp; 註冊 Runner?</a></li>
+                <li class="third-level"><a href="#docker-runner">如何用 Docker 安裝 &amp; 註冊 Runner??</a></li>
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="gitlab-cicd"><a href="../gitlab/">GitLab</a> / CI/CD<a class="headerlink" href="#gitlab-cicd" title="Permanent link"> #</a></h1>
+<ul>
+<li><a href="https://about.gitlab.com/features/gitlab-ci-cd/">GitLab Continuous Integration &amp; Deployment | GitLab</a> #ril</li>
+</ul>
+<h2 id="ci-cd">CI 跟 CD 有什麼不同??<a class="headerlink" href="#ci-cd" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ce/ci/">GitLab Continuous Integration (GitLab CI) - GitLab Documentation</a> GitLab 內建對 CI (Continuous Integration)、CD (Continuous Deployment/Delivery) 的支援；CI Pipeline 包含 build、unit test、integration tests，而 review、staging、production 則都屬於 CD Pipeline。</li>
+</ul>
+<h2 id="hello-world">Hello, World! ??<a class="headerlink" href="#hello-world" title="Permanent link"> #</a></h2>
+<ul>
+<li>用 Python 寫個 hello world，送到 GitLab 上測試?</li>
+</ul>
+<h2 id="gitlab-cicd_1">如何入門 GitLab CI/CD??<a class="headerlink" href="#gitlab-cicd_1" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ce/ci/quick_start/">Getting started with GitLab CI/CD - GitLab Documentation</a> #ril</li>
+<li><a href="https://docs.gitlab.com/ce/ci/">GitLab Continuous Integration (GitLab CI) - GitLab Documentation</a> #ril</li>
+</ul>
+<h2 id="pipelinestagejob">Pipeline、Stage、Job ??<a class="headerlink" href="#pipelinestagejob" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ce/ci/pipelines.html">Introduction to pipelines and jobs - GitLab Documentation</a> #ril</li>
+<li><a href="https://docs.gitlab.com/ce/ci/yaml/README.html#stages">stage - Configuration of your jobs with .gitlab-ci.yml - GitLab Documentation</a><ul>
+<li>若沒有用 <code>stages:</code> 宣告有哪些 stage，就會假設 <code>build</code>、<code>test</code> 跟 <code>deploy</code>，若沒有宣告 job 的 stage，預設會是 <code>test</code> stage。</li>
+<li>實驗發現，雖然 <code>stages</code> 是宣告小寫，但 pipeline 的 web UI 會顯示 Build、Test、Deploy，不過 job name 倒是維持大小寫不變。</li>
+</ul>
+</li>
+</ul>
+<h2 id="scheduled-pipeline">Scheduled Pipeline ??<a class="headerlink" href="#scheduled-pipeline" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/pipelines/schedules.html">Pipeline Schedules | GitLab</a> #ril</li>
+<li><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#onlyvariables">only:variables - Configuration of your jobs with .gitlab-ci.yml | GitLab</a> 搭配 scheduled pipeline variable 似乎可以達到從 schedule 裡指定 job 的效果? 例如 <code>dailywork: ... variables: - $SCHEDULE == "dailywork"</code> #ril</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/42313">Choose jobs in scheduled pipelines (#42313) · Issues · GitLab.org / GitLab Community Edition · GitLab</a> #ril</li>
+</ul>
+<h2 id="artifact-artifact-passing">Artifact, Artifact Passing ??<a class="headerlink" href="#artifact-artifact-passing" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/pipelines/job_artifacts.html">Introduction to job artifacts | GitLab</a> #ril<ul>
+<li>Artifacts 是 job 執行成功後附加的產物 &ndash; a list of files and directories，這項功能預設是啟用的。</li>
+</ul>
+</li>
+</ul>
+<pre><code>pdf:
+  script: xelatex mycv.tex
+  artifacts:
+    paths:
+    - mycv.pdf
+    expire_in: 1 week
+</code></pre>
+
+<pre><code>  - `artifacts.paths` All paths to files and directories are relative to the repository that was CLONED during the build. 根據 `expire_in: 1 week` 會保留在 GitLab 一週；預設會永久保存，但就算加了 `expire_in`，也可以從 web UI 按 [Keep] 將它改為 forever (keep the artifacts from expiring)。
+</code></pre>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#artifacts">artifacts - Configuration of your jobs with .gitlab-ci.yml | GitLab</a> #ril<ul>
+<li><code>artifacts</code> 用來設定 a list of files and directories which should be attached to the job AFTER SUCCESS；因為 <code>artifacts:when</code> 預設是 <code>on_success</code>。</li>
+<li>artifacts:paths` 只能使用 workspace 裡的 path (都是相對於 worksapce 的路徑)。</li>
+<li>從 &ldquo;To disable ARTIFACT PASSING, define the job with empty dependencies:&rdquo; (<code>dependencies: []</code>) 看起來，artifact passing 預設是開啟的。</li>
+<li>You may want to create artifacts only for tagged releases to avoid filling the build server storage with temporary build artifacts. 這說法好像滿合理的?</li>
+</ul>
+</li>
+<li><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#dependencies">dependencies - Configuration of your jobs with .gitlab-ci.yml - GitLab Documentation</a><ul>
+<li>GitLab 8.6 才支援 <code>dependencies</code>，跟 <code>artifacts</code> 搭配使用時，可以在 job 間傳遞 artifacts，不過下個 stage 的 job 預設就會拿到上個 stage &ldquo;所有&rdquo; job 的 artifact (downloaded and extracted)。</li>
+<li>也就是說 <code>dependencies</code> 跟 job 的執行順序無關 (順序是由 stage 來控制)，主要是拿來控制 &ldquo;只想拿到哪些 job 的 artifacts&rdquo;，設定為 <code>[]</code> 表示什麼都不要。</li>
+</ul>
+</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/3423">Pass CI build artifacts between stages (#3423) · Issues · GitLab.org / GitLab Community Edition · GitLab</a> 希望在 test stage 可以拿到 build stage 的產出物，後來突然出現 <code>dependencies</code> 的討論。最後談到 &ldquo;artifact-passing is enabled by default&rdquo;，指的是下個 stage 自動會拿到上個 stage 的 artifacts，不用特別宣告 <code>dependencies</code>。</li>
+</ul>
+<h2 id="cicd-variables">CI/CD Variables ??<a class="headerlink" href="#cicd-variables" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/variables/">GitLab CI/CD Variables | GitLab</a> #ril<ul>
+<li>當 runner 從 GitLab CI 收到 job，就會準備 build environment &ndash; 包括 predefined variables 及 user-defined variables (泛指非自動產生的 variables)。</li>
+<li>不同來源的 variable 有不同的 priority &ndash; trigger variable / scheduled pipeline variable (最高) &gt; project-level variable / protected variable &gt; group-level variable / protected variable &gt; YAML-defined job-level variable &gt; YAML-defined global variable &gt; deployment variable &gt; predefined variable (最低)</li>
+<li>Unsupported variables 提到有些 variable 不能用在 <code>.gitlab-ci.yml</code> 裡??</li>
+<li>Predefined variable 以 environment variable 的形式出現，不過在 GitLab 9.0 名字有些異動，要儘快改用新的名稱；主要是改掉 <code>CI_BUILD_*</code> 的命名。</li>
+<li>那麼多 variables 怎麼確認它的值沒問題? 提到 GitLab Runner 1.7 可以啟用 debug tracing，不過 output 會被送到 GitLab server 做為 job trace，記得要將 job 設定為 team members only，若要重新放寬權限，記得要將 job trace 清掉；在 <code>.gitlab-ci.yml</code> 加上 <code>CI_DEBUG_TRACE: "true"</code> 即可。</li>
+</ul>
+</li>
+<li><a href="https://docs.gitlab.com/ee/ci/variables/#predefined-variables-environment-variables">Predefined variables (Environment variables) - GitLab CI/CD Variables | GitLab</a><ul>
+<li><code>CI</code>/<code>GITLAB_CI</code> - 表示在 CI 環境下執行，值固定是 <code>true</code>。</li>
+<li><code>CI_REGISTRY</code> - 若有啟用 container registry，內含 container registry 的位置 (非特定 project)，例如 <code>gitlab.example.com:4567</code></li>
+<li><code>CI_REGISTRY_IMAGE</code> - 若有啟用 container registry，內含 &ldquo;特定 project&rdquo; 的 container registry，例如 <code>gitlab.example.com:4567/your-group/your-project</code></li>
+<li><code>CI_REGISTRY_USER</code> - 用來 push image 到 container registry 的 username，例如 <code>gitlab-ci-token</code>。</li>
+<li><code>CI_REGISTRY_PASSWORD</code> - 用來 push iamge 到 container registry 的 password。與 <code>CI_JOB_TOKEN</code> 同值，但名稱可讀性較高?</li>
+<li><code>CI_JOB_TOKEN</code> (舊 <code>CI_BUILD_TOKEN</code>) - 用來驗證 container registry 的 token。用法像是 <code>docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY</code>。</li>
+<li><code>CI_PROJECT_NAMESPACE</code>、<code>CI_PROJECT_NAME</code> - 即 group name (namespace) 與 project name，分別像是 <code>mygroup</code> 與 <code>awesome-project</code>。</li>
+<li><code>CI_PROJECT_PATH</code> - 用 <code>/</code> 將 group name 與 project name 串起來，例如 <code>mygroup/awesome-project</code>。</li>
+<li><code>CI_COMMIT_REF_NAME</code> - 目前正在建置的 branch/tag name；但 <code>CI_COMMIT_TAG</code> 只能拿到 tag name。</li>
+<li><code>CI_COMMIT_SHA</code> - 目前正在建置的 commit revision。</li>
+<li><code>CI_DEBUG_TRACE</code> - 設為 <code>true</code> 可以啟用 debug tracing。</li>
+<li><code>CI_PROJECT_DIR</code> - Repository 被 clone 出來的位置，例如 <code>/builds/mygroup/awesome-project</code></li>
+</ul>
+</li>
+<li><a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/29053">Rename CI environment variables (#29053) · Issues · GitLab.org / GitLab Community Edition · GitLab</a> 將 <code>CI_BUILD_*</code> 更名，另外加入了 <code>CI_REGISTRY_USER = gitlab-ci-token</code> 及 <code>CI_REGISTRY_PASSWORD = $CI_JOB_TOKEN</code>。</li>
+</ul>
+<h2 id="merge-request">Merge Request ??<a class="headerlink" href="#merge-request" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/user/project/merge_requests/fast_forward_merge.html">Fast-forward merge requests | GitLab</a> #ril<ul>
+<li>Retain a linear Git history and a way to accept merge requests without creating merge commits. 這話說得真好!</li>
+<li><code>git merge</code> 搭配 <code>--ff-only</code> 時，符合 &ldquo;the merge can be resolved as a fast-forward&rdquo; 的條件才能 merge，這時候使用者可以選擇 rebase。</li>
+<li>Use cases 提到，當 workflow policy 要求 clean commit history 時，fast-forward merge 就是最佳選項；Settings &gt; Merge request &gt; Merge method &gt; Fast-forward merge (預設是 Merge commit)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="makefile">Makefile<a class="headerlink" href="#makefile" title="Permanent link"> #</a></h2>
+<p><code>.gitlab-ci.yml</code>:</p>
+<pre><code>deploy:
+  stage: deploy
+  image: python:3.6.4
+  script: make deploy-ci
+</code></pre>
+
+<p>對應 <code>Makefile</code>：</p>
+<pre><code>deploy-ci
+    pip install awscli
+    aws s3 sync dist/ s3://my-bucket
+</code></pre>
+
+<p>要如何在 local 測試呢? 在 local 用相同的 image 執行相同的 make，這不就是 CI 在做的事：</p>
+<pre><code>deploy:
+    docker run --rm --interactive --tty \
+        --volume $(WORKSPACE):/workspace \
+        --workdir /workspace \
+        --env AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) \
+        --env AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) \
+        python:3.6.4 make deploy-ci
+</code></pre>
+
+<p>而且 <code>--env</code> 清楚表明了需要哪些環境變數。</p>
+<ul>
+<li>覺得 build script 儘量寫書 <code>Makefile</code> 由，才方便在 client 端試東西。</li>
+<li>以 <a href="https://about.gitlab.com/2016/08/26/ci-deployment-and-environments/">GitLab CI: Deployment &amp; Environments | GitLab</a> 為例，<code>image: python:latest</code> 好，還是 <code>make deploy</code> 裡用 <code>docker run</code> 透過另一個 docker container 執行好?</li>
+<li><a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/">Using Docker-in-Docker for your CI or testing environment? Think twice.</a> (2015-09-03) 不建議用 dind #ril</li>
+</ul>
+<h2 id="aws">AWS<a class="headerlink" href="#aws" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://about.gitlab.com/2016/08/26/ci-deployment-and-environments/">GitLab CI: Deployment &amp; Environments | GitLab</a> (2016-08-26) 把 <code>AWS_*</code> 的設定從 <code>variables:</code> (也會變成環境變數) 搬到 Settings &gt; CI/CD &gt; Secret variables，接連談到 teamwork 1 &amp; 2，staging 送到 pages 而 master 才送到 S3 (用 <code>python:latest</code> 及 <code>ppi install awscli</code> 安裝 AWS CLI)，Rollback (按一個鈕就跑上一個 job 重 build??)、手動模式 <code>when: manual</code>、Review Apps (對 static website 而言是按 branch name 切 S3 上的子資料夾) #ril</li>
+</ul>
+<h2 id="container-registry">Container Registry ??<a class="headerlink" href="#container-registry" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://about.gitlab.com/2016/05/23/gitlab-container-registry/">GitLab Container Registry | GitLab</a> (2016-05-23) #ril</li>
+<li><a href="https://docs.gitlab.com/ce/ci/docker/using_docker_build.html#using-the-gitlab-container-registry">Using the GitLab Container Registry - Using Docker Build - GitLab Documentation</a> #ril</li>
+<li><a href="https://stackoverflow.com/questions/37468084/">docker - What is the special gitlab-ci-token user? - Stack Overflow</a> 官方文件找不到 <code>gitlab-ci-token</code> 的說明 #ril</li>
+<li><a href="https://docs.gitlab.com/ee/user/project/new_ci_build_permissions_model.html#container-registry">New CI job permissions model | GitLab</a> 提到 <code>gitlab-ci-token</code>，但沒有加以說明 #ril</li>
+</ul>
+<h2 id="runnerexecutor">Runner、Executor ??<a class="headerlink" href="#runnerexecutor" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/">GitLab Runner - GitLab Documentation</a> #ril<ul>
+<li>GitLab Runner 是個 open source project，可以同時執行多個 GitLab CI 交付的 job，並將結果傳回 GitLab。</li>
+<li>GitLab Runner 只有單一個 binary (用 Go 開發)，沒有其他相依性，可以執行在 GNU/Linux、macOS 及 Windows。</li>
+<li>除了可以將 job 執行在 local (就是 shell executor)，也可以執行在透過 SSH 連線的機器，支援各種 Docker container 的用法 &ndash; over SSH、cloud、Kubernetes 等，甚至還有 Paralles、VirtualBox 等 VM 方案。</li>
+<li>GitLab Runner 跟 GitLab CI 間是走 GitLab API，所以兩方的版本要配合好；參考 Compatibility chart</li>
+</ul>
+</li>
+<li><a href="https://docs.gitlab.com/runner/executors/">Executors | GitLab</a> #ril<ul>
+<li>GitLab Runner 實作了許多 executor，推薦用 Docker，從 Compatibility chart 看來支援度比較完整的剩 Docker 與 Kubernetes</li>
+</ul>
+</li>
+<li><code>gitlab-runner register</code> 提示 <code>Please enter the executor: kubernetes, docker, shell, ssh, docker+machine, docker-ssh, parallels, virtualbox, docker-ssh+machine:</code>。</li>
+<li><a href="https://docs.gitlab.com/ce/ci/runners/README.html">Configuring GitLab Runners - GitLab Documentation</a> #ril</li>
+<li>Runner 跟 GitLab 串接，但真正執行的環境由 executor 決定。</li>
+</ul>
+<h2 id="group-runners">Group Runners ??<a class="headerlink" href="#group-runners" title="Permanent link"> #</a></h2>
+<ul>
+<li>在某個 (group) project 的 CI / CD Settings &gt; Runners settings 看到 Group Runners &ndash; GitLab Group Runners can execute code for all the projects in this group. 可以到 Group &gt; CI / CD Settings &gt; Runners settings 下新增 group runner。</li>
+</ul>
+<h2 id="gitlab-runner"><code>gitlab-runner</code> 的用法??<a class="headerlink" href="#gitlab-runner" title="Permanent link"> #</a></h2>
+<ul>
+<li><code>gitlab-runner help</code> 列出好多 command。</li>
+<li><a href="https://docs.gitlab.com/runner/commands/README.html">GitLab Runner Commands - GitLab Documentation</a> #ril</li>
+</ul>
+<h2 id="variable">什麼是 Variable??<a class="headerlink" href="#variable" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/variables/">GitLab CI/CD Variables - GitLab Documentation</a> #ril</li>
+</ul>
+<h2 id="cd-testingstagingproduction">CD 支援 testing、staging、production 逐步上線??<a class="headerlink" href="#cd-testingstagingproduction" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/environments.html">Introduction to environments and deployments - GitLab Documentation</a> 可以追蹤 deployment? #ril</li>
+</ul>
+<h2 id="review-app">什麼是 Review App??<a class="headerlink" href="#review-app" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://docs.gitlab.com/ce/ci/">GitLab Continuous Integration (GitLab CI) - GitLab Documentation</a> CD Pipeline 第一個就是 Review，大概是下面在講的 Review Apps</li>
+<li><a href="https://docs.gitlab.com/ce/ci/review_apps/index.html">Getting started with Review Apps - GitLab Documentation</a> #ril</li>
+<li><a href="https://about.gitlab.com/2016/11/22/introducing-review-apps/">Introducing Review Apps | GitLab</a> (2016-11-22) #ril</li>
+</ul>
+<h2 id="build">如何揭露 build 的狀態??<a class="headerlink" href="#build" title="Permanent link"> #</a></h2>
+<ul>
+<li>Settings &gt; General pipelines settings 下有 Pipeline status 與 Coverage report，提供有 Markdown/HTML/AsciiDoc 不同的 code snippet，貼到文件上就會看到 badge。</li>
+</ul>
+<h2 id="shared-runner">如何使用 Shared Runner??<a class="headerlink" href="#shared-runner" title="Permanent link"> #</a></h2>
+<ul>
+<li>預設專案是可以用 shared runner 的，但只會跑在有 job 描述 tag 的 runner 上。</li>
+</ul>
+<h2 id="setup">安裝設置<a class="headerlink" href="#setup" title="Permanent link"> #</a></h2>
+<h3 id="runner">安裝 &amp; 註冊 Runner ??<a class="headerlink" href="#runner" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/#install-gitlab-runner">Install GitLab Runner - GitLab Runner | GitLab</a> Debian/Ubuntu/CentOS/RedHat 推薦用 GitLab 自己的 repository 安裝。</li>
+<li><a href="http://docs.gitlab.com/runner/install/index.html">Install GitLab Runner - GitLab Documentation</a> #ril</li>
+<li><a href="https://docs.gitlab.com/ce/ci/runners/README.html">Configuring GitLab Runners - GitLab Documentation</a> Shared runner 只能由 admin 來做，而 specific runner 則從專案 Settings &gt; CI/CD &gt; Runners settings 設定 #ril</li>
+<li>Settings &gt; CI/CD &gt; Runners settings 只說 &ldquo;Specify the following URL during the Runner setup:&rdquo; 與 &ldquo;Use the following registration token during setup:&rdquo; (然後才是 start)，但沒有講如何指定?</li>
+<li><a href="http://docs.gitlab.com/runner/register/">Registering Runners - GitLab Documentation</a> 都是執行 <code>gitlab-runner register</code> 提供 GitLab instance URL、registration token、description、tag、是否綁定 (lock) 目前的 project (由 token 對應)，最後選 executor - docker-ssh, parallels, shell, ssh, docker-ssh+machine, docker, virtualbox, docker+machie, kubernetes #ril</li>
+<li>為什麼 <code>gitlab-runner start</code> (exit 0)，再用 <code>gitlab-runner status</code> 查詢總會得到 &ldquo;Service is not running.&rdquo;?? 但同時間用 <code>gitlab-runner verify</code> 又說是 alive；但用 <code>gitlab-runner run</code> 就真的可以執行。</li>
+</ul>
+<h3 id="gitlab-runner-linux">安裝 GitLab Runner (Linux) ??<a class="headerlink" href="#gitlab-runner-linux" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="https://docs.gitlab.com/runner/install/linux-repository.html">Install GitLab Runner using the official GitLab repositories | GitLab</a> #ril</li>
+<li><a href="https://docs.gitlab.com/runner/install/linux-manually.html">Install GitLab Runner manually on GNU/Linux | GitLab</a> 還是得裝成 service? 後來發現用 <code>gitlab-runner run</code> 就可以跑在 user mode，不一定要執行 <code>gitlab-runner start</code> 執行在 system mode #ril</li>
+</ul>
+<h3 id="mac-runner">在 Mac 上安裝 &amp; 註冊 Runner?<a class="headerlink" href="#mac-runner" title="Permanent link"> #</a></h3>
+<p>將最新版的 <code>gitlab-runner</code> 直接下載到 <code>/usr/local/bin/gitlab-runner</code>：</p>
+<pre><code>$ sudo curl --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-darwin-amd64
+$ sudo chmod +x /usr/local/bin/gitlab-runner
+</code></pre>
+
+<p>接著將它註冊為 service (<code>LaunchAgents</code>)，就可以啟動：</p>
+<pre><code>$ gitlab-runner install # ~/Library/LaunchAgents/gitlab-runner.plist
+$ gitlab-runner start
+</code></pre>
+
+<p>之後要昇級，只要重新下載 <code>gitlab-runner</code> 即可，但要先停用 service (<code>gitlab-runner stop</code>)。</p>
+<p>參考資料：</p>
+<ul>
+<li><a href="http://docs.gitlab.com/runner/install/osx.html">Install GitLab Runner on macOS - GitLab Documentation</a> 未來可以用 Homebrew 裝，但目前只能手動。透過 <code>LaunchAgents</code> 而非 <code>LaunchDaemons</code> 是為了 UI interaction?? 例如 iOS simulator &hellip; 感覺裝 user 家目錄下也可以?</li>
+<li>發現 <code>gitlab-runner.plist</code> 裡面設定的 working directory 是執行 <code>gitlab-runner install</code> 時所在的目錄，設定檔則指向 <code>~/.gitlab-runner/config.toml</code>。</li>
+</ul>
+<h3 id="docker-runner">如何用 Docker 安裝 &amp; 註冊 Runner??<a class="headerlink" href="#docker-runner" title="Permanent link"> #</a></h3>
+<ul>
+<li><a href="http://docs.gitlab.com/runner/install/docker.html">Run GitLab Runner in a container - GitLab Documentation</a> 用 <code>gitlab/gitlab-runner:latest</code> image #ril</li>
+<li><a href="http://docs.gitlab.com/runner/register/#docker">Docker - Registering Runners - GitLab Documentation</a> 假設 container 名稱是 <code>gitlab-runner</code> #ril</li>
+<li><a href="http://docs.gitlab.com/runner/install/autoscaling.html">Install and configure GitLab Runner for autoscaling - GitLab Documentation</a> #ril</li>
+<li><a href="http://docs.gitlab.com/runner/install/kubernetes.html">Run GitLab Runner on a Kubernetes cluster - GitLab Documentation</a> 也是用 docker image? #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>更多：</p>
+<ul>
+<li><a href="../gitlab-ci-yaml/"><code>.gitlab-ci.yml</code></a></li>
+</ul>
+<p>手冊：</p>
+<ul>
+<li><a href="https://docs.gitlab.com/ee/ci/variables/README.html">GitLab CI/CD Variables - GitLab Documentation</a></li>
+<li><a href="https://docs.gitlab.com/ee/ci/yaml/README.html">Configuration of your jobs with .gitlab-ci.yml - GitLab Documentation</a></li>
+<li><a href="https://docs.gitlab.com/runner/commands/README.html">GitLab Runner Commands - GitLab Documentation</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

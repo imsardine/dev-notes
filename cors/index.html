@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="canonical" href="https://imsardine.github.io/dev-notes/cors/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>CORS (Cross Origin Resource Sharing) - 建造以學習 | 在電梯裡遇見雙胞胎</title>
+    
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/3.003/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.min.css">
+    <link href="../cinder_extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.28/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="..">建造以學習 | 在電梯裡遇見雙胞胎</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/imsardine/dev-notes/blob/source/docs/cors.md">Edit on imsardine/dev-notes</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#cors-cross-origin-resource-sharing">CORS (Cross Origin Resource Sharing)</a></li>
+            <li class="second-level"><a href="#no-access-control-allow-origin-header-is-present-on-the-requested-resource">No 'Access-Control-Allow-Origin' header is present on the requested resource. ??</a></li>
+                
+            <li class="second-level"><a href="#proxy">Proxy</a></li>
+                
+            <li class="second-level"><a href="#reference">參考資料</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="cors-cross-origin-resource-sharing">CORS (Cross Origin Resource Sharing)<a class="headerlink" href="#cors-cross-origin-resource-sharing" title="Permanent link"> #</a></h1>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin Resource Sharing (CORS) - HTTP | MDN</a> #ril</p>
+<ul>
+<li>
+<p>Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to tell a browser to let a web application running at one ORIGIN (domain) have permission to access selected resources from a server at a different origin.</p>
+<p>A web application executes a CROSS-ORIGIN HTTP REQUEST when it requests a resource that has a different ORIGIN (DOMAIN, PROTOCOL, AND PORT) than its own origin.</p>
+<p>從 &ldquo;let &hellip; running at one origin domain have permission to &hellip;&rdquo; 看來，感覺像是讓 web application 脫離 same-origin policy 的限制，但按照下面 &ldquo;unless the response from the other origin &hellip;&rdquo; 的說法，其實是先往 the other origin 送出 request 了，browser 才根據 CORS headers 來決定這個 request 要不要擋下來。</p>
+</li>
+<li>
+<p>An example of a cross-origin request: The frontend JavaScript code for a web application served from <a href="http://domain-a.com">http://domain-a.com</a> uses <code>XMLHttpRequest</code> to make a request for <code>http://api.domain-b.com/data.json</code>.</p>
+<p>For security reasons, browsers restrict cross-origin HTTP requests INITIATED FROM WITHIN SCRIPTS. For example, <code>XMLHttpRequest</code> and the Fetch API follow the SAME-ORIGIN POLICY. This means that a web application using those APIs can only request HTTP resources from the same origin the application was loaded from, UNLESS THE RESPONSE FROM THE OTHER ORIGIN includes the right CORS HEADERS.</p>
+</li>
+<li>
+<p>The CORS mechanism supports secure cross-origin requests and data transfers between browsers and web servers. Modern browsers use CORS in an API container such as <code>XMLHttpRequest</code> or Fetch to help MITIGATE the risks of cross-origin HTTP requests.</p>
+<p><img alt="" src="https://mdn.mozillademos.org/files/14295/CORS_principle.png" /></p>
+<p>Same-origin policy 只針對 script ?? 圖中 Canvas w/ image from 會踩到 same-origin policy 的問題正是因為 Canvas 是透過 JavaScript 來畫圖。</p>
+</li>
+</ul>
+<p>Who should read this article?</p>
+<ul>
+<li>
+<p>Everyone, really.</p>
+<p>More specifically, this article is for web administrators, server developers, and front-end developers.</p>
+</li>
+<li>
+<p>Modern browsers handle the client-side components of CROSS-ORIGIN SHARING, including headers and POLICY ENFORCEMENT. But this new standard means SERVERS have to handle new REQUEST AND RESPONSE HEADERS. Another article for server developers discussing cross-origin sharing from a server perspective (with PHP code snippets) is supplementary reading.</p>
+<p>為什麼跟 request header 有關 ??</p>
+</li>
+</ul>
+<p>What requests use CORS?</p>
+<ul>
+<li>
+<p>This cross-origin sharing standard is used to enable cross-site HTTP requests for:</p>
+<ul>
+<li>Invocations of the <code>XMLHttpRequest</code> or Fetch APIs in a cross-site manner, as discussed above.</li>
+<li>Web Fonts (for cross-domain font usage in <code>@font-face</code> within CSS), so that servers can deploy TrueType fonts that can only be cross-site loaded and used by web sites that are permitted to do so.</li>
+<li>WebGL textures.</li>
+<li>Images/video frames drawn to a canvas using <code>drawImage()</code>.</li>
+</ul>
+<p>為什麼 font 跟 texture 會受到 same-origin policy 的限制 ??</p>
+</li>
+<li>
+<p>This article is a general discussion of Cross-Origin Resource Sharing and includes a discussion of the necessary HTTP headers.</p>
+</li>
+</ul>
+<p>Functional overview</p>
+<ul>
+<li>
+<p>The Cross-Origin Resource Sharing standard works by adding new HTTP headers that allow servers to describe the SET OF ORIGINS THAT ARE PERMITTED TO READ THAT INFORMATION using a web browser.</p>
+<p>由 server 來控制誰能讀取 response。</p>
+</li>
+<li>
+<p>Additionally, for HTTP request methods that can cause side-effects on server&rsquo;s data (in particular, for HTTP methods other than GET, or for POST usage with certain MIME types), the specification mandates that browsers &ldquo;PREFLIGHT&rdquo; the request, soliciting supported methods from the server with an HTTP <code>OPTIONS</code> request method, and then, upon &ldquo;approval&rdquo; from the server, sending the actual request with the actual HTTP request method. Servers can also notify clients whether &ldquo;credentials&rdquo; (including Cookies and HTTP Authentication data) should be sent with requests. ??</p>
+</li>
+<li>
+<p>CORS failures result in errors, but for security reasons, specifics about what went wrong are not available to JavaScript code. All the code knows is that an error occurred. The only way to determine what specifically went wrong is to look at the browser&rsquo;s console for details.</p>
+</li>
+<li>
+<p>Subsequent sections discuss scenarios, as well as provide a breakdown of the HTTP headers used.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Server-Side_Access_Control">Server-Side Access Control (CORS) - HTTP | MDN</a> #ril</p>
+</li>
+</ul>
+<h2 id="no-access-control-allow-origin-header-is-present-on-the-requested-resource">No &lsquo;Access-Control-Allow-Origin&rsquo; header is present on the requested resource. ??<a class="headerlink" href="#no-access-control-allow-origin-header-is-present-on-the-requested-resource" title="Permanent link"> #</a></h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/20035101/">jquery - Why does my JavaScript get a &ldquo;No &lsquo;Access-Control-Allow-Origin&rsquo; header is present on the requested resource&rdquo; error when Postman does not? - Stack Overflow</a> 跟 CORS 有關 #ril</li>
+</ul>
+<h2 id="proxy">Proxy<a class="headerlink" href="#proxy" title="Permanent link"> #</a></h2>
+<ul>
+<li>若 reverse proxy 可以幫忙加 CORS header，那 CORS 實作在 web server 上就好，什麼時候要從 application 來做 ??</li>
+</ul>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://enable-cors.org/server_nginx.html">enable cross-origin resource sharing</a> #ril</li>
+<li><a href="https://corsproxy.github.io/">crossorigin.me</a> #ril</li>
+<li><a href="https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347">Cors proxies</a> #ril</li>
+</ul>
+<h2 id="reference">參考資料<a class="headerlink" href="#reference" title="Permanent link"> #</a></h2>
+<p>手冊：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin">Origin - HTTP | MDN</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin - HTTP | MDN</a></li>
+</ul></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+        
+        
+    </footer>
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <!-- <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script> -->
+    <script src="../js/base.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>
