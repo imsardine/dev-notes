@@ -104,6 +104,8 @@
 
 ## 參考資料 {: #reference }
 
+  - [Slack Help Center](https://slack.com/help)
+
 社群：
 
   - [Slack API (@SlackAPI\) | Twitter](https://twitter.com/SlackAPI)

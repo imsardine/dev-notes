@@ -116,6 +116,23 @@
       - Wait until see the log `HTTP Server listening at port 3000`, it will take few minutes based on your internet connection.
       - Open http://127.0.0.1:3000
 
+## Configuration {: #config}
+
+  - [CodiMD Configuration Overview \- HackMD](https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-configuration) #ril
+
+      - You can configure CodiMD with environment variables or with config file `config.json`. We recommend you use ENVIRONMENT VARIABLES to configure CodiMD. `config.json` reserve FOR DEVELOPMENT USE ONLY.
+
+        All environment variables you can configure are defined in `./lib/config/environment.js` and overwrite `.config.json`.
+
+        不確定 environment variable 指的是不是 `environment.js`??
+
+      - Hint: You would find most config options duplicated in both the config file and environment variables.
+
+        The rationale behind this architecture design is that we recommend:
+
+          - using environment variables at any production environment
+          - using the config file `config.json` when developing
+
 ## 參考資料 {: #reference }
 
   - [hackmdio/codimd - GitHub](https://github.com/hackmdio/codimd)

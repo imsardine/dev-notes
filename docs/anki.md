@@ -106,7 +106,7 @@
 
       - Decks are best used to hold BROAD CATEGORIES of cards, rather than specific topics such as “food verbs” or “lesson 1”. For more info on this, please see the using decks appropriately section.
 
-        這跟下面 "a separate note type for each broad topic" 的說法是否有衝突?? 又或者 topic 比 category 更為廣泛?
+        這說法跟上面 "study parts of your card collection" 及下面 "a separate note type for each broad topic" (適用相同的 fields) 衝突??
 
     Notes & Fields
 

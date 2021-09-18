@@ -92,6 +92,8 @@
 
   - [Desktop](ubuntu-desktop.md)
   - [Server](ubuntu-server.md)
+  - [Rescue Mode](ubuntu-rescue.md)
+  - [Networking](ubuntu-networking.md)
 
 手冊：
 

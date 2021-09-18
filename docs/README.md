@@ -12,6 +12,7 @@
 
   - [Active Directory (AD)](ad.md)
   - [Adobe Sign](adobe-sign.md)
+  - [Akamai](akamai.md)
   - [Alpine Linux](alpine.md)
   - [Anaconda](anaconda.md)
   - [Angular](angular.md)
@@ -20,6 +21,7 @@
   - [App Center](appcenter.md)
   - [App Store Connect](app-store-connect.md)
   - [APScheduler](apscheduler.md)
+  - [Aruba Networks](aruba.md)
   - [Arch Linux](archlinux.md)
   - [Architecture](architecture.md)
   - [Arduino](arduino.md)
@@ -46,6 +48,7 @@
   - [Breadboard 麵包板](breadboard.md)
   - [bumpversion](bumpversion.md)
   - [Builder Pattern](builder-pattern.md)
+  - [Business Productivity](business-productivity.md)
 
 ## C
 
@@ -62,6 +65,8 @@
   - [Clean Architecture](clean-arch.md)
   - [CLI](cli.md)
   - [Click](click.md)
+  - [Cloud Computing](cloud.md)
+  - [Cloudflare](cloudflare.md)
   - [CMake](cmake.md)
   - [CodiMD](codimd.md)
   - [Command Pattern](command-pattern.md)
@@ -73,6 +78,7 @@
   - [Configuration](configuration.md)
   - [Consul](consul.md)
   - [CORS](cors.md)
+  - [CQRS](cqrs.md)
   - [Crystal Oscillator 石英振盪器](crystal-oscillator.md)
   - [CSS](css.md)
 
@@ -92,6 +98,8 @@
   - [Dependency Injection (DI)](di.md)
   - [DFPLayer Mini](dfplayer.md)
   - [DHT11](dht11.md)
+  - [dig](dig.md)
+  - [DNS](dns.md)
   - [DS18B20](ds18b20.md)
 
 ## E
@@ -103,6 +111,7 @@
   - [Emoji](emoji.md)
   - [.env](dotenv.md)
   - [e-Signagure](esign.md)
+  - [ESB (Enterprise Service Bus)](esb.md)
   - [ESP8266](esp8266.md)
   - [ESPlorer](esplorer.md)
   - [esptool](esptool.md)
@@ -110,6 +119,7 @@
 
 ## F
 
+  - [F5](f5.md)
   - [Facade Pattern](facade-pattern.md)
   - [Favicon](favicon.md)
   - [Fcitx](fcitx.md)
@@ -127,6 +137,7 @@
   - [Flutter](flutter.md)
   - [FreezeGun](freezegun.md)
   - [Fritzing](fritzing.md)
+  - [fsck](fsck.md)
   - [Fuchsia](fuchsia.md)
 
 ## G
@@ -161,6 +172,7 @@
   - [HAProxy](haproxy.md)
   - [Heroku](heroku.md)
   - [Hexo](hexo.md)
+  - [High Availability (HA)](ha.md)
   - [HMAC](hmac.md)
   - [Hoverfly](hoverfly.md)
   - [HTML](html.md)
@@ -172,14 +184,22 @@
   - [IBus](ibus.md)
   - [IK Analysis for Elasticsearch](elasticsearch-analysis-ik.md)
   - [Information System](is.md)
+  - [Information Technology](it.md)
+  - [Information Availability (IAV)](iav.md)
   - [IoT 物聯網](iot.md)
+  - [Issue Tracking](issue-tracking.md)
+  - [ITAM (IT Asset Management)](itam.md)
+  - [ITIL (Information Technology Infrastructure Library)](itil.md)
+  - [ITSM (IT Service Management)](itsm.md)
 
 ## J
 
   - [JaCoCo](jacoco.md)
   - [JavaScript](javascript.md)
+  - [Javassist](javassist.md)
   - [JAX-WS](jaxws.md)
   - [JDK (Java Development Kit)](jdk.md)
+  - [Jetty](jetty.md)
   - [Jinja](jinja.md)
   - [JSON](json.md)
   - [JSON Lines](jsonlines.md)
@@ -207,7 +227,9 @@
   - [Laravel](laravel.md)
   - [LaTeX](latex.md)
   - [LDAP](ldap.md)
+  - [Leadership](leadership.md)
   - [LED 發光二極體](led.md)
+  - [Lever](lever.md)
   - [Linux](linux.md)
   - [Logging](logging.md)
   - [logrotate](logrotate.md)
@@ -221,6 +243,8 @@
   - [Make](make.md)
   - [Manjaro](manjaro.md)
   - [Markdown](markdown.md)
+  - [Markdown Here](markdown-here.md)
+  - [MariaDB](mariadb.md)
   - [MathJax](mathjax.md)
   - [Mattermost](mattermost.md)
   - [Maven](maven.md)
@@ -229,6 +253,7 @@
   - [Mermaid](mermaid.md)
   - [Microcontroller 微處理器](microcontroller.md)
   - [MicroPython](micropython.md)
+  - [Microsoft SQL Server](mssql.md)
   - [MIME Type](mime-type.md)
   - [Mind Map](mindmap.md)
   - [Mint](mint.md)
@@ -243,23 +268,30 @@
 
   - [ncurses](ncurses.md)
   - [Neovim](neovim.md)
+  - [NetBox](netbox.md)
+  - [Networking](networking.md)
   - [nm](nm.md)
   - [NodeMCU](nodemcu.md)
+  - [Nomad](nomad.md)
   - [NoSQL](nosql.md)
 
 ## O
 
   - [Object Detection](object-detection.md)
+  - [OctoDNS](octodns.md)
   - [Oh My Zsh](oh-my-zsh.md)
+  - [Okta](okta.md)
   - [OpenLDAP](openldap.md)
   - [OpenPyXL](openpyxl.md)
   - [OpenSearch](opensearch.md)
   - [OpenSSH](openssh.md)
   - [OV7670](ov7670.md)
+  - [OWASP](owasp.md)
 
 ## P
 
   - [PagerDuty](pagerduty.md)
+  - [Palo Alto](paloalto.md)
   - [Pandoc](pandoc.md)
   - [PDB (Python Debugger)](python-pdb.md)
   - [PDF](pdf.md)
@@ -271,6 +303,7 @@
   - [Pipenv](pipenv.md)
   - [PlantUML](plantuml.md)
   - [PlatformIO](platformio.md)
+  - [PlayReady](playready.md)
   - [PostgreSQL](postgresql.md)
   - [PostgREST](postgrest.md)
   - [Postman](postman.md)
@@ -324,6 +357,8 @@
   - [reveal-md](revealmd.md)
   - [Rollbar](rollbar.md)
   - [rsync](rsync.md)
+  - [Rust](rust.md)
+  - [Roles and Responsibilities (R&R)](rnr.md)
 
 ## S
 
@@ -339,8 +374,10 @@
   - [Semantic Versioning](semver.md)
   - [Sentry](sentry.md)
   - [Service Virtualization](service-virtualization.md)
+  - [Single Source of Truth (SSOT)](ssot.md)
   - [Slack](slack.md)
   - [Slideshow](slideshow.md)
+  - [SmokePing](smokeping.md)
   - [SnakeYAML](snakeyaml.md)
   - [Snapcraft](snapcraft.md)
   - [SOA](soa.md)
@@ -399,6 +436,7 @@
   - [Ubuntu](ubuntu.md)
   - [UML](uml.md)
   - [Unit Testing](unittest.md)
+  - [Unix-like](unix.md)
   - [URI](uri.md)
   - [URL](url.md)
 
@@ -416,15 +454,18 @@
 
 ## W
 
+  - [WAR](war.md)
   - [Waterfox](waterfox.md)
   - [Webduino](webduino.md)
   - [WebScrapBook](webscrapbook.md)
   - [WEMOS](wemos.md)
   - [Whiteboard](whiteboard.md)
+  - [Wi-Fi](wifi.md)
   - [WildFly](wildfly.md)
   - [Wiki](wiki.md)
   - [WireMock](wiremock.md)
   - [WordPress](wordpress.md)
+  - [Work Breakdown Structure (WBS)](wbs.md)
   - [WSDL](wsdl.md)
   - [WTForms](wtforms.md)
   - [wuzz](wuzz.md)

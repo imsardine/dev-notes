@@ -12,3 +12,5 @@
 
   - [Active Directory](azure-ad.md)
   - [Zero Trust Network](azure-zerotrust.md)
+  - [Private Link](azure-private-link.md)
+  - [Cost & Billing](azure-cost-billing.md)

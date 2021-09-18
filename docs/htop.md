@@ -13,6 +13,8 @@
 
   - [hishamhm/htop: htop is an interactive text\-mode process viewer for Unix systems\. It aims to be a better 'top'\.](https://github.com/hishamhm/htop) #ril
 
+  - [你一定用過 htop，但你有看懂每個欄位嗎？\. 身為一個工程師，不管你寫的是前端、後端、全端還是什麼端，一定多少用過… \| by Larry Lu \| Starbugs Weekly 星巴哥技術專欄 \| May, 2021 \| Medium](https://medium.com/starbugs/do-you-understand-htop-ffb72b3d5629) (2021-05-16) #ril
+
 ## 新手上路 ?? {: #getting-started }
 
   - [How to install htop on macOS Unix desktop running on MacBook \- nixCraft](https://www.cyberciti.biz/faq/install-htop-on-macos-unix-desktop-running-macbook-pro/) #ril

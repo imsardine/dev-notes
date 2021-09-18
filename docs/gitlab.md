@@ -239,6 +239,7 @@ $ sudo gitlab-ctl reconfigure # 完成初始化
   - [CI/CD](gitlab-ci.md)
   - [Plugin](gitlab-plugin.md)
   - [OAuth](gitlab-oauth.md)
+  - [Pages](gitlab-pages.md)
 
 手冊：
 

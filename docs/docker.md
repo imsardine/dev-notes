@@ -298,6 +298,12 @@ That’s it! You don’t need Python or anything in requirements.txt on your sys
 
   - [Docker overview \| Docker Documentation](https://docs.docker.com/engine/docker-overview/) #ril
 
+  - [Use the Docker command line \| Docker Documentation](https://docs.docker.com/engine/reference/commandline/cli/#configuration-files) #ril
+
+      - By default, the Docker command line stores its configuration files in a directory called `.docker` within your `$HOME` directory.
+
+        也之所以在共用開發機上，不同使用者的 `docker login` 不會互相打架。
+
 ## Docker Daemon ??
 
   - [Configure and troubleshoot the Docker daemon \| Docker Documentation](https://docs.docker.com/config/daemon/) #ril
@@ -873,6 +879,7 @@ $ newgrp docker # 刷新 login session 的群組，不用重新登入
 
   - [Daemon](docker-daemon.md)
   - [Networking](docker-networking.md)
+  - [Data](docker-data.md)
   - [Compose](docker-compose.md)
   - [buildpack-deps](docker-buildpack-deps.md)
   - [Swarm](docker-swarm.md)

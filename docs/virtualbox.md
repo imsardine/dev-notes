@@ -11,6 +11,24 @@
 
         不過 [3.1. Supported Guest Operating Systems - Chapter 3\. Configuring Virtual Machines](https://www.virtualbox.org/manual/ch03.html#guestossupport) 也沒提到任何 embedded 相關的 OS??
 
+## Guest Additions
+
+  - [How to Install VirtualBox Guest Additions on Ubuntu 18\.04 \| Linuxize](https://linuxize.com/post/how-to-install-virtualbox-guest-additions-in-ubuntu/) (2019-07-20) #ril
+
+      - VirtualBox provides a set of drivers and applications (VirtualBox Guest Additions) which can be installed in the guest operating system. The Guest Additions offer several useful functionalities for guest machines such as shared folders, shared clipboard, mouse pointer integration, better video support, and more.
+
+        對於 Terminal 的應用而言，最重要的是 shared folders；不過增加網卡，讓 host 可以跟 guest 可以透過網路交換檔案也是一個方式。
+
+      - In this tutorial, we will show you how to install VirtualBox Guest Additions on Ubuntu 18.04 guests. The same instructions apply for Ubuntu 16.04 and any Ubuntu-based distribution, including Linux Mint and Elementary OS.
+
+## 疑難排解 {: #troubleshooting }
+
+### Failed to create a proxy device for the usb device. (Error: VERR_PDM_NO_USB_PORTS)
+
+  - [How to solve VirtualBox exception when attaching a USB device: failed to create a proxy device for the usb device\. \(error verr\_pdm\_no\_usb\_ports\) \| Our Code World](https://ourcodeworld.com/articles/read/1296/how-to-solve-virtualbox-exception-when-attaching-a-usb-device-failed-to-create-a-proxy-device-for-the-usb-device-error-verr-pdm-no-usb-ports) (2020-07-30) #ril
+
+    搭配 USB 3.0 (xHCI) Controller 並先將 USB 裝置加入 USB Device Filers，啟動 VM 時就會自動掛載。
+
 ## 安裝設置 {: #setup }
 
   - [Downloads – Oracle VM VirtualBox](https://www.virtualbox.org/wiki/Downloads) #ril

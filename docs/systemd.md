@@ -37,6 +37,7 @@
 ## Logs
 
   - [log \- Where is "journalctl" data stored? \- Ask Ubuntu](https://askubuntu.com/questions/864722/) #ril
+  - [How To Use Journalctl to View and Manipulate Systemd Logs \| DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs) (2018-02-20) #ril
 
 ## systemctl ??
 
@@ -57,6 +58,33 @@
       - 雖然在 Ubuntu 15.04 前可以透過 repo 安裝 systemd，但 15.04 後才有比較完整的支援，所以在 15.04 前都建議用 Upstart。
       - Ubuntu 15.04 (vivid) 雖然同時內建 systemd 與 Upstart，可以輕易切換，只是 2015-03-09 開始就改以 systemd 做為預設的 init system/daemon。
   - [systemd \- Ubuntu Wiki](https://wiki.ubuntu.com/systemd) #ril
+
+
+## 疑難排解 {: #troubleshooting }
+
+### Failed at step GROUP spawning /bin/bash: No such process
+
+  - [raspberry pi3 \- Systemctl \- Failed at step Group spawning \- Stack Overflow](https://stackoverflow.com/questions/48065475)
+
+  - [linux \- what causes “systemd: Failed at step USER spawning /usr/sbin/opendkim: No such process” \- Super User](https://superuser.com/questions/1156676)
+
+      - systemd: Failed at step USER spawning /usr/sbin/opendkim: No such process
+
+      - Tad Lispy: I've just ran into this and in my case it was caused by quoting a user name in my service file
+
+        Starting this service on Ubuntu 16.04.2 LTS (Amazon EC2 instance) would fail with following error:
+
+            user-example.service: Failed at step USER spawning /bin/echo: No such process --> 這訊息太誤導人!
+
+        Interestingly, on Ubuntu Gnome 17.04 (my local machine), the error message is much more helpful:
+
+            [/etc/systemd/system/user-example.service:5] Invalid user/group name or numeric ID, ignoring: "tadeusz"
+
+        Removing quotes in both environments resolved the problem:
+
+      - rogerdpack: so either adding `Group=root` or getting rid of both User and Group, as suggested in jmunsch's answer, fixed it. There was some kind of directory permission issue without specifying Group.
+
+        全部拿掉就是 root:root?
 
 ## 參考資料 {: #reference }
 

@@ -8,3 +8,4 @@
 ## 參考資料
 
   - [Statuspage](https://www.statuspage.io/)
+  - [Status.io](https://status.io/)

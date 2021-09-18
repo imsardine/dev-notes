@@ -52,6 +52,19 @@
   - 2020-03-05 實驗確認 Google Docs、Sheets、Slides 都支援 Named Version，但 Suggested Edit 確實只有 Google Docs 支援。
   - 手動上傳的檔案 (非 Google Docs/Sheets/Slides)，才會有 Manage Versions 的功能；不能自己命名 (named version)，但可以將某個版本設為 Keep Forever。
 
+## Shortcut
+
+  - [Find files & folders with Google Drive shortcuts \- Computer \- Google Drive Help](https://support.google.com/drive/answer/9700156) #ril
+
+      - Shortcuts make it easier for you or your team to find and organize files and folders in multiple Google Drives.
+
+          - A shortcut is a link that references another file or folder.
+          - You can use shortcuts in your drive or a shared drive.
+          - Shortcuts are visible to everyone with access to the folder or drive.
+          - Shortcuts point back to the original file so you always have the LATEST INFO.
+
+  - IMPORTANT: Shortcut titles are visible to everyone with access to the folder or drive that the shortcut is inside. Just because someone can see the shortcut DOESN’T MEAN THEY CAN OPEN IT. The original file’s permissions don’t automatically update when you create a shortcut to it. Remember to give any new users access to the original file.
+
 ---
 
 參考資料：

@@ -266,6 +266,8 @@ Connection to 127.0.0.1 closed.
   - 在 Mac 上，`vagrant_*.dmg` 打開後有 `vagrant.pkg` 與 `uninstall.tool`，安裝完成後有 `/usr/local/bin/vagrant`。
   - 移除時執行 `vagrant_*.dmg` 裡的 `uninstall.tool`，提示要刪除 `/opt/vagrant` 及 `/usr/local/bin/vagrant`。
 
+---
+
 參考資料：
 
   - [Install Vagrant \- Getting Started \- Vagrant by HashiCorp](https://www.vagrantup.com/intro/getting-started/install.html) 從官網下載 binary package 安裝；提醒不要用系統 package manager 安裝，因為通常比較舊。

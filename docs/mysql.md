@@ -65,11 +65,15 @@
       - Connection pool 的大小跟預期的負載、平均 DB 交易時間有關，實務上最佳的 connection pool 可能會小於你認為的，以 Oracle's Java Petstore blueprint 為例，15-20 個 connection 就足以應付 600 個 concurrent user。
       - 要找到適合的大小，可以透過 JMeter、Grinder 這些 load test 工具找出來。一開始可以不設定上限 (unbounded)，透過 load test 找出最高的同時連線數，以該數字為起點慢慢往回調，找到可以兼顧 best performance 及 response time 的 connection pool 大小。
       - 驗證 connection pool 裡 connection 的有效性，可以避免拿到 stale/die connection，檢查的時機可能是 pool 把 connection 交給 application 前、application 歸還 connection 給 pool 時，或是定期檢查 idle connections。
+
   - [MySQL :: MySQL 5\.7 Reference Manual :: B\.5\.2\.6 Too many connections](https://dev.mysql.com/doc/refman/5.7/en/too-many-connections.html)
+
       - 當連線數超過 `max_connections` system variable 的設定時，client 會收到 "Too many connections" 的錯誤，預設值是 150 (之前是 100)。
       - 事實上 `mysqld` 可以接受 `max_connections` + 1 個連線，多出來的那個 connection 是保留給具有 `SUPER` privilege 的 user (administrator)，讓他在出現 Too many connections 問題時，還可以連線進去用 `SHOW PROCESSLIST` 查看問題 (需要有 `PROCESS` privilege)。
       - 最大同時連線數跟特定 platform 上的 thread library、RAM 的數量、每個 connection 的 workload 及預期的 response time 有關。
+
   - [MySQL :: MySQL 5\.7 Reference Manual :: 13\.7\.5\.29 SHOW PROCESSLIST Syntax](https://dev.mysql.com/doc/refman/5.7/en/show-processlist.html)
+
       - `SHOW [FULL] PROCESSLIST` 顯示有哪些 thread 正在執行 (也就是未中斷的連線)，其中 `FULL` 是指 `Info` 欄位裡的 SQL statement 要完全顯示出來，不只是前 100 個字元。
       - `SHOW PROCESSLIST` 預設只會顯示自己的 thread (同一個 account)，如果有 `PROCESS` privilege 的話，才能看到所有的 thread；這裡 process、thread、connection 似乎是可以互通的?
       - 提到 thread 可以用 `KILL` 刪除，可以用來模擬意外斷線的狀況??
@@ -77,6 +81,7 @@
       - Command: 該 thread 目前在執行的 command type，Sleep 是指??
       - State: 該 thread 目前在做什麼? 跟 Command 有什麼差別??
       - Time: 目前的 state 已經持續多久 (秒)
+
   - [SHOW PROCESSLIST in MySQL command: sleep \- Stack Overflow](https://stackoverflow.com/questions/12194241/) Drew: Sleep 跟 connection pool 或 client-side DB admin tool 有關 #ril
   - [mysql \- Difference between wait\_timeout and interactive\_timeout \- Server Fault](https://serverfault.com/questions/375136/) #ril
 

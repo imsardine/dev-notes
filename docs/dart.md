@@ -39,7 +39,7 @@
 
       - Productive development -- Make changes ITERATIVELY: use hot reload to see the result instantly in your running app
 
-          - Make changes to your source code iteratively, using [hot reload](https://flutter.dev/docs/development/tools/hot-reload) to instantly see the effect in the running app
+          - Make changes to your source code iteratively, using [hot reload](https://flutter.dev/docs/development/tools/hot-reload) to instantly see the effect in the running app #ril
 
           - Write code using a flexible type system with rich static analysis and powerful, [configurable tooling](https://dart.dev/guides/language/analysis-options) #ril
 
@@ -50,8 +50,22 @@
       - Fast on all platforms -- Compile to ARM & x64 machine code for mobile, desktop, and BACKEND. Or compile to JavaScript for the web
 
           - [AOT-compile](https://dart.dev/platforms) apps to NATIVE MACHINE CODE for instant startup #ril
-          - Target the web with complete, mature, fast compilers for JavaScript
-          - Run backend code supporting your app, written using a single programming language
+
+                $ dart2native hello.dart
+                $ time ./hello.exe
+                Hello, Developer!
+
+                Real 0m0.022s # Completed in just 22ms
+                $
+
+          - Target the web with complete, mature, fast [compilers for JavaScript](https://dart.dev/platforms#dart-web-javascript) #ril
+
+                $ webdev serve # Serve for development
+                $ webdev build # Production build
+
+          - Run [backend code](https://dart.dev/tutorials/server/httpserver) supporting your app, written using a single programming language #ril
+
+            AOT-compile for short-lived "serverless" jobs where startup time is critical
 
         如果 Dart 連 backend 都吃的話，加上 mobile, desktop 及 web，真的就通吃了!!
 
@@ -85,7 +99,7 @@
 
         Dart supports asynchronous programming through language features and APIs that use `Future` and `Stream` objects.
 
-  - [Platforms \| Dart](https://www.dartlang.org/guides/platforms)
+  - [Platforms \| Dart](https://www.dartlang.org/guides/platforms) (舊版網站)
 
       - Dart is a SCALABLE language that you can use to write simple scripts or full featured apps. Whether you’re creating a mobile app, web app, command-line script, or server-side app, there’s a Dart solution for that.
 
@@ -112,6 +126,7 @@
 
 學習資源：
 
+  - [Dart Documentation](https://dart.dev/guides)
   - [Dart News & Updates](https://news.dartlang.org/)
 
 工具：

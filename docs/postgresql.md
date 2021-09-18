@@ -136,7 +136,78 @@
 
 ### Docker
 
-  - [postgres \- Docker Hub](https://hub.docker.com/_/postgres) #ril
+```
+$ POSTGRES_VERSION=12
+$ docker run --rm --name postgres -d \
+    --env POSTGRES_PASSWORD=secret \
+    postgres:$POSTGRES_VERSION
+
+$ docker exec -it postgres psql -U postgres
+psql (12.4 (Debian 12.4-1.pgdg100+1))
+Type "help" for help.
+
+postgres=#
+```
+
+---
+
+參考資料：
+
+  - [postgres \- Docker Hub](https://hub.docker.com/_/postgres)
+
+    How to use this image
+
+      - start a postgres instance
+
+            $ docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+
+        The default `postgres` user and database are created in the entrypoint with `initdb`.
+
+        The `postgres` database is a default database meant for use by users, utilities and third party applications. ??
+
+      - ... or via `psql`
+
+            $ docker run -it --rm --network some-network postgres psql -h some-postgres -U postgres
+            psql (9.5.0)
+            Type "help" for help.
+
+            postgres=# SELECT 1;
+             ?column?
+            ----------
+                    1
+            (1 row)
+
+        這要搭配 Postgres 也連接到 `some-network` (user-defined network) 才行：
+
+            $ docker network create some-network
+            $ docker network connect some-network some-postgres
+
+      - ... via `docker stack deploy` or `docker-compose`
+
+        Example `stack.yml` for `postgres`:
+
+            # Use postgres/example user/password credentials
+            version: '3.1'
+
+            services:
+
+              db:
+                image: postgres
+                restart: always
+                environment:
+                  POSTGRES_PASSWORD: example
+
+              adminer:
+                image: adminer
+                restart: always
+                ports:
+                  - 8080:8080
+
+        Run `docker stack deploy -c stack.yml postgres` (or `docker-compose -f stack.yml up`), wait for it to initialize completely, and visit http://swarm-ip:8080, http://localhost:8080, or http://host-ip:8080 (as appropriate).
+
+        其中 `docker stack` 要搭配 swarm service 使用。
+
+    How to extend this image #ril
 
 ## 參考資料 {: #reference }
 

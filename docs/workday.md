@@ -313,20 +313,6 @@
       - Watch the the Workday Customer Center Learn On-Demand videos in the Workday Learning Center by searching for "Named Support Contact" and selecting the associated curriculum
       - Visit the [Named Support Contact user group](https://community.workday.com/groups-private-collaboration-group/552) in the Community to ask questions related to this role and to collaborate with other NSCs. #ril
 
-## Learning Center
-
-  - 帳號建立後會收到通知信：
-
-    > An account has been created for you in the Workday Learning Center. From the Learning Center, you can search and register for Workday training and view Learn On-Demand training modules. In order to log in, follow the link below and click Forgot Password on the login page. Your email address will be your username.
-
-    很妙的設計，一開始就要說忘記密碼；不過連結確實是 "Forgot Password or First Time User?"。
-
-    按著會收到另一封信：
-
-    > You have initiated a password reset. Please continue to this website, https://Workday.csod.com/resetPasswrd.aspx?token=... in order to reset your password.
-
-    順著連結就能重設密碼。
-
 ## Search
 
   - [Concept: Workday Search • Manage Workday • Reader • Administrator Guide](https://doc.workday.com/reader/3DMnG~27o049IYFWETFtTQ/s0ZzhJR11p4O9caf4x2zUw)
@@ -452,7 +438,6 @@
 
   - [Cloud ERP System for Finance, HR, and Planning | Workday](https://www.workday.com/)
   - [Customer Center](https://workdayinc.force.com/workdaycustomercenter)
-  - [Learning Center](https://workday.csod.com/client/workday/)
   - [Workday Community](https://community.workday.com/)
 
 文件：
@@ -462,6 +447,7 @@
 更多：
 
   - [Community](workday-community.md)
+  - [Training](workday-training.md)
   - [Organization](workday-org.md)
   - [Authentication](workday-auth.md)
   - [Security](workday-security.md)
