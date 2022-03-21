@@ -3,6 +3,7 @@
 ## 1
 
   - [1-Wire](1wire.md)
+  - [1Password](1password.md)
 
 ## 7
 
@@ -20,6 +21,7 @@
   - [API](api.md)
   - [App Center](appcenter.md)
   - [App Store Connect](app-store-connect.md)
+  - [AppSheet](appsheet.md)
   - [APScheduler](apscheduler.md)
   - [Aruba Networks](aruba.md)
   - [Arch Linux](archlinux.md)
@@ -57,10 +59,12 @@
   - [Cache](cache.md)
   - [Celery](celery.md)
   - [Carbon (PHP)](carbon-php.md)
+  - [CDN (Content Delivery Network)](cdn.md)
   - [Chrome](chrome.md)
   - [Chromecast](chromecast.md)
   - [Circuit 電路](circuit.md)
   - [Circuit Diagram 電路圖](circuit-diagram.md)
+  - [CIDR](cidr.md)
   - [Clang](clang.md)
   - [Clean Architecture](clean-arch.md)
   - [CLI](cli.md)
@@ -81,6 +85,7 @@
   - [CQRS](cqrs.md)
   - [Crystal Oscillator 石英振盪器](crystal-oscillator.md)
   - [CSS](css.md)
+  - [cut](cut.md)
 
 ## D
 
@@ -98,7 +103,10 @@
   - [Dependency Injection (DI)](di.md)
   - [DFPLayer Mini](dfplayer.md)
   - [DHT11](dht11.md)
+  - [Diagram](diagram.md)
   - [dig](dig.md)
+  - [DKIM](dkim.md)
+  - [DMARC](dmarc.md)
   - [DNS](dns.md)
   - [DS18B20](ds18b20.md)
 
@@ -108,6 +116,7 @@
   - [Elastic](elastic.md)
   - [Elasticsearch](elasticsearch.md)
   - [ElasticSearch Head](elasticsearch-head.md)
+  - [Email](email.md)
   - [Emoji](emoji.md)
   - [.env](dotenv.md)
   - [e-Signagure](esign.md)
@@ -150,17 +159,23 @@
   - [GitHub Pages](github-pages.md)
   - [GitLab](gitlab.md)
   - [GNOME](gnome.md)
+  - [GnuCash](gnucash.md)
   - [Go](go.md)
   - [Google Analytics](google-analytics.md)
   - [Google APIs](google-api.md)
+  - [Google App Script](google-app-script.md)
   - [Google Auth Library for Python (`google-auth`)](google-auth.md)
   - [Google Authenticator](google-authenticator.md)
   - [Google Cloud Search](google-cloud-search.md)
   - [Google Colaboratory (Colab)](google-colab.md)
   - [Google Drive](google-drive.md)
+  - [Google Forms](google-forms.md)
+  - [Google Sheets](google-sheets.md)
+  - [Google Workspace](gws.md)
   - [GraalVM](graalvm.md)
   - [GraphQL](graphql.md)
   - [Graphviz](graphviz.md)
+  - [gRPC](grpc.md)
   - [GTK](gtk.md)
   - [Gulp](gulp.md)
   - [Gunicorn](gunicorn.md)
@@ -187,6 +202,7 @@
   - [Information Technology](it.md)
   - [Information Availability (IAV)](iav.md)
   - [IoT 物聯網](iot.md)
+  - [ISO 27001](iso27001.md)
   - [Issue Tracking](issue-tracking.md)
   - [ITAM (IT Asset Management)](itam.md)
   - [ITIL (Information Technology Infrastructure Library)](itil.md)
@@ -207,6 +223,7 @@
   - [JSON Schema](json-schema.md)
   - [jq](jq.md)
   - [jQuery](jquery.md)
+  - [Juniper](juniper.md)
   - [Juypter](jupyter.md)
   - [JWT (JSON Web Token)](jwt.md)
 
@@ -220,7 +237,7 @@
   - [Kibana](kibana.md)
   - [Kindle](kindle.md)
   - [Kotlin](kotlin.md)
-  - [Kubernetes](kubernetes.md)
+  - [Kubernetes (K8s)](k8s.md)
 
 ## L
 
@@ -240,6 +257,7 @@
 
   - [Machine Learning](machine-learning.md)
   - [macOS](macos.md)
+  - [MAC Address](macaddr.md)
   - [Make](make.md)
   - [Manjaro](manjaro.md)
   - [Markdown](markdown.md)
@@ -274,6 +292,7 @@
   - [NodeMCU](nodemcu.md)
   - [Nomad](nomad.md)
   - [NoSQL](nosql.md)
+  - [NTP (Network Time Protocol)](ntp.md)
 
 ## O
 
@@ -297,6 +316,7 @@
   - [PDF](pdf.md)
   - [PDFMiner](pdfminer.md)
   - [Perfboard 洞洞板](perfboard.md)
+  - [pfSense](pfsense.md)
   - [PhantomJS](phantomjs.md)
   - [PHP](php.md)
   - [PHPUnit](phpunit.md)
@@ -304,6 +324,7 @@
   - [PlantUML](plantuml.md)
   - [PlatformIO](platformio.md)
   - [PlayReady](playready.md)
+  - [Poetry](poetry.md)
   - [PostgreSQL](postgresql.md)
   - [PostgREST](postgrest.md)
   - [Postman](postman.md)
@@ -363,6 +384,7 @@
 ## S
 
   - [S3](s3.md)
+  - [S/MIME](smime.md)
   - [Salt](salt.md)
   - [SAML](saml.md)
   - [Sass](sass.md)
@@ -385,6 +407,8 @@
   - [Software Development](dev.md)
   - [Soldering 焊接](soldering.md)
   - [Solenoid Valve 電磁閥)[solenoid-valve.md)
+  - [SOP (Standard Operating Procedure)](sop.md)
+  - [SPF](spf.md)
   - [spf13-vim](spf13-vim.md)
   - [Sphinx](sphinx.md)
   - [Splash](splash.md)
@@ -394,6 +418,7 @@
   - [SSH](ssh.md)
   - [Stackdriver](stackdriver.md)
   - [Stackoverflow](stackoverflow.md)
+  - [Startpage](startpage.md)
   - [Statuspage](statuspage.md)
   - [Strategy Pattern](strategy-pattern.md)
   - [strings](strings.md)
@@ -406,6 +431,7 @@
 
 ## T
 
+  - [Tableau](tableau.md)
   - [Tavern](tavern.md)
   - [Teams](teams.md)
   - [Teamwork](teamwork.md)
@@ -423,6 +449,7 @@
   - [top](top.md)
   - [tox](tox.md)
   - [Trac](trac.md)
+  - [traceroute](traceroute.md)
   - [transfer.sh](transfer.sh.md)
   - [Travis CI](travis-ci.md)
   - [Trello](trello.md)

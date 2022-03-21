@@ -13,6 +13,139 @@
 
   - [Containers vs. virtual machines - Get Started, Part 1: Orientation and setup \| Docker Documentation](https://docs.docker.com/get-started/#virtual-machine-diagram) #ril
 
+## Pricing
+
+  - [Docker is Updating and Extending Our Product Subscriptions - Docker Blog](https://www.docker.com/blog/updating-product-subscriptions/) (2021-08-31)
+
+      - Docker is used by millions of developers to build, share, and run any app, anywhere, and 55% of professional developers use Docker every day at work. In these work environments, the increase in outside attacks on software SUPPLY CHAINS is accelerating developer demand for Docker’s TRUSTED CONTENT, including Docker Official Images and Docker Verified Publisher images.
+
+        Finally, the rapid global growth in developers – to an estimated 45 million by 2030 – pushes us to SCALE SUSTAINABLY so we may continue to provide an innovative, free Docker experience that developers love.
+
+      - To meet these challenges, today we’re announcing updates and extensions to our product subscriptions: Personal, Pro, Team, and Business. These updated product subscriptions provide the productivity and collaboration developers rely on with the scale, security, and trusted content businesses require, and do so in a manner sustainable for Docker.
+
+    What you need to know:
+
+      - We’re introducing a new product subscription, Docker Business, for organizations using Docker at scale for application development and require features like secure software supply chain management, single sign-on (SSO), container registry access controls, and more.
+
+      - Our Docker Subscription Service Agreement includes a change to the terms for Docker Desktop:
+
+        > 4.2 Specific License Limitations – Docker Desktop.
+        >
+        > (a) The Docker Desktop component of the Service at the level of the Personal Offering (as described on the Pricing Page) is further restricted to: (i) your “Personal Use”, (ii) your “Educational Use”, (iii) your use for a non-commercial open source project, and (iv) your use in a “Small Business Environment”.
+        >
+        > (b) For purposes of this Section 4.2: (i) “Personal Use” is the use by an individual developer for personal use to develop free or paid applications, (ii) “Educational Use” is the use by members of an educational organization in a classroom learning environment for academic or research purposes or contribution to an open source project and (iii) a “Small Business Environment” is a commercial undertaking with fewer than 250 employees and less than US $10,000,000 (or equivalent local currency) in annual revenue.
+        >
+        > -- [Docker Subscription Service Agreement | Docker](https://www.docker.com/legal/docker-subscription-service-agreement)
+
+          - Docker Desktop remains free for small businesses (fewer than 250 employees AND less than $10 million in annual revenue), personal use, education, and non-commercial open source projects.
+          - It requires a paid subscription (Pro, Team or Business), starting at $5 per user per month, for professional use in larger businesses. You may directly purchase here, or share this post and our solution brief with your manager.
+          - While the effective date of these terms is August 31, 2021, there is a GRACE PERIOD until January 31, 2022 for those that require a paid subscription to use Docker Desktop.
+
+      - Docker Pro, Docker Team, and Docker Business subscriptions include commercial use of Docker Desktop.
+      - The existing Docker Free subscription has been renamed Docker Personal.
+      - No changes to Docker Engine or any upstream open source Docker or Moby project.
+      - Check out our FAQ or more information.
+
+    Docker Personal = Free
+
+      - The new Docker Personal subscription replaces the Docker Free subscription. With its focus on open source communities, individual developers, education, and small businesses – which together account for more than half of Docker users – Docker Personal is free for these communities and continues to allow free use of all its components – including Docker CLI, Docker Compose, Docker Build/BuildKit, Docker Engine, Docker Desktop, Docker Hub, Docker Official Images, and more.
+
+    Docker Business = Management and security at scale
+
+      - The new Docker Business subscription enables ORGANIZATION-WIDE MANAGEMENT and SECURITY for businesses that use Docker for software development at scale. With an easy-to-use SaaS-based management plane, IT leaders can now efficiently observe and manage all their Docker development environments and accelerate their secure software supply chain initiatives.
+
+      - In addition to all the capabilities available in the Docker Pro and Docker Team subscriptions, Docker Business adds the ability to control what container images developers can access from Docker Hub, ensuring teams are BUILDING SECURELY FROM THE START by using only trusted content.
+
+        And shortly, Docker Business will provide SAML SSO, the ability to control what registries developers can access, and the ability to remotely manage Docker Desktop instances.
+
+      - More generally, the objective of the new Docker Business subscription is to help large businesses address the following challenges across their development organizations:
+
+          - Gain visibility and control over content
+
+            Which container registries are my developers pulling container images from? What images are they running locally on their laptops? What versions are they running? What security vulnerabilities do those container images have? How can I help my developers protect the organization?
+
+          - Manage local resources and access to external services
+
+            How can I ensure my developers’ local Docker environments are safe? How do I make sure Docker is effectively sharing resources?? with other local tools? How can I manage the networks?? accessible to Docker?
+
+          - Manage Docker development environments at scale
+
+            Many organizations have 100s and 1000s of developers using Docker and need a centralized point of control for developer onboarding/off-boarding with SSO, authentication and authorization, observability of behavior and content, and configuring the above controls.
+
+        The Docker Business subscription launches today at a price of $21 per user per month billed annually. And there’s more on the way – check-out our public roadmap for details.
+
+    Docker Desktop = New subscription terms
+
+      - At Docker we remain committed to continuing to provide an easy-to-use, free experience for individual developers, open source projects, education, and small businesses. In fact, altogether these communities represent more than half of all Docker usage.
+
+        Docker Personal and all its components – including Docker CLI, Docker Compose, Kubernetes, Docker Desktop, Docker Build/BuildKit, Docker Hub, Docker Official Images, and more – remain free for these communities.
+
+      - Specifically, small businesses (fewer than 250 employees AND less than $10 million in revenue) may continue to use Docker Desktop with Docker Personal for free. The use of Docker Desktop in large businesses, however, requires a Pro, Team, or Business paid subscription, starting at $5 per user per month.
+
+      - With Docker Desktop managing all the complexities of integrating, configuring, and maintaining Docker Engine and Kubernetes in Windows and Mac desktop environments – filesystems, VMs, networking, and more – developers can spend more of their time building apps, less on FUSSING WITH INFRASTRUCTURE.
+
+        And with a paid subscription, businesses get additional value in Docker Desktop, including capabilities for managing secure software supply chains, centralizing policy visibility and controls, and managing users and access.
+
+      - The updated terms for Docker Desktop reflect our need to scale our business sustainably and enable us to continue shipping new value in all Docker subscriptions. These new terms take effect August 31, 2021, and there is a grace period until January 31, 2022 for those who require a paid subscription to use Docker Desktop. (Note that licensing for Docker Engine and the upstream Docker and Moby open source projects is not changing.)
+
+    Considering an Alternative to Docker Desktop?
+
+      - Read this blog recapping Docker Captain Bret Fisher‘s video where he reminded his audience of the many things — some of them COMPLEX AND SUBTLE — that Docker Desktop does that make it such a VALUABLE developer tool.
+
+  - [Docker Pricing & Monthly Plan Details | Docker](https://www.docker.com/pricing)
+
+    Pro $5/month, Billed annually for $60.
+
+      - Includes pro tools for individual developers who want to accelerate their productivity.
+
+        Everything in Personal plus:
+
+          - Docker Desktop
+          - Unlimited private repositories
+          - 5,000 image pulls per day
+          - 5 concurrent builds
+          - 300 Hub vulnerability scans
+          - 5 scoped access tokens
+
+    Team $7/user/month, Start with minimum 5 users for $25, Billed annually starting at $300.
+
+      - Ideal for teams and includes capabilities for collaboration, productivity and security.
+
+        Everything in Pro, plus:
+
+          - Docker Desktop
+          - Unlimited teams
+          - 15 concurrent builds
+          - Unlimited image scans
+          - Unlimited scoped tokens
+          - Role-based access control
+          - Audit logs
+
+        其中 "Start with minimum 5 users for $25, Billed annually starting at $300." 指的是前 5 位 $5/user/month，其他的一樣算 $7/user/month。
+
+    Business, $21/user/month
+
+      - Ideal for medium and large businesses who need CENTRALIZED MANAGEMENT and advanced security capabilities.
+
+        Everything in Team, plus:
+
+          - Docker Desktop
+          - Centralized management
+          - Image Access Management
+          - SAML SSO (coming soon)
+          - Purchase via invoice
+          - Volume Pricing Available
+
+  - [Docker Pricing & Monthly Plan Details | Docker](https://www.docker.com/pricing)
+
+    My company made just over $10 million last financial year, but we don't expect to do the same this year. Do I need a Docker subscription?
+
+      - Yes. Companies with over 250 employees OR $10 million in annual revenue during their last fiscal year need a paid Docker subscription for all of their developers.
+
+    My company has 50 employees, but is a subsidiary of a company with 1000 employees. Do I need to pay?
+
+      - Yes. As part of a larger company you will need a paid Docker Pro, Team, or Business tier subscription.
+
 ## Docker 支援 Windows app??
 
   - 如果多個 container 是共用 OS kernel，那麼內含 Linux app 的 container 不能執行在 Windows host 上，反之亦然?
@@ -882,6 +1015,7 @@ $ newgrp docker # 刷新 login session 的群組，不用重新登入
   - [Data](docker-data.md)
   - [Compose](docker-compose.md)
   - [buildpack-deps](docker-buildpack-deps.md)
+  - [Kubernetes](docker-k8s.md)
   - [Swarm](docker-swarm.md)
 
 手冊：

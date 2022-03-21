@@ -60,15 +60,15 @@
 
       - The ESB is implemented in software that operates between the business applications, and enables communication among them. Ideally, the ESB should be able to REPLACE ALL DIRECT CONTACT with the applications on the bus, so that all communication takes place via the ESB.
 
-      - To achieve this objective, the ESB must ENCAPSULATE the functionality offered by its COMPONENT APPLICATIONS in a meaningful way.
+      - To achieve this objective, the ESB must ENCAPSULATE the functionality offered by its COMPONENT APPLICATIONS in a MEANINGFUL WAY.
 
-        This typically occurs through the use of an enterprise message model. The message model defines a STANDARD SET OF MESSAGES that the ESB transmits and receives. When the ESB receives a message, it routes the message to the appropriate application. Often, because that application evolved without the same message model, the ESB has to TRANSFORM the message into a format that the application can interpret.
+        This typically occurs through the use of an ENTERPRISE MESSAGE MODEL. The message model defines a STANDARD SET OF MESSAGES that the ESB transmits and receives. When the ESB receives a message, it routes the message to the appropriate application. Often, because that application evolved without the same message model, the ESB has to TRANSFORM the message into a format that the application can interpret.
 
         A software ADAPTER fulfills the task of effecting these transformations, analogously to a physical adapter.
 
       - ESBs rely on accurately constructing the enterprise message model and properly designing the functionality offered by applications.
 
-        If the message model does not completely encapsulate the application functionality, then other applications that desire that functionality may have to BYPASS the bus, and invoke the mismatched applications directly. Doing so violates the principles of the ESB model, and negates many of the advantages of using this architecture.
+        If the message model does not COMPLETELY encapsulate the application functionality, then other applications that desire that functionality may have to BYPASS the bus, and invoke the mismatched applications directly. Doing so violates the principles of the ESB model, and negates many of the advantages of using this architecture.
 
       - The beauty of the ESB lies in its PLATFORM-AGNOSTIC nature and the ability to integrate with anything at any condition.
 

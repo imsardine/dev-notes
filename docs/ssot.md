@@ -1,6 +1,6 @@
 # Single Source of Truth (SSOT)
 
-  - [Single source of truth \- Wikipedia](https://en.wikipedia.org/wiki/Single_source_of_truth) #ril
+  - [Single source of truth \- Wikipedia](https://en.wikipedia.org/wiki/Single_source_of_truth)
 
       - In information systems design and theory, single source of truth (SSOT) is the practice of structuring information models and associated data schema such that every data element is MASTERED (OR EDITED) IN ONLY ONE PLACE. Any possible LINKAGES to this data element (possibly in other areas of the relational schema or even in distant federated databases) are BY REFERENCE ONLY.
 

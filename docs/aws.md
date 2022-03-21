@@ -15,3 +15,5 @@
   - [SNS (Simple Notification Service)](aws-sns.md)
   - [SQS (Simple Queue Service)](aws-sqs.md)
   - [ACM (AWS Certificate Manager)](aws-acm.md)
+  - [Organizations](aws-orgs.md)
+  - [Billing](aws-billing.md)

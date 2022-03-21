@@ -76,7 +76,70 @@
 
   - [PA\-800 Back\-Panel](https://docs.paloaltonetworks.com/hardware/pa-800-hardware-reference/pa-800-firewall-overview/pa-800-back-panel.html) #ril
 
+## Security Zone {: #zone }
+
+  - [Security Zone Overview](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-web-interface-help/network/network-zones/security-zone-overview.html)
+
+      - Security zones are a logical way to group physical and virtual interfaces on the firewall to control and log the traffic that traverses specific interfaces on your network. An interface on the firewall must be assigned to a security zone before the interface can process traffic. A zone can have multiple interfaces of the same type assigned to it (such as tap, layer 2, or layer 3 interfaces), but an interface can belong to only one zone.
+
+## NAT
+
+  - [Destination NAT](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/networking/nat/source-nat-and-destination-nat/destination-nat.html)
+
+      - Destination NAT is performed on INCOMING packets when the firewall translates a destination address to a different destination address; for example, it translates a public destination address to a private destination address.
+
+        Destination NAT also offers the option to perform port forwarding or port translation.
+
+        其實就是 virtual server。
+
+  - [Enable Clients on the Internal Network to Access your Publi\.\.\.](https://docs.paloaltonetworks.com/pan-os/9-1/pan-os-admin/networking/nat/configure-nat/enable-clients-on-the-internal-network-to-access-your-public-servers-destination-u-turn-nat.html)
+
+      - When a user on the internal network sends a request for access to the corporate web server in the DMZ, the DNS server will resolve it to the public IP address.
+
+        When processing the request, the firewall will use the original destination in the packet (the public IP address) and route the packet to the EGRESS INTERFACE for the UNTRUST ZONE. In order for the firewall to know that it must translate the public IP address of the web server to an address on the DMZ network when it receives requests from users on the TRUST ZONE??, you must create a destination NAT rule that will enable the firewall to send the request to the egress interface for the DMZ zone as follows.
+
+## Traffic Filtering
+
+  - 從 [Traffic Log Fields](https://docs.paloaltonetworks.com/pan-os/10-0/pan-os-admin/monitoring/use-syslog-for-monitoring/syslog-field-descriptions/traffic-log-fields.html) 看來，PAN-OS 10.0 才開始支援 source/destination MAC address?
+
+---
+
+ - [Basics of Traffic Monitor Filtering \- Knowledge Base \- Palo Alto Networks](https://knowledgebase.paloaltonetworks.com/KCSArticleDetail?id=kA10g000000ClSlCAK)
+
+      - When Trying to search for a log with a source IP, destination IP or any other flags, Filters can be used. The filters need to be put in the search section under GUI: Monitor > Logs > Traffic (or other logs).
+      - This document demonstrates several methods of filtering and looking for specific types of traffic on Palo Alto Networks firewalls.Categories of filters include host, zone, port, or date/time. At the end of the list, we include a few examples that combine various filters for more comprehensive searching.
+
+  - [How to Increase the maximum number of rows in a CSV Export \- Knowledge Base \- Palo Alto Networks](https://knowledgebase.paloaltonetworks.com/KCSArticleDetail?id=kA10g000000ClaPCAS)
+
+      - The default maximum rows in CSV export is 65536. If an increase is needed for the maximum export limit follow the instructions below.
+
+      - From the GUI:
+
+         1. navigate to Device > Setup > Management
+         2. Click the Edit icon for the Logging and Reporting Setting box and navigate to Log Export and Reporting tab.
+         3. The second option down is Max Rows in CSV Export
+         4. Set the value to the desired number (1 - 1048576).
+
+  - [Unable to export Traffic log to CSV via WebGUI, due to "No such query job" error](https://knowledgebase.paloaltonetworks.com/KCSArticleDetail?id=kA14u0000008UtfCAE&lang=en_US%E2%80%A9) (2020-11-13) -- 調降 GUI 的 refresh 頻率
+
+      - Symptom: When an administrator exported Traffic log to CSV file via WebGUI, "No such query job" error is appered on the screen like below.
+
+      - Cause: It might be caused when huge amount of logs is exported, because this job will take a long time.
+
+    Resolution
+
+     1. From WebGUI, go to Monitor > Logs > Traffic.
+     2. Check the upper right of the screen. If "10 seconds", "30 seconds" or "60 seconds" is selected as refresh timer, change Refresh timer to "Manual".
+     3. Export logs again, and monitor how it works.
+     4. If the issue is not restored, check "Alarm" icon is appeared. If "Alarm" is appeared on the lower right of the screen, click the icon.
+     5. From drop-down list, select "Refresh every hour", and click Close.
+     6. Export logs again, and monitor how it works.
+
 ## PAN-OS
+
+  - 目前安裝的版本，可以在 Device > Software 看 Current Installed 的版本。
+
+---
 
   - [PAN\-OS](https://docs.paloaltonetworks.com/pan-os.html)
 
